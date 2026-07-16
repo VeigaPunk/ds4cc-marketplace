@@ -1,0 +1,43 @@
+/target
+**/*.rs.bk
+*.swp
+.DS_Store
+
+# Local secrets — API keys, credentials. Never commit.
+.env.local
+.env.*.local
+
+# xbreed runtime state — ephemeral per-project state dir used by
+# `xbreed team init` and `xbreed team mailbox`. Contains mailbox
+# events and beads DB; never belongs in version control.
+.xbreed/
+
+# remember plugin state — disabled (see ~/.claude/settings.json).
+# Defensive ignore so any accidental re-enable does not leak logs into git.
+.remember/
+
+# codex CLI runtime state — per-project OAuth profile + ephemeral home.
+.codex
+.codex-home/
+
+# R3 M1 — SQLite persistence substrate; schema committed, db gitignored (local state)
+data/xbreed.db
+data/xbreed.db-wal
+data/xbreed.db-shm
+
+# Ephemeral scratch area — agents land probes, build artifacts, and test scaffolds here.
+# See CLAUDE.md §Scratch / Ephemeral Work.
+/scratch/
+
+# Root-level scratch from prior godspeed iterations (defense-in-depth against recurrence).
+/.tmp/
+/mcp_server
+/mcp_server.ts
+/test.sh
+/test2.sh
+/test_mutation.sh
+/m1.txt
+/step1.txt
+/step2.txt
+/step3.txt
+/data/bench-phase-c.paths

@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>infinizoom</title>
+<style>
+  html, body { margin: 0; height: 100%; overflow: hidden; background: #0a0c10; }
+  canvas { display: block; }
+  #hud {
+    position: fixed; top: 18px; left: 22px; color: #e8f4ee; pointer-events: none;
+    font: 500 15px/1.35 -apple-system, 'Segoe UI', system-ui, sans-serif;
+    text-shadow: 0 1px 6px rgba(0,0,0,.7); user-select: none;
+  }
+  #hud .name { font-size: 22px; font-weight: 650; letter-spacing: .3px; text-transform: lowercase; }
+  #hud .scale { opacity: .75; font-variant-numeric: tabular-nums; margin-top: 2px; }
+  .chev {
+    position: fixed; top: 50%; transform: translateY(-50%); pointer-events: none;
+    color: rgba(255,255,255,.28); font: 700 120px/1 system-ui; user-select: none;
+    transition: color .18s, text-shadow .18s, opacity .3s; opacity: 0;
+  }
+  .chev .key { display: block; text-align: center; font-size: 26px; letter-spacing: 2px; margin-top: -8px; }
+  .chev.on { color: rgba(140,255,190,.95); text-shadow: 0 0 26px rgba(80,255,160,.8); }
+  .chev.show { opacity: 1; }
+  #chevL { left: 34px; }  #chevR { right: 34px; }
+</style>
+</head>
+<body>
+<div id="hud"><div class="name"></div><div class="scale"></div></div>
+<div id="chevL" class="chev">&#8249;<span class="key">A</span></div>
+<div id="chevR" class="chev">&#8250;<span class="key">D</span></div>
+<script type="importmap">
+{ "imports": { "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js" } }
+</script>
+<script type="module" src="/main.js"></script>
+</body>
+</html>

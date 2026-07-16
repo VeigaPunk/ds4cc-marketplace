@@ -1,0 +1,14 @@
+{
+  "name": "infinizoom",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "server": "bun run server.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.14",
+    "@types/three": "0.170.0",
+    "playwright": "^1.61.1",
+    "three": "0.170.0"
+  }
+}
