@@ -1,1 +1,13 @@
-.agents/
+# Ignore all .agents/ runtime content except the canonical marketplace manifest
+.agents/*
+!.agents/plugins/
+.agents/plugins/*
+!.agents/plugins/marketplace.json
+
+# Rust build artifacts
+marketplace/validator/target/
+
+# Python artifacts
+__pycache__/
+*.pyc
+*.pyo

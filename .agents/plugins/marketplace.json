@@ -1,14 +1,14 @@
 {
-  "name": "personal",
+  "name": "ds4cc",
   "interface": {
-    "displayName": "Personal"
+    "displayName": "DS4CC (VeigaPunk)"
   },
   "plugins": [
     {
       "name": "spoderman",
       "source": {
         "source": "local",
-        "path": "./plugins/spoderman"
+        "path": "./marketplace/plugins/spoderman"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -20,7 +20,7 @@
       "name": "xbrd-gdsp-fknpft",
       "source": {
         "source": "local",
-        "path": "./plugins/xbrd-gdsp-fknpft"
+        "path": "./marketplace/plugins/xbrd-gdsp-fknpft"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -32,7 +32,7 @@
       "name": "aaronplug",
       "source": {
         "source": "local",
-        "path": "./plugins/aaronplug"
+        "path": "./marketplace/plugins/aaronplug"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -44,7 +44,7 @@
       "name": "infinizoom",
       "source": {
         "source": "local",
-        "path": "./plugins/infinizoom"
+        "path": "./marketplace/plugins/infinizoom"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -56,7 +56,7 @@
       "name": "godspeed-codex-command",
       "source": {
         "source": "local",
-        "path": "./plugins/godspeed-codex-command"
+        "path": "./marketplace/plugins/godspeed-codex-command"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -68,7 +68,7 @@
       "name": "the-puppeteer",
       "source": {
         "source": "local",
-        "path": "./plugins/the-puppeteer"
+        "path": "./marketplace/plugins/the-puppeteer"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -80,7 +80,7 @@
       "name": "godspeed-core",
       "source": {
         "source": "local",
-        "path": "./plugins/godspeed-core"
+        "path": "./marketplace/plugins/godspeed-core"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -92,7 +92,7 @@
       "name": "myagents",
       "source": {
         "source": "local",
-        "path": "./plugins/myagents"
+        "path": "./marketplace/plugins/myagents"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -104,7 +104,7 @@
       "name": "mycommands",
       "source": {
         "source": "local",
-        "path": "./plugins/mycommands"
+        "path": "./marketplace/plugins/mycommands"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -116,7 +116,7 @@
       "name": "myskills",
       "source": {
         "source": "local",
-        "path": "./plugins/myskills"
+        "path": "./marketplace/plugins/myskills"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -128,7 +128,7 @@
       "name": "agent-wall",
       "source": {
         "source": "local",
-        "path": "./plugins/agent-wall"
+        "path": "./marketplace/plugins/agent-wall"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -140,7 +140,7 @@
       "name": "ds4cc",
       "source": {
         "source": "local",
-        "path": "./plugins/ds4cc"
+        "path": "./marketplace/plugins/ds4cc"
       },
       "policy": {
         "installation": "AVAILABLE",

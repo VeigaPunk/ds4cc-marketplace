@@ -8,11 +8,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Spoderman (VeigaPunk)",
-    "shortDescription": "Codex plugin for Spoderman.",
-    "longDescription": "Manages discovery and usage flow for the Spoderman repository under VeigaPunk.",
+    "shortDescription": "Attack harness workflows and hook safety research",
+    "longDescription": "Exposes Spoderman and related defensive/attack harness workflows for prompt-injection safety and hook behavior analysis.",
     "developerName": "VeigaPunk",
     "category": "Developer",
-    "capabilities": [],
+    "capabilities": [
+      "Security Research",
+      "Prompt Injection",
+      "Harness Validation"
+    ],
     "defaultPrompt": [
       "Show me docs for Spoderman.",
       "Open VeigaPunk Spoderman plugin usage.",

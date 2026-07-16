@@ -1,0 +1,29 @@
+{
+  "name": "myskills",
+  "version": "0.1.0",
+  "description": "Curated skill inventory and workflow helpers for Codex.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "My Skills",
+    "shortDescription": "Curated skill workflows for your active tasks",
+    "longDescription": "Presents discoverable skill definitions for domain-specific workflows and repeatable reasoning routines.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [
+      "Skill Discovery",
+      "Knowledge Routines",
+      "Task Templates"
+    ],
+    "defaultPrompt": [
+      "Show me my active skills.",
+      "Build a new skill workflow for this issue.",
+      "Map this task to a reusable skill."
+    ]
+  },
+  "homepage": "https://github.com/VeigaPunk/myskills",
+  "repository": "https://github.com/VeigaPunk/myskills",
+  "license": "MIT"
+}

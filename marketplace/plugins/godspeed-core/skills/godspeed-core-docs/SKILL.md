@@ -1,8 +1,36 @@
 ---
 name: godspeed-core-docs
-description: Open and summarize godspeed-core repository docs for godspeed-core.
+description: Apply Godspeed adaptive execution doctrine and Pareto walk policy.
 ---
 
-Read the README, docs, and key instruction files in the plugin repository package under this plugin root.
-Summarize the current workflow, how to use it, and the key commands.
-Keep it concise and actionable.
+Godspeed Core exposes the directive, filter, and velocity policy files.
+
+## Read the directive
+
+```bash
+cat directive.md
+```
+
+## Inspect the Pareto filter
+
+```bash
+cat filter.md
+```
+
+## Inspect velocity policy
+
+```bash
+cat velocity.md
+```
+
+## Apply Godspeed mode to current session
+
+```bash
+codex "godspeed: <your task>"
+```
+
+## Run with explicit godspeed posture
+
+```bash
+codex exec --config approval_policy=never "godspeed: name axes, iterate cheap, keep only Pareto moves"
+```

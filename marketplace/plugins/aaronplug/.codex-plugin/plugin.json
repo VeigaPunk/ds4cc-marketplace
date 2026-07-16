@@ -8,11 +8,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Aaronplug (VeigaPunk)",
-    "shortDescription": "Codex plugin for Aaronplug.",
-    "longDescription": "Manages discovery and usage flow for the Aaronplug repository under VeigaPunk.",
+    "shortDescription": "Academic paper retrieval workflows",
+    "longDescription": "Provides Codex-facing access to Aaronplug commands for paper search, metadata normalization, and local artifact storage.",
     "developerName": "VeigaPunk",
     "category": "Developer",
-    "capabilities": [],
+    "capabilities": [
+      "Research Search",
+      "Paper Discovery",
+      "File Export"
+    ],
     "defaultPrompt": [
       "Show me docs for Aaronplug.",
       "Open VeigaPunk Aaronplug plugin usage.",

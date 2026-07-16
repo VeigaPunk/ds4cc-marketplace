@@ -1,8 +1,36 @@
 ---
 name: godspeed-codex-command-docs
-description: Open and summarize godspeed-codex-command repository docs for godspeed-codex-command.
+description: Bootstrap Codex command-mode and apply godspeed posture controls.
 ---
 
-Read the README, docs, and key instruction files in the plugin repository package under this plugin root.
-Summarize the current workflow, how to use it, and the key commands.
-Keep it concise and actionable.
+godspeed-codex-command wires up Codex for adaptive command-mode behavior.
+
+## Install command artifacts
+
+```bash
+bash ./scripts/install-commands.sh
+```
+
+## Verify routing is set up
+
+```bash
+bash ./scripts/verify-routing.sh
+```
+
+## Verify installed commands
+
+```bash
+bash ./scripts/verify-install.sh
+```
+
+## List available commands
+
+```bash
+ls commands/
+```
+
+## Read the AGENTS.md for godspeed posture instructions
+
+```bash
+cat AGENTS.md
+```

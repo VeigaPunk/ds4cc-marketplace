@@ -8,11 +8,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Godspeed Core (VeigaPunk)",
-    "shortDescription": "Codex plugin for Godspeed Core.",
-    "longDescription": "Manages discovery and usage flow for the Godspeed Core repository under VeigaPunk.",
+    "shortDescription": "Adaptive execution doctrine and Pareto walk policy",
+    "longDescription": "Exposes the Godspeed mode and policy files so Codex can run adaptive, frontier-walk execution workflows with explicit posture controls.",
     "developerName": "VeigaPunk",
     "category": "Developer",
-    "capabilities": [],
+    "capabilities": [
+      "Adaptive Posture",
+      "Policy Discovery",
+      "Workflow Steering"
+    ],
     "defaultPrompt": [
       "Show me docs for Godspeed Core.",
       "Open VeigaPunk Godspeed Core plugin usage.",

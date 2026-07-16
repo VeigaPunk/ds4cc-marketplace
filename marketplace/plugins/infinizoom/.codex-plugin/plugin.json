@@ -8,11 +8,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Infinizoom (VeigaPunk)",
-    "shortDescription": "Codex plugin for Infinizoom.",
-    "longDescription": "Manages discovery and usage flow for the Infinizoom repository under VeigaPunk.",
+    "shortDescription": "Visualization workflow and UI demos",
+    "longDescription": "Exposes Infinizoom runtime and QA workflows for rendering, screenshot validation, and local preview checks.",
     "developerName": "VeigaPunk",
     "category": "Developer",
-    "capabilities": [],
+    "capabilities": [
+      "Visualization",
+      "QA Workflows",
+      "Screenshot Capture"
+    ],
     "defaultPrompt": [
       "Show me docs for Infinizoom.",
       "Open VeigaPunk Infinizoom plugin usage.",

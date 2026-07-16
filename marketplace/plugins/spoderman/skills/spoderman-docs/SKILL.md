@@ -1,8 +1,33 @@
 ---
 name: spoderman-docs
-description: Open and summarize spoderman repository docs for spoderman.
+description: Run Spoderman attack harness and hook validation workflows.
 ---
 
-Read the README, docs, and key instruction files in the plugin repository package under this plugin root.
-Summarize the current workflow, how to use it, and the key commands.
-Keep it concise and actionable.
+Spoderman is a prompt-injection safety and hook behavior analysis harness.
+
+## Run the attack harness
+
+```bash
+cd $(codex plugin info spoderman --path)/spoderman
+bash ./spoderman validate --hooks
+```
+
+## Validate hook injection safety
+
+```bash
+# From within the plugin root
+ls evidence/
+cat findings/*.md
+```
+
+## Run autoagent weaver
+
+```bash
+bash ./autoagent-weaver
+```
+
+## Quick audit of all evidence files
+
+```bash
+find . -name "*.md" -path "*/evidence/*" | xargs grep -l "FAIL\|ERROR\|VULN" 2>/dev/null
+```

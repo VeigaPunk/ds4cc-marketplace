@@ -8,11 +8,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "The Puppeteer (VeigaPunk)",
-    "shortDescription": "Codex plugin for The Puppeteer.",
-    "longDescription": "Manages discovery and usage flow for the The Puppeteer repository under VeigaPunk.",
+    "shortDescription": "Web UI task execution and long-running assistant flows",
+    "longDescription": "Uses the Puppeteer/ChatGPT bridge to execute long-running web-app workflows and hand back task completion state for Codex users.",
     "developerName": "VeigaPunk",
     "category": "Developer",
-    "capabilities": [],
+    "capabilities": [
+      "Web Automation",
+      "Long-running Tasks",
+      "Deep Research"
+    ],
     "defaultPrompt": [
       "Show me docs for The Puppeteer.",
       "Open VeigaPunk The Puppeteer plugin usage.",

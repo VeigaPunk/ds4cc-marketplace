@@ -1,0 +1,29 @@
+{
+  "name": "myagents",
+  "version": "0.1.0",
+  "description": "Curated agent workflow launchpad for Codex users.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "My Agents",
+    "shortDescription": "Discover and execute user-defined agent profiles",
+    "longDescription": "Collects user-facing agent workflows for onboarding, delegation, and reusable agent invocation patterns.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [
+      "Agent Profiles",
+      "Workflow Profiles",
+      "Delegation"
+    ],
+    "defaultPrompt": [
+      "Show me my agent workflows.",
+      "Open my agent onboarding docs.",
+      "Create an agent workflow from this request."
+    ]
+  },
+  "homepage": "https://github.com/VeigaPunk/myagents",
+  "repository": "https://github.com/VeigaPunk/myagents",
+  "license": "MIT"
+}

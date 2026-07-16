@@ -8,11 +8,15 @@
   "skills": "./skills/",
   "interface": {
     "displayName": "Xbrd Gdsp Fknpft (VeigaPunk)",
-    "shortDescription": "Codex plugin for Xbrd Gdsp Fknpft.",
-    "longDescription": "Manages discovery and usage flow for the Xbrd Gdsp Fknpft repository under VeigaPunk.",
+    "shortDescription": "Multimodel dispatch orchestration and benchmark workflows",
+    "longDescription": "Exposes CLI workflows for dispatching codex/gemini/claude commands, multi-agent review lanes, and benchmark harness execution.",
     "developerName": "VeigaPunk",
     "category": "Developer",
-    "capabilities": [],
+    "capabilities": [
+      "Model Dispatch",
+      "Command Orchestration",
+      "Benchmark Workflows"
+    ],
     "defaultPrompt": [
       "Show me docs for Xbrd Gdsp Fknpft.",
       "Open VeigaPunk Xbrd Gdsp Fknpft plugin usage.",

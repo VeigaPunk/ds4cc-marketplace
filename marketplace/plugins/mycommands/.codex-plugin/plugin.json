@@ -1,0 +1,29 @@
+{
+  "name": "mycommands",
+  "version": "0.1.0",
+  "description": "Reusable command and shell routine workflows for Codex.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "My Commands",
+    "shortDescription": "Reusable command packs for recurring workflows",
+    "longDescription": "Catalogs codex-discoverable command packs and helper prompts for routine shell and repository operations.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [
+      "Command Routines",
+      "Shell Automation",
+      "Workflow Shortcuts"
+    ],
+    "defaultPrompt": [
+      "Show me my command packs.",
+      "Run the mycommands bootstrap workflow.",
+      "List recurring shell tasks for this repo."
+    ]
+  },
+  "homepage": "https://github.com/VeigaPunk/mycommands",
+  "repository": "https://github.com/VeigaPunk/mycommands",
+  "license": "MIT"
+}

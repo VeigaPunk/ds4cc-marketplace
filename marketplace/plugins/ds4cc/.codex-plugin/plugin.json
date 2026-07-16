@@ -1,0 +1,29 @@
+{
+  "name": "ds4cc",
+  "version": "0.1.0",
+  "description": "DS4CC Codex Marketplace meta-plugin: discover, install, and manage VeigaPunk plugins.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "DS4CC Marketplace",
+    "shortDescription": "Browse and install DS4CC plugins via Codex",
+    "longDescription": "Meta-plugin for the DS4CC personal Codex marketplace. Exposes workflows to add the marketplace, list available plugins, and install individual plugins without leaving the Codex interface.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [
+      "Marketplace Discovery",
+      "Plugin Installation",
+      "Plugin Management"
+    ],
+    "defaultPrompt": [
+      "Add the DS4CC marketplace to Codex.",
+      "List all available DS4CC plugins.",
+      "Install a specific DS4CC plugin."
+    ]
+  },
+  "homepage": "https://ds4cc.com",
+  "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
+  "license": "MIT"
+}
