@@ -1,0 +1,17 @@
+[package]
+name = "ds4cc-validator"
+version = "0.1.0"
+edition = "2021"
+description = "Validator for DS4CC Codex marketplace manifests"
+
+[[bin]]
+name = "ds4cc-validator"
+path = "src/main.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+anyhow = "1"
+
+[dev-dependencies]
+tempfile = "3"
