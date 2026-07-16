@@ -1,0 +1,28 @@
+{
+  "name": "veiga-punk-codex-marketplace",
+  "version": "1.0.0",
+  "description": "VeigaPunk Veiga Punk Codex Marketplace plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk",
+  "repository": "https://github.com/VeigaPunk",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Veiga Punk Codex Marketplace (VeigaPunk)",
+    "shortDescription": "Codex plugin for Veiga Punk Codex Marketplace.",
+    "longDescription": "Manages discovery and usage flow for the Veiga Punk Codex Marketplace repository under VeigaPunk.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [
+      "Discoverability",
+      "Read"
+    ],
+    "defaultPrompt": [
+      "Show me docs for Veiga Punk Codex Marketplace.",
+      "Open VeigaPunk Veiga Punk Codex Marketplace plugin usage.",
+      "Refresh this plugin from the marketplace."
+    ]
+  }
+}

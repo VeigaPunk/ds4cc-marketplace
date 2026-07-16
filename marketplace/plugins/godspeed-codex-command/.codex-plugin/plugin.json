@@ -1,0 +1,25 @@
+{
+  "name": "godspeed-codex-command",
+  "version": "0.1.0",
+  "description": "VeigaPunk Godspeed Codex Command plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Godspeed Codex Command (VeigaPunk)",
+    "shortDescription": "Codex plugin for Godspeed Codex Command.",
+    "longDescription": "Manages discovery and usage flow for the Godspeed Codex Command repository under VeigaPunk.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [],
+    "defaultPrompt": [
+      "Show me docs for Godspeed Codex Command.",
+      "Open VeigaPunk Godspeed Codex Command plugin usage.",
+      "Refresh this plugin from the marketplace."
+    ]
+  },
+  "homepage": "https://github.com/VeigaPunk/godspeed-codex-command",
+  "repository": "https://github.com/VeigaPunk/godspeed-codex-command",
+  "license": "MIT"
+}

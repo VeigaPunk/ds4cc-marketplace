@@ -1,0 +1,25 @@
+{
+  "name": "aaronplug",
+  "version": "0.1.0",
+  "description": "VeigaPunk Aaronplug plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Aaronplug (VeigaPunk)",
+    "shortDescription": "Codex plugin for Aaronplug.",
+    "longDescription": "Manages discovery and usage flow for the Aaronplug repository under VeigaPunk.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [],
+    "defaultPrompt": [
+      "Show me docs for Aaronplug.",
+      "Open VeigaPunk Aaronplug plugin usage.",
+      "Refresh this plugin from the marketplace."
+    ]
+  },
+  "homepage": "https://github.com/VeigaPunk/aaronplug",
+  "repository": "https://github.com/VeigaPunk/aaronplug",
+  "license": "MIT"
+}

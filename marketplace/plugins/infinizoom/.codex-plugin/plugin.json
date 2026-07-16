@@ -1,0 +1,25 @@
+{
+  "name": "infinizoom",
+  "version": "0.1.0",
+  "description": "VeigaPunk Infinizoom plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Infinizoom (VeigaPunk)",
+    "shortDescription": "Codex plugin for Infinizoom.",
+    "longDescription": "Manages discovery and usage flow for the Infinizoom repository under VeigaPunk.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [],
+    "defaultPrompt": [
+      "Show me docs for Infinizoom.",
+      "Open VeigaPunk Infinizoom plugin usage.",
+      "Refresh this plugin from the marketplace."
+    ]
+  },
+  "homepage": "https://github.com/VeigaPunk/infinizoom",
+  "repository": "https://github.com/VeigaPunk/infinizoom",
+  "license": "MIT"
+}

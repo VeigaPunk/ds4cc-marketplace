@@ -1,0 +1,25 @@
+{
+  "name": "spoderman",
+  "version": "0.1.0",
+  "description": "VeigaPunk Spoderman plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Spoderman (VeigaPunk)",
+    "shortDescription": "Codex plugin for Spoderman.",
+    "longDescription": "Manages discovery and usage flow for the Spoderman repository under VeigaPunk.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [],
+    "defaultPrompt": [
+      "Show me docs for Spoderman.",
+      "Open VeigaPunk Spoderman plugin usage.",
+      "Refresh this plugin from the marketplace."
+    ]
+  },
+  "homepage": "https://github.com/VeigaPunk/spoderman",
+  "repository": "https://github.com/VeigaPunk/spoderman",
+  "license": "MIT"
+}

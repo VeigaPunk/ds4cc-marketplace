@@ -1,0 +1,25 @@
+{
+  "name": "the-puppeteer",
+  "version": "0.1.0",
+  "description": "VeigaPunk The Puppeteer plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "The Puppeteer (VeigaPunk)",
+    "shortDescription": "Codex plugin for The Puppeteer.",
+    "longDescription": "Manages discovery and usage flow for the The Puppeteer repository under VeigaPunk.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [],
+    "defaultPrompt": [
+      "Show me docs for The Puppeteer.",
+      "Open VeigaPunk The Puppeteer plugin usage.",
+      "Refresh this plugin from the marketplace."
+    ]
+  },
+  "homepage": "https://github.com/VeigaPunk/the-puppeteer",
+  "repository": "https://github.com/VeigaPunk/the-puppeteer",
+  "license": "MIT"
+}
