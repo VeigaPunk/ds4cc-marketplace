@@ -23,7 +23,7 @@
       "Install a specific DS4CC plugin."
     ]
   },
-  "homepage": "https://ds4cc.com",
+  "homepage": "https://veigapunk.github.io/ds4cc-marketplace/",
   "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
   "license": "MIT"
 }

@@ -12,7 +12,7 @@ This plugin exposes workflows to register the DS4CC marketplace, browse availabl
 
 ```bash
 # Register the marketplace
-codex plugin marketplace add https://ds4cc.com/marketplace/marketplace.json
+codex plugin marketplace add https://veigapunk.github.io/ds4cc-marketplace/marketplace/marketplace.json
 
 # List available plugins
 codex plugin list
@@ -23,5 +23,5 @@ codex plugin add <plugin-name>
 
 ## Links
 
-- Homepage: <https://ds4cc.com>
+- Homepage: <https://veigapunk.github.io/ds4cc-marketplace/>
 - Repository: <https://github.com/VeigaPunk/ds4cc-marketplace>

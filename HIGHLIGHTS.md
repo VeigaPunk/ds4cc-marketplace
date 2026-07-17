@@ -33,7 +33,7 @@ Every plugin now ships a `SKILL.md` with real, copy-pasteable commands. Validati
 | `mycommands` | Reusable shell command packs | `codex exec "/my-command-name"` |
 | `myskills` | Discoverable Codex skill workflows | `codex exec "/skill-name <args>"` |
 | `agent-wall` | Handoff checkpoints between sessions | `codex exec "Create an agent-wall checkpoint..."` |
-| `ds4cc` | Meta-plugin: browse/install this marketplace | `codex plugin marketplace add https://ds4cc.com/...` |
+| `ds4cc` | Meta-plugin: browse/install this marketplace | `codex plugin marketplace add https://veigapunk.github.io/ds4cc-marketplace/...` |
 
 ---
 
@@ -137,7 +137,7 @@ FNM v1.39.0 is installed. `test_fnm_node_isolation` proves:
 
 ## Canonical Codex layout — how marketplace add actually works
 
-The `marketplace/` subdirectory layout (`marketplace/marketplace.json` + `marketplace/plugins/<name>`) is the **web/CI layout** — what gets deployed to ds4cc.com and what the Rust validator uses for internal validation.
+The `marketplace/` subdirectory layout (`marketplace/marketplace.json` + `marketplace/plugins/<name>`) is the **web/CI layout** deployed through GitHub Pages and used by the Rust validator for internal validation.
 
 The **runtime/Codex layout** is different: Codex's `plugin marketplace add <dir>` expects:
 ```

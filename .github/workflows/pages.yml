@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: github-pages
-      url: https://ds4cc.com
+      url: https://veigapunk.github.io/ds4cc-marketplace/
     steps:
       - name: Checkout
         uses: actions/checkout@v5
