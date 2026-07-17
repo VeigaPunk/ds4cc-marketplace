@@ -1,5 +1,18 @@
 # myagents
 
-Curated agent workflow manifest for this marketplace.
+Curated agent profiles for Codex and GitHub Copilot CLI.
 
-Use this plugin to expose user-level agent templates and execution paths for Codex.
+## Codex
+
+```bash
+codex plugin add myagents
+```
+
+## Copilot CLI
+
+```bash
+copilot plugin marketplace add VeigaPunk/ds4cc-marketplace
+copilot plugin install myagents@ds4cc
+```
+
+Use an installed profile from Copilot's `/agent` menu.

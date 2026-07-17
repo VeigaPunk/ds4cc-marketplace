@@ -1,0 +1,10 @@
+{
+  "name": "myagents",
+  "version": "0.1.4",
+  "description": "Curated agent profiles for development, review, research, and orchestration.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
+  "agents": "./agents/"
+}
