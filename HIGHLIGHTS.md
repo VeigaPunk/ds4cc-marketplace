@@ -33,7 +33,7 @@ Every plugin now ships a `SKILL.md` with real, copy-pasteable commands. Validati
 | `mycommands` | Reusable shell command packs | `codex exec "/my-command-name"` |
 | `myskills` | Discoverable Codex skill workflows | `codex exec "/skill-name <args>"` |
 | `agent-wall` | Handoff checkpoints between sessions | `codex exec "Create an agent-wall checkpoint..."` |
-| `ds4cc` | Meta-plugin: browse/install this marketplace | `codex plugin marketplace add https://veigapunk.github.io/ds4cc-marketplace/...` |
+| `ds4cc` | Meta-plugin: browse/install this marketplace | `codex plugin marketplace add https://github.com/VeigaPunk/ds4cc-marketplace.git` |
 
 ---
 

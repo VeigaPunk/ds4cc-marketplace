@@ -8,7 +8,7 @@ DS4CC is the VeigaPunk personal Codex plugin marketplace.
 ## Add the marketplace
 
 ```bash
-codex plugin marketplace add https://veigapunk.github.io/ds4cc-marketplace/marketplace/marketplace.json
+codex plugin marketplace add https://github.com/VeigaPunk/ds4cc-marketplace.git
 ```
 
 ## List available plugins

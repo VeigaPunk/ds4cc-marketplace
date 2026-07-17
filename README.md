@@ -9,7 +9,7 @@ Static marketplace payload for Codex plugin installation.
 ## Add this marketplace to Codex
 
 ```bash
-codex plugin marketplace add https://veigapunk.github.io/ds4cc-marketplace/marketplace/marketplace.json
+codex plugin marketplace add https://github.com/VeigaPunk/ds4cc-marketplace.git
 ```
 
 Or local dev:
