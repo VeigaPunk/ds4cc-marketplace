@@ -366,6 +366,7 @@ fn test_expected_plugins_present() {
         .collect();
 
     let expected = [
+        "spoderman",
         "xbrd-gdsp-fknpft",
         "aaronplug",
         "infinizoom",
@@ -544,7 +545,7 @@ fn test_fnm_node_isolation() {
 // ─── Test 12: Canonical .agents/plugins/marketplace.json validates ────────────
 // Validates the Codex-native layout at <repo-root>/.agents/plugins/marketplace.json
 // using validate_marketplace_dir(), which resolves plugin paths relative to the
-// repo root (not the json file's parent). All 11 plugins must pass with no errors.
+// repo root (not the json file's parent). All 12 plugins must pass with no errors.
 
 #[test]
 fn test_canonical_agents_layout_validates() {
@@ -566,8 +567,8 @@ fn test_canonical_agents_layout_validates() {
     );
 }
 
-// ─── Test 13: Real codex plugin list shows all 11 ds4cc plugins ──────────────
-// Evidence gate: runs `codex plugin list` and asserts all 11 plugin names appear
+// ─── Test 13: Real codex plugin list shows all 12 ds4cc plugins ──────────────
+// Evidence gate: runs `codex plugin list` and asserts all 12 plugin names appear
 // in the output under the `ds4cc` marketplace section.
 
 #[test]
@@ -594,6 +595,7 @@ fn test_codex_plugin_list_ds4cc_complete() {
     );
 
     let expected = [
+        "spoderman@ds4cc",
         "xbrd-gdsp-fknpft@ds4cc",
         "aaronplug@ds4cc",
         "infinizoom@ds4cc",

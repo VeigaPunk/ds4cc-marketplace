@@ -5,6 +5,18 @@
   },
   "plugins": [
     {
+      "name": "spoderman",
+      "source": {
+        "source": "local",
+        "path": "./marketplace/plugins/spoderman"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer"
+    },
+    {
       "name": "xbrd-gdsp-fknpft",
       "source": {
         "source": "local",

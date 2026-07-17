@@ -18,10 +18,11 @@ Or local dev:
 codex plugin marketplace add "file://$(pwd)/marketplace/marketplace.json"
 ```
 
-## Plugins (11)
+## Plugins (12)
 
 | Plugin | Category | Description |
 |---|---|---|
+| `spoderman` | Developer | Attack harness & hook safety research |
 | `xbrd-gdsp-fknpft` | Developer | Multimodel dispatch (xask/xbreed) & benchmark workflows |
 | `aaronplug` | Developer | Academic paper retrieval (arXiv, Semantic Scholar, Sci-Hub) |
 | `infinizoom` | Developer | Fractal-zoom visualization QA & server |

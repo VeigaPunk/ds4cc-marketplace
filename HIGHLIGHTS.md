@@ -6,18 +6,19 @@
 
 ## What changed
 
-### From docs-only to actionable — all 11 plugins
+### From docs-only to actionable — all 12 plugins
 
 Every plugin now ships a `SKILL.md` with real, copy-pasteable commands. Validation _rejects_ boilerplate ("Read the README…") and only accepts files that contain:
 
 - A fenced code block (` ``` `), or
 - A line starting with `$`, `codex`, `cargo`, `node`, `bash`, `./`, or `npx`
 
-**6 original plugins verified actionable:**
+**7 original plugins verified actionable:**
 
 | Plugin | Key actionable command |
 |---|---|
 | `godspeed-core` | `codex "godspeed: <task>"` |
+| `spoderman` | `bash ./spoderman validate --hooks` |
 | `aaronplug` | `npx @veigapunk/aaron papers search "..."` |
 | `infinizoom` | `node qa-zoom.mjs` |
 | `godspeed-codex-command` | `bash ./scripts/install-commands.sh` |
@@ -117,6 +118,7 @@ codex plugin list
 Marketplace `personal`
 /home/vhpnk/.agents/plugins/marketplace.json
 ...
+spoderman@personal     installed, enabled  0.1.0
 xbrd-gdsp-fknpft@personal  installed, enabled  0.1.0
 ...
 ```
@@ -161,8 +163,8 @@ The validator's `validate_marketplace_dir(root)` auto-detects which layout is pr
 codex plugin marketplace add /home/vhpnk/repos/ds4cc-marketplace
 # → Added marketplace `ds4cc` from /home/vhpnk/repos/ds4cc-marketplace.
 
-# Install all 11 plugins
-for plugin in xbrd-gdsp-fknpft aaronplug infinizoom \
+# Install all 12 plugins
+for plugin in spoderman xbrd-gdsp-fknpft aaronplug infinizoom \
               godspeed-codex-command the-puppeteer godspeed-core \
               myagents mycommands myskills agent-wall ds4cc; do
   codex plugin add "${plugin}@ds4cc"
@@ -172,7 +174,7 @@ done
 
 # Confirm
 codex plugin list | grep "@ds4cc"
-# All 11 show: installed, enabled  0.1.0
+# All 12 show: installed, enabled  0.1.0
 ```
 
 ---
@@ -184,7 +186,7 @@ ds4cc-marketplace/
 ├── .agents/plugins/
 │   └── marketplace.json          ← canonical Codex layout (name: "ds4cc", paths: ./marketplace/plugins/<name>)
 ├── marketplace/
-│   ├── marketplace.json          ← web/CI layout (11 plugins, paths: ./plugins/<name>)
+│   ├── marketplace.json          ← web/CI layout (12 plugins, paths: ./plugins/<name>)
 │   ├── plugins/<name>/
 │   │   ├── .codex-plugin/
 │   │   │   └── plugin.json       ← manifest: name, version, interface, capabilities
@@ -242,7 +244,7 @@ Per instructions: no `git add`, no `git commit`, no `git push`. All changes are 
 
 | File | Change |
 |---|---|
-| `.agents/plugins/marketplace.json` | Updated: name `"ds4cc"`, 11 plugins, paths `./marketplace/plugins/<name>` |
+| `.agents/plugins/marketplace.json` | Updated: name `"ds4cc"`, 12 plugins, paths `./marketplace/plugins/<name>` |
 | `.gitignore` | Updated: allow `.agents/plugins/marketplace.json` to be tracked |
 | `marketplace/validator/src/lib.rs` | Added `validate_marketplace_dir()`, `validate_marketplace_with_base()`, dual-path convention support |
 | `marketplace/validator/src/main.rs` | Updated to use `validate_marketplace_dir()` (auto-detects layout) |
