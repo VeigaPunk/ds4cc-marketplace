@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: ds4cc-marketplace-app
+    runtime: docker
+    dockerfilePath: ./apps-sdk/Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: APP_ORIGIN
+        value: https://app.ds4cc.com
+      - key: ALLOWED_HOSTS
+        value: ds4cc-marketplace-app.onrender.com
+      - key: ALLOWED_ORIGINS
+        value: https://chatgpt.com
+      - key: OPENAI_APPS_CHALLENGE
+        sync: false

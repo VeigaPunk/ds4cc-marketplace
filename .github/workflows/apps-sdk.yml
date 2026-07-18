@@ -1,0 +1,28 @@
+name: Test Apps SDK wrapper
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: apps-sdk/package-lock.json
+      - run: npm ci
+        working-directory: apps-sdk
+      - run: npm run build
+        working-directory: apps-sdk
+      - run: npm test
+        working-directory: apps-sdk
+      - run: docker build -f apps-sdk/Dockerfile .

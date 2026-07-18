@@ -1,0 +1,11 @@
+*
+!apps-sdk/
+!apps-sdk/package.json
+!apps-sdk/package-lock.json
+!apps-sdk/tsconfig.json
+!apps-sdk/src/
+!apps-sdk/src/**
+!marketplace/
+!marketplace/**
+marketplace/**/target/
+marketplace/**/target/**
