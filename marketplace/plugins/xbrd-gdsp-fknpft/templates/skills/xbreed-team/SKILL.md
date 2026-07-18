@@ -73,7 +73,7 @@ Every teammate brief MUST include the structural xask gate as the FIRST instruct
 
 **Layer 1 — Gate (structural):**
 
-- **scout** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --effort medium --gs codex '<your research question>'. Do not call Read, Grep, or any other tool until xask returns."`
+- **scout** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark --gs codex '<your research question>'. Do not call Read, Grep, or any other tool until xask returns."`
 - **reviewer** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --gpt55 --gs -e low codex '<your review question>'. Do not call Read, Grep, or any other tool until xask returns."`
 - **labrat** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark --gs codex '<your probe hypothesis>'. Do not call Read, Grep, or any other tool until xask returns."`
 

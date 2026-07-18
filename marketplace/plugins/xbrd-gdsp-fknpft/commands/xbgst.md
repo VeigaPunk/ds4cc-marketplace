@@ -65,11 +65,11 @@ Composition: `/xbgst /wwkd <spec>` is the explicit form of the same behavior —
 For each axis, assign a name: `{prefix}-{role}-{suffix}`. Commit ALL names before spawning.
 
 Axis → profile mapping (see `~/.claude/commands/references/xbreed-shared.md` for full details). All teammates run **sonnet medium** uniformly (2026-04-17 pivot — supersedes earlier opus-medium unified scheme; only `the-judge` itself stays fable-**high** for orchestrator depth, downgraded from xhigh 2026-04-19):
-- Research, prior art → `scout` — `xask --effort medium --gs codex`
+- Research, prior art → `scout` — `xask --spark --gs codex`
 - Correctness, bugs → `reviewer` — `xask --gpt55 --gs -e low codex`
 - Empirical probes → `labrat` — `xask --spark --gs codex`
 - Code execution → `executor` — `xask --spark --gs codex`
-- Cross-axis patterns → `connector` — `xask --effort medium codex`
+- Cross-axis patterns → `connector` — `xask --spark codex`
 - Synthesis, dedup → `distiller` — in-session
 - Complexity reduction → `simplifier` — CC native
 
@@ -85,11 +85,11 @@ Each brief includes:
 
 | Role | Verbatim Layer-1 string to include in brief |
 |---|---|
-| `scout` | `Your FIRST tool call MUST be Bash: xask --effort medium --gs codex '<research question>'. No other tool before xask returns.` |
+| `scout` | `Your FIRST tool call MUST be Bash: xask --spark --gs codex '<research question>'. No other tool before xask returns.` |
 | `reviewer` | `Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e low codex '<review question>'. No other tool before xask returns.` |
 | `labrat` | `Your FIRST tool call MUST be Bash: xask --spark --gs codex '<probe hypothesis>'. No other tool before xask returns.` |
 | `executor` | `Your FIRST tool call MUST be Bash: xask --spark --gs codex '<task>'. No other tool before xask returns.` |
-| `connector` | `Your FIRST tool call MUST be Bash: xask --effort medium codex '<pattern question>'. No other tool before xask returns.` |
+| `connector` | `Your FIRST tool call MUST be Bash: xask --spark codex '<pattern question>'. No other tool before xask returns.` |
 | `the-revenger` | `Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e high codex '<RECON / surface enumeration question>'. No other tool before xask returns.` |
 | `sentinel` | `Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e low codex '<exploit/vulnerability analysis question>'. No other tool before xask returns.` |
 | `critic` | `Your FIRST tool call MUST be Skill(skill='heuer-planning') — this is Layer 0. After the skill loads, your SECOND tool call MUST be Bash: xask --gpt55 --gs -e low codex '<design review question>'. No other tool before xask returns.` |

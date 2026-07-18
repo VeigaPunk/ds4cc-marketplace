@@ -504,10 +504,9 @@ mod tests {
     }
 
     #[test]
-    fn codex_ask_review_full_flag_uses_full_model() {
-        // -R -F escape hatch (review=true, full=true) routes to full gpt-5.6-sol
-        // for the-revenger RECON with 1.05M context window. User directive
-        // 2026-04-18.
+    fn codex_ask_review_full_flag_uses_uniform_model() {
+        // All non-spark lanes now pin gpt-5.6-sol. -R -F still selects the
+        // full-lane branch, but model identity no longer distinguishes it.
         let mut c =
             build_codex_ask_with_loadout(&Loadout::empty(), false, true, true, false, false, None);
         c.arg("recon this").arg("");
@@ -517,25 +516,20 @@ mod tests {
             args.contains(&CODEX_FULL_MODEL.to_string()),
             "-R -F must pin -m gpt-5.6-sol (full) for the-revenger RECON: {args:?}"
         );
-        assert!(
-            !args.contains(&CODEX_MINI_MODEL.to_string()),
-            "-R -F must NOT route to mini: {args:?}"
-        );
+        assert_eq!(args.iter().filter(|arg| *arg == "-m").count(), 1);
         assert!(args.contains(&"features.fast_mode=true".to_string()));
     }
 
     #[test]
-    fn codex_ask_full_without_review_is_noop() {
-        // --full/-F without --review is a no-op; routes to mini default.
+    fn codex_ask_full_without_review_uses_uniform_default() {
+        // --full/-F without --review remains a no-op. The uniform non-spark
+        // model means the positive pin and single -m occurrence are the gate.
         let mut c =
             build_codex_ask_with_loadout(&Loadout::empty(), false, false, true, false, false, None);
         c.arg("hello");
         let args = cmd_args(&c);
         assert!(args.contains(&CODEX_MINI_MODEL.to_string()));
-        assert!(
-            !args.contains(&CODEX_FULL_MODEL.to_string()),
-            "--full without --review must NOT promote to full model: {args:?}"
-        );
+        assert_eq!(args.iter().filter(|arg| *arg == "-m").count(), 1);
     }
 
     #[test]
@@ -552,10 +546,7 @@ mod tests {
             args.contains(&CODEX_55_MODEL.to_string()),
             "--gpt55 must pin -m gpt-5.6-sol: {args:?}"
         );
-        assert!(
-            !args.contains(&CODEX_MINI_MODEL.to_string()),
-            "--gpt55 must NOT route to mini: {args:?}"
-        );
+        assert_eq!(args.iter().filter(|arg| *arg == "-m").count(), 1);
         assert!(args.contains(&"features.fast_mode=true".to_string()));
         assert_eq!(*args.last().unwrap(), "probe-55");
     }
@@ -576,18 +567,15 @@ mod tests {
     }
 
     #[test]
-    fn codex_ask_gpt55_short_circuits_review_and_full() {
-        // --gpt55 short-circuits review/full (those route to 5.6 family; explicit
-        // gpt-5.6-sol model pin wins over review-lane defaulting).
+    fn codex_ask_gpt55_with_review_full_keeps_uniform_pin() {
+        // --gpt55 still takes precedence over review/full. Since every
+        // non-spark branch now uses gpt-5.6-sol, assert one explicit model pin.
         let mut c =
             build_codex_ask_with_loadout(&Loadout::empty(), false, true, true, true, false, None);
         c.arg("probe");
         let args = cmd_args(&c);
         assert!(args.contains(&CODEX_55_MODEL.to_string()));
-        assert!(
-            !args.contains(&CODEX_MINI_MODEL.to_string()),
-            "--gpt55 must short-circuit -R -F (no mini path): {args:?}"
-        );
+        assert_eq!(args.iter().filter(|arg| *arg == "-m").count(), 1);
     }
 
     #[test]

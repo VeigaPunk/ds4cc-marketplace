@@ -21,8 +21,9 @@ COPY_FILES=(
 # Model-agnostic regex (gemini→codex swap 68695ff proved anchoring on a model
 # name silently breaks extraction); `|| true` keeps set -euo pipefail from
 # killing the script before the empty-check diagnostic below can fire.
+ROUTE_RE='xask (--effort [a-z]+|--spark)( --gs)? [a-z]+'
 CANONICAL=$(grep -m1 -F '| Cross-axis patterns' "$SSOT" \
-  | grep -oE 'xask --effort [a-z]+ [a-z]+' | head -1 || true)
+  | grep -oE "$ROUTE_RE" | head -1 || true)
 
 if [[ -z "$CANONICAL" ]]; then
   echo "ERROR: cannot extract canonical connector routing from $SSOT" >&2
@@ -41,22 +42,21 @@ for FILE in "${COPY_FILES[@]}"; do
     continue
   fi
 
-  # Regex intentionally covers ANY `xask --effort <tier> <model>` — including
-  # model drift (gemini → codex), not just tier drift. Anchoring the match on
-  # "gemini" would silently miss the model-swap class of regression (M4).
+  # Regex covers both effort and Spark connector lanes, including optional
+  # Godspeed and model drift. The canonical row decides the exact accepted lane.
   if [[ "$FILE" == *"/connector.md" ]]; then
     # connector.md IS the connector agent — check every delegation line.
-    matches=$(grep -nE 'xask --effort [a-z]+ [a-z]+' "$FILE" || true)
+    matches=$(grep -nE "$ROUTE_RE" "$FILE" || true)
   else
     # Other files: only lines mentioning connector in routing context.
-    matches=$(grep -nE 'xask --effort [a-z]+ [a-z]+' "$FILE" | grep 'connector' || true)
+    matches=$(grep -nE "$ROUTE_RE" "$FILE" | grep 'connector' || true)
   fi
 
   while IFS= read -r match; do
     [[ -z "$match" ]] && continue
     lineno="${match%%:*}"
     content="${match#*:}"
-    actual=$(printf '%s' "$content" | grep -oE 'xask --effort [a-z]+ [a-z]+' | head -1)
+    actual=$(printf '%s' "$content" | grep -oE "$ROUTE_RE" | head -1)
     if [[ -n "$actual" && "$actual" != "$CANONICAL" ]]; then
       printf "DRIFT: %s:%s\n  expected: %s\n  actual:   %s\n" \
         "$FILE" "$lineno" "$CANONICAL" "$actual"

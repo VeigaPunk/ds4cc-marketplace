@@ -15,7 +15,7 @@
 #      | --gs (explicit godspeed SKILL load) | -e (effort) | -o (output-last-message) | --json
 #
 # codex model lanes:
-#   default:       gpt-5.6-sol + fast_mode + reasoning=high (user directive 2026-04-17)
+#   default:       gpt-5.3-codex-spark (reasoning=low)
 #   --spark:       gpt-5.3-codex-spark + reasoning=low (labrat probes)
 #   --review / -R: gpt-5.6-sol + fast_mode (reviewer/critic/sentinel default per 2026-04-18)
 #   -R --full/-F:  gpt-5.6-sol full + fast_mode (the-revenger RECON escape hatch, 1.05M ctx)
@@ -27,6 +27,7 @@
 #   xask -scp "src/ask.rs" gemini "Review this"     # scoped clean dispatch
 #   xask -r gemini "Explore the codebase"           # full context, dir tree ON
 #   xask --spk codex "Probe this hypothesis"        # fast codex-spark, low effort
+#   xask codex "Probe this hypothesis"               # codex default now follows --spark
 #   xask -R codex "Adversarial review of <diff>"    # review lane — gpt-5.6-sol
 #   xask -R -F codex "RECON codebase-scale"         # -R + -F escape hatch — full gpt-5.6-sol (1.05M ctx)
 #   xask --gpt55 --gs -e high codex "Deep question" # gpt-5.6-sol lane, explicit godspeed, high effort
@@ -82,6 +83,17 @@ if [ -n "$EFFORT" ]; then
     *) echo "xask: invalid effort level '$EFFORT' (use low|medium|high|xhigh)" >&2; exit 1 ;;
   esac
 fi
+MODEL="$1"
+QUERY="$2"
+CONTEXT="${3:-No prior context.}"
+SKILL="${4:-godspeed}"
+
+# Structural default: codex delegations use spark unless caller asked for a
+# non-spark lane explicitly (effort/review/full/gpt55).
+if [ "$MODEL" = "codex" ] && [ -z "$EFFORT" ] && [ "$REVIEW" = false ] && [ "$FULL" = false ] && [ "$GPT55" = false ]; then
+  SPARK=true
+fi
+
 [ -n "$EFFORT" ] && EFFORT_FLAGS=(--effort "$EFFORT")
 [ "$SPARK" = true ] && SPARK_FLAGS=(--spark)
 [ "$REVIEW" = true ] && REVIEW_FLAGS=(--review)
@@ -89,11 +101,6 @@ fi
 [ "$GPT55" = true ] && GPT55_FLAGS=(--gpt55)
 [ -n "$OUTPUT_LAST_MESSAGE" ] && OUTPUT_FLAGS=(--output-last-message "$OUTPUT_LAST_MESSAGE")
 [ "$JSON" = true ] && JSON_FLAGS=(--json)
-
-MODEL="$1"
-QUERY="$2"
-CONTEXT="${3:-No prior context.}"
-SKILL="${4:-godspeed}"
 
 # --gs forces SKILL=godspeed regardless of the 4th positional (explicit load
 # through our xask <skill> dispatch — idempotent with the default since SKILL

@@ -39,7 +39,7 @@ echo "STEP 1 OK: baseline verify-docs passed"
 # no-op'd after the gemini->codex swap).
 SSOT="$REPO_ROOT/commands/references/xbreed-shared.md"
 CANONICAL=$(grep -m1 -F '| Cross-axis patterns' "$SSOT" \
-  | grep -oE 'xask --effort [a-z]+ [a-z]+' | head -1 || true)
+  | grep -oE 'xask (--effort [a-z]+|--spark)( --gs)? [a-z]+' | head -1 || true)
 if [[ -z "$CANONICAL" ]]; then
   echo "FAIL: cannot extract canonical connector routing from $SSOT" >&2
   exit 1

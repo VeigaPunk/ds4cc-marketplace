@@ -44,11 +44,11 @@ Emit up to 8 axes (name + direction + observable). Incorporate user-named axes; 
 For each axis, assign a name using the-judge.md naming convention: `{prefix}-{role}-{suffix}`. Commit ALL names before spawning.
 
 Axis -> profile mapping (from the-judge.md dispatch table):
-- Research, prior art, outside-world -> `scout` (sonnet) — delegates to `xask --effort medium --gs codex`
+- Research, prior art, outside-world -> `scout` (sonnet) — delegates to `xask --spark --gs codex`
 - Correctness, bugs, code review -> `reviewer` (sonnet) — delegates to `xask --gpt55 --gs -e low codex`
 - Empirical probes, dry-runs -> `labrat` (sonnet) — delegates to `xask --spark --gs codex`
 - Code execution, implementation -> `executor` (sonnet) — delegates to `xask --spark --gs codex`
-- Cross-axis patterns, breadth -> `connector` (sonnet) — delegates to `xask --effort medium codex` (no `--gs`; avoids double-godspeed frame on pontification-prone lane)
+- Cross-axis patterns, breadth -> `connector` (sonnet) — delegates to `xask --spark codex` (no `--gs`; avoids double-godspeed frame on pontification-prone lane)
 - Findings synthesis, dedup -> `distiller` (sonnet) — in-session text synthesis (no xask)
 - Complexity reduction, YAGNI -> `simplifier` (sonnet) — uses CC native tools
 
@@ -69,10 +69,10 @@ Each brief includes:
 
 **Layer 1 — Gate (structural, per-role):**
 
-- **scout** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --effort medium --gs codex '<your research question for this axis>'. Do not call Read, Grep, or any other tool until xask returns."`
+- **scout** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark --gs codex '<your research question for this axis>'. Do not call Read, Grep, or any other tool until xask returns."`
 - **reviewer** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --gpt55 --gs -e low codex '<your review question for this axis>'. Do not call Read, Grep, or any other tool until xask returns."`
 - **labrat** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark --gs codex '<your probe hypothesis for this axis>'. Do not call Read, Grep, or any other tool until xask returns."`
-- **connector** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --effort medium codex '<your cross-axis pattern question>'. Do not call Read, Grep, or any other tool until xask returns. Note: no --gs — connector deliberately skips explicit godspeed-skill load to avoid double-frame stacking."`
+- **connector** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark codex '<your cross-axis pattern question>'. Do not call Read, Grep, or any other tool until xask returns. Note: no --gs — connector deliberately skips explicit godspeed-skill load to avoid double-frame stacking."`
 - **executor** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark --gs codex '<your implementation task for this axis>'. Do not call Read, Grep, or any other tool until xask returns."`
 - **mutation-tester** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark --gs codex '<generate mutation for this function>'. Do not call Read, Grep, or any other tool until xask returns."`
 - **simplifier/distiller**: No xask gate. These use CC native tools or in-session synthesis.
@@ -160,4 +160,3 @@ On explicit user request only: SendMessage shutdown_request to each teammate, aw
 
 Emit: team name, axes, teammates spawned (with their xask delegation targets), waiting on Round 1.
 Do not narrate. Immediately compile and dispatch next round when findings arrive.
-
