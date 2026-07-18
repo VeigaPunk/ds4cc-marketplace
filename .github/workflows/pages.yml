@@ -24,6 +24,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Validate agent payloads
+        run: node scripts/validate-agent-payloads.mjs
+
+      - name: Check isolated OpenCode install
+        run: node scripts/check-opencode-install.mjs
+
+      - name: Test marketplace validator
+        env:
+          CARGO_TARGET_DIR: ${{ runner.temp }}/ds4cc-cargo-target
+        run: cargo test --manifest-path marketplace/validator/Cargo.toml
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 

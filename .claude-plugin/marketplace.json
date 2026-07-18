@@ -1,0 +1,18 @@
+{
+  "name": "ds4cc",
+  "owner": {
+    "name": "VeigaPunk"
+  },
+  "metadata": {
+    "description": "DS4CC plugins for Claude Code.",
+    "version": "0.1.4"
+  },
+  "plugins": [
+    {
+      "name": "myagents",
+      "source": "./marketplace/plugins/myagents",
+      "version": "0.1.4",
+      "description": "Curated agent profiles for development, review, research, and orchestration."
+    }
+  ]
+}

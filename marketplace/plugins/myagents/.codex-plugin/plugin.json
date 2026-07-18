@@ -1,7 +1,7 @@
 {
   "name": "myagents",
-  "version": "0.1.0",
-  "description": "Curated agent workflow launchpad for Codex users.",
+  "version": "0.1.4",
+  "description": "Curated agent profiles for development, review, research, and orchestration.",
   "author": {
     "name": "VeigaPunk"
   },
