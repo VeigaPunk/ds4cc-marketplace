@@ -26,3 +26,29 @@ jobs:
       - run: npm test
         working-directory: apps-sdk
       - run: docker build -f apps-sdk/Dockerfile .
+
+  artifact_smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - run: docker build -t ds4cc-marketplace-app:ci -f apps-sdk/Dockerfile .
+      - name: Run local deployment artifact proof
+        run: |
+          set -euo pipefail
+          docker run -d --rm --name ds4cc-artifact -p 3000:3000 \
+            -e OPENAI_APPS_CHALLENGE=challenge-for-ci \
+            ds4cc-marketplace-app:ci
+          trap 'docker rm -f ds4cc-artifact >/dev/null 2>&1 || true' EXIT
+          bash scripts/smoke-deployment.sh http://127.0.0.1:3000 challenge-for-ci
+      - name: Export proven container artifact
+        run: |
+          set -euo pipefail
+          docker image inspect --format '{{.Id}}' ds4cc-marketplace-app:ci > image-id.txt
+          docker save ds4cc-marketplace-app:ci | gzip -9 > ds4cc-marketplace-app.tar.gz
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ds4cc-marketplace-app
+          path: |
+            ds4cc-marketplace-app.tar.gz
+            image-id.txt
+          retention-days: 14

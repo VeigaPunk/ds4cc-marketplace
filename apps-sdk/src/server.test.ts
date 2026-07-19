@@ -13,13 +13,32 @@ afterEach(async () => {
   })));
 });
 
-async function startApp(): Promise<{ baseUrl: string }> {
-  const server = createApp().listen(0, "127.0.0.1");
+type AppOptions = Parameters<typeof createApp>[0];
+
+async function startApp(options?: AppOptions): Promise<{ baseUrl: string }> {
+  const server = createApp(options).listen(0, "127.0.0.1");
   servers.push(server);
   await new Promise<void>((resolve) => server.once("listening", resolve));
   const address = server.address();
   assert(address && typeof address === "object");
   return { baseUrl: `http://127.0.0.1:${address.port}` };
+}
+
+async function initializeSession(baseUrl: string, id: number): Promise<string> {
+  const response = await fetch(`${baseUrl}/mcp`, {
+    method: "POST",
+    headers: { accept: "application/json, text/event-stream", "content-type": "application/json" },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id,
+      method: "initialize",
+      params: { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: `init-${id}`, version: "1.0.0" } },
+    }),
+  });
+  assert.equal(response.status, 200);
+  const sessionId = response.headers.get("mcp-session-id");
+  assert.ok(sessionId);
+  return sessionId;
 }
 
 test("serves health and public policy routes", async () => {
@@ -31,6 +50,22 @@ test("serves health and public policy routes", async () => {
   assert.equal((await fetch(`${baseUrl}/terms`)).status, 200);
   assert.equal((await fetch(`${baseUrl}/.well-known/openai-apps-challenge`)).status, 404);
   assert.equal((await fetch(`${baseUrl}/mcp`)).status, 400);
+});
+
+test("serves the exact configured domain-verification token without caching", async () => {
+  const previousToken = process.env.OPENAI_APPS_CHALLENGE;
+  process.env.OPENAI_APPS_CHALLENGE = "portal-verification-token";
+  try {
+    const { baseUrl } = await startApp();
+    const response = await fetch(`${baseUrl}/.well-known/openai-apps-challenge`);
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("content-type"), "text/plain; charset=utf-8");
+    assert.equal(response.headers.get("cache-control"), "no-store");
+    assert.equal(await response.text(), "portal-verification-token");
+  } finally {
+    if (previousToken === undefined) delete process.env.OPENAI_APPS_CHALLENGE;
+    else process.env.OPENAI_APPS_CHALLENGE = previousToken;
+  }
 });
 
 test("exposes a read-only Apps SDK catalog and widget", async () => {
@@ -76,4 +111,81 @@ test("rejects untrusted MCP browser origins", async () => {
     }),
   });
   assert.equal(response.status, 403);
+});
+
+test("transport close is one-shot and the server accepts a new MCP connection", async () => {
+  const { baseUrl } = await startApp();
+  const firstClient = new Client({ name: "close-regression-1", version: "1.0.0" });
+  const firstTransport = new StreamableHTTPClientTransport(new URL(`${baseUrl}/mcp`));
+  await firstClient.connect(firstTransport);
+  await firstClient.close();
+
+  await new Promise((resolve) => setTimeout(resolve, 50));
+  assert.equal((await fetch(`${baseUrl}/health`)).status, 200);
+
+  const secondClient = new Client({ name: "close-regression-2", version: "1.0.0" });
+  const secondTransport = new StreamableHTTPClientTransport(new URL(`${baseUrl}/mcp`));
+  await secondClient.connect(secondTransport);
+  try {
+    const tools = await secondClient.listTools();
+    assert.equal(tools.tools[0]?.name, "browse_ds4cc_marketplace");
+  } finally {
+    await secondClient.close();
+  }
+});
+
+test("enforces unauthenticated MCP session capacity", async () => {
+  const { baseUrl } = await startApp({ maxUnauthenticatedSessions: 1 });
+  const firstSessionId = await initializeSession(baseUrl, 1);
+  const rejectedResponse = await fetch(`${baseUrl}/mcp`, {
+    method: "POST",
+    headers: { accept: "application/json, text/event-stream", "content-type": "application/json" },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: 2,
+      method: "initialize",
+      params: { protocolVersion: "2025-06-18", capabilities: {}, clientInfo: { name: "over-cap", version: "1.0.0" } },
+    }),
+  });
+  assert.equal(rejectedResponse.status, 503);
+  assert.equal(rejectedResponse.headers.get("retry-after"), "1");
+
+  const activeResponse = await fetch(`${baseUrl}/mcp`, {
+      method: "POST",
+      headers: { accept: "application/json, text/event-stream", "content-type": "application/json", "mcp-session-id": firstSessionId },
+      body: JSON.stringify({ jsonrpc: "2.0", id: 3, method: "tools/list" }),
+  });
+  assert.equal(activeResponse.status, 200);
+});
+
+test("expires idle unauthenticated MCP sessions", async () => {
+  let now = 0;
+  let cleanup: (() => void) | undefined;
+  const { baseUrl } = await startApp({
+    sessionIdleTimeoutMs: 1_000,
+    now: () => now,
+    scheduleIdleCleanup: (callback) => {
+      cleanup = callback;
+      return { cancel: () => { if (cleanup === callback) cleanup = undefined; } };
+    },
+  });
+  const sessionId = await initializeSession(baseUrl, 1);
+  assert.ok(cleanup);
+  now = 1_000;
+  cleanup();
+
+  const expiredResponse = await fetch(`${baseUrl}/mcp`, {
+    method: "POST",
+    headers: { "content-type": "application/json", "mcp-session-id": sessionId },
+    body: JSON.stringify({ jsonrpc: "2.0", id: 2, method: "tools/list" }),
+  });
+  assert.equal(expiredResponse.status, 400);
+
+  const replacementSessionId = await initializeSession(baseUrl, 3);
+  const replacementResponse = await fetch(`${baseUrl}/mcp`, {
+    method: "POST",
+    headers: { accept: "application/json, text/event-stream", "content-type": "application/json", "mcp-session-id": replacementSessionId },
+    body: JSON.stringify({ jsonrpc: "2.0", id: 4, method: "tools/list" }),
+  });
+  assert.equal(replacementResponse.status, 200);
 });
