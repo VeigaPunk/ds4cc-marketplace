@@ -5,6 +5,7 @@ Static plugin payloads for Codex, GitHub Copilot CLI, and Claude Code. OpenCode 
 - Marketplace JSON: `marketplace/marketplace.json`
 - Plugin assets: `marketplace/plugins/<name>/`
 - Validator: `marketplace/validator/` (Rust, `cargo test`)
+- Curation and claim policy: [`CURATION.md`](CURATION.md)
 
 ## Add this marketplace to Codex
 
