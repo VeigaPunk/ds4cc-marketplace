@@ -2,7 +2,7 @@
 
 A bridge to ChatGPT's web UI, using your existing OpenAI Plus/Pro subscription. Runs as a CLI (`chitchat "prompt"`) and as a Claude Code agent (`the-puppeteer`).
 
-Sibling project to [the-musketeer](https://github.com/VeigaPunk/the-musketeer) (same idea, for Grok). Both converged on the same transport: CDP attach to a dedicated Windows Chrome Dev.
+Sibling project to [the-musketeer](https://github.com/VeigaPunk/the-musketeer) (same idea, for Grok). Both use CDP attach to a dedicated Chromium-family browser profile on Linux, WSL, or Windows.
 
 ## Why
 
@@ -41,13 +41,16 @@ chitchat --web-search "Current Chrome Dev version"         # Web search mode
 
 # Combine
 chitchat --model pro --deep-research "multi-paper survey on X"
+
+# Keep prompt text out of process arguments
+printf '%s' "Research-grade prompt" | chitchat --stdin --model pro
 ```
 
 Flag aliases: `--model p|t|i` for pro/thinking/instant. `--deep` shorthand for `--deep-research`, `--web` for `--web-search`. Omitting `--model` leaves the tab's current model untouched.
 
 ## Architecture
 
-1. **Chrome Dev with CDP** — you launch Windows Chrome Dev with `--user-data-dir=C:\ChromeAutomation --remote-debugging-port=9222`, sign into chatgpt.com once, and leave it running. The isolated user-data-dir is mandatory: Chrome silently disables remote debugging on the default profile as a security measure.
+1. **Dedicated Chromium with loopback CDP** — launch Chromium/Chrome with an isolated `--user-data-dir` and `--remote-debugging-address=127.0.0.1`. On Arch, the `ds4cc-cdp.service` user unit is the preferred workflow. WSL/Windows keeps the Chrome Dev fallback.
 2. **agent-browser `--cdp 9222`** — a native CLI that speaks Chrome DevTools Protocol. `chitchat` attaches to your existing Chrome, finds (or opens) a chatgpt.com tab, and drives it.
 3. **`chitchat` CLI** — navigates to chatgpt.com, waits out the (rare, since Chrome is real) Cloudflare Turnstile, types the prompt into `#prompt-textarea`, presses Enter, verifies the user-turn count incremented, exits.
 4. **Claude agent** — `the-puppeteer.md` is a user-level agent spec. Installed to `~/.claude/agents/`, it becomes callable via the Agent tool from any Claude Code session.
@@ -65,9 +68,15 @@ The installer:
 - Symlinks `chitchat` into `~/.local/bin/`
 - Symlinks the Claude agent into `~/.claude/agents/`
 
-## Launch Chrome Dev with CDP (one-time)
+## Launch a dedicated browser with CDP (one-time)
 
-`chitchat` attaches to a Chrome Dev instance running with CDP exposed. This must be a **dedicated Chrome Dev install** (not your everyday Chrome) because Chrome refuses to enable `--remote-debugging-port` on the default, sync-signed-in profile.
+`chitchat` attaches to a dedicated browser profile running CDP on loopback. Never expose this endpoint on a LAN or public interface.
+
+### Arch Linux / native Linux
+
+Configure `CHITCHAT_CHROME_BIN`, `CHITCHAT_CDP_HOST`, `CHITCHAT_CDP_PORT`, and `CHITCHAT_CDP_PROFILE`; `chitchat` prints the exact native launch command when CDP is absent. Keep the browser running through your desktop autostart or your own user service, then verify it with `curl --fail http://127.0.0.1:9222/json/version`. Sign in once through the dedicated visible browser profile.
+
+### WSL / Windows
 
 1. Close any running Chrome Dev instance — including tray-resident background processes. Check Task Manager or right-click any Chrome Dev tray icon and Exit. (If the previous instance was launched without CDP flags, new launches inherit its empty flag set.)
 2. Relaunch Chrome Dev with the flags below. On Windows, edit a shortcut's target to:
@@ -80,7 +89,7 @@ The installer:
    curl -s http://localhost:9222/json/version
    ```
    You should see JSON with `"Browser": "Chrome/..."`. If not, check `netstat -ano | findstr :9222` on Windows — if nothing is listening, Chrome refused to enable CDP (usually because `--user-data-dir` was omitted).
-5. Test: `chitchat "hello"` — should print `✓ Prompt fired.` and exit immediately.
+5. Once signed in, test with a non-sensitive prompt. `--help` and `--version` never connect or post.
 
 This Chrome Dev install is dedicated to automation — sign into any other web services you want programmatic access to (grok.com for the-musketeer, notebooklm.google.com, etc.) in the same profile.
 
@@ -100,8 +109,8 @@ This Chrome Dev install is dedicated to automation — sign into any other web s
 
 ## Full setup
 
-See `SETUP.md` for end-to-end bootstrap instructions on a fresh WSL2 + Windows 10/11 machine — including Chrome Dev install, isolated profile creation, CDP reachability verification, agent-browser installation, Puppeteer-core alternative Node API, and the full gotcha list.
+See `SETUP.md` for the original WSL2 + Windows bootstrap details. Native Linux follows the service/loopback workflow above.
 
 ## Security
 
-Your dedicated Chrome Dev profile at `C:\ChromeAutomation` holds your ChatGPT session (plus any other services you've signed into). Running Chrome with `--remote-debugging-port=9222` exposes CDP to anything that can reach `localhost:9222` on your Windows box — don't enable this port on a shared or exposed machine. On WSL the port is reachable from the Linux side only (same machine); that's fine. If you ever expose the port outside localhost, treat it as granting full control over your browser, including any signed-in session.
+The dedicated profile holds your authenticated browser session. CDP grants full browser control: bind it only to `127.0.0.1`, use an isolated profile, and do not share the machine account. Prompt payloads are sent to `agent-browser batch` over stdin rather than exposed in child-process arguments.
