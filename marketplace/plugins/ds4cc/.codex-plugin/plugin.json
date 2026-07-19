@@ -17,21 +17,20 @@
       "Codex installation guidance",
       "Source review guidance"
     ],
+    "websiteURL": "https://veigapunk.github.io/ds4cc-marketplace/",
+    "privacyPolicyURL": "https://app.ds4cc.com/privacy",
+    "termsOfServiceURL": "https://app.ds4cc.com/terms",
     "defaultPrompt": [
       "Show me how to add the DS4CC marketplace to Codex.",
       "List the reviewed DS4CC plugins and their capabilities.",
       "Show the Codex command for a DS4CC plugin without running it."
-    ]
+    ],
+    "brandColor": "#A7F26B",
+    "composerIcon": "./assets/logo.svg",
+    "logo": "./assets/logo-512.png"
   },
   "homepage": "https://veigapunk.github.io/ds4cc-marketplace/",
   "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
   "license": "MIT",
-  "keywords": ["codex", "plugins", "marketplace", "developer-tools", "skills"],
-  "logo": "./assets/logo-512.png",
-  "icon": "./assets/logo.svg",
-  "legal": {
-    "privacyPolicy": "https://app.ds4cc.com/privacy",
-    "termsOfUse": "https://app.ds4cc.com/terms",
-    "support": "https://app.ds4cc.com/support"
-  }
+  "keywords": ["codex", "plugins", "marketplace", "developer-tools", "skills"]
 }

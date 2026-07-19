@@ -34,10 +34,14 @@ The submission logo is available as `assets/logo.svg` and `assets/logo-512.png`;
 
 ## Production smoke check
 
-After DNS, TLS, deployment, and the portal challenge are configured, keep the token out of shell arguments and run:
+After DNS, TLS, deployment, and the portal challenge are configured, read the token without terminal echo or command history and keep it in the same shell:
 
 ```bash
-EXPECTED_CHALLENGE='portal-token' ../scripts/smoke-deployment.sh https://app.ds4cc.com
+read -rsp "Challenge token: " EXPECTED_CHALLENGE
+printf '\n'
+export EXPECTED_CHALLENGE
+../scripts/smoke-deployment.sh https://app.ds4cc.com
+unset EXPECTED_CHALLENGE
 ```
 
-The script prints no token. It checks DNS, HTTPS, health, website/legal/support routes, challenge exactness, and MCP initialize, tool listing, tool call, and widget resource reads. See `SUBMISSION.md` for the complete portal packet and external gates.
+The script does not print the token. In production, set `OPENAI_APPS_CHALLENGE` with the hosting platform's secret manager, never a literal command-line assignment. The smoke check covers DNS, HTTPS, health, website/legal/support routes, challenge exactness, MCP initialize, tool listing, tool call, and widget resource reads. See `SUBMISSION.md` for the complete portal packet and external gates.

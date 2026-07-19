@@ -1,0 +1,26 @@
+{
+  "name": "ds4cc",
+  "version": "0.1.0",
+  "description": "Read-only guidance for browsing the reviewed DS4CC catalog through its MCP tool.",
+  "author": { "name": "VeigaPunk" },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "DS4CC Marketplace",
+    "shortDescription": "Browse reviewed DS4CC catalog metadata",
+    "longDescription": "Read-only skill for using the browse_ds4cc_marketplace MCP tool, assessing reviewed result metadata, and treating optional install commands as inert text requiring independent review.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": ["Reviewed catalog browsing", "Source provenance review", "Capability review"],
+    "websiteURL": "https://app.ds4cc.com/",
+    "privacyPolicyURL": "https://app.ds4cc.com/privacy",
+    "termsOfServiceURL": "https://app.ds4cc.com/terms",
+    "defaultPrompt": ["Show me the reviewed DS4CC catalog.", "Use the DS4CC browse tool to find a visualization plugin.", "Compare the capabilities and source provenance in reviewed results."],
+    "brandColor": "#A7F26B",
+    "composerIcon": "./assets/logo.svg",
+    "logo": "./assets/logo-512.png"
+  },
+  "homepage": "https://app.ds4cc.com/",
+  "repository": "https://github.com/VeigaPunk/ds4cc-marketplace/tree/main/official/ds4cc",
+  "license": "MIT",
+  "keywords": ["codex", "plugins", "catalog", "developer-tools"]
+}
