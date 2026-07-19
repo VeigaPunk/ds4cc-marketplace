@@ -22,6 +22,7 @@ export const widgetHtml = `
     p { margin: 0 0 12px; color: #b7c2b1; font: 13px/1.45 system-ui, sans-serif; min-height: 38px; }
     code { display: block; padding: 8px; border-radius: 5px; background: #0b0e0a; color: #d8e5d1; font-size: 11px; overflow-wrap: anywhere; }
     .meta { display: flex; justify-content: space-between; color: #758270; font-size: 10px; margin-bottom: 8px; text-transform: uppercase; }
+    .review { min-height: 0; margin: 9px 0 0; color: #f0d58a; font-size: 11px; }
     .empty { color: #95a18d; padding: 28px 0; }
     @media (max-width: 520px) { main { padding: 13px; } header { align-items: start; flex-direction: column; } .grid { grid-template-columns: 1fr; } }
   </style>
@@ -61,7 +62,10 @@ export const widgetHtml = `
         description.textContent = plugin.shortDescription;
         const command = document.createElement("code");
         command.textContent = plugin.install.codex;
-        card.append(meta, title, description, command);
+        const review = document.createElement("p");
+        review.className = "review";
+        review.textContent = plugin.reviewNotice;
+        card.append(meta, title, description, command, review);
         catalog.append(card);
       }
     }

@@ -1,8 +1,8 @@
 # DS4CC Marketplace
 
-Meta-plugin for the DS4CC personal Codex marketplace, maintained by VeigaPunk.
+Documentation-only plugin for the public DS4CC Codex marketplace, maintained by VeigaPunk.
 
-This plugin exposes workflows to register the DS4CC marketplace, browse available plugins, and install them directly from the Codex interface.
+This plugin explains how to review and register the marketplace and how to choose qualified install commands. It does not install or execute anything automatically.
 
 ## Skills
 
@@ -12,16 +12,20 @@ This plugin exposes workflows to register the DS4CC marketplace, browse availabl
 
 ```bash
 # Register the marketplace
-codex plugin marketplace add https://github.com/VeigaPunk/ds4cc-marketplace.git
+codex plugin marketplace add VeigaPunk/ds4cc-marketplace
 
 # List available plugins
 codex plugin list
 
 # Install a plugin
-codex plugin add <plugin-name>
+codex plugin add <plugin-name>@ds4cc
 ```
 
 ## Links
 
 - Homepage: <https://veigapunk.github.io/ds4cc-marketplace/>
 - Repository: <https://github.com/VeigaPunk/ds4cc-marketplace>
+
+## License
+
+MIT. See [`LICENSE`](LICENSE).

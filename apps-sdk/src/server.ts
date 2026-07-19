@@ -31,14 +31,17 @@ const pluginSchema = z.object({
   category: z.string(),
   version: z.string(),
   capabilities: z.array(z.string()),
-  repositoryUrl: z.string(),
-  install: z.object({ codex: z.string(), copilot: z.string(), claude: z.string() }),
+  components: z.array(z.string()),
+  publisher: z.string(),
+  sourceUrl: z.string().url(),
+  reviewNotice: z.string(),
+  install: z.object({ codex: z.string() }),
 });
 
 export function createServer(): McpServer {
   const server = new McpServer(
     { name: "ds4cc-marketplace", version: "1.0.0" },
-    { instructions: "Use browse_ds4cc_marketplace to discover DS4CC plugins and installation commands. The catalog is public and read-only." },
+    { instructions: "Use browse_ds4cc_marketplace to discover the explicitly reviewed DS4CC catalog. The catalog is public and read-only. Install commands are optional copyable text only: require independent source, license, and capability review, never execute a command, and never claim installation occurred." },
   );
 
   registerAppResource(server, "DS4CC marketplace", WIDGET_URI, {}, async () => ({
@@ -52,14 +55,14 @@ export function createServer(): McpServer {
           prefersBorder: false,
           csp: { connectDomains: [], resourceDomains: [] },
         },
-        "openai/widgetDescription": "An interactive catalog of DS4CC agent plugins with installation commands.",
+        "openai/widgetDescription": "A read-only catalog of reviewed DS4CC plugins with sourced Codex commands and review guidance.",
       },
     }],
   }));
 
   registerAppTool(server, "browse_ds4cc_marketplace", {
     title: "Browse DS4CC Marketplace",
-    description: "Lists public DS4CC agent plugins and installation commands. Optionally filters by plugin name, description, category, or capability.",
+    description: "Lists explicitly reviewed public DS4CC plugins, provenance, capabilities, and optional copyable Codex command text. It never installs or executes software. Optionally filters by plugin name, description, category, or capability.",
     inputSchema: { query: z.string().trim().max(80).optional().describe("Optional catalog search text") },
     outputSchema: { plugins: z.array(pluginSchema), total: z.number().int().nonnegative(), query: z.string() },
     annotations: { readOnlyHint: true, openWorldHint: false, destructiveHint: false },
@@ -186,11 +189,11 @@ export function createApp(options: AppOptions = {}) {
     next();
   });
 
-  app.get("/", (_req, res) => res.type("html").send(page("DS4CC Marketplace", `<p>A public, read-only catalog of agent plugins for Codex, Claude Code, Copilot CLI, and OpenCode.</p><p>MCP endpoint: <code>${APP_ORIGIN}/mcp</code></p><p><a href="https://github.com/VeigaPunk/ds4cc-marketplace">Source and support</a></p>`)));
+  app.get("/", (_req, res) => res.type("html").send(page("DS4CC Marketplace", `<p>A public, read-only catalog of reviewed Codex plugins. Results include source provenance, publisher, capabilities, and commands; review every plugin before installation.</p><p>MCP endpoint: <code>${APP_ORIGIN}/mcp</code></p><nav><a href="/privacy">Privacy Policy</a> · <a href="/terms">Terms of Use</a> · <a href="/support">Support</a> · <a href="https://github.com/VeigaPunk/ds4cc-marketplace/tree/main/official/ds4cc">Public source</a></nav>`)));
   app.get("/health", (_req, res) => res.json({ status: "ok", service: "ds4cc-marketplace", version: "1.0.0" }));
-  app.get("/privacy", (_req, res) => res.type("html").send(page("Privacy Policy", "<p>DS4CC Marketplace does not require accounts, store user data, or use tracking cookies. Tool calls receive only the optional catalog search text and return public repository metadata. Standard infrastructure logs may retain request timing, status, and network metadata for security and reliability.</p>")));
-  app.get("/terms", (_req, res) => res.type("html").send(page("Terms of Use", "<p>The catalog is provided as-is. Review plugin source and permissions before installation. DS4CC does not execute installations or modify user systems through this app.</p>")));
-  app.get("/support", (_req, res) => res.redirect(302, "https://github.com/VeigaPunk/ds4cc-marketplace/issues"));
+  app.get("/privacy", (_req, res) => res.type("html").send(page("Privacy Policy", `<p><strong>Effective date: July 19, 2026.</strong></p><h2>Data and purpose</h2><p>No account is required. The app receives an optional catalog search query to filter public repository metadata. Raw search queries are processed in memory and are not persisted by the app. We do not use advertising trackers or tracking cookies.</p><p>Hosting infrastructure may process IP address, request time, route, response status, user agent, and security diagnostics to deliver, secure, and troubleshoot the service. The app operator does not intentionally retain or export application-level diagnostic records for more than 30 days. Infrastructure providers may keep their own security and access records under their published retention rules or narrowly required legal preservation.</p><h2>Recipients</h2><p>Recipient categories are infrastructure service providers that host and protect the app, and OpenAI when a user invokes the app through an OpenAI product. Public GitHub content is fetched from the deployed repository copy; GitHub receives a request only if a user follows a source or support link. We do not sell personal data.</p><h2>Controls and contact</h2><p>Do not include personal or confidential information in a query. Because the app does not persist raw queries or maintain accounts, it usually has no query record to access or delete. For access, deletion, objection, or privacy questions concerning limited infrastructure records, open a <a href="https://github.com/VeigaPunk/ds4cc-marketplace/issues/new">GitHub issue</a> without posting sensitive data; request a private follow-up through the maintainer's <a href="https://github.com/VeigaPunk">GitHub profile</a>. Provider-level controls remain available through the platform used to invoke the app.</p>`)));
+  app.get("/terms", (_req, res) => res.type("html").send(page("Terms of Use", `<p><strong>Effective date: July 19, 2026.</strong> The app provides a read-only index of public developer materials and does not install, execute, authenticate to, or modify software or systems.</p><p>Optional install commands are copyable text only and require independent review before a user chooses to run them. Review each plugin's source, license, capabilities, dependencies, and commands. You are responsible for deciding whether third-party material is appropriate and for complying with its separate terms and licenses. Catalog inclusion is not a security warranty or endorsement.</p><p>The service and metadata are provided “as is” without warranties. To the extent permitted by law, the publisher is not liable for indirect or consequential loss arising from use of the catalog or independently installed plugins. Do not misuse the service, interfere with its operation, or submit personal, confidential, or unlawful content.</p><p>These terms may change for operational or legal reasons; the effective date will be updated. See <a href="/support">Support</a> for questions.</p>`)));
+  app.get("/support", (_req, res) => res.type("html").send(page("Support", `<p>For bugs, catalog corrections, security concerns, or privacy requests, <a href="https://github.com/VeigaPunk/ds4cc-marketplace/issues/new">open a new repository issue</a>. A GitHub account is required to create an issue. Do not post secrets or sensitive personal data.</p><p>If you cannot create an issue, review existing reports on the public <a href="https://github.com/VeigaPunk/ds4cc-marketplace/issues">repository issue list</a>. This is a visibility fallback, not anonymous contact; the OpenAI portal may still require a separate anonymous support channel. No support email is represented by this project.</p><p>Include the app route, approximate time, expected behavior, and a redacted reproduction. Support is best-effort and no response time is guaranteed.</p>`)));
   app.get("/.well-known/openai-apps-challenge", (_req, res) => {
     const token = process.env.OPENAI_APPS_CHALLENGE;
     if (!token) return res.status(404).type("text").send("Not configured");

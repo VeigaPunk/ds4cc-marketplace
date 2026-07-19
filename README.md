@@ -5,23 +5,24 @@ Static plugin payloads for Codex, GitHub Copilot CLI, and Claude Code. OpenCode 
 - Marketplace JSON: `marketplace/marketplace.json`
 - Plugin assets: `marketplace/plugins/<name>/`
 - Validator: `marketplace/validator/` (Rust, `cargo test`)
+- Curation and claim policy: [`CURATION.md`](CURATION.md)
 
 ## Add this marketplace to Codex
 
 ```bash
-codex plugin marketplace add https://github.com/VeigaPunk/ds4cc-marketplace.git
+codex plugin marketplace add VeigaPunk/ds4cc-marketplace
 ```
 
 Or local dev:
 
 ```bash
-codex plugin marketplace add "file://$(pwd)/marketplace/marketplace.json"
+codex plugin marketplace add .
 ```
 
 Install `myagents` after adding the marketplace:
 
 ```bash
-codex plugin add myagents
+codex plugin add myagents@ds4cc
 ```
 
 ## GitHub Copilot CLI
@@ -55,7 +56,7 @@ Profiles use `xask --spark --gs codex` for cross-model delegation. `xask` is an 
 
 ## OpenAI Apps SDK
 
-The read-only Apps SDK wrapper in `apps-sdk/` exposes the marketplace through a production MCP endpoint and embedded catalog widget. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
+The read-only Apps SDK wrapper in `apps-sdk/` exposes only an explicitly reviewed subset through a production MCP endpoint and embedded catalog widget. It is not the public 12-plugin marketplace. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
 
 ```bash
 cd apps-sdk
@@ -87,7 +88,7 @@ Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `a
 
 ```bash
 codex plugin list
-codex plugin add <plugin-name>
+codex plugin add <plugin-name>@ds4cc
 ```
 
 ## Validate the marketplace locally
@@ -99,7 +100,7 @@ cargo run --manifest-path marketplace/validator/Cargo.toml -- marketplace
 # Rust integration tests (includes std::process-based isolated Codex CLI test)
 cargo test --manifest-path marketplace/validator/Cargo.toml
 
-# npm-free agent and cross-platform manifest checks
+# npm-free agent and multi-format manifest checks
 node scripts/validate-agent-payloads.mjs
 node scripts/check-opencode-install.mjs
 
@@ -149,3 +150,17 @@ A `SKILL.md` is **actionable** if its body (after frontmatter) contains at least
 - A fenced code block (` ``` `)
 - A `$`-prefixed line
 - A known CLI prefix: `codex `, `cargo `, `node `, `bash `, `./`, `npx `
+
+## Official OpenAI submission bundle
+
+The OpenAI submission is the isolated source tree at `official/ds4cc/`, not the public plugin at `marketplace/plugins/ds4cc/` and not the public 12-plugin marketplace. Its skill uses only the read-only `browse_ds4cc_marketplace` MCP tool and reviewed results. Build the deterministic, path-safe archive locally:
+
+```bash
+python3 scripts/build-ds4cc-submission.py
+```
+
+The ignored output is `artifacts/ds4cc-openai-submission.zip`. The builder accepts exactly the reviewed files in `official/ds4cc/`, including its LICENSE; it rejects extras, links, unsafe names, and traversal, and writes deterministic regular mode-0644 entries. The portal MCP URL is entered separately as `https://app.ds4cc.com/mcp`. The public plugin remains functional documentation for registering and using the full developer marketplace, but it is never bundled for official review.
+
+## Licensing
+
+Repository-owned code and documentation are available under the root MIT License. Bundled or referenced third-party material remains under its own license; the root license does not relicense it. Aaronplug's included license and manifest identify the Unlicense.

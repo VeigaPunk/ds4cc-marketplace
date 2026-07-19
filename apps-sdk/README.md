@@ -1,6 +1,6 @@
 # DS4CC Apps SDK wrapper
 
-Read-only MCP app and widget for browsing the DS4CC plugin catalog in ChatGPT and Codex.
+Read-only MCP app and widget for browsing an explicitly reviewed subset of the DS4CC Codex plugin catalog. The separate public Git marketplace retains all 12 plugins.
 
 ## Local development
 
@@ -31,3 +31,17 @@ Required public URLs:
 No OAuth is required because the app exposes only public, read-only repository metadata.
 
 The submission logo is available as `assets/logo.svg` and `assets/logo-512.png`; both are square and contain the same artwork.
+
+## Production smoke check
+
+After DNS, TLS, deployment, and the portal challenge are configured, read the token without terminal echo or command history and keep it in the same shell:
+
+```bash
+read -rsp "Challenge token: " EXPECTED_CHALLENGE
+printf '\n'
+export EXPECTED_CHALLENGE
+../scripts/smoke-deployment.sh https://app.ds4cc.com
+unset EXPECTED_CHALLENGE
+```
+
+The script does not print the token. In production, set `OPENAI_APPS_CHALLENGE` with the hosting platform's secret manager, never a literal command-line assignment. The smoke check covers DNS, HTTPS, health, website/legal/support routes, challenge exactness, MCP initialize, tool listing, tool call, and widget resource reads. See `SUBMISSION.md` for the complete portal packet and external gates.

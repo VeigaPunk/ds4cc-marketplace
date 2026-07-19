@@ -1,9 +1,12 @@
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import assert from "node:assert/strict";
+import { readFileSync, statSync } from "node:fs";
 import type { Server } from "node:http";
+import { resolve } from "node:path";
 import { afterEach, test } from "node:test";
 import { cleanupMcpSession, createApp } from "./server.js";
+import { loadCatalog, REVIEWED_PLUGIN_ALLOWLIST } from "./catalog.js";
 
 const servers: Server[] = [];
 
@@ -76,6 +79,110 @@ test("serves health and public policy routes", async () => {
   assert.equal((await fetch(`${baseUrl}/mcp`)).status, 400);
 });
 
+test("privacy, terms, support, and website contain submission-required disclosures", async () => {
+  const { baseUrl } = await startApp();
+  const privacy = await (await fetch(`${baseUrl}/privacy`)).text();
+  for (const statement of [
+    "No account is required.",
+    "Raw search queries are processed in memory and are not persisted by the app.",
+    "We do not use advertising trackers or tracking cookies.",
+    "The app operator does not intentionally retain or export application-level diagnostic records for more than 30 days.",
+    "Recipient categories are infrastructure service providers that host and protect the app, and OpenAI when a user invokes the app through an OpenAI product.",
+    "We do not sell personal data.",
+    "For access, deletion, objection, or privacy questions",
+  ]) assert.ok(privacy.includes(statement), statement);
+  for (const contradiction of [/an account is required/i, /raw search queries are persisted/i, /we (?:may|do) (?:use )?(?:advertising )?trackers/i, /we (?:may|do) sell personal data/i, /retain.+indefinitely/i]) assert.doesNotMatch(privacy, contradiction);
+  const terms = await (await fetch(`${baseUrl}/terms`)).text();
+  assert.ok(terms.includes("The app provides a read-only index of public developer materials and does not install, execute, authenticate to, or modify software or systems."));
+  assert.ok(terms.includes("Optional install commands are copyable text only and require independent review before a user chooses to run them."));
+  assert.ok(terms.includes("Catalog inclusion is not a security warranty or endorsement."));
+  assert.ok(terms.includes("The service and metadata are provided “as is” without warranties."));
+  for (const contradiction of [/(?:app|tool) (?:can|will) (?:install|execute|modify)/i, /catalog inclusion is (?:a|our) (?:security )?warranty/i, /service and metadata are warranted/i]) assert.doesNotMatch(terms, contradiction);
+  const support = await fetch(`${baseUrl}/support`, { redirect: "manual" });
+  assert.equal(support.status, 200);
+  const supportText = await support.text();
+  assert.ok(supportText.includes("https://github.com/VeigaPunk/ds4cc-marketplace/issues/new"));
+  assert.ok(supportText.includes("https://github.com/VeigaPunk/ds4cc-marketplace/issues"));
+  assert.match(supportText, /GitHub account is required/i);
+  const website = await (await fetch(`${baseUrl}/`)).text();
+  assert.match(website, /Privacy Policy/);
+  assert.match(website, /Terms of Use/);
+  assert.match(website, /Support/);
+  assert.ok(website.includes('href="https://github.com/VeigaPunk/ds4cc-marketplace/tree/main/official/ds4cc">Public source</a>'));
+});
+
+test("official package uses only supported interface manifest fields and valid paths", () => {
+  const officialRoot = resolve(process.cwd(), "../official/ds4cc");
+  const manifest = JSON.parse(readFileSync(resolve(officialRoot, ".codex-plugin/plugin.json"), "utf8")) as Record<string, unknown>;
+  assert.deepEqual(Object.keys(manifest).sort(), ["name", "version", "description", "author", "skills", "interface", "homepage", "repository", "license", "keywords"].sort());
+  for (const unsupported of ["displayName", "shortDescription", "longDescription", "developerName", "category", "capabilities", "websiteURL", "privacyPolicyURL", "termsOfServiceURL", "defaultPrompt", "brandColor", "composerIcon", "logo", "icon", "legal"]) {
+    assert.equal(Object.hasOwn(manifest, unsupported), false, `${unsupported} must not be top-level`);
+  }
+  const pluginInterface = manifest.interface as Record<string, unknown>;
+  assert.deepEqual(Object.keys(pluginInterface).sort(), ["displayName", "shortDescription", "longDescription", "developerName", "category", "capabilities", "websiteURL", "privacyPolicyURL", "termsOfServiceURL", "defaultPrompt", "brandColor", "composerIcon", "logo"].sort());
+  assert.equal(pluginInterface.websiteURL, "https://app.ds4cc.com/");
+  assert.equal(pluginInterface.privacyPolicyURL, "https://app.ds4cc.com/privacy");
+  assert.equal(pluginInterface.termsOfServiceURL, "https://app.ds4cc.com/terms");
+  assert.equal(manifest.homepage, "https://app.ds4cc.com/");
+  assert.equal(manifest.repository, "https://github.com/VeigaPunk/ds4cc-marketplace/tree/main/official/ds4cc");
+  assert.equal(manifest.skills, "./skills/");
+  assert.equal(pluginInterface.composerIcon, "./assets/logo.svg");
+  assert.equal(pluginInterface.logo, "./assets/logo-512.png");
+  for (const relative of [manifest.skills, pluginInterface.composerIcon, pluginInterface.logo]) {
+    assert.equal(typeof relative, "string");
+    const target = statSync(resolve(officialRoot, relative as string));
+    assert.ok(target.isFile() || target.isDirectory());
+  }
+});
+
+test("public marketplace remains exactly 12 source-bound plugins", () => {
+  for (const file of ["marketplace/marketplace.json", ".agents/plugins/marketplace.json"]) {
+    const manifest = JSON.parse(readFileSync(resolve(process.cwd(), "..", file), "utf8")) as { plugins: Array<{ name: string; source: { path: string } }> };
+    assert.equal(manifest.plugins.length, 12, file);
+    assert.equal(new Set(manifest.plugins.map((plugin) => plugin.name)).size, 12, file);
+    for (const plugin of manifest.plugins) assert.ok(plugin.source.path.endsWith(`/plugins/${plugin.name}`), `${file}: ${plugin.name}`);
+  }
+  const pluginRoot = resolve(process.cwd(), "../marketplace/plugins/ds4cc");
+  const plugin = JSON.parse(readFileSync(resolve(pluginRoot, ".codex-plugin/plugin.json"), "utf8")) as Record<string, unknown>;
+  for (const unsupported of ["icon", "legal", "logo"]) assert.equal(Object.hasOwn(plugin, unsupported), false);
+  const pluginInterface = plugin.interface as Record<string, unknown>;
+  assert.equal(pluginInterface.privacyPolicyURL, "https://app.ds4cc.com/privacy");
+  assert.equal(pluginInterface.termsOfServiceURL, "https://app.ds4cc.com/terms");
+  for (const relative of [pluginInterface.composerIcon, pluginInterface.logo]) assert.ok(statSync(resolve(pluginRoot, relative as string)).isFile());
+});
+
+test("official catalog uses a reviewed allowlist and truthful sourced Codex commands", () => {
+  const catalog = loadCatalog();
+  const names = new Set(catalog.map((plugin) => plugin.name));
+  for (const excluded of ["aaronplug", "spoderman", "xbrd-gdsp-fknpft", "the-puppeteer", "godspeed-codex-command", "godspeed-core"]) {
+    assert.equal(names.has(excluded), false, `${excluded} must not be exposed by the submitted app`);
+  }
+  assert.deepEqual([...names].sort(), ["agent-wall", "ds4cc", "infinizoom", "mycommands", "myskills"]);
+  assert.deepEqual([...REVIEWED_PLUGIN_ALLOWLIST].sort(), [...names].sort());
+  for (const plugin of catalog) {
+    const marketplace = JSON.parse(readFileSync(resolve(process.cwd(), "../marketplace/marketplace.json"), "utf8")) as { plugins: Array<{ name: string; category: string }> };
+    const sourceEntry = marketplace.plugins.find((entry) => entry.name === plugin.name);
+    const manifest = JSON.parse(readFileSync(resolve(process.cwd(), `../marketplace/plugins/${plugin.name}/.codex-plugin/plugin.json`), "utf8")) as { name: string; version: string; interface: { displayName: string; category: string; capabilities: string[] } };
+    assert.equal(manifest.name, plugin.name);
+    assert.equal(plugin.version, manifest.version);
+    assert.equal(plugin.displayName, manifest.interface.displayName);
+    assert.equal(plugin.category, manifest.interface.category);
+    assert.equal(sourceEntry?.category, manifest.interface.category);
+    assert.deepEqual(plugin.capabilities, manifest.interface.capabilities);
+    assert(plugin.capabilities.length > 0);
+    assert.equal(plugin.install.codex, `codex plugin add ${plugin.name}@ds4cc`);
+    assert.equal(Object.hasOwn(plugin.install, "copilot"), false);
+    assert.equal(Object.hasOwn(plugin.install, "claude"), false);
+    assert.equal(plugin.publisher, "VeigaPunk");
+    const expectedSource = plugin.name === "ds4cc"
+      ? "https://github.com/VeigaPunk/ds4cc-marketplace/tree/main/official/ds4cc"
+      : `https://github.com/VeigaPunk/ds4cc-marketplace/tree/main/marketplace/plugins/${plugin.name}`;
+    assert.equal(plugin.sourceUrl, expectedSource);
+    assert.equal(plugin.reviewNotice, "Optional install commands are copyable text only. Independently review the source, license, and capabilities before running one; this app never executes commands.");
+    assert(plugin.components.length > 0);
+  }
+});
+
 test("serves the exact configured domain-verification token without caching", async () => {
   const previousToken = process.env.OPENAI_APPS_CHALLENGE;
   process.env.OPENAI_APPS_CHALLENGE = "portal-verification-token";
@@ -107,11 +214,22 @@ test("exposes a read-only Apps SDK catalog and widget", async () => {
     const uiMeta = tool._meta?.ui as { resourceUri?: string } | undefined;
     assert.equal(uiMeta?.resourceUri, "ui://ds4cc/marketplace-v1.html");
 
-    const result = await client.callTool({ name: tool.name, arguments: { query: "agents" } });
-    assert.equal(result.isError, undefined);
-    const structured = result.structuredContent as { plugins: Array<{ name: string }>; total: number };
-    assert(structured.total > 0);
-    assert(structured.plugins.some((plugin) => plugin.name === "myagents"));
+    const excludedNames = ["aaronplug", "spoderman", "xbrd-gdsp-fknpft", "the-puppeteer", "godspeed-codex-command", "godspeed-core", "myagents"];
+    for (const arguments_ of [{}, { query: "" }, { query: "   " }]) {
+      const result = await client.callTool({ name: tool.name, arguments: arguments_ });
+      assert.equal(result.isError, undefined);
+      const structured = result.structuredContent as { plugins: Array<{ name: string }>; total: number };
+      assert.equal(structured.total, 5);
+      assert.deepEqual(structured.plugins.map((plugin) => plugin.name).sort(), [...REVIEWED_PLUGIN_ALLOWLIST].sort());
+      const serialized = JSON.stringify(result).toLowerCase();
+      for (const excluded of excludedNames) assert.equal(serialized.includes(excluded), false, `${excluded} leaked from empty query`);
+    }
+    for (const excluded of excludedNames) {
+      const targeted = await client.callTool({ name: tool.name, arguments: { query: excluded } });
+      const targetedContent = targeted.structuredContent as { plugins: Array<{ name: string }> };
+      assert.equal(targetedContent.plugins.some((plugin) => plugin.name === excluded), false, excluded);
+      assert.equal(JSON.stringify(targetedContent.plugins).toLowerCase().includes(excluded), false, `${excluded} leaked from targeted result entries`);
+    }
 
     const resource = await client.readResource({ uri: "ui://ds4cc/marketplace-v1.html" });
     assert.equal(resource.contents[0].mimeType, "text/html;profile=mcp-app");

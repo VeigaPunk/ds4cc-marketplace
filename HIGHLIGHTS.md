@@ -1,6 +1,6 @@
 # DS4CC Marketplace — Technical Highlights
 
-> **ELI5 framing**: A Codex plugin marketplace is like an app store baked into your CLI. Instead of installing tools manually, you register a URL and `codex plugin add <name>` pulls down the right files, descriptions, and skill scripts so the AI knows what your tools can actually do. This repo _is_ that store — curated, validated, and Rust-enforced.
+> **ELI5 framing**: A Codex plugin marketplace is like an app store baked into your CLI. Instead of installing tools manually, you register a repository and `codex plugin add <name>@ds4cc` pulls down the selected files, descriptions, and skill scripts so the AI knows what your tools can do. This repo is that public developer marketplace.
 
 ---
 
@@ -33,7 +33,7 @@ Every plugin now ships a `SKILL.md` with real, copy-pasteable commands. Validati
 | `mycommands` | Reusable shell command packs | `codex exec "/my-command-name"` |
 | `myskills` | Discoverable Codex skill workflows | `codex exec "/skill-name <args>"` |
 | `agent-wall` | Handoff checkpoints between sessions | `codex exec "Create an agent-wall checkpoint..."` |
-| `ds4cc` | Meta-plugin: browse/install this marketplace | `codex plugin marketplace add https://github.com/VeigaPunk/ds4cc-marketplace.git` |
+| `ds4cc` | Meta-plugin: browse/install this marketplace | `codex plugin marketplace add VeigaPunk/ds4cc-marketplace` |
 
 ---
 
@@ -160,7 +160,7 @@ The validator's `validate_marketplace_dir(root)` auto-detects which layout is pr
 
 ```bash
 # Register the ds4cc marketplace
-codex plugin marketplace add /home/vhpnk/repos/ds4cc-marketplace
+codex plugin marketplace add .
 # → Added marketplace `ds4cc` from /home/vhpnk/repos/ds4cc-marketplace.
 
 # Install all 12 plugins
@@ -214,20 +214,20 @@ ds4cc-marketplace/
 
 All functional work is complete. The validator, manifests, SKILL.md files, and marketplace.json are all verified.
 
-### Gap: ds4cc-marketplace not yet registered as active marketplace
+### Local registration
 
-The user's active Codex marketplace (`~/.agents/plugins/marketplace.json`) is a separate file from this repo's `marketplace/marketplace.json`. The 5 new plugins (myagents, mycommands, myskills, agent-wall, ds4cc) are registered in _this repo's_ marketplace.json but are not yet in the active personal marketplace or installed locally. To activate them:
+Codex registration uses the repository root, where `.agents/plugins/marketplace.json` lives. From a clone:
 
 ```bash
-# Register this repo's marketplace as a local source
-codex plugin marketplace add file://$(realpath marketplace/marketplace.json)
+# Register this repository root as a local source
+codex plugin marketplace add .
 
 # Then install individual plugins
-codex plugin add myagents
-codex plugin add mycommands
-codex plugin add myskills
-codex plugin add agent-wall
-codex plugin add ds4cc
+codex plugin add myagents@ds4cc
+codex plugin add mycommands@ds4cc
+codex plugin add myskills@ds4cc
+codex plugin add agent-wall@ds4cc
+codex plugin add ds4cc@ds4cc
 ```
 
 ### Gap: FNM isolation scoped to version probe only

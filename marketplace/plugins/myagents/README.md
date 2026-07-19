@@ -5,8 +5,8 @@ Curated agent profiles for Codex, GitHub Copilot CLI, Claude Code, and OpenCode.
 ## Codex
 
 ```bash
-codex plugin marketplace add https://github.com/VeigaPunk/ds4cc-marketplace.git
-codex plugin add myagents
+codex plugin marketplace add VeigaPunk/ds4cc-marketplace
+codex plugin add myagents@ds4cc
 ```
 
 ## Copilot CLI

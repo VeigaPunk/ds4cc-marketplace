@@ -1,29 +1,36 @@
 {
   "name": "ds4cc",
   "version": "0.1.0",
-  "description": "DS4CC Codex Marketplace meta-plugin: discover, install, and manage VeigaPunk plugins.",
+  "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Codex after source review.",
   "author": {
     "name": "VeigaPunk"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "DS4CC Marketplace",
-    "shortDescription": "Browse and install DS4CC plugins via Codex",
-    "longDescription": "Meta-plugin for the DS4CC personal Codex marketplace. Exposes workflows to add the marketplace, list available plugins, and install individual plugins without leaving the Codex interface.",
+    "shortDescription": "Review DS4CC plugins and Codex install steps",
+    "longDescription": "Documentation-only skill for reviewing the public DS4CC marketplace, registering its Git repository with Codex, and choosing qualified plugin install commands. It never installs or executes software automatically.",
     "developerName": "VeigaPunk",
     "category": "Developer",
     "capabilities": [
-      "Marketplace Discovery",
-      "Plugin Installation",
-      "Plugin Management"
+      "Marketplace discovery",
+      "Codex installation guidance",
+      "Source review guidance"
     ],
+    "websiteURL": "https://veigapunk.github.io/ds4cc-marketplace/",
+    "privacyPolicyURL": "https://app.ds4cc.com/privacy",
+    "termsOfServiceURL": "https://app.ds4cc.com/terms",
     "defaultPrompt": [
-      "Add the DS4CC marketplace to Codex.",
-      "List all available DS4CC plugins.",
-      "Install a specific DS4CC plugin."
-    ]
+      "Show me how to add the DS4CC marketplace to Codex.",
+      "List the reviewed DS4CC plugins and their capabilities.",
+      "Show the Codex command for a DS4CC plugin without running it."
+    ],
+    "brandColor": "#A7F26B",
+    "composerIcon": "./assets/logo.svg",
+    "logo": "./assets/logo-512.png"
   },
   "homepage": "https://veigapunk.github.io/ds4cc-marketplace/",
   "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
-  "license": "MIT"
+  "license": "MIT",
+  "keywords": ["codex", "plugins", "marketplace", "developer-tools", "skills"]
 }
