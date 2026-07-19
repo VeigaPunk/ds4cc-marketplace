@@ -3,7 +3,7 @@ import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/
 import assert from "node:assert/strict";
 import type { Server } from "node:http";
 import { afterEach, test } from "node:test";
-import { createApp } from "./server.js";
+import { cleanupMcpSession, createApp } from "./server.js";
 
 const servers: Server[] = [];
 
@@ -14,6 +14,30 @@ afterEach(async () => {
 });
 
 type AppOptions = Parameters<typeof createApp>[0];
+
+test("MCP session cleanup deletes, detaches, and closes exactly once", () => {
+  let cancelCalls = 0;
+  let closeCalls = 0;
+  const transport = { onclose: () => {} };
+  const session = {
+    id: "stale-session",
+    server: { close: async () => { closeCalls += 1; } },
+    transport,
+    lastActivityAt: 0,
+    activeRequests: 0,
+    idleCleanup: { cancel: () => { cancelCalls += 1; } },
+    closed: false,
+  };
+  const sessions = new Map([[session.id, session]]);
+
+  cleanupMcpSession(sessions, session);
+  cleanupMcpSession(sessions, session);
+
+  assert.equal(sessions.has(session.id), false);
+  assert.equal(transport.onclose, undefined);
+  assert.equal(cancelCalls, 1);
+  assert.equal(closeCalls, 1);
+});
 
 async function startApp(options?: AppOptions): Promise<{ baseUrl: string }> {
   const server = createApp(options).listen(0, "127.0.0.1");

@@ -5,7 +5,27 @@
 set -euo pipefail
 
 VERSION="1.1.0"
-SCRIPT_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+
+canonical_path() {
+  local target=$1 link dir resolved
+  if command -v readlink >/dev/null 2>&1; then
+    if resolved=$(readlink -f -- "$target" 2>/dev/null) && [[ -n "$resolved" ]]; then
+      printf '%s\n' "$resolved"
+      return
+    fi
+  fi
+  [[ "$target" == /* ]] || target="$PWD/$target"
+  while [[ -L "$target" ]]; do
+    dir=$(CDPATH= cd -P -- "$(dirname -- "$target")" && pwd)
+    link=$(readlink -- "$target")
+    [[ "$link" == /* ]] && target=$link || target="$dir/$link"
+  done
+  dir=$(CDPATH= cd -P -- "$(dirname -- "$target")" && pwd)
+  printf '%s/%s\n' "$dir" "$(basename -- "$target")"
+}
+
+SCRIPT_PATH=$(canonical_path "$0")
+SCRIPT_DIR=${SCRIPT_PATH%/*}
 CHITCHAT_CDP_HOST="${CHITCHAT_CDP_HOST:-127.0.0.1}"
 CHITCHAT_CDP_PORT="${CHITCHAT_CDP_PORT:-9222}"
 CHITCHAT_CDP_PROFILE="${CHITCHAT_CDP_PROFILE:-$HOME/.local/share/ds4cc/chromium-cdp}"
@@ -30,6 +50,12 @@ die() { printf 'chitchat: %s\n' "$*" >&2; exit 1; }
 
 [[ "$CHITCHAT_CDP_PORT" =~ ^[0-9]{1,5}$ ]] || die "CHITCHAT_CDP_PORT must be numeric"
 (( CHITCHAT_CDP_PORT >= 1 && CHITCHAT_CDP_PORT <= 65535 )) || die "CHITCHAT_CDP_PORT must be between 1 and 65535"
+case "$CHITCHAT_CDP_HOST" in
+  127.0.0.1|localhost|'[::1]') ;;
+  *) [[ "${CHITCHAT_DANGEROUS_ALLOW_REMOTE_CDP:-}" == 1 ]] || \
+    die "CHITCHAT_CDP_HOST must be loopback (127.0.0.1, localhost, or [::1]); set CHITCHAT_DANGEROUS_ALLOW_REMOTE_CDP=1 to override" ;;
+esac
+CHITCHAT_CDP_ENDPOINT="http://${CHITCHAT_CDP_HOST}:${CHITCHAT_CDP_PORT}"
 
 MODEL=""
 TOOL=""
@@ -78,7 +104,7 @@ case "$MODEL" in
 esac
 
 cdp_ready() {
-  curl --silent --fail --max-time 2 "http://${CHITCHAT_CDP_HOST}:${CHITCHAT_CDP_PORT}/json/version" >/dev/null 2>&1
+  curl --silent --fail --max-time 2 "${CHITCHAT_CDP_ENDPOINT}/json/version" >/dev/null 2>&1
 }
 
 ensure_chrome_cdp() {
@@ -89,7 +115,7 @@ ensure_chrome_cdp() {
   elif [[ -n "${WSL_DISTRO_NAME:-}" ]] || command -v cmd.exe >/dev/null 2>&1; then
     local chrome='C:\Program Files\Google\Chrome Dev\Application\chrome.exe'
     cmd.exe /C start "" "$chrome" --remote-debugging-port="$CHITCHAT_CDP_PORT" \
-      --user-data-dir=C:\ChromeAutomation --no-first-run --no-default-browser-check >/dev/null 2>&1
+      '--user-data-dir=C:\ChromeAutomation' --no-first-run --no-default-browser-check >/dev/null 2>&1
   else
     printf 'CDP is unavailable at %s:%s. Start a dedicated browser:\n' "$CHITCHAT_CDP_HOST" "$CHITCHAT_CDP_PORT" >&2
     printf '  %q --remote-debugging-address=%q --remote-debugging-port=%q --user-data-dir=%q --no-first-run --no-default-browser-check\n' \
@@ -107,7 +133,7 @@ ensure_chrome_cdp() {
 }
 
 ensure_chrome_cdp
-AGENT_BROWSER=(agent-browser --cdp "$CHITCHAT_CDP_PORT")
+AGENT_BROWSER=(agent-browser --cdp "$CHITCHAT_CDP_ENDPOINT")
 echo "→ Firing prompt into ChatGPT${MODEL:+ (model=$MODEL)}${TOOL:+ (tool=$TOOL)}..."
 
 CHATGPT_IDX=$("${AGENT_BROWSER[@]}" tab list 2>&1 | grep -E '\[t[0-9]+\][[:space:]].*https?://chatgpt\.com' | grep -oE 't[0-9]+' | sed -n '1p' || true)

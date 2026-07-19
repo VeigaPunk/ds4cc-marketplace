@@ -65,8 +65,9 @@ cd ~/projects/the-puppeteer
 
 The installer:
 - Installs `agent-browser` globally via npm (if missing)
-- Symlinks `chitchat` into `~/.local/bin/`
+- Installs `chitchat` and `chitchat-batch.mjs` together under `~/.local/lib/ds4cc/the-puppeteer/`, then symlinks the CLI into `~/.local/bin/`
 - Symlinks the Claude agent into `~/.claude/agents/`
+- On native Linux with systemd and packaged Chromium, renders and enables the hardened `ds4cc-cdp.service`; WSL skips this step
 
 ## Launch a dedicated browser with CDP (one-time)
 
@@ -74,14 +75,24 @@ The installer:
 
 ### Arch Linux / native Linux
 
-Configure `CHITCHAT_CHROME_BIN`, `CHITCHAT_CDP_HOST`, `CHITCHAT_CDP_PORT`, and `CHITCHAT_CDP_PROFILE`; `chitchat` prints the exact native launch command when CDP is absent. Keep the browser running through your desktop autostart or your own user service, then verify it with `curl --fail http://127.0.0.1:9222/json/version`. Sign in once through the dedicated visible browser profile.
+The installer provisions `ds4cc-cdp.service` with a direct packaged Chromium binary, extensions disabled, an isolated profile, and loopback-only CDP. Verify it with `systemctl --user status ds4cc-cdp.service` and `curl --fail http://127.0.0.1:9222/json/version`. Sign in once through the dedicated visible browser profile.
+
+To remove exactly the installed unit:
+
+```bash
+systemctl --user disable --now ds4cc-cdp.service
+rm -f ~/.config/systemd/user/ds4cc-cdp.service
+systemctl --user daemon-reload
+```
+
+`./uninstall.sh` performs those commands and removes the installed CLI/helper and agent link. It deliberately preserves the browser profile under `~/.local/share/ds4cc/chromium-cdp`.
 
 ### WSL / Windows
 
 1. Close any running Chrome Dev instance — including tray-resident background processes. Check Task Manager or right-click any Chrome Dev tray icon and Exit. (If the previous instance was launched without CDP flags, new launches inherit its empty flag set.)
 2. Relaunch Chrome Dev with the flags below. On Windows, edit a shortcut's target to:
    ```
-   "C:\Program Files\Google\Chrome Dev\Application\chrome.exe" --user-data-dir=C:\ChromeAutomation --remote-debugging-port=9222 --no-first-run --no-default-browser-check
+   "C:\Program Files\Google\Chrome Dev\Application\chrome.exe" "--user-data-dir=C:\ChromeAutomation" --remote-debugging-port=9222 --no-first-run --no-default-browser-check
    ```
 3. Sign into `chatgpt.com` with your Plus/Pro account. Pick your default model (e.g. GPT-5.4-Pro extended thinking, or GPT-5.4 thinking + Deep Research) in web-UI settings — `chitchat` never touches the model picker.
 4. From WSL, verify the port is reachable:
@@ -98,6 +109,8 @@ This Chrome Dev install is dedicated to automation — sign into any other web s
 - `chitchat` — the CLI executable.
 - `the-puppeteer.md` — Claude Code agent spec.
 - `install.sh` — idempotent installer.
+- `uninstall.sh` — exact user-level removal.
+- `ds4cc-cdp.service` — hardened native-Linux user-unit template rendered by the installer.
 
 ## Known limits
 
@@ -113,4 +126,4 @@ See `SETUP.md` for the original WSL2 + Windows bootstrap details. Native Linux f
 
 ## Security
 
-The dedicated profile holds your authenticated browser session. CDP grants full browser control: bind it only to `127.0.0.1`, use an isolated profile, and do not share the machine account. Prompt payloads are sent to `agent-browser batch` over stdin rather than exposed in child-process arguments.
+The dedicated profile holds your authenticated browser session. CDP grants full browser control: bind it only to loopback, use an isolated profile, and do not share the machine account. `CHITCHAT_CDP_HOST` accepts only `127.0.0.1`, `localhost`, or `[::1]` by default. The explicit `CHITCHAT_DANGEROUS_ALLOW_REMOTE_CDP=1` override is dangerous and should not be used with an authenticated profile. Prompt payloads are sent to `agent-browser batch` over stdin rather than exposed in child-process arguments.

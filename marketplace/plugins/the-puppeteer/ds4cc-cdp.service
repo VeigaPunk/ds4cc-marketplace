@@ -1,0 +1,33 @@
+[Unit]
+Description=DS4CC isolated Chromium CDP endpoint
+After=graphical-session.target
+PartOf=graphical-session.target
+
+[Service]
+Type=simple
+ExecStart=@CHROMIUM_BINARY@ --user-data-dir=%h/.local/share/ds4cc/chromium-cdp --remote-debugging-address=127.0.0.1 --remote-debugging-port=9222 --disable-extensions --password-store=basic --no-first-run --no-default-browser-check about:blank
+Restart=always
+RestartSec=2
+NoNewPrivileges=yes
+CapabilityBoundingSet=
+AmbientCapabilities=
+UMask=0077
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=%h/.local/share/ds4cc/chromium-cdp
+LockPersonality=yes
+RestrictSUIDSGID=yes
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+KeyringMode=private
+ProtectClock=yes
+ProtectControlGroups=yes
+ProtectHostname=yes
+ProtectKernelLogs=yes
+ProtectKernelModules=yes
+ProtectKernelTunables=yes
+RestrictRealtime=yes
+SystemCallArchitectures=native
+
+[Install]
+WantedBy=default.target

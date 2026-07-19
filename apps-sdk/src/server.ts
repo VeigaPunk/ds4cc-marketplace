@@ -102,6 +102,21 @@ type SessionState = {
   closed: boolean;
 };
 
+type CleanupSession = Pick<SessionState, "id" | "idleCleanup" | "closed"> & {
+  server: Pick<McpServer, "close">;
+  transport: Pick<StreamableHTTPServerTransport, "onclose">;
+};
+
+export function cleanupMcpSession<T extends CleanupSession>(sessions: Map<string, T>, session: T): void {
+  if (session.closed) return;
+  session.closed = true;
+  session.idleCleanup?.cancel();
+  session.idleCleanup = undefined;
+  if (session.id && sessions.get(session.id) === session) sessions.delete(session.id);
+  session.transport.onclose = undefined;
+  void session.server.close().catch(() => {});
+}
+
 type AppOptions = {
   maxUnauthenticatedSessions?: number;
   sessionIdleTimeoutMs?: number;
@@ -129,17 +144,7 @@ export function createApp(options: AppOptions = {}) {
   const schedule = options.scheduleIdleCleanup ?? scheduleIdleCleanup;
   let initializingSessions = 0;
 
-  const cleanupSession = (session: SessionState): void => {
-    if (session.closed) return;
-    session.closed = true;
-    session.idleCleanup?.cancel();
-    session.idleCleanup = undefined;
-    if (session.id && sessions.get(session.id) === session) {
-      sessions.delete(session.id);
-    }
-    session.transport.onclose = undefined;
-    void session.server.close().catch(() => {});
-  };
+  const cleanupSession = (session: SessionState): void => cleanupMcpSession(sessions, session);
 
   const armIdleCleanup = (session: SessionState): void => {
     session.idleCleanup?.cancel();

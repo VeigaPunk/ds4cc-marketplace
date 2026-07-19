@@ -46,10 +46,10 @@ node --version   # from WSL — if missing, Phase E installs it
 3. **Create the isolated profile dir**: `C:\ChromeAutomation` (empty dir, Chrome populates it on first run).
 4. **Create a shortcut** (right-click → New → Shortcut). Target field (paste verbatim):
    ```
-   "C:\Program Files\Google\Chrome Dev\Application\chrome.exe" --user-data-dir=C:\ChromeAutomation --remote-debugging-port=9222 --no-first-run --no-default-browser-check
+   "C:\Program Files\Google\Chrome Dev\Application\chrome.exe" "--user-data-dir=C:\ChromeAutomation" --remote-debugging-port=9222 --no-first-run --no-default-browser-check
    ```
    Name it `Chrome Dev (CDP)` or similar. The four flags in order:
-   - `--user-data-dir=C:\ChromeAutomation` — **mandatory**, isolates from default profile
+   - `"--user-data-dir=C:\ChromeAutomation"` — **mandatory**, quoted as one literal argument and isolated from the default profile
    - `--remote-debugging-port=9222` — CDP entry point; any free port works, 9222 is convention
    - `--no-first-run` — suppresses welcome UI
    - `--no-default-browser-check` — suppresses default-browser nag
@@ -151,6 +151,14 @@ cd ~/projects/the-puppeteer
 The installer symlinks:
 - `chitchat` → `~/.local/bin/chitchat`
 - `the-puppeteer.md` → `~/.claude/agents/the-puppeteer.md` (available as a Claude Code subagent)
+
+The symlink targets an installed copy under `~/.local/lib/ds4cc/the-puppeteer/`, where the CLI and batch helper stay adjacent. On native Linux the installer also renders and enables the hardened `~/.config/systemd/user/ds4cc-cdp.service`; WSL does not install that unit. Remove the installation with `./uninstall.sh`, or remove the Linux unit exactly with:
+
+```bash
+systemctl --user disable --now ds4cc-cdp.service
+rm -f ~/.config/systemd/user/ds4cc-cdp.service
+systemctl --user daemon-reload
+```
 
 ---
 
