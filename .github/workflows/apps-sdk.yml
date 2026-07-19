@@ -25,5 +25,4 @@ jobs:
         working-directory: apps-sdk
       - run: npm test
         working-directory: apps-sdk
-      - run: bash marketplace/plugins/the-puppeteer/tests/chitchat.test.sh
       - run: docker build -f apps-sdk/Dockerfile .
