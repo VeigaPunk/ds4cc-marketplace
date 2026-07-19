@@ -9,11 +9,12 @@ export interface CatalogPlugin {
   category: string;
   version: string;
   capabilities: string[];
-  repositoryUrl: string;
+  components: string[];
+  publisher: string;
+  sourceUrl: string;
+  reviewNotice: string;
   install: {
     codex: string;
-    copilot: string;
-    claude: string;
   };
 }
 
@@ -37,6 +38,15 @@ interface PluginManifest {
 const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..");
 const marketplaceDir = resolve(repositoryRoot, "marketplace");
 const repositoryUrl = "https://github.com/VeigaPunk/ds4cc-marketplace";
+export const REVIEWED_PLUGIN_ALLOWLIST = Object.freeze([
+  "agent-wall",
+  "ds4cc",
+  "infinizoom",
+  "myagents",
+  "mycommands",
+  "myskills",
+]);
+const reviewedPlugins = new Set(REVIEWED_PLUGIN_ALLOWLIST);
 
 function readJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, "utf8")) as T;
@@ -45,7 +55,7 @@ function readJson<T>(path: string): T {
 export function loadCatalog(): CatalogPlugin[] {
   const marketplace = readJson<MarketplaceManifest>(resolve(marketplaceDir, "marketplace.json"));
 
-  return marketplace.plugins.map((entry) => {
+  return marketplace.plugins.filter((entry) => reviewedPlugins.has(entry.name)).map((entry) => {
     const pluginDir = resolve(marketplaceDir, entry.source.path);
     const plugin = readJson<PluginManifest>(resolve(pluginDir, ".codex-plugin/plugin.json"));
 
@@ -56,11 +66,12 @@ export function loadCatalog(): CatalogPlugin[] {
       category: entry.category,
       version: plugin.version,
       capabilities: plugin.interface.capabilities,
-      repositoryUrl: `${repositoryUrl}/tree/main/marketplace/plugins/${entry.name}`,
+      components: ["Codex plugin manifest", "Skill instructions"],
+      publisher: "VeigaPunk",
+      sourceUrl: `${repositoryUrl}/tree/main/marketplace/plugins/${entry.name}`,
+      reviewNotice: "Review the source, license, and requested capabilities before install. This app never installs software.",
       install: {
-        codex: `codex plugin add ${entry.name}`,
-        copilot: `copilot plugin install ${entry.name}@ds4cc`,
-        claude: `claude plugin install ${entry.name}@ds4cc`,
+        codex: `codex plugin add ${entry.name}@ds4cc`,
       },
     };
   });

@@ -3,6 +3,7 @@ services:
     name: ds4cc-marketplace-app
     runtime: docker
     dockerfilePath: ./apps-sdk/Dockerfile
+    dockerContext: .
     healthCheckPath: /health
     envVars:
       - key: APP_ORIGIN
@@ -13,3 +14,7 @@ services:
         value: https://chatgpt.com
       - key: OPENAI_APPS_CHALLENGE
         sync: false
+      - key: MAX_UNAUTHENTICATED_SESSIONS
+        value: "64"
+      - key: MCP_SESSION_IDLE_TIMEOUT_MS
+        value: "120000"

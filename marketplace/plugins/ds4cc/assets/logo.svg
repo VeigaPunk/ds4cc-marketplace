@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">DS4CC Marketplace</title>
+  <desc id="desc">Four connected green nodes forming a marketplace grid on a dark background.</desc>
+  <rect width="512" height="512" rx="96" fill="#10140f"/>
+  <path d="M152 152h208v208H152zM152 256h208M256 152v208" fill="none" stroke="#a7f26b" stroke-width="24" stroke-linecap="round"/>
+  <g fill="#e8f3df" stroke="#10140f" stroke-width="12">
+    <circle cx="152" cy="152" r="42"/>
+    <circle cx="360" cy="152" r="42"/>
+    <circle cx="152" cy="360" r="42"/>
+    <circle cx="360" cy="360" r="42"/>
+    <circle cx="256" cy="256" r="48" fill="#a7f26b"/>
+  </g>
+</svg>

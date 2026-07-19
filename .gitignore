@@ -11,3 +11,6 @@ marketplace/validator/target/
 __pycache__/
 *.pyc
 *.pyo
+
+# Reproducible local submission bundles
+/artifacts/

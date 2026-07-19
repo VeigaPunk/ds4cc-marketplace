@@ -9,19 +9,19 @@ Static plugin payloads for Codex, GitHub Copilot CLI, and Claude Code. OpenCode 
 ## Add this marketplace to Codex
 
 ```bash
-codex plugin marketplace add https://github.com/VeigaPunk/ds4cc-marketplace.git
+codex plugin marketplace add VeigaPunk/ds4cc-marketplace
 ```
 
 Or local dev:
 
 ```bash
-codex plugin marketplace add "file://$(pwd)/marketplace/marketplace.json"
+codex plugin marketplace add .
 ```
 
 Install `myagents` after adding the marketplace:
 
 ```bash
-codex plugin add myagents
+codex plugin add myagents@ds4cc
 ```
 
 ## GitHub Copilot CLI
@@ -87,7 +87,7 @@ Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `a
 
 ```bash
 codex plugin list
-codex plugin add <plugin-name>
+codex plugin add <plugin-name>@ds4cc
 ```
 
 ## Validate the marketplace locally
@@ -99,7 +99,7 @@ cargo run --manifest-path marketplace/validator/Cargo.toml -- marketplace
 # Rust integration tests (includes std::process-based isolated Codex CLI test)
 cargo test --manifest-path marketplace/validator/Cargo.toml
 
-# npm-free agent and cross-platform manifest checks
+# npm-free agent and multi-format manifest checks
 node scripts/validate-agent-payloads.mjs
 node scripts/check-opencode-install.mjs
 
@@ -149,3 +149,17 @@ A `SKILL.md` is **actionable** if its body (after frontmatter) contains at least
 - A fenced code block (` ``` `)
 - A `$`-prefixed line
 - A known CLI prefix: `codex `, `cargo `, `node `, `bash `, `./`, `npx `
+
+## Official OpenAI submission bundle
+
+The OpenAI submission is one `ds4cc` app-plus-skills package, not the public 12-plugin marketplace. Build a deterministic, path-safe archive locally:
+
+```bash
+python3 scripts/build-ds4cc-submission.py
+```
+
+The ignored output is `artifacts/ds4cc-openai-submission.zip`. It contains only `ds4cc/` with its manifest, skill, README, and local logo assets. The portal MCP URL is entered separately as `https://app.ds4cc.com/mcp`; it is not embedded as another plugin in the archive. The script rejects links, unsafe names, unexpected files, and archive path traversal, then verifies the written ZIP.
+
+## Licensing
+
+Repository-owned code and documentation are available under the root MIT License. Bundled or referenced third-party material remains under its own license; the root license does not relicense it. Aaronplug's included license and manifest identify the Unlicense.

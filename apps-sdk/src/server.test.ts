@@ -4,6 +4,7 @@ import assert from "node:assert/strict";
 import type { Server } from "node:http";
 import { afterEach, test } from "node:test";
 import { cleanupMcpSession, createApp } from "./server.js";
+import { loadCatalog } from "./catalog.js";
 
 const servers: Server[] = [];
 
@@ -74,6 +75,42 @@ test("serves health and public policy routes", async () => {
   assert.equal((await fetch(`${baseUrl}/terms`)).status, 200);
   assert.equal((await fetch(`${baseUrl}/.well-known/openai-apps-challenge`)).status, 404);
   assert.equal((await fetch(`${baseUrl}/mcp`)).status, 400);
+});
+
+test("privacy, terms, support, and website contain submission-required disclosures", async () => {
+  const { baseUrl } = await startApp();
+  const privacy = await (await fetch(`${baseUrl}/privacy`)).text();
+  for (const required of ["Effective date", "raw search queries", "30 days", "IP address", "service providers", "deletion", "GitHub issue"]) {
+    assert.match(privacy, new RegExp(required, "i"));
+  }
+  const terms = await (await fetch(`${baseUrl}/terms`)).text();
+  assert.match(terms, /review.+before install/i);
+  assert.match(terms, /third-party/i);
+  const support = await fetch(`${baseUrl}/support`, { redirect: "manual" });
+  assert.equal(support.status, 200);
+  assert.match(await support.text(), /github\.com\/VeigaPunk\/ds4cc-marketplace\/issues/i);
+  const website = await (await fetch(`${baseUrl}/`)).text();
+  assert.match(website, /Privacy Policy/);
+  assert.match(website, /Terms of Use/);
+  assert.match(website, /Support/);
+});
+
+test("official catalog uses a reviewed allowlist and truthful sourced Codex commands", () => {
+  const catalog = loadCatalog();
+  const names = new Set(catalog.map((plugin) => plugin.name));
+  for (const excluded of ["aaronplug", "spoderman", "xbrd-gdsp-fknpft", "the-puppeteer", "godspeed-codex-command", "godspeed-core"]) {
+    assert.equal(names.has(excluded), false, `${excluded} must not be exposed by the submitted app`);
+  }
+  assert.deepEqual([...names].sort(), ["agent-wall", "ds4cc", "infinizoom", "myagents", "mycommands", "myskills"]);
+  for (const plugin of catalog) {
+    assert.equal(plugin.install.codex, `codex plugin add ${plugin.name}@ds4cc`);
+    assert.equal(Object.hasOwn(plugin.install, "copilot"), false);
+    assert.equal(Object.hasOwn(plugin.install, "claude"), false);
+    assert.equal(plugin.publisher, "VeigaPunk");
+    assert.match(plugin.sourceUrl, /^https:\/\/github\.com\/VeigaPunk\/ds4cc-marketplace\/tree\/main\//);
+    assert.match(plugin.reviewNotice, /review.+before install/i);
+    assert(plugin.components.length > 0);
+  }
 });
 
 test("serves the exact configured domain-verification token without caching", async () => {
