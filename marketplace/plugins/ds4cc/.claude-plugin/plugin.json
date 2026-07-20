@@ -1,0 +1,11 @@
+{
+  "name": "ds4cc",
+  "version": "0.1.0",
+  "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Codex after source review.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://veigapunk.github.io/ds4cc-marketplace/",
+  "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
+  "license": "MIT"
+}
