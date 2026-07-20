@@ -1,0 +1,11 @@
+{
+  "name": "aaronplug",
+  "version": "0.1.0",
+  "description": "VeigaPunk Aaronplug plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/aaronplug",
+  "repository": "https://github.com/VeigaPunk/aaronplug",
+  "license": "Unlicense"
+}

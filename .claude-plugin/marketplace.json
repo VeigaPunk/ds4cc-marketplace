@@ -5,14 +5,80 @@
   },
   "metadata": {
     "description": "DS4CC plugins for Claude Code.",
-    "version": "0.1.4"
+    "version": "0.1.5"
   },
   "plugins": [
+    {
+      "name": "aaronplug",
+      "source": "./marketplace/plugins/aaronplug",
+      "version": "0.1.0",
+      "description": "VeigaPunk Aaronplug plugin for Codex marketplace access."
+    },
+    {
+      "name": "agent-wall",
+      "source": "./marketplace/plugins/agent-wall",
+      "version": "0.1.0",
+      "description": "Agent wall and handoff workflow utilities."
+    },
+    {
+      "name": "ds4cc",
+      "source": "./marketplace/plugins/ds4cc",
+      "version": "0.1.0",
+      "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Codex after source review."
+    },
+    {
+      "name": "godspeed-codex-command",
+      "source": "./marketplace/plugins/godspeed-codex-command",
+      "version": "0.1.0",
+      "description": "VeigaPunk Godspeed Codex Command plugin for Codex marketplace access."
+    },
+    {
+      "name": "godspeed-core",
+      "source": "./marketplace/plugins/godspeed-core",
+      "version": "0.1.0",
+      "description": "VeigaPunk Godspeed Core plugin for Codex marketplace access."
+    },
+    {
+      "name": "infinizoom",
+      "source": "./marketplace/plugins/infinizoom",
+      "version": "0.1.0",
+      "description": "VeigaPunk Infinizoom plugin for Codex marketplace access."
+    },
     {
       "name": "myagents",
       "source": "./marketplace/plugins/myagents",
       "version": "0.1.4",
       "description": "Curated agent profiles for development, review, research, and orchestration."
+    },
+    {
+      "name": "mycommands",
+      "source": "./marketplace/plugins/mycommands",
+      "version": "0.1.0",
+      "description": "Reusable command and shell routine workflows for Codex."
+    },
+    {
+      "name": "myskills",
+      "source": "./marketplace/plugins/myskills",
+      "version": "0.1.0",
+      "description": "Curated skill inventory and workflow helpers for Codex."
+    },
+    {
+      "name": "spoderman",
+      "source": "./marketplace/plugins/spoderman",
+      "version": "0.1.0",
+      "description": "VeigaPunk Spoderman plugin for Codex marketplace access."
+    },
+    {
+      "name": "the-puppeteer",
+      "source": "./marketplace/plugins/the-puppeteer",
+      "version": "0.1.0",
+      "description": "VeigaPunk The Puppeteer plugin for Codex marketplace access."
+    },
+    {
+      "name": "xbrd-gdsp-fknpft",
+      "source": "./marketplace/plugins/xbrd-gdsp-fknpft",
+      "version": "0.1.0",
+      "description": "VeigaPunk Xbrd Gdsp Fknpft plugin for Codex marketplace access."
     }
   ]
 }

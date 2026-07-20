@@ -1,0 +1,11 @@
+{
+  "name": "mycommands",
+  "version": "0.1.0",
+  "description": "Reusable command and shell routine workflows for Codex.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/mycommands",
+  "repository": "https://github.com/VeigaPunk/mycommands",
+  "license": "MIT"
+}

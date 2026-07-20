@@ -1,0 +1,11 @@
+{
+  "name": "infinizoom",
+  "version": "0.1.0",
+  "description": "VeigaPunk Infinizoom plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/infinizoom",
+  "repository": "https://github.com/VeigaPunk/infinizoom",
+  "license": "MIT"
+}

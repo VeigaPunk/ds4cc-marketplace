@@ -1,0 +1,11 @@
+{
+  "name": "spoderman",
+  "version": "0.1.0",
+  "description": "VeigaPunk Spoderman plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/spoderman",
+  "repository": "https://github.com/VeigaPunk/spoderman",
+  "license": "MIT"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "the-puppeteer",
+  "version": "0.1.0",
+  "description": "VeigaPunk The Puppeteer plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/the-puppeteer",
+  "repository": "https://github.com/VeigaPunk/the-puppeteer",
+  "license": "MIT"
+}
