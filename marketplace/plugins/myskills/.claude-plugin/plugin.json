@@ -1,0 +1,11 @@
+{
+  "name": "myskills",
+  "version": "0.1.0",
+  "description": "Curated skill inventory and workflow helpers for Codex.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/myskills",
+  "repository": "https://github.com/VeigaPunk/myskills",
+  "license": "MIT"
+}

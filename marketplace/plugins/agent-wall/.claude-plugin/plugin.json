@@ -1,0 +1,11 @@
+{
+  "name": "agent-wall",
+  "version": "0.1.0",
+  "description": "Agent wall and handoff workflow utilities.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/agent-wall",
+  "repository": "https://github.com/VeigaPunk/agent-wall",
+  "license": "MIT"
+}

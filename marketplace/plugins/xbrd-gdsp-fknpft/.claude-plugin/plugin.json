@@ -1,0 +1,11 @@
+{
+  "name": "xbrd-gdsp-fknpft",
+  "version": "0.1.0",
+  "description": "VeigaPunk Xbrd Gdsp Fknpft plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/xbrd-gdsp-fknpft",
+  "repository": "https://github.com/VeigaPunk/xbrd-gdsp-fknpft",
+  "license": "MIT"
+}

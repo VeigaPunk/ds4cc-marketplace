@@ -39,6 +39,13 @@ claude plugin marketplace add VeigaPunk/ds4cc-marketplace
 claude plugin install myagents@ds4cc
 ```
 
+All 12 plugins are registered for Claude Code (each ships a `.claude-plugin/plugin.json`), so you can browse and install any of them the same way:
+
+```bash
+claude plugin install xbrd-gdsp-fknpft@ds4cc   # /godspeed, /goal, /wwkd, /xgs, /xbt, /xbreed, /xbgst
+claude plugin install <any-plugin>@ds4cc
+```
+
 ## OpenCode
 
 OpenCode does not have a native marketplace. Clone this repository and choose one scope:

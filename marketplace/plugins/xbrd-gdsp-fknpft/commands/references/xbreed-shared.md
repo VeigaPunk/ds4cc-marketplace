@@ -1,3 +1,7 @@
+---
+description: Shared orchestration protocol referenced by /xbreed, /xbt, /xgs, /xbgst, /godspeed. Not a directly-invoked command — loaded by those commands.
+---
+
 # Shared Orchestration Protocol
 
 Referenced by `/xbreed`, `/xbt`, `/xgs`, `/xbgst`. Do not duplicate — load this file.
