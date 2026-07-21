@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+MARKETPLACE="https://github.com/VeigaPunk/ds4cc-marketplace.git"
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+command -v grok >/dev/null || { echo "Install Grok Build first: curl -fsSL https://x.ai/cli/install.sh | bash" >&2; exit 1; }
+
+grok plugin marketplace add "$MARKETPLACE" 2>/dev/null || true
+if ! grok plugin list --json | grep -q '"name": "myagents"'; then
+  grok plugin install myagents --trust
+fi
+mkdir -p "$HOME/.grok/agents"
+cp "$HERE"/agents/*.md "$HOME/.grok/agents/"
+
+echo "DS4CC marketplace and Grok-native agent catalog configured."
+grok plugin marketplace list
+grok plugin details myagents

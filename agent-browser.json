@@ -1,0 +1,7 @@
+{
+  "cdp": "9222",
+  "namespace": "musketeer",
+  "session": "musketeer",
+  "contentBoundaries": true,
+  "maxOutput": 50000
+}

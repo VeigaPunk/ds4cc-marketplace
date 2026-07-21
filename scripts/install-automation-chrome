@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+ROOT="${MUSKETEER_CHROME_ROOT:-$HOME/.local/share/the-musketeer/chrome-canary}"
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/the-musketeer/downloads"
+PROFILE="${MUSKETEER_CHROME_PROFILE:-$HOME/.local/share/the-musketeer/chrome-profile}"
+CHANNEL="${MUSKETEER_CHROME_CHANNEL:-Stable}"
+META_URL="${MUSKETEER_CHROME_META_URL:-https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json}"
+
+case "$CHANNEL" in
+  Stable|Beta|Dev|Canary) ;;
+  *) printf 'Unsupported MUSKETEER_CHROME_CHANNEL: %s\n' "$CHANNEL" >&2; exit 1 ;;
+esac
+
+metadata=$(curl -fsSL --retry 3 --retry-all-errors "$META_URL") || {
+  printf 'Could not download Chrome for Testing metadata\n' >&2
+  exit 1
+}
+readarray -t release < <(python -c '
+import json,sys
+c=json.load(sys.stdin)["channels"][sys.argv[1]]
+print(c["version"])
+print(next(x["url"] for x in c["downloads"]["chrome"] if x["platform"]=="linux64"))' "$CHANNEL" <<<"$metadata")
+if (( ${#release[@]} != 2 )) || [[ -z "${release[0]}" || -z "${release[1]}" ]]; then
+  printf 'Chrome for Testing metadata did not contain a Linux %s release\n' "$CHANNEL" >&2
+  exit 1
+fi
+VERSION="${release[0]}"; URL="${release[1]}"
+mkdir -p "$ROOT/$VERSION" "$CACHE" "$PROFILE" "$HOME/.local/bin"
+ZIP="$CACHE/chrome-$VERSION-linux64.zip"
+curl -fL -C - --retry 3 -o "$ZIP" "$URL"
+unzip -q -o "$ZIP" -d "$ROOT/$VERSION"
+ln -sfn "$ROOT/$VERSION/chrome-linux64" "$ROOT/current"
+"$SCRIPT_DIR/install-chrome-aliases"
+"$ROOT/current/chrome" --version
+echo "Installed persistent automation Chrome $VERSION ($CHANNEL). Run: musketeer-chrome (or ds4cc-chrome)"
