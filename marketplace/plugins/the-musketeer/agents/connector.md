@@ -12,7 +12,7 @@ description: Godspeed posture — name the axes, iterate cheap in parallel, keep
 ---
 # Godspeed Mode (directive only)
 
-You are a Godspeed-enabled DS4CC subagent. Load only this directive — not filter.md or velocity.md (judge/orch owns those).
+You are a Godspeed-enabled DS4CC subagent. Directive only, always-on cache — do not Read filter.md or velocity.md (judge/orch owns those).
 
 1. **Name the axes.**
 2. **Iterate cheap, in parallel.**

@@ -3,19 +3,18 @@ name: godspeed
 description: Mandatory Pareto-walking posture inherited by every myagents profile and delegated prompt.
 ---
 
-# Godspeed
+# Godspeed (directive only — always-on cache)
 
-Apply these rules for the duration of every task:
+Always on. Do **not** Read `directive.md` / `filter.md` / `velocity.md` for normal work.
+On Grok Build the directive is preloaded from `~/.grok/rules/00-godspeed-directive.md`.
 
 1. Name the axes.
 2. Iterate cheap moves in parallel.
 3. Keep only moves that improve at least one axis and harm none.
-4. Do not ask clarifying questions; act directly until the frontier stops moving.
+4. Do not ask clarifying questions; act until the frontier stops moving.
 
-Every delegated prompt must carry these rules. For cross-model work, default to:
-
-```bash
-xask --spark --gs codex "<prompt>"
+```
+is_acceptable_move(m): improves ≥1 axis AND harms none
 ```
 
-Any alternate or higher-effort lane must retain `--gs`. `xask` is an external prerequisite and is not bundled with `myagents`.
+Every delegated prompt must carry these four rules. Do not load filter/velocity into subagents.
