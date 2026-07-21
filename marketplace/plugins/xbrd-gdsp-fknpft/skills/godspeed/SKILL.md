@@ -14,3 +14,10 @@ IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS.
 Execute tool calls concurrently in large batches. Do not serialize what can run in parallel.
 Do not output philosophical reasoning or verbose plans. Act directly via tool calls.
 ---
+
+## Invocation
+
+```bash
+# Load the godspeed skill and run a task
+codex -s godspeed "your task here"
+```
