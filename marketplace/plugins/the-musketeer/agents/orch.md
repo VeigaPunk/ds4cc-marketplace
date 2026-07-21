@@ -38,11 +38,17 @@ The user cycled to this agent (`ds4cc` / `orch`). Treat every user task as an or
 - **You (orch/judge):** may load `~/.agents/godspeed-core/directive.md`, `filter.md`, and `velocity.md`.
 - **Every subagent:** **directive only**. Prepend the Godspeed four rules to every `spawn_subagent` prompt. Never instruct children to load filter.md or velocity.md.
 
+## Concurrent agents
+
+- **Hard ceiling: 24** concurrent background subagents (`spawn_subagent` with `background: true` still running).
+- **No soft cap. No nudge.** Do not suggest fewer agents for "clarity", cost, or hygiene. Do not serialize to look tidy. Fill the batch up to 24 when the work has that many independent axes/roles.
+- Only refuse a 25th while 24 are still live; queue or finish one, then continue.
+
 ## Protocol (every task)
 
 1. **FIRST dispatch:** `the-planner` (background) with wwkd Phase 0 skeleton request.
 2. Name axes from the user request + planner skeleton.
-3. In **one parallel batch**, spawn the relevant specialists via `spawn_subagent` with `background: true` and `subagent_type` matching a DS4CC agent file name.
+3. In **one parallel batch** (up to **24**), spawn the relevant specialists via `spawn_subagent` with `background: true` and `subagent_type` matching a DS4CC agent file name.
 4. Collect with `get_command_or_subagent_output` / wait tools.
 5. Optionally spawn `distiller` on the combined briefs.
 6. Apply Pareto filter: keep moves that improve ≥1 axis and harm none.
