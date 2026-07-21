@@ -1,11 +1,11 @@
 ---
 name: ds4cc-docs
-description: Review the DS4CC marketplace and show verified install commands for Grok Build, Codex, Claude Code, and Copilot CLI without executing them. Use when the user pastes a ds4cc-marketplace URL, asks to install DS4CC plugins, or wants marketplace setup.
+description: Review the DS4CC marketplace and show verified install commands for Grok Build, Codex, Claude Code, Copilot CLI, and Kimi Code CLI without executing them. Use when the user pastes a ds4cc-marketplace URL, asks to install DS4CC plugins, or wants marketplace setup.
 ---
 
 DS4CC is VeigaPunk's public multi-CLI plugin marketplace. Provide guidance only: never run installation commands automatically. Tell the user to review a plugin's source and requested capabilities before installing it.
 
-Prefer **Grok Build** commands when the user is in Grok CLI / this chat. Fall back to Codex / Claude / Copilot only when they name that host.
+Prefer the section matching the CLI the user is currently on (**Kimi Code CLI** when in Kimi, **Grok Build** when in Grok CLI / a Grok chat). Fall back to Codex / Claude / Copilot only when they name that host.
 
 ## Grok Build (paste-friendly)
 
@@ -43,6 +43,27 @@ grok plugin enable myagents
 grok plugin list
 ```
 
+### Orch mode (cycle agents)
+
+DS4CC ships a primary **orch** agent branded as **`ds4cc`** (alias `orch`). Install agents then cycle:
+
+```bash
+# from marketplace checkout
+bash marketplace/plugins/the-musketeer/scripts/setup-grok-build
+# or just copy:
+# cp marketplace/plugins/ds4cc/agents/*.md ~/.grok/agents/
+```
+
+In the Grok TUI: `/config-agents` (or `/agents`) → select **`ds4cc`** or **`orch`**.
+
+That primary fans out parallel specialists (`the-planner`, `scout`, `reviewer`, `labrat`, `executor`, …) with **Godspeed directive only** on children. Site: https://ds4cc.com/
+
+```bash
+grok --agent ds4cc "your task"
+# or
+grok --agent orch "your task"
+```
+
 ### Paste-into-Grok-chat bootstrap
 
 If the user pastes this skill or says "install ds4cc", respond with the Grok commands above and **do not auto-run** installs unless they explicitly ask you to execute them.
@@ -75,6 +96,33 @@ claude plugin install <plugin-name>@ds4cc
 copilot plugin marketplace add VeigaPunk/ds4cc-marketplace
 copilot plugin install <plugin-name>@ds4cc
 ```
+
+## Kimi Code CLI
+
+Kimi Code has no marketplace registration protocol — it installs plugins from a local path or zip/GitHub URL, and can browse a custom marketplace catalog JSON. From a local checkout of this repository, type these slash commands in the Kimi TUI:
+
+Browse the full catalog:
+
+```
+/plugins marketplace .kimi-plugin/marketplace.json
+```
+
+Or install a plugin directly:
+
+```
+/plugins install ./marketplace/plugins/<plugin-name>
+/reload
+```
+
+For example, this meta-plugin:
+
+```
+/plugins install ./marketplace/plugins/ds4cc
+/reload
+/plugins list
+```
+
+Installing a third-party plugin shows a trust confirmation first; approve it only after reviewing the plugin source. Plugin skills then become available as `/skill:<skill-name>` (e.g. `/skill:ds4cc-docs`) and plugin commands as `/<plugin>:<command>`.
 
 ## Plugin catalog (developer marketplace)
 

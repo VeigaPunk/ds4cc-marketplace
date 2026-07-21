@@ -6,6 +6,7 @@
     "name": "VeigaPunk"
   },
   "repository": "https://github.com/VeigaPunk/the-musketeer",
-  "homepage": "https://github.com/VeigaPunk/the-musketeer",
-  "skills": "./skills/"
+  "homepage": "https://ds4cc.com/",
+  "skills": "./skills/",
+  "agents": "./agents/"
 }

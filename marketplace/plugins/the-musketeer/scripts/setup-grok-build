@@ -1,17 +1,42 @@
 #!/usr/bin/env bash
 set -euo pipefail
-MARKETPLACE="https://github.com/VeigaPunk/ds4cc-marketplace.git"
+MARKETPLACE="${DS4CC_MARKETPLACE:-https://github.com/VeigaPunk/ds4cc-marketplace.git}"
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$HERE/../../.." && pwd)"
+LOCAL_MARKETPLACE=""
+if [[ -f "$ROOT/marketplace/marketplace.json" || -f "$ROOT/.grok-plugin/marketplace.json" ]]; then
+  LOCAL_MARKETPLACE="$ROOT"
+fi
 
 command -v grok >/dev/null || { echo "Install Grok Build first: curl -fsSL https://x.ai/cli/install.sh | bash" >&2; exit 1; }
 
-grok plugin marketplace add "$MARKETPLACE" 2>/dev/null || true
-if ! grok plugin list --json | grep -q '"name": "myagents"'; then
-  grok plugin install myagents --trust
+if [[ -n "$LOCAL_MARKETPLACE" ]]; then
+  grok plugin marketplace add "$LOCAL_MARKETPLACE" 2>/dev/null || true
+  MP_SRC="$LOCAL_MARKETPLACE"
+else
+  grok plugin marketplace add "$MARKETPLACE" 2>/dev/null || true
+  MP_SRC="$MARKETPLACE"
 fi
-mkdir -p "$HOME/.grok/agents"
-cp "$HERE"/agents/*.md "$HOME/.grok/agents/"
 
-echo "DS4CC marketplace and Grok-native agent catalog configured."
+# Core plugins for orch
+for p in myagents godspeed-core ds4cc the-musketeer; do
+  if [[ -n "$LOCAL_MARKETPLACE" ]]; then
+    grok plugin install "${LOCAL_MARKETPLACE}#marketplace/plugins/${p}" --trust 2>/dev/null || true
+  else
+    grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/${p}" --trust 2>/dev/null || true
+  fi
+done
+
+mkdir -p "$HOME/.grok/agents"
+# Prefer ds4cc plugin agents (includes orch + ds4cc + specialists)
+if [[ -d "$LOCAL_MARKETPLACE/marketplace/plugins/ds4cc/agents" ]]; then
+  cp "$LOCAL_MARKETPLACE"/marketplace/plugins/ds4cc/agents/*.md "$HOME/.grok/agents/"
+elif [[ -d "$HERE/agents" ]]; then
+  cp "$HERE"/agents/*.md "$HOME/.grok/agents/"
+fi
+
+echo "DS4CC orch installed. Cycle agents with /config-agents (or /agents) and select: ds4cc  or  orch"
+echo "Specialists available as subagent_type: the-planner scout reviewer labrat executor connector critic distiller simplifier sentinel the-revenger mutation-tester scribe"
+echo "Site: https://ds4cc.com/"
+ls -1 "$HOME/.grok/agents" | head -40
 grok plugin marketplace list
-grok plugin details myagents
