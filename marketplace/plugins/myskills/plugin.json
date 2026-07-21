@@ -1,0 +1,11 @@
+{
+  "name": "myskills",
+  "version": "0.1.0",
+  "description": "Curated skill workflows for your active tasks",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/myskills",
+  "homepage": "https://github.com/VeigaPunk/myskills",
+  "skills": "./skills/"
+}

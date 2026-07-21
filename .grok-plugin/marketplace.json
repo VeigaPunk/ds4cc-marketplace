@@ -1,0 +1,345 @@
+{
+  "name": "ds4cc",
+  "description": "DS4CC public developer plugin marketplace for Grok Build, Codex, Claude Code, and Copilot CLI.",
+  "owner": {
+    "name": "VeigaPunk"
+  },
+  "plugins": [
+    {
+      "name": "aaronplug",
+      "version": "0.1.0",
+      "description": "Academic paper retrieval workflows",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/aaronplug"
+      },
+      "homepage": "https://github.com/VeigaPunk/aaronplug",
+      "keywords": [
+        "aaronplug",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "agent-wall",
+      "version": "0.1.0",
+      "description": "Runtime handoff surface for agent-based workflows",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/agent-wall"
+      },
+      "homepage": "https://github.com/VeigaPunk/agent-wall",
+      "keywords": [
+        "agent-wall",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "ds4cc",
+      "version": "0.1.0",
+      "description": "Review DS4CC plugins and Codex install steps",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/ds4cc"
+      },
+      "homepage": "https://veigapunk.github.io/ds4cc-marketplace/",
+      "keywords": [
+        "ds4cc",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "godspeed-codex-command",
+      "version": "0.1.0",
+      "description": "Command-mode bootstrap and Codex posture controls",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/godspeed-codex-command"
+      },
+      "homepage": "https://github.com/VeigaPunk/godspeed-codex-command",
+      "keywords": [
+        "godspeed-codex-command",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "godspeed-core",
+      "version": "0.1.0",
+      "description": "Adaptive execution doctrine and Pareto walk policy",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/godspeed-core"
+      },
+      "homepage": "https://github.com/VeigaPunk/godspeed-core",
+      "keywords": [
+        "godspeed-core",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "infinizoom",
+      "version": "0.1.0",
+      "description": "Visualization workflow and UI demos",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/infinizoom"
+      },
+      "homepage": "https://github.com/VeigaPunk/infinizoom",
+      "keywords": [
+        "infinizoom",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "myagents",
+      "version": "0.1.4",
+      "description": "Discover and execute user-defined agent profiles",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/myagents"
+      },
+      "homepage": "https://github.com/VeigaPunk/myagents",
+      "keywords": [
+        "myagents",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "mycommands",
+      "version": "0.1.0",
+      "description": "Reusable command packs for recurring workflows",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/mycommands"
+      },
+      "homepage": "https://github.com/VeigaPunk/mycommands",
+      "keywords": [
+        "mycommands",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "myskills",
+      "version": "0.1.0",
+      "description": "Curated skill workflows for your active tasks",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/myskills"
+      },
+      "homepage": "https://github.com/VeigaPunk/myskills",
+      "keywords": [
+        "myskills",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "spoderman",
+      "version": "0.1.0",
+      "description": "Attack harness workflows and hook safety research",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/spoderman"
+      },
+      "homepage": "https://github.com/VeigaPunk/spoderman",
+      "keywords": [
+        "spoderman",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "the-almanacker",
+      "version": "0.1.0",
+      "description": "NotebookLM web UI automation through agent-browser",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/the-almanacker"
+      },
+      "homepage": "https://github.com/VeigaPunk/the-almanacker",
+      "keywords": [
+        "the-almanacker",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "the-musketeer",
+      "version": "0.1.0",
+      "description": "Grok web UI automation through agent-browser",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/the-musketeer"
+      },
+      "homepage": "https://github.com/VeigaPunk/the-musketeer",
+      "keywords": [
+        "the-musketeer",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "the-puppeteer",
+      "version": "0.1.0",
+      "description": "Web UI task execution and long-running assistant flows",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/the-puppeteer"
+      },
+      "homepage": "https://github.com/VeigaPunk/the-puppeteer",
+      "keywords": [
+        "the-puppeteer",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "xbrd-gdsp-fknpft",
+      "version": "0.1.0",
+      "description": "Multimodel dispatch orchestration and benchmark workflows",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/xbrd-gdsp-fknpft"
+      },
+      "homepage": "https://github.com/VeigaPunk/xbrd-gdsp-fknpft",
+      "keywords": [
+        "xbrd-gdsp-fknpft",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    }
+  ]
+}

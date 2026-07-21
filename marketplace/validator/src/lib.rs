@@ -469,6 +469,9 @@ pub fn is_skill_actionable(skill_content: &str) -> bool {
             return true;
         }
         if trimmed.starts_with("codex ")
+            || trimmed.starts_with("grok ")
+            || trimmed.starts_with("claude ")
+            || trimmed.starts_with("copilot ")
             || trimmed.starts_with("cargo ")
             || trimmed.starts_with("node ")
             || trimmed.starts_with("bash ")

@@ -1,11 +1,38 @@
 # DS4CC Marketplace
 
-Static plugin payloads for Codex, GitHub Copilot CLI, and Claude Code. OpenCode agents are provided through a dependency-free bootstrap script because OpenCode has no marketplace protocol.
+Static plugin payloads for **Grok Build**, Codex, GitHub Copilot CLI, and Claude Code. OpenCode agents are provided through a dependency-free bootstrap script because OpenCode has no marketplace protocol.
 
-- Marketplace JSON: `marketplace/marketplace.json`
+- Grok catalog: `.grok-plugin/marketplace.json` (+ generated `plugin-index.json`)
+- Codex catalog: `.agents/plugins/marketplace.json` and `marketplace/marketplace.json`
+- Claude catalog: `.claude-plugin/marketplace.json`
 - Plugin assets: `marketplace/plugins/<name>/`
 - Validator: `marketplace/validator/` (Rust, `cargo test`)
 - Curation and claim policy: [`CURATION.md`](CURATION.md)
+- Paste-into-Grok-chat block: [`GROK_PASTE.md`](GROK_PASTE.md)
+
+## Grok Build (xAI CLI)
+
+```bash
+grok plugin marketplace add VeigaPunk/ds4cc-marketplace
+grok plugin list --available
+grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/myagents" --trust
+```
+
+Install several core plugins:
+
+```bash
+for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
+  grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/$p" --trust
+done
+```
+
+Or paste the contents of [`GROK_PASTE.md`](GROK_PASTE.md) into a Grok chat — skills are written so Grok can follow them without Codex-specific hosts.
+
+Local checkout:
+
+```bash
+grok plugin marketplace add .
+```
 
 ## Add this marketplace to Codex
 
@@ -67,7 +94,7 @@ npm test
 
 Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `app.ds4cc.com`, and follow `apps-sdk/SUBMISSION.md` for the OpenAI plugin portal fields and tests.
 
-## Plugins (12)
+## Plugins (14)
 
 | Plugin | Category | Description |
 |---|---|---|
@@ -77,6 +104,8 @@ Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `a
 | `infinizoom` | Developer | Fractal-zoom visualization QA & server |
 | `godspeed-codex-command` | Developer | Command-mode bootstrap & Codex posture controls |
 | `the-puppeteer` | Developer | Web automation & long-running ChatGPT bridge |
+| `the-musketeer` | Developer | Grok web UI adapter (agent-browser / CDP) |
+| `the-almanacker` | Developer | NotebookLM web UI adapter |
 | `godspeed-core` | Developer | Adaptive execution doctrine & Pareto walk policy |
 | `myagents` | Developer | Curated agent workflow launchpad |
 | `mycommands` | Developer | Reusable command packs & shell routines |
@@ -87,6 +116,10 @@ Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `a
 ## Install a plugin
 
 ```bash
+# Grok
+grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/<plugin-name>" --trust
+
+# Codex
 codex plugin list
 codex plugin add <plugin-name>@ds4cc
 ```
@@ -149,7 +182,7 @@ Each plugin lives at `marketplace/plugins/<name>/` and must contain:
 A `SKILL.md` is **actionable** if its body (after frontmatter) contains at least one of:
 - A fenced code block (` ``` `)
 - A `$`-prefixed line
-- A known CLI prefix: `codex `, `cargo `, `node `, `bash `, `./`, `npx `
+- A known CLI prefix: `codex `, `grok `, `claude `, `copilot `, `cargo `, `node `, `bash `, `./`, `npx `
 
 ## Official OpenAI submission bundle
 

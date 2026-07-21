@@ -4,15 +4,93 @@
     "name": "VeigaPunk"
   },
   "metadata": {
-    "description": "DS4CC plugins for Claude Code.",
-    "version": "0.1.4"
+    "description": "DS4CC plugins for Claude Code, Grok Build, Codex, and Copilot CLI.",
+    "version": "0.2.0"
   },
   "plugins": [
+    {
+      "name": "aaronplug",
+      "source": "./marketplace/plugins/aaronplug",
+      "version": "0.1.0",
+      "description": "Academic paper retrieval workflows"
+    },
+    {
+      "name": "agent-wall",
+      "source": "./marketplace/plugins/agent-wall",
+      "version": "0.1.0",
+      "description": "Runtime handoff surface for agent-based workflows"
+    },
+    {
+      "name": "ds4cc",
+      "source": "./marketplace/plugins/ds4cc",
+      "version": "0.1.0",
+      "description": "Review DS4CC plugins and Codex install steps"
+    },
+    {
+      "name": "godspeed-codex-command",
+      "source": "./marketplace/plugins/godspeed-codex-command",
+      "version": "0.1.0",
+      "description": "Command-mode bootstrap and Codex posture controls"
+    },
+    {
+      "name": "godspeed-core",
+      "source": "./marketplace/plugins/godspeed-core",
+      "version": "0.1.0",
+      "description": "Adaptive execution doctrine and Pareto walk policy"
+    },
+    {
+      "name": "infinizoom",
+      "source": "./marketplace/plugins/infinizoom",
+      "version": "0.1.0",
+      "description": "Visualization workflow and UI demos"
+    },
     {
       "name": "myagents",
       "source": "./marketplace/plugins/myagents",
       "version": "0.1.4",
-      "description": "Curated agent profiles for development, review, research, and orchestration."
+      "description": "Discover and execute user-defined agent profiles"
+    },
+    {
+      "name": "mycommands",
+      "source": "./marketplace/plugins/mycommands",
+      "version": "0.1.0",
+      "description": "Reusable command packs for recurring workflows"
+    },
+    {
+      "name": "myskills",
+      "source": "./marketplace/plugins/myskills",
+      "version": "0.1.0",
+      "description": "Curated skill workflows for your active tasks"
+    },
+    {
+      "name": "spoderman",
+      "source": "./marketplace/plugins/spoderman",
+      "version": "0.1.0",
+      "description": "Attack harness workflows and hook safety research"
+    },
+    {
+      "name": "the-almanacker",
+      "source": "./marketplace/plugins/the-almanacker",
+      "version": "0.1.0",
+      "description": "NotebookLM web UI automation through agent-browser"
+    },
+    {
+      "name": "the-musketeer",
+      "source": "./marketplace/plugins/the-musketeer",
+      "version": "0.1.0",
+      "description": "Grok web UI automation through agent-browser"
+    },
+    {
+      "name": "the-puppeteer",
+      "source": "./marketplace/plugins/the-puppeteer",
+      "version": "0.1.0",
+      "description": "Web UI task execution and long-running assistant flows"
+    },
+    {
+      "name": "xbrd-gdsp-fknpft",
+      "source": "./marketplace/plugins/xbrd-gdsp-fknpft",
+      "version": "0.1.0",
+      "description": "Multimodel dispatch orchestration and benchmark workflows"
     }
   ]
 }

@@ -1,0 +1,225 @@
+{
+  "version": 1,
+  "plugins": {
+    "aaronplug": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "aaronplug-docs",
+            "description": "Search and download academic papers via aaronplug CLI."
+          }
+        ]
+      }
+    },
+    "agent-wall": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "agent-wall-docs",
+            "description": "Create handoff checkpoints and manage agent session continuity via agent-wall."
+          }
+        ]
+      }
+    },
+    "ds4cc": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "ds4cc-docs",
+            "description": "Review the DS4CC marketplace and show verified Codex CLI registration and install commands without executing them."
+          }
+        ]
+      }
+    },
+    "godspeed-codex-command": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "godspeed-codex-command-docs",
+            "description": "Bootstrap Codex command-mode and apply godspeed posture controls."
+          }
+        ]
+      }
+    },
+    "godspeed-core": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "godspeed-core-docs",
+            "description": "Apply Godspeed adaptive execution doctrine and Pareto walk policy."
+          }
+        ]
+      }
+    },
+    "infinizoom": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "infinizoom-docs",
+            "description": "Run Infinizoom QA checks and start the visualization server."
+          }
+        ]
+      }
+    },
+    "myagents": {
+      "version": "0.1.4",
+      "components": {
+        "skills": [
+          {
+            "name": "godspeed",
+            "description": "Mandatory Pareto-walking posture inherited by every myagents profile and delegated prompt."
+          },
+          {
+            "name": "myagents-docs",
+            "description": "Discover and launch user-defined agent profiles from the myagents catalog."
+          },
+          {
+            "name": "wwkd",
+            "description": "Data-walk first, build an end-to-end skeleton, prove one concrete case, then generalize with structural checks."
+          }
+        ],
+        "agents": [
+          {
+            "name": "the-connector",
+            "description": "the-connector.agent"
+          },
+          {
+            "name": "the-critic",
+            "description": "the-critic.agent"
+          },
+          {
+            "name": "the-distiller",
+            "description": "the-distiller.agent"
+          },
+          {
+            "name": "the-executor",
+            "description": "the-executor.agent"
+          },
+          {
+            "name": "the-judge",
+            "description": "the-judge.agent"
+          },
+          {
+            "name": "the-labrat",
+            "description": "the-labrat.agent"
+          },
+          {
+            "name": "the-mutation-tester",
+            "description": "the-mutation-tester.agent"
+          },
+          {
+            "name": "the-planner",
+            "description": "the-planner.agent"
+          },
+          {
+            "name": "the-revenger",
+            "description": "the-revenger.agent"
+          },
+          {
+            "name": "the-reviewer",
+            "description": "the-reviewer.agent"
+          },
+          {
+            "name": "the-scout",
+            "description": "the-scout.agent"
+          },
+          {
+            "name": "the-scribe",
+            "description": "the-scribe.agent"
+          },
+          {
+            "name": "the-sentinel",
+            "description": "the-sentinel.agent"
+          },
+          {
+            "name": "the-simplifier",
+            "description": "the-simplifier.agent"
+          }
+        ]
+      }
+    },
+    "mycommands": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "mycommands-docs",
+            "description": "List and execute reusable command packs from mycommands."
+          }
+        ]
+      }
+    },
+    "myskills": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "myskills-docs",
+            "description": "Discover, apply, and create reusable Codex skill workflows from myskills."
+          }
+        ]
+      }
+    },
+    "spoderman": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "spoderman-docs",
+            "description": "Run Spoderman attack harness and hook validation workflows."
+          }
+        ]
+      }
+    },
+    "the-almanacker": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "the-almanacker-docs",
+            "description": "Install and run The Almanacker NotebookLM web UI adapter through agent-browser and an authenticated CDP profile."
+          }
+        ]
+      }
+    },
+    "the-musketeer": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "the-musketeer-docs",
+            "description": "Install and run The Musketeer Grok web UI adapter through agent-browser and an authenticated CDP profile."
+          }
+        ]
+      }
+    },
+    "the-puppeteer": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "the-puppeteer-docs",
+            "description": "Install and run The Puppeteer web automation and ChatGPT bridge."
+          }
+        ]
+      }
+    },
+    "xbrd-gdsp-fknpft": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "xbrd-gdsp-fknpft-docs",
+            "description": "Dispatch xask cross-model queries and run xbreed orchestration workflows."
+          }
+        ]
+      }
+    }
+  }
+}

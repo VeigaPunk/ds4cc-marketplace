@@ -1,6 +1,6 @@
 ---
 name: godspeed-core-docs
-description: Apply Godspeed adaptive execution doctrine and Pareto walk policy.
+description: Apply Godspeed adaptive execution doctrine and Pareto walk policy on Grok Build or Codex.
 ---
 
 Godspeed Core exposes the directive, filter, and velocity policy files.
@@ -25,12 +25,10 @@ cat velocity.md
 
 ## Apply Godspeed mode to current session
 
+**Grok Build** — say `godspeed: <your task>` or enable the plugin skill and proceed without clarifying questions.
+
+**Codex:**
+
 ```bash
 codex "godspeed: <your task>"
-```
-
-## Run with explicit godspeed posture
-
-```bash
-codex exec --config approval_policy=never "godspeed: name axes, iterate cheap, keep only Pareto moves"
 ```

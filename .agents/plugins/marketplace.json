@@ -147,6 +147,30 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Developer"
+    },
+    {
+      "name": "the-almanacker",
+      "source": {
+        "source": "local",
+        "path": "./marketplace/plugins/the-almanacker"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer"
+    },
+    {
+      "name": "the-musketeer",
+      "source": {
+        "source": "local",
+        "path": "./marketplace/plugins/the-musketeer"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer"
     }
   ]
 }

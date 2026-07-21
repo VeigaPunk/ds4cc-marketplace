@@ -5,9 +5,30 @@ description: Install and run The Almanacker NotebookLM web UI adapter through ag
 
 # The Almanacker
 
-Use the plugin README as the canonical setup and command reference. The
-`almanack` CLI drives NotebookLM features available through its authenticated
-web UI.
+CLI bridge for NotebookLM Studio features via CDP. Keep CDP on loopback and use the dedicated shared browser profile.
 
-Keep CDP bound to loopback and use the dedicated shared browser profile. Run
-`./install.sh` from this plugin directory to install the adapter.
+## Install adapter
+
+```bash
+./install.sh
+```
+
+## Create a notebook
+
+```bash
+almanack create "chess-orchestration"
+```
+
+## Add sources
+
+```bash
+almanack add ~/papers/ufo.pdf https://en.wikipedia.org/wiki/M%C4%93tis
+```
+
+## Start an Audio Overview
+
+```bash
+almanack studio audio deep-dive "A 3-host deep dive on agentic orchestration"
+```
+
+Use the plugin README for full command reference.

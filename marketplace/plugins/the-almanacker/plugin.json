@@ -1,0 +1,11 @@
+{
+  "name": "the-almanacker",
+  "version": "0.1.0",
+  "description": "NotebookLM web UI automation through agent-browser",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/the-almanacker",
+  "homepage": "https://github.com/VeigaPunk/the-almanacker",
+  "skills": "./skills/"
+}

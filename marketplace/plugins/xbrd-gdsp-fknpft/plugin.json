@@ -1,0 +1,12 @@
+{
+  "name": "xbrd-gdsp-fknpft",
+  "version": "0.1.0",
+  "description": "Multimodel dispatch orchestration and benchmark workflows",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/xbrd-gdsp-fknpft",
+  "homepage": "https://github.com/VeigaPunk/xbrd-gdsp-fknpft",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

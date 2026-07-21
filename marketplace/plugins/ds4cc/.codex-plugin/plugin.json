@@ -1,15 +1,15 @@
 {
   "name": "ds4cc",
   "version": "0.1.0",
-  "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Codex after source review.",
+  "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Grok Build, Codex, Claude Code, or Copilot after source review.",
   "author": {
     "name": "VeigaPunk"
   },
   "skills": "./skills/",
   "interface": {
     "displayName": "DS4CC Marketplace",
-    "shortDescription": "Review DS4CC plugins and Codex install steps",
-    "longDescription": "Documentation-only skill for reviewing the public DS4CC marketplace, registering its Git repository with Codex, and choosing qualified plugin install commands. It never installs or executes software automatically.",
+    "shortDescription": "Browse and install DS4CC marketplace plugins across Grok, Codex, Claude, Copilot",
+    "longDescription": "Meta-plugin documenting how to register the DS4CC marketplace and install plugins on Grok Build (paste-friendly), Codex CLI, Claude Code, and GitHub Copilot CLI. Does not auto-install.",
     "developerName": "VeigaPunk",
     "category": "Developer",
     "capabilities": [
@@ -32,5 +32,11 @@
   "homepage": "https://veigapunk.github.io/ds4cc-marketplace/",
   "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
   "license": "MIT",
-  "keywords": ["codex", "plugins", "marketplace", "developer-tools", "skills"]
+  "keywords": [
+    "codex",
+    "plugins",
+    "marketplace",
+    "developer-tools",
+    "skills"
+  ]
 }

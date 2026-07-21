@@ -1,0 +1,11 @@
+{
+  "name": "godspeed-codex-command",
+  "version": "0.1.0",
+  "description": "Command-mode bootstrap and Codex posture controls",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/godspeed-codex-command",
+  "homepage": "https://github.com/VeigaPunk/godspeed-codex-command",
+  "skills": "./skills/"
+}

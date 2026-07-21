@@ -1,0 +1,11 @@
+{
+  "name": "godspeed-core",
+  "version": "0.1.0",
+  "description": "Adaptive execution doctrine and Pareto walk policy",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/godspeed-core",
+  "homepage": "https://github.com/VeigaPunk/godspeed-core",
+  "skills": "./skills/"
+}

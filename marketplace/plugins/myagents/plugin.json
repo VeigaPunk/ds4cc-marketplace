@@ -6,5 +6,6 @@
     "name": "VeigaPunk"
   },
   "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
-  "agents": "./agents/"
+  "agents": "./agents/",
+  "skills": "./skills/"
 }

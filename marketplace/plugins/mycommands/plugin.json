@@ -1,0 +1,11 @@
+{
+  "name": "mycommands",
+  "version": "0.1.0",
+  "description": "Reusable command packs for recurring workflows",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/mycommands",
+  "homepage": "https://github.com/VeigaPunk/mycommands",
+  "skills": "./skills/"
+}
