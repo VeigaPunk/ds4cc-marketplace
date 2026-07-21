@@ -56,7 +56,8 @@ grok plugin list
 ## Source review
 
 Public repo: https://github.com/VeigaPunk/ds4cc-marketplace  
-Homepage: https://veigapunk.github.io/ds4cc-marketplace/  
+Homepage: https://ds4cc.com/  
+GitHub Pages mirror: https://veigapunk.github.io/ds4cc-marketplace/  
 App (separate OpenAI Apps SDK package): https://app.ds4cc.com/
 
 Start by registering the marketplace and listing available plugins. Wait for me to pick installs.

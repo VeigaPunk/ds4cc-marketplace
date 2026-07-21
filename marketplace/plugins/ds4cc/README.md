@@ -28,7 +28,7 @@ codex plugin add <plugin-name>@ds4cc
 
 ## Links
 
-- Homepage: <https://veigapunk.github.io/ds4cc-marketplace/>
+- Homepage: <https://ds4cc.com/>
 - Repository: <https://github.com/VeigaPunk/ds4cc-marketplace>
 
 ## License

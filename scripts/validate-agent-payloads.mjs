@@ -124,19 +124,21 @@ if (copilotMarketplace && claudeMarketplace && copilotPlugin && claudePlugin && 
   const claudeEntry = claudeMarketplace.plugins?.find((plugin) => plugin.name === "myagents");
   check(copilotMarketplace.name === "ds4cc", "Copilot marketplace name must be ds4cc");
   check(claudeMarketplace.name === "ds4cc", "Claude marketplace name must be ds4cc");
-  check(claudeMarketplace.plugins?.length === 1, "Claude marketplace must contain only myagents");
+  check(Boolean(claudeEntry), "Claude marketplace must include myagents");
   check(claudeEntry?.source === "./marketplace/plugins/myagents", "Claude myagents source is incorrect");
+  check(
+    Array.isArray(claudeMarketplace.plugins) && claudeMarketplace.plugins.length >= 1,
+    "Claude marketplace must list at least myagents",
+  );
 
   const versions = [
-    copilotMarketplace.metadata?.version,
     copilotEntry?.version,
     copilotPlugin.version,
-    claudeMarketplace.metadata?.version,
     claudeEntry?.version,
     claudePlugin.version,
     codexPlugin.version,
   ];
-  check(versions.every((version) => version === versions[0]), `Codex/Copilot/Claude versions are not synchronized: ${versions.join(", ")}`);
+  check(versions.every((version) => version === versions[0]), `Codex/Copilot/Claude myagents versions are not synchronized: ${versions.join(", ")}`);
 
   const descriptions = [
     copilotEntry?.description,

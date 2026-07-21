@@ -48,7 +48,7 @@
       "name": "myagents",
       "source": "./marketplace/plugins/myagents",
       "version": "0.2.0",
-      "description": "Discover and execute user-defined agent profiles"
+      "description": "Curated agent profiles for development, review, research, and orchestration."
     },
     {
       "name": "mycommands",

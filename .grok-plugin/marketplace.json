@@ -23,6 +23,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -47,6 +48,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -62,7 +64,7 @@
         "type": "local",
         "path": "./marketplace/plugins/ds4cc"
       },
-      "homepage": "https://veigapunk.github.io/ds4cc-marketplace/",
+      "homepage": "https://ds4cc.com/",
       "keywords": [
         "ds4cc",
         "ds4cc",
@@ -71,6 +73,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -95,6 +98,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -119,6 +123,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -143,6 +148,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -167,6 +173,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -191,6 +198,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -215,6 +223,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -239,6 +248,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -263,6 +273,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -287,6 +298,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -311,6 +323,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
@@ -335,6 +348,7 @@
       "domains": [
         "github.com/VeigaPunk/ds4cc-marketplace",
         "veigapunk.github.io",
+        "ds4cc.com",
         "app.ds4cc.com"
       ],
       "author": {
