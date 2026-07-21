@@ -1,0 +1,17 @@
+{
+  "name": "the-almanacker",
+  "version": "0.2.0",
+  "description": "Drive NotebookLM-only web UI features through agent-browser and an authenticated CDP profile.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/the-almanacker",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "The Almanacker (VeigaPunk)",
+    "shortDescription": "NotebookLM web UI automation through agent-browser",
+    "longDescription": "Uses agent-browser with a dedicated authenticated Chrome CDP profile to reach NotebookLM features exposed only in the web UI.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/the-almanacker"
+  }
+}

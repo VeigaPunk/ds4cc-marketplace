@@ -1,0 +1,17 @@
+{
+  "name": "the-musketeer",
+  "version": "0.3.0",
+  "description": "Drive Grok-only web UI features through agent-browser and an authenticated CDP profile.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/the-musketeer",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "The Musketeer (VeigaPunk)",
+    "shortDescription": "Grok web UI automation through agent-browser",
+    "longDescription": "Uses agent-browser with a dedicated authenticated Chrome CDP profile to reach Grok features exposed only in the web UI.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/the-musketeer"
+  }
+}

@@ -14,3 +14,6 @@ __pycache__/
 
 # Reproducible local submission bundles
 /artifacts/
+
+# Reproducible Kimi plugin packages (catalog remains tracked)
+/.kimi-plugin/artifacts/

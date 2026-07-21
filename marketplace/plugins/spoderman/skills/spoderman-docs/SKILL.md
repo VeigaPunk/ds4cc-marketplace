@@ -8,8 +8,8 @@ Spoderman is a prompt-injection safety and hook behavior analysis harness.
 ## Run the attack harness
 
 ```bash
-cd $(codex plugin info spoderman --path)/spoderman
-bash ./spoderman validate --hooks
+cd <plugin-root>/spoderman   # plugin root = the installed spoderman plugin directory
+bash ./arm.sh                # arms the sandbox vault; use ./disarm.sh to revert
 ```
 
 ## Validate hook injection safety

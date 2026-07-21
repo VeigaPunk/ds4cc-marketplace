@@ -1,0 +1,19 @@
+{
+  "name": "xbrd-gdsp-fknpft",
+  "version": "0.2.2",
+  "description": "Multimodel dispatch orchestration and benchmark workflows",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/xbrd-gdsp-fknpft",
+  "license": "MIT",
+  "interface": {
+    "displayName": "Xbrd Gdsp Fknpft (VeigaPunk)",
+    "shortDescription": "Multimodel dispatch orchestration and benchmark workflows",
+    "longDescription": "Exposes CLI workflows for dispatching codex/gemini/claude commands, multi-agent review lanes, and benchmark harness execution.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/xbrd-gdsp-fknpft"
+  },
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

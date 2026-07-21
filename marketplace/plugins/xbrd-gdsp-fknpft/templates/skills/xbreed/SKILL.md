@@ -1,6 +1,7 @@
 ---
 name: xbreed
 description: Judge-orchestrated pipeline — the judge (Fable 5) takes the prompt, dispatches scout/reviewer/labrat with cross-model delegation (xask), drafts an implementation. Triggered by /xbreed or /xb.
+has-sub-skill: true
 ---
 
 # /xbreed — Judge-Orchestrated Pipeline (Solo)

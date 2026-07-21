@@ -1,0 +1,18 @@
+{
+  "name": "godspeed-core",
+  "version": "0.2.0",
+  "description": "Adaptive execution doctrine and Pareto walk policy",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/godspeed-core",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Godspeed Core (VeigaPunk)",
+    "shortDescription": "Adaptive execution doctrine and Pareto walk policy",
+    "longDescription": "Exposes the Godspeed mode and policy files so Kimi Code can run adaptive, frontier-walk execution workflows with explicit posture controls.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/godspeed-core"
+  }
+}

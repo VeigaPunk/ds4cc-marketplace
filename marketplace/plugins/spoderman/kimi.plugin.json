@@ -1,0 +1,18 @@
+{
+  "name": "spoderman",
+  "version": "0.2.0",
+  "description": "Attack harness workflows and hook safety research",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/spoderman",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Spoderman (VeigaPunk)",
+    "shortDescription": "Attack harness workflows and hook safety research",
+    "longDescription": "Exposes Spoderman and related defensive/attack harness workflows for prompt-injection safety and hook behavior analysis.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/spoderman"
+  }
+}

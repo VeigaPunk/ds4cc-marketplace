@@ -1,0 +1,18 @@
+{
+  "name": "infinizoom",
+  "version": "0.2.0",
+  "description": "Visualization workflow and UI demos",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/infinizoom",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Infinizoom (VeigaPunk)",
+    "shortDescription": "Visualization workflow and UI demos",
+    "longDescription": "Exposes Infinizoom runtime and QA workflows for rendering, screenshot validation, and local preview checks.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/infinizoom"
+  }
+}

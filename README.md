@@ -1,10 +1,11 @@
 # DS4CC Marketplace
 
-Static plugin payloads for **Grok Build**, Codex, GitHub Copilot CLI, and Claude Code. OpenCode agents are provided through a dependency-free bootstrap script because OpenCode has no marketplace protocol.
+Static plugin payloads for **Grok Build**, Codex, GitHub Copilot CLI, Claude Code, and Kimi Code CLI. OpenCode agents are provided through a dependency-free bootstrap script because OpenCode has no marketplace protocol.
 
 - Grok catalog: `.grok-plugin/marketplace.json` (+ generated `plugin-index.json`)
 - Codex catalog: `.agents/plugins/marketplace.json` and `marketplace/marketplace.json`
 - Claude catalog: `.claude-plugin/marketplace.json`
+- Kimi Code 0.28.1 catalog: `.kimi-plugin/marketplace.json` and generated minimal ZIP packages (per-plugin manifests: `marketplace/plugins/<name>/kimi.plugin.json`)
 - Plugin assets: `marketplace/plugins/<name>/`
 - Validator: `marketplace/validator/` (Rust, `cargo test`)
 - Curation and claim policy: [`CURATION.md`](CURATION.md)
@@ -65,6 +66,23 @@ copilot plugin install myagents@ds4cc
 claude plugin marketplace add VeigaPunk/ds4cc-marketplace
 claude plugin install myagents@ds4cc
 ```
+
+## Kimi Code CLI 0.28.1
+
+In the Kimi TUI, register the published catalog URL:
+
+```
+/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json
+```
+
+Install a catalog artifact URL (or a built local ZIP path), then reload:
+
+```
+/plugins install <artifact-url-or-local-path>
+/reload
+```
+
+Invoke installed skills as `/skill:<skill-name>` and plugin commands as `/<plugin>:<command>`. Third-party installs show a trust confirmation first, so review the source before approving. Kimi 0.28.1 installs the skills and commands in these deliberately minimal packages, but it cannot install this marketplace's custom `the-*` agent profiles. Kimi's built-in agents remain available.
 
 ## OpenCode
 
@@ -137,6 +155,11 @@ cargo test --manifest-path marketplace/validator/Cargo.toml
 node scripts/validate-agent-payloads.mjs
 node scripts/check-opencode-install.mjs
 
+# Dependency-free Kimi manifest/catalog checks, tests, and artifact build
+python3 scripts/build-kimi-marketplace.py --check
+python3 -m unittest -v tests.test_build_kimi_marketplace
+python3 scripts/build-kimi-marketplace.py
+
 # Claude Code strict marketplace and plugin validation
 claude plugin validate --strict .claude-plugin/marketplace.json
 claude plugin validate --strict marketplace/plugins/myagents
@@ -152,11 +175,14 @@ Each plugin lives at `marketplace/plugins/<name>/` and must contain:
 ```
 <name>/
   .codex-plugin/plugin.json   # required: name, version, description, author, interface
+  kimi.plugin.json            # Kimi 0.28.1 metadata and ./ skills/commands roots
   README.md                   # required
   skills/
     <skill-name>/
       SKILL.md                # required: must be actionable (has runnable commands)
 ```
+
+The Kimi builder includes only `kimi.plugin.json` and regular files under the manifest's declared `./skills/` and `./commands/` roots. It rejects links, traversal, unsupported fields (including `agents`), invalid skill frontmatter, and absent roots. Generated root-flat ZIPs live under the ignored `.kimi-plugin/artifacts/` directory; `.kimi-plugin/marketplace.json` is retained as the published catalog.
 
 ## Schema requirements
 

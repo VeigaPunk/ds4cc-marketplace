@@ -1,0 +1,138 @@
+{
+  "version": "1",
+  "plugins": [
+    {
+      "id": "aaronplug",
+      "displayName": "Aaronplug (VeigaPunk)",
+      "version": "0.2.0",
+      "description": "Academic paper retrieval workflows",
+      "homepage": "https://github.com/VeigaPunk/aaronplug",
+      "keywords": [
+        "academic-papers",
+        "arxiv",
+        "semantic-scholar",
+        "research",
+        "skills"
+      ],
+      "source": "./artifacts/aaronplug-0.2.0.zip"
+    },
+    {
+      "id": "agent-wall",
+      "displayName": "Agent Wall",
+      "version": "0.2.0",
+      "description": "Agent wall and handoff workflow utilities.",
+      "homepage": "https://github.com/VeigaPunk/agent-wall",
+      "source": "./artifacts/agent-wall-0.2.0.zip"
+    },
+    {
+      "id": "ds4cc",
+      "displayName": "DS4CC Marketplace",
+      "version": "0.2.0",
+      "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Grok Build, Codex, Claude Code, Copilot, or Kimi Code after source review.",
+      "homepage": "https://ds4cc.com/",
+      "keywords": [
+        "plugins",
+        "marketplace",
+        "developer-tools",
+        "skills",
+        "kimi-code"
+      ],
+      "source": "./artifacts/ds4cc-0.2.0.zip"
+    },
+    {
+      "id": "godspeed-codex-command",
+      "displayName": "Godspeed Codex Command (VeigaPunk)",
+      "version": "0.2.0",
+      "description": "Command-mode bootstrap and Codex posture controls",
+      "homepage": "https://github.com/VeigaPunk/godspeed-codex-command",
+      "source": "./artifacts/godspeed-codex-command-0.2.0.zip"
+    },
+    {
+      "id": "godspeed-core",
+      "displayName": "Godspeed Core (VeigaPunk)",
+      "version": "0.2.0",
+      "description": "Adaptive execution doctrine and Pareto walk policy",
+      "homepage": "https://github.com/VeigaPunk/godspeed-core",
+      "source": "./artifacts/godspeed-core-0.2.0.zip"
+    },
+    {
+      "id": "infinizoom",
+      "displayName": "Infinizoom (VeigaPunk)",
+      "version": "0.2.0",
+      "description": "Visualization workflow and UI demos",
+      "homepage": "https://github.com/VeigaPunk/infinizoom",
+      "source": "./artifacts/infinizoom-0.2.0.zip"
+    },
+    {
+      "id": "myagents",
+      "displayName": "My Agents",
+      "version": "0.2.0",
+      "description": "Curated agent profiles for development, review, research, and orchestration.",
+      "homepage": "https://github.com/VeigaPunk/myagents",
+      "source": "./artifacts/myagents-0.2.0.zip"
+    },
+    {
+      "id": "mycommands",
+      "displayName": "My Commands",
+      "version": "0.2.0",
+      "description": "Reusable command packs for recurring workflows",
+      "homepage": "https://github.com/VeigaPunk/mycommands",
+      "keywords": [
+        "commands",
+        "workflows",
+        "shell",
+        "automation",
+        "kimi-code"
+      ],
+      "source": "./artifacts/mycommands-0.2.0.zip"
+    },
+    {
+      "id": "myskills",
+      "displayName": "My Skills",
+      "version": "0.2.0",
+      "description": "Curated skill workflows for your active tasks",
+      "homepage": "https://github.com/VeigaPunk/myskills",
+      "source": "./artifacts/myskills-0.2.0.zip"
+    },
+    {
+      "id": "spoderman",
+      "displayName": "Spoderman (VeigaPunk)",
+      "version": "0.2.0",
+      "description": "Attack harness workflows and hook safety research",
+      "homepage": "https://github.com/VeigaPunk/spoderman",
+      "source": "./artifacts/spoderman-0.2.0.zip"
+    },
+    {
+      "id": "the-almanacker",
+      "displayName": "The Almanacker (VeigaPunk)",
+      "version": "0.2.0",
+      "description": "Drive NotebookLM-only web UI features through agent-browser and an authenticated CDP profile.",
+      "homepage": "https://github.com/VeigaPunk/the-almanacker",
+      "source": "./artifacts/the-almanacker-0.2.0.zip"
+    },
+    {
+      "id": "the-musketeer",
+      "displayName": "The Musketeer (VeigaPunk)",
+      "version": "0.3.0",
+      "description": "Drive Grok-only web UI features through agent-browser and an authenticated CDP profile.",
+      "homepage": "https://github.com/VeigaPunk/the-musketeer",
+      "source": "./artifacts/the-musketeer-0.3.0.zip"
+    },
+    {
+      "id": "the-puppeteer",
+      "displayName": "The Puppeteer (VeigaPunk)",
+      "version": "0.2.0",
+      "description": "Web UI task execution and long-running assistant flows",
+      "homepage": "https://github.com/VeigaPunk/the-puppeteer",
+      "source": "./artifacts/the-puppeteer-0.2.0.zip"
+    },
+    {
+      "id": "xbrd-gdsp-fknpft",
+      "displayName": "Xbrd Gdsp Fknpft (VeigaPunk)",
+      "version": "0.2.2",
+      "description": "Multimodel dispatch orchestration and benchmark workflows",
+      "homepage": "https://github.com/VeigaPunk/xbrd-gdsp-fknpft",
+      "source": "./artifacts/xbrd-gdsp-fknpft-0.2.2.zip"
+    }
+  ]
+}

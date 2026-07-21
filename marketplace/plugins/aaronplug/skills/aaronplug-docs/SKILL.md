@@ -26,7 +26,7 @@ npx @veigapunk/aaron books search "category theory"
 ## Build from source
 
 ```bash
-cd $(codex plugin info aaronplug --path)
+cd <aaronplug plugin install directory>
 bun install
 bun run build
 ./bin/index.js papers search "neural scaling laws"

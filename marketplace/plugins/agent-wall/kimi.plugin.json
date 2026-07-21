@@ -1,0 +1,18 @@
+{
+  "name": "agent-wall",
+  "version": "0.2.0",
+  "description": "Agent wall and handoff workflow utilities.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/agent-wall",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Agent Wall",
+    "shortDescription": "Runtime handoff surface for agent-based workflows",
+    "longDescription": "Supports workflow handoff, summary capture, and continuity checks between long-running agent sessions.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/agent-wall"
+  }
+}

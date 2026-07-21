@@ -1,0 +1,25 @@
+{
+  "name": "mycommands",
+  "version": "0.2.0",
+  "description": "Reusable command packs for recurring workflows",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/mycommands",
+  "license": "MIT",
+  "keywords": [
+    "commands",
+    "workflows",
+    "shell",
+    "automation",
+    "kimi-code"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "My Commands",
+    "shortDescription": "Reusable command packs for recurring workflows",
+    "longDescription": "Catalogs reusable command packs and helper prompts for routine shell and repository operations.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/mycommands"
+  }
+}

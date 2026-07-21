@@ -1,0 +1,18 @@
+{
+  "name": "godspeed-codex-command",
+  "version": "0.2.0",
+  "description": "Command-mode bootstrap and Codex posture controls",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/godspeed-codex-command",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Godspeed Codex Command (VeigaPunk)",
+    "shortDescription": "Command-mode bootstrap and Codex posture controls",
+    "longDescription": "Provides onboarding and posture control workflows that configure Codex for additive command-mode behavior via codex command artifacts.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/godspeed-codex-command"
+  }
+}
