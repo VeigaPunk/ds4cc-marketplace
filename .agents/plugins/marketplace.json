@@ -26,7 +26,8 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.2.2"
     },
     {
       "name": "aaronplug",

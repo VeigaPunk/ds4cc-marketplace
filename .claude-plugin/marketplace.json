@@ -89,7 +89,7 @@
     {
       "name": "xbrd-gdsp-fknpft",
       "source": "./marketplace/plugins/xbrd-gdsp-fknpft",
-      "version": "0.2.1",
+      "version": "0.2.2",
       "description": "Multimodel dispatch orchestration and benchmark workflows"
     }
   ]
