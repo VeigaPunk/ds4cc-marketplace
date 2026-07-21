@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-VERSION="1.1.0"
+VERSION="1.2.0"
 
 canonical_path() {
   local target=$1 link dir resolved
@@ -40,6 +40,7 @@ Options:
       --image         Use Create image mode
       --deep-research Use Deep research mode (--deep)
       --web-search    Use Web search mode (--web)
+      --new-chat      Open a fresh ChatGPT tab before posting
       --stdin         Read the prompt from standard input
   -h, --help          Show this help
       --version       Show version
@@ -60,6 +61,7 @@ CHITCHAT_CDP_ENDPOINT="http://${CHITCHAT_CDP_HOST}:${CHITCHAT_CDP_PORT}"
 MODEL=""
 TOOL=""
 READ_STDIN=false
+NEW_CHAT=false
 ARGS=()
 while (($#)); do
   case "$1" in
@@ -78,6 +80,7 @@ while (($#)); do
       shift
       ;;
     --stdin) READ_STDIN=true; shift ;;
+    --new-chat) NEW_CHAT=true; shift ;;
     --help|-h) usage; exit 0 ;;
     --version) echo "chitchat $VERSION"; exit 0 ;;
     --) shift; ARGS+=("$@"); break ;;
@@ -137,7 +140,7 @@ AGENT_BROWSER=(agent-browser --cdp "$CHITCHAT_CDP_ENDPOINT")
 echo "→ Firing prompt into ChatGPT${MODEL:+ (model=$MODEL)}${TOOL:+ (tool=$TOOL)}..."
 
 CHATGPT_IDX=$("${AGENT_BROWSER[@]}" tab list 2>&1 | grep -E '\[t[0-9]+\][[:space:]].*https?://chatgpt\.com' | grep -oE 't[0-9]+' | sed -n '1p' || true)
-if [[ -z "$CHATGPT_IDX" ]]; then
+if $NEW_CHAT || [[ -z "$CHATGPT_IDX" ]]; then
   "${AGENT_BROWSER[@]}" tab new >/dev/null 2>&1
   "${AGENT_BROWSER[@]}" open https://chatgpt.com --wait 4000ms >/dev/null 2>&1
 else
@@ -145,12 +148,15 @@ else
 fi
 
 TITLE=""
+PROMPT_READY=0
 for _ in 1 2 3 4 5; do
   TITLE=$("${AGENT_BROWSER[@]}" eval "document.title" 2>&1 | grep -v '^[✓✗]' | tr -d '"' || true)
-  [[ "$TITLE" == ChatGPT ]] && break
+  PROMPT_READY=$("${AGENT_BROWSER[@]}" get count '#prompt-textarea' 2>/dev/null || echo 0)
+  [[ "$PROMPT_READY" =~ ^[0-9]+$ && "$PROMPT_READY" -gt 0 ]] && break
   sleep 2
 done
-[[ "$TITLE" == ChatGPT ]] || die "tab is not ready (Cloudflare challenge or login redirect); clear it manually"
+[[ "$PROMPT_READY" =~ ^[0-9]+$ && "$PROMPT_READY" -gt 0 ]] \
+  || die "tab is not ready (title: ${TITLE:-unknown}; Cloudflare challenge or login redirect); clear it manually"
 
 if [[ -n "$MODEL_TESTID" ]]; then
   "${AGENT_BROWSER[@]}" click '[data-testid="model-switcher-dropdown-button"]' >/dev/null 2>&1
@@ -175,7 +181,9 @@ BEFORE=$("${AGENT_BROWSER[@]}" get count '[data-message-author-role="user"]' 2>/
 printf '%s' "$PROMPT" | /usr/bin/node "$SCRIPT_DIR/chitchat-batch.mjs" | "${AGENT_BROWSER[@]}" batch --bail --json >/dev/null
 sleep 2
 AFTER=$("${AGENT_BROWSER[@]}" get count '[data-message-author-role="user"]' 2>/dev/null || echo 0)
-if [[ "$AFTER" =~ ^[0-9]+$ && "$BEFORE" =~ ^[0-9]+$ ]] && (( AFTER > BEFORE )); then
+GENERATING=$("${AGENT_BROWSER[@]}" get count 'button[aria-label*="Stop"]' 2>/dev/null || echo 0)
+if { [[ "$AFTER" =~ ^[0-9]+$ && "$BEFORE" =~ ^[0-9]+$ ]] && (( AFTER > BEFORE )); } \
+    || { [[ "$GENERATING" =~ ^[0-9]+$ ]] && (( GENERATING > 0 )); }; then
   echo "✓ Prompt fired. Read the reply in your ChatGPT browser tab."
 else
   die "prompt may not have posted (user turns: ${BEFORE:-?} → ${AFTER:-?})"
