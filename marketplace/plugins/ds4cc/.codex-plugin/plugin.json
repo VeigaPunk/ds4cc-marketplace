@@ -1,6 +1,6 @@
 {
   "name": "ds4cc",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Grok Build, Codex, Claude Code, or Copilot after source review.",
   "author": {
     "name": "VeigaPunk"

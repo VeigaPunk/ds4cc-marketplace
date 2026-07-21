@@ -1,6 +1,6 @@
 {
   "name": "agent-wall",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Runtime handoff surface for agent-based workflows",
   "author": {
     "name": "VeigaPunk"

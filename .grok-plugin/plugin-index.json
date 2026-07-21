@@ -2,7 +2,7 @@
   "version": 1,
   "plugins": {
     "aaronplug": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -13,7 +13,7 @@
       }
     },
     "agent-wall": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -24,7 +24,7 @@
       }
     },
     "ds4cc": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -35,7 +35,7 @@
       }
     },
     "godspeed-codex-command": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -46,7 +46,7 @@
       }
     },
     "godspeed-core": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -57,7 +57,7 @@
       }
     },
     "infinizoom": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -68,7 +68,7 @@
       }
     },
     "myagents": {
-      "version": "0.1.4",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -145,7 +145,7 @@
       }
     },
     "mycommands": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -156,7 +156,7 @@
       }
     },
     "myskills": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -167,7 +167,7 @@
       }
     },
     "spoderman": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -178,7 +178,7 @@
       }
     },
     "the-almanacker": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -189,7 +189,7 @@
       }
     },
     "the-musketeer": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -200,7 +200,7 @@
       }
     },
     "the-puppeteer": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {
@@ -211,7 +211,7 @@
       }
     },
     "xbrd-gdsp-fknpft": {
-      "version": "0.1.0",
+      "version": "0.2.0",
       "components": {
         "skills": [
           {

@@ -1,6 +1,6 @@
 {
   "name": "mycommands",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Reusable command and shell routine workflows for Codex.",
   "author": {
     "name": "VeigaPunk"

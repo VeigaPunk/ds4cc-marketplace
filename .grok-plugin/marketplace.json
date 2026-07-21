@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "aaronplug",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Academic paper retrieval workflows",
       "category": "development",
       "source": {
@@ -31,7 +31,7 @@
     },
     {
       "name": "agent-wall",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Runtime handoff surface for agent-based workflows",
       "category": "development",
       "source": {
@@ -55,7 +55,7 @@
     },
     {
       "name": "ds4cc",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Review DS4CC plugins and Codex install steps",
       "category": "development",
       "source": {
@@ -79,7 +79,7 @@
     },
     {
       "name": "godspeed-codex-command",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Command-mode bootstrap and Codex posture controls",
       "category": "development",
       "source": {
@@ -103,7 +103,7 @@
     },
     {
       "name": "godspeed-core",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Adaptive execution doctrine and Pareto walk policy",
       "category": "development",
       "source": {
@@ -127,7 +127,7 @@
     },
     {
       "name": "infinizoom",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Visualization workflow and UI demos",
       "category": "development",
       "source": {
@@ -151,7 +151,7 @@
     },
     {
       "name": "myagents",
-      "version": "0.1.4",
+      "version": "0.2.0",
       "description": "Discover and execute user-defined agent profiles",
       "category": "development",
       "source": {
@@ -175,7 +175,7 @@
     },
     {
       "name": "mycommands",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Reusable command packs for recurring workflows",
       "category": "development",
       "source": {
@@ -199,7 +199,7 @@
     },
     {
       "name": "myskills",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Curated skill workflows for your active tasks",
       "category": "development",
       "source": {
@@ -223,7 +223,7 @@
     },
     {
       "name": "spoderman",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Attack harness workflows and hook safety research",
       "category": "development",
       "source": {
@@ -247,7 +247,7 @@
     },
     {
       "name": "the-almanacker",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "NotebookLM web UI automation through agent-browser",
       "category": "development",
       "source": {
@@ -271,7 +271,7 @@
     },
     {
       "name": "the-musketeer",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Grok web UI automation through agent-browser",
       "category": "development",
       "source": {
@@ -295,7 +295,7 @@
     },
     {
       "name": "the-puppeteer",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Web UI task execution and long-running assistant flows",
       "category": "development",
       "source": {
@@ -319,7 +319,7 @@
     },
     {
       "name": "xbrd-gdsp-fknpft",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "description": "Multimodel dispatch orchestration and benchmark workflows",
       "category": "development",
       "source": {

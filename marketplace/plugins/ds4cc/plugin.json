@@ -1,6 +1,6 @@
 {
   "name": "ds4cc",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Browse and install DS4CC marketplace plugins across Grok, Codex, Claude, Copilot",
   "author": {
     "name": "VeigaPunk"

@@ -1,6 +1,6 @@
 {
   "name": "the-almanacker",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "NotebookLM web UI automation through agent-browser",
   "author": {
     "name": "VeigaPunk"
