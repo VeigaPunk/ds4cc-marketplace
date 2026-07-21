@@ -14,7 +14,7 @@ use std::process::Command;
 ///
 /// Five lanes select the codex model family:
 /// - `spark=true`            → [`CODEX_SPARK_MODEL`] + `model_reasoning_effort=low`
-///   (no fast_mode). Labrat probes, cheap/fast/expendable.
+///   (fast_mode enabled). Labrat probes, cheap/fast/expendable.
 /// - `gpt55=true` (and not spark) → [`CODEX_55_MODEL`] (`gpt-5.6-sol`) +
 ///   `features.fast_mode=true`. Added 2026-04-24 for the xbrd-exec bench
 ///   (xask-arm gpt-5.6-sol measurement). Orthogonal to review/full — those are
@@ -69,6 +69,9 @@ pub fn build_codex_ask_with_loadout(
     c.arg("-c").arg("include_permissions_instructions=false");
     c.arg("-c").arg("include_apps_instructions=false");
     c.arg("-c").arg("include_environment_context=false");
+    // Codex CLI's fast service tier resolves to the priority servicing tier on
+    // the wire. Pin it per invocation rather than relying on user config.
+    c.arg("-c").arg("service_tier=\"fast\"");
 
     if json {
         c.arg("--json");
@@ -81,6 +84,7 @@ pub fn build_codex_ask_with_loadout(
     if spark {
         c.arg("-m").arg(CODEX_SPARK_MODEL);
         c.arg("-c").arg("model_reasoning_effort=low");
+        c.arg("-c").arg("features.fast_mode=true");
     } else if gpt55 {
         // Explicit gpt-5.6-sol lane — short-circuits review/full (those are
         // 5.5-family). fast_mode enabled for parity with mini/full lanes
@@ -132,7 +136,7 @@ pub fn build_codex_ask_with_loadout(
 pub const GEMINI_DEFAULT_MODEL: &str = "gemini-3.1-pro-preview";
 
 /// The codex model used for spark (cheap/fast/expendable) probes.
-pub const CODEX_SPARK_MODEL: &str = "gpt-5.3-codex-spark";
+pub const CODEX_SPARK_MODEL: &str = "gpt-5.4-mini";
 
 /// The codex model used for the `-R -F` escape hatch — full `gpt-5.6-sol`,
 /// codex's full-capacity model in v0.120.0 (1.05M context window). Reserved
@@ -473,6 +477,7 @@ mod tests {
         assert!(args.contains(&"include_permissions_instructions=false".to_string()));
         assert!(args.contains(&"include_apps_instructions=false".to_string()));
         assert!(args.contains(&"include_environment_context=false".to_string()));
+        assert!(args.contains(&"service_tier=\"fast\"".to_string()));
         assert!(args.contains(&"features.fast_mode=true".to_string()));
         assert!(args.contains(&"--ephemeral".to_string()));
         // --color never: codex's TTY-color autodetection misfires in headless
@@ -587,8 +592,9 @@ mod tests {
         assert!(args.contains(&"-m".to_string()));
         assert!(args.contains(&CODEX_SPARK_MODEL.to_string()));
         assert!(args.contains(&"model_reasoning_effort=low".to_string()));
-        // fast_mode is non-spark Codex lanes only — must NOT be present on spark path
-        assert!(!args.contains(&"features.fast_mode=true".to_string()));
+        // fast_mode is enabled on every Codex lane, including spark.
+        assert!(args.contains(&"features.fast_mode=true".to_string()));
+        assert!(args.contains(&"service_tier=\"fast\"".to_string()));
         // Yolo sandbox applies to spark too — labrats need all-tool access
         assert!(args.contains(&"--sandbox".to_string()));
         assert!(args.contains(&"danger-full-access".to_string()));

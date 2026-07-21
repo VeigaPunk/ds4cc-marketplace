@@ -24,7 +24,7 @@ xask [-d] [-s <scope>] [-r] [--spk] [-R] [-e <level>] [-o <file>] [--json] <mode
 | `--debug` | `-d` | Print constructed prompt and exit (dry run). Matches gemini's own `-d/--debug`. | all | `false` |
 | `--scope` | `-s` | Scope boundary injected into `{{SCOPE_BOUNDARY}}` in the dispatch template. Note: shadows gemini's `-s/--sandbox` (consumed by xask, no runtime conflict). | all | `"entire project"` |
 | `--rich` | `-r` | Restore `includeDirectoryTree: true` in a PID-namespaced gemini settings copy. Note: shadows gemini's `-r/--resume`. | gemini | `false` (tree suppressed) |
-| `--spark` | `--spk` | Pin codex to `gpt-5.3-codex-spark` + `model_reasoning_effort=low`. Mutually exclusive with `--effort` on codex. | codex | `false` |
+| `--spark` | `--spk` | Pin codex to `gpt-5.4-mini` + `model_reasoning_effort=low`. Mutually exclusive with `--effort` on codex. | codex | `false` |
 | `--effort` | `-e` | Reasoning effort level. Codex: passes through as native `model_reasoning_effort`. Gemini: mapped to `thinkingBudget` and injected into prompt template (see per-model mapping below for value table). Note: shadows gemini's `-e/--extensions` (consumed by xask, no dispatch conflict). | codex + gemini | unset |
 | `--direct` | — | **Removed in R2.** No longer accepted — xask hard-fails at the flag parser (`*) echo ... exit 1`). Suppression is always-on; use `--effort` to control reasoning level. | — | — |
 
@@ -61,7 +61,7 @@ These are injected by xask/xbreed regardless of user flags.
 | `-c include_permissions_instructions=false` | `build_codex_ask_with_loadout` | Suppression |
 | `-c include_apps_instructions=false` | `build_codex_ask_with_loadout` | Suppression |
 | `-c include_environment_context=false` | `build_codex_ask_with_loadout` | Suppression |
-| `-c features.fast_mode=true` | `build_codex_ask_with_loadout` (non-spark only) | Faster output on Codex non-spark lanes (`gpt-5.6-sol`); omitted on spark (`gpt-5.3-codex-spark`) |
+| `-c features.fast_mode=true` | `build_codex_ask_with_loadout` (all Codex lanes) | Faster output on both the spark lane (`gpt-5.4-mini`) and non-spark lanes (`gpt-5.6-sol`) |
 | `-c model_reasoning_effort=low` | `build_codex_ask_with_loadout` (spark only) | Hard-wired to low on spark path |
 
 **Note (v0.120.0):** `include_skills_instructions` and `include_plugins_instructions` are not available in the current codex release — no further suppression keys exist.
@@ -92,7 +92,7 @@ Default: `gpt-5.6-sol` + `features.fast_mode=true` + `model_reasoning_effort=hig
 Review lane (`-R/--review`): `gpt-5.6-sol` + `features.fast_mode=true`.
 Full (`-R -F`): `gpt-5.6-sol` (1.05M ctx) + `features.fast_mode=true` — escape hatch.
 gpt-5.6-sol lane (`--gpt55`): `gpt-5.6-sol` + `features.fast_mode=true` — the uniform xbreed codex lane per 2026-04-24 pivot (reviewer/sentinel/critic at `-e low`, the-revenger at `-e high`).
-Spark (`--spark`): `gpt-5.3-codex-spark` + `model_reasoning_effort=low` (no fast_mode).
+Spark (`--spark`): `gpt-5.4-mini` + `model_reasoning_effort=low` (fast_mode enabled).
 
 Precedence: `--spark` > `--gpt55` > `-R -F` > `-R` > default.
 
@@ -158,7 +158,7 @@ Findings from gemini and codex probing their own CLI behavior — surfaced durin
 
 ### Codex self-report (from `xask --spark codex` + `codex exec --help` + `src/ask.rs` direct read)
 
-- **`features.fast_mode=true` confirmed** — correct key, non-spark Codex paths only (`gpt-5.6-sol`). Spark always hard-wires `model_reasoning_effort=low`.
+- **`features.fast_mode=true` confirmed** — correct key on every Codex path. Spark uses `gpt-5.4-mini`, hard-wires `model_reasoning_effort=low`, and enables fast mode.
 - **Effort is a `-c` config key, not a CLI flag** — codex exec has no `--effort` flag; xbreed maps `--effort <level>` → `-c model_reasoning_effort=<level>` (confirmed `src/ask.rs:407`).
 - **Validated effort levels**: `low`, `medium`, `high`, `xhigh`. Level `none` not validated by xbreed; may fail at codex runtime.
 - **`-e` shell alias gap (now closed)** — xask previously only parsed `--effort` long form; `xbreed ask` Rust CLI already had `-e`. Shell-layer parity restored by this update.

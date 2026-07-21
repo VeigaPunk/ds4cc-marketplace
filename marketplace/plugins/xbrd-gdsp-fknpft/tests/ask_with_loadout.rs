@@ -627,7 +627,7 @@ fn ask_codex_spark_wins_over_review_and_full() {
         .expect("missing -m in spark argv");
     assert_eq!(
         argv[m_idx + 1],
-        "gpt-5.3-codex-spark",
+        "gpt-5.4-mini",
         "spark must win over review/full and pin spark model: {argv:?}"
     );
     assert!(
@@ -635,8 +635,8 @@ fn ask_codex_spark_wins_over_review_and_full() {
         "model_reasoning_effort=low must be present on spark lane: {argv:?}"
     );
     assert!(
-        !argv.contains(&"features.fast_mode=true".to_string()),
-        "features.fast_mode=true must be absent on spark lane: {argv:?}"
+        argv.contains(&"features.fast_mode=true".to_string()),
+        "features.fast_mode=true must be present on spark lane: {argv:?}"
     );
 }
 

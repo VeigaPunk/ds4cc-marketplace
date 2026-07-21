@@ -94,7 +94,7 @@ flowchart TD
     E -->|codex| Cdx{codex lane}
     E -->|gemini| H["gemini -m gemini-3.1-pro-preview \n-p <prompt> --approval-mode yolo \n(env_remove GEMINI_API_KEY; reads ~/.gemini/oauth_creds.json)"]
 
-    Cdx -->|--spark| Csp["codex exec -m gpt-5.3-codex-spark \n-c model_reasoning_effort=low \n(no fast_mode)"]
+    Cdx -->|--spark| Csp["codex exec -m gpt-5.4-mini \n-c model_reasoning_effort=low \n(fast_mode enabled)"]
     Cdx -->|--gpt55| Cg5["codex exec -m gpt-5.6-sol \n-c features.fast_mode=true \n(-e low|medium|high|xhigh via flag) \n**xbreed uniform codex lane 2026-04-24**"]
     Cdx -->|"-R / --review"| Crv["codex exec -m gpt-5.6-sol \n-c features.fast_mode=true \n(legacy; -R -F escapes to full gpt-5.6-sol)"]
     Cdx -->|default| Cdf["codex exec -m gpt-5.6-sol \n-c features.fast_mode=true \n-c model_reasoning_effort=high"]
@@ -123,11 +123,11 @@ flowchart TD
 
 | Flag | Model | Reasoning | fast_mode | Used by |
 |------|-------|-----------|-----------|---------|
-| `--spark` | `gpt-5.3-codex-spark` | low | off | labrat, executor, mutation-tester (single, ≤4 targets) |
+| `--spark` | `gpt-5.4-mini` | low | on | labrat, executor, mutation-tester (single, ≤4 targets) |
 | `--gpt55` | `gpt-5.6-sol` | via `-e` flag | on | **xbreed uniform codex lane (2026-04-24)**: reviewer/sentinel/critic at `-e low`, the-revenger at `-e high` |
 | `-R -F` / `--review --full` | `gpt-5.6-sol` (full, 1.05M ctx) | xhigh (inherited) | on | escape hatch — reserved for RECON where gpt-5.6-sol still needs extra headroom |
 | `-R` / `--review` | `gpt-5.6-sol` | xhigh (inherited) | on | legacy; superseded by `--gpt55 -e low` in xbreed dispatch |
-| default | `gpt-5.6-sol` | high | on | legacy; direct `xask codex` without lane flags |
+| default builder (`xbreed ask codex`) | `gpt-5.6-sol` | high | on | direct Rust CLI calls; bare `xask codex` explicitly selects the spark lane |
 
 **Gemini auth cascade** (v0.4+, OAuth-exclusive): tries up to **3 OAuth levels**
 **sequentially** (not in parallel). Each attempt blocks on `cmd.output()` before
@@ -463,7 +463,7 @@ marker IS the whole directive; sonnet-medium teammates read it as
 
 **Codex dispatch lanes** (`src/ask.rs` `build_codex_ask_with_loadout`):
 
-- `--spark` → `gpt-5.3-codex-spark` + `model_reasoning_effort=low` (no fast_mode) — labrat/executor/mutation-tester-single
+- `--spark` → `gpt-5.4-mini` + `model_reasoning_effort=low` (fast_mode enabled) — labrat/executor/mutation-tester-single
 - `--gpt55` → `gpt-5.6-sol` + `features.fast_mode=true` (reasoning via `-e low|medium|high|xhigh`) — **xbreed uniform codex lane per 2026-04-24**: reviewer/sentinel/critic at `-e low`, the-revenger at `-e high`
 - `-R -F` / `--review --full` → `gpt-5.6-sol` (full, 1.05M ctx) + `features.fast_mode=true` — escape hatch, reserved for large-context RECON where extra headroom is needed
 - `-R` / `--review` → `gpt-5.6-sol` + `features.fast_mode=true` — legacy review lane; superseded by `--gpt55 -e low` in xbreed dispatch

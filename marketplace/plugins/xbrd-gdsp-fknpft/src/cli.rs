@@ -50,7 +50,7 @@ pub enum Commands {
         #[arg(short = 'e', long = "effort")]
         effort: Option<String>,
         /// Use the fast codex-spark model with low effort (codex only).
-        /// Equivalent to: -m gpt-5.3-codex-spark + model_reasoning_effort=low
+        /// Equivalent to: -m gpt-5.4-mini + model_reasoning_effort=low
         #[arg(long)]
         spark: bool,
         /// Enter the review lane (codex only). By default routes to

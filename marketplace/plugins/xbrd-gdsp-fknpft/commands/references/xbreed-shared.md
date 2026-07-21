@@ -84,7 +84,7 @@ Codex dispatches unified on gpt-5.6-sol + `features.fast_mode=true` per 2026-04-
 pivot — one model, effort dial: review-class roles (reviewer/sentinel/critic)
 route via `xask --gpt55 --gs -e low codex`; the-revenger RECON via
 `xask --gpt55 --gs -e high codex`; labrat/executor/mutation-tester-single
-via `xask --spark --gs codex` (gpt-5.3-codex-spark, reasoning=low). Supersedes
+via `xask --spark --gs codex` (gpt-5.4-mini, reasoning=low). Supersedes
 the prior `--review`/`-R` and `-R -F` split now routes on the single
 codex family (`gpt-5.6-sol`) via `src/ask.rs` constants and `features.fast_mode`
 (handled by `src/ask.rs` `CODEX_55_MODEL` / `CODEX_SPARK_MODEL`).

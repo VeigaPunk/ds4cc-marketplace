@@ -3,7 +3,7 @@
 # Usage: xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--gs] [-e <level>] [-o <file>] [--json] <model> "<query>" ["<context>"] ["<skill>"]
 #
 # All dispatches route through `xbreed ask`. Always-on: suppression, approval bypass,
-# auth cascade, godspeed forwarding, fast_mode (non-spark Codex lanes). See docs/xask-protocol.md.
+# auth cascade, godspeed forwarding, fast_mode (all Codex lanes). See docs/xask-protocol.md.
 #
 # Always-on codex exec flags (applied by src/ask.rs, not user-togglable here):
 #   --skip-git-repo-check · --color never · --ephemeral · --sandbox danger-full-access
@@ -15,8 +15,8 @@
 #      | --gs (explicit godspeed SKILL load) | -e (effort) | -o (output-last-message) | --json
 #
 # codex model lanes:
-#   default:       gpt-5.3-codex-spark (reasoning=low)
-#   --spark:       gpt-5.3-codex-spark + reasoning=low (labrat probes)
+#   default:       gpt-5.4-mini (reasoning=low)
+#   --spark:       gpt-5.4-mini + reasoning=low (labrat probes)
 #   --review / -R: gpt-5.6-sol + fast_mode (reviewer/critic/sentinel default per 2026-04-18)
 #   -R --full/-F:  gpt-5.6-sol full + fast_mode (the-revenger RECON escape hatch, 1.05M ctx)
 #   --gpt55:       gpt-5.6-sol + fast_mode (xbrd-exec bench xask-arm measurement, 2026-04-24)
