@@ -1,0 +1,755 @@
+#!/bin/bash
+# Usage: almanack <subcommand> [args...]
+#
+# Subcommands:
+#   chat "<prompt>"                                         Fire a chat prompt into the current notebook
+#   create ["<name>"]                                       Create a new notebook; returns its URL
+#   rename "<name>"                                         Rename the current notebook
+#   add <file-or-url> [<file-or-url>...]                    Upload files or ingest URLs as sources
+#   studio audio <mode> "<prompt>"                          Customize + generate Audio Overview
+#       mode ∈ deep-dive | brief | critique | debate
+#   studio report <template> "<prompt>"                     Customize + generate Report
+#       template ∈ from-scratch | summary | study-guide | blog
+#   studio infographic "<prompt>" [--style <style>]         Customize + generate Infographic
+#       style ∈ auto | professional | scientific | editorial | instructive | kawaii | anime | clay | bento | bricks | sketch
+#
+# Requires: Windows Chrome Dev with --remote-debugging-port=9222 and
+# --user-data-dir=C:\ChromeAutomation, signed into notebooklm.google.com.
+# For chat/rename/add/studio: a /notebook/<uuid> tab must be open.
+# See README.md.
+
+set -u
+
+CDP_PORT=9222
+SUBCMD="${1:-}"
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Localization
+#
+# Studio surfaces are matched by their visible UI labels, which NotebookLM
+# localizes. The Almanacker ships with en-US strings (default) plus a built-in
+# pt-BR table. Pick a built-in with ALMANACK_LOCALE (e.g. ALMANACK_LOCALE=pt-BR).
+#
+# For any other language, override individual labels without editing this script:
+# set ALMANACK_LOCALE_FILE to a file (or drop one at ~/.config/almanack/locale.conf)
+# that assigns the L_* variables below. The file is sourced last, so it wins; any
+# label it doesn't set falls back to the selected built-in. Find your UI's exact
+# strings by reading the labels in NotebookLM's Studio panel for your locale.
+#
+# NOTE: en-US length labels (Shorter/Default/Longer) and report templates
+# (Briefing doc/Study guide/Blog post) are confirmed against Google's docs;
+# the infographic style labels are best-effort — adjust via an override file if
+# your UI differs.
+# ──────────────────────────────────────────────────────────────────────────────
+
+ALMANACK_LOCALE="${ALMANACK_LOCALE:-en-US}"
+
+# en-US defaults. Also the fallback for any key a partial override leaves unset.
+L_PANEL_AUDIO="Audio Overview"
+L_PANEL_REPORT="Reports"
+L_PANEL_INFOGRAPHIC="Infographic"
+
+L_LEN_SHORT="Shorter"
+L_LEN_STANDARD="Default"
+L_LEN_LONG="Longer"
+
+L_TPL_FROM_SCRATCH="Create from scratch"
+L_TPL_SUMMARY="Briefing doc"
+L_TPL_STUDY_GUIDE="Study guide"
+L_TPL_BLOG="Blog post"
+L_REPORT_CUSTOMIZE="customize"   # matched case-insensitively, as a substring
+
+L_STYLE_AUTO="Auto"
+L_STYLE_SKETCH="Sketch"
+L_STYLE_KAWAII="Kawaii"
+L_STYLE_PROFESSIONAL="Professional"
+L_STYLE_SCIENTIFIC="Scientific"
+L_STYLE_ANIME="Anime"
+L_STYLE_CLAY="Clay"
+L_STYLE_EDITORIAL="Editorial"
+L_STYLE_INSTRUCTIVE="Instructive"
+L_STYLE_BENTO="Bento"
+L_STYLE_BRICKS="Bricks"
+
+# Built-in pt-BR table (the original, battle-tested labels).
+load_locale_pt_BR() {
+  L_PANEL_AUDIO="Resumo em Áudio"
+  L_PANEL_REPORT="Relatórios"
+  L_PANEL_INFOGRAPHIC="Infográfico"
+
+  L_LEN_SHORT="Curto"
+  L_LEN_STANDARD="Padrão"
+  L_LEN_LONG="Longo"
+
+  L_TPL_FROM_SCRATCH="Crie do zero"
+  L_TPL_SUMMARY="Documento de resumo"
+  L_TPL_STUDY_GUIDE="Guia de estudo"
+  L_TPL_BLOG="Post de blog"
+  L_REPORT_CUSTOMIZE="personalizar"
+
+  L_STYLE_AUTO="Seleção automática"
+  L_STYLE_SKETCH="Esboço de anotação"
+  L_STYLE_KAWAII="Kawaii"
+  L_STYLE_PROFESSIONAL="Profissional"
+  L_STYLE_SCIENTIFIC="Científico"
+  L_STYLE_ANIME="Anime"
+  L_STYLE_CLAY="Argila"
+  L_STYLE_EDITORIAL="Editorial"
+  L_STYLE_INSTRUCTIVE="Instrutivo"
+  L_STYLE_BENTO="Grade Bento"
+  L_STYLE_BRICKS="Tijolos"
+}
+
+case "$ALMANACK_LOCALE" in
+  en-US|en) : ;;                 # defaults already loaded above
+  pt-BR|pt) load_locale_pt_BR ;;
+  *) echo "⚠ Unknown ALMANACK_LOCALE '$ALMANACK_LOCALE' — using en-US labels." \
+          "Provide an override file (see ALMANACK_LOCALE_FILE) for other locales." >&2 ;;
+esac
+
+# External override wins: source a user-provided locale file last. Lets any
+# language work without touching this script.
+for _loc_file in "${ALMANACK_LOCALE_FILE:-}" "$HOME/.config/almanack/locale.conf"; do
+  [ -n "$_loc_file" ] && [ -f "$_loc_file" ] && . "$_loc_file"
+done
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Helpers
+# ──────────────────────────────────────────────────────────────────────────────
+
+ab() { agent-browser --cdp "$CDP_PORT" "$@"; }
+
+preflight() {
+  if curl -s --max-time 2 "http://localhost:$CDP_PORT/json/version" > /dev/null 2>&1; then
+    return 0
+  fi
+  echo "→ Chrome Dev not on CDP $CDP_PORT — launching on Windows side..." >&2
+  local chrome='C:\Program Files\Google\Chrome Dev\Application\chrome.exe'
+  cmd.exe /C start "" "$chrome" \
+    --remote-debugging-port=$CDP_PORT \
+    --user-data-dir=C:\\ChromeAutomation \
+    --no-first-run \
+    --no-default-browser-check \
+    > /dev/null 2>&1
+  local timeout_s="${ALMANACK_CDP_TIMEOUT:-20}"
+  local waited=0
+  while [ $waited -lt "$timeout_s" ]; do
+    if curl -s --max-time 1 "http://localhost:$CDP_PORT/json/version" > /dev/null 2>&1; then
+      echo "✓ Chrome Dev CDP $CDP_PORT reachable (${waited}s)" >&2
+      return 0
+    fi
+    sleep 1
+    waited=$((waited+1))
+  done
+  echo "✗ Chrome Dev did not come up on CDP $CDP_PORT within ${timeout_s}s." >&2
+  echo "  Manual: \"$chrome\" --remote-debugging-port=$CDP_PORT --user-data-dir=C:\\ChromeAutomation --no-first-run --no-default-browser-check" >&2
+  exit 1
+}
+
+# Focus a notebook tab. Priority:
+#   1. The currently active tab (→ prefix) if it's on /notebook/<uuid>.
+#   2. Else the first /notebook/<uuid> tab in the list.
+# This matches the semantic "act on what the user is looking at" — with
+# multiple notebook tabs open, the active one is the unambiguous target.
+focus_notebook_tab() {
+  local list
+  list=$(ab tab list 2>&1)
+
+  local active_line
+  active_line=$(echo "$list" | grep -E '^→[[:space:]]+\[t[0-9]+\][[:space:]].*https?://notebooklm\.google\.com/notebook/' || true)
+  local idx
+  if [ -n "$active_line" ]; then
+    idx=$(echo "$active_line" | grep -oE 't[0-9]+')
+  else
+    idx=$(echo "$list" | grep -E '\[t[0-9]+\][[:space:]].*https?://notebooklm\.google\.com/notebook/' | head -1 | grep -oE 't[0-9]+')
+  fi
+
+  if [ -z "$idx" ]; then
+    echo "✗ No NotebookLM notebook tab is open." >&2
+    echo "  Open a specific notebook (or run 'almanack create' first)." >&2
+    exit 1
+  fi
+
+  ab tab "$idx" > /dev/null 2>&1
+  echo "$idx"
+}
+
+# Strip agent-browser's ✓/✗ status markers and unwrap JSON strings from eval output.
+clean_eval() {
+  grep -v "^[✓✗]" | python3 -c "import sys, json; s=sys.stdin.read().strip(); print(json.loads(s) if s.startswith('\"') else s)" 2>/dev/null
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# chat — fire a prompt into the current notebook's chat surface
+# ──────────────────────────────────────────────────────────────────────────────
+
+cmd_chat() {
+  local prompt="$1"
+  preflight
+  focus_notebook_tab > /dev/null
+  echo "→ Firing prompt into NotebookLM..."
+
+  local has_input
+  has_input=$(ab eval 'document.querySelectorAll("textarea.query-box-input").length' 2>&1 | clean_eval)
+  if [ "${has_input:-0}" -eq 0 ]; then
+    echo "✗ Chat input not on page (notebook still loading or 'add sources' modal is open)." >&2
+    exit 1
+  fi
+
+  ab click 'textarea.query-box-input' > /dev/null 2>&1
+  ab keyboard inserttext "$prompt" > /dev/null 2>&1
+  ab wait 400 > /dev/null 2>&1
+  ab click 'button.submit-button' > /dev/null 2>&1
+
+  sleep 2
+  local after_val
+  after_val=$(ab eval 'document.querySelector("textarea.query-box-input")?.value || ""' 2>&1 | clean_eval)
+  if [ -z "${after_val}" ]; then
+    echo "✓ Prompt fired. Read the reply in your NotebookLM Chrome tab."
+  else
+    echo "⚠ Prompt may not have posted (input still holds: \"${after_val:0:80}\")." >&2
+    exit 1
+  fi
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# create — new notebook, optionally renamed
+# ──────────────────────────────────────────────────────────────────────────────
+
+cmd_create() {
+  local name="${1:-}"
+  preflight
+  echo "→ Creating new notebook..."
+
+  # Open a fresh dashboard tab — safer than hijacking an existing tab whose
+  # state we don't control.
+  ab tab new > /dev/null 2>&1
+  ab open https://notebooklm.google.com --wait 3000ms > /dev/null 2>&1
+
+  # The Create card is an Angular Material card with a stable class.
+  ab click 'mat-card.create-new-action-button' > /dev/null 2>&1
+
+  # Wait for navigation — the new-notebook URL has /notebook/<uuid>.
+  sleep 4
+  local url
+  url=$(ab eval 'location.href' 2>&1 | clean_eval)
+  if [[ "$url" != *"/notebook/"* ]]; then
+    echo "✗ Create click did not produce a notebook URL (got: $url)." >&2
+    exit 1
+  fi
+
+  # Optionally rename before returning (so the URL the user sees is
+  # already titled). The title input is rendered after the addSource modal
+  # mounts; wait for it, then fill.
+  if [ -n "$name" ]; then
+    ab wait 800 > /dev/null 2>&1
+    ab fill 'input.title-input' "$name" > /dev/null 2>&1
+    # Commit the rename by blurring — NotebookLM persists on blur.
+    ab eval 'document.querySelector("input.title-input")?.blur()' > /dev/null 2>&1
+  fi
+
+  # Strip any query string (?addSource=true) from the reported URL so it's
+  # stable across sessions.
+  local clean_url="${url%%\?*}"
+  echo "✓ Notebook created: $clean_url"
+  [ -n "$name" ] && echo "  Title: $name"
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# rename — change current notebook's title
+# ──────────────────────────────────────────────────────────────────────────────
+
+cmd_rename() {
+  local name="$1"
+  preflight
+  focus_notebook_tab > /dev/null
+  echo "→ Renaming notebook..."
+
+  local has_title
+  has_title=$(ab eval 'document.querySelectorAll("input.title-input").length' 2>&1 | clean_eval)
+  if [ "${has_title:-0}" -eq 0 ]; then
+    echo "✗ Title input not on page." >&2
+    exit 1
+  fi
+
+  ab fill 'input.title-input' "$name" > /dev/null 2>&1
+  ab eval 'document.querySelector("input.title-input")?.blur()' > /dev/null 2>&1
+  echo "✓ Renamed: $name"
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# add — ingest local files (upload) or URLs (Sites) as notebook sources
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Classify an arg as 'file' (existing local path), 'url' (http/https), or 'unknown'.
+classify_source() {
+  local arg="$1"
+  if [ -f "$arg" ]; then
+    echo "file"
+  elif [[ "$arg" =~ ^https?:// ]]; then
+    echo "url"
+  else
+    echo "unknown"
+  fi
+}
+
+# Open the add-source modal if not already open, and wait for the drop-zone
+# to actually mount. Angular Material's dialog has a few frames of mount
+# latency — polling avoids the race where our next eval fires too early.
+open_source_modal() {
+  local modal_open
+  modal_open=$(ab eval '!!document.querySelector(".drop-zone-container")' 2>&1 | clean_eval)
+  if [ "$modal_open" = "true" ]; then
+    return 0
+  fi
+
+  ab click 'button.add-source-button' > /dev/null 2>&1
+
+  # Poll up to 4s for the drop-zone to appear.
+  local i=0
+  while [ $i -lt 20 ]; do
+    sleep 0.2
+    modal_open=$(ab eval '!!document.querySelector(".drop-zone-container")' 2>&1 | clean_eval)
+    [ "$modal_open" = "true" ] && return 0
+    i=$((i+1))
+  done
+  echo "⚠ add-source modal did not mount within 4s" >&2
+  return 1
+}
+
+# Upload a single local file via the file-input click-intercept trick.
+# NotebookLM mounts an ephemeral <input type=file>, .click()s it (triggering
+# the OS picker), and then reads the picker's files. We hook the click to
+# stash the input element before the picker opens, set our file manually,
+# and dispatch 'change' so NotebookLM reads our bytes as if the user picked.
+upload_file() {
+  local path="$1"
+  local filename
+  filename=$(basename "$path")
+  local mime
+  mime=$(file --mime-type -b "$path" 2>/dev/null || echo "application/octet-stream")
+
+  open_source_modal
+
+  # Install hook — captures the next file-input .click() call.
+  ab eval '
+  (() => {
+    window.__almanack_fileInputs = [];
+    HTMLInputElement.prototype.click = function() {
+      if (this.type === "file") {
+        window.__almanack_fileInputs.push(this);
+        return;
+      }
+      return HTMLElement.prototype.click.apply(this, arguments);
+    };
+    return "hook installed";
+  })()
+  ' > /dev/null 2>&1
+
+  # Click the "Upload files" drop-zone button. The 4 source buttons share the
+  # .drop-zone-icon-button class and are distinguished only by their Material
+  # icon ligature ("upload"), which is locale-independent — so unlike the studio
+  # labels, this match needs no translation. A synthetic .click() via eval
+  # doesn't fire Angular's handler, so we tag the button and issue a real CDP
+  # click against the tag.
+  ab eval '
+  (() => {
+    const btns = Array.from(document.querySelectorAll(".drop-zone-icon-button"));
+    const upload = btns.find(b => b.textContent.includes("upload"));
+    if (upload) upload.scrollIntoView({block: "center"});
+    // Tag the button for CSS selection below (attribute selectors survive Angular re-renders better than class order).
+    if (upload) upload.setAttribute("data-almanack-target", "upload");
+    return upload ? "tagged" : "not-found";
+  })()
+  ' > /dev/null 2>&1
+  ab click '[data-almanack-target="upload"]' > /dev/null 2>&1
+  ab wait 500 > /dev/null 2>&1
+
+  # Base64-encode the file and inject it into the captured input.
+  local b64
+  b64=$(base64 -w0 "$path")
+
+  ab eval "
+  (async () => {
+    const inputs = window.__almanack_fileInputs || [];
+    if (inputs.length === 0) return { error: 'no captured file input' };
+    const input = inputs[inputs.length - 1];
+
+    const bin = atob('$b64');
+    const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    const file = new File([bytes], '$filename', { type: '$mime' });
+
+    const dt = new DataTransfer();
+    dt.items.add(file);
+    Object.defineProperty(input, 'files', { value: dt.files, configurable: true });
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+    return { ok: true, name: file.name, size: file.size };
+  })()
+  " > /dev/null 2>&1
+
+  # Give NotebookLM a moment to start ingesting before the next upload.
+  ab wait 1500 > /dev/null 2>&1
+  echo "  ✓ $filename"
+}
+
+# Add a URL source via the "Sites" button. The Sites dialog's textarea
+# accepts newline-separated URLs (batch), but we fire one per call for
+# simpler error attribution — batching is a caller-level concern.
+add_url() {
+  local url="$1"
+  open_source_modal
+
+  # Tag + click the Sites button.
+  ab eval '
+  (() => {
+    const btns = Array.from(document.querySelectorAll(".drop-zone-icon-button"));
+    const sites = btns.find(b => b.textContent.includes("link") || b.textContent.includes("video_youtube"));
+    if (!sites) return "not-found";
+    sites.scrollIntoView({block: "center"});
+    sites.setAttribute("data-almanack-target", "sites");
+    return "tagged";
+  })()
+  ' > /dev/null 2>&1
+  ab click '[data-almanack-target="sites"]' > /dev/null 2>&1
+
+  # Poll for the Sites dialog textarea to mount.
+  local i=0 has_url_box=""
+  while [ $i -lt 20 ]; do
+    sleep 0.2
+    has_url_box=$(ab eval '!!document.querySelector("mat-dialog-container textarea")' 2>&1 | clean_eval)
+    [ "$has_url_box" = "true" ] && break
+    i=$((i+1))
+  done
+  if [ "$has_url_box" != "true" ]; then
+    echo "  ⚠ Sites dialog did not mount for: $url" >&2
+    return 1
+  fi
+
+  # Focus + insert URL text. inserttext bypasses Angular Material's key-event
+  # intercepts that otherwise swallow the first few characters.
+  ab click 'mat-dialog-container textarea' > /dev/null 2>&1
+  ab keyboard inserttext "$url" > /dev/null 2>&1
+  ab wait 500 > /dev/null 2>&1
+
+  # The Insert button is the unelevated (filled) primary button — matched by
+  # class, not text, so it's locale-independent. It stays disabled until the URL
+  # regex validates, so we wait for enablement.
+  local j=0 btn_ready=""
+  while [ $j -lt 15 ]; do
+    sleep 0.2
+    btn_ready=$(ab eval '
+      (() => {
+        const btn = document.querySelector("mat-dialog-container button.mat-mdc-unelevated-button");
+        return btn && !btn.disabled;
+      })()
+    ' 2>&1 | clean_eval)
+    [ "$btn_ready" = "true" ] && break
+    j=$((j+1))
+  done
+  if [ "$btn_ready" != "true" ]; then
+    echo "  ⚠ Insert button did not enable — URL may be malformed: $url" >&2
+    ab press Escape > /dev/null 2>&1
+    return 1
+  fi
+
+  ab click 'mat-dialog-container button.mat-mdc-unelevated-button' > /dev/null 2>&1
+  ab wait 2000 > /dev/null 2>&1
+  echo "  ✓ $url"
+}
+
+cmd_add() {
+  preflight
+  focus_notebook_tab > /dev/null
+  echo "→ Adding sources..."
+
+  local count=0
+  for arg in "$@"; do
+    local kind
+    kind=$(classify_source "$arg")
+    case "$kind" in
+      file) upload_file "$arg"; count=$((count+1)) ;;
+      url)  add_url "$arg";     count=$((count+1)) ;;
+      unknown) echo "  ✗ Skipped (not a file and not http/https URL): $arg" >&2 ;;
+    esac
+  done
+  echo "✓ $count source(s) added."
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# studio — trigger Audio Overview / Report / Infographic generation
+# ──────────────────────────────────────────────────────────────────────────────
+
+# Open a studio feature's customize dialog by its localized label (see the
+# Localization section). The label comes from the .create-label-container inside
+# each div.create-artifact-button-container.
+open_studio_panel() {
+  local label="$1"
+  ab eval "
+  (() => {
+    const btn = Array.from(document.querySelectorAll('div.create-artifact-button-container'))
+      .find(el => el.querySelector('.create-label-container')?.innerText?.trim() === '$label');
+    if (!btn) return 'not-found';
+    btn.scrollIntoView({block: 'center'});
+    return 'visible';
+  })()
+  " > /dev/null 2>&1
+  ab wait 300 > /dev/null 2>&1
+  ab find text "$label" click --exact > /dev/null 2>&1
+  ab wait 1500 > /dev/null 2>&1
+}
+
+click_generate() {
+  # The primary action button inside the dialog is the Generate button. We match
+  # it by its primary-color class, not its (localized) text — so this is
+  # locale-independent.
+  ab click 'mat-dialog-container button.button-color--primary' > /dev/null 2>&1
+}
+
+cmd_studio_audio() {
+  local mode=""
+  local length=""
+  local prompt=""
+
+  # Parse: first positional is mode, --length flag anywhere, remaining positional is prompt.
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --length) length="$2"; shift 2 ;;
+      -*) echo "✗ Unknown flag: $1" >&2; exit 1 ;;
+      *) if [ -z "$mode" ]; then mode="$1"; else prompt="$1"; fi; shift ;;
+    esac
+  done
+
+  case "$mode" in
+    deep-dive) local radio_value=1
+               # Deep-dive defaults to Long unless user specified otherwise (user preference).
+               [ -z "$length" ] && length="long" ;;
+    brief)     local radio_value=2 ;;
+    critique)  local radio_value=3 ;;
+    debate)    local radio_value=4 ;;
+    *) echo "✗ Unknown audio mode: $mode (use deep-dive|brief|critique|debate)" >&2; exit 1 ;;
+  esac
+
+  # Map length slug to localized label.
+  local length_norm="${length:-standard}"
+  local length_label=""
+  case "$length_norm" in
+    short)    length_label="$L_LEN_SHORT" ;;
+    standard) length_label="$L_LEN_STANDARD" ;;
+    long)     length_label="$L_LEN_LONG" ;;
+    *) echo "✗ Unknown length: $length (use short|standard|long)" >&2; exit 1 ;;
+  esac
+
+  open_studio_panel "$L_PANEL_AUDIO"
+
+  # Select the mode radio by value attribute (stable across locales).
+  ab eval "
+  (() => {
+    const radio = document.querySelector('mat-dialog-container input[type=\"radio\"][value=\"$radio_value\"]');
+    if (!radio) return 'no-radio';
+    radio.click();
+    return 'clicked';
+  })()
+  " > /dev/null 2>&1
+  ab wait 400 > /dev/null 2>&1
+
+  # Select the length radio by its (localized) label text. The three length
+  # radios live in a separate radio group from the mode radios; we find the
+  # one whose surrounding label matches.
+  if [ "$length_norm" != "standard" ]; then
+    ab eval "
+    (() => {
+      const dialog = document.querySelector('mat-dialog-container');
+      const labels = Array.from(dialog.querySelectorAll('label, mat-radio-button, [role=\"radio\"]'));
+      const target = labels.find(el => el.innerText?.trim() === '$length_label' || el.getAttribute('aria-label')?.trim() === '$length_label');
+      if (!target) return 'no-length-radio';
+      target.click();
+      return 'length-clicked';
+    })()
+    " > /dev/null 2>&1
+    ab wait 300 > /dev/null 2>&1
+  fi
+
+  # Fill the customize prompt if provided.
+  if [ -n "$prompt" ]; then
+    ab click 'mat-dialog-container textarea' > /dev/null 2>&1
+    ab keyboard inserttext "$prompt" > /dev/null 2>&1
+    ab wait 400 > /dev/null 2>&1
+  fi
+
+  click_generate
+  ab wait 500 > /dev/null 2>&1
+  echo "✓ Audio Overview generation started (mode: $mode, length: ${length:-standard}). Read the result in NotebookLM when it finishes."
+}
+
+cmd_studio_report() {
+  local template="$1"; shift
+  local prompt="${1:-}"
+
+  # Localized template labels (see Localization section).
+  case "$template" in
+    from-scratch) local label="$L_TPL_FROM_SCRATCH" ;;
+    summary)      local label="$L_TPL_SUMMARY" ;;
+    study-guide)  local label="$L_TPL_STUDY_GUIDE" ;;
+    blog)         local label="$L_TPL_BLOG" ;;
+    *) echo "✗ Unknown report template: $template (use from-scratch|summary|study-guide|blog)" >&2; exit 1 ;;
+  esac
+
+  open_studio_panel "$L_PANEL_REPORT"
+
+  # Click the template button — for the from-scratch template this opens a blank
+  # prompt; for the preset templates, clicking the template alone auto-generates,
+  # so we always route through the adjacent "customize" sibling (matched by the
+  # localized L_REPORT_CUSTOMIZE label) when a custom prompt was supplied.
+  if [ -n "$prompt" ] && [ "$template" != "from-scratch" ]; then
+    # Click the Personalizar sibling of the chosen template.
+    ab eval "
+    (() => {
+      const template = Array.from(document.querySelectorAll('mat-dialog-container button'))
+        .find(b => b.innerText?.trim() === '$label');
+      if (!template) return 'no-template';
+      // The customize button is adjacent (next sibling or immediately following)
+      let sibling = template.nextElementSibling;
+      const customize = '$L_REPORT_CUSTOMIZE'.toLowerCase();
+      while (sibling && !(sibling.innerText || '').toLowerCase().includes(customize)) sibling = sibling.nextElementSibling;
+      if (!sibling) return 'no-customize-sibling';
+      sibling.click();
+      return 'clicked-customize';
+    })()
+    " > /dev/null 2>&1
+  else
+    ab find text "$label" click --exact > /dev/null 2>&1
+  fi
+  ab wait 1000 > /dev/null 2>&1
+
+  # Fill prompt if a prompt dialog appeared.
+  if [ -n "$prompt" ]; then
+    ab click 'mat-dialog-container textarea' > /dev/null 2>&1
+    ab keyboard inserttext "$prompt" > /dev/null 2>&1
+    ab wait 400 > /dev/null 2>&1
+    click_generate
+  fi
+
+  ab wait 500 > /dev/null 2>&1
+  echo "✓ Report generation started (template: $template). Read the result in NotebookLM when it finishes."
+}
+
+cmd_studio_infographic() {
+  local prompt=""
+  local style="auto"
+
+  # Parse --style flag if present; remaining positional is the prompt.
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --style) style="$2"; shift 2 ;;
+      *) prompt="$1"; shift ;;
+    esac
+  done
+
+  # Map style slug to localized radio label.
+  local style_label
+  case "$style" in
+    auto)        style_label="$L_STYLE_AUTO" ;;
+    sketch)      style_label="$L_STYLE_SKETCH" ;;
+    kawaii)      style_label="$L_STYLE_KAWAII" ;;
+    professional) style_label="$L_STYLE_PROFESSIONAL" ;;
+    scientific)  style_label="$L_STYLE_SCIENTIFIC" ;;
+    anime)       style_label="$L_STYLE_ANIME" ;;
+    clay)        style_label="$L_STYLE_CLAY" ;;
+    editorial)   style_label="$L_STYLE_EDITORIAL" ;;
+    instructive) style_label="$L_STYLE_INSTRUCTIVE" ;;
+    bento)       style_label="$L_STYLE_BENTO" ;;
+    bricks)      style_label="$L_STYLE_BRICKS" ;;
+    *) echo "✗ Unknown infographic style: $style" >&2; exit 1 ;;
+  esac
+
+  open_studio_panel "$L_PANEL_INFOGRAPHIC"
+
+  # Select the style radio by its label.
+  ab eval "
+  (() => {
+    const radios = Array.from(document.querySelectorAll('mat-dialog-container [role=\"radio\"]'));
+    const target = radios.find(r => r.innerText?.includes('$style_label') || r.getAttribute('aria-label')?.includes('$style_label'));
+    if (target) { target.click(); return 'clicked'; }
+    return 'no-match';
+  })()
+  " > /dev/null 2>&1
+  ab wait 400 > /dev/null 2>&1
+
+  # Fill the describe-infographic textbox if prompt was provided.
+  if [ -n "$prompt" ]; then
+    ab click 'mat-dialog-container textarea' > /dev/null 2>&1
+    ab keyboard inserttext "$prompt" > /dev/null 2>&1
+    ab wait 400 > /dev/null 2>&1
+  fi
+
+  click_generate
+  ab wait 500 > /dev/null 2>&1
+  echo "✓ Infographic generation started (style: $style). Read the result in NotebookLM when it finishes."
+}
+
+cmd_studio() {
+  local feature="${1:-}"; shift || true
+  preflight
+  focus_notebook_tab > /dev/null
+
+  case "$feature" in
+    audio)       cmd_studio_audio "$@" ;;
+    report)      cmd_studio_report "$@" ;;
+    infographic) cmd_studio_infographic "$@" ;;
+    *) echo "✗ Unknown studio feature: $feature (use audio|report|infographic)" >&2; exit 1 ;;
+  esac
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# help
+# ──────────────────────────────────────────────────────────────────────────────
+
+cmd_help() {
+  cat <<'EOF'
+Usage: almanack <subcommand> [args...]
+
+  chat "<prompt>"
+      Fire a chat prompt into the current notebook.
+
+  create ["<name>"]
+      Create a new notebook. Optional name sets the title. Returns the URL.
+
+  rename "<name>"
+      Rename the current notebook.
+
+  add <file-or-url>...
+      Upload files (any local path) and/or ingest URLs (http/https) as sources.
+      Files are sent via a file-input click-intercept hook; URLs go through
+      the Sites button.
+
+  studio audio <mode> "<prompt>"
+      Generate an Audio Overview. mode ∈ deep-dive | brief | critique | debate.
+      Prompt is optional — if empty, NotebookLM uses its default focus.
+
+  studio report <template> "<prompt>"
+      Generate a Report. template ∈ from-scratch | summary | study-guide | blog.
+
+  studio infographic "<prompt>" [--style <style>]
+      Generate an Infographic. style ∈ auto | professional | scientific |
+      editorial | instructive | kawaii | anime | clay | bento | bricks | sketch.
+      Default style is auto.
+
+All subcommands expect Windows Chrome Dev running with CDP on 9222 and the
+C:\ChromeAutomation profile signed into notebooklm.google.com. See README.md.
+EOF
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Dispatch
+# ──────────────────────────────────────────────────────────────────────────────
+
+case "$SUBCMD" in
+  chat)    shift; [ $# -eq 0 ] && { echo "Usage: almanack chat \"<prompt>\"" >&2; exit 1; }; cmd_chat "$@" ;;
+  create)  shift; cmd_create "$@" ;;
+  rename)  shift; [ $# -eq 0 ] && { echo "Usage: almanack rename \"<name>\"" >&2; exit 1; }; cmd_rename "$@" ;;
+  add)     shift; [ $# -eq 0 ] && { echo "Usage: almanack add <file-or-url>..." >&2; exit 1; }; cmd_add "$@" ;;
+  studio)  shift; cmd_studio "$@" ;;
+  -h|--help|help|"") cmd_help ;;
+  *) echo "Unknown subcommand: $SUBCMD" >&2; echo "Run 'almanack help' for usage." >&2; exit 1 ;;
+esac
