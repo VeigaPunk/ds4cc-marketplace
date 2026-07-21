@@ -1,0 +1,171 @@
+#!/bin/bash
+# Usage: grok [--follow-up] "your prompt here"
+#
+# Default: opens a NEW chat tab (fresh conversation, no prior context).
+# --follow-up (or -f): continue in an existing Grok chat tab.
+#
+# Fires a prompt into Grok's web UI via CDP (Chrome DevTools Protocol)
+# connected to your real Windows Chrome Dev, reusing your SuperGrok session.
+# Polls for the response and returns it verbatim (stubs navigator.clipboard
+# .writeText, then clicks Grok's own Copy button).
+#
+# Requires: Windows Chrome Dev launched with --remote-debugging-port=9222,
+# logged into grok.com with your SuperGrok account. See README.md for setup.
+
+set -u
+
+# Parse flags. --follow-up anywhere before or after the prompt.
+FOLLOW_UP=0
+ARGS=()
+for arg in "$@"; do
+  case "$arg" in
+    --follow-up|--continue|-f) FOLLOW_UP=1 ;;
+    *) ARGS+=("$arg") ;;
+  esac
+done
+
+if [ ${#ARGS[@]} -eq 0 ]; then
+  echo "Usage: grok [--follow-up] \"your prompt\""
+  exit 1
+fi
+
+PROMPT="${ARGS[*]}"
+CDP_PORT=9222
+
+# Ensure Windows Chrome Dev is reachable on CDP. Fast-path if already up;
+# otherwise launch it on the Windows side and poll until it binds the port.
+ensure_chrome_cdp() {
+  local port="$1"
+  if curl -s --max-time 2 "http://localhost:$port/json/version" > /dev/null 2>&1; then
+    return 0
+  fi
+  echo "→ Chrome Dev not on CDP $port — launching on Windows side..." >&2
+  local chrome='C:\Program Files\Google\Chrome Dev\Application\chrome.exe'
+  cmd.exe /C start "" "$chrome" \
+    --remote-debugging-port=$port \
+    --user-data-dir=C:\\ChromeAutomation \
+    --no-first-run \
+    --no-default-browser-check \
+    > /dev/null 2>&1
+  local timeout_s="${GROK_CDP_TIMEOUT:-20}"
+  local waited=0
+  while [ $waited -lt "$timeout_s" ]; do
+    if curl -s --max-time 1 "http://localhost:$port/json/version" > /dev/null 2>&1; then
+      echo "✓ Chrome Dev CDP $port reachable (${waited}s)" >&2
+      return 0
+    fi
+    sleep 1
+    waited=$((waited+1))
+  done
+  echo "✗ Chrome Dev did not come up on CDP $port within ${timeout_s}s." >&2
+  echo "  Manual: \"$chrome\" --remote-debugging-port=$port --user-data-dir=C:\\ChromeAutomation --no-first-run --no-default-browser-check" >&2
+  return 1
+}
+ensure_chrome_cdp "$CDP_PORT" || exit 1
+
+echo "→ Sending to Grok..."
+
+# Tab selection.
+# Default: open a fresh tab on grok.com/ — a new, empty chat with no prior context.
+# --follow-up: attach to an existing Grok chat tab (one on /c/<uuid>),
+#   preferring the active (→) tab so "follow up" acts on what the user is
+#   looking at. Fails with an instructive error if no such tab exists.
+if [ "$FOLLOW_UP" = "1" ]; then
+  TAB_LIST=$(agent-browser --cdp "$CDP_PORT" tab list 2>&1)
+  GROK_IDX=$(echo "$TAB_LIST" | grep -E '^→[[:space:]]+\[t[0-9]+\][[:space:]].*https?://grok\.com/c/' | head -1 | grep -oE 't[0-9]+')
+  if [ -z "$GROK_IDX" ]; then
+    GROK_IDX=$(echo "$TAB_LIST" | grep -E '\[t[0-9]+\][[:space:]].*https?://grok\.com/c/' | head -1 | grep -oE 't[0-9]+')
+  fi
+  if [ -z "$GROK_IDX" ]; then
+    echo "✗ --follow-up: no existing Grok chat tab to continue in." >&2
+    echo "  Fire a fresh prompt first (without --follow-up), then retry." >&2
+    exit 1
+  fi
+  agent-browser --cdp "$CDP_PORT" tab "$GROK_IDX" > /dev/null 2>&1
+else
+  agent-browser --cdp "$CDP_PORT" tab new > /dev/null 2>&1
+  agent-browser --cdp "$CDP_PORT" open https://grok.com --wait 3000ms > /dev/null 2>&1
+fi
+
+# Dismiss OneTrust cookie banner / Upgrade popups if present. Usually already
+# dismissed on the user's persistent Chrome profile, but cheap to re-run.
+agent-browser --cdp "$CDP_PORT" eval "
+document.querySelectorAll('button[aria-label=\"Dismiss\"]').forEach(b => b.click());
+const ot = document.querySelector('#onetrust-accept-btn-handler, #onetrust-reject-all-handler');
+if (ot) ot.click();
+" > /dev/null 2>&1
+
+# Let any banner-dismissal DOM mutation settle before targeting the input.
+# Without this pause, focus obtained by clicking the contenteditable can be
+# lost during reflow, causing keystrokes to land on <body>.
+agent-browser --cdp "$CDP_PORT" wait 500 > /dev/null 2>&1
+
+# Mode selection. Default: Expert (user preference — quality/reasoning over speed).
+# Override via GROK_MODE env var (Auto, Fast, Expert, Heavy).
+# Synthetic .click() on the Model-select button does NOT open the Radix
+# dropdown — the real CDP mouse-event click subcommand is required.
+GROK_MODE="${GROK_MODE:-Expert}"
+if [ -n "$GROK_MODE" ]; then
+  agent-browser --cdp "$CDP_PORT" click 'button[aria-label="Model select"]' > /dev/null 2>&1
+  agent-browser --cdp "$CDP_PORT" wait 400 > /dev/null 2>&1
+  agent-browser --cdp "$CDP_PORT" eval "
+  (() => {
+    const want = '$GROK_MODE';
+    const item = Array.from(document.querySelectorAll('[role=\"menuitem\"]'))
+      .find(el => new RegExp('^' + want + '\\\\b', 'i').test((el.innerText||'').trim()));
+    if (item) item.click();
+    return item ? 'mode:' + want : 'mode:not-found';
+  })()
+  " > /dev/null 2>&1
+  agent-browser --cdp "$CDP_PORT" wait 300 > /dev/null 2>&1
+fi
+
+# Snapshot Copy-button count BEFORE submit. Needed because we may be reusing
+# a live tab that already has a conversation with its own Copy buttons — the
+# polling loop must wait until a NEW one appears, not latch onto a stale one.
+BEFORE_COUNT=$(agent-browser --cdp "$CDP_PORT" eval \
+  'document.querySelectorAll("button[aria-label=\"Copy\"]").length' 2>&1 \
+  | grep -v "^✓\|^✗" | tr -d '"')
+BEFORE_COUNT=${BEFORE_COUNT:-0}
+
+# Selector-aware `type` auto-waits for the element and focuses it atomically —
+# more robust than click-then-keyboard-type, which is race-prone against reflow.
+agent-browser --cdp "$CDP_PORT" type '[contenteditable="true"]' "$PROMPT" > /dev/null 2>&1
+agent-browser --cdp "$CDP_PORT" press Enter > /dev/null 2>&1
+
+# Poll for Grok to finish streaming. Ceiling is GROK_WAIT_CEILING_S (default 90s)
+# — long enough for substantive analytical prompts; falls through to the
+# "(no response — try a longer wait)" sentinel if nothing shows up.
+# Completion = (Copy-button count > BEFORE_COUNT) AND no Stop button AND
+# count stable for 800ms (streaming has actually stopped, not just paused).
+CEILING_S=${GROK_WAIT_CEILING_S:-90}
+
+agent-browser --cdp "$CDP_PORT" eval "
+(async () => {
+  const before = ${BEFORE_COUNT};
+  const original = navigator.clipboard.writeText.bind(navigator.clipboard);
+  let captured = null;
+  navigator.clipboard.writeText = async (t) => { captured = t; return original(t); };
+  const ceiling = ${CEILING_S} * 1000;
+  const start = Date.now();
+  let prevCount = -1, stableSince = 0;
+  while (Date.now() - start < ceiling) {
+    const btns = document.querySelectorAll('button[aria-label=\"Copy\"]');
+    const streaming = !!document.querySelector('button[aria-label*=\"Stop\" i]');
+    if (btns.length > before && !streaming) {
+      if (btns.length === prevCount) {
+        if (Date.now() - stableSince >= 800) {
+          btns[btns.length-1].click();
+          await new Promise(r => setTimeout(r, 400));
+          return captured || '(clipboard not captured)';
+        }
+      } else {
+        prevCount = btns.length;
+        stableSince = Date.now();
+      }
+    }
+    await new Promise(r => setTimeout(r, 500));
+  }
+  return '(no response — try a longer wait)';
+})()
+" 2>&1 | grep -v "^✓\|^✗" | python3 -c "import sys, json; out = sys.stdin.read().strip(); print(json.loads(out) if out.startswith('\"') else out)"
