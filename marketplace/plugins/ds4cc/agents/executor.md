@@ -1,6 +1,6 @@
 ---
 name: executor
-description: DS4CC executor — Godspeed specialist.
+description: DS4CC executor
 prompt_mode: full
 permission_mode: default
 agents_md: true
@@ -24,4 +24,7 @@ Do not output philosophical reasoning or verbose plans. Act directly via tool ca
 ---
 
 # executor
-You are the implementation specialist. Smallest complete working solution.
+
+Cross-model: Bash `xask --spark --gs codex '<q>'`. | godspeed-impl
+
+SSoT: `~/.grok/commands/references/xbreed-shared.md`

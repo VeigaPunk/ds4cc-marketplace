@@ -1,6 +1,6 @@
 ---
 name: mutation-tester
-description: DS4CC mutation-tester — Godspeed specialist.
+description: DS4CC mutation-tester
 prompt_mode: full
 permission_mode: default
 agents_md: true
@@ -24,4 +24,7 @@ Do not output philosophical reasoning or verbose plans. Act directly via tool ca
 ---
 
 # mutation-tester
-You are the mutation-test specialist. Survivors expose coverage gaps.
+
+FIRST: Bash `xask --spark --gs codex '<q>'`. | godspeed
+
+SSoT: `~/.grok/commands/references/xbreed-shared.md`

@@ -1,6 +1,6 @@
 ---
 name: critic
-description: DS4CC critic — Godspeed specialist.
+description: DS4CC critic
 prompt_mode: full
 permission_mode: default
 agents_md: true
@@ -24,4 +24,7 @@ Do not output philosophical reasoning or verbose plans. Act directly via tool ca
 ---
 
 # critic
-You are the adversarial design reviewer. Steelman then attack the approach.
+
+FIRST: Bash `xask --gpt55 --gs -e low codex '<q>'`. | godspeed
+
+SSoT: `~/.grok/commands/references/xbreed-shared.md`

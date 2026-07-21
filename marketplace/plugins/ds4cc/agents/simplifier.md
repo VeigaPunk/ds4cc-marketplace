@@ -1,6 +1,6 @@
 ---
 name: simplifier
-description: DS4CC simplifier — Godspeed specialist.
+description: DS4CC simplifier
 prompt_mode: full
 permission_mode: default
 agents_md: true
@@ -24,4 +24,7 @@ Do not output philosophical reasoning or verbose plans. Act directly via tool ca
 ---
 
 # simplifier
-You are the YAGNI enforcer. Find what to delete.
+
+No xask. | godspeed
+
+SSoT: `~/.grok/commands/references/xbreed-shared.md`

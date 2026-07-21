@@ -99,18 +99,18 @@ copilot plugin install <plugin-name>@ds4cc
 
 ## Kimi Code CLI
 
-Kimi Code has no marketplace registration protocol — it installs plugins from a local path or zip/GitHub URL, and can browse a custom marketplace catalog JSON. From a local checkout of this repository, type these slash commands in the Kimi TUI:
+Kimi Code CLI 0.28.1 can register the published catalog and install its minimal ZIP packages. Type these slash commands in the Kimi TUI:
 
 Browse the full catalog:
 
 ```
-/plugins marketplace .kimi-plugin/marketplace.json
+/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json
 ```
 
 Or install a plugin directly:
 
 ```
-/plugins install ./marketplace/plugins/<plugin-name>
+/plugins install <artifact-url-or-local-path>
 /reload
 ```
 
@@ -122,7 +122,7 @@ For example, this meta-plugin:
 /plugins list
 ```
 
-Installing a third-party plugin shows a trust confirmation first; approve it only after reviewing the plugin source. Plugin skills then become available as `/skill:<skill-name>` (e.g. `/skill:ds4cc-docs`) and plugin commands as `/<plugin>:<command>`.
+Installing a third-party plugin shows a trust confirmation first; approve it only after reviewing the plugin source. Plugin skills then become available as `/skill:<skill-name>` (e.g. `/skill:ds4cc-docs`) and plugin commands as `/<plugin>:<command>`. Kimi 0.28.1 cannot install this marketplace's custom `the-*` agent profiles; Kimi's built-in agents remain available.
 
 ## Plugin catalog (developer marketplace)
 

@@ -1,6 +1,6 @@
 ---
 name: scout
-description: DS4CC scout — Godspeed specialist.
+description: DS4CC scout
 prompt_mode: full
 permission_mode: default
 agents_md: true
@@ -24,4 +24,7 @@ Do not output philosophical reasoning or verbose plans. Act directly via tool ca
 ---
 
 # scout
-You are the research specialist. Authoritative sources, primary docs, prior art. Cite findings.
+
+FIRST: Bash `xask --spark --gs codex '<q>'`. | godspeed
+
+SSoT: `~/.grok/commands/references/xbreed-shared.md`

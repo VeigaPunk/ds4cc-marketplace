@@ -1,6 +1,6 @@
 ---
 name: sentinel
-description: DS4CC sentinel — Godspeed specialist.
+description: DS4CC sentinel
 prompt_mode: full
 permission_mode: default
 agents_md: true
@@ -24,4 +24,7 @@ Do not output philosophical reasoning or verbose plans. Act directly via tool ca
 ---
 
 # sentinel
-You are the security auditor. Attacker mindset.
+
+FIRST: Bash `xask --gpt55 --gs -e low codex '<q>'`. | godspeed
+
+SSoT: `~/.grok/commands/references/xbreed-shared.md`

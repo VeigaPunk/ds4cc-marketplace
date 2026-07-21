@@ -2,7 +2,7 @@
 
 Documentation-only plugin for the public DS4CC multi-CLI marketplace, maintained by VeigaPunk.
 
-This plugin explains how to review and register the marketplace and how to choose install commands for **Grok Build**, Codex, Claude Code, and Copilot CLI. It does not install or execute anything automatically.
+This plugin explains how to review and register the marketplace and how to choose install commands for **Grok Build**, Codex, Claude Code, Copilot CLI, and Kimi Code CLI. It does not install or execute anything automatically.
 
 ## Skills
 
@@ -25,6 +25,18 @@ codex plugin marketplace add VeigaPunk/ds4cc-marketplace
 codex plugin list
 codex plugin add <plugin-name>@ds4cc
 ```
+
+## Quick start (Kimi Code CLI 0.28.1)
+
+Enter these commands in the Kimi TUI:
+
+```
+/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json
+/plugins install <artifact-url-or-local-path>
+/reload
+```
+
+The Kimi packages install plugin skills and commands, not the marketplace's custom `the-*` agent profiles. Kimi's built-in agents remain available.
 
 ## Links
 
