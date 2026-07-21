@@ -271,7 +271,7 @@
     },
     {
       "name": "the-musketeer",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "description": "Grok web UI automation through agent-browser",
       "category": "development",
       "source": {
