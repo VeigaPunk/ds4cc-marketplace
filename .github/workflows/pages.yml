@@ -35,6 +35,7 @@ jobs:
       - name: Check isolated OpenCode install
         run: node scripts/check-opencode-install.mjs
 
+      # Build Kimi plugin archives before Pages upload so the catalog is installable.
       - name: Test and build Kimi marketplace
         run: |
           python3 -m unittest -v tests.test_build_kimi_marketplace
