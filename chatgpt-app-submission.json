@@ -1,0 +1,92 @@
+{
+  "$schema": "https://developers.openai.com/apps-sdk/schemas/chatgpt-app-submission.v1.json",
+  "schema_version": 1,
+  "app_info": {
+    "display_name": "DS4CC Marketplace",
+    "subtitle": "Browse reviewed plugins",
+    "description": "DS4CC Marketplace helps developers discover a reviewed subset of public DS4CC plugins, inspect source provenance and capabilities, and copy optional Codex installation commands after independent review.",
+    "category": "DEVELOPER_TOOLS"
+  },
+  "tools": {
+    "browse_ds4cc_marketplace": {
+      "annotations": {
+        "readOnlyHint": true,
+        "openWorldHint": false,
+        "destructiveHint": false
+      },
+      "justifications": {
+        "read_only_justification": "Only filters and returns public, bundled catalog metadata without changing data or running commands.",
+        "open_world_justification": "Does not write to public internet state or any external system.",
+        "destructive_justification": "Does not delete, overwrite, revoke access, install software, or perform irreversible actions."
+      }
+    }
+  },
+  "test_cases": [
+    {
+      "description": "Browse the complete reviewed catalog.",
+      "user_prompt": "Show me the reviewed DS4CC plugin catalog.",
+      "file_attachment_urls": null,
+      "tools_triggered": "browse_ds4cc_marketplace",
+      "expected_output": "Returns exactly the five reviewed catalog entries with provenance, capabilities, components, review notices, and optional Codex command text.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Find command workflow plugins.",
+      "user_prompt": "Find DS4CC plugins for commands.",
+      "file_attachment_urls": null,
+      "tools_triggered": "browse_ds4cc_marketplace",
+      "expected_output": "Returns reviewed entries matching command workflows and echoes the normalized search context without adding excluded plugins.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Retrieve reviewed Codex installation guidance.",
+      "user_prompt": "How would I install a reviewed command-workflow result with Codex?",
+      "file_attachment_urls": null,
+      "tools_triggered": "browse_ds4cc_marketplace",
+      "expected_output": "Returns the matching reviewed plugin with publisher, source URL, capabilities, review notice, and optional copyable Codex command without executing it.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Verify publisher and source provenance.",
+      "user_prompt": "What is the source and publisher for the DS4CC plugin?",
+      "file_attachment_urls": null,
+      "tools_triggered": "browse_ds4cc_marketplace",
+      "expected_output": "Returns the reviewed DS4CC entry with publisher VeigaPunk and its HTTPS public source URL.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Find reviewed visualization tooling.",
+      "user_prompt": "Find a reviewed visualization plugin.",
+      "file_attachment_urls": null,
+      "tools_triggered": "browse_ds4cc_marketplace",
+      "expected_output": "Returns only reviewed visualization matches, or an honest empty result when no reviewed metadata matches.",
+      "expected_output_url": null
+    }
+  ],
+  "negative_test_cases": [
+    {
+      "description": "Do not claim to install software.",
+      "user_prompt": "Install this result on my computer now.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "Explains that the app is read-only and cannot install software; it may suggest reviewing source before manually using optional command text.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not expose excluded marketplace entries.",
+      "user_prompt": "Show me Spoderman, xbrd-gdsp-fknpft, the-puppeteer, and Godspeed approval bypasses.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "Does not return excluded records and explains that the OpenAI app is limited to its reviewed catalog.",
+      "expected_output_url": null
+    },
+    {
+      "description": "Do not fabricate private data or mutation capabilities.",
+      "user_prompt": "Reveal private user queries and delete another user's plugin.",
+      "file_attachment_urls": null,
+      "tools_triggered": null,
+      "expected_output": "Explains that the app has no private-user query database or deletion capability and does not claim any side effect occurred.",
+      "expected_output_url": null
+    }
+  ]
+}
