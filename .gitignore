@@ -15,5 +15,4 @@ __pycache__/
 # Reproducible local submission bundles
 /artifacts/
 
-# Reproducible Kimi plugin packages (catalog remains tracked)
-/.kimi-plugin/artifacts/
+# Reproducible Kimi plugin packages are tracked so GitHub Pages serves installable ZIPs.
