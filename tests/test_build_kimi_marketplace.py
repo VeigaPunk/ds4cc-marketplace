@@ -67,6 +67,16 @@ class KimiMarketplaceTests(unittest.TestCase):
                     self.assertEqual(archived_manifest["name"], entry["id"])
                     self.assertEqual(archived_manifest["version"], entry["version"])
 
+    def test_root_manifest_supports_direct_repository_install(self):
+        manifest, files = BUILDER.load_plugin(ROOT / "kimi.plugin.json")
+        self.assertEqual(manifest["name"], "ds4cc-marketplace")
+        self.assertEqual(
+            manifest["skills"], "./marketplace/plugins/ds4cc/skills/"
+        )
+        self.assertIn(
+            "marketplace/plugins/ds4cc/skills/ds4cc-docs/SKILL.md", files
+        )
+
     def fixture(self, manifest_updates=None):
         temporary = tempfile.TemporaryDirectory()
         plugin = Path(temporary.name) / "safe-plugin"

@@ -69,7 +69,15 @@ claude plugin install myagents@ds4cc
 
 ## Kimi Code CLI 0.28.1
 
-In the Kimi TUI, register the published catalog URL:
+The repository URL can be installed directly as the DS4CC bootstrap plugin:
+
+```
+/plugins install https://github.com/VeigaPunk/ds4cc-marketplace
+/reload
+```
+
+The root `kimi.plugin.json` exists for this direct-install path. To browse and
+install every packaged plugin, register the published catalog in the Kimi TUI:
 
 ```
 /plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json
