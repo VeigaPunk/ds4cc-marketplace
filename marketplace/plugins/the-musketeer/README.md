@@ -20,7 +20,7 @@ Same thing from a Claude Code session: invoke the `the-musketeer` agent with a p
 
 ## Architecture
 
-1. **Chrome Dev with CDP** — you launch your real Windows Chrome Dev with `--remote-debugging-port=9222`, sign into grok.com once, and leave it running. Your normal browsing and SuperGrok session live here.
+1. **Isolated Chrome for Testing with CDP** — on native Linux/Omarchy, `musketeer-chrome` (also installed as the legacy-compatible `ds4cc-chrome`) launches stable Chrome for Testing on loopback port 9222 with a dedicated persistent profile. Sign into Grok once; later launches retain the session without exposing your daily browser profile.
 2. **agent-browser `--cdp 9222`** — a native CLI that speaks Chrome DevTools Protocol. The musketeer script attaches to your existing Chrome, finds (or opens) a grok.com tab, and drives it.
 3. **`grok` CLI** — dispatches a prompt: finds/opens the Grok tab, dismisses overlays, types into the contenteditable input, submits with Enter, waits for streaming to finish, then captures the response by hooking `navigator.clipboard.writeText` and clicking Grok's own "Copy" button. That gives us Grok's verbatim formatting (no UI chrome, no metadata).
 4. **Claude agent** — `the-musketeer.md` is a user-level agent spec. Installed to `~/.claude/agents/`, it becomes callable via the Agent tool from any Claude Code session.
@@ -38,29 +38,64 @@ The installer:
 - Symlinks `grok` into `~/.local/bin/`
 - Symlinks the Claude agent into `~/.claude/agents/`
 
-## Launch Chrome Dev with CDP (one-time)
+## Native Omarchy automation browser
 
-The musketeer attaches to a Chrome Dev instance running with the DevTools Protocol port open.
+```bash
+./scripts/install-automation-chrome
+musketeer-chrome
+```
 
-1. Close any running Chrome Dev instance.
-2. Relaunch Chrome Dev with `--remote-debugging-port=9222`. On Windows, either:
-   - Edit the shortcut's target to append `--remote-debugging-port=9222`, or
-   - Launch from a terminal: `"C:\Program Files\Google\Chrome Dev\Application\chrome.exe" --remote-debugging-port=9222`.
-3. Sign into `grok.com` in that Chrome with your SuperGrok account.
-4. From WSL, verify the port is reachable:
-   ```bash
-   curl -s http://localhost:9222/json/version
-   ```
-   You should see JSON. If not, check that WSL can see the Windows loopback (usually automatic on WSL2); if needed, use `$(ip route | awk '/default/ {print $3}'):9222` as the endpoint.
-5. Test: `grok "hello"`.
+The installer downloads the current Linux x86_64 **stable** Chrome for Testing into `~/.local/share/the-musketeer/`. Stable is deliberate: Canary 152 was observed crashing on Google sign-in pages despite passing blank-page CDP probes. Override with `MUSKETEER_CHROME_CHANNEL=Beta|Dev|Canary` only for isolated testing. On a host with an existing DS4CC installation, the shared launcher reuses DS4CC only as an atomic pair: both its executable and the real (non-symlink) `~/.local/share/ds4cc/agent-chrome-profile` directory must exist. Partial legacy installations fall back to both canonical `~/.local/share/the-musketeer/` paths, preventing a browser from being paired accidentally with the wrong authenticated profile. Almanacker calls to `ds4cc-chrome` and direct `musketeer-chrome` calls therefore share the same selected profile.
 
-Auth survives as long as your Chrome profile stays signed in — no token export needed.
+Explicit `MUSKETEER_CHROME_BIN` takes precedence over `MUSKETEER_CHROME_ROOT`; either uses an explicit `MUSKETEER_CHROME_PROFILE` or the canonical profile. A profile-only override pairs with the canonical executable. Before launch, the executable, non-symlink profile directory, and Chrome major version (149 or newer) are validated. Neither installer deletes profiles or replaces their authentication data.
+
+Both launcher names are installed as exact symlinks to the repository launcher. An unrelated existing file or symlink is moved once to `<name>.pre-musketeer`; installation is then reversible. If that backup already exists while the current destination is unknown, installation stops instead of overwriting either copy.
+
+The evidence-backed launch configuration keeps Chrome's sandbox, native Wayland, loopback-only CDP, Cloudflare DNS-over-HTTPS, and background-throttling protections. The CDP port defaults to 9222 and can be changed with `MUSKETEER_CDP_PORT`. Stability probes found no benefit from forced renderer accessibility, Vulkan disabling, `/dev/shm` disabling, or an ANGLE override, so those switches are not used. These automation settings are controlled by the launcher command line, not by `chrome://flags` policy or experiments.
+
+For the disposable profile, browser sync and the stale crash-recovery bubble are disabled, while a fixed `1440×1000` desktop window keeps responsive layouts and accessibility references more repeatable. Repository-local `agent-browser.json` pins agent-browser to CDP 9222, namespace/session `musketeer`, content boundaries, and a 50,000-character output ceiling. It never launches a second browser. All `chrome://flags` experiments remain at **Default**; no experiment improved the measured CDP, evaluation, or accessibility-snapshot path.
+
+An argument-free launch opens exactly three disposable automation tabs, in order: NotebookLM, Grok, and ChatGPT. Supplying one or more URLs replaces those defaults completely.
+
+If Chrome reaches `DevTools listening` and then repeatedly crashes with `SIGTRAP`, the persistent profile may contain incompatible browser state. Preserve it and create a clean profile without deleting credentials or history:
+
+```bash
+./scripts/repair-chrome-profile
+musketeer-chrome
+```
+
+The repair refuses to run while Chrome owns the profile and moves the old directory to a timestamped `.crash-backup-*` path for manual rollback. You must sign in once in the clean profile.
+
+Verify:
+
+```bash
+curl -s http://127.0.0.1:9222/json/version
+grok-web "hello"   # when the official Grok CLI owns the `grok` command
+```
+
+## Official Grok Build + DS4CC
+
+Install the official CLI, then register the DS4CC marketplace and Grok-native role catalog:
+
+```bash
+curl -fsSL https://x.ai/cli/install.sh | bash
+./scripts/setup-grok-build
+```
+
+This installs the marketplace `myagents` plugin and 14 provider-neutral agent definitions under `~/.grok/agents/`. Each definition contains the canonical Godspeed Core followed by one generic specialist role. They contain no external-model routing instructions.
 
 ## Files
 
 - `grok` — the CLI executable.
 - `the-musketeer.md` — Claude Code agent spec.
 - `install.sh` — idempotent installer.
+- `scripts/install-automation-chrome` — installs isolated Canary on native Linux.
+- `scripts/musketeer-chrome` — launches the persistent CDP profile.
+- `scripts/repair-chrome-profile` — safely rotates a crash-looping profile while preserving a rollback backup.
+- `scripts/install-chrome-aliases` — safely installs both launcher aliases with reversible backups.
+- `tests/test-musketeer-chrome.sh` — hermetic launcher and installer-alias checks.
+- `scripts/setup-grok-build` — registers DS4CC with official Grok Build.
+- `agents/*.md` — 14 Grok-native Godspeed agent definitions.
 
 ## Known limits
 

@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ -n "${MUSKETEER_CHROME_PROFILE:-}" ]]; then
+  PROFILE="$MUSKETEER_CHROME_PROFILE"
+elif [[ -d "$HOME/.local/share/ds4cc/agent-chrome-profile" &&
+        ! -L "$HOME/.local/share/ds4cc/agent-chrome-profile" ]]; then
+  PROFILE="$HOME/.local/share/ds4cc/agent-chrome-profile"
+else
+  PROFILE="$HOME/.local/share/the-musketeer/chrome-profile"
+fi
+STAMP="${MUSKETEER_REPAIR_STAMP:-$(date +%Y%m%d-%H%M%S)}"
+BACKUP="${PROFILE}.crash-backup-${STAMP}"
+
+if [[ ! -d "$PROFILE" || -L "$PROFILE" ]]; then
+  printf 'repair-chrome-profile: expected a real profile directory: %s\n' "$PROFILE" >&2
+  exit 1
+fi
+if pgrep -f -- "--user-data-dir=$PROFILE" >/dev/null 2>&1; then
+  printf 'repair-chrome-profile: Chrome is still using this profile; close it first\n' >&2
+  exit 1
+fi
+if [[ -e "$BACKUP" || -L "$BACKUP" ]]; then
+  printf 'repair-chrome-profile: backup already exists: %s\n' "$BACKUP" >&2
+  exit 1
+fi
+
+mv -- "$PROFILE" "$BACKUP"
+mkdir -m 700 -- "$PROFILE"
+printf 'Preserved crashed profile at: %s\n' "$BACKUP"
+printf 'Created clean automation profile: %s\n' "$PROFILE"
+printf 'Launch musketeer-chrome and sign in once.\n'

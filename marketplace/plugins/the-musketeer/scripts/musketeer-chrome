@@ -1,0 +1,97 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+CANONICAL_ROOT="$HOME/.local/share/the-musketeer/chrome-canary"
+CANONICAL_PROFILE="$HOME/.local/share/the-musketeer/chrome-profile"
+LEGACY_ROOT="$HOME/.local/share/ds4cc/chrome-canary"
+LEGACY_PROFILE="$HOME/.local/share/ds4cc/agent-chrome-profile"
+
+browser_is_supported() {
+  local output major
+  output=$(timeout 5s "$1" --version 2>/dev/null) || return 1
+  [[ "$output" =~ (Google[[:space:]]Chrome([[:space:]]for[[:space:]]Testing)?|Chromium)[[:space:]]+([0-9]{1,4})\. ]] || return 1
+  major=$((10#${BASH_REMATCH[3]}))
+  (( major >= 149 ))
+}
+
+if [[ -n "${MUSKETEER_CHROME_BIN:-}" ]]; then
+  CHROME="$MUSKETEER_CHROME_BIN"
+  PROFILE="${MUSKETEER_CHROME_PROFILE:-$CANONICAL_PROFILE}"
+elif [[ -n "${MUSKETEER_CHROME_ROOT:-}" ]]; then
+  CHROME="$MUSKETEER_CHROME_ROOT/current/chrome"
+  PROFILE="${MUSKETEER_CHROME_PROFILE:-$CANONICAL_PROFILE}"
+elif [[ -n "${MUSKETEER_CHROME_PROFILE:-}" ]]; then
+  CHROME="$CANONICAL_ROOT/current/chrome"
+  PROFILE="$MUSKETEER_CHROME_PROFILE"
+elif [[ -x "$LEGACY_ROOT/current/chrome" && -d "$LEGACY_PROFILE" && ! -L "$LEGACY_PROFILE" ]] &&
+     browser_is_supported "$LEGACY_ROOT/current/chrome"; then
+  CHROME="$LEGACY_ROOT/current/chrome"
+  PROFILE="$LEGACY_PROFILE"
+else
+  CHROME="$CANONICAL_ROOT/current/chrome"
+  PROFILE="$CANONICAL_PROFILE"
+fi
+
+PORT="${MUSKETEER_CDP_PORT:-9222}"
+export TMPDIR="${XDG_CACHE_HOME:-$HOME/.cache}/the-musketeer/chrome-tmp"
+
+if [[ ! -f "$CHROME" || ! -x "$CHROME" ]]; then
+  printf 'musketeer-chrome: browser executable is missing or not executable: %s\n' "$CHROME" >&2
+  exit 1
+fi
+if [[ -L "$PROFILE" ]]; then
+  printf 'musketeer-chrome: profile directory must not be a symlink: %s\n' "$PROFILE" >&2
+  exit 1
+fi
+if [[ -e "$PROFILE" && ! -d "$PROFILE" ]]; then
+  printf 'musketeer-chrome: profile path is not a directory: %s\n' "$PROFILE" >&2
+  exit 1
+fi
+if ! mkdir -p -- "$PROFILE" "$TMPDIR"; then
+  printf 'musketeer-chrome: could not create profile or temporary directory\n' >&2
+  exit 1
+fi
+if [[ ! -d "$PROFILE" || -L "$PROFILE" ]]; then
+  printf 'musketeer-chrome: profile directory validation failed: %s\n' "$PROFILE" >&2
+  exit 1
+fi
+
+if ! VERSION_OUTPUT="$(timeout 5s "$CHROME" --version 2>&1)"; then
+  printf 'musketeer-chrome: browser version probe failed: %s\n' "$CHROME" >&2
+  exit 1
+fi
+if [[ ! "$VERSION_OUTPUT" =~ (Google[[:space:]]Chrome([[:space:]]for[[:space:]]Testing)?|Chromium)[[:space:]]+([0-9]{1,4})\. ]]; then
+  printf 'musketeer-chrome: could not parse browser version: %s\n' "$VERSION_OUTPUT" >&2
+  exit 1
+fi
+CHROME_MAJOR=$((10#${BASH_REMATCH[3]}))
+if (( CHROME_MAJOR < 149 )); then
+  printf 'musketeer-chrome: browser version %s is unsupported; major 149 or newer is required\n' \
+    "$VERSION_OUTPUT" >&2
+  exit 1
+fi
+
+if (( $# == 0 )); then
+  set -- \
+    https://notebooklm.google.com/ \
+    https://grok.com \
+    https://chatgpt.com/
+fi
+
+exec "$CHROME" \
+  --user-data-dir="$PROFILE" \
+  --remote-debugging-address=127.0.0.1 \
+  --remote-debugging-port="$PORT" \
+  --remote-allow-origins="http://127.0.0.1:$PORT,http://localhost:$PORT" \
+  --no-first-run --no-default-browser-check \
+  --disable-sync \
+  --disable-session-crashed-bubble \
+  --window-size=1440,1000 \
+  --disable-background-timer-throttling \
+  --disable-backgrounding-occluded-windows \
+  --disable-renderer-backgrounding \
+  --disable-features=CalculateNativeWinOcclusion,OptimizationHints,MediaRouter \
+  --dns-over-https-mode=secure \
+  --dns-over-https-templates=https://cloudflare-dns.com/dns-query \
+  --ozone-platform=wayland \
+  "$@"

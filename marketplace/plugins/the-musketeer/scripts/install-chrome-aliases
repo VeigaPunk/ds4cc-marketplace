@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+SOURCE="$SCRIPT_DIR/musketeer-chrome"
+BIN_DIR="$HOME/.local/bin"
+NAMES=(musketeer-chrome ds4cc-chrome)
+
+mkdir -p -- "$BIN_DIR"
+
+# Validate the whole operation before moving either existing destination.
+for name in "${NAMES[@]}"; do
+  destination="$BIN_DIR/$name"
+  backup="$destination.pre-musketeer"
+  if [[ -L "$destination" && "$(readlink -- "$destination")" == "$SOURCE" ]]; then
+    continue
+  fi
+  if [[ -e "$destination" || -L "$destination" ]]; then
+    if [[ -e "$backup" || -L "$backup" ]]; then
+      printf 'install-chrome-aliases: refusing to replace %s; backup already exists: %s\n' \
+        "$destination" "$backup" >&2
+      exit 1
+    fi
+  fi
+done
+
+for name in "${NAMES[@]}"; do
+  destination="$BIN_DIR/$name"
+  backup="$destination.pre-musketeer"
+  if [[ -L "$destination" && "$(readlink -- "$destination")" == "$SOURCE" ]]; then
+    continue
+  fi
+  if [[ -e "$destination" || -L "$destination" ]]; then
+    mv -- "$destination" "$backup"
+  fi
+  ln -sfnT -- "$SOURCE" "$destination"
+done
