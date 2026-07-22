@@ -112,7 +112,7 @@ construction. Skipping connector is a structural gap, not a speed optimization.
 | Documentation, audit trail | `scribe` | sonnet · medium | CC native | All |
 | Orchestration, arbitration | `the-judge` | **fable 5 · xhigh** (user directive 2026-06-07; model opus→fable 5 per 2026-07-04) | top-of-stack; dispatches specialists | All |
 
-**Gemini auth (single-path, 2026-04-19 collapse):** `src/ask.rs` reads only `~/.gemini/oauth_creds.json`. No named profiles, no API-key fallback, no cascade retry, no health canary — the user's OAuth subscription is effectively unlimited, so dispatch either succeeds on the first try or bails with a `gemini login` hint. There is no secondary OAuth lane to probe; if a gemini call auth-errors, refresh creds and retry. **Lane retired 2026-07-04 (user directive): no role routes to gemini anymore — the runtime keeps the capability, definitions must not use it. This paragraph is runtime documentation only.**
+**Local Gemma / HVM (g- prefix, 2026-07-21):** `xask gemma` (aliases `g`, legacy `gemini`) dispatches through `xbreed ask gemma` → `gemma-hvm` (Bend → HVM2 → `libhvm_gemma.so` → Ollama). Default model `gemma4:26b` via `HVM_GEMMA_MODEL`. Cloud Gemini CLI is retired — do not call the `gemini` binary. Connector and any `g-*` teammates MUST use this lane for cross-model breadth.
 
 ## Enforcement Tiers
 
@@ -140,9 +140,9 @@ When proposing or evaluating any "enforcement" claim in xbreed (xask gate, deny-
 
 ## Naming Convention
 
-`{prefix}-{role}-{suffix}` where prefix = `ccs-` (Claude Sonnet), `cco-` (Claude Fable 5, effort: **xhigh** — LOCKED, user directive 2026-06-07; model opus→fable 5 per 2026-07-04), `cdx-` (Codex). <!-- g- (gemini) prefix retired 2026-07-04 — gemini delegation killed; cco- synced to the-judge.md which carries the newer LOCKED directive -->
+`{prefix}-{role}-{suffix}` where prefix = `ccs-` (Claude Sonnet), `cco-` (Claude Fable 5, effort: **xhigh** — LOCKED, user directive 2026-06-07; model opus→fable 5 per 2026-07-04), `cdx-` (Codex), `g-` (local Gemma via HVM — `xask gemma`). Cloud Gemini retired 2026-07-21; `g-` now means Gemma/HVM only.
 
-Prefix signals where reasoning lives (the target model for xask delegation), not which CC runtime spawned the teammate. `cco-` is reserved for `the-judge` under the sonnet-medium pivot; the other three prefixes route their primary reasoning to the named model.
+Prefix signals where reasoning lives (the target model for xask delegation), not which CC runtime spawned the teammate. `cco-` is reserved for `the-judge` under the sonnet-medium pivot; the other prefixes route their primary reasoning to the named model.
 
 
 ## Labrat Invocation (Universal)

@@ -22,12 +22,13 @@
 #   --gpt55:       gpt-5.6-sol + fast_mode (xbrd-exec bench xask-arm measurement, 2026-04-24)
 #
 # Examples:
-#   xask gemini "What patterns exist?"              # clean, godspeed loaded (default SKILL)
-#   xask --gs gemini "What patterns exist?"         # explicit godspeed load (SKILL override)
-#   xask -scp "src/ask.rs" gemini "Review this"     # scoped clean dispatch
-#   xask -r gemini "Explore the codebase"           # full context, dir tree ON
+#   xask gemma "What patterns exist?"               # local Gemma via HVM (g- prefix)
+#   xask g "What patterns exist?"                   # short alias → same HVM lane
+#   xask gemini "What patterns exist?"              # LEGACY alias → gemma/HVM (cloud retired)
+#   xask --gs gemma "What patterns exist?"          # explicit godspeed load (SKILL override)
+#   xask -scp "src/ask.rs" gemma "Review this"      # scoped clean dispatch
 #   xask --spk codex "Probe this hypothesis"        # fast codex-spark, low effort
-#   xask codex "Probe this hypothesis"               # codex default now follows --spark
+#   xask codex "Probe this hypothesis"              # codex default now follows --spark
 #   xask -R codex "Adversarial review of <diff>"    # review lane — gpt-5.6-sol
 #   xask -R -F codex "RECON codebase-scale"         # -R + -F escape hatch — full gpt-5.6-sol (1.05M ctx)
 #   xask --gpt55 --gs -e high codex "Deep question" # gpt-5.6-sol lane, explicit godspeed, high effort
@@ -114,10 +115,16 @@ fi
 # (previously: `xask -d ../../docs/xask-protocol probe` would exfil docs via
 # debug-mode early exit at line ~99). Whitelist approach — matches the
 # dispatch case statement below.
+# Canonical local-gemma names: gemma | g. Legacy alias: gemini → gemma template.
 case "$MODEL" in
-  gemini|codex) ;;
-  *) echo "xask: unknown model '$MODEL'. Use gemini or codex." >&2; exit 1 ;;
+  gemma|g|gemini|codex) ;;
+  *) echo "xask: unknown model '$MODEL'. Use gemma (g- prefix / HVM) or codex." >&2; exit 1 ;;
 esac
+# Template file for short alias `g` is gemma.md
+DISPATCH_MODEL="$MODEL"
+if [ "$MODEL" = "g" ]; then
+  DISPATCH_MODEL="gemma"
+fi
 
 # Real dir, not the invoked path — /usr/local/bin holds a shim symlink to this
 # script, and TEMPLATE_DIR below is relative to the real install location.
@@ -127,7 +134,7 @@ SCRIPT_DIR="$_XASK_DIR"
 # load-bearing for multi-level effort routing, and xask's raw-$QUERY fallback
 # drops that behavior silently. Override via XBREED_DISPATCH_DIR if needed.
 TEMPLATE_DIR="${XBREED_DISPATCH_DIR:-$SCRIPT_DIR/../templates/dispatch}"
-TEMPLATE="$TEMPLATE_DIR/${MODEL}.md"
+TEMPLATE="$TEMPLATE_DIR/${DISPATCH_MODEL}.md"
 
 if [ -z "$MODEL" ] || [ -z "$QUERY" ]; then
   echo "Usage: xask [-d|--debug] [-scp|--scope <scope>] [-r|--rich] [--spk|--spark] [-R|--review] [-F|--full] [-e|--effort <level>] [-o|--output-last-message <FILE>] [--json] <model> \"<query>\" [\"<context>\"] [\"<skill>\"]" >&2
@@ -200,59 +207,23 @@ if [ "$DEBUG" = true ]; then
   exit 0
 fi
 
-# --- Gemini rich mode: PID-namespaced settings copy to avoid race ---
-# Concurrent xask --rich calls no longer stomp each other's state.
-# Instead of mutating the shared settings.json, we copy it to a temp file,
-# mutate the copy, point HOME at the temp dir, and clean up on exit.
-XASK_RICH_ROOT="${XDG_CACHE_HOME:-$HOME/.cache}/xbreed/xask-rich"
-[[ "$XASK_RICH_ROOT" != /* ]] && XASK_RICH_ROOT="$HOME/.cache/xbreed/xask-rich"
-RICH_TMPDIR=""
-gemini_rich_setup() {
-  mkdir -p "$XASK_RICH_ROOT"
-  chmod 700 "$XASK_RICH_ROOT"
-  # Sweep stale dirs older than 60 minutes (covers SIGKILL/OOM orphans)
-  # fire-and-forget intentional: stale-dir sweep; failure must not block rich-mode setup
-  find "$XASK_RICH_ROOT" -maxdepth 1 -name 'xask-rich-*' -mmin +60 -exec rm -rf {} + 2>/dev/null || true
-  RICH_TMPDIR=$(mktemp -d "$XASK_RICH_ROOT/xask-rich-$$-XXXXXX")
-  mkdir -p "$RICH_TMPDIR/.gemini"
-  if [ -f "$GEMINI_SETTINGS_FILE" ]; then
-    cp "$GEMINI_SETTINGS_FILE" "$RICH_TMPDIR/.gemini/settings.json"
-  else
-    echo '{}' > "$RICH_TMPDIR/.gemini/settings.json"
-  fi
-  # Copy OAuth creds so auth still works from the temp HOME
-  if [ -f "$HOME/.gemini/oauth_creds.json" ]; then
-    cp "$HOME/.gemini/oauth_creds.json" "$RICH_TMPDIR/.gemini/oauth_creds.json"
-  fi
-  XASK_RICH_SETTINGS="$RICH_TMPDIR/.gemini/settings.json" python3 -c "
-import json, os
-f = os.environ['XASK_RICH_SETTINGS']
-with open(f) as fh: d = json.load(fh)
-d.setdefault('context', {})['includeDirectoryTree'] = True
-with open(f, 'w') as fh: json.dump(d, fh, indent=2)
-" || { echo "xask: failed to set up rich mode" >&2; rm -rf "$RICH_TMPDIR"; return 1; }
-}
-gemini_rich_cleanup() {
-  [ -n "$RICH_TMPDIR" ] && rm -rf "$RICH_TMPDIR"
-}
-
 t_start_s=$(date +%s.%N)
 
 # Dispatch — contamination-aware per model
+# gemma / g / gemini (legacy) → local HVM bridge (gemma-hvm). --rich is a no-op
+# for gemma (no cloud settings tree); kept accepted so old flags don't fail.
 case "$MODEL" in
-  gemini)
+  gemma|g|gemini)
     if [ "$RICH" = true ]; then
-      gemini_rich_setup || exit 1
-      trap 'gemini_rich_cleanup' EXIT INT TERM HUP
-      export HOME="$RICH_TMPDIR"
+      echo "xask: --rich is ignored for local gemma/HVM lane" >&2
     fi
-    xbreed ask gemini --with "$SKILL" "${EFFORT_FLAGS[@]}" "$PROMPT"
+    xbreed ask gemma --with "$SKILL" "${EFFORT_FLAGS[@]}" "$PROMPT"
     ;;
   codex)
     xbreed ask codex --with "$SKILL" "${SPARK_FLAGS[@]}" "${REVIEW_FLAGS[@]}" "${FULL_FLAGS[@]}" "${GPT55_FLAGS[@]}" "${EFFORT_FLAGS[@]}" "${OUTPUT_FLAGS[@]}" "${JSON_FLAGS[@]}" "$PROMPT"
     ;;
   *)
-    echo "Unknown model: $MODEL. Use gemini or codex." >&2
+    echo "Unknown model: $MODEL. Use gemma (g- prefix / HVM) or codex." >&2
     exit 1
     ;;
 esac

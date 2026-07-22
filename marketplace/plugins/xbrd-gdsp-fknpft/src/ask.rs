@@ -1,14 +1,13 @@
 use crate::loadout::Loadout;
 use anyhow::Result;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use std::process::Command;
 
-// OAuth-exclusive + single-path (user directives 2026-04-17 API-key removal,
-// 2026-04-19 cascade collapse): xbreed reads ONLY `~/.gemini/oauth_creds.json`
-// for gemini (Sign-in-with-Google subscription) and delegates `~/.codex/auth.json`
-// management to the codex CLI itself (ChatGPT subscription). No named-profile
-// cascade, no API-key fallback, no quota-aware retry, no health canary. See
-// `user_oauth_exclusive.md` + `feedback_oauth_exclusive_code.md` auto-memory.
+// Auth posture (user directives 2026-04-17 / 2026-07-21):
+// - codex: CLI owns `~/.codex/auth.json` (ChatGPT subscription).
+// - gemma (g- prefix): local Ollama model via Bend/HVM2 bridge (`gemma-hvm`).
+//   Google Gemini cloud CLI is retired — `gemini` is a legacy alias for gemma.
+// No named-profile cascade, no API-key fallback, no quota-aware retry.
 
 /// Build a codex Command with loadout injection and clean-dispatch suppression.
 ///
@@ -116,24 +115,16 @@ pub fn build_codex_ask_with_loadout(
     c
 }
 
-/// The gemini model xbreed pins for gemini calls. Use this as the INPUT id;
-/// the gemini CLI handles the final model selection via its internal routing.
-///
-/// DO NOT pin `gemini-3.1-pro-preview-customtools` here — it is a routing
-/// OUTPUT, not an input, and 404s on both OAuth and API-key paths when used
-/// as input (`isVisible: false` in gemini-cli's `defaultModelConfigs.ts`).
-/// The CLI's `getUseCustomToolModelSync()` silently routes this preview id
-/// → customtools when `authType === AuthType.USE_GEMINI` (OAuth) AND the
-/// account has Gemini 3.1 launched. Live-verified 2026-04-11 via a 4-probe
-/// truth table (`gemini-research` + `gemini-probe` walk — see
-/// docs/milestones/2026-04-11-customtools-routing-finding.md).
-///
-/// Consequence: the v0.3.5 OAuth-first cascade is already optimal for
-/// customtools access. OAuth users with Gemini 3.1 launched automatically
-/// get customtools via routing; API-key fallback users get base preview
-/// (still functional, loses the tool-selection optimizations). No xbreed
-/// change needed to reach customtools.
-pub const GEMINI_DEFAULT_MODEL: &str = "gemini-3.1-pro-preview";
+/// Default Ollama model the HVM gemma bridge requests (`hvm_gemma.c` /
+/// `HVM_GEMMA_MODEL`). Override at runtime with env `HVM_GEMMA_MODEL`.
+pub const GEMMA_DEFAULT_MODEL: &str = "gemma4:26b";
+
+/// PATH name (or absolute path via `HVM_GEMMA_BIN`) of the Bend/HVM
+/// entrypoint. Default `gemma-hvm` → `/home/arara/hvm-gemma4/run.sh`.
+pub const GEMMA_DEFAULT_BIN: &str = "gemma-hvm";
+
+/// Legacy name kept so older docs/tests still compile. Always local gemma.
+pub const GEMINI_DEFAULT_MODEL: &str = GEMMA_DEFAULT_MODEL;
 
 /// The codex model used for spark (cheap/fast/expendable) probes.
 pub const CODEX_SPARK_MODEL: &str = "gpt-5.4-mini";
@@ -162,48 +153,69 @@ pub const CODEX_MINI_MODEL: &str = "gpt-5.6-sol";
 pub const CODEX_55_MODEL: &str = "gpt-5.6-sol";
 
 // ========================================================================
-// Gemini OAuth — single default path (2026-04-19 cascade collapse)
+// Local Gemma via Bend/HVM2 (g- prefix) — replaces cloud Gemini 2026-07-21
 // ========================================================================
 
-/// Check whether the user's default `~/.gemini/oauth_creds.json` exists.
-/// This is the single auth precondition for gemini dispatch — no named
-/// profiles, no API-key fallback.
-fn default_gemini_oauth_exists() -> bool {
-    if let Ok(home) = std::env::var("HOME") {
-        PathBuf::from(home)
-            .join(".gemini")
-            .join("oauth_creds.json")
-            .exists()
-    } else {
-        false
-    }
+fn gemma_bin() -> String {
+    std::env::var("HVM_GEMMA_BIN").unwrap_or_else(|_| GEMMA_DEFAULT_BIN.to_string())
 }
 
-/// Build a gemini Command using the default OAuth path.
+fn gemma_model() -> String {
+    std::env::var("HVM_GEMMA_MODEL").unwrap_or_else(|_| GEMMA_DEFAULT_MODEL.to_string())
+}
+
+/// True for the local-gemma lane names: `gemma`, short `g`, and legacy `gemini`.
+pub fn is_gemma_cli(cli: &str) -> bool {
+    matches!(cli, "gemma" | "g" | "gemini")
+}
+
+/// Drop trailing Bend/HVM runtime stats (`Result: …`, `- ITRS:`, etc.) so the
+/// xask consumer sees model text only.
+fn strip_hvm_stats(stdout: &str) -> String {
+    let mut lines: Vec<&str> = stdout.lines().collect();
+    while let Some(last) = lines.last() {
+        let t = last.trim();
+        if t.is_empty()
+            || t.starts_with("Result:")
+            || t.starts_with("- ITRS:")
+            || t.starts_with("- TIME:")
+            || t.starts_with("- MIPS:")
+        {
+            lines.pop();
+        } else {
+            break;
+        }
+    }
+    let mut out = lines.join("\n");
+    if stdout.ends_with('\n') && !out.ends_with('\n') {
+        out.push('\n');
+    }
+    out
+}
+
+/// Build a gemma Command that runs the Bend/HVM bridge (`gemma-hvm`).
 ///
-/// Strips any inherited `GEMINI_API_KEY` to force the OAuth path — user
-/// directive (`user_oauth_exclusive.md`) is OAuth-exclusive. Does not
-/// override HOME; gemini reads `~/.gemini/oauth_creds.json` natively.
-pub fn build_gemini(prompt: &str, loadout: &Loadout) -> Command {
-    let mut c = Command::new("gemini");
+/// Loadout text (if any) is prepended to the prompt. Ollama model is pinned
+/// via `HVM_GEMMA_MODEL` for the child process. The bridge owns server start,
+/// dylib open, and cleanup — xbreed only shells the entrypoint.
+pub fn build_gemma(prompt: &str, loadout: &Loadout) -> Command {
+    let mut c = Command::new(gemma_bin());
     let final_prompt = if loadout.is_empty() {
         prompt.to_string()
     } else {
         format!("{}\n\n---\n\n{}", loadout.to_concat(), prompt)
     };
-    c.arg("-m")
-        .arg(GEMINI_DEFAULT_MODEL)
-        .arg("-p")
-        .arg(final_prompt)
-        .arg("--approval-mode")
-        .arg("yolo")
-        .env_remove("GEMINI_API_KEY");
+    c.arg(final_prompt);
+    c.env("HVM_GEMMA_MODEL", gemma_model());
     c
 }
 
-/// Auth-failure detector. Distinct from quota exhaustion — triggers the
-/// cascade advance in `dispatch()` for gemini and the auth-hint error
-/// message for codex.
+/// Legacy name — cloud Gemini CLI is retired; routes through HVM gemma.
+pub fn build_gemini(prompt: &str, loadout: &Loadout) -> Command {
+    build_gemma(prompt, loadout)
+}
+
+/// Auth-failure detector for codex (and residual cloud-CLI noise).
 fn is_auth_error(stderr: &[u8]) -> bool {
     let s = String::from_utf8_lossy(stderr);
     s.contains("401")
@@ -336,33 +348,30 @@ pub fn dispatch(
         .unwrap_or(300);
     let timeout = std::time::Duration::from_secs(timeout_secs);
 
-    if cli == "gemini" {
-        // --effort for gemini: mapped to thinkingBudget (low=512, medium=4096,
-        // high=8192, xhigh=16384) and injected into the prompt template by
-        // scripts/xask. Gemini-CLI has no native --effort flag, so we don't
-        // pass it on the command line; the budget reaches the model as
-        // prompt-text directive.
+    if is_gemma_cli(cli) {
+        // Local Gemma via HVM. Effort is advisory in the xask dispatch template
+        // only (no Ollama/HVM effort flag). Longer default timeout: 26B local.
         let _ = effort;
-        if !default_gemini_oauth_exists() {
-            anyhow::bail!(
-                "gemini: OAuth credentials not found at ~/.gemini/oauth_creds.json. \
-                 Run `gemini login` to sign in with your Google account."
-            );
-        }
-        let cmd = build_gemini(prompt, loadout);
+        let gemma_timeout = std::env::var("XASK_TIMEOUT_SECS")
+            .ok()
+            .and_then(|s| s.parse::<u64>().ok())
+            .filter(|&n| n > 0)
+            .map(std::time::Duration::from_secs)
+            .unwrap_or(std::time::Duration::from_secs(600));
+        let cmd = build_gemma(prompt, loadout);
         let output =
-            execute_with_timeout(cmd, timeout).map_err(|e| anyhow::anyhow!("gemini: {e}"))?;
+            execute_with_timeout(cmd, gemma_timeout).map_err(|e| anyhow::anyhow!("gemma: {e}"))?;
         if output.status.success() {
-            return Ok(String::from_utf8_lossy(&output.stdout).to_string());
+            return Ok(strip_hvm_stats(&String::from_utf8_lossy(&output.stdout)));
         }
         let stderr = String::from_utf8_lossy(&output.stderr);
-        if is_auth_error(stderr.as_bytes()) {
-            anyhow::bail!(
-                "gemini: authentication failed — run `gemini login` to refresh \
-                 ~/.gemini/oauth_creds.json.\nstderr: {stderr}"
-            );
-        }
-        anyhow::bail!("gemini failed (exit {:?}): {stderr}", output.status.code());
+        anyhow::bail!(
+            "gemma (HVM) failed (exit {:?}): {stderr}\n\
+             ensure ollama is up, model '{}' is pulled, and `gemma-hvm` is on PATH \
+             (or set HVM_GEMMA_BIN).",
+            output.status.code(),
+            gemma_model()
+        );
     }
 
     let cmd = match cli {
@@ -406,7 +415,7 @@ pub fn dispatch(
             c.arg(&final_prompt);
             c
         }
-        other => anyhow::bail!("unknown cli: {other} (expected codex|gemini)"),
+        other => anyhow::bail!("unknown cli: {other} (expected codex|gemma|g)"),
     };
     let output = execute_with_timeout(cmd, timeout)
         .map_err(|e| anyhow::anyhow!("failed to execute {cli}: {e} (is it on PATH?)"))?;
@@ -659,28 +668,39 @@ mod tests {
     }
 
     // ====================================================================
-    // Gemini OAuth single-path tests (2026-04-19 cascade collapse)
+    // Local Gemma / HVM (g- prefix) — 2026-07-21
     // ====================================================================
 
     #[test]
-    fn build_gemini_strips_gemini_api_key_and_does_not_override_home() {
+    fn is_gemma_cli_accepts_gemma_g_and_legacy_gemini() {
+        assert!(super::is_gemma_cli("gemma"));
+        assert!(super::is_gemma_cli("g"));
+        assert!(super::is_gemma_cli("gemini"));
+        assert!(!super::is_gemma_cli("codex"));
+    }
+
+    #[test]
+    fn build_gemma_invokes_hvm_bridge_with_model_env() {
         let loadout = Loadout::empty();
-        let cmd = build_gemini("hello", &loadout);
-        let has_removed = cmd
-            .get_envs()
-            .any(|(k, v)| k == std::ffi::OsStr::new("GEMINI_API_KEY") && v.is_none());
-        assert!(
-            has_removed,
-            "build_gemini must env_remove GEMINI_API_KEY to force OAuth path"
+        let cmd = build_gemma("hello", &loadout);
+        assert_eq!(cmd.get_program().to_string_lossy(), GEMMA_DEFAULT_BIN);
+        let args = cmd_args(&cmd);
+        assert_eq!(args, vec!["hello".to_string()]);
+        let model_env = cmd.get_envs().find(|(k, _)| k.to_string_lossy() == "HVM_GEMMA_MODEL");
+        let val = model_env
+            .and_then(|(_, v)| v.map(|s| s.to_string_lossy().into_owned()))
+            .unwrap_or_default();
+        assert_eq!(
+            val, GEMMA_DEFAULT_MODEL,
+            "build_gemma must set HVM_GEMMA_MODEL={GEMMA_DEFAULT_MODEL}"
         );
-        // Default OAuth path must NOT touch HOME — inherit the caller's real HOME
-        let touches_home = cmd
-            .get_envs()
-            .any(|(k, _)| k == std::ffi::OsStr::new("HOME"));
-        assert!(
-            !touches_home,
-            "build_gemini must NOT override HOME (default OAuth reads ~/.gemini/)"
-        );
+    }
+
+    #[test]
+    fn build_gemini_is_alias_for_build_gemma() {
+        let loadout = Loadout::empty();
+        let g = build_gemini("ping", &loadout);
+        assert_eq!(g.get_program().to_string_lossy(), GEMMA_DEFAULT_BIN);
     }
 
     #[test]

@@ -1,6 +1,5 @@
 # Dispatch to local Gemma (HVM/Bend bridge) — Inter-Model Protocol v0.2
 # Dense Markdown, Context-First Query-Last
-# LEGACY ALIAS: `xask gemini` routes here → same path as `xask gemma` (cloud Gemini retired 2026-07-21)
 # Transport: gemma-hvm → Bend → HVM2 → libhvm_gemma.so → Ollama gemma4:26b
 
 **IMPORTANT: You are the local Gemma lane (xbreed prefix `g-`). Scope: {{SCOPE_BOUNDARY}}**

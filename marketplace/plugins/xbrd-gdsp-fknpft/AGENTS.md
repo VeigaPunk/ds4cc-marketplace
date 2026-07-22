@@ -35,7 +35,7 @@ Teammates use `{prefix}-{role}-{suffix}` naming:
 
 | Prefix | Model/CLI |
 |---|---|
-| `g-` | Gemini (via `xask gemini`) |
+| `g-` | Local Gemma via HVM (`xask gemma` / `xask g`; legacy `xask gemini` aliases here) |
 | `ccs-` | Claude Sonnet — standing teammate prefix (all teammates run sonnet medium post-2026-04-17) |
 | `cco-` | Claude Fable 5 — reserved for `the-judge` only (orchestrator exception); no teammate currently uses this prefix |
 | `cdx-` | Codex (via `xbreed ask codex`) |

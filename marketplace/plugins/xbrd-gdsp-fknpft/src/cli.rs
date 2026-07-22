@@ -37,7 +37,7 @@ pub enum Commands {
     },
     /// Headless one-shot dispatch to a named CLI, optionally with a skill loadout
     Ask {
-        /// One of: claude, codex, gemini
+        /// One of: codex, gemma (aliases: g, gemini→local HVM gemma)
         cli: String,
         /// Prompt to send
         prompt: String,
@@ -46,7 +46,7 @@ pub enum Commands {
         #[arg(short = 'w', long = "with", value_delimiter = ',')]
         with: Vec<String>,
         /// Effort/reasoning level to pass to the target CLI.
-        /// Maps to: claude --effort, codex -c model_reasoning_effort=, gemini thinkingBudget (future)
+        /// Maps to: codex -c model_reasoning_effort=; gemma: advisory in dispatch template only
         #[arg(short = 'e', long = "effort")]
         effort: Option<String>,
         /// Use the fast codex-spark model with low effort (codex only).
@@ -74,11 +74,11 @@ pub enum Commands {
         #[arg(long = "gpt55")]
         gpt55: bool,
         /// Emit raw JSON from codex exec responses (codex only).
-        /// Passes --json to codex exec; no-op for gemini.
+        /// Passes --json to codex exec; no-op for gemma.
         #[arg(long)]
         json: bool,
         /// Write the final assistant message to FILE (codex only).
-        /// Passes -o <FILE> to codex exec; no-op for gemini.
+        /// Passes -o <FILE> to codex exec; no-op for gemma.
         #[arg(long = "output-last-message", short = 'o')]
         output_last_message: Option<PathBuf>,
     },
