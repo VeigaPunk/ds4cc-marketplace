@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>DS4CC — the plugin marketplace for every agent CLI</title>
-<meta name="description" content="DS4CC Marketplace: 16 curated developer plugins for Grok Build, Codex, Claude Code, Copilot CLI, Kimi Code CLI and OpenCode. One repo, every host. Rust-validated." />
+<title>DS4CC — 16 plugins for every agent CLI</title>
+<meta name="description" content="DS4CC Marketplace: 16 curated developer plugins for Grok Build, Codex, Claude Code, Copilot CLI, Kimi Code CLI, Crush CLI and OpenCode. One repo, every host. Rust-validated." />
 <meta property="og:title" content="DS4CC Marketplace — one repo, every agent CLI" />
-<meta property="og:description" content="16 curated plugins for Grok, Codex, Claude Code, Copilot CLI, Kimi and OpenCode. Install in one command." />
+<meta property="og:description" content="16 curated plugins for Grok, Codex, Claude Code, Copilot CLI, Kimi, Crush and OpenCode. Install in one command." />
 <meta property="og:url" content="https://ds4cc.com/" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
@@ -285,7 +285,7 @@
   <header class="hero">
     <div>
       <span class="badge">16 plugins</span>
-      <span class="badge dark">6 agent CLIs</span>
+      <span class="badge dark">7 agent CLIs</span>
       <span class="badge dark">rust-validated</span>
       <span class="badge cyan">MIT</span>
     </div>
@@ -300,8 +300,8 @@
     <h1>One marketplace. <em>Every agent CLI.</em></h1>
     <p class="tagline">
       Static plugin payloads for <strong>Grok Build</strong>, <strong>Codex</strong>, <strong>Claude Code</strong>,
-      <strong>Copilot CLI</strong> and <strong>Kimi Code CLI</strong> — plus a dependency-free bootstrap for
-      <strong>OpenCode</strong>. Register one repo, install what you need, ship.
+      <strong>Copilot CLI</strong>, <strong>Kimi Code CLI</strong> and <strong>Crush CLI</strong> — plus a dependency-free
+      bootstrap for <strong>OpenCode</strong>. Register one repo, install what you need, ship.
     </p>
     <div class="hero-row">
       <span class="chip"><span class="dot"></span> all 16 plugins available</span>
@@ -319,7 +319,7 @@
 
   <section id="demo" class="reveal">
     <h2><span class="idx">01</span>Pick your host — watch it install</h2>
-    <p class="sub">Live terminal. Six hosts, one repo. Commands below are the real install paths from the marketplace README — outputs are representative.</p>
+    <p class="sub">Live terminal. Seven hosts, one repo. Commands below are the real install paths from the marketplace README — outputs are representative.</p>
     <div class="term-wrap">
       <div class="host-tabs" role="tablist" aria-label="agent CLI hosts">
         <button class="host-tab active" data-host="grok" role="tab">grok</button>
@@ -327,6 +327,7 @@
         <button class="host-tab" data-host="claude" role="tab">claude</button>
         <button class="host-tab" data-host="copilot" role="tab">copilot</button>
         <button class="host-tab" data-host="kimi" role="tab">kimi</button>
+        <button class="host-tab" data-host="crush" role="tab">crush</button>
         <button class="host-tab" data-host="opencode" role="tab">opencode</button>
       </div>
       <div class="term" aria-live="polite">
@@ -400,6 +401,18 @@
       </div>
 
       <div class="host">
+        <h3>Crush CLI <span class="tag">skills via crush.json</span></h3>
+<pre><span class="p">$</span> git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
+<span class="p">$</span> cd ds4cc-marketplace && mkdir -p ~/.config/crush/skills
+<span class="p">$</span> cp -r marketplace/plugins/ds4cc/skills/* ~/.config/crush/skills/</pre>
+<pre><span class="c"># common set (review each source first)</span>
+<span class="p">$</span> for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
+    cp -r "marketplace/plugins/$p/skills/"* ~/.config/crush/skills/
+  done</pre>
+        <p class="note">Crush discovers skills from <code>options.skills_paths</code> in <code>crush.json</code> — catalog at <code>.crush-plugin/marketplace.json</code>. Invoke as <code>/skill:ds4cc-docs</code>. Skills only: no Grok/Kimi agent profiles.</p>
+      </div>
+
+      <div class="host">
         <h3>OpenCode <span class="tag">bootstrap script</span></h3>
 <pre><span class="p">$</span> git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
 <span class="p">$</span> node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
@@ -448,7 +461,8 @@
 <pre><span class="p">$</span> cargo run --manifest-path marketplace/validator/Cargo.toml -- marketplace
 <span class="g">Validation passed.</span>
 <span class="p">$</span> cargo test --manifest-path marketplace/validator/Cargo.toml
-<span class="g">test result: ok. all green</span> <span class="c">— schema, both layouts, codex CLI isolation, FNM, live list probes</span></pre>
+<span class="g">test result: ok. all green</span> <span class="c">— schema, both layouts, codex CLI isolation, FNM, live list probes</span>
+<span class="p">$</span> python3 scripts/build-crush-marketplace.py --check <span class="c"># crush catalog gated in CI too</span></pre>
         <div class="kv">
           <span class="ok-chip">cargo fmt — clean</span>
           <span class="ok-chip">clippy -D warnings — 0</span>
@@ -516,7 +530,8 @@
         grok · <code>.grok-plugin/marketplace.json</code><br/>
         codex · <code>.agents/plugins/marketplace.json</code><br/>
         claude · <code>.claude-plugin/marketplace.json</code><br/>
-        kimi · <a href="https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json" target="_blank" rel="noopener">published catalog</a>
+        kimi · <a href="https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json" target="_blank" rel="noopener">published catalog</a><br/>
+        crush · <code>.crush-plugin/marketplace.json</code>
       </div>
       <div>
         <b>app &amp; site</b>
@@ -539,21 +554,21 @@
   /* ================= plugin catalog (real repo data) ================= */
   const REPO = "https://github.com/VeigaPunk/ds4cc-marketplace";
   const PLUGINS = [
-    { n: "myagents", v: "0.1.0", d: "Curated agent workflow launchpad — browse and copy user agent templates.", c: 'codex exec --agent executor "..."' },
-    { n: "godspeed-core", v: "0.1.0", d: "Adaptive execution doctrine & Pareto walk policy for long tasks.", c: 'codex "godspeed: <task>"' },
-    { n: "mycommands", v: "0.1.0", d: "Reusable command packs & shell routines, ready to exec.", c: 'codex exec "/my-command-name"' },
-    { n: "myskills", v: "0.1.0", d: "Curated skill inventory & workflow helpers, discoverable in-session.", c: 'codex exec "/skill-name <args>"' },
-    { n: "agent-wall", v: "0.1.0", d: "Handoff checkpoints & session continuity across agents and days.", c: 'codex exec "Create an agent-wall checkpoint..."' },
-    { n: "agent-pip", v: "0.1.0", d: "Multi-panel tmux agent terminal dashboard in Rust.", c: "cargo run --release && ./target/release/agent-pip" },
-    { n: "ds4cc", v: "0.1.0", d: "Marketplace meta-plugin — discover, install and manage DS4CC from inside your CLI.", c: "codex plugin marketplace add VeigaPunk/ds4cc-marketplace" },
-    { n: "spoderman", v: "0.1.0", d: "Attack harness & hook safety research for agent runtimes.", c: "bash ./spoderman validate --hooks" },
+    { n: "myagents", v: "0.2.0", d: "Curated agent profiles for development, review, research, and orchestration.", c: 'codex exec --agent executor "..."' },
+    { n: "godspeed-core", v: "0.2.0", d: "Adaptive execution doctrine & Pareto walk policy for long tasks.", c: 'codex "godspeed: <task>"' },
+    { n: "mycommands", v: "0.2.0", d: "Reusable command packs & shell routines, ready to exec.", c: 'codex exec "/my-command-name"' },
+    { n: "myskills", v: "0.2.0", d: "Curated skill inventory & workflow helpers, discoverable in-session.", c: 'codex exec "/skill-name <args>"' },
+    { n: "agent-wall", v: "0.2.0", d: "Handoff checkpoints & session continuity across agents and days.", c: 'codex exec "Create an agent-wall checkpoint..."' },
+    { n: "agent-pip", v: "0.1.0", d: "Multi-panel tmux agent terminal dashboard in Rust (always-on-top tiles).", c: "cargo build --release && agent-pip" },
+    { n: "ds4cc", v: "0.3.0", d: "Marketplace meta-plugin — discover/install plugins and run ds4cc/orch mode.", c: "codex plugin marketplace add VeigaPunk/ds4cc-marketplace" },
+    { n: "spoderman", v: "0.2.0", d: "Attack harness & hook safety research for agent runtimes.", c: "bash ./spoderman validate --hooks" },
     { n: "xbrd-gdsp-fknpft", v: "0.2.2", d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
-    { n: "aaronplug", v: "0.1.0", d: "Academic paper retrieval across arXiv, Semantic Scholar and Sci-Hub.", c: 'npx @veigapunk/aaron papers search "..."' },
-    { n: "infinizoom", v: "0.1.0", d: "Fractal-zoom visualization QA & server.", c: "node qa-zoom.mjs" },
-    { n: "godspeed-codex-command", v: "0.1.0", d: "Command-mode bootstrap & Codex posture controls.", c: "bash ./scripts/install-commands.sh" },
-    { n: "the-puppeteer", v: "0.1.0", d: "Web automation & long-running ChatGPT bridge.", c: 'chitchat "..."' },
-    { n: "the-musketeer", v: "0.1.0", d: "Grok web UI adapter (agent-browser / CDP).", c: "agent-browser session --host grok" },
-    { n: "the-almanacker", v: "0.1.0", d: "NotebookLM web UI adapter for source-grounded research.", c: "agent-browser session --host notebooklm" },
+    { n: "aaronplug", v: "0.2.0", d: "Academic paper retrieval across arXiv, Semantic Scholar and Sci-Hub.", c: 'npx @veigapunk/aaron papers search "..."' },
+    { n: "infinizoom", v: "0.2.0", d: "Fractal-zoom visualization QA & server.", c: "node qa-zoom.mjs" },
+    { n: "godspeed-codex-command", v: "0.2.0", d: "Command-mode bootstrap & Codex posture controls.", c: "bash ./scripts/install-commands.sh" },
+    { n: "the-puppeteer", v: "0.2.0", d: "Web automation & long-running ChatGPT bridge.", c: 'chitchat "..."' },
+    { n: "the-musketeer", v: "0.3.0", d: "Grok web UI adapter (agent-browser / CDP).", c: "agent-browser session --host grok" },
+    { n: "the-almanacker", v: "0.2.0", d: "NotebookLM web UI adapter for source-grounded research.", c: "agent-browser session --host notebooklm" },
     { n: "the-kimiraikoner", v: "0.1.0", d: "Kimi web UI adapter (agent-browser / CDP).", c: "agent-browser session --host kimi" },
   ];
 
@@ -655,6 +670,18 @@
         ["ok",  "added marketplace `ds4cc`"],
         ["cmd", "copilot plugin install myagents@ds4cc"],
         ["ok",  "installed `myagents@ds4cc` — 0.1.0"],
+      ],
+    },
+    crush: {
+      title: "ds4cc — crush cli",
+      lines: [
+        ["cmd", "git clone https://github.com/VeigaPunk/ds4cc-marketplace.git && cd ds4cc-marketplace"],
+        ["out", "cloning into 'ds4cc-marketplace'... done"],
+        ["cmd", "mkdir -p ~/.config/crush/skills && cp -r marketplace/plugins/ds4cc/skills/* ~/.config/crush/skills/"],
+        ["ok",  "ds4cc skills linked into crush"],
+        ["cmd", "for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do cp -r \"marketplace/plugins/$p/skills/\"* ~/.config/crush/skills/; done"],
+        ["ok",  "common set installed — 6 plugins' skills"],
+        ["out", "invoke as /skill:ds4cc-docs · skills only, no agent profiles"],
       ],
     },
     kimi: {
