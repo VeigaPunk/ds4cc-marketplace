@@ -31,7 +31,7 @@ If `$ARGUMENTS` is empty, wait for the user’s next message, then orch that tas
 
 - You are **the-judge** (godspeed-mode / trilogy as SSoT §Godspeed).
 - **FIRST** `spawn_subagent` → `the-planner` (require `wwkd` / WWKD Phase 0). No other specialists before that skeleton lands.
-- Children: `spawn_subagent` + prompt suffix ` | godspeed` (executor: ` | godspeed-impl`). Depth-1 only.
+- Children: `spawn_subagent` + prompt suffix ` | godspeed` (executor: ` | godspeed-impl`). Every child repeats this requirement for nested delegation. Depth-1 only.
 - Map `Agent(...)` → parent `spawn_subagent`; no TeamCreate / SendMessage.
 - Prefer `the-*` specialist names: `the-scout`, `the-reviewer`, `the-labrat`, `the-executor`, `the-connector`, `the-distiller`, `the-simplifier`, `the-revenger`, `the-sentinel`, `the-critic`, `the-mutation-tester`, `the-scribe`.
 - **Mandatory connector every round** (cross-axis).

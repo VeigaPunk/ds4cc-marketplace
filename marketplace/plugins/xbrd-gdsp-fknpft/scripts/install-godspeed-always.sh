@@ -50,8 +50,10 @@ upsert() {
 }
 
 # Codex / agents / Grok — AGENTS.md only (never CLAUDE.md)
+upsert "${HOME}/AGENTS.md"
 upsert "${HOME}/.codex/AGENTS.md"
 upsert "${HOME}/.agents/AGENTS.md"
+upsert "${XDG_CONFIG_HOME:-${HOME}/.config}/opencode/AGENTS.md"
 
 if command -v grok >/dev/null 2>&1 || [[ -d "${HOME}/.grok" ]]; then
   upsert "${HOME}/.grok/AGENTS.md"

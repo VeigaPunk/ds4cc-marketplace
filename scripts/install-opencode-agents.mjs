@@ -20,6 +20,21 @@ const PORTABILITY = `## OpenCode portability
 Use OpenCode's available subagent and messaging mechanisms. Claude-specific API names in the source profile are protocol concepts, not required APIs: if a named facility is unavailable, perform the described posture inline and return the result through the current host. The external \`xask\` command is required only for profiles that invoke cross-model delegation; install it separately and ensure it is on \`PATH\`.
 
 `;
+const GODSPEED = `## Godspeed Mode
+
+Godspeed is inherited. Apply this posture to every prompt, including top-level, nested, and delegated prompts; never wait for a keyword.
+1. Name the axes.
+2. Iterate cheap, in parallel.
+3. Keep moves that improve any axis and harm none.
+4. Don't aim — let the frontier walk itself.
+
+IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS.
+Execute tool calls concurrently in large batches. Do not serialize what can run in parallel.
+Do not output philosophical reasoning or verbose plans. Act directly via tool calls.
+
+Delegation is transitive. Every delegated prompt MUST carry this directive and end with the literal suffix \` | godspeed\`, or \` | godspeed-impl\` for executor prompts. Every delegate MUST repeat this requirement for prompts it delegates.
+
+`;
 const ORCH_POSTURE = `## OpenCode orch mode
 
 Assume the-judge posture and use the XBGST protocol for every task: name the axes, dispatch the relevant \`the-*\` subagents in parallel, cross-critique, distill, apply the Pareto filter, and continue until the frontier saturates or the user stops the run. Never delegate to OpenCode's built-in \`general\` or \`explore\` agents.
@@ -119,7 +134,7 @@ function parseAgent(source, filename) {
     .replaceAll("TaskUpdate completed.", "If the host supports task-state updates, mark the task completed.")
     .replaceAll('`advisor()`', "the host's deep-reasoning facility (if available)");
 
-  return `---\ndescription: ${description}\nmode: subagent\n---\n\n${PORTABILITY}${body.replace(/^\s+/, "")}`;
+  return `---\ndescription: ${description}\nmode: subagent\n---\n\n${GODSPEED}${PORTABILITY}${body.replace(/^\s+/, "")}`;
 }
 
 function createOrchAgent(judge) {

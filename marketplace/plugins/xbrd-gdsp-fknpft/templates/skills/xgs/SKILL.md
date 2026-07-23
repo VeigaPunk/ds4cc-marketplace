@@ -1,6 +1,7 @@
 ---
 name: xgs
 description: Godspeed Pareto orchestrator — all-Claude team with axis-scored parallel proposals, cross-critique DMs, and Pareto filtering. Fast mode, no cross-model delegation. Triggered by /xgs.
+user-invocable: true
 ---
 
 # /xgs — Godspeed Pareto Orchestrator
@@ -63,7 +64,7 @@ Team size cap: <=12 teammates per round.
 Spawn all teammates. Each brief includes:
 1. The full peer roster (all teammate names from Phase 1)
 2. Their axis assignment (name + direction + observable)
-3. **Godspeed mode** (always — /xgs is inherently godspeed): `"GODSPEED MODE (inherited from judge): You are a Godspeed-enabled subagent. (1) Name the axes. (2) Iterate cheap, in parallel. (3) Keep moves that improve any axis and harm none. (4) Don't aim — let the frontier walk itself. IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls."`
+3. **Godspeed mode:** every Agent prompt ends exactly ` | godspeed`; executor prompts end exactly ` | godspeed-impl`. Delegates repeat this requirement for every nested delegation.
 4. Task: propose ONE move on their axis (<=200 words)
 5. After proposing, DM each peer by name with a one-line critique
 6. Mark task completed after sending
@@ -86,7 +87,7 @@ Agent(
   subagent_type="distiller",
   name="ccs-distiller",
   model="sonnet",
-  prompt="You are the distiller. Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag contradictions, assign confidence. SendMessage your synthesis to the judge (team lead) when done."
+  prompt="You are the distiller. Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag contradictions, assign confidence. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
 )
 ```
 

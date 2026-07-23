@@ -4,7 +4,7 @@ Referenced by `/xbreed`, `/xbt`, `/xgs`, `/xbgst`. Do not duplicate — load thi
 
 ## Godspeed Mode — Purest Form (2026-04-17)
 
-**Purest form directive.** Every godspeed teammate dispatch appends the literal string ` | godspeed` to the Agent() prompt. No preamble, no explanation block. The executor lane uses ` | godspeed-impl` instead (red-before-green evidence discipline).
+**Purest form directive.** Every godspeed teammate dispatch prepends the canonical Godspeed block to the Agent() prompt and appends the literal string ` | godspeed` as the minimal carrier. The executor lane uses ` | godspeed-impl` instead (red-before-green evidence discipline). The block is the semantic guarantee; the suffix remains the transport marker.
 
 The single-token suffix IS the whole directive. Sonnet-medium teammates read it as: iterate cheap in parallel, no clarifying questions, no verbose plans, act via tool calls, drop philosophical reasoning. Any teammate needing more than that marker is mis-cast for the lane.
 
@@ -14,7 +14,7 @@ The single-token suffix IS the whole directive. Sonnet-medium teammates read it 
 
 - **`godspeed-mode` skill** (`~/.claude/skills/godspeed-mode/SKILL.md`) — the **full behavioral directive** for `the-judge` (orchestrator) and `the-planner` (Phase 0 skeleton). Loads the velocity half (cheap stubs / catalog bootstrap / parallel batches / auto-recording / auto-frontier dominance), the filter half (antimetabolic Pareto constraint — improves ≥1 axis, harms none), operational constraints (no pre-specified goal, no "definition of done" mid-walk, suppress clarifying-question reflexes), and stop conditions (saturation or external boundary). Symlinks to `directive.md` / `filter.md` / `velocity.md` / `codex-AGENTS.md` live in the skill dir, sourced from the upstream repo cloned read-only at `/home/vhpnk/godspeed-mode/`. Canonical upstream: [VeigaPunk/godspeed-mode](https://github.com/VeigaPunk/godspeed-mode) — **READ-ONLY from our side, never edit / commit / push**; `git pull` into the clone is allowed (one-way consumer) and propagates through the symlinks automatically, but any proposed adaptation of the spec goes in OUR repo / memory, not upstream. Triggered when judge or planner operates in a godspeed-framed session; the judge's and planner's persona files load it via `Skill(skill="godspeed-mode")` on first turn when framing is detected.
 
-Teammates spawned via Agent() with the ` | godspeed` suffix still discover the universal `godspeed` skill at turn-start if listed in the session's skill manifest; the suffix alone still suffices when the skill isn't loaded. Only the-judge and the-planner load `godspeed-mode` — the other roles don't need the orchestrator-depth spec.
+Teammates spawned via Agent() with the ` | godspeed` suffix still discover the universal `godspeed` skill at turn-start if listed in the session's skill manifest; the suffix alone still suffices when the skill isn't loaded. The canonical block now carries the same posture explicitly for shells and OpenCode. Only the-judge and the-planner load `godspeed-mode` — the other roles don't need the orchestrator-depth spec.
 
 Rationale: user directive 2026-04-17 — "opus is terrible for being the intermediator; make sure that all teammate (agent) dispatches inherit godspeed in their prompt in the purest form". The prior long "GODSPEED MODE (inherited from judge): You are a Godspeed-enabled subagent..." preamble burned reasoning cycles before the task even started. The marker replaces it; the skill makes it auto-surfacing at session scope.
 
@@ -149,7 +149,7 @@ Prefix signals where reasoning lives (the target model for xask delegation), not
 
 Any agent can spawn a labrat probe. Two paths:
 
-1. **Subagent spawn:** `Agent(subagent_type="labrat", name="cdx-labrat-<hypothesis>", model="sonnet", prompt="<probe>")`
+1. **Subagent spawn:** `Agent(subagent_type="labrat", name="cdx-labrat-<hypothesis>", model="sonnet", prompt="<probe> | godspeed")`
 2. **Bash call:** `xask --spark codex "<probe hypothesis>"` — codex-5.3-spark, fire-and-forget
 
 **Codex-spark is the sole labrat channel (user directive 2026-04-18).** No gemini labrat delegation. The codex-5.3-spark lane is fast, cheap, and expendable enough to be the complete labrat surface — both for single probes and in-model fanout.
@@ -164,7 +164,7 @@ Agent(
   team_name="<team>",
   name="ccs-distiller",
   model="sonnet",
-  prompt="You are the distiller. Sonnet effort: medium (per feedback_sonnet_effort_tiers.md — synthesis is structural pattern-matching over peer outputs; sonnet medium is sufficient for spoof-checking, contradiction surfacing, consensus capping, and brief-error catching). Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag contradictions (cross-model if xask used, cross-teammate if all-Claude), assign confidence. Preserve each surviving move's `evidence:` field verbatim (see Pareto Filter Evidence Schema) — do not absorb into prose; the filter reads it post-synthesis. Apply opus-harness rigor: spoof-check cited file:line excerpts via literal-substring grep; cap single-prefix consensus at MED; upweight cross-model divergence. Use SYNTHESIS_READY mapping for judge consumption. SendMessage your synthesis to the judge (team lead) when done."
+  prompt="You are the distiller. Sonnet effort: medium (per feedback_sonnet_effort_tiers.md — synthesis is structural pattern-matching over peer outputs; sonnet medium is sufficient for spoof-checking, contradiction surfacing, consensus capping, and brief-error catching). Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag contradictions (cross-model if xask used, cross-teammate if all-Claude), assign confidence. Preserve each surviving move's `evidence:` field verbatim (see Pareto Filter Evidence Schema) — do not absorb into prose; the filter reads it post-synthesis. Apply opus-harness rigor: spoof-check cited file:line excerpts via literal-substring grep; cap single-prefix consensus at MED; upweight cross-model divergence. Use SYNTHESIS_READY mapping for judge consumption. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
 )
 ```
 

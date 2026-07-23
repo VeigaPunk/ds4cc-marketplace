@@ -63,7 +63,7 @@ Agent(
   team_name="<the team you just created>",
   name="<unique teammate name>",
   model="sonnet",
-  prompt="<task brief with mandatory xask gate and peer roster>"
+  prompt="<task brief with mandatory xask gate and peer roster> | godspeed"
 )
 ```
 
@@ -83,9 +83,7 @@ Peers DM each other directly for lateral information flow. The judge collects al
 
 ### Godspeed inheritance
 
-If `$ARGUMENTS` contains "godspeed", append this block to EVERY teammate's brief (after task instructions, before the xask gate):
-
-> **GODSPEED MODE (inherited from judge):** You are a Godspeed-enabled subagent. (1) Name the axes. (2) Iterate cheap, in parallel. (3) Keep moves that improve any axis and harm none. (4) Don't aim — let the frontier walk itself. IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.
+Godspeed applies unconditionally. Every Agent prompt ends exactly ` | godspeed`; executor prompts end exactly ` | godspeed-impl`. Delegates repeat this requirement for every nested delegation.
 
 ### xask gate, epistemic constraints, and axis→profile mapping
 
@@ -107,7 +105,7 @@ Agent(
   team_name="<team>",
   name="ccs-distiller",
   model="sonnet",
-  prompt="You are the distiller. Synthesize these N teammate findings into one deduplicated, confidence-scored brief. <paste all teammate reports + peer DM SendMessage cross-critiques>. Return format: State block with deduplicated claims, Unknowns block with contradictions, duplicate count. SendMessage your synthesis to the judge (team lead) when done."
+  prompt="You are the distiller. Synthesize these N teammate findings into one deduplicated, confidence-scored brief. <paste all teammate reports + peer DM SendMessage cross-critiques>. Return format: State block with deduplicated claims, Unknowns block with contradictions, duplicate count. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
 )
 ```
 
@@ -131,7 +129,7 @@ Using the distiller's synthesis, the judge **mediates**:
 
 **Soft ceiling: 4 deliberative rounds** (aligned with judge godspeed limit). After 4 rounds with no DRAFT progress, emit a CONFLICTS-only output and halt, naming unresolved items. Judge can override but must state why.
 
-**This is NOT godspeed.** Deliberative rounds are sequential depth (judge challenges, teammates refine). For parallel Pareto width, use `/xgs`.
+Deliberative rounds retain the inherited Godspeed directive while using sequential depth (judge challenges, teammates refine). For parallel Pareto width, use `/xgs`.
 
 
 ## Auto-cleanup after DRAFT

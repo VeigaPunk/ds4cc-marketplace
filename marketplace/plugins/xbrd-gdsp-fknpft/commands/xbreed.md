@@ -42,20 +42,22 @@ You may dispatch specialist sub-roles: **scout** (research), **reviewer** (surgi
 
 Dispatch rule:
 
-1. **Preferred path — team spawn.** If you are already running inside a team (check `~/.claude/teams/` for active team config), use `Agent(subagent_type="scout" | "reviewer" | "labrat", team_name=<current team>, name="<role>-N", prompt="<task>")`.
+1. **Preferred path — team spawn.** If you are already running inside a team (check `~/.claude/teams/` for active team config), use `Agent(subagent_type="scout" | "reviewer" | "labrat", team_name=<current team>, name="<role>-N", prompt="<task> | godspeed")`.
 
 2. **Fallback path — inlined persona.** If not on a team (solo CC session), spawn via `general-purpose` and inline the persona body:
 
    ```
    Agent(
      subagent_type="general-purpose",
-     prompt="You are <scout|reviewer|labrat>. Your persona:\n\n<paste full contents of ~/.claude/agents/{role}.md here>\n\nTask: <the concrete question>"
+      prompt="You are <scout|reviewer|labrat>. Your persona:\n\n<paste full contents of ~/.claude/agents/{role}.md here>\n\nTask: <the concrete question> | godspeed"
    )
    ```
 
 ### xask gate, epistemic constraints, and dispatch details
 
 Read `~/.claude/commands/references/xbreed-shared.md` for the full xask gate (4 layers), epistemic constraints, axis→profile mapping, and naming convention. Apply them to every sub-role dispatch.
+
+Every Agent prompt ends exactly ` | godspeed`; executor prompts end exactly ` | godspeed-impl`. Delegates repeat this requirement for every nested delegation.
 
 ### Budget
 

@@ -34,6 +34,8 @@ verify-repo:
 	@echo "verify: scripts/verify-routing.sh"; bash scripts/verify-routing.sh
 	@echo "verify: scripts/verify-docs.sh"; bash scripts/verify-docs.sh
 	@echo "verify: tests/routing_drift_mutation.sh"; bash tests/routing_drift_mutation.sh
+	@echo "verify: tests/godspeed_always_install.sh"; bash tests/godspeed_always_install.sh
+	@echo "verify: scripts/check-godspeed-prompts.mjs"; node scripts/check-godspeed-prompts.mjs
 
 ## verify-install: home-state checks (symlinks, binaries, dispatch copies, axis schema)
 ## XBREED_AGENTS_DIR is derived from XBREED_HOME so fixture runs never leak to real $HOME.

@@ -1,6 +1,7 @@
 ---
 name: xbgst
 description: Godspeed Pareto orchestrator with cross-model delegation — combines /xgs speed (axis-scored Pareto rounds) with /xbt depth (xask codex). Teammates bring external model perspectives at godspeed pace. Triggered by /xbgst.
+user-invocable: true
 ---
 
 # /xbgst — Godspeed Pareto + Cross-Model Delegation
@@ -59,7 +60,7 @@ Cap: <=12 teammates per round.
 Each brief includes:
 1. Full peer roster (all names from Phase 1)
 2. Axis assignment (name + direction + observable)
-3. **Godspeed mode** (always — /xbgst is inherently godspeed): `"GODSPEED MODE (inherited from judge): You are a Godspeed-enabled subagent. (1) Name the axes. (2) Iterate cheap, in parallel. (3) Keep moves that improve any axis and harm none. (4) Don't aim — let the frontier walk itself. IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls."`
+3. **Godspeed mode:** every Agent prompt ends exactly ` | godspeed`; executor prompts end exactly ` | godspeed-impl`. Delegates repeat this requirement for every nested delegation.
 4. **Structural xask gate** (mandatory for roles that delegate)
 5. Task: propose ONE move on their axis (<=200 words)
 6. After proposing, DM each peer by name with a one-line critique
@@ -113,7 +114,7 @@ Agent(
   subagent_type="distiller",
   name="ccs-distiller",
   model="sonnet",
-  prompt="You are the distiller. Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag cross-model (codex) vs in-session (claude) contradictions, assign confidence. SendMessage your synthesis to the judge (team lead) when done."
+  prompt="You are the distiller. Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag cross-model (codex) vs in-session (claude) contradictions, assign confidence. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
 )
 ```
 

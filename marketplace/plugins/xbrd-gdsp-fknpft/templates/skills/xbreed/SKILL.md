@@ -2,6 +2,7 @@
 name: xbreed
 description: Judge-orchestrated pipeline — the judge (Fable 5) takes the prompt, dispatches scout/reviewer/labrat with cross-model delegation (xask), drafts an implementation. Triggered by /xbreed or /xb.
 has-sub-skill: true
+user-invocable: true
 ---
 
 # /xbreed — Judge-Orchestrated Pipeline (Solo)
@@ -31,14 +32,14 @@ You may dispatch specialist sub-roles: **scout** (research), **reviewer** (surgi
 
 Dispatch rule:
 
-1. **Preferred path — direct spawn.** Use `Agent(subagent_type="scout" | "reviewer" | "labrat", name="<role>-N", prompt="<task>")` and wait for their `SendMessage` reply. Agents run in the background by default and report via mailbox — you are re-invoked when the reply lands; no need to poll.
+1. **Preferred path — direct spawn.** Use `Agent(subagent_type="scout" | "reviewer" | "labrat", name="<role>-N", prompt="<task> | godspeed")` and wait for their `SendMessage` reply. Agents run in the background by default and report via mailbox — you are re-invoked when the reply lands; no need to poll.
 
 2. **Fallback path — inlined persona.** If user-scope `subagent_type` resolution fails, spawn via built-in `general-purpose` and inline the persona body:
 
    ```
    Agent(
      subagent_type="general-purpose",
-     prompt="You are <scout|reviewer|labrat>. Your persona:\n\n<paste full contents of ~/.claude/agents/{role}.md here>\n\nTask: <the concrete question>"
+     prompt="You are <scout|reviewer|labrat>. Your persona:\n\n<paste full contents of ~/.claude/agents/{role}.md here>\n\nTask: <the concrete question> | godspeed"
    )
    ```
 
@@ -61,6 +62,8 @@ Epistemic role: `"AT MOST one non-obvious claim and AT MOST one rejected alterna
 Divergence mandate: `"If your finding contradicts a peer's, flag: CONFLICT: [claim] — my position: [X] — peer: [Y]"`
 
 Judge weighting: weight xask quotes that contradict the agent's conclusion more heavily than confirming quotes.
+
+Every Agent prompt ends exactly ` | godspeed`; executor prompts end exactly ` | godspeed-impl`. Delegates repeat this requirement for every nested delegation.
 
 ### Budget
 

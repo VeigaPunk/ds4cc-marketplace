@@ -33,6 +33,8 @@ try {
       throw new Error(`${filename}: invalid OpenCode frontmatter`);
     }
     if (!content.includes("## OpenCode portability")) throw new Error(`${filename}: portability directive missing`);
+    if (!content.includes("Godspeed is inherited.")) throw new Error(`${filename}: inherited Godspeed directive missing`);
+    if (!content.includes("Delegation is transitive.")) throw new Error(`${filename}: transitive delegation directive missing`);
     if (filename === "orch.md" && !content.includes("## OpenCode orch mode")) {
       throw new Error("orch.md: orchestration directive missing");
     }
