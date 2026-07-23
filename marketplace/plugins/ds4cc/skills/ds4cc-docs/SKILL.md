@@ -142,5 +142,6 @@ Installing a third-party plugin shows a trust confirmation first; approve it onl
 | `the-puppeteer` | Web automation bridge |
 | `the-musketeer` | Grok web UI adapter |
 | `the-almanacker` | NotebookLM adapter |
+| `the-kimester` | Kimi web UI adapter |
 
 Official OpenAI Apps SDK package is separate: `official/ds4cc/` + `https://app.ds4cc.com/mcp`.

@@ -13,7 +13,7 @@ import zipfile
 from pathlib import Path, PurePosixPath
 
 
-EXPECTED_PLUGINS = 14
+EXPECTED_PLUGINS = 15
 NAME_RE = re.compile(r"^[a-z][a-z0-9]*(?:-[a-z0-9]+)*$")
 SEMVER_RE = re.compile(
     r"^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)"

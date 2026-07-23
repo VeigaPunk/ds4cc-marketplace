@@ -102,6 +102,18 @@
       "category": "Developer"
     },
     {
+      "name": "the-kimester",
+      "source": {
+        "source": "local",
+        "path": "./plugins/the-kimester"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer"
+    },
+    {
       "name": "godspeed-core",
       "source": {
         "source": "local",

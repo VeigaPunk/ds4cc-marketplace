@@ -1,6 +1,6 @@
 # OpenAI Plugins Directory submission packet
 
-This packet describes one DS4CC app-plus-skills plugin sourced only from `official/ds4cc/`. It does not submit or expose the complete 14-plugin Git marketplace under `marketplace/`.
+This packet describes one DS4CC app-plus-skills plugin sourced only from `official/ds4cc/`. It does not submit or expose the complete 15-plugin Git marketplace under `marketplace/`.
 
 ## Portal listing
 
@@ -39,7 +39,7 @@ The official allowlist is intentionally limited to five metadata-safe entries. `
 
 ## Positive tests — exactly five
 
-1. **Prompt:** “Show me the reviewed DS4CC plugin catalog.” **Fixture:** no query. **Expected behavior:** call the sole tool once without a query; do not imply a full 14-plugin listing. **Expected result shape:** `{plugins: CatalogPlugin[5], total: 5, query: ""}` plus the widget. **Rationale:** proves default discovery and reviewed-allowlist scope.
+1. **Prompt:** “Show me the reviewed DS4CC plugin catalog.” **Fixture:** no query. **Expected behavior:** call the sole tool once without a query; do not imply a full 15-plugin listing. **Expected result shape:** `{plugins: CatalogPlugin[5], total: 5, query: ""}` plus the widget. **Rationale:** proves default discovery and reviewed-allowlist scope.
 2. **Prompt:** “Find DS4CC plugins for commands.” **Fixture:** query `commands`. **Expected behavior:** filter the reviewed catalog only. **Expected result shape:** non-empty `plugins`, numeric `total`, and echoed query. **Rationale:** proves minimal search behavior.
 3. **Prompt:** “How would I install a reviewed command-workflow result with Codex?” **Fixture:** query `mycommands`. **Expected behavior:** return provenance and optional copyable command text; do not execute it and do not invent Claude or Copilot commands. **Expected result shape:** one matching plugin with `publisher`, `sourceUrl`, `components`, `capabilities`, `reviewNotice`, and `install.codex`. **Rationale:** proves command truthfulness and informed independent-review copy.
 4. **Prompt:** “What is the source and publisher for the DS4CC plugin?” **Fixture:** query `ds4cc`. **Expected behavior:** return the public GitHub tree URL and catalog publisher handle. **Expected result shape:** matching plugin with HTTPS `sourceUrl` and `publisher: "VeigaPunk"`. **Rationale:** proves provenance disclosure.
@@ -55,7 +55,7 @@ These are planned portal cases, not recorded results. Run them against deployed 
 
 ## Initial release notes
 
-Initial public release: one read-only MCP catalog tool and self-contained widget; an explicit five-plugin reviewed allowlist; source, publisher, component/capability, optional copyable Codex command, and independent-review fields; public privacy, terms, support, health, and exact domain-challenge routes; no authentication or mutation. The broader public marketplace remains a separate 14-plugin developer distribution.
+Initial public release: one read-only MCP catalog tool and self-contained widget; an explicit five-plugin reviewed allowlist; source, publisher, component/capability, optional copyable Codex command, and independent-review fields; public privacy, terms, support, health, and exact domain-challenge routes; no authentication or mutation. The broader public marketplace remains a separate 15-plugin developer distribution.
 
 ## Pre-submit, deployment, domain, and portal checklist
 
@@ -63,7 +63,7 @@ Initial public release: one read-only MCP catalog tool and self-contained widget
 
 - [ ] Run all validators and Apps SDK build/tests from a clean checkout.
 - [ ] Run `python3 -m unittest tests/test_build_ds4cc_submission.py`; then build with `python3 scripts/build-ds4cc-submission.py`. The builder consumes only `official/ds4cc/` and enforces the exact reviewed file manifest.
-- [ ] Confirm the public Git marketplace still contains all 14 entries and the official app allowlist tests exclude prohibited entries.
+- [ ] Confirm the public Git marketplace still contains all 15 entries and the official app allowlist tests exclude prohibited entries.
 - [ ] Review licenses: root-owned work is MIT; Aaronplug metadata remains Unlicense; do not imply third-party relicensing.
 - [ ] Scan tracked changes and the generated ZIP for credentials, tokens, private keys, and local paths.
 
@@ -84,7 +84,7 @@ Initial public release: one read-only MCP catalog tool and self-contained widget
 - [ ] Create one plugin draft containing one app; enter the universal MCP URL separately from the skill bundle and select no authentication.
 - [ ] Scan tools; confirm exactly one tool, its three annotations, minimal schema, widget resource, domain, and empty CSP domain arrays.
 - [ ] Upload the logo and complete listing, localization, category, URLs, availability, and release notes.
-- [ ] Upload the verified archive built from `official/ds4cc/` only where the portal requests skills/package material; never upload `marketplace/plugins/ds4cc/` or the 14-plugin marketplace as the official bundle.
+- [ ] Upload the verified archive built from `official/ds4cc/` only where the portal requests skills/package material; never upload `marketplace/plugins/ds4cc/` or the 15-plugin marketplace as the official bundle.
 - [ ] Run exactly the five positive and three negative planned tests on required web/mobile surfaces; record real outputs and address review findings.
 - [ ] Submit for OpenAI review. After approval, explicitly publish and capture the public directory URL.
 

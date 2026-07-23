@@ -109,7 +109,7 @@ Profiles use `xask --spark --gs codex` for cross-model delegation. `xask` is an 
 
 ## OpenAI Apps SDK
 
-The read-only Apps SDK wrapper in `apps-sdk/` exposes only an explicitly reviewed subset through a production MCP endpoint and embedded catalog widget. It is not the public 14-plugin marketplace. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
+The read-only Apps SDK wrapper in `apps-sdk/` exposes only an explicitly reviewed subset through a production MCP endpoint and embedded catalog widget. It is not the public 15-plugin marketplace. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
 
 ```bash
 cd apps-sdk
@@ -120,7 +120,7 @@ npm test
 
 Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `app.ds4cc.com`, and follow `apps-sdk/SUBMISSION.md` for the OpenAI plugin portal fields and tests.
 
-## Plugins (14)
+## Plugins (15)
 
 | Plugin | Category | Description |
 |---|---|---|
@@ -132,6 +132,7 @@ Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `a
 | `the-puppeteer` | Developer | Web automation & long-running ChatGPT bridge |
 | `the-musketeer` | Developer | Grok web UI adapter (agent-browser / CDP) |
 | `the-almanacker` | Developer | NotebookLM web UI adapter |
+| `the-kimester` | Developer | Kimi web UI adapter (agent-browser / CDP) |
 | `godspeed-core` | Developer | Adaptive execution doctrine & Pareto walk policy |
 | `myagents` | Developer | Curated agent workflow launchpad |
 | `mycommands` | Developer | Reusable command packs & shell routines |
@@ -220,7 +221,7 @@ A `SKILL.md` is **actionable** if its body (after frontmatter) contains at least
 
 ## Official OpenAI submission bundle
 
-The OpenAI submission is the isolated source tree at `official/ds4cc/`, not the public plugin at `marketplace/plugins/ds4cc/` and not the public 14-plugin marketplace. Its skill uses only the read-only `browse_ds4cc_marketplace` MCP tool and reviewed results. Build the deterministic, path-safe archive locally:
+The OpenAI submission is the isolated source tree at `official/ds4cc/`, not the public plugin at `marketplace/plugins/ds4cc/` and not the public 15-plugin marketplace. Its skill uses only the read-only `browse_ds4cc_marketplace` MCP tool and reviewed results. Build the deterministic, path-safe archive locally:
 
 ```bash
 python3 scripts/build-ds4cc-submission.py

@@ -1,0 +1,11 @@
+{
+  "name": "the-kimester",
+  "version": "0.1.0",
+  "description": "Kimi web UI automation through agent-browser",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/the-kimester",
+  "homepage": "https://github.com/VeigaPunk/the-kimester",
+  "skills": "./skills/"
+}

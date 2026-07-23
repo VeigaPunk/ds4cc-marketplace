@@ -1,6 +1,6 @@
 # DS4CC Apps SDK wrapper
 
-Read-only MCP app and widget for browsing an explicitly reviewed subset of the DS4CC Codex plugin catalog. The separate public Git marketplace retains all 14 plugins.
+Read-only MCP app and widget for browsing an explicitly reviewed subset of the DS4CC Codex plugin catalog. The separate public Git marketplace retains all 15 plugins.
 
 ## Local development
 

@@ -1,0 +1,19 @@
+# Never commit session cookies or auth state (defensive — this project is
+# CDP-only and has no cookie flow, but keeping the guard in case of strays)
+*cookies*.json
+*cookies*.txt
+session*.json
+*.env
+*.secret
+
+# Agent-browser session files (if any stray into project dir)
+.agent-browser/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
