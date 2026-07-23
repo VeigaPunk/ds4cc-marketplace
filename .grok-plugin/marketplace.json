@@ -281,6 +281,33 @@
       }
     },
     {
+      "name": "the-kimiraikoner",
+      "version": "0.1.0",
+      "description": "Kimi web UI automation through agent-browser",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/the-kimiraikoner"
+      },
+      "homepage": "https://github.com/VeigaPunk/the-kimiraikoner",
+      "keywords": [
+        "the-kimiraikoner",
+        "kimiraikoner",
+        "kimi",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "ds4cc.com",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
       "name": "the-musketeer",
       "version": "0.3.0",
       "description": "Grok web UI automation through agent-browser",

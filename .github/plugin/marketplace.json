@@ -135,6 +135,18 @@
       "category": "Developer"
     },
     {
+      "name": "the-kimiraikoner",
+      "source": {
+        "source": "local",
+        "path": "./marketplace/plugins/the-kimiraikoner"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer"
+    },
+    {
       "name": "the-musketeer",
       "source": {
         "source": "local",

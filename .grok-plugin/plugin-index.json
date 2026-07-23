@@ -188,6 +188,17 @@
         ]
       }
     },
+    "the-kimiraikoner": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "the-kimiraikoner-docs",
+            "description": "Install and run The KimiRaikoner Kimi web UI adapter through agent-browser and an authenticated CDP profile. Paste-friendly on Grok Build."
+          }
+        ]
+      }
+    },
     "the-musketeer": {
       "version": "0.3.0",
       "components": {
