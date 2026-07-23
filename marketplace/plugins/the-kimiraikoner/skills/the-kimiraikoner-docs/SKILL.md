@@ -1,9 +1,9 @@
 ---
-name: the-kimester-docs
-description: Install and run The Kimester Kimi web UI adapter through agent-browser and an authenticated CDP profile. Paste-friendly on Grok Build.
+name: the-kimiraikoner-docs
+description: Install and run The KimiRaikoner Kimi web UI adapter through agent-browser and an authenticated CDP profile. Paste-friendly on Grok Build.
 ---
 
-# The Kimester
+# The KimiRaikoner
 
 CLI bridge for Kimi web chat via loopback CDP + agent-browser. Sibling of the-musketeer (Grok), the-puppeteer (ChatGPT), and the-almanacker (NotebookLM).
 
@@ -13,12 +13,12 @@ CLI bridge for Kimi web chat via loopback CDP + agent-browser. Sibling of the-mu
 bash ./install.sh
 ```
 
-Binary is **`kimester`** (not `kimi` — official Kimi Code CLI owns that name).
+Binary is **`kimiraikoner`** (not `kimi` — official Kimi Code CLI owns that name).
 
 ## Fire a prompt
 
 ```bash
-printf '%s' "hello from the CLI" | kimester --stdin
+printf '%s' "hello from the CLI" | kimiraikoner --stdin
 ```
 
 ## Verify CDP

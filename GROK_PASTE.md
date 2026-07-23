@@ -45,7 +45,7 @@ grok plugin list
 
 ## Full catalog (15)
 
-`aaronplug`, `agent-wall`, `ds4cc`, `godspeed-codex-command`, `godspeed-core`, `infinizoom`, `myagents`, `mycommands`, `myskills`, `spoderman`, `the-almanacker`, `the-kimester`, `the-musketeer`, `the-puppeteer`, `xbrd-gdsp-fknpft`
+`aaronplug`, `agent-wall`, `ds4cc`, `godspeed-codex-command`, `godspeed-core`, `infinizoom`, `myagents`, `mycommands`, `myskills`, `spoderman`, `the-almanacker`, `the-kimiraikoner`, `the-musketeer`, `the-puppeteer`, `xbrd-gdsp-fknpft`
 
 ## After install
 

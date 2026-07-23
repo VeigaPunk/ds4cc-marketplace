@@ -1,9 +1,9 @@
 #!/bin/bash
-# Usage: kimester [--stdin | "prompt"]
+# Usage: kimiraikoner [--stdin | "prompt"]
 # Fire-and-forget Kimi web UI bridge over a dedicated loopback CDP browser.
 #
 # Selectors are best-effort progressive chat-UI candidates — NOT live-scouted.
-# Set KIMESTER_REQUIRE_LIVE=1 to refuse fire when progressive selectors miss.
+# Set KIMIRAIKONER_REQUIRE_LIVE=1 to refuse fire when progressive selectors miss.
 
 set -euo pipefail
 
@@ -29,13 +29,13 @@ canonical_path() {
 
 SCRIPT_PATH=$(canonical_path "$0")
 SCRIPT_DIR=${SCRIPT_PATH%/*}
-KIMESTER_CDP_HOST="${KIMESTER_CDP_HOST:-127.0.0.1}"
-KIMESTER_CDP_PORT="${KIMESTER_CDP_PORT:-9222}"
-KIMESTER_URL="${KIMESTER_URL:-https://www.kimi.com}"
+KIMIRAIKONER_CDP_HOST="${KIMIRAIKONER_CDP_HOST:-127.0.0.1}"
+KIMIRAIKONER_CDP_PORT="${KIMIRAIKONER_CDP_PORT:-9222}"
+KIMIRAIKONER_URL="${KIMIRAIKONER_URL:-https://www.kimi.com}"
 
 usage() {
   cat <<'EOF'
-Usage: kimester [options] [--stdin | "prompt"]
+Usage: kimiraikoner [options] [--stdin | "prompt"]
 
 Options:
       --stdin         Read the prompt from standard input (preferred for long/sensitive text)
@@ -44,15 +44,15 @@ Options:
       --version       Show version
 
 Env:
-  KIMESTER_CDP_HOST   loopback only (default 127.0.0.1)
-  KIMESTER_CDP_PORT   default 9222
-  KIMESTER_URL        default https://www.kimi.com (kimi.com / moonshot.cn hosts only)
-  KIMESTER_REQUIRE_LIVE=1  die if progressive (unverified) selectors miss
-  KIMESTER_DANGEROUS_ALLOW_REMOTE_CDP=1  allow non-loopback CDP host
+  KIMIRAIKONER_CDP_HOST   loopback only (default 127.0.0.1)
+  KIMIRAIKONER_CDP_PORT   default 9222
+  KIMIRAIKONER_URL        default https://www.kimi.com (kimi.com / moonshot.cn hosts only)
+  KIMIRAIKONER_REQUIRE_LIVE=1  die if progressive (unverified) selectors miss
+  KIMIRAIKONER_DANGEROUS_ALLOW_REMOTE_CDP=1  allow non-loopback CDP host
 EOF
 }
 
-die() { printf 'kimester: %s\n' "$*" >&2; exit 1; }
+die() { printf 'kimiraikoner: %s\n' "$*" >&2; exit 1; }
 
 # Host must be kimi.com, *.kimi.com, moonshot.cn, or *.moonshot.cn (not kimi.com.evil.tld).
 is_allowed_kimi_url() {
@@ -62,15 +62,15 @@ is_allowed_kimi_url() {
   return 1
 }
 
-[[ "$KIMESTER_CDP_PORT" =~ ^[0-9]{1,5}$ ]] || die "KIMESTER_CDP_PORT must be numeric"
-(( KIMESTER_CDP_PORT >= 1 && KIMESTER_CDP_PORT <= 65535 )) || die "KIMESTER_CDP_PORT must be between 1 and 65535"
-case "$KIMESTER_CDP_HOST" in
+[[ "$KIMIRAIKONER_CDP_PORT" =~ ^[0-9]{1,5}$ ]] || die "KIMIRAIKONER_CDP_PORT must be numeric"
+(( KIMIRAIKONER_CDP_PORT >= 1 && KIMIRAIKONER_CDP_PORT <= 65535 )) || die "KIMIRAIKONER_CDP_PORT must be between 1 and 65535"
+case "$KIMIRAIKONER_CDP_HOST" in
   127.0.0.1|localhost|'[::1]') ;;
-  *) [[ "${KIMESTER_DANGEROUS_ALLOW_REMOTE_CDP:-}" == 1 ]] || \
-    die "KIMESTER_CDP_HOST must be loopback (127.0.0.1, localhost, or [::1]); set KIMESTER_DANGEROUS_ALLOW_REMOTE_CDP=1 to override" ;;
+  *) [[ "${KIMIRAIKONER_DANGEROUS_ALLOW_REMOTE_CDP:-}" == 1 ]] || \
+    die "KIMIRAIKONER_CDP_HOST must be loopback (127.0.0.1, localhost, or [::1]); set KIMIRAIKONER_DANGEROUS_ALLOW_REMOTE_CDP=1 to override" ;;
 esac
-is_allowed_kimi_url "$KIMESTER_URL" || die "KIMESTER_URL must be a kimi.com or moonshot.cn https URL (got: $KIMESTER_URL)"
-KIMESTER_CDP_ENDPOINT="http://${KIMESTER_CDP_HOST}:${KIMESTER_CDP_PORT}"
+is_allowed_kimi_url "$KIMIRAIKONER_URL" || die "KIMIRAIKONER_URL must be a kimi.com or moonshot.cn https URL (got: $KIMIRAIKONER_URL)"
+KIMIRAIKONER_CDP_ENDPOINT="http://${KIMIRAIKONER_CDP_HOST}:${KIMIRAIKONER_CDP_PORT}"
 
 READ_STDIN=false
 NEW_CHAT=false
@@ -80,7 +80,7 @@ while (($#)); do
     --stdin) READ_STDIN=true; shift ;;
     --new-chat) NEW_CHAT=true; shift ;;
     --help|-h) usage; exit 0 ;;
-    --version) echo "kimester $VERSION"; exit 0 ;;
+    --version) echo "kimiraikoner $VERSION"; exit 0 ;;
     --) shift; ARGS+=("$@"); break ;;
     --*) die "unknown option: $1" ;;
     *) ARGS+=("$1"); shift ;;
@@ -97,22 +97,22 @@ fi
 [[ -n "$PROMPT" ]] || die "prompt must not be empty"
 
 cdp_ready() {
-  curl --silent --fail --max-time 2 "${KIMESTER_CDP_ENDPOINT}/json/version" >/dev/null 2>&1
+  curl --silent --fail --max-time 2 "${KIMIRAIKONER_CDP_ENDPOINT}/json/version" >/dev/null 2>&1
 }
 
 # Almanacker-minimal: no new chrome launcher — shared family CDP only.
 ensure_cdp() {
   cdp_ready && return 0
-  printf 'kimester: CDP unavailable at %s:%s\n' "$KIMESTER_CDP_HOST" "$KIMESTER_CDP_PORT" >&2
+  printf 'kimiraikoner: CDP unavailable at %s:%s\n' "$KIMIRAIKONER_CDP_HOST" "$KIMIRAIKONER_CDP_PORT" >&2
   printf '  Start the shared automation Chrome (same profile as the-puppeteer / the-almanacker).\n' >&2
-  printf '  Verify: curl --fail %s/json/version\n' "$KIMESTER_CDP_ENDPOINT" >&2
+  printf '  Verify: curl --fail %s/json/version\n' "$KIMIRAIKONER_CDP_ENDPOINT" >&2
   die "CDP down"
 }
 
 ensure_cdp
 command -v agent-browser >/dev/null 2>&1 || die "agent-browser not found (run install.sh)"
-command -v node >/dev/null 2>&1 || die "node not found (required for kimester-batch.mjs)"
-AGENT_BROWSER=(agent-browser --cdp "$KIMESTER_CDP_ENDPOINT")
+command -v node >/dev/null 2>&1 || die "node not found (required for kimiraikoner-batch.mjs)"
+AGENT_BROWSER=(agent-browser --cdp "$KIMIRAIKONER_CDP_ENDPOINT")
 
 echo "→ Firing prompt into Kimi..."
 
@@ -130,7 +130,7 @@ done < <("${AGENT_BROWSER[@]}" tab list 2>&1 || true)
 
 if $NEW_CHAT || [[ -z "$KIMI_IDX" ]]; then
   "${AGENT_BROWSER[@]}" tab new >/dev/null 2>&1
-  "${AGENT_BROWSER[@]}" open "$KIMESTER_URL" --wait 4000ms >/dev/null 2>&1
+  "${AGENT_BROWSER[@]}" open "$KIMIRAIKONER_URL" --wait 4000ms >/dev/null 2>&1
 else
   "${AGENT_BROWSER[@]}" tab "$KIMI_IDX" >/dev/null 2>&1
 fi
@@ -142,7 +142,7 @@ PROGRESSIVE_SELECTORS=(
   '[contenteditable=true]'
   '[role="textbox"]'
   '[role=textbox]'
-  '[data-kimester-input]'
+  '[data-kimiraikoner-input]'
 )
 
 FOUND_SEL=""
@@ -158,19 +158,19 @@ for _try in 1 2 3 4 5; do
 done
 
 if [[ -z "$FOUND_SEL" ]]; then
-  if [[ "${KIMESTER_REQUIRE_LIVE:-}" == 1 ]]; then
-    die "no chat input found (KIMESTER_REQUIRE_LIVE=1); progressive selectors unverified — await DOM scout (M03). URL=$KIMESTER_URL"
+  if [[ "${KIMIRAIKONER_REQUIRE_LIVE:-}" == 1 ]]; then
+    die "no chat input found (KIMIRAIKONER_REQUIRE_LIVE=1); progressive selectors unverified — await DOM scout (M03). URL=$KIMIRAIKONER_URL"
   fi
   die "no chat input found (tried textarea, contenteditable, role=textbox); open kimi.com, sign in, retry"
 fi
 
-if [[ "$FOUND_SEL" == '[data-kimester-input]' && "${KIMESTER_REQUIRE_LIVE:-}" == 1 ]]; then
-  die "only PLACEHOLDER selector [data-kimester-input] matched; live scout required before REQUIRE_LIVE fire"
+if [[ "$FOUND_SEL" == '[data-kimiraikoner-input]' && "${KIMIRAIKONER_REQUIRE_LIVE:-}" == 1 ]]; then
+  die "only PLACEHOLDER selector [data-kimiraikoner-input] matched; live scout required before REQUIRE_LIVE fire"
 fi
 
 "${AGENT_BROWSER[@]}" focus "$FOUND_SEL" >/dev/null 2>&1 || true
 # Prompt via stdin → batch JSON so it never lands in process argv (ps / ARG_MAX).
-if ! printf '%s' "$PROMPT" | /usr/bin/node "$SCRIPT_DIR/kimester-batch.mjs" \
+if ! printf '%s' "$PROMPT" | /usr/bin/node "$SCRIPT_DIR/kimiraikoner-batch.mjs" \
     | "${AGENT_BROWSER[@]}" batch --bail --json >/dev/null 2>&1; then
   die "failed to insert prompt / press Enter (selector=$FOUND_SEL)"
 fi

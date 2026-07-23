@@ -1,18 +1,18 @@
 {
-  "name": "the-kimester",
+  "name": "the-kimiraikoner",
   "version": "0.1.0",
   "description": "Drive Kimi web UI chat through agent-browser and an authenticated CDP profile.",
   "author": {
     "name": "VeigaPunk"
   },
-  "homepage": "https://github.com/VeigaPunk/the-kimester",
+  "homepage": "https://github.com/VeigaPunk/the-kimiraikoner",
   "license": "MIT",
   "skills": "./skills/",
   "interface": {
-    "displayName": "The Kimester (VeigaPunk)",
+    "displayName": "The KimiRaikoner (VeigaPunk)",
     "shortDescription": "Kimi web UI automation through agent-browser",
     "longDescription": "Uses agent-browser with a dedicated authenticated Chrome CDP profile to fire prompts into the Kimi web UI (fire-and-forget).",
     "developerName": "VeigaPunk",
-    "websiteURL": "https://github.com/VeigaPunk/the-kimester"
+    "websiteURL": "https://github.com/VeigaPunk/the-kimiraikoner"
   }
 }

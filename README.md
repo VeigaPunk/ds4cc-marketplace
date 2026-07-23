@@ -132,7 +132,7 @@ Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `a
 | `the-puppeteer` | Developer | Web automation & long-running ChatGPT bridge |
 | `the-musketeer` | Developer | Grok web UI adapter (agent-browser / CDP) |
 | `the-almanacker` | Developer | NotebookLM web UI adapter |
-| `the-kimester` | Developer | Kimi web UI adapter (agent-browser / CDP) |
+| `the-kimiraikoner` | Developer | Kimi web UI adapter (agent-browser / CDP) |
 | `godspeed-core` | Developer | Adaptive execution doctrine & Pareto walk policy |
 | `myagents` | Developer | Curated agent workflow launchpad |
 | `mycommands` | Developer | Reusable command packs & shell routines |

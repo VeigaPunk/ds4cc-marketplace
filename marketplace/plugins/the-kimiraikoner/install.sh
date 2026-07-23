@@ -1,12 +1,12 @@
 #!/bin/bash
-# The Kimester installer — sets up the kimester CLI + Claude agent.
+# The KimiRaikoner installer — sets up the kimiraikoner CLI + Claude agent.
 # Idempotent: safe to re-run. Almanacker-minimal: no new chrome launcher.
 
 set -e
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-echo "→ The Kimester installer"
+echo "→ The KimiRaikoner installer"
 
 # 1. Install agent-browser if missing
 if ! command -v agent-browser >/dev/null 2>&1; then
@@ -16,17 +16,17 @@ if ! command -v agent-browser >/dev/null 2>&1; then
 fi
 echo "✓ agent-browser present ($(agent-browser --version))"
 
-# 2. Symlink kimester CLI into PATH
-#    Binary is kimester (NOT kimi — PATH collision with official Kimi Code CLI).
+# 2. Symlink kimiraikoner CLI into PATH
+#    Binary is kimiraikoner (NOT kimi — PATH collision with official Kimi Code CLI).
 mkdir -p ~/.local/bin
-ln -sf "$HERE/kimester" ~/.local/bin/kimester
-chmod +x "$HERE/kimester"
-echo "✓ kimester CLI at ~/.local/bin/kimester"
+ln -sf "$HERE/kimiraikoner" ~/.local/bin/kimiraikoner
+chmod +x "$HERE/kimiraikoner"
+echo "✓ kimiraikoner CLI at ~/.local/bin/kimiraikoner"
 
 # 3. Deploy Claude agent (user-level, available in any session)
 mkdir -p ~/.claude/agents
-ln -sf "$HERE/the-kimester.md" ~/.claude/agents/the-kimester.md
-echo "✓ Claude agent at ~/.claude/agents/the-kimester.md"
+ln -sf "$HERE/the-kimiraikoner.md" ~/.claude/agents/the-kimiraikoner.md
+echo "✓ Claude agent at ~/.claude/agents/the-kimiraikoner.md"
 
 # 4. Verify PATH contains ~/.local/bin
 case ":$PATH:" in
@@ -41,8 +41,8 @@ echo ""
 echo "  1. Ensure Chrome Dev is running with remote-debugging + isolated user-data-dir."
 echo "  2. Sign into https://www.kimi.com in that Chrome profile."
 echo "  3. From WSL/Linux, verify: curl -s http://127.0.0.1:9222/json/version"
-echo "  4. Test: kimester \"hello\"  (should print '✓ Prompt fired.' and exit)"
+echo "  4. Test: kimiraikoner \"hello\"  (should print '✓ Prompt fired.' and exit)"
 echo ""
 echo "Auth is handled by your real Chrome session — no cookie export, no session JSON, no passwords."
-echo "Keep CDP on loopback (127.0.0.1:9222). Prefer: printf '%s' \"\$prompt\" | kimester --stdin"
-echo "Remember: kimester is fire-and-forget. Read the answer in kimi.com, not the terminal."
+echo "Keep CDP on loopback (127.0.0.1:9222). Prefer: printf '%s' \"\$prompt\" | kimiraikoner --stdin"
+echo "Remember: kimiraikoner is fire-and-forget. Read the answer in kimi.com, not the terminal."

@@ -1,4 +1,4 @@
-# The Kimester
+# The KimiRaikoner
 
 Fire-and-forget bridge from CLI → [Kimi](https://www.kimi.com) web UI via loopback CDP + `agent-browser`.
 
@@ -6,7 +6,7 @@ Sibling to [the-puppeteer](https://github.com/VeigaPunk/the-puppeteer) (ChatGPT)
 
 ## Why
 
-Kimi web UI capabilities (authenticated chat and any web-only modes) are not the same surface as the official **Kimi Code CLI**. The Kimester reuses your already-signed-in Chrome automation profile over CDP — no cookie export, no API keys.
+Kimi web UI capabilities (authenticated chat and any web-only modes) are not the same surface as the official **Kimi Code CLI**. The KimiRaikoner reuses your already-signed-in Chrome automation profile over CDP — no cookie export, no API keys.
 
 ## Install
 
@@ -16,8 +16,8 @@ bash ./install.sh
 
 Installs:
 
-- `kimester` → `~/.local/bin/kimester` (**not** `kimi` — avoids PATH collision with official Kimi Code CLI)
-- Claude agent → `~/.claude/agents/the-kimester.md`
+- `kimiraikoner` → `~/.local/bin/kimiraikoner` (**not** `kimi` — avoids PATH collision with official Kimi Code CLI)
+- Claude agent → `~/.claude/agents/the-kimiraikoner.md`
 - `agent-browser` if missing
 
 Reuses the **shared** family CDP Chrome profile (port 9222). No separate launcher.
@@ -25,9 +25,9 @@ Reuses the **shared** family CDP Chrome profile (port 9222). No separate launche
 ## Usage
 
 ```bash
-kimester "your prompt here"
-printf '%s' "$long_prompt" | kimester --stdin
-kimester --new-chat "start a fresh tab"
+kimiraikoner "your prompt here"
+printf '%s' "$long_prompt" | kimiraikoner --stdin
+kimiraikoner --new-chat "start a fresh tab"
 ```
 
 Success line:
@@ -38,7 +38,7 @@ Success line:
 
 ## Security
 
-- **CDP must stay on loopback.** Default host is `127.0.0.1`. Non-loopback hosts are rejected unless `KIMESTER_DANGEROUS_ALLOW_REMOTE_CDP=1`.
+- **CDP must stay on loopback.** Default host is `127.0.0.1`. Non-loopback hosts are rejected unless `KIMIRAIKONER_DANGEROUS_ALLOW_REMOTE_CDP=1`.
 - **Dedicated automation profile only.** Do not attach CDP to your daily browser profile. Sign into kimi.com once in the shared family profile (same as puppeteer/musketeer/almanacker).
 - **No cookie export / no session JSON / no passwords.** Auth is the live browser session.
 - **Host allowlist.** Only `kimi.com` / `*.kimi.com` and `moonshot.cn` / `*.moonshot.cn` URLs are opened or matched. Spoof hosts like `kimi.com.evil.example` are rejected.
@@ -50,11 +50,11 @@ Firewall tip: keep port 9222 bound to localhost only.
 
 | Variable | Default | Notes |
 |---|---|---|
-| `KIMESTER_CDP_HOST` | `127.0.0.1` | loopback only |
-| `KIMESTER_CDP_PORT` | `9222` | shared family port |
-| `KIMESTER_URL` | `https://www.kimi.com` | open target when no tab (allowlisted host) |
-| `KIMESTER_REQUIRE_LIVE` | unset | `1` = fail closed if no input |
-| `KIMESTER_DANGEROUS_ALLOW_REMOTE_CDP` | unset | `1` = allow non-loopback CDP |
+| `KIMIRAIKONER_CDP_HOST` | `127.0.0.1` | loopback only |
+| `KIMIRAIKONER_CDP_PORT` | `9222` | shared family port |
+| `KIMIRAIKONER_URL` | `https://www.kimi.com` | open target when no tab (allowlisted host) |
+| `KIMIRAIKONER_REQUIRE_LIVE` | unset | `1` = fail closed if no input |
+| `KIMIRAIKONER_DANGEROUS_ALLOW_REMOTE_CDP` | unset | `1` = allow non-loopback CDP |
 
 ## Selectors (v0)
 
@@ -63,14 +63,14 @@ Progressive best-effort only — **not** live-scouted (CDP probe was blocked in 
 1. `textarea`
 2. `[contenteditable=true]`
 3. `[role=textbox]`
-4. `[data-kimester-input]` (PLACEHOLDER until live DOM scout)
+4. `[data-kimiraikoner-input]` (PLACEHOLDER until live DOM scout)
 
-When your automation Chrome is up and signed into kimi.com, run `kimester "hello"` and refine selectors if the progressive set misses.
+When your automation Chrome is up and signed into kimi.com, run `kimiraikoner "hello"` and refine selectors if the progressive set misses.
 
 ## Tests
 
 ```bash
-bash tests/test-kimester-guards.sh
+bash tests/test-kimiraikoner-guards.sh
 ```
 
 ## License

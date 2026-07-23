@@ -111,12 +111,12 @@
       "source": "./artifacts/the-almanacker-0.2.0.zip"
     },
     {
-      "id": "the-kimester",
-      "displayName": "The Kimester (VeigaPunk)",
+      "id": "the-kimiraikoner",
+      "displayName": "The KimiRaikoner (VeigaPunk)",
       "version": "0.1.0",
       "description": "Drive Kimi web UI chat through agent-browser and an authenticated CDP profile.",
-      "homepage": "https://github.com/VeigaPunk/the-kimester",
-      "source": "./artifacts/the-kimester-0.1.0.zip"
+      "homepage": "https://github.com/VeigaPunk/the-kimiraikoner",
+      "source": "./artifacts/the-kimiraikoner-0.1.0.zip"
     },
     {
       "id": "the-musketeer",

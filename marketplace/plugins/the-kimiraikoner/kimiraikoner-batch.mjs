@@ -4,7 +4,7 @@ let prompt = "";
 process.stdin.setEncoding("utf8");
 for await (const chunk of process.stdin) prompt += chunk;
 if (!prompt) {
-  console.error("kimester-batch: prompt must not be empty");
+  console.error("kimiraikoner-batch: prompt must not be empty");
   process.exit(1);
 }
 process.stdout.write(JSON.stringify([

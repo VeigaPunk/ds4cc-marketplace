@@ -102,10 +102,10 @@
       "category": "Developer"
     },
     {
-      "name": "the-kimester",
+      "name": "the-kimiraikoner",
       "source": {
         "source": "local",
-        "path": "./plugins/the-kimester"
+        "path": "./plugins/the-kimiraikoner"
       },
       "policy": {
         "installation": "AVAILABLE",
