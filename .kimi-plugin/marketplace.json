@@ -17,6 +17,21 @@
       "source": "./artifacts/aaronplug-0.2.0.zip"
     },
     {
+      "id": "agent-pip",
+      "displayName": "Agent Pip (VeigaPunk)",
+      "version": "0.1.0",
+      "description": "Multi-panel tmux agent terminal dashboard in Rust",
+      "homepage": "https://github.com/VeigaPunk/agent-pip",
+      "keywords": [
+        "agent",
+        "tmux",
+        "dashboard",
+        "terminal",
+        "rust"
+      ],
+      "source": "./artifacts/agent-pip-0.1.0.zip"
+    },
+    {
       "id": "agent-wall",
       "displayName": "Agent Wall",
       "version": "0.2.0",

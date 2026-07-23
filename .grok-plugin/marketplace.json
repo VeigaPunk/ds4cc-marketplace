@@ -56,6 +56,31 @@
       }
     },
     {
+      "name": "agent-pip",
+      "version": "0.1.0",
+      "description": "Multi-panel tmux agent terminal dashboard in Rust",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/agent-pip"
+      },
+      "homepage": "https://github.com/VeigaPunk/agent-pip",
+      "keywords": [
+        "agent-pip",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "ds4cc.com",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
       "name": "ds4cc",
       "version": "0.2.0",
       "description": "Review DS4CC plugins and Codex install steps",

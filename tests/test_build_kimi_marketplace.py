@@ -34,13 +34,13 @@ class KimiMarketplaceTests(unittest.TestCase):
             self.build(second)
             catalog = json.loads((first / "marketplace.json").read_text())
             self.assertEqual(catalog["version"], "1")
-            self.assertEqual(len(catalog["plugins"]), 15)
+            self.assertEqual(len(catalog["plugins"]), 16)
             self.assertEqual(
                 [entry["id"] for entry in catalog["plugins"]],
                 sorted(entry["id"] for entry in catalog["plugins"]),
             )
             artifacts = sorted((first / "artifacts").glob("*.zip"))
-            self.assertEqual(len(artifacts), 15)
+            self.assertEqual(len(artifacts), 16)
 
             for entry in catalog["plugins"]:
                 artifact = first / entry["source"][2:]
@@ -136,7 +136,7 @@ class KimiMarketplaceTests(unittest.TestCase):
             capture_output=True,
         )
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("validated 15", result.stdout)
+        self.assertIn("validated 16", result.stdout)
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary)
             (output / "marketplace.json").write_bytes(

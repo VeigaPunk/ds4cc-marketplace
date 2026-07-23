@@ -21,6 +21,12 @@
       "description": "Runtime handoff surface for agent-based workflows"
     },
     {
+      "name": "agent-pip",
+      "source": "./marketplace/plugins/agent-pip",
+      "version": "0.1.0",
+      "description": "Multi-panel tmux agent terminal dashboard in Rust"
+    },
+    {
       "name": "ds4cc",
       "source": "./marketplace/plugins/ds4cc",
       "version": "0.2.0",

@@ -138,6 +138,19 @@
       "category": "Developer"
     },
     {
+      "name": "agent-pip",
+      "source": {
+        "source": "local",
+        "path": "./marketplace/plugins/agent-pip"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer",
+      "version": "0.1.0"
+    },
+    {
       "name": "ds4cc",
       "source": {
         "source": "local",

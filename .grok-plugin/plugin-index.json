@@ -23,6 +23,17 @@
         ]
       }
     },
+    "agent-pip": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "agent-pip-docs",
+            "description": "Install, run, and control the agent-pip multi-panel tmux agent dashboard."
+          }
+        ]
+      }
+    },
     "ds4cc": {
       "version": "0.2.0",
       "components": {

@@ -120,7 +120,7 @@ npm test
 
 Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `app.ds4cc.com`, and follow `apps-sdk/SUBMISSION.md` for the OpenAI plugin portal fields and tests.
 
-## Plugins (15)
+## Plugins (16)
 
 | Plugin | Category | Description |
 |---|---|---|
@@ -138,6 +138,7 @@ Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `a
 | `mycommands` | Developer | Reusable command packs & shell routines |
 | `myskills` | Developer | Curated skill inventory & workflow helpers |
 | `agent-wall` | Developer | Handoff checkpoints & session continuity |
+| `agent-pip` | Developer | Multi-panel tmux agent terminal dashboard in Rust |
 | `ds4cc` | Developer | Marketplace meta-plugin (discover, install, manage) |
 
 ## Install a plugin

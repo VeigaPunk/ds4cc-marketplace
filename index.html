@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>DS4CC — the plugin marketplace for every agent CLI</title>
-<meta name="description" content="DS4CC Marketplace: 15 curated developer plugins for Grok Build, Codex, Claude Code, Copilot CLI, Kimi Code CLI and OpenCode. One repo, every host. Rust-validated." />
+<meta name="description" content="DS4CC Marketplace: 16 curated developer plugins for Grok Build, Codex, Claude Code, Copilot CLI, Kimi Code CLI and OpenCode. One repo, every host. Rust-validated." />
 <meta property="og:title" content="DS4CC Marketplace — one repo, every agent CLI" />
-<meta property="og:description" content="15 curated plugins for Grok, Codex, Claude Code, Copilot CLI, Kimi and OpenCode. Install in one command." />
+<meta property="og:description" content="16 curated plugins for Grok, Codex, Claude Code, Copilot CLI, Kimi and OpenCode. Install in one command." />
 <meta property="og:url" content="https://ds4cc.com/" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
@@ -284,7 +284,7 @@
 
   <header class="hero">
     <div>
-      <span class="badge">15 plugins</span>
+      <span class="badge">16 plugins</span>
       <span class="badge dark">6 agent CLIs</span>
       <span class="badge dark">rust-validated</span>
       <span class="badge cyan">MIT</span>
@@ -304,7 +304,7 @@
       <strong>OpenCode</strong>. Register one repo, install what you need, ship.
     </p>
     <div class="hero-row">
-      <span class="chip"><span class="dot"></span> all 15 plugins available</span>
+      <span class="chip"><span class="dot"></span> all 16 plugins available</span>
       <span class="chip amber"><span class="dot"></span> curation-gated</span>
     </div>
     <div class="hero-row">
@@ -341,11 +341,11 @@
   </section>
 
   <section id="plugins" class="reveal">
-    <h2><span class="idx">02</span>The catalog — 15 curated plugins</h2>
+    <h2><span class="idx">02</span>The catalog — 16 curated plugins</h2>
     <p class="sub">Every plugin ships an actionable <code>SKILL.md</code> (fenced commands, no boilerplate) and passes the Rust validator. Filter by name or capability.</p>
     <div class="grid-tools">
       <input class="filter" id="plugFilter" type="search" placeholder="filter plugins… (try: agents, grok, papers, godspeed)" aria-label="filter plugins" />
-      <span class="count" id="plugCount">15 / 15</span>
+      <span class="count" id="plugCount">16 / 16</span>
     </div>
     <div class="plugins" id="plugGrid"></div>
   </section>
@@ -420,7 +420,7 @@
           <code><span class="p">›</span> https://app.ds4cc.com/mcp</code>
           <button class="copy-btn" data-copy="https://app.ds4cc.com/mcp">COPY</button>
         </div>
-        <p>Scoped to an explicitly reviewed, read-only tool surface with required annotations and widget CSP/domain metadata. It is <em>not</em> the public 15-plugin marketplace — the official OpenAI submission bundle is the isolated tree at <code>official/ds4cc/</code>.</p>
+        <p>Scoped to an explicitly reviewed, read-only tool surface with required annotations and widget CSP/domain metadata. It is <em>not</em> the public 16-plugin marketplace — the official OpenAI submission bundle is the isolated tree at <code>official/ds4cc/</code>.</p>
         <div class="kv">
           <span class="ok-chip">read-only</span>
           <span class="ok-chip">reviewed subset</span>
@@ -544,6 +544,7 @@
     { n: "mycommands", v: "0.1.0", d: "Reusable command packs & shell routines, ready to exec.", c: 'codex exec "/my-command-name"' },
     { n: "myskills", v: "0.1.0", d: "Curated skill inventory & workflow helpers, discoverable in-session.", c: 'codex exec "/skill-name <args>"' },
     { n: "agent-wall", v: "0.1.0", d: "Handoff checkpoints & session continuity across agents and days.", c: 'codex exec "Create an agent-wall checkpoint..."' },
+    { n: "agent-pip", v: "0.1.0", d: "Multi-panel tmux agent terminal dashboard in Rust.", c: "cargo run --release && ./target/release/agent-pip" },
     { n: "ds4cc", v: "0.1.0", d: "Marketplace meta-plugin — discover, install and manage DS4CC from inside your CLI.", c: "codex plugin marketplace add VeigaPunk/ds4cc-marketplace" },
     { n: "spoderman", v: "0.1.0", d: "Attack harness & hook safety research for agent runtimes.", c: "bash ./spoderman validate --hooks" },
     { n: "xbrd-gdsp-fknpft", v: "0.2.2", d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
@@ -615,7 +616,7 @@
       title: "ds4cc — grok build",
       lines: [
         ["cmd", "grok plugin marketplace add VeigaPunk/ds4cc-marketplace"],
-        ["ok",  "added marketplace `ds4cc` — 15 plugins available"],
+        ["ok",  "added marketplace `ds4cc` — 16 plugins available"],
         ["cmd", 'grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/myagents" --trust'],
         ["ok",  "installed `myagents` 0.1.0 — skills + commands ready"],
         ["cmd", "for p in godspeed-core agent-wall mycommands myskills ds4cc; do grok plugin install \"...#$p\" --trust; done"],
@@ -663,7 +664,7 @@
         ["warn", "third-party plugin — trust confirmation shown"],
         ["ok",  "DS4CC bootstrap plugin installed"],
         ["cmd", "/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json"],
-        ["ok",  "catalog registered — 15 packaged plugins"],
+        ["ok",  "catalog registered — 16 packaged plugins"],
         ["cmd", "/reload"],
         ["out", "skills live as /skill:<name> · commands as /<plugin>:<command>"],
       ],
