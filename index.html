@@ -3,120 +3,754 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>DS4CC — 15 plugins for every agent CLI</title>
-<meta name="description" content="One repo. 15 curated plugins for Grok, Codex, Claude Code, Copilot CLI, Kimi and OpenCode. Rust-validated, curation-gated, MIT." />
+<title>DS4CC — the plugin marketplace for every agent CLI</title>
+<meta name="description" content="DS4CC Marketplace: 15 curated developer plugins for Grok Build, Codex, Claude Code, Copilot CLI, Kimi Code CLI and OpenCode. One repo, every host. Rust-validated." />
+<meta property="og:title" content="DS4CC Marketplace — one repo, every agent CLI" />
+<meta property="og:description" content="15 curated plugins for Grok, Codex, Claude Code, Copilot CLI, Kimi and OpenCode. Install in one command." />
+<meta property="og:url" content="https://ds4cc.com/" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<script>document.documentElement.classList.add('js');</script>
 <style>
-  :root { --bg:#050605; --fg:#e8f0e6; --dim:#7a8a78; --grn:#51ff00; --cyn:#3de0ff; --line:#1a201a; --code:#b8f5a0; }
-  * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--fg); font:14px/1.55 ui-monospace,"SF Mono",Menlo,Consolas,monospace; }
-  ::selection { background:var(--grn); color:#000; }
-  a { color:var(--grn); text-decoration:none; }
-  a:hover { text-decoration:underline; }
-  code { color:var(--code); }
-  .w { max-width:960px; margin:0 auto; padding:28px 16px 48px; }
-  h1 { font-size:1rem; font-weight:700; margin:0; }
-  h1 b { color:var(--grn); }
-  h2 { font-size:0.8rem; color:var(--dim); font-weight:400; letter-spacing:0.12em; text-transform:uppercase; margin:26px 0 6px; }
-  .tag { color:var(--dim); margin:4px 0 0; }
-  .links { margin-top:6px; font-size:0.82rem; color:var(--dim); }
-  .links a { margin-right:12px; }
-  .one { display:flex; border:1px solid #2a332a; border-radius:4px; background:#080a08; margin-top:14px; }
-  .one code { flex:1; padding:9px 12px; font-size:0.82rem; overflow-x:auto; white-space:nowrap; }
-  .one .p { color:var(--cyn); }
-  button.cp, td.cp { cursor:pointer; }
-  button.cp { background:#000; color:var(--grn); border:none; border-left:1px solid #2a332a; font:inherit; font-size:0.72rem; padding:0 12px; }
-  button.cp:hover, tr:hover td.cp { background:#51ff0022; }
-  table { width:100%; border-collapse:collapse; font-size:0.82rem; }
-  td, th { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
-  th { color:var(--dim); font-weight:400; font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; }
-  td.n { color:var(--grn); font-weight:700; white-space:nowrap; }
-  td.c { color:var(--code); white-space:nowrap; }
-  .scroll { overflow-x:auto; }
-  td:first-child { width:1%; }
-  td.cp { color:var(--grn); font-size:0.72rem; text-align:right; white-space:nowrap; }
-  td.v { color:var(--dim); font-size:0.72rem; white-space:nowrap; }
-  .f { width:100%; background:#080a08; border:1px solid #2a332a; border-radius:4px; color:var(--fg); font:inherit; font-size:0.82rem; padding:7px 10px; margin:4px 0 8px; }
-  .f::placeholder { color:var(--dim); }
-  footer { margin-top:30px; padding-top:10px; border-top:1px solid var(--line); color:var(--dim); font-size:0.74rem; }
-  @media (max-width:640px) { .hide-s { display:none; } }
+  :root {
+    --bg: #050605;
+    --panel: #0d100d;
+    --panel2: #121612;
+    --fg: #e8f0e6;
+    --body: #c5d0c3;
+    --muted: #7a8a78;
+    --green: #51ff00;
+    --green-dim: #38b000;
+    --amber: #ffb020;
+    --red: #ff3b30;
+    --cyan: #3de0ff;
+    --border: #1e281e;
+    --border2: #2a332a;
+    --rule: #1a201a;
+    --code: #b8f5a0;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    min-height: 100%;
+  }
+  ::selection { background: var(--green); color: #000; }
+  a { color: var(--green); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code { color: var(--code); }
+  :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+  .page { max-width: 1120px; margin: 0 auto; padding: 0 16px 90px; }
+
+  /* ---------- nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule);
+  }
+  .nav-inner {
+    max-width: 1120px; margin: 0 auto; padding: 10px 16px;
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+  }
+  .brand { font-weight: 700; letter-spacing: 0.06em; font-size: 0.95rem; }
+  .brand b { color: var(--green); }
+  .brand span { color: var(--muted); font-weight: 400; }
+  .nav-links { display: flex; gap: 14px; flex-wrap: wrap; margin-left: auto; align-items: center; }
+  .nav-links a { color: var(--muted); font-size: 0.8rem; letter-spacing: 0.04em; }
+  .nav-links a:hover { color: var(--green); text-decoration: none; }
+  .nav-cta {
+    background: #000; color: var(--green); border: 1px solid var(--green);
+    padding: 5px 10px; font-size: 0.78rem; border-radius: 4px;
+  }
+  .nav-cta:hover { background: #51ff0022; text-decoration: none; }
+
+  /* ---------- shared ---------- */
+  .badge {
+    display: inline-block;
+    background: var(--green); color: #000;
+    font-weight: 700; font-size: 0.68rem;
+    padding: 3px 8px; margin: 0 6px 6px 0;
+    letter-spacing: 0.04em;
+  }
+  .badge.dark { background: #000; color: var(--green); border: 1px solid var(--green); }
+  .badge.cyan { background: #000; color: var(--cyan); border: 1px solid var(--cyan); }
+  section { margin: 34px 0; border-top: 1px solid var(--rule); padding-top: 22px; scroll-margin-top: 70px; }
+  h2 { font-size: 1.05rem; margin: 0 0 6px; color: var(--green); letter-spacing: 0.03em; }
+  h2 .idx { color: var(--muted); font-weight: 400; margin-right: 8px; }
+  .sub { color: var(--muted); font-size: 0.88rem; margin: 0 0 16px; }
+  p, li { line-height: 1.55; font-size: 0.92rem; color: var(--body); }
+  .callout { border-left: 3px solid var(--green); background: #0d140d; padding: 12px 14px; margin: 14px 0; }
+  .callout.amber { border-left-color: var(--amber); background: #14100a; }
+  .callout.red { border-left-color: var(--red); background: #140d0d; }
+  .panel {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+  }
+  pre {
+    background: #080a08; border: 1px solid var(--border); border-radius: 6px;
+    padding: 12px 14px; overflow-x: auto; font-size: 0.82rem; line-height: 1.6;
+    color: var(--body); margin: 10px 0;
+  }
+  pre .c { color: var(--muted); }           /* comment */
+  pre .p { color: var(--cyan); }            /* prompt */
+  pre .g { color: var(--green); }           /* success */
+  table.spec { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  table.spec th, table.spec td {
+    text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top;
+  }
+  table.spec th { color: var(--muted); font-weight: 500; width: 30%; }
+  .btn {
+    display: inline-block; background: #000; color: var(--green);
+    border: 1px solid var(--green); border-radius: 4px;
+    padding: 8px 14px; font-family: inherit; font-size: 0.82rem; cursor: pointer;
+    letter-spacing: 0.03em;
+  }
+  .btn:hover { background: #51ff0022; text-decoration: none; }
+  .btn:active { background: var(--green); color: #000; }
+  .btn.solid { background: var(--green); color: #000; font-weight: 700; }
+  .btn.solid:hover { background: #6bff2e; }
+  .btn.small { padding: 4px 9px; font-size: 0.72rem; }
+  .chip {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(0,0,0,.55); border: 1px solid var(--border2); border-radius: 4px;
+    padding: 6px 10px; font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--body);
+  }
+  .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+  .chip.amber .dot { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+
+  /* ---------- hero ---------- */
+  header.hero { padding: 34px 0 8px; }
+  .ascii {
+    font-size: clamp(6px, 1.55vw, 13px);
+    line-height: 1.15;
+    color: var(--green);
+    text-shadow: 0 0 14px rgba(81,255,0,0.35);
+    background: none; border: none; padding: 0; margin: 14px 0 6px;
+    overflow: visible; white-space: pre;
+  }
+  .hero h1 { font-size: clamp(1.25rem, 3.2vw, 1.9rem); font-weight: 600; letter-spacing: 0.02em; margin: 10px 0 8px; }
+  .hero h1 em { color: var(--green); font-style: normal; }
+  .tagline { color: var(--muted); font-size: 0.95rem; margin: 0 0 18px; max-width: 760px; }
+  .hero-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0 8px; }
+  .oneliner {
+    display: flex; align-items: stretch; gap: 0; max-width: 100%;
+    border: 1px solid var(--border2); border-radius: 6px; overflow: hidden;
+    background: #080a08;
+  }
+  .oneliner code {
+    padding: 10px 14px; font-size: 0.82rem; color: var(--code);
+    overflow-x: auto; white-space: nowrap;
+  }
+  .oneliner .p { color: var(--cyan); }
+  .copy-btn {
+    background: #000; color: var(--green); border: none; border-left: 1px solid var(--border2);
+    font-family: inherit; font-size: 0.72rem; padding: 0 14px; cursor: pointer; letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .copy-btn:hover { background: #51ff0022; }
+  .copy-btn.done { background: var(--green); color: #000; font-weight: 700; }
+
+  /* ---------- terminal device ---------- */
+  .term-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .term {
+    width: min(100%, 780px);
+    background: #0a0d0a; border: 2px solid var(--border2); border-radius: 10px;
+    overflow: hidden; box-shadow: 0 0 0 6px #070807, 0 24px 60px rgba(0,0,0,.55);
+  }
+  .term-bar {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--panel2); border-bottom: 1px solid var(--border2);
+    padding: 8px 12px; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em;
+  }
+  .term-bar .sq { width: 9px; height: 9px; }
+  .term-bar .sq.r { background: var(--red); }
+  .term-bar .sq.a { background: var(--amber); }
+  .term-bar .sq.g { background: var(--green); }
+  .term-bar .title { margin-left: 8px; }
+  .term-body {
+    padding: 16px; min-height: 300px; font-size: 0.82rem; line-height: 1.7;
+    color: var(--body); white-space: pre-wrap; word-break: break-word;
+  }
+  .term-body .cmd { color: var(--fg); }
+  .term-body .cmd .ps1 { color: var(--cyan); }
+  .term-body .out { color: var(--muted); }
+  .term-body .ok { color: var(--green); }
+  .term-body .warn { color: var(--amber); }
+  .cursor {
+    display: inline-block; width: 8px; height: 14px; background: var(--green);
+    vertical-align: -2px; animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .host-tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+  .host-tab {
+    background: #000; color: var(--green); border: 1px solid var(--green); border-radius: 4px;
+    padding: 6px 12px; font-family: inherit; font-size: 0.78rem; cursor: pointer; letter-spacing: 0.03em;
+  }
+  .host-tab:hover { background: #51ff0022; }
+  .host-tab.active { background: var(--green); color: #000; font-weight: 700; }
+  .term-note { font-size: 0.74rem; color: var(--muted); text-align: center; margin: 0; }
+
+  /* ---------- plugin grid ---------- */
+  .grid-tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+  .filter {
+    flex: 1; min-width: 220px;
+    background: #080a08; border: 1px solid var(--border2); border-radius: 6px;
+    color: var(--fg); font-family: inherit; font-size: 0.85rem; padding: 9px 12px;
+  }
+  .filter::placeholder { color: var(--muted); }
+  .count { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.05em; }
+  .plugins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  @media (max-width: 940px) { .plugins { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 620px) { .plugins { grid-template-columns: 1fr; } }
+  .plug {
+    background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--border2);
+    border-radius: 6px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;
+    transition: border-color 160ms linear, transform 160ms linear;
+  }
+  .plug:hover { border-left-color: var(--green); transform: translateY(-2px); }
+  .plug-head { display: flex; align-items: baseline; gap: 8px; }
+  .plug-name { color: var(--green); font-weight: 700; font-size: 0.92rem; letter-spacing: 0.02em; }
+  .plug-ver { color: var(--muted); font-size: 0.68rem; border: 1px solid var(--border2); padding: 1px 6px; border-radius: 3px; }
+  .plug-cat { margin-left: auto; color: var(--muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; }
+  .plug-desc { font-size: 0.82rem; color: var(--body); line-height: 1.5; margin: 0; flex: 1; }
+  .plug-cmd {
+    font-size: 0.72rem; color: var(--code); background: #080a08;
+    border: 1px solid var(--border); border-radius: 4px; padding: 6px 8px;
+    overflow-x: auto; white-space: nowrap;
+  }
+  .plug-foot { display: flex; gap: 8px; align-items: center; }
+  .plug-src { margin-left: auto; font-size: 0.74rem; color: var(--muted); }
+  .plug-src:hover { color: var(--green); }
+
+  /* ---------- install panels ---------- */
+  .hosts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  @media (max-width: 860px) { .hosts { grid-template-columns: 1fr; } }
+  .host { background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px; }
+  .host h3 { margin: 0 0 4px; font-size: 0.95rem; color: var(--fg); display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .host h3 .tag { font-size: 0.66rem; color: var(--cyan); border: 1px solid var(--cyan); padding: 1px 6px; border-radius: 3px; letter-spacing: 0.06em; }
+  .host .note { font-size: 0.78rem; color: var(--muted); margin: 6px 0 0; }
+  .host pre { position: relative; }
+  .host .copy-btn { position: absolute; top: 8px; right: 8px; padding: 4px 10px; border: 1px solid var(--border2); border-radius: 4px; }
+
+  /* ---------- app / validator ---------- */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+  .kv { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+  .ok-chip {
+    font-size: 0.72rem; color: var(--green); border: 1px solid var(--green);
+    border-radius: 3px; padding: 3px 8px; letter-spacing: 0.04em; background: #000;
+  }
+  ol.gate { margin: 8px 0; padding-left: 22px; }
+  ol.gate li { margin: 6px 0; }
+  ol.gate li b { color: var(--fg); }
+
+  /* ---------- footer ---------- */
+  footer { margin-top: 44px; color: var(--muted); font-size: 0.78rem; border-top: 1px solid var(--rule); padding-top: 16px; line-height: 1.8; }
+  footer .cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 12px; }
+  @media (max-width: 720px) { footer .cols { grid-template-columns: 1fr; } }
+  footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.8rem; }
+
+  /* ---------- reveal (gated on .js so no-JS still shows content) ---------- */
+  .js .reveal { opacity: 0; transform: translateY(12px); transition: opacity 420ms ease, transform 420ms ease; }
+  .js .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+    .cursor { animation: none; }
+  }
 </style>
 </head>
 <body>
-<div class="w">
-
-  <h1><b>DS4CC</b> — one marketplace, every agent CLI.</h1>
-  <p class="tag">15 curated plugins. Rust-validated, curation-gated, MIT.</p>
-  <div class="links">
-    <a href="https://github.com/VeigaPunk/ds4cc-marketplace">github</a>
-    <a href="https://app.ds4cc.com/mcp">chatgpt app</a>
-    <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/CURATION.md">curation</a>
-    <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/HIGHLIGHTS.md">highlights</a>
-    <a href="https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json">kimi catalog</a>
-    <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md">grok_paste</a>
+<nav>
+  <div class="nav-inner">
+    <div class="brand"><b>DS4CC</b> <span>// marketplace</span></div>
+    <div class="nav-links">
+      <a href="#demo">demo</a>
+      <a href="#plugins">plugins</a>
+      <a href="#install">install</a>
+      <a href="#app">chatgpt app</a>
+      <a href="#validator">validator</a>
+      <a href="#curation">curation</a>
+      <a class="nav-cta" href="https://github.com/VeigaPunk/ds4cc-marketplace" target="_blank" rel="noopener">GITHUB ↗</a>
+    </div>
   </div>
+</nav>
 
-  <div class="one"><code><span class="p">$</span> codex plugin marketplace add VeigaPunk/ds4cc-marketplace</code><button class="cp" data-copy="codex plugin marketplace add VeigaPunk/ds4cc-marketplace">COPY</button></div>
+<div class="page">
 
-  <h2>Install per host</h2>
-  <div class="scroll"><table id="hosts">
-    <tr><td class="n">grok</td><td class="c">grok plugin marketplace add VeigaPunk/ds4cc-marketplace</td><td class="cp" data-copy="grok plugin marketplace add VeigaPunk/ds4cc-marketplace">copy</td></tr>
-    <tr><td class="n">codex</td><td class="c">codex plugin marketplace add VeigaPunk/ds4cc-marketplace</td><td class="cp" data-copy="codex plugin marketplace add VeigaPunk/ds4cc-marketplace">copy</td></tr>
-    <tr><td class="n">claude</td><td class="c">claude plugin marketplace add VeigaPunk/ds4cc-marketplace</td><td class="cp" data-copy="claude plugin marketplace add VeigaPunk/ds4cc-marketplace">copy</td></tr>
-    <tr><td class="n">copilot</td><td class="c">copilot plugin marketplace add VeigaPunk/ds4cc-marketplace</td><td class="cp" data-copy="copilot plugin marketplace add VeigaPunk/ds4cc-marketplace">copy</td></tr>
-    <tr><td class="n">kimi</td><td class="c">/plugins install https://github.com/VeigaPunk/ds4cc-marketplace && /reload</td><td class="cp" data-copy="/plugins install https://github.com/VeigaPunk/ds4cc-marketplace">copy</td></tr>
-    <tr><td class="n">opencode</td><td class="c">git clone … && node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global</td><td class="cp" data-copy="git clone https://github.com/VeigaPunk/ds4cc-marketplace.git && node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global">copy</td></tr>
-  </table></div>
+  <header class="hero">
+    <div>
+      <span class="badge">15 plugins</span>
+      <span class="badge dark">6 agent CLIs</span>
+      <span class="badge dark">rust-validated</span>
+      <span class="badge cyan">MIT</span>
+    </div>
+<pre class="ascii" aria-hidden="true">
+██████╗  ███████╗ ██╗ ██╗  ██████╗  ██████╗
+██╔══██╗ ██╔════╝ ██║ ██║ ██╔════╝ ██╔════╝
+██║  ██║ ███████╗ ███████║ ██║      ██║
+██║  ██║ ╚════██║ ╚════██║ ██║      ██║
+██████╔╝ ███████║      ██║ ╚██████╗ ╚██████╗
+╚═════╝  ╚══════╝      ╚═╝  ╚═════╝  ╚═════╝
+</pre>
+    <h1>One marketplace. <em>Every agent CLI.</em></h1>
+    <p class="tagline">
+      Static plugin payloads for <strong>Grok Build</strong>, <strong>Codex</strong>, <strong>Claude Code</strong>,
+      <strong>Copilot CLI</strong> and <strong>Kimi Code CLI</strong> — plus a dependency-free bootstrap for
+      <strong>OpenCode</strong>. Register one repo, install what you need, ship.
+    </p>
+    <div class="hero-row">
+      <span class="chip"><span class="dot"></span> all 15 plugins available</span>
+      <span class="chip amber"><span class="dot"></span> curation-gated</span>
+    </div>
+    <div class="hero-row">
+      <div class="oneliner">
+        <code><span class="p">$</span> codex plugin marketplace add VeigaPunk/ds4cc-marketplace</code>
+        <button class="copy-btn" data-copy="codex plugin marketplace add VeigaPunk/ds4cc-marketplace">COPY</button>
+      </div>
+      <a class="btn solid" href="#plugins">BROWSE PLUGINS</a>
+      <a class="btn" href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">GROK_PASTE.md ↗</a>
+    </div>
+  </header>
 
-  <h2>Plugins <span id="cnt">15/15</span></h2>
-  <input class="f" id="q" type="search" placeholder="filter…" aria-label="filter plugins" />
-  <table id="plug"><tbody></tbody></table>
+  <section id="demo" class="reveal">
+    <h2><span class="idx">01</span>Pick your host — watch it install</h2>
+    <p class="sub">Live terminal. Six hosts, one repo. Commands below are the real install paths from the marketplace README — outputs are representative.</p>
+    <div class="term-wrap">
+      <div class="host-tabs" role="tablist" aria-label="agent CLI hosts">
+        <button class="host-tab active" data-host="grok" role="tab">grok</button>
+        <button class="host-tab" data-host="codex" role="tab">codex</button>
+        <button class="host-tab" data-host="claude" role="tab">claude</button>
+        <button class="host-tab" data-host="copilot" role="tab">copilot</button>
+        <button class="host-tab" data-host="kimi" role="tab">kimi</button>
+        <button class="host-tab" data-host="opencode" role="tab">opencode</button>
+      </div>
+      <div class="term" aria-live="polite">
+        <div class="term-bar">
+          <span class="sq r"></span><span class="sq a"></span><span class="sq g"></span>
+          <span class="title" id="termTitle">ds4cc — grok build</span>
+        </div>
+        <div class="term-body" id="termBody"></div>
+      </div>
+      <p class="term-note">click a host to replay its install sequence · sound off, green on</p>
+    </div>
+  </section>
+
+  <section id="plugins" class="reveal">
+    <h2><span class="idx">02</span>The catalog — 15 curated plugins</h2>
+    <p class="sub">Every plugin ships an actionable <code>SKILL.md</code> (fenced commands, no boilerplate) and passes the Rust validator. Filter by name or capability.</p>
+    <div class="grid-tools">
+      <input class="filter" id="plugFilter" type="search" placeholder="filter plugins… (try: agents, grok, papers, godspeed)" aria-label="filter plugins" />
+      <span class="count" id="plugCount">15 / 15</span>
+    </div>
+    <div class="plugins" id="plugGrid"></div>
+  </section>
+
+  <section id="install" class="reveal">
+    <h2><span class="idx">03</span>Install — per host, verbatim</h2>
+    <p class="sub">Exact commands from the marketplace README. Copy, paste, done.</p>
+    <div class="hosts">
+
+      <div class="host">
+        <h3>Grok Build <span class="tag">xAI CLI</span></h3>
+<pre><span class="p">$</span> grok plugin marketplace add VeigaPunk/ds4cc-marketplace
+<span class="p">$</span> grok plugin list --available
+<span class="p">$</span> grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/myagents" --trust</pre>
+<pre><span class="c"># install the core set in one loop</span>
+<span class="p">$</span> for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
+    grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/$p" --trust
+  done</pre>
+        <p class="note">No CLI handy? Paste <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">GROK_PASTE.md</a> into a Grok chat — skills are host-agnostic.</p>
+      </div>
+
+      <div class="host">
+        <h3>Codex <span class="tag">OpenAI CLI</span></h3>
+<pre><span class="p">$</span> codex plugin marketplace add VeigaPunk/ds4cc-marketplace
+<span class="p">$</span> codex plugin add myagents@ds4cc
+<span class="p">$</span> codex plugin list</pre>
+        <p class="note">Local dev checkout: <code>codex plugin marketplace add .</code> — the canonical manifest lives at <code>.agents/plugins/marketplace.json</code>.</p>
+      </div>
+
+      <div class="host">
+        <h3>Claude Code <span class="tag">Anthropic</span></h3>
+<pre><span class="p">$</span> claude plugin marketplace add VeigaPunk/ds4cc-marketplace
+<span class="p">$</span> claude plugin install myagents@ds4cc</pre>
+        <p class="note">Strict-validated: <code>claude plugin validate --strict .claude-plugin/marketplace.json</code> passes in CI.</p>
+      </div>
+
+      <div class="host">
+        <h3>Copilot CLI <span class="tag">GitHub</span></h3>
+<pre><span class="p">$</span> copilot plugin marketplace add VeigaPunk/ds4cc-marketplace
+<span class="p">$</span> copilot plugin install myagents@ds4cc</pre>
+      </div>
+
+      <div class="host">
+        <h3>Kimi Code CLI <span class="tag">0.28.1</span></h3>
+<pre><span class="p">$</span> /plugins install https://github.com/VeigaPunk/ds4cc-marketplace
+<span class="p">$</span> /reload</pre>
+<pre><span class="c"># or register the full packaged catalog in the Kimi TUI</span>
+<span class="p">$</span> /plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json
+<span class="p">$</span> /plugins install &lt;artifact-url-or-local-path&gt;
+<span class="p">$</span> /reload</pre>
+        <p class="note">Invoke as <code>/skill:&lt;skill-name&gt;</code> and <code>/&lt;plugin&gt;:&lt;command&gt;</code>. Third-party installs ask for trust first — review before approving. Kimi installs skills + commands from the minimal packages; custom <code>the-*</code> agent profiles are Codex/Grok-only.</p>
+      </div>
+
+      <div class="host">
+        <h3>OpenCode <span class="tag">bootstrap script</span></h3>
+<pre><span class="p">$</span> git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
+<span class="p">$</span> node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
+<span class="c"># or: --project /path/to/project   (alternatives, not sequential)</span></pre>
+        <p class="note">Writes 15 <code>the-*</code> agents plus an <code>orch</code> primary mode (XBGST default, judge-level Godspeed). Cross-model delegation needs <code>xask</code> on PATH — not bundled.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="app" class="reveal">
+    <h2><span class="idx">04</span>ChatGPT app — app.ds4cc.com</h2>
+    <p class="sub">A read-only Apps SDK wrapper exposes a reviewed subset of the catalog through a production MCP endpoint with an embedded catalog widget.</p>
+    <div class="grid-2">
+      <div class="panel" style="padding:14px 16px">
+        <h3 style="margin-top:0;font-size:0.95rem">MCP endpoint</h3>
+        <div class="oneliner" style="margin:8px 0">
+          <code><span class="p">›</span> https://app.ds4cc.com/mcp</code>
+          <button class="copy-btn" data-copy="https://app.ds4cc.com/mcp">COPY</button>
+        </div>
+        <p>Scoped to an explicitly reviewed, read-only tool surface with required annotations and widget CSP/domain metadata. It is <em>not</em> the public 15-plugin marketplace — the official OpenAI submission bundle is the isolated tree at <code>official/ds4cc/</code>.</p>
+        <div class="kv">
+          <span class="ok-chip">read-only</span>
+          <span class="ok-chip">reviewed subset</span>
+          <span class="ok-chip">health route</span>
+          <span class="ok-chip">domain-verified</span>
+        </div>
+      </div>
+      <div class="panel" style="padding:14px 16px">
+        <h3 style="margin-top:0;font-size:0.95rem">Trust routes</h3>
+        <table class="spec">
+          <tr><th>privacy</th><td><a href="https://app.ds4cc.com/privacy" target="_blank" rel="noopener">app.ds4cc.com/privacy</a></td></tr>
+          <tr><th>terms</th><td><a href="https://app.ds4cc.com/terms" target="_blank" rel="noopener">app.ds4cc.com/terms</a></td></tr>
+          <tr><th>support</th><td><a href="https://app.ds4cc.com/support" target="_blank" rel="noopener">app.ds4cc.com/support</a></td></tr>
+          <tr><th>health</th><td><a href="https://app.ds4cc.com/health" target="_blank" rel="noopener">app.ds4cc.com/health</a></td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="validator" class="reveal">
+    <h2><span class="idx">05</span>The Rust validator — no broken plugins, ever</h2>
+    <p class="sub">A binary crate (<code>ds4cc-validator</code>) gates every plugin on structure, schema, and skill actionability. CI runs it on each push alongside manifest, Kimi, and Claude strict checks.</p>
+    <div class="grid-2">
+      <div>
+<pre><span class="p">$</span> cargo run --manifest-path marketplace/validator/Cargo.toml -- marketplace
+<span class="g">Validation passed.</span>
+<span class="p">$</span> cargo test --manifest-path marketplace/validator/Cargo.toml
+<span class="g">test result: ok. all green</span> <span class="c">— schema, both layouts, codex CLI isolation, FNM, live list probes</span></pre>
+        <div class="kv">
+          <span class="ok-chip">cargo fmt — clean</span>
+          <span class="ok-chip">clippy -D warnings — 0</span>
+          <span class="ok-chip">13 integration tests</span>
+        </div>
+        <div class="callout">
+          <strong>Dual-layout aware:</strong> <code>marketplace/</code> (web/CI) and repo root (canonical Codex layout at
+          <code>.agents/plugins/marketplace.json</code>) both validate — auto-detected, paths resolved per layout.
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;margin-top:0">What every plugin must prove</h3>
+        <ol class="gate">
+          <li><b>Local source integrity</b> — path pinned to <code>./plugins/&lt;name&gt;</code></li>
+          <li><b>Manifest parses</b> — <code>.codex-plugin/plugin.json</code>, name matches entry</li>
+          <li><b>Semver</b> — strict <code>X.Y.Z</code></li>
+          <li><b>Full interface block</b> — display, descriptions, developer, category, capabilities</li>
+          <li><b>Skills exist</b> — <code>skills/</code> + <code>README.md</code> present</li>
+          <li><b>Actionable SKILL.md</b> — fenced code or recognized CLI prefix; boilerplate rejected</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="curation" class="reveal">
+    <h2><span class="idx">06</span>Curation — a living marketplace, not a junk drawer</h2>
+    <p class="sub">DS4CC keeps the strongest entry per domain and updates the reviewed set as better evidence emerges. Full policy in <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/CURATION.md" target="_blank" rel="noopener">CURATION.md</a>.</p>
+    <div class="grid-2">
+      <div>
+        <h3 style="font-size:0.95rem;margin-top:0">Admission gate</h3>
+        <ol class="gate">
+          <li><b>Useful capability</b> with a reproducible demonstration</li>
+          <li><b>Provenance</b> — identifiable maintainer or publisher</li>
+          <li><b>Current docs</b> — install steps + supported-platform scope</li>
+          <li><b>Compatible licensing</b> and required notices</li>
+          <li><b>Reviewed security/privacy posture</b> for its permissions</li>
+          <li><b>Automated structural checks</b> + manual end-to-end capability check</li>
+          <li><b>Claims limited</b> to demonstrated evidence</li>
+        </ol>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;margin-top:0">Claim discipline</h3>
+        <p>Comparative, compatibility, price, and “full functionality” claims require a dated evidence packet: tested hardware/software, comparison baseline, known limitations, repeatable demo.</p>
+        <div class="callout amber">
+          <strong>Proposed, not advertised:</strong> <em>DS4CC microG</em> (Gmicro-equivalent control from a spare DualSense/DualShock over USB or Bluetooth) stays off the public listing until its parity matrix, demos, latency numbers, and price source land in the repo.
+        </div>
+        <div class="callout red">
+          <strong>Removal:</strong> entries are demoted or dropped when unmaintained, unsafe, misleading, legally unclear, or dominated by a demonstrably stronger option.
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer>
-    veigapunk · mit · <a href="https://veigapunk.github.io/horizon-halo-comma-design/">horizon halo</a> design · 2026-07-24
+    <div class="cols">
+      <div>
+        <b>marketplace</b>
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace" target="_blank" rel="noopener">github repo</a><br/>
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/README.md" target="_blank" rel="noopener">README</a><br/>
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/HIGHLIGHTS.md" target="_blank" rel="noopener">technical highlights</a><br/>
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/CURATION.md" target="_blank" rel="noopener">curation policy</a>
+      </div>
+      <div>
+        <b>catalog endpoints</b>
+        grok · <code>.grok-plugin/marketplace.json</code><br/>
+        codex · <code>.agents/plugins/marketplace.json</code><br/>
+        claude · <code>.claude-plugin/marketplace.json</code><br/>
+        kimi · <a href="https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json" target="_blank" rel="noopener">published catalog</a>
+      </div>
+      <div>
+        <b>app &amp; site</b>
+        <a href="https://app.ds4cc.com/mcp" target="_blank" rel="noopener">app.ds4cc.com/mcp</a><br/>
+        <a href="https://app.ds4cc.com/privacy" target="_blank" rel="noopener">privacy</a> ·
+        <a href="https://app.ds4cc.com/terms" target="_blank" rel="noopener">terms</a> ·
+        <a href="https://app.ds4cc.com/support" target="_blank" rel="noopener">support</a><br/>
+        <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">horizon halo ↗</a>
+      </div>
+    </div>
+    <div>DS4CC · VeigaPunk · MIT License · shipped 2026-07-24</div>
+    <div>Design language: <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">Horizon Halo</a> — comma design challenge submission, extended to the marketplace.</div>
   </footer>
 </div>
 
 <script>
-const R = "https://github.com/VeigaPunk/ds4cc-marketplace";
-const P = [
-  ["myagents","0.1.0","agent workflow launchpad — browse/copy agent templates"],
-  ["godspeed-core","0.1.0","adaptive execution doctrine & pareto walk policy"],
-  ["mycommands","0.1.0","reusable command packs & shell routines"],
-  ["myskills","0.1.0","curated skill inventory & workflow helpers"],
-  ["agent-wall","0.1.0","handoff checkpoints & session continuity"],
-  ["ds4cc","0.1.0","marketplace meta-plugin — discover, install, manage"],
-  ["spoderman","0.1.0","attack harness & hook safety research"],
-  ["xbrd-gdsp-fknpft","0.2.2","multimodel dispatch (xask/xbreed) & benchmarks"],
-  ["aaronplug","0.1.0","academic papers — arxiv, semantic scholar, sci-hub"],
-  ["infinizoom","0.1.0","fractal-zoom visualization QA & server"],
-  ["godspeed-codex-command","0.1.0","command-mode bootstrap & codex posture"],
-  ["the-puppeteer","0.1.0","web automation & long-running chatgpt bridge"],
-  ["the-musketeer","0.1.0","grok web UI adapter (agent-browser / cdp)"],
-  ["the-almanacker","0.1.0","notebooklm web UI adapter"],
-  ["the-kimiraikoner","0.1.0","kimi web UI adapter (agent-browser / cdp)"],
-];
-const tb = document.querySelector("#plug tbody"), q = document.getElementById("q"), cnt = document.getElementById("cnt");
-function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;")}
-function draw(list){
-  tb.innerHTML = list.map(p =>
-    `<tr><td class="n"><a href="${R}/tree/main/marketplace/plugins/${p[0]}">${esc(p[0])}</a></td>` +
-    `<td class="v hide-s">v${p[1]}</td><td>${esc(p[2])}</td>` +
-    `<td class="cp" data-copy="codex plugin add ${esc(p[0])}@ds4cc">copy</td></tr>`).join("");
-  cnt.textContent = list.length + "/" + P.length;
-}
-draw(P);
-q.addEventListener("input", () => {
-  const s = q.value.trim().toLowerCase();
-  draw(!s ? P : P.filter(p => (p[0]+p[2]).toLowerCase().includes(s)));
-});
-document.addEventListener("click", e => {
-  const t = e.target.closest("[data-copy]");
-  if (!t) return;
-  const txt = t.getAttribute("data-copy"), old = t.textContent;
-  const ok = () => { t.textContent = "copied"; setTimeout(() => t.textContent = old, 1200); };
-  if (navigator.clipboard) navigator.clipboard.writeText(txt).then(ok).catch(ok);
-  else { const a = document.createElement("textarea"); a.value = txt; document.body.appendChild(a); a.select(); try{document.execCommand("copy")}catch(_){}; a.remove(); ok(); }
-});
+(function () {
+  "use strict";
+
+  /* ================= plugin catalog (real repo data) ================= */
+  const REPO = "https://github.com/VeigaPunk/ds4cc-marketplace";
+  const PLUGINS = [
+    { n: "myagents", v: "0.1.0", d: "Curated agent workflow launchpad — browse and copy user agent templates.", c: 'codex exec --agent executor "..."' },
+    { n: "godspeed-core", v: "0.1.0", d: "Adaptive execution doctrine & Pareto walk policy for long tasks.", c: 'codex "godspeed: <task>"' },
+    { n: "mycommands", v: "0.1.0", d: "Reusable command packs & shell routines, ready to exec.", c: 'codex exec "/my-command-name"' },
+    { n: "myskills", v: "0.1.0", d: "Curated skill inventory & workflow helpers, discoverable in-session.", c: 'codex exec "/skill-name <args>"' },
+    { n: "agent-wall", v: "0.1.0", d: "Handoff checkpoints & session continuity across agents and days.", c: 'codex exec "Create an agent-wall checkpoint..."' },
+    { n: "ds4cc", v: "0.1.0", d: "Marketplace meta-plugin — discover, install and manage DS4CC from inside your CLI.", c: "codex plugin marketplace add VeigaPunk/ds4cc-marketplace" },
+    { n: "spoderman", v: "0.1.0", d: "Attack harness & hook safety research for agent runtimes.", c: "bash ./spoderman validate --hooks" },
+    { n: "xbrd-gdsp-fknpft", v: "0.2.2", d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
+    { n: "aaronplug", v: "0.1.0", d: "Academic paper retrieval across arXiv, Semantic Scholar and Sci-Hub.", c: 'npx @veigapunk/aaron papers search "..."' },
+    { n: "infinizoom", v: "0.1.0", d: "Fractal-zoom visualization QA & server.", c: "node qa-zoom.mjs" },
+    { n: "godspeed-codex-command", v: "0.1.0", d: "Command-mode bootstrap & Codex posture controls.", c: "bash ./scripts/install-commands.sh" },
+    { n: "the-puppeteer", v: "0.1.0", d: "Web automation & long-running ChatGPT bridge.", c: 'chitchat "..."' },
+    { n: "the-musketeer", v: "0.1.0", d: "Grok web UI adapter (agent-browser / CDP).", c: "agent-browser session --host grok" },
+    { n: "the-almanacker", v: "0.1.0", d: "NotebookLM web UI adapter for source-grounded research.", c: "agent-browser session --host notebooklm" },
+    { n: "the-kimiraikoner", v: "0.1.0", d: "Kimi web UI adapter (agent-browser / CDP).", c: "agent-browser session --host kimi" },
+  ];
+
+  const grid = document.getElementById("plugGrid");
+  const count = document.getElementById("plugCount");
+  const filter = document.getElementById("plugFilter");
+
+  function esc(s) { return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+
+  function render(list) {
+    grid.innerHTML = list.map(p => `
+      <div class="plug">
+        <div class="plug-head">
+          <span class="plug-name">${esc(p.n)}</span>
+          <span class="plug-ver">v${esc(p.v)}</span>
+          <span class="plug-cat">dev</span>
+        </div>
+        <p class="plug-desc">${esc(p.d)}</p>
+        <div class="plug-cmd" title="key command">${esc(p.c)}</div>
+        <div class="plug-foot">
+          <button class="btn small" data-copy="codex plugin add ${esc(p.n)}@ds4cc">COPY INSTALL</button>
+          <a class="plug-src" href="${REPO}/tree/main/marketplace/plugins/${encodeURIComponent(p.n)}" target="_blank" rel="noopener">source ↗</a>
+        </div>
+      </div>`).join("");
+    count.textContent = list.length + " / " + PLUGINS.length;
+  }
+  render(PLUGINS);
+
+  filter.addEventListener("input", () => {
+    const q = filter.value.trim().toLowerCase();
+    if (!q) return render(PLUGINS);
+    render(PLUGINS.filter(p =>
+      p.n.toLowerCase().includes(q) || p.d.toLowerCase().includes(q) || p.c.toLowerCase().includes(q)));
+  });
+
+  /* ================= copy buttons (event delegation) ================= */
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-copy]");
+    if (!btn) return;
+    const text = btn.getAttribute("data-copy");
+    const done = () => {
+      const old = btn.textContent;
+      btn.textContent = "COPIED";
+      btn.classList.add("done");
+      setTimeout(() => { btn.textContent = old; btn.classList.remove("done"); }, 1400);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(done);
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); } catch (_) {}
+      document.body.removeChild(ta); done();
+    }
+  });
+
+  /* ================= terminal demo ================= */
+  const SCRIPTS = {
+    grok: {
+      title: "ds4cc — grok build",
+      lines: [
+        ["cmd", "grok plugin marketplace add VeigaPunk/ds4cc-marketplace"],
+        ["ok",  "added marketplace `ds4cc` — 15 plugins available"],
+        ["cmd", 'grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/myagents" --trust'],
+        ["ok",  "installed `myagents` 0.1.0 — skills + commands ready"],
+        ["cmd", "for p in godspeed-core agent-wall mycommands myskills ds4cc; do grok plugin install \"...#$p\" --trust; done"],
+        ["ok",  "5 more plugins installed. godspeed online."],
+        ["out", "tip: paste GROK_PASTE.md into any Grok chat — skills are host-agnostic"],
+      ],
+    },
+    codex: {
+      title: "ds4cc — codex",
+      lines: [
+        ["cmd", "codex plugin marketplace add VeigaPunk/ds4cc-marketplace"],
+        ["ok",  "added marketplace `ds4cc` from VeigaPunk/ds4cc-marketplace"],
+        ["cmd", "codex plugin add myagents@ds4cc"],
+        ["ok",  "added plugin `myagents` from marketplace `ds4cc`"],
+        ["out", "installed plugin root: ~/.codex/plugins/cache/ds4cc/myagents/0.1.0"],
+        ["cmd", "codex plugin list"],
+        ["out", "myagents@ds4cc      installed, enabled   0.1.0"],
+        ["out", "godspeed-core@ds4cc installed, enabled   0.1.0"],
+      ],
+    },
+    claude: {
+      title: "ds4cc — claude code",
+      lines: [
+        ["cmd", "claude plugin marketplace add VeigaPunk/ds4cc-marketplace"],
+        ["ok",  "marketplace `ds4cc` registered"],
+        ["cmd", "claude plugin install myagents@ds4cc"],
+        ["ok",  "installed `myagents` 0.1.0"],
+        ["cmd", "claude plugin validate --strict .claude-plugin/marketplace.json"],
+        ["ok",  "strict validation passed"],
+      ],
+    },
+    copilot: {
+      title: "ds4cc — copilot cli",
+      lines: [
+        ["cmd", "copilot plugin marketplace add VeigaPunk/ds4cc-marketplace"],
+        ["ok",  "added marketplace `ds4cc`"],
+        ["cmd", "copilot plugin install myagents@ds4cc"],
+        ["ok",  "installed `myagents@ds4cc` — 0.1.0"],
+      ],
+    },
+    kimi: {
+      title: "ds4cc — kimi code cli 0.28.1",
+      lines: [
+        ["cmd", "/plugins install https://github.com/VeigaPunk/ds4cc-marketplace"],
+        ["warn", "third-party plugin — trust confirmation shown"],
+        ["ok",  "DS4CC bootstrap plugin installed"],
+        ["cmd", "/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json"],
+        ["ok",  "catalog registered — 15 packaged plugins"],
+        ["cmd", "/reload"],
+        ["out", "skills live as /skill:<name> · commands as /<plugin>:<command>"],
+      ],
+    },
+    opencode: {
+      title: "ds4cc — opencode bootstrap",
+      lines: [
+        ["cmd", "git clone https://github.com/VeigaPunk/ds4cc-marketplace.git"],
+        ["out", "cloning into 'ds4cc-marketplace'... done"],
+        ["cmd", "node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global"],
+        ["ok",  "wrote 15 the-* agents to ~/.config/opencode/agents"],
+        ["ok",  "primary mode `orch` ready — XBGST default, judge-level godspeed"],
+        ["warn", "note: xask on PATH required for cross-model delegation (not bundled)"],
+      ],
+    },
+  };
+
+  const termBody = document.getElementById("termBody");
+  const termTitle = document.getElementById("termTitle");
+  const tabs = Array.from(document.querySelectorAll(".host-tab"));
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let playToken = 0;
+
+  function span(cls, text) {
+    const s = document.createElement("span");
+    if (cls) s.className = cls;
+    s.textContent = text;
+    return s;
+  }
+
+  async function play(host) {
+    const my = ++playToken;
+    const script = SCRIPTS[host];
+    termTitle.textContent = script.title;
+    termBody.innerHTML = "";
+
+    for (const [type, text] of script.lines) {
+      if (my !== playToken) return;
+      const line = document.createElement("div");
+      if (type === "cmd") {
+        line.className = "cmd";
+        line.appendChild(span("ps1", "$ "));
+        const typed = span("", "");
+        const cur = document.createElement("span");
+        cur.className = "cursor";
+        line.appendChild(typed);
+        line.appendChild(cur);
+        termBody.appendChild(line);
+        if (reduced) {
+          typed.textContent = text;
+        } else {
+          for (let i = 0; i < text.length; i++) {
+            if (my !== playToken) return;
+            typed.textContent += text[i];
+            await new Promise(r => setTimeout(r, text.length > 70 ? 8 : 16));
+          }
+        }
+        cur.remove();
+        await new Promise(r => setTimeout(r, reduced ? 0 : 260));
+      } else {
+        line.className = type;
+        line.textContent = (type === "out" ? "  " : type === "ok" ? "✓ " : "! ") + text;
+        termBody.appendChild(line);
+        await new Promise(r => setTimeout(r, reduced ? 0 : 300));
+      }
+      if (my !== playToken) return;
+    }
+    const idle = document.createElement("div");
+    idle.appendChild(span("ps1", "$ "));
+    const cur = document.createElement("span");
+    cur.className = "cursor";
+    idle.appendChild(cur);
+    termBody.appendChild(idle);
+  }
+
+  tabs.forEach(t => t.addEventListener("click", () => {
+    tabs.forEach(x => x.classList.toggle("active", x === t));
+    play(t.dataset.host);
+  }));
+  play("grok");
+
+  /* ================= scroll reveal ================= */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+})();
 </script>
 </body>
 </html>
