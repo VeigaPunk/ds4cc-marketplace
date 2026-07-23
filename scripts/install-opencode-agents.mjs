@@ -13,7 +13,7 @@ import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const AGENT_FILE = /^(the-[a-z0-9]+(?:-[a-z0-9]+)*)\.agent\.md$/;
+const AGENT_FILE = /^([a-z0-9]+(?:-[a-z0-9]+)*)\.agent\.md$/;
 const FRONTMATTER = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)([\s\S]*)$/;
 const PORTABILITY = `## OpenCode portability
 
