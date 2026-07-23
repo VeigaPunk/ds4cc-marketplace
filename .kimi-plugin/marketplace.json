@@ -42,8 +42,8 @@
     {
       "id": "ds4cc",
       "displayName": "DS4CC Marketplace",
-      "version": "0.2.0",
-      "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Grok Build, Codex, Claude Code, Copilot, or Kimi Code after source review.",
+      "version": "0.3.0",
+      "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Grok Build, Codex, Claude Code, Kimi Code, Crush CLI, or GitHub Copilot CLI after source review.",
       "homepage": "https://ds4cc.com/",
       "keywords": [
         "plugins",
@@ -52,7 +52,7 @@
         "skills",
         "kimi-code"
       ],
-      "source": "./artifacts/ds4cc-0.2.0.zip"
+      "source": "./artifacts/ds4cc-0.3.0.zip"
     },
     {
       "id": "godspeed-codex-command",

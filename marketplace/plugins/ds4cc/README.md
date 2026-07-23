@@ -2,7 +2,7 @@
 
 Documentation-only plugin for the public DS4CC multi-CLI marketplace, maintained by VeigaPunk.
 
-This plugin explains how to review and register the marketplace and how to choose install commands for **Grok Build**, Codex, Claude Code, Copilot CLI, and Kimi Code CLI. It does not install or execute anything automatically.
+This plugin explains how to review and register the marketplace and how to choose install commands for **Grok Build**, Codex, Claude Code, Kimi Code CLI, **Crush CLI**, and GitHub Copilot CLI. It does not install or execute anything automatically.
 
 ## Skills
 
@@ -37,6 +37,17 @@ Enter these commands in the Kimi TUI:
 ```
 
 The Kimi packages install plugin skills and commands, not the marketplace's custom `the-*` agent profiles. Kimi's built-in agents remain available.
+
+## Quick start (Crush CLI)
+
+Crush discovers skills from directories listed in `crush.json` `options.skills_paths`. After reviewing the source, copy the meta-plugin's skills into your local Crush skills directory:
+
+```bash
+mkdir -p ~/.config/crush/skills
+cp -r skills/* ~/.config/crush/skills/
+```
+
+Or add this plugin's `./skills/` path to `~/.config/crush/crush.json`, then reload Crush.
 
 ## Links
 

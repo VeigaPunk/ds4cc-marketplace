@@ -1,6 +1,6 @@
 {
   "name": "ds4cc-marketplace",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "DS4CC marketplace bootstrap and installation guidance for Kimi Code and other supported agent CLIs.",
   "author": {
     "name": "VeigaPunk"
@@ -19,7 +19,7 @@
   "interface": {
     "displayName": "DS4CC Marketplace",
     "shortDescription": "Bootstrap and browse the DS4CC plugin marketplace",
-    "longDescription": "Provides marketplace registration and reviewed plugin installation guidance for Kimi Code, Grok Build, Codex CLI, Claude Code, and GitHub Copilot CLI.",
+    "longDescription": "Provides marketplace registration and reviewed plugin installation guidance for Kimi Code, Grok Build, Codex CLI, Claude Code, Crush CLI, and GitHub Copilot CLI.",
     "developerName": "VeigaPunk",
     "websiteURL": "https://veigapunk.github.io/ds4cc-marketplace/"
   }

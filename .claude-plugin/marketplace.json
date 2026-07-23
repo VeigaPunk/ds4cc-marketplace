@@ -4,8 +4,8 @@
     "name": "VeigaPunk"
   },
   "metadata": {
-    "description": "DS4CC plugins for Claude Code, Grok Build, Codex, and Copilot CLI.",
-    "version": "0.2.0"
+    "description": "DS4CC plugins for Claude Code, Grok Build, Codex, Kimi Code CLI, Crush CLI, and GitHub Copilot CLI.",
+    "version": "0.3.0"
   },
   "plugins": [
     {

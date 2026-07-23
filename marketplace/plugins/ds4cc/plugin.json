@@ -1,6 +1,6 @@
 {
   "name": "ds4cc",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "DS4CC marketplace meta-plugin: discover/install plugins and run ds4cc/orch mode (parallel Godspeed specialists).",
   "author": {
     "name": "VeigaPunk"

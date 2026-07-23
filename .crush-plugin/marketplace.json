@@ -1,0 +1,235 @@
+{
+  "name": "ds4cc",
+  "owner": {
+    "name": "VeigaPunk"
+  },
+  "metadata": {
+    "description": "DS4CC plugins packaged as Crush CLI skills.",
+    "version": "0.2.0"
+  },
+  "plugins": [
+    {
+      "name": "aaronplug",
+      "version": "0.2.0",
+      "description": "Academic paper retrieval workflows",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/aaronplug"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/aaronplug"
+    },
+    {
+      "name": "agent-pip",
+      "version": "0.1.0",
+      "description": "Multi-panel tmux agent terminal dashboard in Rust",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/agent-pip"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/agent-pip"
+    },
+    {
+      "name": "agent-wall",
+      "version": "0.2.0",
+      "description": "Runtime handoff surface for agent-based workflows",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/agent-wall"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/agent-wall"
+    },
+    {
+      "name": "ds4cc",
+      "version": "0.3.0",
+      "description": "DS4CC marketplace meta-plugin: discover/install plugins and run ds4cc/orch mode (parallel Godspeed specialists).",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/ds4cc"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://ds4cc.com/"
+    },
+    {
+      "name": "godspeed-codex-command",
+      "version": "0.2.0",
+      "description": "Command-mode bootstrap and Codex posture controls",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/godspeed-codex-command"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/godspeed-codex-command"
+    },
+    {
+      "name": "godspeed-core",
+      "version": "0.2.0",
+      "description": "Adaptive execution doctrine and Pareto walk policy",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/godspeed-core"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/godspeed-core"
+    },
+    {
+      "name": "infinizoom",
+      "version": "0.2.0",
+      "description": "Visualization workflow and UI demos",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/infinizoom"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/infinizoom"
+    },
+    {
+      "name": "myagents",
+      "version": "0.2.0",
+      "description": "Curated agent profiles for development, review, research, and orchestration.",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/myagents"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "mycommands",
+      "version": "0.2.0",
+      "description": "Reusable command packs for recurring workflows",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/mycommands"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/mycommands"
+    },
+    {
+      "name": "myskills",
+      "version": "0.2.0",
+      "description": "Curated skill workflows for your active tasks",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/myskills"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/myskills"
+    },
+    {
+      "name": "spoderman",
+      "version": "0.2.0",
+      "description": "Attack harness workflows and hook safety research",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/spoderman"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/spoderman"
+    },
+    {
+      "name": "the-almanacker",
+      "version": "0.2.0",
+      "description": "NotebookLM web UI automation through agent-browser",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/the-almanacker"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/the-almanacker"
+    },
+    {
+      "name": "the-kimiraikoner",
+      "version": "0.1.0",
+      "description": "Kimi web UI automation through agent-browser",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/the-kimiraikoner"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/the-kimiraikoner"
+    },
+    {
+      "name": "the-musketeer",
+      "version": "0.3.0",
+      "description": "Grok web UI automation through agent-browser",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/the-musketeer"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://ds4cc.com/"
+    },
+    {
+      "name": "the-puppeteer",
+      "version": "0.2.0",
+      "description": "Web UI task execution and long-running assistant flows",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/the-puppeteer"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/the-puppeteer"
+    },
+    {
+      "name": "xbrd-gdsp-fknpft",
+      "version": "0.2.2",
+      "description": "Multimodel dispatch orchestration and benchmark workflows",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/xbrd-gdsp-fknpft"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/xbrd-gdsp-fknpft"
+    }
+  ]
+}

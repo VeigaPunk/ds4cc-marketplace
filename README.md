@@ -1,11 +1,12 @@
 # DS4CC Marketplace
 
-Static plugin payloads for **Grok Build**, Codex, GitHub Copilot CLI, Claude Code, and Kimi Code CLI. OpenCode agents are provided through a dependency-free bootstrap script because OpenCode has no marketplace protocol.
+Static plugin payloads for **Grok Build**, Codex, Claude Code, Kimi Code CLI, **Crush CLI**, and GitHub Copilot CLI. OpenCode agents are provided through a dependency-free bootstrap script because OpenCode has no marketplace protocol.
 
 - Grok catalog: `.grok-plugin/marketplace.json` (+ generated `plugin-index.json`)
 - Codex catalog: `.agents/plugins/marketplace.json` and `marketplace/marketplace.json`
 - Claude catalog: `.claude-plugin/marketplace.json`
 - Kimi Code 0.28.1 catalog: `.kimi-plugin/marketplace.json` and generated minimal ZIP packages (per-plugin manifests: `marketplace/plugins/<name>/kimi.plugin.json`)
+- Crush catalog: `.crush-plugin/marketplace.json` (points to per-plugin `./skills/` roots; no ZIP packaging)
 - Plugin assets: `marketplace/plugins/<name>/`
 - Validator: `marketplace/validator/` (Rust, `cargo test`)
 - Curation and claim policy: [`CURATION.md`](CURATION.md)
@@ -92,6 +93,41 @@ Install a catalog artifact URL (or a built local ZIP path), then reload:
 
 Invoke installed skills as `/skill:<skill-name>` and plugin commands as `/<plugin>:<command>`. Third-party installs show a trust confirmation first, so review the source before approving. Kimi 0.28.1 installs the skills and commands in these deliberately minimal packages, but it cannot install this marketplace's custom `the-*` agent profiles. Kimi's built-in agents remain available.
 
+## Crush CLI
+
+Crush discovers skills from directories listed in `crush.json` under `options.skills_paths`. Each DS4CC plugin exposes its skills under `marketplace/plugins/<name>/skills/`.
+
+Clone and review the source, then copy the skills you want into your Crush skills directory:
+
+```bash
+git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
+cd ds4cc-marketplace
+mkdir -p ~/.config/crush/skills
+cp -r marketplace/plugins/ds4cc/skills/* ~/.config/crush/skills/
+```
+
+Or add a plugin's skills path directly to `~/.config/crush/crush.json`:
+
+```json
+{
+  "options": {
+    "skills_paths": [
+      "$HOME/Projects/ds4cc-marketplace/marketplace/plugins/ds4cc/skills"
+    ]
+  }
+}
+```
+
+Install the common set (review each source first):
+
+```bash
+for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
+  cp -r "marketplace/plugins/$p/skills/"* ~/.config/crush/skills/
+done
+```
+
+Reload Crush or start a new session, then invoke skills by name (e.g. `/skill:ds4cc-docs`). Crush uses `SKILL.md` skills, not the Grok/Kimi agent profiles in `agents/` directories.
+
 ## OpenCode
 
 OpenCode does not have a native marketplace. Clone this repository and choose one scope:
@@ -169,6 +205,11 @@ node scripts/check-opencode-install.mjs
 python3 scripts/build-kimi-marketplace.py --check
 python3 -m unittest -v tests.test_build_kimi_marketplace
 python3 scripts/build-kimi-marketplace.py
+
+# Crush catalog check and test
+python3 scripts/build-crush-marketplace.py --check
+python3 -m unittest -v tests.test_build_crush_marketplace
+python3 scripts/build-crush-marketplace.py
 
 # Claude Code strict marketplace and plugin validation
 claude plugin validate --strict .claude-plugin/marketplace.json

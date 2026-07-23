@@ -1,6 +1,6 @@
 {
   "name": "ds4cc",
-  "description": "DS4CC public developer plugin marketplace for Grok Build, Codex, Claude Code, and Copilot CLI.",
+  "description": "DS4CC public developer plugin marketplace for Grok Build, Codex, Claude Code, Kimi Code CLI, Crush CLI, and GitHub Copilot CLI.",
   "owner": {
     "name": "VeigaPunk"
   },
@@ -82,7 +82,7 @@
     },
     {
       "name": "ds4cc",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "description": "Review DS4CC plugins and Codex install steps",
       "category": "development",
       "source": {

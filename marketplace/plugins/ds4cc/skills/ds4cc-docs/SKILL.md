@@ -1,11 +1,11 @@
 ---
 name: ds4cc-docs
-description: Review the DS4CC marketplace and show verified install commands for Grok Build, Codex, Claude Code, Copilot CLI, and Kimi Code CLI without executing them. Use when the user pastes a ds4cc-marketplace URL, asks to install DS4CC plugins, or wants marketplace setup.
+description: Review the DS4CC marketplace and show verified install commands for Grok Build, Codex, Claude Code, Kimi Code CLI, Crush CLI, and GitHub Copilot CLI without executing them. Use when the user pastes a ds4cc-marketplace URL, asks to install DS4CC plugins, or wants marketplace setup.
 ---
 
 DS4CC is VeigaPunk's public multi-CLI plugin marketplace. Provide guidance only: never run installation commands automatically. Tell the user to review a plugin's source and requested capabilities before installing it.
 
-Prefer the section matching the CLI the user is currently on (**Kimi Code CLI** when in Kimi, **Grok Build** when in Grok CLI / a Grok chat). Fall back to Codex / Claude / Copilot only when they name that host.
+Prefer the section matching the CLI the user is currently on (**Crush CLI** when in Crush, **Kimi Code CLI** when in Kimi, **Grok Build** when in Grok CLI / a Grok chat). Fall back to Codex / Claude / GitHub Copilot CLI only when they name that host.
 
 ## Grok Build (paste-friendly)
 
@@ -123,6 +123,42 @@ For example, this meta-plugin:
 ```
 
 Installing a third-party plugin shows a trust confirmation first; approve it only after reviewing the plugin source. Plugin skills then become available as `/skill:<skill-name>` (e.g. `/skill:ds4cc-docs`) and plugin commands as `/<plugin>:<command>`. Kimi 0.28.1 cannot install this marketplace's custom `the-*` agent profiles; Kimi's built-in agents remain available.
+
+## Crush CLI
+
+Crush discovers skills from directories listed in `crush.json` under `options.skills_paths`. DS4CC plugins expose their skills under `marketplace/plugins/<plugin-name>/skills/`.
+
+Clone or review the marketplace source first:
+
+```bash
+git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
+cd ds4cc-marketplace
+```
+
+Install one plugin by adding its skill directory to your Crush config (review source first):
+
+```bash
+# Edit ~/.config/crush/crush.json and add the plugin's skills path:
+# "options": { "skills_paths": [..., "$HOME/Projects/ds4cc-marketplace/marketplace/plugins/ds4cc/skills"] }
+```
+
+Or copy plugin skills into your local Crush skills directory:
+
+```bash
+CRUSH_SKILLS="$HOME/.config/crush/skills"
+mkdir -p "$CRUSH_SKILLS"
+cp -r marketplace/plugins/ds4cc/skills/* "$CRUSH_SKILLS/"
+```
+
+Install the common set (review each source first):
+
+```bash
+for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
+  cp -r "marketplace/plugins/$p/skills/"* "$CRUSH_SKILLS/"
+done
+```
+
+Reload Crush or start a new session, then invoke skills by name (e.g. `/skill:ds4cc-docs`). Do not copy agent profiles from `agents/` directories into Crush; Crush uses `SKILL.md` skills, not Grok/Kimi agent files.
 
 ## Plugin catalog (developer marketplace)
 

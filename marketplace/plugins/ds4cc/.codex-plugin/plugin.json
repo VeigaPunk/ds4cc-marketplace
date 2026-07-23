@@ -1,6 +1,6 @@
 {
   "name": "ds4cc",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Grok Build, Codex, Claude Code, or Copilot after source review.",
   "author": {
     "name": "VeigaPunk"
@@ -9,7 +9,7 @@
   "interface": {
     "displayName": "DS4CC Marketplace",
     "shortDescription": "Browse and install DS4CC marketplace plugins across Grok, Codex, Claude, Copilot",
-    "longDescription": "Meta-plugin documenting how to register the DS4CC marketplace and install plugins on Grok Build (paste-friendly), Codex CLI, Claude Code, and GitHub Copilot CLI. Does not auto-install.",
+    "longDescription": "Meta-plugin documenting how to register the DS4CC marketplace and install plugins on Grok Build (paste-friendly), Codex CLI, Claude Code, Kimi Code CLI, Crush CLI, and GitHub Copilot CLI. Does not auto-install.",
     "developerName": "VeigaPunk",
     "category": "Developer",
     "capabilities": [
