@@ -21,7 +21,7 @@ So you get terminal-speed *operation* (create notebooks, batch-upload sources, f
 1. **Bridge a WSL CLI to the Windows-side Chrome.** `almanack` runs from WSL (Linux) and drives a Chrome (v149+, required for reliable CDP and agentic control) running on the Windows side, over CDP, through [Vercel Labs' `agent-browser`](https://github.com/vercel-labs/agent-browser). One Linux command, one Windows browser, no VM-boundary friction.
 2. **Reach web-GUI-only features from the CLI, authenticated by OAuth.** NotebookLM's Studio features have no API. The Almanacker drives them through the browser, reusing the Google **OAuth** session already signed into your Chrome — so there are no API keys, cookie exports, or passwords; your existing login *is* the auth.
 
-> Sibling to [the-puppeteer](https://github.com/VeigaPunk/the-puppeteer) (ChatGPT) and [the-musketeer](https://github.com/VeigaPunk/the-musketeer) (Grok) — all three share the same CDP transport and the same Chrome.
+> Sibling to [the-puppeteer](https://github.com/VeigaPunk/the-puppeteer) (ChatGPT), [the-musketeer](https://github.com/VeigaPunk/the-musketeer) (Grok), and [the-kimiraikoner](https://github.com/VeigaPunk/the-kimiraikoner) (Kimi) — the family shares the same CDP transport and the same Chrome.
 
 ```bash
 $ almanack create "chess-orchestration"
