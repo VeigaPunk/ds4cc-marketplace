@@ -19,7 +19,7 @@ try {
 
   const destination = path.join(temporary, ".opencode", "agents");
   const files = (await readdir(destination)).sort();
-  if (files.length !== 15 || files.some((name) => !/^(?:orch|the-[a-z0-9-]+)\.md$/.test(name))) {
+  if (files.length !== 16 || files.some((name) => !/^(?:orch|[a-z0-9]+(?:-[a-z0-9]+)*)\.md$/.test(name))) {
     throw new Error(`unexpected generated filenames: ${files.join(", ")}`);
   }
 
