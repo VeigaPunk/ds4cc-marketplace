@@ -104,17 +104,10 @@ fn ask_gemini_with_loadout_prepends_to_prompt() {
     let tmp = tempdir().unwrap();
     let home = tmp.path();
     let bin_dir = home.join("bin");
-    let log = home.join("gemini.log");
+    let log = home.join("gemma-hvm.log");
 
     write_skill(home, "godspeed", "GO FAST NOW");
-    write_stub(&bin_dir, "gemini", &log);
-
-    // Create a fake OAuth creds file so default_gemini_oauth_exists() returns
-    // true (xbreed reads only ~/.gemini/oauth_creds.json — single-path as of
-    // 2026-04-19). The stub gemini binary exits 0 immediately so the creds
-    // don't need to be valid — only the file's existence is checked.
-    fs::create_dir_all(home.join(".gemini")).unwrap();
-    fs::write(home.join(".gemini/oauth_creds.json"), "{}\n").unwrap();
+    write_stub(&bin_dir, "gemma-hvm", &log);
 
     let out = run_xbreed_ask_in_dir(
         home,
@@ -125,10 +118,7 @@ fn ask_gemini_with_loadout_prepends_to_prompt() {
     assert!(out.status.success(), "xbreed ask failed: {:?}", out);
 
     let argv = read_log(&log);
-    assert_eq!(argv[0], "-m");
-    assert_eq!(argv[1], "gemini-3.1-pro-preview");
-    assert_eq!(argv[2], "-p");
-    let combined = &argv[3];
+    let combined = &argv[0];
     assert!(combined.contains("GO FAST NOW"));
     assert!(combined.contains("## godspeed"));
     assert!(combined.ends_with("say hi"));
@@ -182,17 +172,14 @@ fn ask_with_missing_skill_errors_cleanly() {
     );
 }
 
-/// M6 (codex #7) — end-to-end codex yolo contract through `xbreed ask codex`.
+/// End-to-end bounded Codex contract through `xbreed ask codex`.
 /// Asserts argv contains: `exec`, `--skip-git-repo-check`, the adjacent pair
-/// `--sandbox` + `danger-full-access`, `approval_policy="never"`,
+/// `--sandbox` + `workspace-write`, `approval_policy="never"`,
 /// `model_reasoning_effort=high`, and the trailing prompt.
 ///
-/// Guards against any future refactor silently dropping one of the yolo
-/// flags. The yolo routing is a user-locked policy
-/// (feedback_yolo_routing.md) and lives in three layers here:
-/// comment, frontmatter, and this test.
+/// Guards against a future refactor restoring host-wide write access.
 #[test]
-fn ask_codex_route_preserves_full_unlock_contract() {
+fn ask_codex_route_preserves_workspace_boundary() {
     let tmp = tempdir().unwrap();
     let home = tmp.path();
     let bin_dir = home.join("bin");
@@ -214,16 +201,17 @@ fn ask_codex_route_preserves_full_unlock_contract() {
         "missing --skip-git-repo-check in argv: {argv:?}"
     );
 
-    // Adjacency: --sandbox must be immediately followed by danger-full-access.
+    // Adjacency: --sandbox must be immediately followed by workspace-write.
     let sandbox_idx = argv
         .iter()
         .position(|a| a == "--sandbox")
         .expect("missing --sandbox flag");
     assert_eq!(
         argv.get(sandbox_idx + 1).map(String::as_str),
-        Some("danger-full-access"),
-        "--sandbox not immediately followed by danger-full-access: {argv:?}"
+        Some("workspace-write"),
+        "--sandbox not immediately followed by workspace-write: {argv:?}"
     );
+    assert!(!argv.iter().any(|a| a == "danger-full-access"));
 
     assert!(
         argv.contains(&"approval_policy=\"never\"".to_string()),
@@ -272,20 +260,15 @@ fn ask_codex_route_preserves_full_unlock_contract() {
     );
 }
 
-/// M6 (codex #6) — gemini argv asserts budget stays prompt-side and yolo stays
-/// CLI-side. The gemini CLI has no native --effort flag, so the flag must NOT
-/// appear in argv; the budget must be embedded in the prompt text, and
-/// `--approval-mode yolo` must survive as an adjacent argv pair.
+/// The legacy gemini name must route to local Gemma/HVM without cloud CLI flags.
 #[test]
-fn ask_gemini_uses_yolo_and_no_native_effort_flag() {
+fn ask_gemini_alias_uses_local_gemma_transport() {
     let tmp = tempdir().unwrap();
     let home = tmp.path();
     let bin_dir = home.join("bin");
-    let log = home.join("gemini.log");
+    let log = home.join("gemma-hvm.log");
 
-    write_stub(&bin_dir, "gemini", &log);
-    fs::create_dir_all(home.join(".gemini")).unwrap();
-    fs::write(home.join(".gemini/oauth_creds.json"), "{}\n").unwrap();
+    write_stub(&bin_dir, "gemma-hvm", &log);
 
     let out = run_xbreed_ask_in_dir(
         home,
@@ -297,22 +280,13 @@ fn ask_gemini_uses_yolo_and_no_native_effort_flag() {
 
     let argv = read_log(&log);
 
-    // Adjacency: --approval-mode yolo.
-    let approval_idx = argv
-        .iter()
-        .position(|a| a == "--approval-mode")
-        .expect("missing --approval-mode flag");
-    assert_eq!(
-        argv.get(approval_idx + 1).map(String::as_str),
-        Some("yolo"),
-        "--approval-mode not immediately followed by yolo: {argv:?}"
-    );
-
-    // No bare --effort token may appear in gemini argv; the budget routes
-    // through the prompt template, not the CLI.
+    assert_eq!(argv.len(), 1, "Gemma/HVM receives only the rendered prompt");
+    assert!(argv[0].contains("say hi"));
     assert!(
-        !argv.iter().any(|a| a == "--effort"),
-        "gemini argv must not contain bare --effort token: {argv:?}"
+        !argv
+            .iter()
+            .any(|a| a == "--approval-mode" || a == "--effort"),
+        "legacy alias leaked cloud CLI flags: {argv:?}"
     );
 }
 

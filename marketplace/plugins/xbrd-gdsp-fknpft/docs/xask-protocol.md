@@ -56,7 +56,8 @@ These are injected by xask/xbreed regardless of user flags.
 
 | Behavior | Mechanism | Why |
 |----------|-----------|-----|
-| `-a never` | `build_codex_ask_with_loadout` | Prevents interactive approval prompts |
+| `approval_policy="never"` | `build_codex_ask_with_loadout` | Prevents an impossible interactive prompt in headless mode |
+| `--sandbox workspace-write` | `build_codex_ask_with_loadout` | Bounds delegated writes to the caller's workspace instead of the whole host |
 | `--skip-git-repo-check` | `build_codex_ask_with_loadout` | Avoids repo detection noise in headless dispatch |
 | `-c include_permissions_instructions=false` | `build_codex_ask_with_loadout` | Suppression |
 | `-c include_apps_instructions=false` | `build_codex_ask_with_loadout` | Suppression |
@@ -79,7 +80,7 @@ These are injected by xask/xbreed regardless of user flags.
 
 | Model | xask routes to | Rust function | Loadout injection method |
 |-------|---------------|---------------|--------------------------|
-| `gemini` | `xbreed ask gemini` | `build_gemini_with_auth` + `dispatch` | Prompt prepend: `<loadout>\n\n---\n\n<prompt>` |
+| `gemini` (legacy alias) | `xbreed ask gemma` | local Gemma/HVM dispatch | Prompt prepend: `<loadout>\n\n---\n\n<prompt>` |
 | `codex` | `xbreed ask codex` | `build_codex_ask_with_loadout` + `dispatch` | `-c developer_instructions=<toml-quoted-string>` |
 
 ### Gemini model

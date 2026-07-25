@@ -6,7 +6,7 @@
 # is intact and no raw-quote / template-collapse leak has occurred.
 #
 # Discriminating assertions (dispatch-level, no real API quota):
-#   (1) ARGV[1] differs: "gemini" vs "codex" (routing intact)
+#   (1) ARGV[1] differs: "gemma" vs "codex" (legacy alias routing intact)
 #   (2) Final argv element (rendered PROMPT) differs byte-for-byte
 #       (templates not collapsed into one blob)
 #   (3) Gemini PROMPT contains "# ThinkingBudget:" line; codex PROMPT
@@ -72,10 +72,10 @@ fi
 # ------ (1) routing: ARGV[1] must differ --------------------------------
 MODEL_G="${ARGV_G[1]:-}"
 MODEL_C="${ARGV_C[1]:-}"
-[[ "$MODEL_G" == "gemini" ]] || { echo "FAIL: gemini run argv[1] != 'gemini': '$MODEL_G'" >&2; exit 1; }
+[[ "$MODEL_G" == "gemma"  ]] || { echo "FAIL: legacy gemini alias did not route to gemma: '$MODEL_G'" >&2; exit 1; }
 [[ "$MODEL_C" == "codex"  ]] || { echo "FAIL: codex run argv[1] != 'codex': '$MODEL_C'"  >&2; exit 1; }
 [[ "$MODEL_G" != "$MODEL_C" ]] || { echo "FAIL: both runs dispatched to the same model (routing collapsed)" >&2; exit 1; }
-echo "STEP 1 OK: routing differs [gemini vs codex]"
+echo "STEP 1 OK: routing differs [gemini alias→gemma vs codex]"
 
 # ------ (2) rendered prompts differ byte-for-byte -----------------------
 PROMPT_G="${ARGV_G[${#ARGV_G[@]}-1]}"

@@ -3,7 +3,7 @@
 #
 # Assert:
 #   (1) scripts/xask -e xhigh gemini "probe" invokes `xbreed ask` with
-#       `ask gemini --with godspeed --effort xhigh` in argv (flag
+#       `ask gemma --with godspeed --effort xhigh` in argv (legacy alias
 #       transport);
 #   (2) the last argv (the constructed PROMPT) carries
 #       `# Effort: xhigh` and `# ThinkingBudget: 16384` on their own
@@ -53,14 +53,14 @@ if [[ ${#ARGV[@]} -gt 0 && -z "${ARGV[${#ARGV[@]}-1]}" ]]; then
 fi
 
 # ------ (1) argv flag transport ----------------------------------------
-# Expect argv to start with: ask gemini --with godspeed --effort xhigh <prompt>
+# Expect argv to start with: ask gemma --with godspeed --effort xhigh <prompt>
 [[ "${ARGV[0]:-}" == "ask"       ]] || { echo "FAIL: argv[0] != 'ask': '${ARGV[0]:-}'"       >&2; exit 1; }
-[[ "${ARGV[1]:-}" == "gemini"    ]] || { echo "FAIL: argv[1] != 'gemini': '${ARGV[1]:-}'"    >&2; exit 1; }
+[[ "${ARGV[1]:-}" == "gemma"     ]] || { echo "FAIL: legacy gemini alias did not route to gemma: '${ARGV[1]:-}'" >&2; exit 1; }
 [[ "${ARGV[2]:-}" == "--with"    ]] || { echo "FAIL: argv[2] != '--with': '${ARGV[2]:-}'"    >&2; exit 1; }
 [[ "${ARGV[3]:-}" == "godspeed"  ]] || { echo "FAIL: argv[3] != 'godspeed': '${ARGV[3]:-}'"  >&2; exit 1; }
 [[ "${ARGV[4]:-}" == "--effort"  ]] || { echo "FAIL: argv[4] != '--effort': '${ARGV[4]:-}'"  >&2; exit 1; }
 [[ "${ARGV[5]:-}" == "xhigh"     ]] || { echo "FAIL: argv[5] != 'xhigh': '${ARGV[5]:-}'"     >&2; exit 1; }
-echo "STEP 1 OK: argv flag transport [ask gemini --with godspeed --effort xhigh]"
+echo "STEP 1 OK: legacy gemini alias transports as [ask gemma --with godspeed --effort xhigh]"
 
 # ------ (2) prompt template substitution -------------------------------
 PROMPT="${ARGV[${#ARGV[@]}-1]}"
@@ -69,7 +69,7 @@ if ! printf '%s' "$PROMPT" | grep -qE '^# Effort: xhigh$'; then
   printf '%s\n' "$PROMPT" | head -20 >&2
   exit 1
 fi
-if ! printf '%s' "$PROMPT" | grep -qE '^# ThinkingBudget: 16384$'; then
+if ! printf '%s' "$PROMPT" | grep -qE '^# ThinkingBudget: 16384( |$)'; then
   echo "FAIL: prompt missing '# ThinkingBudget: 16384' line" >&2
   printf '%s\n' "$PROMPT" | head -20 >&2
   exit 1

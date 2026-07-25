@@ -2,11 +2,11 @@
 # xask — minimal routing protocol for cross-model orchestration
 # Usage: xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--gs] [-e <level>] [-o <file>] [--json] <model> "<query>" ["<context>"] ["<skill>"]
 #
-# All dispatches route through `xbreed ask`. Always-on: suppression, approval bypass,
-# auth cascade, godspeed forwarding, fast_mode (all Codex lanes). See docs/xask-protocol.md.
+# All dispatches route through `xbreed ask`. Always-on: suppression, bounded
+# non-interactive dispatch, godspeed forwarding, fast_mode (all Codex lanes).
 #
 # Always-on codex exec flags (applied by src/ask.rs, not user-togglable here):
-#   --skip-git-repo-check · --color never · --ephemeral · --sandbox danger-full-access
+#   --skip-git-repo-check · --color never · --ephemeral · --sandbox workspace-write
 #   -c approval_policy="never" · -c include_permissions_instructions=false
 #   -c include_apps_instructions=false · -c include_environment_context=false
 #

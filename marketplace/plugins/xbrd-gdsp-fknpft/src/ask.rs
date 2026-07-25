@@ -56,12 +56,10 @@ pub fn build_codex_ask_with_loadout(
         .arg("--color")
         .arg("never")
         .arg("--ephemeral")
-        // Yolo / allow-all-tools: codex defaults to a sandbox; we unlock it
-        // for headless xask dispatch (parity with gemini's --approval-mode yolo
-        // at line ~279). User-locked policy: solo-dev workflow, all-tool
-        // permission across xask-gated subprocesses. See feedback_yolo_routing.md.
+        // Headless dispatch cannot service approval prompts, but it must remain
+        // bounded to the caller's workspace rather than gaining host-wide access.
         .arg("--sandbox")
-        .arg("danger-full-access");
+        .arg("workspace-write");
 
     // Contamination suppression + approval bypass — always-on for clean headless dispatch
     c.arg("-c").arg("approval_policy=\"never\"");
@@ -496,9 +494,10 @@ mod tests {
         // Default lane pins CODEX_MINI_MODEL (gpt-5.6-sol) explicitly.
         assert!(args.contains(&"-m".to_string()));
         assert!(args.contains(&CODEX_MINI_MODEL.to_string()));
-        // Yolo / allow-all-tools sandbox unlock — see feedback_yolo_routing.md
+        // Headless approval remains non-interactive, but writes are workspace-bounded.
         assert!(args.contains(&"--sandbox".to_string()));
-        assert!(args.contains(&"danger-full-access".to_string()));
+        assert!(args.contains(&"workspace-write".to_string()));
+        assert!(!args.contains(&"danger-full-access".to_string()));
         // json=false: --json must NOT appear in argv
         assert!(!args.contains(&"--json".to_string()));
         assert_eq!(*args.last().unwrap(), "hello");
@@ -604,9 +603,10 @@ mod tests {
         // fast_mode is enabled on every Codex lane, including spark.
         assert!(args.contains(&"features.fast_mode=true".to_string()));
         assert!(args.contains(&"service_tier=\"fast\"".to_string()));
-        // Yolo sandbox applies to spark too — labrats need all-tool access
+        // Spark uses the same workspace boundary as every other Codex lane.
         assert!(args.contains(&"--sandbox".to_string()));
-        assert!(args.contains(&"danger-full-access".to_string()));
+        assert!(args.contains(&"workspace-write".to_string()));
+        assert!(!args.contains(&"danger-full-access".to_string()));
         assert_eq!(*args.last().unwrap(), "probe");
     }
 
@@ -686,7 +686,9 @@ mod tests {
         assert_eq!(cmd.get_program().to_string_lossy(), GEMMA_DEFAULT_BIN);
         let args = cmd_args(&cmd);
         assert_eq!(args, vec!["hello".to_string()]);
-        let model_env = cmd.get_envs().find(|(k, _)| k.to_string_lossy() == "HVM_GEMMA_MODEL");
+        let model_env = cmd
+            .get_envs()
+            .find(|(k, _)| k.to_string_lossy() == "HVM_GEMMA_MODEL");
         let val = model_env
             .and_then(|(_, v)| v.map(|s| s.to_string_lossy().into_owned()))
             .unwrap_or_default();
