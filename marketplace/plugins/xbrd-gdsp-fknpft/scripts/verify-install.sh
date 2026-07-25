@@ -22,14 +22,21 @@ fail() {
   DRIFT=1
 }
 
-ensure_symlink_resolves_under_dir() {
+ensure_deployment_matches_source() {
   local link_path="$1"
   local base_path="$2"
   local expected_dir="$3"
   local label="$4"
 
+  if [[ -f "$link_path" && ! -L "$link_path" ]]; then
+    if ! cmp -s "$base_path" "$link_path"; then
+      fail "$link_path" "$label snapshot differs from source" "Refresh the regular-file snapshot from $base_path"
+    fi
+    return
+  fi
+
   if [[ ! -L "$link_path" ]]; then
-    fail "$link_path" "$label symlink missing or not a symlink" "ln -sfn \"$base_path\" \"$link_path\""
+    fail "$link_path" "$label missing or neither a symlink nor regular-file snapshot" "Install a snapshot from $base_path"
     return
   fi
 
@@ -75,7 +82,7 @@ check_agents() {
     repo_file="$REPO_ROOT/templates/agents/$agent"
     local_index["$agent"]=1
 
-    ensure_symlink_resolves_under_dir \
+    ensure_deployment_matches_source \
       "$local_file" \
       "$repo_file" \
       "$REPO_ROOT/templates/agents" \
@@ -86,7 +93,7 @@ check_agents() {
     local repo_agent
     repo_agent="$(basename "$expected_file")"
     if [[ -z "${local_index[$repo_agent]:-}" ]]; then
-      fail "$expected_file" "missing local symlink for agent template $repo_agent" "Run make install to sync agent links"
+      fail "$expected_file" "missing local deployment for agent template $repo_agent" "Install a regular-file snapshot or source link"
     fi
   done
 }
@@ -96,14 +103,14 @@ check_commands() {
   cmds=(wwkd xb xbgst xbreed-team xbreed xbt xgs)
 
   for cmd in "${cmds[@]}"; do
-    ensure_symlink_resolves_under_dir \
+    ensure_deployment_matches_source \
       "$COMMANDS_DIR/$cmd.md" \
       "$REPO_ROOT/commands/$cmd.md" \
       "$REPO_ROOT/commands" \
       "command $cmd.md"
   done
 
-  ensure_symlink_resolves_under_dir \
+  ensure_deployment_matches_source \
     "$REF_COMMANDS_DIR/xbreed-shared.md" \
     "$REPO_ROOT/commands/references/xbreed-shared.md" \
     "$REPO_ROOT/commands/references" \

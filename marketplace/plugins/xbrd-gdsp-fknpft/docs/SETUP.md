@@ -122,10 +122,11 @@ echo SKILLS-CHECKED
 
 ---
 
-## 4. Agents → `~/.claude/agents` (symlinks, mandatory)
+## 4. Agents → `~/.claude/agents` (source links or immutable snapshots)
 
-`verify-install` requires every agent file to be a **symlink** resolving into
-the repo — copies count as drift.
+`verify-install` accepts either a **symlink** resolving to the exact repo source
+or an immutable regular-file snapshot whose contents exactly match that source.
+Changed or stale snapshots count as drift and must be refreshed from the repo.
 
 ```bash
 mkdir -p ~/.claude/agents
@@ -145,7 +146,7 @@ if command -v grok >/dev/null 2>&1; then
 fi
 ```
 
-Gate: 14 symlinks into the repo:
+Gate for the source-link installation above: 14 symlinks into the repo:
 
 ```bash
 n=$(find ~/.claude/agents -type l | wc -l)
@@ -155,11 +156,15 @@ test "$n" -ge 14 && ls -la ~/.claude/agents/ | head \
 
 ---
 
-## 5. Commands → `~/.claude/commands` (symlinks)
+## 5. Commands → `~/.claude/commands` (source links or immutable snapshots)
 
 ```bash
 bash "$REPO"/scripts/install-commands.sh
 ```
+
+`verify-install` applies the same rule to command deployments: each path may be
+an exact source symlink or an immutable, byte-for-byte matching regular-file
+snapshot. The install script uses source links.
 
 Gate: script prints install confirmation; after a Claude restart,
 `/xbgst`, `/xgs`, `/xbt`, `/xbreed`, `/xb`, `/wwkd` resolve.
@@ -169,7 +174,8 @@ Gate: script prints install confirmation; after a Claude restart,
 ## 6. Build + deploy binary, xask, dispatch templates
 
 Run **after** steps 4–5: `make install` ends with a `verify-install` gate that
-checks agent/command symlinks and fails loudly if they're absent.
+checks agent/command source links or exact immutable snapshots and fails loudly
+if they are absent or drift from their repo sources.
 
 ```bash
 cd "$REPO"
