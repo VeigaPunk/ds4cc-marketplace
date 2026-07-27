@@ -4,7 +4,9 @@
 **Round:** R1
 **Date:** 2026-07-27
 **Status:** provisional frontier recorded; synchronization deferred to mandatory Round 2
-**audit_hash:** `c55474ab6127fdcb6b59f572d58ddf6f9888e4121404354f751ae1ce2e5e3d5`
+**audit_hash:** `37f6f5565fe1e19deb693ef121b4cd1b471e92dfb23dcb5f325e5612c3b2173e`
+
+The hash mismatch was caught before implementation and corrected via a fresh `SYNTHESIS_READY`.
 
 ## Round overview
 
