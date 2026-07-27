@@ -3,11 +3,9 @@
 #![cfg_attr(windows, windows_subsystem = "windows")]
 
 use eframe::egui;
-use std::io::Write;
 use std::sync::Arc;
 use std::sync::atomic::AtomicBool;
 use std::sync::mpsc;
-use std::time::Duration;
 
 mod ipc;
 mod launch;
@@ -30,7 +28,6 @@ const STRIP_WIN_W: f32 = 3440.0;
 const STRIP_WIN_H: f32 = 58.0;
 /// Multi-panel dashboard default height (width is computed from 6-col grid).
 const PANEL_WIN_H: f32 = 720.0;
-const STATUS_STREAM_INTERVAL: Duration = Duration::from_millis(12);
 
 pub enum AppMsg {
     Sessions(Vec<tmux::Meta>),
@@ -61,16 +58,13 @@ fn main() -> eframe::Result<()> {
         std::process::exit(0);
     }
 
-    if std::env::args().any(|a| a == "--status-stream") {
-        let _ = run_status_stream();
-        return Ok(());
-    }
-
     // --status-pango: render sessions into waybar via Pango markup. Must stay
     // above the single-instance guard — the bar polls this while the GUI is
     // running, so it may not bind the port, the IPC socket, or the FIFO.
     if std::env::args().any(|a| a == "--status-pango") {
-        println!("{}", current_pango_status());
+        let buffer = tui::render_waybar_to_buffer();
+        let markup = tui::buffer_to_pango(&buffer);
+        println!("{}", format_pango_status(&markup));
         std::process::exit(0);
     }
 
@@ -203,21 +197,6 @@ fn format_pango_status(markup: &str) -> String {
     .to_string()
 }
 
-fn current_pango_status() -> String {
-    let buffer = tui::render_waybar_to_buffer();
-    format_pango_status(&tui::buffer_to_pango(&buffer))
-}
-
-fn run_status_stream() -> std::io::Result<()> {
-    let stdout = std::io::stdout();
-    let mut output = stdout.lock();
-    loop {
-        writeln!(output, "{}", current_pango_status())?;
-        output.flush()?;
-        std::thread::sleep(STATUS_STREAM_INTERVAL);
-    }
-}
-
 #[cfg(target_os = "linux")]
 fn toggle_hyprland_special_workspace() -> bool {
     if std::env::var_os("HYPRLAND_INSTANCE_SIGNATURE").is_none() {
@@ -244,13 +223,5 @@ mod tests {
 
         assert_eq!(parsed["text"], markup);
         assert_eq!(parsed["class"], "agent-wall");
-    }
-
-    #[test]
-    fn status_stream_polls_every_twelve_milliseconds() {
-        assert_eq!(
-            super::STATUS_STREAM_INTERVAL,
-            std::time::Duration::from_millis(12)
-        );
     }
 }
