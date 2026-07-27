@@ -184,7 +184,7 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Developer",
-      "version": "0.2.0"
+      "version": "0.2.1"
     },
     {
       "name": "ds4cc",
