@@ -27,7 +27,6 @@ const REFRESH: Duration = Duration::from_millis(750);
 
 const WAYBAR_PANEL_COLS: u16 = 32;
 const WAYBAR_ROWS: u16 = 9;
-const WAYBAR_LEFT_PAD: u16 = 6;
 
 /// Column count for `n` panels. Wide-and-short beats tall-and-thin here: a
 /// terminal screen is ~80x24, so panels must stay wide enough to avoid
@@ -207,15 +206,13 @@ fn render_empty(area: Rect, buffer: &mut Buffer) {
 pub fn render_waybar_to_buffer() -> Buffer {
     let panes = snapshot(tmux::now_secs());
     let pane_count = u16::try_from(panes.len()).unwrap_or(u16::MAX);
-    let content_width = WAYBAR_PANEL_COLS.saturating_mul(pane_count.max(1));
-    let width = WAYBAR_LEFT_PAD.saturating_add(content_width);
+    let width = WAYBAR_PANEL_COLS.saturating_mul(pane_count.max(1));
     let area = Rect::new(0, 0, width, WAYBAR_ROWS);
-    let content_area = Rect::new(WAYBAR_LEFT_PAD, 0, content_width, WAYBAR_ROWS);
     let mut buffer = Buffer::empty(area);
     if panes.is_empty() {
-        render_empty(content_area, &mut buffer);
+        render_empty(area, &mut buffer);
     } else {
-        render_cells(row_grid(content_area, panes.len()), &panes, &mut buffer);
+        render_cells(row_grid(area, panes.len()), &panes, &mut buffer);
     }
     buffer
 }
@@ -575,14 +572,6 @@ mod tests {
 
         assert!(cells.iter().all(|cell| cell.width == WAYBAR_PANEL_COLS));
         assert!(cells.iter().all(|cell| cell.height == WAYBAR_ROWS));
-    }
-
-    #[test]
-    fn waybar_rendering_starts_after_six_blank_cells() {
-        let content_area = Rect::new(WAYBAR_LEFT_PAD, 0, WAYBAR_PANEL_COLS * 4, WAYBAR_ROWS);
-        let cells = row_grid(content_area, 4);
-
-        assert_eq!(cells.first().map(|cell| cell.x), Some(6));
     }
 
     #[test]
