@@ -25,7 +25,7 @@ const TICK: Duration = Duration::from_millis(100);
 /// it per frame would spawn dozens of processes a second for no visible gain.
 const REFRESH: Duration = Duration::from_millis(750);
 
-const WAYBAR_PANEL_COLS: u16 = 24;
+const WAYBAR_PANEL_COLS: u16 = 32;
 const WAYBAR_ROWS: u16 = 9;
 const WAYBAR_LEFT_PAD: u16 = 6;
 
@@ -570,7 +570,7 @@ mod tests {
     }
 
     #[test]
-    fn waybar_panel_cells_are_four_by_three_at_current_font_metrics() {
+    fn waybar_panel_cells_are_sixteen_by_nine_at_current_font_metrics() {
         let cells = row_grid(Rect::new(0, 0, WAYBAR_PANEL_COLS * 4, WAYBAR_ROWS), 4);
 
         assert!(cells.iter().all(|cell| cell.width == WAYBAR_PANEL_COLS));
