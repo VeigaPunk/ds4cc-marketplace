@@ -55,7 +55,7 @@ The evidence-backed launch configuration keeps Chrome's sandbox, native Wayland,
 
 For the disposable profile, browser sync and the stale crash-recovery bubble are disabled, while a fixed `1440×1000` desktop window keeps responsive layouts and accessibility references more repeatable. Repository-local `agent-browser.json` pins agent-browser to CDP 9222, namespace/session `musketeer`, content boundaries, and a 50,000-character output ceiling. It never launches a second browser. All `chrome://flags` experiments remain at **Default**; no experiment improved the measured CDP, evaluation, or accessibility-snapshot path.
 
-An argument-free launch opens exactly three disposable automation tabs, in order: NotebookLM, Grok, and ChatGPT. Supplying one or more URLs replaces those defaults completely.
+An argument-free launch opens exactly four disposable automation tabs, in order: NotebookLM, Grok, ChatGPT, and Kimi. Supplying one or more URLs replaces those defaults completely.
 
 If Chrome reaches `DevTools listening` and then repeatedly crashes with `SIGTRAP`, the persistent profile may contain incompatible browser state. Preserve it and create a clean profile without deleting credentials or history:
 

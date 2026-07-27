@@ -67,13 +67,15 @@ run_launcher "$home" "$TMP_ROOT/legacy.argv"
 assert_line "--user-data-dir=$legacy_profile" "$TMP_ROOT/legacy.argv"
 mapfile -t default_argv <"$TMP_ROOT/legacy.argv"
 default_count=${#default_argv[@]}
-[[ "$default_count" -eq 19 ]] || fail 'default launch does not have exactly three landing pages'
-[[ "${default_argv[default_count-3]}" == 'https://notebooklm.google.com/' ]] ||
+[[ "$default_count" -eq 20 ]] || fail 'default launch does not have exactly four landing pages'
+[[ "${default_argv[default_count-4]}" == 'https://notebooklm.google.com/' ]] ||
   fail 'NotebookLM is not the first landing page'
-[[ "${default_argv[default_count-2]}" == 'https://grok.com' ]] ||
+[[ "${default_argv[default_count-3]}" == 'https://grok.com' ]] ||
   fail 'Grok is not the second landing page'
-[[ "${default_argv[default_count-1]}" == 'https://chatgpt.com/' ]] ||
+[[ "${default_argv[default_count-2]}" == 'https://chatgpt.com/' ]] ||
   fail 'ChatGPT is not the third landing page'
+[[ "${default_argv[default_count-1]}" == 'https://www.kimi.com/' ]] ||
+  fail 'Kimi is not the fourth landing page'
 
 # A partial legacy installation must never create a mixed binary/profile pair.
 for partial in binary profile; do
@@ -215,6 +217,7 @@ run_launcher "$home" "$TMP_ROOT/one-url.argv" "$one_url"
 assert_no_line 'https://grok.com' "$TMP_ROOT/one-url.argv"
 assert_no_line 'https://notebooklm.google.com/' "$TMP_ROOT/one-url.argv"
 assert_no_line 'https://chatgpt.com/' "$TMP_ROOT/one-url.argv"
+assert_no_line 'https://www.kimi.com/' "$TMP_ROOT/one-url.argv"
 [[ "$(wc -l <"$TMP_ROOT/one-url.argv")" -eq 17 ]] || fail 'explicit URL gained default pages'
 
 # Profile paths must be real directories, never symlinks.
