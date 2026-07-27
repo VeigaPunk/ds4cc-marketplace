@@ -45,7 +45,7 @@ the app falls back to `alacritty`, `kitty`, `foot`, and `xterm`.
 | `--tui` | Launch ratatui dashboard (terminal-based grid, one panel per pane) |
 | `--status-json` | Print Waybar status line and exit |
 | `--status-pango` | Print the multiline colored pane grid as Waybar JSON and exit |
-| `--status-stream` | Continuously emit the Waybar pane grid at 10ms intervals |
+| `--status-stream` | Continuously emit the Waybar pane grid at 12ms intervals |
 
 ## Build & deploy (Windows)
 

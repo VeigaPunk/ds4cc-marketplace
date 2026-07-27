@@ -30,7 +30,7 @@ const STRIP_WIN_W: f32 = 3440.0;
 const STRIP_WIN_H: f32 = 58.0;
 /// Multi-panel dashboard default height (width is computed from 6-col grid).
 const PANEL_WIN_H: f32 = 720.0;
-const STATUS_STREAM_INTERVAL: Duration = Duration::from_millis(10);
+const STATUS_STREAM_INTERVAL: Duration = Duration::from_millis(12);
 
 pub enum AppMsg {
     Sessions(Vec<tmux::Meta>),
@@ -247,10 +247,10 @@ mod tests {
     }
 
     #[test]
-    fn status_stream_polls_every_ten_milliseconds() {
+    fn status_stream_polls_every_twelve_milliseconds() {
         assert_eq!(
             super::STATUS_STREAM_INTERVAL,
-            std::time::Duration::from_millis(10)
+            std::time::Duration::from_millis(12)
         );
     }
 }
