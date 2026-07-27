@@ -561,31 +561,38 @@
     <p class="sub">The <code>xbreed-shared.md</code> roster with the models it sets, plus the OpenCode lane roster. Cross-model delegation keeps a single lane: <code>xask codex</code>, routed to <strong>codex-titanium</strong> (<code>codex-cli 0.145.0-alpha.25+titanium.1</code>).</p>
     <div class="grid-2">
       <div class="panel" style="padding:14px 16px">
-        <h3 style="margin-top:0;font-size:0.95rem">xbreed agents</h3>
-        <table class="spec">
-          <tr><th>the-judge</th><td>fable 5 · xhigh</td></tr>
-          <tr><th>the-planner</th><td>sonnet · medium · wwkd</td></tr>
-          <tr><th>scout / reviewer / labrat / executor / connector</th><td>sonnet · medium</td></tr>
-          <tr><th>distiller / simplifier / the-revenger / sentinel</th><td>sonnet · medium</td></tr>
-          <tr><th>critic / mutation-tester / scribe</th><td>sonnet · medium</td></tr>
-          <tr><th>cross-model</th><td><code>xask --spark codex</code> · codex-titanium (only lane)</td></tr>
-        </table>
+        <h3 style="margin-top:0;font-size:0.95rem">myagents roles</h3>
+<pre>the-judge           fable 5 · xhigh
+the-planner         sonnet · medium · wwkd
+the-scout           sonnet · medium
+the-reviewer        sonnet · medium
+the-labrat          sonnet · medium
+the-executor        sonnet · medium
+the-connector       sonnet · medium
+the-distiller       sonnet · medium
+the-simplifier      sonnet · medium
+the-revenger        sonnet · medium
+the-sentinel        sonnet · medium
+the-critic          sonnet · medium
+the-mutation-tester sonnet · medium
+the-scribe          sonnet · medium
+network-auditor     sonnet · medium
+cross-model         xask --spark codex · codex-titanium</pre>
       </div>
       <div class="panel" style="padding:14px 16px">
-        <h3 style="margin-top:0;font-size:0.95rem">OpenCode lanes</h3>
-<pre>implementation    claude-opus-5
-artistry          claude-opus-5
-atlas             claude-sonnet-4-6
-deep              claude-opus-5
-explore           claude-haiku-4-5
-hephaestus        gpt-5.6-sol
-librarian         claude-haiku-4-5
-metis             claude-opus-5
-momus             claude-opus-5
-multimodal-looker claude-sonnet-4-6
-oracle            claude-opus-5
-prometheus        claude-fable-5
-quick             claude-haiku-4-5</pre>
+        <h3 style="margin-top:0;font-size:0.95rem">OpenCode lanes (oh-my-openagent.json)</h3>
+<pre>sisyphus          anthropic/claude-opus-5 · max
+oracle            anthropic/claude-opus-5 · max
+explore           anthropic/claude-haiku-4-5
+multimodal-looker anthropic/claude-sonnet-4-6
+prometheus        anthropic/claude-fable-5 · xhigh
+metis             anthropic/claude-opus-5 · high
+momus             anthropic/claude-opus-5 · max
+atlas             anthropic/claude-sonnet-4-6
+sisyphus-junior   anthropic/claude-sonnet-4-6
+hephaestus        openai/gpt-5.6-sol · medium
+librarian         anthropic/claude-haiku-4-5</pre>
+        <p class="note" style="font-size:0.78rem;color:var(--muted);margin:6px 0 0">fallbacks: kimi-for-coding-oauth/k3 · gpt-5.4-mini-fast · gpt-5.6-terra</p>
       </div>
     </div>
   </section>
@@ -633,7 +640,7 @@ quick             claude-haiku-4-5</pre>
     { n: "mycommands", v: "0.2.0", d: "Reusable command packs & shell routines, ready to exec.", c: 'codex exec "/my-command-name"' },
     { n: "myskills", v: "0.2.0", d: "Curated skill inventory & workflow helpers, discoverable in-session.", c: 'codex exec "/skill-name <args>"' },
     { n: "agent-wall", v: "0.2.0", d: "Handoff checkpoints & session continuity across agents and days.", c: 'codex exec "Create an agent-wall checkpoint..."' },
-    { n: "agent-pip", v: "0.2.0", d: "Live tmux pane wall for Waybar with the newest output anchored at each panel’s bottom.", c: "cargo build --release && agent-wall --status-pango" },
+    { n: "agent-pip", v: "0.2.1", d: "Live tmux pane wall for Waybar with the newest output anchored at each panel’s bottom.", c: "cargo build --release && agent-wall --status-pango" },
     { n: "ds4cc", v: "0.3.0", d: "Marketplace meta-plugin — discover/install plugins and run ds4cc/orch mode.", c: "codex plugin marketplace add VeigaPunk/ds4cc-marketplace" },
     { n: "spoderman", v: "0.2.0", d: "Attack harness & hook safety research for agent runtimes.", c: "bash ./spoderman validate --hooks" },
     { n: "xbrd-gdsp-fknpft", v: "0.2.2", d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
