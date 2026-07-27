@@ -271,10 +271,12 @@
     <div class="nav-links">
       <a href="#demo">demo</a>
       <a href="#plugins">plugins</a>
+      <a href="#agent-pip">agent pip</a>
       <a href="#install">install</a>
       <a href="#app">chatgpt app</a>
       <a href="#validator">validator</a>
       <a href="#curation">curation</a>
+      <a href="#lanes">lanes</a>
       <a class="nav-cta" href="https://github.com/VeigaPunk/ds4cc-marketplace" target="_blank" rel="noopener">GITHUB ↗</a>
     </div>
   </div>
@@ -351,8 +353,46 @@
     <div class="plugins" id="plugGrid"></div>
   </section>
 
+  <section id="agent-pip" class="reveal">
+    <h2><span class="idx">03</span>Agent Pip — live tmux output in Waybar</h2>
+    <p class="sub">A compact Rust dashboard that renders every live tmux pane side by side, preserving terminal color while keeping each pane’s newest output line anchored at the bottom.</p>
+    <div class="grid-2">
+      <div class="panel" style="padding:14px 16px">
+        <h3 style="margin-top:0;font-size:0.95rem">Latest output stays visible</h3>
+<pre><span class="g">┌ attached · build ────────┐</span>
+│ compiling renderer       │
+│ running regression suite │
+│                          │
+│                          │
+│                          │
+│                          │
+│ <span class="g">68 passed; 0 failed</span>      │
+<span class="g">└──────────────────────────┘</span></pre>
+        <p>Blank interior rows remain blank above the content. The last retained output line sits directly above the lower border, so the current result is visible at a glance.</p>
+        <div class="kv">
+          <span class="ok-chip">ANSI color</span>
+          <span class="ok-chip">tmux panes</span>
+          <span class="ok-chip">Waybar Pango</span>
+          <span class="ok-chip">v0.2.0</span>
+        </div>
+      </div>
+      <div class="panel" style="padding:14px 16px">
+        <h3 style="margin-top:0;font-size:0.95rem">Build and run</h3>
+        <div class="oneliner" style="margin:8px 0">
+          <code><span class="p">$</span> git clone https://github.com/VeigaPunk/agent-pip.git</code>
+          <button class="copy-btn" data-copy="git clone https://github.com/VeigaPunk/agent-pip.git">COPY</button>
+        </div>
+<pre><span class="p">$</span> cd agent-pip
+<span class="p">$</span> cargo build --release
+<span class="p">$</span> ./target/release/agent-wall --status-pango</pre>
+        <p>Use the standalone TUI or feed Pango JSON into Waybar. The renderer keeps the existing 130px bar height, JetBrains Mono metrics, and native polling setup.</p>
+        <a class="btn" href="https://github.com/VeigaPunk/agent-pip" target="_blank" rel="noopener">VIEW SOURCE ↗</a>
+      </div>
+    </div>
+  </section>
+
   <section id="install" class="reveal">
-    <h2><span class="idx">03</span>Install — per host, verbatim</h2>
+    <h2><span class="idx">04</span>Install — per host, verbatim</h2>
     <p class="sub">Exact commands from the marketplace README. Copy, paste, done.</p>
     <div class="hosts">
 
@@ -424,7 +464,7 @@
   </section>
 
   <section id="app" class="reveal">
-    <h2><span class="idx">04</span>ChatGPT app — app.ds4cc.com</h2>
+    <h2><span class="idx">05</span>ChatGPT app — app.ds4cc.com</h2>
     <p class="sub">A read-only Apps SDK wrapper exposes a reviewed subset of the catalog through a production MCP endpoint with an embedded catalog widget.</p>
     <div class="grid-2">
       <div class="panel" style="padding:14px 16px">
@@ -454,7 +494,7 @@
   </section>
 
   <section id="validator" class="reveal">
-    <h2><span class="idx">05</span>The Rust validator — no broken plugins, ever</h2>
+    <h2><span class="idx">06</span>The Rust validator — no broken plugins, ever</h2>
     <p class="sub">A binary crate (<code>ds4cc-validator</code>) gates every plugin on structure, schema, and skill actionability. CI runs it on each push alongside manifest, Kimi, and Claude strict checks.</p>
     <div class="grid-2">
       <div>
@@ -488,7 +528,7 @@
   </section>
 
   <section id="curation" class="reveal">
-    <h2><span class="idx">06</span>Curation — a living marketplace, not a junk drawer</h2>
+    <h2><span class="idx">07</span>Curation — a living marketplace, not a junk drawer</h2>
     <p class="sub">DS4CC keeps the strongest entry per domain and updates the reviewed set as better evidence emerges. Full policy in <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/CURATION.md" target="_blank" rel="noopener">CURATION.md</a>.</p>
     <div class="grid-2">
       <div>
@@ -513,6 +553,38 @@
           <strong>Removal:</strong> entries are demoted or dropped when unmaintained, unsafe, misleading, legally unclear, or dominated by a demonstrably stronger option.
         </div>
       </div>
+    </div>
+  </section>
+
+  <section id="lanes" class="reveal">
+    <h2><span class="idx">08</span>Orchestration lanes — every agent, its model</h2>
+    <p class="sub">The xbreed-shared.md roster and the lane each role runs on. Cross-model delegation keeps a single lane: <code>xask codex</code>, routed to <strong>codex-titanium</strong> (<code>codex-cli 0.145.0-alpha.25+titanium.1</code>).</p>
+    <table class="spec">
+      <tr><th>xbreed agent</th><td>lane · model</td></tr>
+      <tr><th>the-judge</th><td><code>prometheus</code> · claude-fable-5</td></tr>
+      <tr><th>the-planner</th><td><code>metis</code> · claude-opus-5</td></tr>
+      <tr><th>the-scout</th><td><code>explore</code> · claude-haiku-4-5</td></tr>
+      <tr><th>the-reviewer</th><td><code>deep</code> · claude-opus-5</td></tr>
+      <tr><th>the-labrat</th><td><code>quick</code> · claude-haiku-4-5</td></tr>
+      <tr><th>the-executor</th><td><code>implementation</code> · claude-opus-5</td></tr>
+      <tr><th>the-connector</th><td><code>atlas</code> · claude-sonnet-4-6</td></tr>
+      <tr><th>the-distiller</th><td><code>metis</code> · claude-opus-5</td></tr>
+      <tr><th>the-simplifier</th><td><code>quick</code> · claude-haiku-4-5</td></tr>
+      <tr><th>the-revenger</th><td><code>deep</code> · claude-opus-5</td></tr>
+      <tr><th>the-sentinel</th><td><code>deep</code> · claude-opus-5</td></tr>
+      <tr><th>the-critic</th><td><code>momus</code> · claude-opus-5</td></tr>
+      <tr><th>the-mutation-tester</th><td><code>quick</code> · claude-haiku-4-5</td></tr>
+      <tr><th>the-scribe</th><td><code>librarian</code> · claude-haiku-4-5</td></tr>
+      <tr><th>visual / artistry</th><td><code>artistry</code> · claude-opus-5 · <code>multimodal-looker</code> · claude-sonnet-4-6</td></tr>
+      <tr><th>build lane</th><td><code>hephaestus</code> · gpt-5.6-sol</td></tr>
+      <tr><th>reasoning review</th><td><code>oracle</code> · claude-opus-5</td></tr>
+      <tr><th>cross-model</th><td><code>xask --spark codex</code> · codex-titanium (only lane)</td></tr>
+    </table>
+    <div class="kv">
+      <span class="ok-chip">fable-5 judge</span>
+      <span class="ok-chip">opus-5 specialists</span>
+      <span class="ok-chip">haiku probes</span>
+      <span class="ok-chip">titanium xask</span>
     </div>
   </section>
 
@@ -559,7 +631,7 @@
     { n: "mycommands", v: "0.2.0", d: "Reusable command packs & shell routines, ready to exec.", c: 'codex exec "/my-command-name"' },
     { n: "myskills", v: "0.2.0", d: "Curated skill inventory & workflow helpers, discoverable in-session.", c: 'codex exec "/skill-name <args>"' },
     { n: "agent-wall", v: "0.2.0", d: "Handoff checkpoints & session continuity across agents and days.", c: 'codex exec "Create an agent-wall checkpoint..."' },
-    { n: "agent-pip", v: "0.1.0", d: "Multi-panel tmux agent terminal dashboard in Rust (always-on-top tiles).", c: "cargo build --release && agent-pip" },
+    { n: "agent-pip", v: "0.2.0", d: "Live tmux pane wall for Waybar with the newest output anchored at each panel’s bottom.", c: "cargo build --release && agent-wall --status-pango" },
     { n: "ds4cc", v: "0.3.0", d: "Marketplace meta-plugin — discover/install plugins and run ds4cc/orch mode.", c: "codex plugin marketplace add VeigaPunk/ds4cc-marketplace" },
     { n: "spoderman", v: "0.2.0", d: "Attack harness & hook safety research for agent runtimes.", c: "bash ./spoderman validate --hooks" },
     { n: "xbrd-gdsp-fknpft", v: "0.2.2", d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
