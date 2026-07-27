@@ -62,13 +62,7 @@ fn main() -> eframe::Result<()> {
     // above the single-instance guard — the bar polls this while the GUI is
     // running, so it may not bind the port, the IPC socket, or the FIFO.
     if std::env::args().any(|a| a == "--status-pango") {
-        let area = ratatui::layout::Rect {
-            x: 0,
-            y: 0,
-            width: 80,
-            height: 9,
-        };
-        let buf = tui::render_to_buffer(area);
+        let buf = tui::render_waybar_to_buffer();
         let pango = tui::buffer_to_pango(&buf);
         println!("{}", format_pango_status(&pango));
         std::process::exit(0);

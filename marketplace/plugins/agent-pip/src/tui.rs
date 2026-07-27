@@ -25,6 +25,9 @@ const TICK: Duration = Duration::from_millis(100);
 /// it per frame would spawn dozens of processes a second for no visible gain.
 const REFRESH: Duration = Duration::from_millis(750);
 
+const WAYBAR_PANEL_COLS: u16 = 24;
+const WAYBAR_ROWS: u16 = 9;
+
 /// Column count for `n` panels. Wide-and-short beats tall-and-thin here: a
 /// terminal screen is ~80x24, so panels must stay wide enough to avoid
 /// re-wrapping the captured text into nonsense.
@@ -200,10 +203,11 @@ fn render_empty(area: Rect, buffer: &mut Buffer) {
     );
 }
 
-/// Capture every live tmux pane and render the dashboard into an offscreen
-/// ratatui buffer. This is the shared rendering surface used by Waybar.
-pub fn render_to_buffer(area: Rect) -> Buffer {
+pub fn render_waybar_to_buffer() -> Buffer {
     let panes = snapshot(tmux::now_secs());
+    let pane_count = u16::try_from(panes.len()).unwrap_or(u16::MAX);
+    let width = WAYBAR_PANEL_COLS.saturating_mul(pane_count.max(1));
+    let area = Rect::new(0, 0, width, WAYBAR_ROWS);
     let mut buffer = Buffer::empty(area);
     if panes.is_empty() {
         render_empty(area, &mut buffer);
@@ -560,6 +564,14 @@ mod tests {
         for pair in cells.windows(2) {
             assert_eq!(pair[0].right(), pair[1].x);
         }
+    }
+
+    #[test]
+    fn waybar_panel_cells_are_four_by_three_at_current_font_metrics() {
+        let cells = row_grid(Rect::new(0, 0, WAYBAR_PANEL_COLS * 4, WAYBAR_ROWS), 4);
+
+        assert!(cells.iter().all(|cell| cell.width == WAYBAR_PANEL_COLS));
+        assert!(cells.iter().all(|cell| cell.height == WAYBAR_ROWS));
     }
 
     #[test]
