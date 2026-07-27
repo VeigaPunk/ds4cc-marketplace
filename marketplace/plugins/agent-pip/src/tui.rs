@@ -212,9 +212,40 @@ pub fn render_waybar_to_buffer() -> Buffer {
     if panes.is_empty() {
         render_empty(area, &mut buffer);
     } else {
-        render_cells(row_grid(area, panes.len()), &panes, &mut buffer);
+        let cells = row_grid(area, panes.len());
+        render_cells(cells.clone(), &panes, &mut buffer);
+        compact_panel_rows(&mut buffer, &cells);
     }
     buffer
+}
+
+fn compact_panel_rows(buffer: &mut Buffer, panels: &[Rect]) {
+    for panel in panels {
+        if panel.width <= 2 || panel.height <= 2 {
+            continue;
+        }
+        let rows: Vec<Vec<_>> = (panel.y + 1..panel.bottom() - 1)
+            .filter(|y| {
+                (panel.x + 1..panel.right() - 1)
+                    .any(|x| !buffer[(x, *y)].symbol().trim().is_empty())
+            })
+            .map(|y| {
+                (panel.x + 1..panel.right() - 1)
+                    .map(|x| buffer[(x, y)].clone())
+                    .collect()
+            })
+            .collect();
+
+        for (offset, y) in (panel.y + 1..panel.bottom() - 1).enumerate() {
+            for (column, x) in (panel.x + 1..panel.right() - 1).enumerate() {
+                if let Some(row) = rows.get(offset) {
+                    buffer[(x, y)] = row[column].clone();
+                } else {
+                    buffer[(x, y)].reset();
+                }
+            }
+        }
+    }
 }
 
 #[derive(Clone, Copy, PartialEq, Eq)]
@@ -572,6 +603,20 @@ mod tests {
 
         assert!(cells.iter().all(|cell| cell.width == WAYBAR_PANEL_COLS));
         assert!(cells.iter().all(|cell| cell.height == WAYBAR_ROWS));
+    }
+
+    #[test]
+    fn waybar_compacts_blank_rows_inside_panels() {
+        let panel = Rect::new(0, 0, 6, 6);
+        let mut buffer = Buffer::empty(panel);
+        buffer[(1, 1)].set_symbol("A");
+        buffer[(1, 3)].set_symbol("B");
+
+        compact_panel_rows(&mut buffer, &[panel]);
+
+        assert_eq!(buffer[(1, 1)].symbol(), "A");
+        assert_eq!(buffer[(1, 2)].symbol(), "B");
+        assert_eq!(buffer[(1, 3)].symbol(), " ");
     }
 
     #[test]
