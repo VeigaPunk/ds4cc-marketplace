@@ -85,14 +85,12 @@ pub fn format_status(sessions: &[crate::tmux::Meta], now: i64) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use serde_json::json;
-
     #[test]
     fn format_status_empty_is_empty_class() {
         let result = format_status(&[], 1000);
-        let parsed: serde_json::Value = serde_json::from_str(&result)
-            .expect("result must be valid JSON");
-        
+        let parsed: serde_json::Value =
+            serde_json::from_str(&result).expect("result must be valid JSON");
+
         assert_eq!(parsed["text"], "");
         assert_eq!(parsed["tooltip"], "");
         assert_eq!(parsed["class"], "empty");
@@ -107,20 +105,23 @@ mod tests {
             attached: true,
         }];
         let now = 1000;
-        
+
         let result = format_status(&sessions, now);
-        let parsed: serde_json::Value = serde_json::from_str(&result)
-            .expect("result must be valid JSON");
-        
+        let parsed: serde_json::Value =
+            serde_json::from_str(&result).expect("result must be valid JSON");
+
         let text = parsed["text"].as_str().expect("text must be string");
         assert!(text.contains("●"), "text must contain filled dot");
         assert!(text.contains("#3ee08b"), "text must contain attached color");
-        
+
         assert_eq!(parsed["class"], "active");
-        
+
         let tooltip = parsed["tooltip"].as_str().expect("tooltip must be string");
         assert!(tooltip.contains("01:05"), "tooltip must contain idle time");
-        assert!(tooltip.contains("attached"), "tooltip must contain 'attached'");
+        assert!(
+            tooltip.contains("attached"),
+            "tooltip must contain 'attached'"
+        );
     }
 
     #[test]
@@ -132,17 +133,20 @@ mod tests {
             attached: false,
         }];
         let now = 1000;
-        
+
         let result = format_status(&sessions, now);
-        let parsed: serde_json::Value = serde_json::from_str(&result)
-            .expect("result must be valid JSON");
-        
+        let parsed: serde_json::Value =
+            serde_json::from_str(&result).expect("result must be valid JSON");
+
         let text = parsed["text"].as_str().expect("text must be string");
         assert!(text.contains("○"), "text must contain hollow dot");
         assert!(text.contains("#232a38"), "text must contain border color");
-        
+
         let tooltip = parsed["tooltip"].as_str().expect("tooltip must be string");
-        assert!(tooltip.contains("detached"), "tooltip must contain 'detached'");
+        assert!(
+            tooltip.contains("detached"),
+            "tooltip must contain 'detached'"
+        );
     }
 
     #[test]
@@ -154,13 +158,16 @@ mod tests {
             attached: true,
         }];
         let now = 1000;
-        
+
         let result = format_status(&sessions, now);
-        let parsed: serde_json::Value = serde_json::from_str(&result)
-            .expect("result must be valid JSON");
-        
+        let parsed: serde_json::Value =
+            serde_json::from_str(&result).expect("result must be valid JSON");
+
         let tooltip = parsed["tooltip"].as_str().expect("tooltip must be string");
-        assert!(tooltip.contains("--:--"), "tooltip must contain dashes for unknown activity");
+        assert!(
+            tooltip.contains("--:--"),
+            "tooltip must contain dashes for unknown activity"
+        );
     }
 
     #[test]
@@ -175,18 +182,24 @@ mod tests {
             });
         }
         let now = 1000;
-        
+
         let result = format_status(&sessions, now);
-        let parsed: serde_json::Value = serde_json::from_str(&result)
-            .expect("result must be valid JSON");
-        
+        let parsed: serde_json::Value =
+            serde_json::from_str(&result).expect("result must be valid JSON");
+
         let text = parsed["text"].as_str().expect("text must be string");
         let dot_count = text.matches('●').count() + text.matches('○').count();
         assert_eq!(dot_count, 24, "text must contain exactly 24 glyphs");
-        assert!(text.contains("+2"), "text must contain +2 overflow indicator");
-        
+        assert!(
+            text.contains("+2"),
+            "text must contain +2 overflow indicator"
+        );
+
         let tooltip = parsed["tooltip"].as_str().expect("tooltip must be string");
-        assert!(tooltip.contains("+2 more"), "tooltip must contain '+2 more' line");
+        assert!(
+            tooltip.contains("+2 more"),
+            "tooltip must contain '+2 more' line"
+        );
     }
 
     #[test]
@@ -198,19 +211,22 @@ mod tests {
             attached: true,
         }];
         let now = 1000;
-        
+
         let result = format_status(&sessions, now);
-        
+
         // Must parse as valid JSON
-        let parsed: serde_json::Value = serde_json::from_str(&result)
-            .expect("result must be valid JSON");
-        
+        let parsed: serde_json::Value =
+            serde_json::from_str(&result).expect("result must be valid JSON");
+
         let tooltip = parsed["tooltip"].as_str().expect("tooltip must be string");
-        
+
         // Must contain escaped entities
-        assert!(tooltip.contains("&lt;b&gt;"), "tooltip must contain escaped <b>");
+        assert!(
+            tooltip.contains("&lt;b&gt;"),
+            "tooltip must contain escaped <b>"
+        );
         assert!(tooltip.contains("&amp;"), "tooltip must contain escaped &");
-        
+
         // Must NOT contain raw unescaped substring
         assert!(!tooltip.contains("<b>"), "tooltip must not contain raw <b>");
     }
