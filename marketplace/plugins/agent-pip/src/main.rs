@@ -11,6 +11,7 @@ mod ipc;
 mod launch;
 mod persist;
 mod poller;
+mod status;
 mod theme;
 mod tile;
 mod tmux;
@@ -43,6 +44,17 @@ fn main() -> eframe::Result<()> {
         #[cfg(unix)]
         ipc::send_toggle();
         return Ok(());
+    }
+
+    // --status-json: one Waybar line from the same fold the wall renders.
+    // Must stay above the single-instance guard — the bar polls this while the
+    // GUI is running, so it may not bind the port, the IPC socket, or the FIFO.
+    if std::env::args().any(|a| a == "--status-json") {
+        println!(
+            "{}",
+            status::format_status(&tmux::list_sessions(), tmux::now_secs())
+        );
+        std::process::exit(0);
     }
 
     // Single-instance guard: second launch silently exits.
