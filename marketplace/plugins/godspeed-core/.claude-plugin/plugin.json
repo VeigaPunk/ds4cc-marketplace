@@ -1,0 +1,11 @@
+{
+  "name": "godspeed-core",
+  "version": "0.1.0",
+  "description": "VeigaPunk Godspeed Core plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/godspeed-core",
+  "repository": "https://github.com/VeigaPunk/godspeed-core",
+  "license": "MIT"
+}

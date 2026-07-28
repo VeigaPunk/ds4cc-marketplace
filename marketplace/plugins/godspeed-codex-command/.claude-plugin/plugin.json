@@ -1,0 +1,11 @@
+{
+  "name": "godspeed-codex-command",
+  "version": "0.1.0",
+  "description": "VeigaPunk Godspeed Codex Command plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/godspeed-codex-command",
+  "repository": "https://github.com/VeigaPunk/godspeed-codex-command",
+  "license": "MIT"
+}
