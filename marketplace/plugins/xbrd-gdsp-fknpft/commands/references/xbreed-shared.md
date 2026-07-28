@@ -61,6 +61,39 @@ Include in every teammate brief:
 - **Divergence mandate:** `"If your finding contradicts a peer's, flag: CONFLICT: [claim] — my position: [X] — peer: [Y]"`
 - **Judge weighting:** Weight xask quotes contradicting agent's conclusion more heavily than confirming quotes.
 
+## Default spawn loop (judge + planner) — ALWAYS ON
+
+This is the **default** orchestration path. Not optional. Not a mode switch.
+
+```
+1. Spawn the-planner (Phase 0 / wwkd) FIRST
+2. Planner returns skeleton + proposed axes (name + direction + observable each)
+3. Judge finalizes AXES from that skeleton (≤8)
+4. Judge assigns each axis to a role from the AVAILABLE ROSTER only
+5. Parallel spawn assigned roles (depth-1) with SSoT Layer-1 xask + mailbox + | godspeed
+6. Drain mailbox → distiller → evidence audit → Pareto → round 2…
+```
+
+**Roster assignment rules:**
+- Map axis → role via §Axis → Profile Mapping below.
+- Only spawn roles that exist on the **current host roster** (OpenCode `agent` keys / Grok agent profiles / CC `~/.claude/agents`). Skip or merge axes if the mapped role is absent — do not invent roles.
+- **Mandatory every round:** `connector` (or `the-connector`) when present on roster.
+- **Always include when work landed:** `distiller` (+ `scribe` for report trail when present).
+- Planner is **not** re-spawned every round unless the skeleton is invalid.
+
+**Assignment artifact (emit before Phase 2 spawn):**
+
+```
+AXES:
+  - name: <axis>
+    direction: <what better looks like>
+    observable: <how we measure>
+    assignee: <roster role id>
+    teammate: <prefix-role-suffix>
+ROSTER_USED: <list>
+ROSTER_SKIPPED: <mapped role missing on host, if any>
+```
+
 ## Axis → Profile Mapping
 
 **This table is the single source of truth for agent routing.** AGENTS.md and the-judge.md carry read-only copies for discoverability. On any edit here, update those two.
@@ -113,6 +146,50 @@ construction. Skipping connector is a structural gap, not a speed optimization.
 | Orchestration, arbitration | `the-judge` | **fable 5 · xhigh** (user directive 2026-06-07; model opus→fable 5 per 2026-07-04) | top-of-stack; dispatches specialists | All |
 
 **Local Gemma / HVM (g- prefix, 2026-07-21):** `xask gemma` (aliases `g`, legacy `gemini`) dispatches through `xbreed ask gemma` → `gemma-hvm` (Bend → HVM2 → `libhvm_gemma.so` → Ollama). Default model `gemma4:26b` via `HVM_GEMMA_MODEL`. Cloud Gemini CLI is retired — do not call the `gemini` binary. Connector and any `g-*` teammates MUST use this lane for cross-model breadth.
+
+## Mailbox substrate (inter-agent, all hosts)
+
+**SSoT for how delegated agents talk to each other.** Native CLI only — no helper scripts.
+
+| | |
+|---|---|
+| Path | `$TEAM_ROOT/.xbreed/mailbox/events.ndjson` |
+| Keep dialect | `~/Projects/hvm-gemma4/hvm4/mailbox.bend` — kinds **concern / diff / discovery / shutdown-ack** (codes 1–4) kept; else digests |
+| Write | `xbreed team mailbox write --from=<prefix-role-suffix> --kind=<kind> --payload='…'` |
+| Drain | `xbreed team mailbox drain` |
+| Compact | `xbreed team mailbox compact --keep-types concern,diff,discovery,shutdown-ack` |
+
+**Every delegated teammate** MUST:
+1. `write` durable signals under the narrowest true keep-kind (or a non-keep kind that will digest).
+2. `write --kind=shutdown-ack` before idle/done.
+3. Treat mailbox events as first-class evidence alongside spawn returns.
+
+**Judge / distiller / connector** MUST `drain` before scoring each round; round end MUST `compact` with the keep-types above.
+
+Protocol detail: `~/.agents/mailbox-protocol.md` (read-only mirror of this section + payload shape). On conflict, **this file wins**.
+
+## Host delegation map (Grok Build / OpenCode)
+
+Cross-model stays **`xask` on PATH** (→ `xbreed ask`). Local specialist spawn:
+
+| Host | Spawn | Brief must include |
+|---|---|---|
+| Grok Build | `spawn_subagent(subagent_type="the-\*"\|role, prompt=…)` | Layer-1 xask string (if role has gate) + epistemic block + mailbox write/shutdown-ack + ` \| godspeed` (executor ` \| godspeed-impl`) |
+| OpenCode | `task` / agent spawn to named agent | same brief content |
+| Claude Code | `Agent(subagent_type=…)` | same brief content |
+
+Never substitute bare `general-purpose` / `explore` / `plan` for a mapped `the-*` / axis role when that role exists.
+
+**Spawn brief skeleton (protocol-tier, paste into every cross-model role):**
+
+```
+You are <role>. Axis family: <axis_family>.
+<Layer 1 xask gate string from §xask Gate — verbatim for this role>
+Epistemic: AT MOST one non-obvious claim + one rejected alternative.
+Mailbox: xbreed team mailbox write for durable signals; shutdown-ack on exit.
+If finding contradicts a peer: CONFLICT: [claim] — my position: [X] — peer: [Y]
+| godspeed
+```
 
 ## Enforcement Tiers
 

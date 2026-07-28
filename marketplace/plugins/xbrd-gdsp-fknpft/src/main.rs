@@ -1,6 +1,6 @@
 use clap::Parser;
 use std::path::{Path, PathBuf};
-use xbreed::cli::{Cli, Commands, MailboxAction, PrecheckAction, TeamAction};
+use xbreed::cli::{Cli, Commands, MailboxAction, TeamAction};
 
 fn expand_path(p: &Path) -> anyhow::Result<PathBuf> {
     let s = p.to_string_lossy();
@@ -15,31 +15,6 @@ fn expand_path(p: &Path) -> anyhow::Result<PathBuf> {
 fn main() -> anyhow::Result<()> {
     let cli = Cli::parse();
     match cli.command {
-        Commands::Guard { cli: _, policy } => {
-            let policy = expand_path(&policy)?;
-            xbreed::guard::run_from_stdin(&policy)
-        }
-        Commands::Sync { policy, out } => {
-            let policy = expand_path(&policy)?;
-            let out = expand_path(&out)?;
-            let written = xbreed::sync::write_claude_settings(&out, &policy)?;
-            println!("wrote {}", written.display());
-            Ok(())
-        }
-        Commands::Claude { args } => {
-            let home = std::env::var("HOME")?;
-            let policy = PathBuf::from(format!("{home}/.config/xbreed/policy.yaml"));
-            let out_dir = PathBuf::from(format!("{home}/.config/xbreed/generated"));
-            let settings = xbreed::sync::write_claude_settings(&out_dir, &policy)?;
-
-            let models_path = PathBuf::from(format!("{home}/.config/xbreed/models.yaml"));
-            let (model, effort) = xbreed::config::Models::load(&models_path)
-                .map(|m| (m.claude.default, m.claude.effort))
-                .unwrap_or_else(|_| ("claude-opus-4-9".to_string(), "high".to_string()));
-
-            let status = xbreed::launch::launch_claude(&model, &effort, &settings, &args)?;
-            std::process::exit(status.code().unwrap_or(1));
-        }
         Commands::Ask {
             cli,
             prompt,
@@ -72,28 +47,6 @@ fn main() -> anyhow::Result<()> {
             print!("{out}");
             Ok(())
         }
-        Commands::Precheck { check } => match check {
-            PrecheckAction::PaneCap { team_size } => match xbreed::precheck::run(team_size)? {
-                xbreed::precheck::CapResult::Ok => {
-                    println!("pane-cap ok: team_size={team_size} fits");
-                    Ok(())
-                }
-                xbreed::precheck::CapResult::TmuxUnavailable => {
-                    println!("tmux not detected, cap check skipped");
-                    Ok(())
-                }
-                xbreed::precheck::CapResult::Fail {
-                    panes_in_use,
-                    cap,
-                    team_size,
-                } => {
-                    eprintln!(
-                            "{panes_in_use} panes in use, cap {cap}, cannot spawn {team_size} — shutdown idle teammates first"
-                        );
-                    std::process::exit(1);
-                }
-            },
-        },
         Commands::Team { action } => match action {
             TeamAction::Init => xbreed::team::init(),
             TeamAction::Mailbox { subaction } => {
@@ -128,5 +81,12 @@ fn main() -> anyhow::Result<()> {
                 }
             }
         },
+        Commands::Sync { policy, out } => {
+            let policy = expand_path(&policy)?;
+            let out = expand_path(&out)?;
+            let written = xbreed::sync::write_claude_settings(&out, &policy)?;
+            println!("wrote {}", written.display());
+            Ok(())
+        }
     }
 }

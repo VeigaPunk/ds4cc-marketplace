@@ -14,27 +14,6 @@ pub struct Cli {
 
 #[derive(Subcommand, Debug)]
 pub enum Commands {
-    /// Evaluate a tool call against policy (reads JSON from stdin)
-    Guard {
-        /// CLI name the tool call originates from
-        cli: String,
-        /// Path to policy.yaml
-        #[arg(long, default_value = "~/.config/xbreed/policy.yaml")]
-        policy: PathBuf,
-    },
-    /// Regenerate per-CLI config/hook files from policy.yaml
-    Sync {
-        #[arg(long, default_value = "~/.config/xbreed/policy.yaml")]
-        policy: PathBuf,
-        #[arg(long, default_value = "~/.config/xbreed/generated")]
-        out: PathBuf,
-    },
-    /// Launch Claude Code in max-power mode with guard wired
-    Claude {
-        /// Arguments passed through to claude
-        #[arg(trailing_var_arg = true, allow_hyphen_values = true)]
-        args: Vec<String>,
-    },
     /// Headless one-shot dispatch to a named CLI, optionally with a skill loadout
     Ask {
         /// One of: codex, gemma (aliases: g, gemini→local HVM gemma)
@@ -87,21 +66,13 @@ pub enum Commands {
         #[command(subcommand)]
         action: TeamAction,
     },
-    /// Run preflight checks before spawning a team
-    Precheck {
-        #[command(subcommand)]
-        check: PrecheckAction,
-    },
-}
-
-#[derive(Subcommand, Debug)]
-pub enum PrecheckAction {
-    /// Check if the tmux window has enough room for the requested team size.
-    /// Exits 0 if safe, 1 if over cap, 0 with a notice if tmux is unavailable.
-    PaneCap {
-        /// Number of panes (teammates) about to be spawned
-        #[arg(long, short = 'n')]
-        team_size: u32,
+    /// Regenerate per-CLI config/hook files from policy.yaml
+    /// NOTE: needs revamp — currently generates Claude Code hook config
+    Sync {
+        #[arg(long, default_value = "~/.config/xbreed/policy.yaml")]
+        policy: PathBuf,
+        #[arg(long, default_value = "~/.config/xbreed/generated")]
+        out: PathBuf,
     },
 }
 
