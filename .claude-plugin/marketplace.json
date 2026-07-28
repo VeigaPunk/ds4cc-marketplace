@@ -11,43 +11,43 @@
     {
       "name": "aaronplug",
       "source": "./marketplace/plugins/aaronplug",
-      "version": "0.2.0",
+      "version": "0.1.0",
       "description": "Academic paper retrieval workflows"
     },
     {
       "name": "agent-wall",
       "source": "./marketplace/plugins/agent-wall",
-      "version": "0.2.0",
+      "version": "0.1.0",
       "description": "Runtime handoff surface for agent-based workflows"
     },
     {
       "name": "agent-pip",
       "source": "./marketplace/plugins/agent-pip",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "description": "Multi-panel tmux agent terminal dashboard in Rust"
     },
     {
       "name": "ds4cc",
       "source": "./marketplace/plugins/ds4cc",
-      "version": "0.2.0",
+      "version": "0.1.0",
       "description": "Review DS4CC plugins and Codex install steps"
     },
     {
       "name": "godspeed-codex-command",
       "source": "./marketplace/plugins/godspeed-codex-command",
-      "version": "0.2.0",
+      "version": "0.1.0",
       "description": "Command-mode bootstrap and Codex posture controls"
     },
     {
       "name": "godspeed-core",
       "source": "./marketplace/plugins/godspeed-core",
-      "version": "0.2.0",
+      "version": "0.1.0",
       "description": "Adaptive execution doctrine and Pareto walk policy"
     },
     {
       "name": "infinizoom",
       "source": "./marketplace/plugins/infinizoom",
-      "version": "0.2.0",
+      "version": "0.1.0",
       "description": "Visualization workflow and UI demos"
     },
     {
@@ -59,19 +59,19 @@
     {
       "name": "mycommands",
       "source": "./marketplace/plugins/mycommands",
-      "version": "0.2.0",
+      "version": "0.1.0",
       "description": "Reusable command packs for recurring workflows"
     },
     {
       "name": "myskills",
       "source": "./marketplace/plugins/myskills",
-      "version": "0.2.0",
+      "version": "0.1.0",
       "description": "Curated skill workflows for your active tasks"
     },
     {
       "name": "spoderman",
       "source": "./marketplace/plugins/spoderman",
-      "version": "0.2.0",
+      "version": "0.1.0",
       "description": "Attack harness workflows and hook safety research"
     },
     {
@@ -95,13 +95,13 @@
     {
       "name": "the-puppeteer",
       "source": "./marketplace/plugins/the-puppeteer",
-      "version": "0.2.0",
+      "version": "0.1.0",
       "description": "Web UI task execution and long-running assistant flows"
     },
     {
       "name": "xbrd-gdsp-fknpft",
       "source": "./marketplace/plugins/xbrd-gdsp-fknpft",
-      "version": "0.2.2",
+      "version": "0.1.0",
       "description": "Multimodel dispatch orchestration and benchmark workflows"
     }
   ]

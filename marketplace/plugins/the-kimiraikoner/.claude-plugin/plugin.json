@@ -1,0 +1,9 @@
+{
+  "name": "the-kimiraikoner",
+  "version": "0.1.0",
+  "description": "Drive Kimi web UI chat through agent-browser and an authenticated CDP profile.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/ds4cc-marketplace"
+}
