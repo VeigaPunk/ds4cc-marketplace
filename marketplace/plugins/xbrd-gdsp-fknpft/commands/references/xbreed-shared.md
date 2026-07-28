@@ -116,7 +116,7 @@ construction. Skipping connector is a structural gap, not a speed optimization.
 | Documentation, audit trail | `scribe` | sonnet · medium | CC native | All |
 | Orchestration, arbitration | `the-judge` | **fable 5 · xhigh** (user directive 2026-06-07; model opus→fable 5 per 2026-07-04) | top-of-stack; dispatches specialists | All |
 
-**Local Gemma / HVM (g- prefix, 2026-07-21):** `xask gemma` (aliases `g`, legacy `gemini`) dispatches through `xbreed ask gemma` → `gemma-hvm` (Bend → HVM2 → `libhvm_gemma.so` → Ollama). Default model `gemma4:26b` via `HVM_GEMMA_MODEL`. Cloud Gemini CLI is retired — do not call the `gemini` binary. Connector and any `g-*` teammates MUST use this lane for cross-model breadth.
+**Local Gemma / HVM (g- prefix, 2026-07-21):** `xask gemma` (aliases `g`, legacy `gemini`) dispatches through `xbreed ask gemma` → `gemma-hvm` → `run.sh/run-hvm4.sh` → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama. Default model `gemma4:26b` via `HVM_GEMMA_MODEL`. Cloud Gemini CLI is retired — do not call the `gemini` binary. Connector and any `g-*` teammates MUST use this lane for cross-model breadth.
 
 ## Enforcement Tiers
 

@@ -398,7 +398,8 @@ fn is_safe_name(name: &str) -> bool {
         .all(|c| matches!(c, std::path::Component::Normal(_)))
 }
 
-/// Recursively collect all `.md` files (case-insensitive) under `dir` into `out`.
+/// Recursively collect skill Markdown files under `dir` into `out`, excluding
+/// supporting directive documents that are consumed by a parent SKILL.md.
 ///
 /// Every entry is canonicalized before being inspected.  If the canonical path
 /// falls outside `canonical_root` (symlink escape) an `io::Error` is returned
@@ -430,8 +431,12 @@ fn collect_md_files(
             collect_md_files(canonical_root, &canonical_path, out)?;
         } else if canonical_path
             .extension()
-            .map(|e| e.to_string_lossy().eq_ignore_ascii_case("md"))
+            .map(|extension| extension.to_string_lossy().eq_ignore_ascii_case("md"))
             .unwrap_or(false)
+            && !canonical_path
+                .file_name()
+                .map(|name| name.to_string_lossy().eq_ignore_ascii_case("directive.md"))
+                .unwrap_or(false)
         {
             out.push(canonical_path);
         }

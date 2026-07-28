@@ -5,7 +5,8 @@ use std::process::Command;
 
 // Auth posture (user directives 2026-04-17 / 2026-07-21):
 // - codex: CLI owns `~/.codex/auth.json` (ChatGPT subscription).
-// - gemma (g- prefix): local Ollama model via Bend/HVM2 bridge (`gemma-hvm`).
+// - gemma (g- prefix): `gemma-hvm` → run.sh/run-hvm4.sh → Bend 0.2.38
+//   gen-hvm → HVM4 4.0 control gate → local Ollama model.
 //   Google Gemini cloud CLI is retired — `gemini` is a legacy alias for gemma.
 // No named-profile cascade, no API-key fallback, no quota-aware retry.
 
@@ -151,7 +152,7 @@ pub const CODEX_MINI_MODEL: &str = "gpt-5.6-sol";
 pub const CODEX_55_MODEL: &str = "gpt-5.6-sol";
 
 // ========================================================================
-// Local Gemma via Bend/HVM2 (g- prefix) — replaces cloud Gemini 2026-07-21
+// Local Gemma via HVM4 (g- prefix) — replaces cloud Gemini 2026-07-21
 // ========================================================================
 
 fn gemma_bin() -> String {
@@ -191,11 +192,12 @@ fn strip_hvm_stats(stdout: &str) -> String {
     out
 }
 
-/// Build a gemma Command that runs the Bend/HVM bridge (`gemma-hvm`).
+/// Build a gemma Command for the `gemma-hvm` → run.sh/run-hvm4.sh → Bend
+/// 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama route.
 ///
 /// Loadout text (if any) is prepended to the prompt. Ollama model is pinned
 /// via `HVM_GEMMA_MODEL` for the child process. The bridge owns server start,
-/// dylib open, and cleanup — xbreed only shells the entrypoint.
+/// control-gate invocation and cleanup — xbreed only shells the entrypoint.
 pub fn build_gemma(prompt: &str, loadout: &Loadout) -> Command {
     let mut c = Command::new(gemma_bin());
     let final_prompt = if loadout.is_empty() {

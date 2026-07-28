@@ -62,7 +62,7 @@ async function exists(filePath) {
 const agentsDir = path.join(root, "marketplace", "plugins", "myagents", "agents");
 const files = (await readdir(agentsDir)).filter((name) => name.endsWith(".agent.md")).sort();
 const actualAgents = files.map((name) => name.slice(0, -".agent.md".length));
-check(files.length === 15, `expected 15 the-* agent payloads, found ${files.length}`);
+check(files.length === 15, `expected 14 the-* agent payloads plus network-auditor, found ${files.length}`);
 check(
   actualAgents.length === EXPECTED_AGENTS.length && EXPECTED_AGENTS.every((name) => actualAgents.includes(name)),
   `stale or unexpected agent names: expected ${EXPECTED_AGENTS.join(", ")}; found ${actualAgents.join(", ")}`,
@@ -162,5 +162,5 @@ if (errors.length > 0) {
   for (const error of errors) console.error(`Error: ${error}`);
   process.exitCode = 1;
 } else {
-  console.log("Validated 15 Godspeed agent payloads, packaged skills, and synchronized Codex/Copilot/Claude metadata.");
+  console.log("Validated 14 the-* Godspeed agent payloads plus network-auditor, packaged skills, and synchronized Codex/Copilot/Claude metadata.");
 }

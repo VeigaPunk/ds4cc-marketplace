@@ -49,7 +49,7 @@ try {
     }
   }
 
-  console.log(`Validated isolated OpenCode install: ${files.length} portable agents in ${destination}`);
+  console.log(`Validated isolated OpenCode install: ${files.length} portable files (14 the-* agents + network-auditor = 15 profiles, plus orch primary mode) in ${destination}`);
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }

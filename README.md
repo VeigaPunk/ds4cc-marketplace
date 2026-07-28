@@ -68,7 +68,7 @@ claude plugin marketplace add VeigaPunk/ds4cc-marketplace
 claude plugin install myagents@ds4cc
 ```
 
-All 12 plugins are registered for Claude Code (each ships a `.claude-plugin/plugin.json`), so you can browse and install any of them the same way:
+All 16 plugins are registered for Claude Code (each ships a `.claude-plugin/plugin.json`), so you can browse and install any of them the same way:
 
 ```bash
 claude plugin install xbrd-gdsp-fknpft@ds4cc   # /godspeed, /goal, /wwkd, /xgs, /xbt, /xbreed, /xbgst
@@ -146,13 +146,13 @@ node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
 node ds4cc-marketplace/scripts/install-opencode-agents.mjs --project /path/to/project
 ```
 
-The commands are alternatives, not sequential steps. The installer writes native agent files to `${XDG_CONFIG_HOME:-~/.config}/opencode/agents` or `<project>/.opencode/agents`. It installs all 15 `the-*` subagents plus an `orch` primary mode derived from `the-judge`. `orch` runs XBGST by default, loads all three Godspeed sources at the judge level, and injects the core directive into every delegation. The installer refuses differing existing files unless `--force` is supplied and does not edit `opencode.json`.
+The commands are alternatives, not sequential steps. The installer writes native agent files to `${XDG_CONFIG_HOME:-~/.config}/opencode/agents` or `<project>/.opencode/agents`. It installs 14 `the-*` subagents plus `network-auditor` (15 profiles total), and a separate `orch` primary mode aligned to `the-judge`. `orch` runs XBGST by default, loads all three Godspeed sources at the judge level, and injects the core directive into every delegation. The installer refuses differing existing files unless `--force` is supplied and does not edit `opencode.json`.
 
 Profiles use `xask --spark --gs codex` for cross-model delegation. `xask` is an external prerequisite, is not bundled by `myagents`, and must be installed separately on `PATH`; profiles that do not invoke cross-model delegation remain usable without it.
 
 ## OpenAI Apps SDK
 
-The read-only Apps SDK wrapper in `apps-sdk/` exposes only an explicitly reviewed subset through a production MCP endpoint and embedded catalog widget. It is not the public 15-plugin marketplace. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
+The read-only Apps SDK wrapper in `apps-sdk/` exposes only an explicitly reviewed subset through a production MCP endpoint and embedded catalog widget. It is not the public 16-plugin marketplace. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
 
 ```bash
 cd apps-sdk
@@ -270,7 +270,7 @@ A `SKILL.md` is **actionable** if its body (after frontmatter) contains at least
 
 ## Official OpenAI submission bundle
 
-The OpenAI submission is the isolated source tree at `official/ds4cc/`, not the public plugin at `marketplace/plugins/ds4cc/` and not the public 15-plugin marketplace. Its skill uses only the read-only `browse_ds4cc_marketplace` MCP tool and reviewed results. Build the deterministic, path-safe archive locally:
+The OpenAI submission is the isolated source tree at `official/ds4cc/`, not the public plugin at `marketplace/plugins/ds4cc/` and not the public 16-plugin marketplace. Its skill uses only the read-only `browse_ds4cc_marketplace` MCP tool and reviewed results. Build the deterministic, path-safe archive locally:
 
 ```bash
 python3 scripts/build-ds4cc-submission.py

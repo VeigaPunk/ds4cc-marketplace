@@ -36,7 +36,7 @@ node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
 node ds4cc-marketplace/scripts/install-opencode-agents.mjs --project /path/to/project
 ```
 
-The commands are alternatives, not sequential steps. The installer creates all 14 native `the-*` subagents and an `orch` primary mode without changing `opencode.json`. `orch` assumes the judge posture, runs XBGST for every task, loads the Godspeed directive/filter/velocity trilogy, and propagates the core directive to every delegated role. Existing differing files are refused by default; pass `--force` to replace them explicitly.
+The commands are alternatives, not sequential steps. The installer creates 14 native `the-*` subagents plus `network-auditor` (15 profiles total), and an `orch` primary mode without changing `opencode.json`. `orch` assumes the judge posture, runs XBGST for every task, loads the Godspeed directive/filter/velocity trilogy, and propagates the core directive to every delegated role. Existing differing files are refused by default; pass `--force` to replace them explicitly.
 
 Cross-model delegation requires the external `xask` command on `PATH`; `myagents` does not bundle it. The default lane is `xask --spark --gs codex`. Profiles without cross-model delegation remain usable when `xask` is absent.
 

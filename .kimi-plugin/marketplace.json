@@ -19,7 +19,7 @@
     {
       "id": "agent-pip",
       "displayName": "Agent Pip (VeigaPunk)",
-      "version": "0.1.0",
+      "version": "0.2.1",
       "description": "Multi-panel tmux agent terminal dashboard in Rust",
       "homepage": "https://github.com/VeigaPunk/agent-pip",
       "keywords": [
@@ -29,7 +29,7 @@
         "terminal",
         "rust"
       ],
-      "source": "./artifacts/agent-pip-0.1.0.zip"
+      "source": "./artifacts/agent-pip-0.2.1.zip"
     },
     {
       "id": "agent-wall",

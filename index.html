@@ -413,7 +413,7 @@
 <pre><span class="p">$</span> codex plugin marketplace add VeigaPunk/ds4cc-marketplace
 <span class="p">$</span> codex plugin add myagents@ds4cc
 <span class="p">$</span> codex plugin list</pre>
-        <p class="note">Local dev checkout: <code>codex plugin marketplace add .</code> — the canonical manifest lives at <code>.agents/plugins/marketplace.json</code>.</p>
+        <p class="note">Local dev checkout: <code>codex plugin marketplace add .</code> — the canonical manifest lives at <code>.agents/plugins/marketplace.json</code>. Codex promotions are eligibility-gated and shown in-product; there is no universal DS4CC offer link. See the <a href="https://help.openai.com/en/articles/20001271-codex-referral-promotions" target="_blank" rel="sponsored nofollow noopener">official referral terms</a>.</p>
       </div>
 
       <div class="host">
@@ -438,6 +438,7 @@
 <span class="p">$</span> /plugins install &lt;artifact-url-or-local-path&gt;
 <span class="p">$</span> /reload</pre>
         <p class="note">Invoke as <code>/skill:&lt;skill-name&gt;</code> and <code>/&lt;plugin&gt;:&lt;command&gt;</code>. Third-party installs ask for trust first — review before approving. Kimi installs skills + commands from the minimal packages; custom <code>the-*</code> agent profiles are Codex/Grok-only.</p>
+        <p class="note">Boost us both with invitation code <code>W6NGNP</code>: <a href="https://www.kimi.com/activities/invite/share?scenario=invite&amp;from=share_poster&amp;invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">join Kimi ↗</a>. Kimi advertises invite benefits that may include membership credits; eligibility and the available offer vary. DS4CC may receive a benefit if you qualify.</p>
       </div>
 
       <div class="host">
@@ -457,7 +458,8 @@
 <pre><span class="p">$</span> git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
 <span class="p">$</span> node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
 <span class="c"># or: --project /path/to/project   (alternatives, not sequential)</span></pre>
-        <p class="note">Writes 15 <code>the-*</code> agents plus an <code>orch</code> primary mode (XBGST default, judge-level Godspeed). Cross-model delegation needs <code>xask</code> on PATH — not bundled.</p>
+        <p class="note">Writes 14 <code>the-*</code> agents plus <code>network-auditor</code> (15 profiles total), and a separate <code>orch</code> primary mode. Cross-model delegation needs <code>xask</code> on PATH — not bundled.</p>
+        <p class="note">Try OpenCode Go with referral <code>GF5DFYD5MJ</code>: <a href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">open the referral ↗</a>. Eligibility and the available offer vary. DS4CC may receive a benefit if you qualify.</p>
       </div>
 
     </div>
@@ -558,42 +560,41 @@
 
   <section id="lanes" class="reveal">
     <h2><span class="idx">08</span>Orchestration lanes — every agent, its model</h2>
-    <p class="sub">The <code>xbreed-shared.md</code> roster with the models it sets, plus the OpenCode lane roster. Cross-model delegation keeps a single lane: <code>xask codex</code>, routed to <strong>codex-titanium</strong> (<code>codex-cli 0.145.0-alpha.25+titanium.1</code>).</p>
+    <p class="sub">The current <code>xbreed-shared.md</code> roster, its role-specific execution gates, and the local Gemma/HVM4 route.</p>
     <div class="grid-2">
       <div class="panel" style="padding:14px 16px">
-        <h3 style="margin-top:0;font-size:0.95rem">myagents roles</h3>
-<pre>the-judge           fable 5 · xhigh
-the-planner         sonnet · medium · wwkd
-the-scout           sonnet · medium
-the-reviewer        sonnet · medium
-the-labrat          sonnet · medium
-the-executor        sonnet · medium
-the-connector       sonnet · medium
-the-distiller       sonnet · medium
-the-simplifier      sonnet · medium
-the-revenger        sonnet · medium
-the-sentinel        sonnet · medium
-the-critic          sonnet · medium
+        <h3 style="margin-top:0;font-size:0.95rem">Role declarations</h3>
+<pre>the-judge fable 5 · xhigh
+the-planner sonnet · medium
+the-scout sonnet · medium
+the-reviewer sonnet · medium
+the-labrat sonnet · medium
+the-executor sonnet · medium
+the-connector sonnet · medium
+the-distiller sonnet · medium
+the-simplifier sonnet · medium
+the-revenger sonnet · medium
+the-sentinel sonnet · medium
+the-critic sonnet · medium
 the-mutation-tester sonnet · medium
-the-scribe          sonnet · medium
-network-auditor     sonnet · medium
-cross-model         xask --spark codex · codex-titanium</pre>
+the-scribe sonnet · medium
+network-auditor host extension</pre>
       </div>
       <div class="panel" style="padding:14px 16px">
-        <h3 style="margin-top:0;font-size:0.95rem">OpenCode lanes (oh-my-openagent.json)</h3>
-<pre>sisyphus          anthropic/claude-opus-5 · max
-oracle            anthropic/claude-opus-5 · max
-explore           anthropic/claude-haiku-4-5
-multimodal-looker anthropic/claude-sonnet-4-6
-prometheus        anthropic/claude-fable-5 · xhigh
-metis             anthropic/claude-opus-5 · high
-momus             anthropic/claude-opus-5 · max
-atlas             anthropic/claude-sonnet-4-6
-sisyphus-junior   anthropic/claude-sonnet-4-6
-hephaestus        openai/gpt-5.6-sol · medium
-librarian         anthropic/claude-haiku-4-5</pre>
-        <p class="note" style="font-size:0.78rem;color:var(--muted);margin:6px 0 0">fallbacks: kimi-for-coding-oauth/k3 · gpt-5.4-mini-fast · gpt-5.6-terra</p>
+        <h3 style="margin-top:0;font-size:0.95rem">Execution gates</h3>
+<pre>planner wwkd · native
+scout / labrat / executor xask --spark --gs codex → gpt-5.4-mini
+reviewer / sentinel xask --gpt55 --gs -e low codex → gpt-5.6-sol
+critic Layer-0: heuer-planning → xask --gpt55 --gs -e low codex → gpt-5.6-sol
+revenger RECON xask --gpt55 --gs -e high codex → gpt-5.6-sol
+connector xask --spark codex · no --gs
+mutation: single / &lt;=4 xask --spark --gs codex
+mutation: &gt;=5 / breadth xask --effort high --gs codex
+distiller / simplifier / scribe native</pre>
       </div>
+    </div>
+    <div class="callout">
+      <strong>Local Gemma route:</strong> <code>xask gemma</code> → <code>xbreed ask gemma</code> → <code>gemma-hvm</code> → <code>run.sh/run-hvm4.sh</code> → <code>Bend 0.2.38 gen-hvm</code> → <code>HVM4 4.0 control gate</code> → <code>Ollama/Gemma 4</code>. HVM4 controls routing only; tensor inference is not claimed to run in HVM4.
     </div>
   </section>
 
@@ -714,7 +715,7 @@ librarian         anthropic/claude-haiku-4-5</pre>
         ["cmd", "grok plugin marketplace add VeigaPunk/ds4cc-marketplace"],
         ["ok",  "added marketplace `ds4cc` — 16 plugins available"],
         ["cmd", 'grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/myagents" --trust'],
-        ["ok",  "installed `myagents` 0.1.0 — skills + commands ready"],
+        ["ok",  "installed `myagents` 0.2.0 — skills + commands ready"],
         ["cmd", "for p in godspeed-core agent-wall mycommands myskills ds4cc; do grok plugin install \"...#$p\" --trust; done"],
         ["ok",  "5 more plugins installed. godspeed online."],
         ["out", "tip: paste GROK_PASTE.md into any Grok chat — skills are host-agnostic"],
@@ -727,10 +728,10 @@ librarian         anthropic/claude-haiku-4-5</pre>
         ["ok",  "added marketplace `ds4cc` from VeigaPunk/ds4cc-marketplace"],
         ["cmd", "codex plugin add myagents@ds4cc"],
         ["ok",  "added plugin `myagents` from marketplace `ds4cc`"],
-        ["out", "installed plugin root: ~/.codex/plugins/cache/ds4cc/myagents/0.1.0"],
+        ["out", "installed plugin root: ~/.codex/plugins/cache/ds4cc/myagents/0.2.0"],
         ["cmd", "codex plugin list"],
-        ["out", "myagents@ds4cc      installed, enabled   0.1.0"],
-        ["out", "godspeed-core@ds4cc installed, enabled   0.1.0"],
+        ["out", "myagents@ds4cc      installed, enabled   0.2.0"],
+        ["out", "godspeed-core@ds4cc installed, enabled   0.2.0"],
       ],
     },
     claude: {
@@ -739,7 +740,7 @@ librarian         anthropic/claude-haiku-4-5</pre>
         ["cmd", "claude plugin marketplace add VeigaPunk/ds4cc-marketplace"],
         ["ok",  "marketplace `ds4cc` registered"],
         ["cmd", "claude plugin install myagents@ds4cc"],
-        ["ok",  "installed `myagents` 0.1.0"],
+        ["ok",  "installed `myagents` 0.2.0"],
         ["cmd", "claude plugin validate --strict .claude-plugin/marketplace.json"],
         ["ok",  "strict validation passed"],
       ],
@@ -750,7 +751,7 @@ librarian         anthropic/claude-haiku-4-5</pre>
         ["cmd", "copilot plugin marketplace add VeigaPunk/ds4cc-marketplace"],
         ["ok",  "added marketplace `ds4cc`"],
         ["cmd", "copilot plugin install myagents@ds4cc"],
-        ["ok",  "installed `myagents@ds4cc` — 0.1.0"],
+        ["ok",  "installed `myagents@ds4cc` — 0.2.0"],
       ],
     },
     crush: {
@@ -783,7 +784,7 @@ librarian         anthropic/claude-haiku-4-5</pre>
         ["cmd", "git clone https://github.com/VeigaPunk/ds4cc-marketplace.git"],
         ["out", "cloning into 'ds4cc-marketplace'... done"],
         ["cmd", "node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global"],
-        ["ok",  "wrote 15 the-* agents to ~/.config/opencode/agents"],
+        ["ok",  "wrote 14 the-* agents plus network-auditor to ~/.config/opencode/agents"],
         ["ok",  "primary mode `orch` ready — XBGST default, judge-level godspeed"],
         ["warn", "note: xask on PATH required for cross-model delegation (not bundled)"],
       ],

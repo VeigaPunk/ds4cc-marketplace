@@ -7,7 +7,7 @@ codex:
   features:
     fast_mode: true
 gemma:
-  # Local Ollama model via Bend/HVM2 bridge (gemma-hvm → libhvm_gemma.so).
+  # Route: gemma-hvm → run.sh/run-hvm4.sh → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama.
   # Override with HVM_GEMMA_MODEL / HVM_GEMMA_BIN. xbreed prefix: g-
   default: gemma4:26b
   transport: hvm

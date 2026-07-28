@@ -26,7 +26,7 @@ class KimiMarketplaceTests(unittest.TestCase):
             check=True,
         )
 
-    def test_builds_15_exact_deterministic_archives_and_catalog(self):
+    def test_builds_16_exact_deterministic_archives_and_catalog(self):
         with tempfile.TemporaryDirectory() as first_tmp, tempfile.TemporaryDirectory() as second_tmp:
             first = Path(first_tmp)
             second = Path(second_tmp)

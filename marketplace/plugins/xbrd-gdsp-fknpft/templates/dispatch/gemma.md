@@ -1,6 +1,6 @@
 # Dispatch to local Gemma (HVM/Bend bridge) — Inter-Model Protocol v0.2
 # Dense Markdown, Context-First Query-Last
-# Transport: gemma-hvm → Bend → HVM2 → libhvm_gemma.so → Ollama gemma4:26b
+# Transport: gemma-hvm → run.sh/run-hvm4.sh → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama gemma4:26b
 
 **IMPORTANT: You are the local Gemma lane (xbreed prefix `g-`). Scope: {{SCOPE_BOUNDARY}}**
 
