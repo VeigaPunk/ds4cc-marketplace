@@ -1,16 +1,24 @@
 # DS4CC Marketplace
 
-Static plugin payloads for **Grok Build**, Codex, Claude Code, Kimi Code CLI, **Crush CLI**, and GitHub Copilot CLI. OpenCode agents are provided through a dependency-free bootstrap script because OpenCode has no marketplace protocol.
+**[ds4cc.com](https://ds4cc.com)** — one marketplace, every agent CLI.
 
-- Grok catalog: `.grok-plugin/marketplace.json` (+ generated `plugin-index.json`)
-- Codex catalog: `.agents/plugins/marketplace.json` and `marketplace/marketplace.json`
-- Claude catalog: `.claude-plugin/marketplace.json`
-- Kimi Code 0.28.1 catalog: `.kimi-plugin/marketplace.json` and generated minimal ZIP packages (per-plugin manifests: `marketplace/plugins/<name>/kimi.plugin.json`)
-- Crush catalog: `.crush-plugin/marketplace.json` (points to per-plugin `./skills/` roots; no ZIP packaging)
+Static plugin payloads for **Grok Build**, **Codex**, **Claude Code**, **Kimi Code CLI**, and **Crush CLI**. OpenCode agents ship through a dependency-free bootstrap script (OpenCode has no marketplace protocol).
+
+Sixteen curated plugins, Rust-validated and curation-gated. Register one repo, install what you need, ship.
+
+| Host | Catalog |
+| --- | --- |
+| Grok Build | `.grok-plugin/marketplace.json` (+ generated `plugin-index.json`) |
+| Codex | `.agents/plugins/marketplace.json` and `marketplace/marketplace.json` |
+| Claude Code | `.claude-plugin/marketplace.json` |
+| Kimi Code 0.28.1 | `.kimi-plugin/marketplace.json` + minimal ZIP packages (`marketplace/plugins/<name>/kimi.plugin.json`) |
+| Crush | `.crush-plugin/marketplace.json` (points to per-plugin `./skills/` roots) |
+
 - Plugin assets: `marketplace/plugins/<name>/`
 - Validator: `marketplace/validator/` (Rust, `cargo test`)
 - Curation and claim policy: [`CURATION.md`](CURATION.md)
 - Paste-into-Grok-chat block: [`GROK_PASTE.md`](GROK_PASTE.md)
+- Site: [ds4cc.com](https://ds4cc.com) · MCP: [app.ds4cc.com/mcp](https://app.ds4cc.com/mcp)
 
 ## Grok Build (xAI CLI)
 
@@ -28,7 +36,7 @@ for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
 done
 ```
 
-Or paste the contents of [`GROK_PASTE.md`](GROK_PASTE.md) into a Grok chat — skills are written so Grok can follow them without Codex-specific hosts.
+Or paste the contents of [`GROK_PASTE.md`](GROK_PASTE.md) into a Grok chat — skills are written so Grok can follow them without host-specific wiring.
 
 Local checkout:
 
@@ -36,7 +44,7 @@ Local checkout:
 grok plugin marketplace add .
 ```
 
-## Add this marketplace to Codex
+## Codex (OpenAI CLI)
 
 ```bash
 codex plugin marketplace add VeigaPunk/ds4cc-marketplace
@@ -52,13 +60,6 @@ Install `myagents` after adding the marketplace:
 
 ```bash
 codex plugin add myagents@ds4cc
-```
-
-## GitHub Copilot CLI
-
-```bash
-copilot plugin marketplace add VeigaPunk/ds4cc-marketplace
-copilot plugin install myagents@ds4cc
 ```
 
 ## Claude Code
@@ -193,6 +194,9 @@ grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/<plugin-nam
 # Codex
 codex plugin list
 codex plugin add <plugin-name>@ds4cc
+
+# Claude Code
+claude plugin install <plugin-name>@ds4cc
 ```
 
 ## Validate the marketplace locally
@@ -264,9 +268,9 @@ The Kimi builder includes only `kimi.plugin.json` and regular files under the ma
 ```
 
 A `SKILL.md` is **actionable** if its body (after frontmatter) contains at least one of:
-- A fenced code block (` ``` `)
+- A fenced code block (triple backticks)
 - A `$`-prefixed line
-- A known CLI prefix: `codex `, `grok `, `claude `, `copilot `, `cargo `, `node `, `bash `, `./`, `npx `
+- A known CLI prefix: `codex `, `grok `, `claude `, `cargo `, `node `, `bash `, `./`, `npx `
 
 ## Official OpenAI submission bundle
 
