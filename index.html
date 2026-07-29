@@ -621,6 +621,41 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
     </div>
   </section>
 
+  <section id="lanes" class="reveal">
+    <h2><span class="idx">08</span>Orchestration lanes — live routing</h2>
+    <p class="note">Mirrored from the packaged SSoT (<code>marketplace/plugins/xbrd-gdsp-fknpft/commands/references/xbreed-shared.md</code>). If this section and the SSoT disagree, the SSoT wins and this section is drift.</p>
+    <h3>Role declarations</h3>
+<pre>the-judge fable 5 · xhigh
+the-planner sonnet · medium
+the-scout sonnet · medium
+the-reviewer sonnet · medium
+the-labrat sonnet · medium
+the-executor sonnet · medium
+the-connector sonnet · medium
+the-distiller sonnet · medium
+the-simplifier sonnet · medium
+the-revenger sonnet · medium
+the-sentinel sonnet · medium
+the-critic sonnet · medium
+the-mutation-tester sonnet · medium
+the-scribe sonnet · medium
+network-auditor host extension</pre>
+    <h3>Execution gates</h3>
+<pre>planner wwkd · native
+scout / labrat / executor xask --spark --gs codex → gpt-5.4-mini
+reviewer xask --gpt55 --gs -e low codex → gpt-5.6-sol
+critic Layer-0: heuer-planning → xask --gpt55 --gs -e low codex → gpt-5.6-sol
+revenger RECON xask --gpt55 --gs -e high codex → gpt-5.6-sol
+sentinel xask --gpt55 --gs -e low codex → gpt-5.6-sol
+connector xask --spark codex · no --gs
+mutation: single / &lt;=4 xask --spark --gs codex
+mutation: &gt;=5 / breadth xask --effort high --gs codex
+distiller / simplifier / scribe native</pre>
+    <h3>Local lane — Gemma 4 over HVM4</h3>
+    <p><code>xask gemma</code> (aliases <code>g</code>, legacy <code>gemini</code>) dispatches through <code>xbreed ask gemma</code> → <code>gemma-hvm</code> → <code>run.sh/run-hvm4.sh</code> → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama. Default model <code>gemma4:26b</code> via <code>HVM_GEMMA_MODEL</code>. Cloud Gemini CLI is retired — do not call the <code>gemini</code> binary. Connector and any <code>g-*</code> teammates MUST use this lane for cross-model breadth.</p>
+    <p class="note">Ollama/Gemma 4 is the serving substrate. HVM4 controls routing only; tensor inference is not claimed to run in HVM4.</p>
+  </section>
+
   <footer>
     <div class="cols">
       <div>
@@ -639,6 +674,12 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
         crush · <code>.crush-plugin/marketplace.json</code>
       </div>
       <div>
+        <b>referrals</b>
+        <a href="https://www.kimi.com/activities/invite/share?scenario=invite&from=share_poster&invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">kimi invite</a><br/>
+        <a href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">opencode invite</a><br/>
+        <a href="https://help.openai.com/en/articles/20001271-codex-referral-promotions" target="_blank" rel="sponsored nofollow noopener">codex referral program</a>
+      </div>
+      <div>
         <b>app & site</b>
         <a href="https://app.ds4cc.com/mcp" target="_blank" rel="noopener">app.ds4cc.com/mcp</a><br/>
         <a href="https://app.ds4cc.com/privacy" target="_blank" rel="noopener">privacy</a> ·
@@ -647,6 +688,8 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
         <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">horizon halo ↗</a>
       </div>
     </div>
+    <p class="note">Disclosure: <a href="https://www.kimi.com/activities/invite/share?scenario=invite&amp;from=share_poster&amp;invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">the Kimi invite link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
+    <p class="note">Disclosure: <a href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">the OpenCode link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
     <div>DS4CC · VeigaPunk · MIT License · shipped 2026-07-29</div>
     <div>Design language: <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">Horizon Halo</a> — green console, JetBrainsMonoNL Nerd Font.</div>
   </footer>
