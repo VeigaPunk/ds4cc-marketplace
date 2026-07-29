@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "enabledManagers": ["npm", "github-actions"],
+  "rebaseWhen": "behind-base-branch",
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 6am on the first day of the month"]
+  },
+  "packageRules": [
+    {
+      "description": "Wait 10 days on npm releases (fleet norm from promptfoo-setup; above the 7-day Socket floor)",
+      "matchDatasources": ["npm"],
+      "minimumReleaseAge": "10 days"
+    },
+    {
+      "description": "Group GitHub Actions updates",
+      "matchPackagePatterns": ["^@actions/"],
+      "groupName": "GitHub Actions"
+    }
+  ]
+}
