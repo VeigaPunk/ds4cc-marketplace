@@ -389,12 +389,11 @@ pub fn dispatch(
                 warn_codex_spark_effort(effort);
             } else if let Some(e) = effort {
                 c.arg("-c").arg(format!("model_reasoning_effort={e}"));
-            } else if !review {
-                // Default (mini) lane: user directive 2026-04-17 — reasoning high
-                // unless the caller overrides via `-e/--effort`. Review lane
-                // inherits codex's own default (xhigh per ~/.codex/config.toml)
-                // so the extra capacity isn't starved by a mid-tier effort cap.
-                c.arg("-c").arg("model_reasoning_effort=high");
+            } else {
+                // Every Sol lane defaults to low reasoning. Role routing may
+                // select the model, but only an explicit CLI override may raise
+                // effort; planner is CC-native and does not enter this path.
+                c.arg("-c").arg("model_reasoning_effort=low");
             }
             // User directive: codex ALWAYS inherits the godspeed posture
             // through xask in its purest form. Structural guarantee at the

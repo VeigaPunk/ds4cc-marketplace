@@ -41,7 +41,7 @@ If empty, wait for user direction. Otherwise, proceed to four-phase godspeed.
 **Planner-first is unconditional** (matches `~/.claude/agents/the-judge.md` sub-role table). Spawn `the-planner` BEFORE naming axes:
 
 ```
-Agent(subagent_type="the-planner", team_name="<team>", name="ccs-planner-r0", model="sonnet",
+Agent(subagent_type="the-planner", team_name="<team>", name="cco-planner-r0",
       prompt="WWKD Phase 0 data walk + skeleton for: <full user prompt>. FIRST tool call MUST be Skill(skill='wwkd'). Deliver plan artifact to team-lead. | godspeed")
 ```
 
@@ -59,20 +59,20 @@ Axis → profile mapping (see `~/.claude/commands/references/xbreed-shared.md` f
 - Research, prior art → `scout` (sonnet)
 - Correctness, bugs → `reviewer` (sonnet)
 - Empirical probes → `labrat` (sonnet)
-- Code execution → `executor` (sonnet)
+- Code execution → `executor` (`openai/gpt-5.4-mini`, Codex Spark only; no alternate model/effort lane)
 - Cross-axis patterns → `connector` (sonnet)
 - Synthesis, dedup → `distiller` (sonnet)
-- Planning, Phase 0, WWKD sequencing → `the-planner` (sonnet, Layer-0 wwkd skill load)
+- Planning, Phase 0, WWKD sequencing → `the-planner` (fable · high, Layer-0 wwkd skill load)
 - Complexity reduction → `simplifier` (sonnet)
 
-Cap: <=12 teammates per round.
+Team size maximum: <=1024 teammates per round.
 
 ### Phase 2 — Spawn all with full peer roster
 
 Each brief includes:
 1. Full peer roster (all names from Phase 1)
 2. Axis assignment
-3. **Godspeed mode:** every Agent prompt ends exactly ` | godspeed`; executor prompts end exactly ` | godspeed-impl`. Delegates repeat this requirement for every nested delegation.
+3. **Godspeed mode:** prepend the canonical Godspeed block, including the fixed team-size maximum of 1024, then append ` | godspeed`; executor prompts append ` | godspeed-impl`. Delegates repeat both requirements for every nested delegation.
 4. Task: propose ONE move (<=200 words)
 5. After proposing, DM each peer by name with one-line critique
 6. Mark task completed
@@ -119,7 +119,7 @@ CONFLICTS (emit only if cross-teammate contradictions exist):
 
 After each round, immediately assess and dispatch next round if frontier still moving. Do not pause. Do not ask. The user interrupts when they want to steer.
 
-**Caps:** <=4 rounds, <=12 teammates, <=200-word proposals. Lift only on user direction.
+**Limits:** <=4 rounds, <=1024 teammates, <=200-word proposals. The team-size maximum is fixed at 1024.
 
 ## Step 6 — Auto-cleanup after frontier
 

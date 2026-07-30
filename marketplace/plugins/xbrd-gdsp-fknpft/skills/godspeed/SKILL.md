@@ -1,7 +1,6 @@
 ---
 name: godspeed
-description: Use on every prompt, including nested and delegated prompts, without waiting for a keyword. Explicit "godspeed" and "--with godspeed" invocation remains supported.
-user-invocable: true
+description: Apply the inherited Godspeed posture to any Codex task. Use explicitly with $godspeed or when the user says godspeed, autopilot, fleet, or asks for fast parallel Pareto iteration.
 ---
 # Godspeed Mode
 
@@ -16,11 +15,7 @@ Execute tool calls concurrently in large batches. Do not serialize what can run 
 Do not output philosophical reasoning or verbose plans. Act directly via tool calls.
 
 Delegation is transitive. Every delegated prompt MUST carry this directive and end with the literal suffix ` | godspeed`, or ` | godspeed-impl` for executor prompts. Every delegate MUST repeat this requirement for prompts it delegates.
----
-
 ## Invocation
 
-```bash
-# Load the godspeed skill and run a task
-codex -s godspeed "your task here"
-```
+In Codex, type `$godspeed` in the prompt or choose `godspeed` from `/skills`.
+Do not use `codex -s godspeed`; `-s` selects a sandbox policy, not a skill.

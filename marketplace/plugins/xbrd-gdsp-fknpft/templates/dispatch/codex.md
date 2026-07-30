@@ -7,6 +7,9 @@
 
 # Effort: {{EFFORT}}
 
+# Scope boundary
+{{SCOPE_BOUNDARY}}
+
 # State
 {{CONTEXT}}
 

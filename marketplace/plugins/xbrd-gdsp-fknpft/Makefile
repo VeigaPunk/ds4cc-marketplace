@@ -31,10 +31,16 @@ verify-repo:
 	@echo "verify: tests/xask_full_flag.sh"; bash tests/xask_full_flag.sh
 	@echo "verify: tests/xask_gemini_effort_transport.sh"; bash tests/xask_gemini_effort_transport.sh
 	@echo "verify: tests/xask_cross_model_divergence.sh"; bash tests/xask_cross_model_divergence.sh
+	@echo "verify: tests/xask_boundary_matrix.sh"; bash tests/xask_boundary_matrix.sh
+	@echo "verify: tests/precheck_boundaries.sh"; bash tests/precheck_boundaries.sh
+	@echo "verify: tests/executor_spark_invariant.sh"; bash tests/executor_spark_invariant.sh
+	@echo "verify: tests/sol_role_effort_invariant.sh"; bash tests/sol_role_effort_invariant.sh
 	@echo "verify: scripts/verify-routing.sh"; bash scripts/verify-routing.sh
 	@echo "verify: scripts/verify-docs.sh"; bash scripts/verify-docs.sh
 	@echo "verify: tests/routing_drift_mutation.sh"; bash tests/routing_drift_mutation.sh
 	@echo "verify: tests/godspeed_always_install.sh"; bash tests/godspeed_always_install.sh
+	@echo "verify: tests/agent_model_selector_skill.sh"; bash tests/agent_model_selector_skill.sh
+	@echo "verify: tests/codex_godspeed_skill_install.sh"; bash tests/codex_godspeed_skill_install.sh
 	@echo "verify: scripts/check-godspeed-prompts.mjs"; node scripts/check-godspeed-prompts.mjs
 
 ## verify-install: home-state checks (symlinks, binaries, dispatch copies, axis schema)

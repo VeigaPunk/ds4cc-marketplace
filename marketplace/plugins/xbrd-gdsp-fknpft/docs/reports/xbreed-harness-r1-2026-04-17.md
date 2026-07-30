@@ -36,7 +36,7 @@ Skeleton emitted; specialists dispatched.
 | `cco-planner-harness` | skeleton | the-planner | Tier map: Item 1 repro-gated; Item 2 out-of-scope (documented ceiling); Item 3 partial user-space reachable |
 | `ccs-labrat-effort-introspect` | E | labrat | Reported null — teammate could not mechanically observe own effective effort; accepted as epistemic ceiling (later contested by critic) |
 | `ccs-scout-cc-tool` | T | scout | Null-pass on user-space native-tool registration — confirmed MCP-only per CC docs |
-| `ccs-labrat-pane-cap` | B | labrat | Empirical: 9 panes in 46-row window (heights 45,28,14,22,11,5,2,1,1); 10th fails. Formula `WIN_H − (N−1) ≥ MIN_ROWS=8` |
+| `ccs-labrat-pane-cap` | B | labrat | Historical geometry probe; superseded by the deterministic inclusive maximum of 1024. |
 | `ccs-connector-tmux-pane-alloc` | B/cross-axis | connector | in-process lever exists via `teammateMode` but silent-no-op on returned-peer DMs (src/sync.rs:19-23) + no /resume restore (CC docs paste-cache:419) |
 | `ccs-reviewer-xbreed-shared` | X | reviewer | Doc-drift review; proposed fold into xbreed-shared.md:92 comma list rather than promoting out-of-scope items to named classes |
 | `cco-critic-harness-ceiling` | X | critic (opus + heuer Layer 0) | **Self-correction arc** — initially challenged planner Item 1 overclaim → hardened via labrat null → RETRACTED & REOPENED after planner primary-source doc verification |
@@ -77,9 +77,9 @@ audit_hash `850e17e10ff0e1dc7cadb3ee16c0a41da25794f0f8cb787ca1d028cb23242cb6` re
 
 #### M-B1 — Preflight dynamic pane-cap check (axis B, Item 3) — HIGH confidence
 
-- **Claim:** Cap is DYNAMIC, not static. Formula: `practical_cap ≈ WIN_H − (N−1)` until `min_pane_height = MIN_ROWS (=8)`. Pre-spawn rejection at `team_size > WIN_H − (N−1)`. In-process mode exists as user-space lever (src/sync.rs:20 `teammateMode: "tmux"` is hardcoded) **but is orchestration-destructive** — `/resume` drops teammates (CC docs paste-cache:419); SendMessage to returned peers = silent no-op (src/sync.rs:19-23). Not recommended.
+- **SUPERSEDED:** Pane geometry no longer participates in precheck. The command accepts `0..=1024`, rejects larger values, and never executes tmux. In-process mode remains unrelated to this compatibility command.
 - **Evidence (primary-source verified):**
-  - `~/.claude/hooks/adaptive-panes.sh:23` `MIN_ROWS=8` [literal-substring confirmed]
+  - Current evidence lives in `tests/precheck_pane_cap.rs` and `tests/precheck_boundaries.sh`.
   - Labrat empirical: 9 panes in 46-row window, heights `[45,28,14,22,11,5,2,1,1]`, 10th fails [direct tmux observation]
   - `~/.claude/paste-cache/062eba943d9b5665.txt:419` "No session resumption with in-process teammates" [literal-substring confirmed]
   - `src/sync.rs:29` `teammateMode=tmux` [literal-substring confirmed]
@@ -130,7 +130,7 @@ audit_hash `850e17e10ff0e1dc7cadb3ee16c0a41da25794f0f8cb787ca1d028cb23242cb6` re
 
 - T×B coupling (connector): RETRACTED — scout confirmed T ⊥ B
 - `gemini --effort` vendor-lock framing (connector): RETRACTED — category error; xask:89-95 ThinkingBudget is user-space
-- Static `cap=6` ceiling (labrat-pane-cap v1): SUPERSEDED by empirical dynamic formula
+- Earlier static and geometry-derived ceilings are superseded by the sole maximum 1024.
 - in-process switch as Item 3 fix (connector v1, critic v1): REJECTED — orchestration-destructive
 
 ---

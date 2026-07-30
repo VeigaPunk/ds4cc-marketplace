@@ -138,7 +138,7 @@ Follow `/xbgst | godspeed` with these constraints baked in:
 
 - Tokens: unconstrained (user directive: "Tokens are no object").
 - Rounds: cap 4.
-- Teammates: cap 12/round. Spawn the cdx-delegate + the cco-critic + the-revenger on adversarial-design; don't be stingy.
+- Teammates: maximum 1024/round. Spawn the cdx-delegate + the cco-critic + the-revenger on adversarial-design; don't be stingy.
 - Wall-time: no explicit cap, but each round should commit something before starting the next.
 
 ### Exit conditions (strict)

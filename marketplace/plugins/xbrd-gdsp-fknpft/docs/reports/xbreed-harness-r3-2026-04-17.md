@@ -134,7 +134,7 @@ Three gaps surfaced by post-R3 opus 4.7 max advisor review. None block mission c
 
 ### Gap 2 — preflight is a tool, not a wired-in gate (OPEN)
 
-`xbreed precheck pane-cap --team-size N` is shipped but **nothing auto-invokes it**. A user running `/xbgst` with N=10 teammates will still hit "no space for new pane" unless they remember to run the precheck first. This is a protocol-tier gap (per the 3-tier framework): the binary *can* enforce, but the dispatch workflow doesn't invoke it.
+`xbreed precheck pane-cap --team-size N` is shipped but **nothing auto-invokes it**. The command now performs a deterministic range check only: `0..=1024` succeeds and larger values fail, without querying tmux. Dispatch workflows must invoke it when they need that ceiling enforced.
 
 **Reachable fix paths:**
 1. Add to xbgst/xbt/xgs skill instructions: "Before spawning N teammates, run `xbreed precheck pane-cap --team-size N` and halt if exit=1."

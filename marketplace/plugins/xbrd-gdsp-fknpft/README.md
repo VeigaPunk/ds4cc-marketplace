@@ -16,6 +16,16 @@ tradeoff.
 Core three: the orchestration schema, the runtime (`xask` on the native
 mailbox), the godspeed directive.
 
+## Skills
+
+- `agent-model-selector` interactively assigns any live OpenCode model and
+  model-supported thinking variant to any effective agent, with a diff preview
+  and confirmation before mutation.
+- `godspeed` is exposed by the Codex plugin manifest. To install the same
+  canonical skill user-wide for Codex, run
+  `bash scripts/install-codex-godspeed-skill.sh`, then invoke `$godspeed` or
+  choose it from `/skills`.
+
 ## Setup
 
 Gated, agent-executable install: [`docs/SETUP.md`](docs/SETUP.md).

@@ -16,6 +16,14 @@ printf '%s\n' 'codex content' >"$HOME_DIR/.codex/AGENTS.md"
 printf '%s\n' 'default opencode content' >"$HOME_DIR/.config/opencode/AGENTS.md"
 printf '%s\n' 'opencode content' >"$XDG_DIR/opencode/AGENTS.md"
 printf '%s\n' 'shell content' >"$HOME_DIR/.bashrc"
+mkdir -p "$HOME_DIR/.claude"
+cat >"$HOME_DIR/.claude/CLAUDE.md" <<'EOF'
+unrelated before
+<!-- xbrd-godspeed-always:begin -->
+stale managed body
+<!-- xbrd-godspeed-always:end -->
+unrelated after
+EOF
 
 run_default_installer() {
   env -u XDG_CONFIG_HOME HOME="$HOME_DIR" PATH="/usr/bin:/bin" \
@@ -56,9 +64,31 @@ run_xdg_installer >/dev/null
 after=$(sha256sum "${targets[@]}")
 [[ "$before" == "$after" ]] || { printf 'installer is not idempotent\n' >&2; exit 1; }
 
-if [[ -e "$HOME_DIR/CLAUDE.md" || -e "$HOME_DIR/.claude/CLAUDE.md" || -e "$FIXTURE/CLAUDE.md" ]]; then
+if [[ -e "$HOME_DIR/CLAUDE.md" || -e "$FIXTURE/CLAUDE.md" ]]; then
   printf 'installer created CLAUDE.md\n' >&2
   exit 1
 fi
+grep -Fq 'unrelated before' "$HOME_DIR/.claude/CLAUDE.md"
+grep -Fq 'unrelated after' "$HOME_DIR/.claude/CLAUDE.md"
+if grep -Fq '<!-- xbrd-godspeed-always:begin -->' "$HOME_DIR/.claude/CLAUDE.md"; then
+  printf 'installer retained managed CLAUDE.md block\n' >&2
+  exit 1
+fi
 
-printf 'Validated isolated Godspeed install: %d targets, idempotent, content preserved, no CLAUDE.md\n' "${#targets[@]}"
+assert_malformed_claude_preserved() {
+  local label="$1" content="$2"
+  printf '%s' "$content" >"$HOME_DIR/.claude/CLAUDE.md"
+  cp "$HOME_DIR/.claude/CLAUDE.md" "$TMP_ROOT/expected-CLAUDE.md"
+  run_default_installer >/dev/null
+  cmp -s "$TMP_ROOT/expected-CLAUDE.md" "$HOME_DIR/.claude/CLAUDE.md" || {
+    printf 'installer changed malformed CLAUDE.md fixture: %s\n' "$label" >&2
+    exit 1
+  }
+}
+
+assert_malformed_claude_preserved 'begin without end' $'before\n<!-- xbrd-godspeed-always:begin -->\ntrailing user content\n'
+assert_malformed_claude_preserved 'end without begin' $'before\n<!-- xbrd-godspeed-always:end -->\nafter\n'
+assert_malformed_claude_preserved 'end before begin' $'<!-- xbrd-godspeed-always:end -->\nuser\n<!-- xbrd-godspeed-always:begin -->\n'
+assert_malformed_claude_preserved 'nested begin' $'<!-- xbrd-godspeed-always:begin -->\n<!-- xbrd-godspeed-always:begin -->\nbody\n<!-- xbrd-godspeed-always:end -->\n'
+
+printf 'Validated isolated Godspeed install: %d targets, idempotent, complete block removal, malformed CLAUDE.md preservation\n' "${#targets[@]}"

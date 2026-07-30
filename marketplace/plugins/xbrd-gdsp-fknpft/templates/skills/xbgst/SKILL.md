@@ -48,12 +48,12 @@ Axis -> profile mapping (from the-judge.md dispatch table):
 - Research, prior art, outside-world -> `scout` (sonnet) — delegates to `xask --spark --gs codex`
 - Correctness, bugs, code review -> `reviewer` (sonnet) — delegates to `xask --gpt55 --gs -e low codex`
 - Empirical probes, dry-runs -> `labrat` (sonnet) — delegates to `xask --spark --gs codex`
-- Code execution, implementation -> `executor` (sonnet) — delegates to `xask --spark --gs codex`
+- Code execution, implementation -> `executor` (`openai/gpt-5.4-mini`, Codex Spark only) — delegates only to `xask --spark --gs codex`; no alternate model/effort lane
 - Cross-axis patterns, breadth -> `connector` (sonnet) — delegates to `xask --spark codex` (no `--gs`; avoids double-godspeed frame on pontification-prone lane)
 - Findings synthesis, dedup -> `distiller` (sonnet) — in-session text synthesis (no xask)
 - Complexity reduction, YAGNI -> `simplifier` (sonnet) — uses CC native tools
 
-Cap: <=12 teammates per round.
+Team size maximum: <=1024 teammates per round.
 
 ### Phase 2 — Spawn all with full peer roster AND xask gate
 
@@ -144,7 +144,7 @@ Trigger: opposite verdicts on same claim — cross-model (codex) vs in-session (
 
 After each round, immediately assess and dispatch next round if frontier still moving. Do not pause. Do not ask. The user interrupts when they want to steer.
 
-**Caps:** <=4 rounds, <=12 teammates per round, <=200-word proposals. Lift only on user direction.
+**Limits:** <=4 rounds, <=1024 teammates per round, <=200-word proposals. The team-size maximum is fixed at 1024.
 
 ## Step 6 — Hold after frontier
 

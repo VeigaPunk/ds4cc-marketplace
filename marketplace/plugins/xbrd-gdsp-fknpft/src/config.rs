@@ -115,7 +115,7 @@ deny_tools: []"#
   effort: max
 codex:
   default: gpt-5.6-sol
-  reasoning_effort: xhigh
+  reasoning_effort: low
   features:
     fast_mode: true
 gemini:
@@ -125,7 +125,7 @@ gemini:
         let m = Models::load(f.path()).unwrap();
         assert_eq!(m.claude.default, "claude-opus-4-9");
         assert_eq!(m.codex.default, "gpt-5.6-sol");
-        assert_eq!(m.codex.reasoning_effort, "xhigh");
+        assert_eq!(m.codex.reasoning_effort, "low");
         assert_eq!(m.codex.features.get("fast_mode"), Some(&true));
         assert_eq!(m.gemini.default, "gemini-3.1-pro-preview");
     }

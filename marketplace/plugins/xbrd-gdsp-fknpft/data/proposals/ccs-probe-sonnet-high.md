@@ -72,7 +72,7 @@ Each bucketed session runs its own `TeamCreate` for its subset of teammates. The
 | Mode | How to detect | Rollback |
 |---|---|---|
 | **Cross-session SendMessage silently drops** — CC may not route DMs across separate session processes | Teammate never replies; DM audit shows no receipt | Fall back to shared mailbox file (`src/mailbox.rs`) as inter-session relay |
-| **Pane-cap amplification** — N tiers × M teammates blows the per-window pane cap faster | `xbreed precheck pane-cap --team-size N` underestimates (doesn't account for N extra session panes) | Update precheck formula: add `tier_count` as extra overhead; re-run with adjusted cap |
+| **Pane-cap amplification** — N tiers × M teammates can consume more UI space | `xbreed precheck pane-cap --team-size N` intentionally checks only the fixed maximum 1024 | Treat UI layout separately; do not add tmux geometry back to precheck |
 | **Multi-session cleanup race** — TeamDelete on tier-sessions before judge session exits leaves orphan tmux windows | `xbreed-cleanup --stale` catches them | Enforce cleanup order: bucket sessions first, judge session last; add to DESPAWN protocol |
 | **Settings file collision** — concurrent sessions write to the same `generated/claude-settings.json` | File corruption or stale tier | Write tier-suffixed files: `settings-high.json`, `settings-medium.json`; never overwrite shared path |
 | **env var ignored at tier session** — `CLAUDE_CODE_EFFORT_LEVEL` in settings `env` block may not be honored if the launching shell already has it set differently | Teammate `printenv` in tier session shows wrong value | Use shell-level prefix (`CLAUDE_CODE_EFFORT_LEVEL=medium claude ...`) not settings injection as primary path; settings injection is belt-and-suspenders |

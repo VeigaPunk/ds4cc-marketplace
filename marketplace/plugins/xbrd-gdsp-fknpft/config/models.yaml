@@ -3,7 +3,7 @@ claude:
   effort: xhigh
 codex:
   default: gpt-5.6-sol
-  reasoning_effort: xhigh
+  reasoning_effort: low
   features:
     fast_mode: true
 gemma:

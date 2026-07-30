@@ -95,9 +95,9 @@ flowchart TD
     E -->|gemini| H["gemini -m gemini-3.1-pro-preview \n-p <prompt> --approval-mode yolo \n(env_remove GEMINI_API_KEY; reads ~/.gemini/oauth_creds.json)"]
 
     Cdx -->|--spark| Csp["codex exec -m gpt-5.4-mini \n-c model_reasoning_effort=low \n(fast_mode enabled)"]
-    Cdx -->|--gpt55| Cg5["codex exec -m gpt-5.6-sol \n-c features.fast_mode=true \n(-e low|medium|high|xhigh via flag) \n**xbreed uniform codex lane 2026-04-24**"]
+    Cdx -->|--gpt55| Cg5["codex exec -m gpt-5.6-sol \n-c features.fast_mode=true \n-c model_reasoning_effort=low for role routes \n**xbreed uniform codex lane 2026-04-24**"]
     Cdx -->|"-R / --review"| Crv["codex exec -m gpt-5.6-sol \n-c features.fast_mode=true \n(legacy; -R -F escapes to full gpt-5.6-sol)"]
-    Cdx -->|default| Cdf["codex exec -m gpt-5.6-sol \n-c features.fast_mode=true \n-c model_reasoning_effort=high"]
+    Cdx -->|default| Cdf["codex exec -m gpt-5.6-sol \n-c features.fast_mode=true \n-c model_reasoning_effort=low"]
 
     H --> Ha{success?}
     Ha -->|yes| P[stdout: response]
@@ -124,10 +124,10 @@ flowchart TD
 | Flag | Model | Reasoning | fast_mode | Used by |
 |------|-------|-----------|-----------|---------|
 | `--spark` | `gpt-5.4-mini` | low | on | labrat, executor, mutation-tester (single, ≤4 targets) |
-| `--gpt55` | `gpt-5.6-sol` | via `-e` flag | on | **xbreed uniform codex lane (2026-04-24)**: reviewer/sentinel/critic at `-e low`, the-revenger at `-e high` |
-| `-R -F` / `--review --full` | `gpt-5.6-sol` (full, 1.05M ctx) | xhigh (inherited) | on | escape hatch — reserved for RECON where gpt-5.6-sol still needs extra headroom |
-| `-R` / `--review` | `gpt-5.6-sol` | xhigh (inherited) | on | legacy; superseded by `--gpt55 -e low` in xbreed dispatch |
-| default builder (`xbreed ask codex`) | `gpt-5.6-sol` | high | on | direct Rust CLI calls; bare `xask codex` explicitly selects the spark lane |
+| `--gpt55` | `gpt-5.6-sol` | low for all role routes | on | **xbreed uniform codex lane (2026-04-24)**: reviewer/sentinel/critic/the-revenger and breadth roles at `-e low` |
+| `-R -F` / `--review --full` | `gpt-5.6-sol` (full, 1.05M ctx) | low by default | on | manual escape hatch for larger context, not higher effort |
+| `-R` / `--review` | `gpt-5.6-sol` | low by default | on | legacy; superseded by `--gpt55 -e low` in xbreed dispatch |
+| default builder (`xbreed ask codex`) | `gpt-5.6-sol` | low | on | direct Rust CLI calls; bare `xask codex` explicitly selects the Spark lane |
 
 **Gemini auth cascade** (v0.4+, OAuth-exclusive): tries up to **3 OAuth levels**
 **sequentially** (not in parallel). Each attempt blocks on `cmd.output()` before
@@ -455,19 +455,18 @@ former critic/connector/planner high-effort exceptions were collapsed
 when the tier pivoted; every teammate prefix now maps to medium in the
 DEBUG trap.
 
-**Godspeed marker — purest form:** every teammate dispatch appends
-` | godspeed` (literal, with leading space) to the Agent() prompt — or
-` | godspeed-impl` for the executor lane. No preamble. The single-token
-marker IS the whole directive; sonnet-medium teammates read it as
-"iterate cheap in parallel, no clarifying questions, act via tool calls".
+**Godspeed inheritance:** every teammate dispatch prepends the canonical
+Godspeed block, including the fixed team-size maximum of 1024, and appends
+` | godspeed` (or ` | godspeed-impl` for the executor lane) as its transport
+marker. The suffix does not replace the inherited directive.
 
 **Codex dispatch lanes** (`src/ask.rs` `build_codex_ask_with_loadout`):
 
 - `--spark` → `gpt-5.4-mini` + `model_reasoning_effort=low` (fast_mode enabled) — labrat/executor/mutation-tester-single
-- `--gpt55` → `gpt-5.6-sol` + `features.fast_mode=true` (reasoning via `-e low|medium|high|xhigh`) — **xbreed uniform codex lane per 2026-04-24**: reviewer/sentinel/critic at `-e low`, the-revenger at `-e high`
+- `--gpt55` → `gpt-5.6-sol` + `features.fast_mode=true` — every role route uses `-e low`, including reviewer/sentinel/critic/the-revenger and breadth roles
 - `-R -F` / `--review --full` → `gpt-5.6-sol` (full, 1.05M ctx) + `features.fast_mode=true` — escape hatch, reserved for large-context RECON where extra headroom is needed
 - `-R` / `--review` → `gpt-5.6-sol` + `features.fast_mode=true` — legacy review lane; superseded by `--gpt55 -e low` in xbreed dispatch
-- default → `gpt-5.6-sol` + `features.fast_mode=true` + `model_reasoning_effort=high` — legacy, kept for direct `xask codex` without lane flags
+- default → `gpt-5.6-sol` + `features.fast_mode=true` + `model_reasoning_effort=low`
 
 **Profile vs dispatch-default:** `~/.codex/config.toml` `[profiles.xbreed]` now
 pins `model = "gpt-5.6-sol"` (full) — this is the profile codex uses when invoked

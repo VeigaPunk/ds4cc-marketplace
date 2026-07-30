@@ -48,8 +48,7 @@ If empty, wait for user direction. Otherwise, proceed to four-phase godspeed wit
 Agent(
   subagent_type="the-planner",
   team_name="<team>",
-  name="ccs-planner-r0",
-  model="sonnet",
+  name="cco-planner-r0",
   prompt="WWKD Phase 0 data walk + skeleton plan for: <full user prompt>. Your FIRST tool call MUST be Skill(skill='wwkd') — Layer 0. Deliver plan artifact to team-lead when done. | godspeed"
 )
 ```
@@ -68,19 +67,19 @@ Axis → profile mapping (see `~/.claude/commands/references/xbreed-shared.md` f
 - Research, prior art → `scout` — `xask --spark --gs codex`
 - Correctness, bugs → `reviewer` — `xask --gpt55 --gs -e low codex`
 - Empirical probes → `labrat` — `xask --spark --gs codex`
-- Code execution → `executor` — `xask --spark --gs codex`
+- Code execution → `executor` (`openai/gpt-5.4-mini`, Codex Spark only) — `xask --spark --gs codex` only; no alternate model/effort lane
 - Cross-axis patterns → `connector` — `xask --spark codex`
 - Synthesis, dedup → `distiller` — in-session
 - Complexity reduction → `simplifier` — CC native
 
-Cap: <=12 teammates per round.
+Team size maximum: <=1024 teammates per round.
 
 ### Phase 2 — Spawn all with full peer roster AND xask gate
 
 Each brief includes:
 1. Full peer roster (all names from Phase 1)
 2. Axis assignment
-3. **Godspeed marker — purest form:** append ` | godspeed` (literal, with leading space) to the prompt. No preamble, no explanation block. The single-token marker is the whole directive — sonnet-medium teammates read it as "iterate cheap in parallel, no clarifying questions, no verbose plans, act via tool calls". Any teammate who needs more than that is the wrong role for the lane.
+3. **Godspeed inheritance:** prepend the canonical Godspeed block, including the fixed team-size maximum of 1024, and append ` | godspeed` (literal, with leading space) as its transport marker.
 4. **Structural xask gate — verbatim Layer-1 string per role (MANDATORY inline, NOT via pointer).** Paste the exact per-role gate string into the teammate brief. Indirection ("Read shared.md and apply") is lossy — teammates skip the gate when the string is not physically present. The table below is the source-of-truth; mirror from `xbreed-shared.md §xask Gate (4 layers)` if either drifts.
 
 | Role | Verbatim Layer-1 string to include in brief |
@@ -90,10 +89,10 @@ Each brief includes:
 | `labrat` | `Your FIRST tool call MUST be Bash: xask --spark --gs codex '<probe hypothesis>'. No other tool before xask returns.` |
 | `executor` | `Your FIRST tool call MUST be Bash: xask --spark --gs codex '<task>'. No other tool before xask returns.` |
 | `connector` | `Your FIRST tool call MUST be Bash: xask --spark codex '<pattern question>'. No other tool before xask returns.` |
-| `the-revenger` | `Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e high codex '<RECON / surface enumeration question>'. No other tool before xask returns.` |
+| `the-revenger` | `Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e low codex '<RECON / surface enumeration question>'. No other tool before xask returns.` |
 | `sentinel` | `Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e low codex '<exploit/vulnerability analysis question>'. No other tool before xask returns.` |
 | `critic` | `Your FIRST tool call MUST be Skill(skill='heuer-planning') — this is Layer 0. After the skill loads, your SECOND tool call MUST be Bash: xask --gpt55 --gs -e low codex '<design review question>'. No other tool before xask returns.` |
-| `mutation-tester` | `Your FIRST tool call MUST be Bash, EITHER (a) xask --spark --gs codex '<generate mutation>' for ≤4 targets OR (b) xask --effort high --gs codex '<generate N mutations of <fn>; vary angle>' for ≥5 targets. No other tool before xask returns.` |
+| `mutation-tester` | `Your FIRST tool call MUST be Bash, EITHER (a) xask --spark --gs codex '<generate mutation>' for ≤4 targets OR (b) xask --gpt55 --gs -e low codex '<generate N mutations of <fn>; vary angle>' for ≥5 targets. No other tool before xask returns.` |
 | `the-planner` | `Your FIRST tool call MUST be Skill(skill='wwkd') — this is Layer 0. NO Layer-1 xask gate.` |
 | `simplifier`/`distiller`/`scribe` | No xask gate, no Layer 0 skill load. |
 
@@ -103,7 +102,7 @@ Also include Layers 2–4 verbatim in each brief (raw-quote gate, fallback, conf
 6. After proposing, DM each peer with one-line critique
 7. Mark task completed
 
-**Executor lane — ` | godspeed-impl` suffix variant:** when spawning `executor` teammates, append ` | godspeed-impl` instead of ` | godspeed`. The `-impl` suffix alone signals red-before-green evidence discipline to the executor — no preamble needed. Non-executable axes are not eligible for the executor lane (by role, not by directive).
+**Executor lane — ` | godspeed-impl` suffix variant:** when spawning `executor` teammates, prepend the same canonical Godspeed block and append ` | godspeed-impl` instead of ` | godspeed`. The suffix adds red-before-green evidence discipline; it does not replace the inherited directive. Non-executable axes are not eligible for the executor lane (by role, not by directive).
 
 #### Pre-dispatch self-check (MANDATORY)
 
@@ -155,7 +154,7 @@ CONFLICTS (emit only if cross-model contradictions exist):
 
 Do not pause. Do not ask. User interrupts to steer. Keep iterating.
 
-Caps: <=4 rounds, <=12 teammates, <=200-word proposals. Exit semantics live in `xbreed-shared.md`.
+Limits: <=4 rounds, <=1024 teammates, <=200-word proposals. Exit semantics live in `xbreed-shared.md`.
 
 ## Step 6 — Auto-cleanup after frontier
 

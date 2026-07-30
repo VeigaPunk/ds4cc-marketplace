@@ -21,7 +21,7 @@
 
 ### R1 outcomes carried into R2
 
-- **M-B1 (ACCEPTED HIGH):** Dynamic cap formula `practical_cap = WIN_H − (current_panes + team_size − 1)`, fail threshold `MIN_ROWS=8`. R2 dispatch: implement preflight in xbreed binary (red→green TDD).
+- **M-B1 (SUPERSEDED):** The former geometry-based design was removed. `pane-cap` now accepts `0..=1024` and rejects larger values without querying tmux.
 - **M-T1 (ACCEPTED HIGH):** xask-native-tool is out-of-scope (no user-space non-MCP registration surface in CC 2.1.112). Fold into xbreed-shared.md:92 out-of-scope paragraph. Rolled into R1 commit.
 - **M-E1-AMENDED (DEFERRED LOW):** Cannot close without mechanical observation of effective effort from within CC 2.1.112 teammate. R2 dispatch: `ccs-labrat-effort-mechobs-r2`.
 - **M-BE1 (DEFERRED MED, same-model capped):** Effort-weighted pane accounting — structural argument only; no cross-model validation. R2 dispatch: `cdx-labrat-crossmodel-be1-r2`.
@@ -87,7 +87,7 @@ effort override.
 
 ### 3.2 Proposal 2 — `cdx-executor-preflight-cap-r2` (axis B, M-B1-R2)
 
-**HYPOTHESIS:** The M-B1 cap formula is implementable as `xbreed precheck pane-cap --team-size N` with red→green TDD cycle, clean clippy, and exit-code semantics.
+**HYPOTHESIS (SUPERSEDED):** The original geometry-based precheck was replaced by a deterministic inclusive maximum of 1024.
 
 **METHOD:** Red-before-green TDD. Write failing test first (`error[E0432]: unresolved import xbreed::precheck`), implement public API to green, validate edge cases.
 
@@ -95,7 +95,7 @@ effort override.
 
 **New files:**
 
-- `src/precheck.rs` — public API: `MIN_ROWS=8` constant, `CapResult` enum `{Ok, Fail{panes_in_use, cap, team_size}, TmuxUnavailable}`, `compute_cap(win_h, current_panes, team_size) -> CapResult` pure function, `run(team_size) -> anyhow::Result<CapResult>` live-tmux function
+- `src/precheck.rs` — current public API: `MAX_TEAM_SIZE=1024` and `accepts_team_size(team_size) -> bool`; no geometry types or tmux process calls
 - `tests/precheck_pane_cap.rs` — 10 tests covering: `constants_correct`, `zero_team_size_always_ok_nonempty_window`, `fresh_session_single_pane_ok`, `window_already_too_small_fails_regardless`, `exactly_at_cap_boundary_ok`, `one_below_cap_boundary_fails`, `fail_carries_team_size`, `fail_carries_panes_in_use`, `large_team_in_normal_window_fails`, `reasonable_team_in_normal_window_ok`
 
 **Modified files:**
@@ -104,25 +104,23 @@ effort override.
 - `src/cli.rs` — `Precheck { check: PrecheckAction }` subcommand + `PrecheckAction::PaneCap { team_size: u32 }` added
 - `src/main.rs` — `Commands::Precheck` match arm dispatching to `xbreed::precheck::run()` with exit-code semantics
 
-**Cap formula (implemented):**
+**Current maximum (supersedes the original formula):**
 
 ```
-practical_cap = WIN_H − (current_panes + team_size − 1)
-Fail when: practical_cap < MIN_ROWS (= 8)
+accept = team_size <= 1024
 ```
 
 Edge cases verified by tests:
-- `team_size=0`: no-op via `saturating_sub` arithmetic (always Ok)
-- exactly-at-boundary (`WIN_H=9, current=1, team=1`): `practical_cap=8=MIN_ROWS` → Ok
-- one-below-boundary (`WIN_H=8, current=1, team=1`): `practical_cap=7<8` → Fail
+- `team_size=0`: accepted
+- inclusive boundaries: `team_size=0` and `team_size=1024` → Ok; `team_size=1025` → fail
+- `team_size=u32::MAX`: rejected
 
 **Exit-code semantics (judge-verified at runtime):**
-- `CapResult::Ok` → exit 0, stdout: `"pane-cap ok: team_size=N fits"`
-- `CapResult::TmuxUnavailable` → exit 0, stdout: `"tmux not detected, cap check skipped"` (fail-open)
-- `CapResult::Fail` → exit 1, stderr: `"X panes in use, cap Y, cannot spawn Z — shutdown idle teammates first"`
+- accepted size → exit 0, stdout: `"pane-cap ok: team_size=N accepted"`
+- size above 1024 → nonzero, stderr identifies the requested size and maximum
 
 **RED gate:** `error[E0432]: unresolved import xbreed::precheck` — confirmed pre-implementation failure.
-**GREEN gate:** `cargo test precheck` → 10/10 passing.
+**GREEN gate:** `cargo test --locked --test precheck_pane_cap` → 3/3 passing.
 **Lint:** `cargo clippy` clean. `cargo fmt --check` clean.
 
 **Rejected alternative:** Extending `xbreed guard` with `--batch-size` flag. Guard reads from stdin hook (different protocol — UserPromptSubmit hook injection path). Preflight is a stand-alone pre-spawn gate with its own invocation context. Architecturally distinct; extending guard would conflate two separate enforcement points.
@@ -167,7 +165,7 @@ Structural reframe accepted: `pane-lifetime = fixed overhead + variable compute�
 | Move | Axis | Confidence | Status |
 |---|---|---|---|
 | M-E1-R2 | E | HIGH (cross-model confirmed) | Hypothesis B confirmed; epistemic-not-ergonomic ceiling; operative effort xhigh session-wide |
-| M-B1-R2 | B | MED (single-source verified) | Preflight pane-cap implementation shipped; 10/10 tests; formula verified |
+| M-B1-R2 | B | SUPERSEDED | Geometry precheck replaced by the deterministic 1024 maximum |
 | M-BE1-R2 | B×E | MED (same-model cap) | Cross-model reframe: pane-lifetime = fixed overhead + variable compute; stays MED; telemetry-gated |
 | M-E2-R2 | E | MED (gap, optional) | `CLAUDE_CODE_EFFORT_LEVEL=medium` env pre-spawn as reachable ergonomic fix; unprobed; labrat gate required before R3 execution |
 
@@ -186,7 +184,7 @@ audit_hash `03e0dd46f12e5e1e0203a5633e23295661e4a28ce7c948dbcbfd1af9036569a5` re
 
 Evidence citations:
 - M-E1-R2: `~/.claude/settings.json:45` effortLevel=xhigh [literal]; CLAUDE_CODE_EFFORT_LEVEL absent [printenv]; codex-spark raw_output [verbatim quote above]; CC docs teammate propagation fields (tools + model only) [evidence_unverified: external]
-- M-B1-R2: `src/precheck.rs` (10/10 tests pass) [local file]; `~/.claude/hooks/adaptive-panes.sh:23` MIN_ROWS=8 [literal — inherited from R1 verification]; cargo clippy/fmt clean [toolchain output]
+- Current boundary evidence: Rust tests cover `0`, `1024`, `1025`, and `u32::MAX`; the shell test proves a shadow `tmux` executable is never invoked.
 - M-BE1-R2: codex-spark raw_output [verbatim quote above]
 - M-E2-R2: Forward gap — evidence_schema_exempt (no gate yet run)
 
@@ -204,9 +202,9 @@ Evidence citations:
 
 #### M-B1-R2 — Preflight pane-cap implementation (axis B) — MED
 
-- **Claim:** `xbreed precheck pane-cap --team-size N` implemented and shipped. Formula `practical_cap = WIN_H − (current_panes + team_size − 1)`, fail threshold MIN_ROWS=8. 10/10 tests pass including all edge cases. CLI wired in src/main.rs with correct exit-code semantics.
+- **Current claim:** `xbreed precheck pane-cap --team-size N` preserves its CLI spelling while enforcing only the inclusive maximum 1024. It does not inspect pane count, window dimensions, or tmux availability.
 - **Evidence:** `src/precheck.rs`, `tests/precheck_pane_cap.rs`, `src/cli.rs:71-86`, `src/main.rs:69-90` — all primary-source verified in this session.
-- **MED (not HIGH):** Single implementation pass; no integration-level chaos test (N=10 batch) yet. Pure-function tests are comprehensive; live-tmux path tested only at CLI level (judge runtime verification).
+- **Deterministic:** Results depend only on `team_size`; shell coverage verifies query elimination.
 
 #### M-BE1-R2 — Structural reframe: pane-lifetime model (axis B×E) — MED (ACCEPT-as-refinement)
 

@@ -8,10 +8,10 @@
 ## 1. Synopsis
 
 ```
-xask [-d] [-s <scope>] [-r] [--spk] [-R] [-e <level>] [-o <file>] [--json] <model> "<query>" ["<context>"] ["<skill>"]
+xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--gs] [-e <level>] [-o <file>] [--json] <model> "<query>" ["<context>"] ["<skill>"]
 ```
 
-`<model>` is one of `gemini` or `codex`. (`claude` dispatch was removed in R2-A5 — advisor() with fable 5 max supersedes it.)  
+`<model>` is `gemma` (alias `g`; legacy alias `gemini`) or `codex`. Gemma aliases route to the local HVM bridge. (`claude` dispatch was removed in R2-A5.)
 `<context>` defaults to `"No prior context."`.  
 `<skill>` defaults to `"godspeed"`.
 
@@ -22,10 +22,10 @@ xask [-d] [-s <scope>] [-r] [--spk] [-R] [-e <level>] [-o <file>] [--json] <mode
 | Long form | Short | Description | Models | Default |
 |-----------|-------|-------------|--------|---------|
 | `--debug` | `-d` | Print constructed prompt and exit (dry run). Matches gemini's own `-d/--debug`. | all | `false` |
-| `--scope` | `-s` | Scope boundary injected into `{{SCOPE_BOUNDARY}}` in the dispatch template. Note: shadows gemini's `-s/--sandbox` (consumed by xask, no runtime conflict). | all | `"entire project"` |
-| `--rich` | `-r` | Restore `includeDirectoryTree: true` in a PID-namespaced gemini settings copy. Note: shadows gemini's `-r/--resume`. | gemini | `false` (tree suppressed) |
-| `--spark` | `--spk` | Pin codex to `gpt-5.4-mini` + `model_reasoning_effort=low`. Mutually exclusive with `--effort` on codex. | codex | `false` |
-| `--effort` | `-e` | Reasoning effort level. Codex: passes through as native `model_reasoning_effort`. Gemini: mapped to `thinkingBudget` and injected into prompt template (see per-model mapping below for value table). Note: shadows gemini's `-e/--extensions` (consumed by xask, no dispatch conflict). | codex + gemini | unset |
+| `--scope` | `-scp` | Scope boundary injected into `{{SCOPE_BOUNDARY}}` in the dispatch template. | all | `"entire project"` |
+| `--rich` | `-r` | Accepted for compatibility; ignored by the local Gemma/HVM lane. | gemma aliases | `false` |
+| `--spark` | `--spk` | Pin codex to `gpt-5.4-mini` + `model_reasoning_effort=low`. Bare `xask codex` selects this route unless effort/review/full/gpt55 selects another lane. Spark wins when combined. | codex | structural default |
+| `--effort` | `-e` | One of `low`, `medium`, `high`, `xhigh`. Codex: native `model_reasoning_effort`; Gemma aliases: advisory `thinkingBudget` prompt text. | codex + gemma aliases | unset |
 | `--direct` | — | **Removed in R2.** No longer accepted — xask hard-fails at the flag parser (`*) echo ... exit 1`). Suppression is always-on; use `--effort` to control reasoning level. | — | — |
 
 ### `--effort` per-model mapping
@@ -33,9 +33,9 @@ xask [-d] [-s <scope>] [-r] [--spk] [-R] [-e <level>] [-o <file>] [--json] <mode
 | Model | Maps to |
 |-------|---------|
 | `codex` | `-c model_reasoning_effort=<level>` (config key, not a flag) |
-| `gemini` | Mapped to `thinkingBudget` injected into prompt template by `scripts/xask` (no native CLI flag): `low=512`, `medium=4096`, `high=8192`, `xhigh=16384`. Rendered as `# ThinkingBudget: <N>` in `templates/dispatch/gemini.md`. No warning emitted. |
+| `gemma`, `g`, `gemini` | Advisory prompt text: `low=512`, `medium=4096`, `high=8192`, `xhigh=16384`, rendered by `templates/dispatch/gemma.md`. |
 
-**Validated effort levels (codex):** `low`, `medium`, `high`, `xhigh`. Level `none` is not validated by xbreed and may fail at codex runtime.
+Both xask and direct `xbreed ask` reject effort values outside `low`, `medium`, `high`, `xhigh`.
 
 ---
 
@@ -43,14 +43,12 @@ xask [-d] [-s <scope>] [-r] [--spk] [-R] [-e <level>] [-o <file>] [--json] <mode
 
 These are injected by xask/xbreed regardless of user flags.
 
-### Gemini
+### Local Gemma/HVM
 
 | Behavior | Mechanism | Why |
 |----------|-----------|-----|
-| `--approval-mode yolo` | Hardcoded in `build_gemini_with_auth` | Prevents stdin hang when gemini prompts for tool call approval in non-interactive dispatch |
-| `includeDirectoryTree: false` | Default gemini settings in clean mode | Suppresses directory context for epistemic cleanliness |
-| PID-namespaced `HOME` for `--rich` | `gemini_rich_setup()` in xask | Prevents concurrent `--rich` calls from stomping each other's `settings.json` |
-| OAuth creds copied to temp HOME | `gemini_rich_setup()` | Auth still works from the temp HOME during rich mode |
+| Local bridge dispatch | `xbreed ask gemma` | Routes `gemma`, `g`, and legacy `gemini` to one HVM lane |
+| Prompt loadout prepend | Gemma dispatch adapter | Carries skills without cloud-CLI state |
 
 ### Codex
 
@@ -80,19 +78,19 @@ These are injected by xask/xbreed regardless of user flags.
 
 | Model | xask routes to | Rust function | Loadout injection method |
 |-------|---------------|---------------|--------------------------|
-| `gemini` (legacy alias) | `xbreed ask gemma` | local Gemma/HVM dispatch | Prompt prepend: `<loadout>\n\n---\n\n<prompt>` |
+| `gemma`, `g`, `gemini` (legacy) | `xbreed ask gemma` | local Gemma/HVM dispatch | Prompt prepend: `<loadout>\n\n---\n\n<prompt>` |
 | `codex` | `xbreed ask codex` | `build_codex_ask_with_loadout` + `dispatch` | `-c developer_instructions=<toml-quoted-string>` |
 
-### Gemini model
+### Gemma model
 
-Pinned to `gemini-3.1-pro-preview` (input id). The gemini CLI routes this internally to `gemini-3.1-pro-preview-customtools` for OAuth users with Gemini 3.1 launched. Do **not** use the `-customtools` id as input — it is a routing output and 404s on both auth paths (`isVisible: false` in gemini-cli's `defaultModelConfigs.ts`, verified 2026-04-11).
+The `gemma`, `g`, and legacy `gemini` spellings all route to the local Gemma/HVM bridge; no cloud Gemini route remains.
 
 ### Codex model
 
-Default: `gpt-5.6-sol` + `features.fast_mode=true` + `model_reasoning_effort=high` (pinned via `-m` flag).
+Bare `xask codex` structurally selects Spark: `gpt-5.4-mini` + `model_reasoning_effort=low`. Direct bare `xbreed ask codex` retains its separate Rust-layer default.
 Review lane (`-R/--review`): `gpt-5.6-sol` + `features.fast_mode=true`.
 Full (`-R -F`): `gpt-5.6-sol` (1.05M ctx) + `features.fast_mode=true` — escape hatch.
-gpt-5.6-sol lane (`--gpt55`): `gpt-5.6-sol` + `features.fast_mode=true` — the uniform xbreed codex lane per 2026-04-24 pivot (reviewer/sentinel/critic at `-e low`, the-revenger at `-e high`).
+gpt-5.6-sol lane (`--gpt55`): `gpt-5.6-sol` + `features.fast_mode=true` — every role route uses `-e low`; only the native planner retains high effort outside this lane.
 Spark (`--spark`): `gpt-5.4-mini` + `model_reasoning_effort=low` (fast_mode enabled).
 
 Precedence: `--spark` > `--gpt55` > `-R -F` > `-R` > default.
@@ -101,15 +99,9 @@ Precedence: `--spark` > `--gpt55` > `-R -F` > `-R` > default.
 
 ## 5. Auth
 
-### Gemini — default OAuth (single path)
+### Local Gemma/HVM
 
-```
-OAuthDefault — reads ~/.gemini/oauth_creds.json; env_remove GEMINI_API_KEY
-```
-
-No cascade, no named profiles, no API-key fallback, no health canary (2026-04-19 collapse — user directive, OAuth subscription is effectively unlimited). On auth failure, dispatch bails with a `gemini login` hint; there is no secondary lane to try.
-
-**Setup:** `gemini login` populates `~/.gemini/oauth_creds.json`. That's it.
+The local bridge owns its runtime setup; xask does not use Gemini OAuth or API keys.
 
 ### Codex — ChatGPT OAuth
 
@@ -135,12 +127,12 @@ Agent and teammate names use a prefix that signals where reasoning lives:
 
 | Prefix | Target model | Examples |
 |--------|-------------|---------|
-| `g-` | Gemini | `g-scout-research`, `g-connector-axes` |
-| `cdx-` | Codex | `cdx-labrat-probe`, `cdx-reviewer-security` |
-| `ccs-` | Claude Code (Sonnet) | `ccs-executor-docs`, `ccs-simplifier-refactor` |
+| `g-` | Local Gemma/HVM | `g-scout-research`, `g-connector-axes` |
+| `cdx-` | Codex | `cdx-executor-docs` (`openai/gpt-5.4-mini`, Codex Spark only), `cdx-labrat-probe`, `cdx-reviewer-security` |
+| `ccs-` | Claude Code (Sonnet) | `ccs-simplifier-refactor` |
 | `cco-` | Claude Code (Fable 5, effort: high — LOCKED; unified 2026-04-19 — the-judge now also runs at high, downgraded from xhigh) | `cco-judge`, `cco-distiller` |
 
-The prefix is the xask delegation target, not the model running the agent (which is always Claude). A `g-scout-*` agent's first tool call must be `xask gemini`.
+The prefix identifies the execution or delegation target. The executor itself is pinned to `openai/gpt-5.4-mini` / Codex Spark; other roles may run in Claude and delegate by prefix. A `g-scout-*` agent may call `xask gemma` (or `xask g`; `xask gemini` remains legacy-compatible).
 
 ---
 
@@ -174,7 +166,7 @@ These xask short aliases shadow gemini's own native flags. There is **no runtime
 
 | xask alias | Shadows gemini flag | gemini meaning | Applies to gemini path? |
 |------------|--------------------|----|---|
-| `-s` | `-s/--sandbox` | Run in sandbox mode | No (scope is xask-layer) |
+| `-scp` | none | Scope boundary | Yes (xask layer) |
 | `-r` | `-r/--resume` | Resume a prior session | No (rich mode is xask-layer) |
-| `-e` | `-e/--extensions` | Load extension files | **No — effort is codex/claude only; gemini ignores it with a warning** |
+| `-e` | `-e/--extensions` | Load extension files | Yes as advisory prompt metadata on Gemma aliases |
 | `-d` | `-d/--debug` | Debug output (same semantics ✓) | Yes — debug is xask-layer, model-agnostic |

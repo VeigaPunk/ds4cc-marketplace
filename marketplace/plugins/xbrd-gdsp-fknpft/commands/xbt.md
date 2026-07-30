@@ -45,7 +45,7 @@ $ARGUMENTS
 **Planner-first is unconditional** (matches `~/.claude/agents/the-judge.md` sub-role table). Spawn `the-planner` as the Phase 0 teammate BEFORE any specialist:
 
 ```
-Agent(subagent_type="the-planner", team_name="<team>", name="ccs-planner-r0", model="sonnet",
+Agent(subagent_type="the-planner", team_name="<team>", name="cco-planner-r0",
       prompt="WWKD Phase 0 data walk + skeleton for: <full user prompt>. FIRST tool call MUST be Skill(skill='wwkd'). Deliver plan artifact to team-lead. | godspeed")
 ```
 

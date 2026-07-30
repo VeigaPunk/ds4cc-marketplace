@@ -47,7 +47,11 @@ pub enum Commands {
         with: Vec<String>,
         /// Effort/reasoning level to pass to the target CLI.
         /// Maps to: codex -c model_reasoning_effort=; gemma: advisory in dispatch template only
-        #[arg(short = 'e', long = "effort")]
+        #[arg(
+            short = 'e',
+            long = "effort",
+            value_parser = ["low", "medium", "high", "xhigh"]
+        )]
         effort: Option<String>,
         /// Use the fast codex-spark model with low effort (codex only).
         /// Equivalent to: -m gpt-5.4-mini + model_reasoning_effort=low
@@ -96,10 +100,10 @@ pub enum Commands {
 
 #[derive(Subcommand, Debug)]
 pub enum PrecheckAction {
-    /// Check if the tmux window has enough room for the requested team size.
-    /// Exits 0 if safe, 1 if over cap, 0 with a notice if tmux is unavailable.
+    /// Check whether the requested team size is at most 1024.
+    /// Retains the pane-cap command name for CLI compatibility; does not query tmux.
     PaneCap {
-        /// Number of panes (teammates) about to be spawned
+        /// Number of teammates about to be spawned
         #[arg(long, short = 'n')]
         team_size: u32,
     },

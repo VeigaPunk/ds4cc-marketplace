@@ -175,7 +175,7 @@ fn ask_with_missing_skill_errors_cleanly() {
 /// End-to-end bounded Codex contract through `xbreed ask codex`.
 /// Asserts argv contains: `exec`, `--skip-git-repo-check`, the adjacent pair
 /// `--sandbox` + `workspace-write`, `approval_policy="never"`,
-/// `model_reasoning_effort=high`, and the trailing prompt.
+/// `model_reasoning_effort=low`, and the trailing prompt.
 ///
 /// Guards against a future refactor restoring host-wide write access.
 #[test]
@@ -187,11 +187,7 @@ fn ask_codex_route_preserves_workspace_boundary() {
 
     write_stub(&bin_dir, "codex", &log);
 
-    let out = run_xbreed_ask(
-        home,
-        &bin_dir,
-        &["ask", "codex", "--effort", "high", "say hi"],
-    );
+    let out = run_xbreed_ask(home, &bin_dir, &["ask", "codex", "say hi"]);
     assert!(out.status.success(), "xbreed ask codex failed: {:?}", out);
 
     let argv = read_log(&log);
@@ -218,8 +214,8 @@ fn ask_codex_route_preserves_workspace_boundary() {
         "missing approval_policy=\"never\" in argv: {argv:?}"
     );
     assert!(
-        argv.contains(&"model_reasoning_effort=high".to_string()),
-        "missing model_reasoning_effort=high in argv: {argv:?}"
+        argv.contains(&"model_reasoning_effort=low".to_string()),
+        "missing model_reasoning_effort=low in argv: {argv:?}"
     );
 
     // M11: codex prompt always ends in "| godspeed" (user directive).

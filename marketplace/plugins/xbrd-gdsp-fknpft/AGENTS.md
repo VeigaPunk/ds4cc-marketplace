@@ -11,19 +11,19 @@ to kill source-of-truth ambiguity; recover a historical snapshot via
 | Agent | Model | Role | Delegation bias |
 |-------|-------|------|-----------------|
 | **the-judge** | **fable 5 · xhigh** (orchestrator exception — user directive 2026-04-17: every other teammate is sonnet-medium, judge stays opus for intermediation depth; downgraded from xhigh 2026-04-19, re-raised to xhigh on opus 4.8 per user directive 2026-06-07; opus→fable 5 per user directive 2026-07-04) | Orchestrator and arbiter. Names axes, dispatches specialists, applies Pareto filter, drafts implementation. Top of the stack. | In-session (spawns others, never spawned) |
-| **scout** | sonnet · medium | Research lens. Finds what exists outside the repo — libraries, docs, prior art, release notes. Delegates to Codex. | `xask --spark --gs codex` (default; escalate to `xask --effort high --gs codex` for high-ambiguity research when spark is insufficient) |
+| **scout** | sonnet · medium | Research lens. Finds what exists outside the repo — libraries, docs, prior art, release notes. Delegates to Codex. | `xask --spark --gs codex` (default); use `xask --gpt55 --gs -e low codex` for high-ambiguity research when Spark is insufficient |
 | **reviewer** | sonnet · medium | Surgical code reviewer. Finds the bug that ships to prod. Delegates to Codex always. | `xask --gpt55 --gs -e low codex` (gpt-5.6-sol + fast_mode + reasoning=low, uniform codex lane per 2026-04-24) |
-| **labrat** | sonnet · medium | Expendable single-shot probe. Tests one hypothesis cheap and fast. State nuked on despawn. | `xask --spark --gs codex` (default), `xask --effort high --gs codex` when spark is insufficient |
+| **labrat** | sonnet · medium | Expendable single-shot probe. Tests one hypothesis cheap and fast. State nuked on despawn. | `xask --spark --gs codex` (default), `xask --gpt55 --gs -e low codex` when Spark is insufficient |
 | **connector** | sonnet · medium | Cross-axis pattern matcher. Sees the whole table, calls out unusual connections and second-order effects. Breadth over depth. | `xask --spark codex` (no `--gs`; avoids double-godspeed frame on pontification-prone lane), `advisor()` for reasoning |
 | **distiller** | sonnet · medium | Deduplicates N parallel findings, flags contradictions, assigns confidence scores. Text synthesis with optional tool verification. Sits between workers and the-judge. | Spawned after peer DMs land, before judge Pareto filter; persistent across rounds |
-| **executor** | sonnet · medium | Writes code, runs tests, returns results. Stateless by default — scoped to one subtask. | `xask --spark --gs codex` (Layer-1 gate), `advisor()` for reasoning |
+| **executor** | `openai/gpt-5.4-mini` (Codex Spark only) | Writes code, runs tests, returns results. Stateless by default — scoped to one subtask. | `xask --spark --gs codex` only; no model, effort, or advisor escape hatch |
 | **simplifier** | sonnet · medium | YAGNI enforcer. Finds what to delete. If removing it passes all tests, it was dead. | Direct analysis + deletion verification |
-| **the-revenger** | sonnet · medium | Reverse engineering specialist. Maps behavior, infers intent, reproduces functionality. Godspeeded by default. 4-phase RECON/PROBE/MODEL/BUILD protocol. | `xask --gpt55 --gs -e high codex` for RECON (gpt-5.6-sol + fast_mode + reasoning=high, uniform codex lane per 2026-04-24); for deep single-file RE, skip xask and use advisor() |
+| **the-revenger** | sonnet · medium | Reverse engineering specialist. Maps behavior, infers intent, reproduces functionality. Godspeeded by default. 4-phase RECON/PROBE/MODEL/BUILD protocol. | `xask --gpt55 --gs -e low codex` for RECON (gpt-5.6-sol + fast_mode + reasoning=low); for deep single-file RE, skip xask and use advisor() |
 | **sentinel** | sonnet · medium | Security auditor. Attacker-minded — hunts vulnerabilities, injection vectors, insecure configs, privilege escalation. Full tool access for scanning and remediation. | `xask --gpt55 --gs -e low codex` for exploit analysis, `xask --spark --gs codex` for CVE prior art, `advisor()` for multi-hop chains |
 | **critic** | sonnet · medium + Layer-0 `Skill('heuer-planning')` | Approach-level adversarial reviewer. Challenges design decisions, architectural assumptions, and strategy choices. Distinct from reviewer (code bugs) and sentinel (security). | `xask --gpt55 --gs -e low codex` for deep design review, `xask --spark --gs codex` for alternatives |
-| **mutation-tester** | sonnet · medium | Adversarial test suite validator. Generates code mutations, runs against tests, reports surviving mutants. | DUAL: `xask --spark --gs codex` (single mutation, ≤4 targets — fast spot-check) OR `xask --effort high --gs codex` (≥5 targets or breadth discovery) — see shared.md Layer-1 gate for selection rule |
+| **mutation-tester** | sonnet · medium | Adversarial test suite validator. Generates code mutations, runs against tests, reports surviving mutants. | DUAL: `xask --spark --gs codex` (single mutation, ≤4 targets — fast spot-check) OR `xask --gpt55 --gs -e low codex` (≥5 targets or breadth discovery) — see shared.md Layer-1 gate for selection rule |
 | **scribe** | sonnet · medium | Writes Carpaccio milestone reports and executes git commits. One report + gate + commit per milestone — the auditable-trail anchor. Filter-exempt output role. | CC native (no xask gate) |
-| **the-planner** | sonnet · medium + Layer-0 `Skill('wwkd')` | Pre-execution planner. Owns Phase 0 data-walk and WWKD plan artifact generation. **Dispatched FIRST by the-judge at Phase 0** to map the skeleton with a defensible baseline before specialist dispatch. | CC native (no xask gate); wwkd skill auto-loaded at spawn |
+| **the-planner** | fable · high + Layer-0 `Skill('wwkd')` | Pre-execution planner. Owns Phase 0 data-walk and WWKD plan artifact generation. **Dispatched FIRST by the-judge at Phase 0** to map the skeleton with a defensible baseline before specialist dispatch. | CC native (no xask gate); sole non-low planning exception; wwkd skill auto-loaded at spawn |
 
 ## Dispatch table
 
@@ -40,7 +40,7 @@ Teammates use `{prefix}-{role}-{suffix}` naming:
 | `cco-` | Claude Fable 5 — reserved for `the-judge` only (orchestrator exception); no teammate currently uses this prefix |
 | `cdx-` | Codex (via `xbreed ask codex`) |
 
-Examples: `ccs-scout-docs`, `g-labrat-probe`, `cdx-reviewer-auth`, `ccs-executor-tests`
+Examples: `ccs-scout-docs`, `g-labrat-probe`, `cdx-reviewer-auth`, `cdx-executor-tests`
 
 ## Inter-Model Communication Protocol v0.2
 
@@ -60,7 +60,7 @@ All sonnet teammates have two escalation paths:
 
 ## Swarm capabilities
 
-- **Labrat swarm:** Up to 12 labrats in parallel. Fire-and-forget — no
+- **Labrat swarm:** Up to 1024 labrats in parallel. Fire-and-forget — no
   TaskCreate, they report via SendMessage + DESPAWN signal.
 - **Gemini labrat swarm (universal):** Any agent role can fire a 1-call, 10-probe
   fan-out inside Gemini's context. Refire up to 2x (30 max probes).

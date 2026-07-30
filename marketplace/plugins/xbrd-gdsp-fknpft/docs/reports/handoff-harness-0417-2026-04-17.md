@@ -74,7 +74,7 @@ This is the inverse of the `feedback_critic_hallucination.md` trap — critic ca
 | **M-E2-R2** (opt) | E | MED gap | DEFER-R3 — `CLAUDE_CODE_EFFORT_LEVEL` env efficacy unprobed |
 
 ### R2 commit `1d102c0`
-- `src/precheck.rs` (new) — pure `compute_cap` + live-tmux `run`
+- `src/precheck.rs` — current implementation is a pure `team_size <= 1024` check with no tmux query
 - `tests/precheck_pane_cap.rs` (new) — 10 unit tests
 - `src/lib.rs`, `src/cli.rs`, `src/main.rs` — CLI integration (exit 1 on Fail with stderr message)
 - `docs/reports/xbreed-harness-r2-2026-04-17.md` — full R2 report (311 lines)
@@ -109,7 +109,7 @@ This is the inverse of the `feedback_critic_hallucination.md` trap — critic ca
 |---|---|---|---|---|
 | **E** (effort-precedence) | Item 1 | Epistemic-not-ergonomic ceiling + session-wide env workaround documented | Protocol-tier (convention) | R3 xbreed-shared.md §Session Effort Configuration |
 | **T** (xask-native-tool) | Item 2 | Out-of-scope (no user-space non-MCP surface) | — | R1 xbreed-shared.md:92 comma-list extension |
-| **B** (batch-spawn-cap) | Item 3 | Preflight cap check (pure + live-tmux) with Build/CI-tier test enforcement | Runtime-tier + Build/CI | R2 `xbreed precheck pane-cap` subcommand + 10 tests |
+| **B** (batch-spawn-cap) | Item 3 | Deterministic inclusive maximum with Build/CI-tier test enforcement | Runtime-tier + Build/CI | Compatible `xbreed precheck pane-cap` subcommand |
 | **B×E** (cross) | — | Telemetry-gated future work (weighted occupancy, base + effort × EWMA(active_runtime)) | — | Documented in R2+R3 reports |
 
 ---

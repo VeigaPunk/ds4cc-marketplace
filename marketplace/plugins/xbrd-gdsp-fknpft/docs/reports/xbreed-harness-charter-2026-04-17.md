@@ -155,19 +155,16 @@ remaining spawns fail rather than queue-with-retry-on-free.
    pane allocation serialization
 2. Add timing instrumentation: log pane-alloc start/end per spawn, compute
    overlap factor (if truly parallel, overlap = N; if serial, overlap = 1)
-3. Test with N=5 (under cap) vs N=15 (over cap) — measure failure mode:
-   N=5 should all succeed; N=15 should gracefully queue or reject EARLY,
-   not silently drop 5 spawns with an obscure tmux error
+3. Test the inclusive boundaries: N=0 and N=1024 succeed; N=1025 rejects
+   before any spawn or tmux query.
 4. Read harness source (if accessible) for pane-allocation implementation
 
 ### Expected fix
 
-- If the cap is hardware/tmux-limit-driven → add pre-spawn cap-check with
-  clear error ("10 panes in use, cap 12, cannot spawn 6 more — shutdown
-  idle teammates first") — Build/CI-tier enforcement
-- If the cap is software-enforceable → implement proper batch-spawn with
-  queue-on-full OR concurrent-pane-alloc semantics — Runtime-tier
-- Document the cap explicitly in xbreed-shared.md + preserve sequential
+- Preserve the `pane-cap` command spelling while enforcing the sole maximum
+  1024 from team size alone — Build/CI-tier enforcement
+- Do not query pane count, window dimensions, or tmux availability
+- Document the maximum explicitly in xbreed-shared.md + preserve sequential
   logic where role dependencies require it (e.g., the-planner Phase 0 must
   complete before Phase 2 fan-out)
 
@@ -175,9 +172,7 @@ remaining spawns fail rather than queue-with-retry-on-free.
 
 - N=10 Agent batch in one message: all 10 spawn concurrently (timing
   overlap ≈ N, not ≈ 1)
-- N=15 batch with cap=12: first 12 spawn, remaining 3 either queue
-  gracefully or reject with clear "cap hit" error BEFORE consuming the
-  pane-alloc attempts
+- N=1025 batch: reject before spawning; N=1024 is accepted
 - Sequential-by-design flows (planner-first-then-specialists) still work
 
 ---

@@ -69,20 +69,30 @@ for f in \
   "$REPO_ROOT/CLAUDE.md"
 do
   if [[ -f "$f" ]]; then
+    # A legacy file is eligible only when its marker stream is complete and
+    # non-nested. Any unmatched/malformed marker makes the entire file opaque:
+    # preserve every byte, including user content after a stray begin marker.
+    if ! grep -Fq "$MARKER_BEGIN" "$f" && ! grep -Fq "$MARKER_END" "$f"; then
+      continue
+    fi
     tmp=$(mktemp)
-    awk -v b="$MARKER_BEGIN" -v e="$MARKER_END" '
-      $0 == b { skip=1; next }
-      $0 == e { skip=0; next }
+    if ! awk -v b="$MARKER_BEGIN" -v e="$MARKER_END" '
+      $0 == b { if (skip) bad=1; skip=1; seen=1; next }
+      $0 == e { if (!skip) bad=1; skip=0; seen=1; next }
       !skip { print }
-    ' "$f" >"$tmp"
+      END { if (skip || bad || !seen) exit 42 }
+    ' "$f" >"$tmp"; then
+      rm -f "$tmp"
+      echo "preserved malformed $f" >&2
+      continue
+    fi
     if [[ ! -s "$tmp" ]] || ! grep -q '[^[:space:]]' "$tmp"; then
       rm -f "$f" "$tmp"
       echo "nuked empty/stale $f"
     else
-      # Leave user content, drop our block; still prefer deleting if user said strong no
-      # Strong no: delete CLAUDE.md entirely when it only had our markers left OR always delete xbreed-installed ones
-      rm -f "$f" "$tmp"
-      echo "nuked $f (CLAUDE.md ban)"
+      cat "$tmp" >"$f"
+      rm -f "$tmp"
+      echo "removed managed block from $f; preserved unrelated content"
     fi
   fi
 done

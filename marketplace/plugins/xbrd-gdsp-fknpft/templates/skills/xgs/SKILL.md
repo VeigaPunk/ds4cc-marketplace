@@ -52,19 +52,19 @@ Axis -> profile mapping (from the-judge.md dispatch table):
 - Research, prior art, outside-world -> `scout` (sonnet)
 - Correctness, bugs, code review -> `reviewer` (sonnet)
 - Empirical probes, dry-runs -> `labrat` (sonnet) — CC native probes (all-Claude mode: no xask)
-- Code execution, implementation -> `executor` (sonnet)
+- Code execution, implementation -> `executor` (`openai/gpt-5.4-mini`, Codex Spark only; no alternate model/effort lane)
 - Cross-axis patterns, breadth -> `connector` (sonnet)
 - Findings synthesis, dedup -> `distiller` (sonnet)
 - Complexity reduction, YAGNI -> `simplifier` (sonnet)
 
-Team size cap: <=12 teammates per round.
+Team size maximum: <=1024 teammates per round.
 
 ### Phase 2 — Spawn all with full peer roster
 
 Spawn all teammates. Each brief includes:
 1. The full peer roster (all teammate names from Phase 1)
 2. Their axis assignment (name + direction + observable)
-3. **Godspeed mode:** every Agent prompt ends exactly ` | godspeed`; executor prompts end exactly ` | godspeed-impl`. Delegates repeat this requirement for every nested delegation.
+3. **Godspeed mode:** prepend the canonical Godspeed block, including the fixed team-size maximum of 1024, then append ` | godspeed`; executor prompts append ` | godspeed-impl`. Delegates repeat both requirements for every nested delegation.
 4. Task: propose ONE move on their axis (<=200 words)
 5. After proposing, DM each peer by name with a one-line critique
 6. Mark task completed after sending
@@ -117,7 +117,7 @@ Trigger: opposite verdicts on same claim, OR one teammate's move regresses anoth
 
 After delivering a round's results, immediately assess: did any axis improve? If yes, dispatch the next round. Do not pause to ask "what next?" or prompt cleanup. The user interrupts when they want to steer. Keep the Pareto walk moving until the frontier stops or 4 rounds hit.
 
-**Caps:** <=4 rounds, <=12 teammates per round, <=200-word proposals per teammate. Lift only on explicit user direction.
+**Limits:** <=4 rounds, <=1024 teammates per round, <=200-word proposals per teammate. The team-size maximum is fixed at 1024.
 
 ## Step 6 — Hold after frontier
 

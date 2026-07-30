@@ -1,5 +1,5 @@
 use anyhow::{anyhow, Context, Result};
-use std::path::PathBuf;
+use std::path::{Component, Path, PathBuf};
 
 /// A resolved loadout of one or more skills, ready to be injected into a target CLI.
 #[derive(Debug, Default, Clone)]
@@ -35,6 +35,7 @@ impl Loadout {
     pub fn resolve_with_paths(names: &[String], search_dirs: &[PathBuf]) -> Result<Self> {
         let mut entries = Vec::with_capacity(names.len());
         for name in names {
+            validate_skill_name(name)?;
             let path = find_skill(name, search_dirs).ok_or_else(|| {
                 let attempted = search_dirs
                     .iter()
@@ -77,11 +78,33 @@ impl Loadout {
 fn find_skill(name: &str, search_dirs: &[PathBuf]) -> Option<PathBuf> {
     for dir in search_dirs {
         let candidate = dir.join(name).join("SKILL.md");
-        if candidate.is_file() {
-            return Some(candidate);
+        let Ok(root) = std::fs::canonicalize(dir) else {
+            continue;
+        };
+        let Ok(resolved) = std::fs::canonicalize(&candidate) else {
+            continue;
+        };
+        if resolved.starts_with(&root) && resolved.is_file() {
+            return Some(resolved);
         }
     }
     None
+}
+
+fn validate_skill_name(name: &str) -> Result<()> {
+    let path = Path::new(name);
+    let normal_component = matches!(path.components().next(), Some(Component::Normal(_)))
+        && path.components().count() == 1;
+    if name.is_empty()
+        || !normal_component
+        || name.contains('/')
+        || name.contains('\\')
+        || name == "."
+        || name == ".."
+    {
+        return Err(anyhow!("invalid skill identifier: {name}"));
+    }
+    Ok(())
 }
 
 #[cfg(test)]
@@ -184,5 +207,48 @@ mod tests {
         let c = l.to_concat();
         assert!(c.contains("FROM A"));
         assert!(!c.contains("FROM B"));
+    }
+
+    #[test]
+    fn rejects_path_like_skill_identifiers() {
+        let tmp = tempdir().unwrap();
+        for name in ["../escape", "a/b", "a\\b", ".", "..", "/absolute"] {
+            let err =
+                Loadout::resolve_with_paths(&[name.to_string()], &[tmp.path().into()]).unwrap_err();
+            assert!(format!("{err:#}").contains("invalid skill identifier"));
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn rejects_skill_symlink_escape() {
+        use std::os::unix::fs::symlink;
+
+        let tmp = tempdir().unwrap();
+        let root = tmp.path().join("skills");
+        let outside = tmp.path().join("outside");
+        write_skill(&outside, "escaped", "outside body");
+        fs::create_dir_all(&root).unwrap();
+        symlink(outside.join("escaped"), root.join("escaped")).unwrap();
+
+        let err = Loadout::resolve_with_paths(&["escaped".to_string()], &[root]).unwrap_err();
+        assert!(format!("{err:#}").contains("skill not found"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn rejects_final_skill_file_symlink_escape() {
+        use std::os::unix::fs::symlink;
+
+        let tmp = tempdir().unwrap();
+        let root = tmp.path().join("skills");
+        let skill = root.join("escaped");
+        let outside = tmp.path().join("outside-SKILL.md");
+        fs::create_dir_all(&skill).unwrap();
+        fs::write(&outside, "outside body").unwrap();
+        symlink(&outside, skill.join("SKILL.md")).unwrap();
+
+        let err = Loadout::resolve_with_paths(&["escaped".to_string()], &[root]).unwrap_err();
+        assert!(format!("{err:#}").contains("skill not found"));
     }
 }
