@@ -18,28 +18,27 @@ grok plugin marketplace add VeigaPunk/ds4cc-marketplace
 List what Grok can install from it:
 
 ```bash
-grok plugin list --available --json | jq '.[] | select(.marketplace=="ds4cc-marketplace")'
+grok plugin list --available --json
 ```
 
 Install a single plugin (review source first):
 
 ```bash
-grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/<plugin-name>" --trust
+grok plugin install <plugin-name> --trust
+grok plugin enable <plugin-name>
 ```
 
 Install several common plugins:
 
 ```bash
 for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
-  grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/$p" --trust
+  grok plugin install "$p" --trust && grok plugin enable "$p"
 done
 ```
 
-Enable after install if needed:
+Inspect installed plugins:
 
 ```bash
-# config.toml [plugins] enabled = ["myagents", ...]
-grok plugin enable myagents
 grok plugin list
 ```
 
@@ -72,15 +71,18 @@ If the user pastes this skill or says "install ds4cc", respond with the Grok com
 
 ```bash
 codex plugin marketplace add VeigaPunk/ds4cc-marketplace
-codex plugin list
-codex plugin add <plugin-name>@ds4cc
+codex plugin list --available --json
+codex plugin add <plugin-name>@ds4cc --json
+codex plugin list --json
 ```
+
+Adding a plugin installs it enabled. Start a new Codex session before using its bundled skills and tools. To toggle state, open `/plugins` in the Codex TUI and press `Space`.
 
 Local development:
 
 ```bash
 codex plugin marketplace add .
-codex plugin add ds4cc@ds4cc
+codex plugin add ds4cc@ds4cc --json
 ```
 
 ## Claude Code

@@ -3,6 +3,7 @@ use ds4cc_validator::{
     MarketplaceEntry, Source,
 };
 use std::fs;
+use std::io::Write;
 use std::path::Path;
 use std::process::Command;
 use tempfile::TempDir;
@@ -38,6 +39,14 @@ fn repo_root_with_agents_layout() -> Option<std::path::PathBuf> {
     } else {
         None
     }
+}
+
+fn repo_root() -> std::path::PathBuf {
+    Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .and_then(Path::parent)
+        .expect("validator crate must live under <repo>/marketplace/validator")
+        .to_path_buf()
 }
 
 /// Create a valid plugin.json content
@@ -595,7 +604,9 @@ fn test_codex_plugin_list_ds4cc_complete() {
     );
 
     if !text.contains("Marketplace `ds4cc`") {
-        eprintln!("Skipping test_codex_plugin_list_ds4cc_complete: ds4cc marketplace not registered");
+        eprintln!(
+            "Skipping test_codex_plugin_list_ds4cc_complete: ds4cc marketplace not registered"
+        );
         return;
     }
 
@@ -630,6 +641,271 @@ fn test_codex_plugin_list_ds4cc_complete() {
         missing,
         text
     );
+}
+
+#[test]
+fn test_website_supported_hosts_and_guidance() {
+    let html =
+        fs::read_to_string(repo_root().join("index.html")).expect("failed to read index.html");
+    let expected = ["grok", "codex", "claude", "kimi", "copilot", "opencode"];
+
+    let inline_script = html
+        .split("<script")
+        .skip(1)
+        .filter_map(|tail| tail.split_once('>').map(|(_, script)| script))
+        .filter_map(|script| script.split_once("</script>").map(|(body, _)| body))
+        .find(|script| script.contains("const SCRIPTS"))
+        .expect("failed to locate inline script containing SCRIPTS");
+
+    let mut script_file = tempfile::Builder::new()
+        .suffix(".js")
+        .tempfile()
+        .expect("failed to create temporary JavaScript file");
+    script_file
+        .write_all(inline_script.as_bytes())
+        .expect("failed to write temporary JavaScript file");
+    script_file
+        .flush()
+        .expect("failed to flush temporary JavaScript file");
+    match Command::new("node")
+        .arg("--check")
+        .arg(script_file.path())
+        .output()
+    {
+        Ok(output) => assert!(
+            output.status.success(),
+            "website inline script has invalid JavaScript syntax:\n{}",
+            String::from_utf8_lossy(&output.stderr)
+        ),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+            eprintln!("Skipping website JavaScript syntax sub-check: node not in PATH");
+        }
+        Err(error) => panic!("failed to run node --check: {error}"),
+    }
+
+    let mut tab_hosts: Vec<&str> = html
+        .split("data-host=\"")
+        .skip(1)
+        .filter_map(|tail| tail.split('"').next())
+        .collect();
+    tab_hosts.sort_unstable();
+    let mut expected_sorted = expected;
+    expected_sorted.sort_unstable();
+    assert_eq!(
+        tab_hosts, expected_sorted,
+        "website host tabs changed unexpectedly"
+    );
+
+    let scripts = html
+        .split_once("const SCRIPTS = {")
+        .and_then(|(_, tail)| tail.split_once("\n  };"))
+        .map(|(body, _)| body)
+        .expect("failed to locate SCRIPTS object");
+    let mut script_hosts: Vec<&str> = scripts
+        .lines()
+        .filter_map(|line| line.strip_prefix("    "))
+        .filter_map(|line| line.strip_suffix(": {"))
+        .collect();
+    script_hosts.sort_unstable();
+    assert_eq!(
+        script_hosts, expected_sorted,
+        "terminal script hosts changed unexpectedly"
+    );
+
+    assert!(
+        !html.to_lowercase().contains("crush"),
+        "website still mentions removed host"
+    );
+    for marker in [
+        "Grok Build CLI",
+        "grok plugin marketplace add VeigaPunk/ds4cc-marketplace",
+        "grok plugin list --available --json",
+        "grok plugin install myagents --trust",
+        "grok plugin enable myagents",
+        "grok plugin install \"$p\" --trust &amp;&amp; grok plugin enable \"$p\"",
+        "Non-CLI fallback:",
+        "copilot plugin marketplace add VeigaPunk/ds4cc-marketplace",
+        "copilot plugin marketplace browse ds4cc",
+        "copilot plugin install myagents@ds4cc",
+        "copilot plugin list",
+        "data-copy=\"copilot plugin marketplace add VeigaPunk/ds4cc-marketplace",
+        "/reload-plugins",
+        "commands to enter in the Kimi TUI",
+        "${XDG_CONFIG_HOME:-$HOME/.config}/opencode/agents",
+        "$CODEX_HOME/plugins/cache/ds4cc/myagents/0.2.0",
+        "codex plugin list --available --json",
+        "codex plugin add myagents@ds4cc --json",
+        "codex plugin list --json",
+        "Adding a plugin installs it enabled",
+        "Start a new Codex session",
+        "/plugins",
+        "Space",
+    ] {
+        assert!(
+            html.contains(marker),
+            "missing corrected website marker: {marker}"
+        );
+    }
+    for invalid in [
+        "codex exec --agent",
+        "codex exec \"/",
+        "every agent CLI",
+        "Exact commands from the marketplace README",
+        "Copy, paste, done",
+        "0.28.1",
+        "<span class=\"p\">$</span> /plugins",
+        "#marketplace/plugins/",
+    ] {
+        assert!(
+            !html.contains(invalid),
+            "website retains invalid guidance: {invalid}"
+        );
+    }
+    let without_verified_grok_list = html.replace("grok plugin list --available --json", "");
+    assert!(
+        !without_verified_grok_list.contains("grok plugin list --available"),
+        "website retains grok plugin list --available without required --json"
+    );
+}
+
+#[test]
+fn test_public_codex_guidance_matches_verified_lifecycle() {
+    let lifecycle_docs = [
+        "index.html",
+        "README.md",
+        "marketplace/plugins/ds4cc/README.md",
+        "marketplace/plugins/ds4cc/skills/ds4cc-docs/SKILL.md",
+        "marketplace/plugins/myagents/README.md",
+    ];
+    let public_surfaces = [
+        "index.html",
+        "README.md",
+        "HIGHLIGHTS.md",
+        "marketplace/plugins/ds4cc/README.md",
+        "marketplace/plugins/ds4cc/skills/ds4cc-docs/SKILL.md",
+        "marketplace/plugins/myagents/README.md",
+        "marketplace/plugins/myagents/skills/myagents-docs/SKILL.md",
+        "marketplace/plugins/mycommands/skills/mycommands-docs/SKILL.md",
+        "marketplace/plugins/myskills/skills/myskills-docs/SKILL.md",
+    ];
+
+    for relative in lifecycle_docs {
+        let content = fs::read_to_string(repo_root().join(relative))
+            .unwrap_or_else(|error| panic!("failed to read {relative}: {error}"));
+        for marker in [
+            "codex plugin marketplace add VeigaPunk/ds4cc-marketplace",
+            "codex plugin list --available --json",
+            "--json",
+            "codex plugin list --json",
+            "/plugins",
+            "Space",
+        ] {
+            assert!(
+                content.contains(marker),
+                "{relative} is missing verified Codex lifecycle marker: {marker}"
+            );
+        }
+        assert!(
+            content.to_lowercase().contains("new codex session"),
+            "{relative} must require a new Codex session"
+        );
+        assert!(
+            content.to_lowercase().contains("enabled"),
+            "{relative} must explain that add installs enabled"
+        );
+        assert!(
+            content
+                .lines()
+                .any(|line| line.contains("codex plugin add ") && line.contains("--json")),
+            "{relative} must show codex plugin add with --json"
+        );
+    }
+
+    for relative in public_surfaces {
+        let content = fs::read_to_string(repo_root().join(relative))
+            .unwrap_or_else(|error| panic!("failed to read {relative}: {error}"));
+        for invalid in [
+            "codex exec --agent",
+            "codex exec \"/",
+            "codex plugin enable",
+            "codex plugin disable",
+        ] {
+            assert!(
+                !content.contains(invalid),
+                "{relative} retains invalid Codex guidance: {invalid}"
+            );
+        }
+    }
+
+    let html = fs::read_to_string(repo_root().join("index.html"))
+        .expect("failed to read index.html for Codex section checks");
+    let codex_host = html
+        .split_once("<h3>Codex <span class=\"tag\">OpenAI CLI</span></h3>")
+        .and_then(|(_, tail)| tail.split_once("</div>"))
+        .map(|(section, _)| section)
+        .expect("failed to locate visible Codex install block");
+    for marker in [
+        "codex plugin marketplace add VeigaPunk/ds4cc-marketplace",
+        "codex plugin list --available --json",
+        "codex plugin add myagents@ds4cc --json",
+        "codex plugin list --json",
+        "Start a new Codex session",
+        "/plugins",
+        "Space",
+    ] {
+        assert!(
+            codex_host.contains(marker),
+            "visible Codex install block is missing: {marker}"
+        );
+    }
+
+    let codex_script = html
+        .split_once("    codex: {")
+        .and_then(|(_, tail)| tail.split_once("    claude: {"))
+        .map(|(section, _)| section)
+        .expect("failed to locate Codex terminal script");
+    for marker in [
+        "codex plugin list --available --json",
+        "codex plugin add myagents@ds4cc --json",
+        "codex plugin list --json",
+        "myagents: installed=true, enabled=true",
+    ] {
+        assert!(
+            codex_script.contains(marker),
+            "Codex terminal script is missing: {marker}"
+        );
+    }
+    assert_eq!(
+        codex_script.matches("installed=true, enabled=true").count(),
+        1,
+        "Codex terminal script must show only the plugin actually installed"
+    );
+}
+
+#[test]
+fn test_copilot_marketplace_sources_are_relative_strings() {
+    let path = repo_root().join(".github/plugin/marketplace.json");
+    let content = fs::read_to_string(&path).expect("failed to read Copilot marketplace");
+    let catalog: serde_json::Value =
+        serde_json::from_str(&content).expect("failed to parse Copilot marketplace");
+    let plugins = catalog["plugins"]
+        .as_array()
+        .expect("plugins must be an array");
+    assert_eq!(
+        plugins.len(),
+        16,
+        "Copilot marketplace must expose all plugins"
+    );
+    for plugin in plugins {
+        let name = plugin["name"].as_str().unwrap_or("<unnamed>");
+        let source = plugin["source"]
+            .as_str()
+            .unwrap_or_else(|| panic!("Copilot source for {name} must be a string"));
+        assert!(
+            source.starts_with("./marketplace/plugins/") && !source.contains(".."),
+            "Copilot source for {name} must be a safe relative plugin path: {source}"
+        );
+    }
 }
 
 // ─── Security tests (red-first) ───────────────────────────────────────────────

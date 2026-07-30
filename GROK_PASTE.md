@@ -38,7 +38,7 @@ grok plugin list --available --json | jq '.[] | select(.marketplace=="ds4cc-mark
 
 ```bash
 for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
-  grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/$p" --trust
+  grok plugin install "$p" --trust && grok plugin enable "$p"
 done
 grok plugin list
 ```

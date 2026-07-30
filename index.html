@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>DS4CC — 16 plugins for every agent CLI</title>
-<meta name="description" content="DS4CC Marketplace: 16 curated Rust-validated plugins for Grok Build, Codex, Claude Code, Kimi Code CLI, Crush CLI and OpenCode. One repo, every host." />
-<meta property="og:title" content="DS4CC Marketplace — one repo, every agent CLI" />
-<meta property="og:description" content="16 curated plugins for Grok, Codex, Claude Code, Kimi, Crush and OpenCode. Install in one command." />
+<title>DS4CC — 16 plugins for six supported agent CLIs</title>
+<meta name="description" content="DS4CC Marketplace: 16 curated Rust-validated plugins with host-specific guidance for Grok Build, Codex, Claude Code, Kimi Code CLI, GitHub Copilot CLI and OpenCode." />
+<meta property="og:title" content="DS4CC Marketplace — six supported agent CLIs" />
+<meta property="og:description" content="16 curated plugins with host-specific install guidance for Grok, Codex, Claude Code, Kimi, GitHub Copilot CLI and OpenCode." />
 <meta property="og:url" content="https://ds4cc.com/" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
@@ -372,10 +372,10 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 ██████╔╝ ███████║      ██║ ╚██████╗ ╚██████╗
 ╚═════╝  ╚══════╝      ╚═╝  ╚═════╝  ╚═════╝
 </pre>
-    <h1>One marketplace. <em>Every agent CLI.</em></h1>
+    <h1>One marketplace. <em>Six supported agent CLIs.</em></h1>
     <p class="tagline">
       Static plugin payloads for <strong>Grok Build</strong>, <strong>Codex</strong>, <strong>Claude Code</strong>,
-      <strong>Kimi Code CLI</strong> and <strong>Crush CLI</strong> — plus a dependency-free
+      <strong>Kimi Code CLI</strong> and <strong>GitHub Copilot CLI</strong> — plus a dependency-free
       bootstrap for <strong>OpenCode</strong>. Register one repo, install what you need, ship.
     </p>
     <div class="hero-row">
@@ -388,7 +388,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
         <button class="copy-btn" data-copy="grok plugin marketplace add VeigaPunk/ds4cc-marketplace">COPY</button>
       </div>
       <a class="btn solid" href="#plugins">BROWSE PLUGINS</a>
-      <a class="btn" href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">GROK_PASTE.md ↗</a>
+      <a class="btn" href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">NON-CLI GROK CHAT FALLBACK ↗</a>
     </div>
   </header>
 
@@ -401,7 +401,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
         <button class="host-tab" data-host="codex" role="tab">codex</button>
         <button class="host-tab" data-host="claude" role="tab">claude</button>
         <button class="host-tab" data-host="kimi" role="tab">kimi</button>
-        <button class="host-tab" data-host="crush" role="tab">crush</button>
+        <button class="host-tab" data-host="copilot" role="tab">copilot</button>
         <button class="host-tab" data-host="opencode" role="tab">opencode</button>
       </div>
       <div class="term" aria-live="polite">
@@ -464,58 +464,60 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
   </section>
 
   <section id="install" class="reveal">
-    <h2><span class="idx">04</span>Install — per host, verbatim</h2>
-    <p class="sub">Exact commands from the marketplace README. Copy, paste, done.</p>
+    <h2><span class="idx">04</span>Install — host-specific guidance</h2>
+    <p class="sub">Use the supported flow for your host; review third-party plugin sources before installation.</p>
     <div class="hosts">
 
       <div class="host">
-        <h3>Grok Build <span class="tag">xAI CLI</span></h3>
+        <h3>Grok Build CLI <span class="tag">xAI CLI</span></h3>
 <pre><span class="p">$</span> grok plugin marketplace add VeigaPunk/ds4cc-marketplace
-<span class="p">$</span> grok plugin list --available
-<span class="p">$</span> grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/myagents" --trust</pre>
+<span class="p">$</span> grok plugin list --available --json
+<span class="p">$</span> grok plugin install myagents --trust
+<span class="p">$</span> grok plugin enable myagents</pre>
 <pre><span class="c"># install the core set in one loop</span>
 <span class="p">$</span> for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
-    grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/$p" --trust
+    grok plugin install "$p" --trust &amp;&amp; grok plugin enable "$p"
   done</pre>
-        <p class="note">No CLI handy? Paste <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">GROK_PASTE.md</a> into a Grok chat — skills are host-agnostic.</p>
+        <p class="note"><strong>Non-CLI fallback:</strong> paste <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">GROK_PASTE.md</a> into a Grok chat. This is separate from the Grok Build CLI flow above.</p>
       </div>
 
       <div class="host">
         <h3>Codex <span class="tag">OpenAI CLI</span></h3>
 <pre><span class="p">$</span> codex plugin marketplace add VeigaPunk/ds4cc-marketplace
-<span class="p">$</span> codex plugin add myagents@ds4cc
-<span class="p">$</span> codex plugin list</pre>
-        <p class="note">Local dev checkout: <code>codex plugin marketplace add .</code> — the canonical manifest lives at <code>.agents/plugins/marketplace.json</code>.</p>
+<span class="p">$</span> codex plugin list --available --json
+<span class="p">$</span> codex plugin add myagents@ds4cc --json
+<span class="p">$</span> codex plugin list --json</pre>
+        <p class="note">Adding a plugin installs it enabled. Start a new Codex session to load its bundled skills and tools; in the TUI, use <code>/plugins</code> and press <code>Space</code> to toggle state. Local dev checkout: <code>codex plugin marketplace add .</code> — the canonical manifest lives at <code>.agents/plugins/marketplace.json</code>.</p>
       </div>
 
       <div class="host">
         <h3>Claude Code <span class="tag">Anthropic</span></h3>
 <pre><span class="p">$</span> claude plugin marketplace add VeigaPunk/ds4cc-marketplace
 <span class="p">$</span> claude plugin install myagents@ds4cc</pre>
-        <p class="note">Strict-validated: <code>claude plugin validate --strict .claude-plugin/marketplace.json</code> passes in CI.</p>
+<pre><span class="c"># in the current Claude Code session</span>
+<span class="g">/reload-plugins</span></pre>
+        <p class="note">Strict-validated: <code>claude plugin validate --strict .claude-plugin/marketplace.json</code> passes in CI. Reload plugins in any session that was already open.</p>
       </div>
 
       <div class="host">
-        <h3>Kimi Code CLI <span class="tag">0.28.1</span></h3>
-<pre><span class="p">$</span> /plugins install https://github.com/VeigaPunk/ds4cc-marketplace
-<span class="p">$</span> /reload</pre>
+        <h3>Kimi Code CLI <span class="tag">TUI plugins</span></h3>
+<pre><span class="c"># commands to enter in the Kimi TUI</span>
+<span class="g">/plugins install https://github.com/VeigaPunk/ds4cc-marketplace</span>
+<span class="g">/reload</span></pre>
 <pre><span class="c"># or register the full packaged catalog in the Kimi TUI</span>
-<span class="p">$</span> /plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json
-<span class="p">$</span> /plugins install <artifact-url-or-local-path>
-<span class="p">$</span> /reload</pre>
-        <p class="note">Invoke as <code>/skill:<skill-name></code> and <code>/<plugin>:<command></code>. Third-party installs ask for trust first — review before approving.</p>
+<span class="g">/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json</span>
+<span class="g">/plugins install &lt;artifact-url-or-local-path&gt;</span>
+<span class="g">/reload</span></pre>
+        <p class="note">Invoke as <code>/skill:&lt;skill-name&gt;</code> and <code>/&lt;plugin&gt;:&lt;command&gt;</code>. Third-party installs ask for trust first — review before approving.</p>
       </div>
 
       <div class="host">
-        <h3>Crush CLI <span class="tag">skills via crush.json</span></h3>
-<pre><span class="p">$</span> git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
-<span class="p">$</span> cd ds4cc-marketplace && mkdir -p ~/.config/crush/skills
-<span class="p">$</span> cp -r marketplace/plugins/ds4cc/skills/* ~/.config/crush/skills/</pre>
-<pre><span class="c"># common set (review each source first)</span>
-<span class="p">$</span> for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
-    cp -r "marketplace/plugins/$p/skills/"* ~/.config/crush/skills/
-  done</pre>
-        <p class="note">Crush discovers skills from <code>options.skills_paths</code> in <code>crush.json</code>. Invoke as <code>/skill:ds4cc-docs</code>.</p>
+        <h3>GitHub Copilot CLI <span class="tag">GitHub</span></h3>
+<pre><button class="copy-btn" data-copy="copilot plugin marketplace add VeigaPunk/ds4cc-marketplace&#10;copilot plugin marketplace browse ds4cc&#10;copilot plugin install myagents@ds4cc&#10;copilot plugin list">COPY</button><span class="p">$</span> copilot plugin marketplace add VeigaPunk/ds4cc-marketplace
+<span class="p">$</span> copilot plugin marketplace browse ds4cc
+<span class="p">$</span> copilot plugin install myagents@ds4cc
+<span class="p">$</span> copilot plugin list</pre>
+        <p class="note">The Copilot catalog uses relative string sources in <code>.github/plugin/marketplace.json</code>.</p>
       </div>
 
       <div class="host">
@@ -523,7 +525,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 <pre><span class="p">$</span> git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
 <span class="p">$</span> node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
 <span class="c"># or: --project /path/to/project</span></pre>
-        <p class="note">Writes 14 <code>the-*</code> agents plus <code>network-auditor</code> (15 profiles total), and a separate <code>orch</code> primary mode.</p>
+        <p class="note">Writes 15 <code>the-*</code> agents plus <code>network-auditor</code> (16 subagents total), and a separate <code>orch</code> primary mode.</p>
       </div>
 
     </div>
@@ -671,7 +673,7 @@ distiller / simplifier / scribe native</pre>
         codex · <code>.agents/plugins/marketplace.json</code><br/>
         claude · <code>.claude-plugin/marketplace.json</code><br/>
         kimi · <a href="https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json" target="_blank" rel="noopener">published catalog</a><br/>
-        crush · <code>.crush-plugin/marketplace.json</code>
+        copilot · <code>.github/plugin/marketplace.json</code>
       </div>
       <div>
         <b>referrals</b>
@@ -701,10 +703,10 @@ distiller / simplifier / scribe native</pre>
 
   const REPO = "https://github.com/VeigaPunk/ds4cc-marketplace";
   const PLUGINS = [
-    { n: "myagents", v: "0.2.0", d: "Curated agent profiles for development, review, research, and orchestration.", c: 'codex exec --agent executor "..."' },
+    { n: "myagents", v: "0.2.0", d: "Curated agent profiles for development, review, research, and orchestration.", c: 'codex "Use the executor agent profile for this task"' },
     { n: "godspeed-core", v: "0.2.0", d: "Adaptive execution doctrine & Pareto walk policy for long tasks.", c: 'codex "godspeed: <task>"' },
-    { n: "mycommands", v: "0.2.0", d: "Reusable command packs & shell routines, ready to exec.", c: 'codex exec "/my-command-name"' },
-    { n: "myskills", v: "0.2.0", d: "Curated skill inventory & workflow helpers, discoverable in-session.", c: 'codex exec "/skill-name <args>"' },
+    { n: "mycommands", v: "0.2.0", d: "Reusable command packs & shell routines, ready to exec.", c: 'codex "Use the installed command pack for this task"' },
+    { n: "myskills", v: "0.2.0", d: "Curated skill inventory & workflow helpers, discoverable in-session.", c: "Open the Codex TUI and use /skills" },
     { n: "agent-wall", v: "0.2.0", d: "Handoff checkpoints & session continuity across agents and days.", c: 'codex exec "Create an agent-wall checkpoint..."' },
     { n: "agent-pip", v: "0.2.1", d: "Live tmux pane wall for Waybar with the newest output anchored at each panel’s bottom.", c: "cargo build --release && agent-wall --status-pango" },
     { n: "ds4cc", v: "0.3.0", d: "Marketplace meta-plugin — discover/install plugins and run ds4cc/orch mode.", c: "codex plugin marketplace add VeigaPunk/ds4cc-marketplace" },
@@ -773,15 +775,17 @@ distiller / simplifier / scribe native</pre>
 
   const SCRIPTS = {
     grok: {
-      title: "ds4cc — grok build",
+      title: "ds4cc — Grok Build CLI",
       lines: [
         ["cmd", "grok plugin marketplace add VeigaPunk/ds4cc-marketplace"],
-        ["ok",  "added marketplace `ds4cc` — 16 plugins available"],
-        ["cmd", 'grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/myagents" --trust'],
-        ["ok",  "installed `myagents` 0.2.0 — skills + commands ready"],
-        ["cmd", "for p in godspeed-core agent-wall mycommands myskills ds4cc; do grok plugin install \\\"...#$p\\\" --trust; done"],
-        ["ok",  "5 more plugins installed. godspeed online."],
-        ["out", "tip: paste GROK_PASTE.md into any Grok chat — skills are host-agnostic"],
+        ["ok",  "marketplace registered"],
+        ["cmd", "grok plugin list --available --json"],
+        ["out", "JSON returned 16 available marketplace entries"],
+        ["cmd", "grok plugin install myagents --trust"],
+        ["ok",  "installed `myagents` from the registered marketplace"],
+        ["cmd", "grok plugin enable myagents"],
+        ["ok",  "enabled `myagents`"],
+        ["out", "non-CLI fallback: paste GROK_PASTE.md into a Grok chat"],
       ],
     },
     codex: {
@@ -789,12 +793,14 @@ distiller / simplifier / scribe native</pre>
       lines: [
         ["cmd", "codex plugin marketplace add VeigaPunk/ds4cc-marketplace"],
         ["ok",  "added marketplace `ds4cc` from VeigaPunk/ds4cc-marketplace"],
-        ["cmd", "codex plugin add myagents@ds4cc"],
-        ["ok",  "added plugin `myagents` from marketplace `ds4cc`"],
-        ["out", "installed plugin root: ~/.codex/plugins/cache/ds4cc/myagents/0.2.0"],
-        ["cmd", "codex plugin list"],
-        ["out", "myagents@ds4cc      installed, enabled   0.2.0"],
-        ["out", "godspeed-core@ds4cc installed, enabled   0.2.0"],
+        ["cmd", "codex plugin list --available --json"],
+        ["out", "available catalog returned as JSON"],
+        ["cmd", "codex plugin add myagents@ds4cc --json"],
+        ["ok",  "`myagents` installed and enabled"],
+        ["out", "installed plugin root: $CODEX_HOME/plugins/cache/ds4cc/myagents/0.2.0"],
+        ["cmd", "codex plugin list --json"],
+        ["out", "myagents: installed=true, enabled=true"],
+        ["out", "start a new session; use /plugins + Space to toggle state"],
       ],
     },
     claude: {
@@ -804,31 +810,33 @@ distiller / simplifier / scribe native</pre>
         ["ok",  "marketplace `ds4cc` registered"],
         ["cmd", "claude plugin install myagents@ds4cc"],
         ["ok",  "installed `myagents` 0.2.0"],
+        ["tui", "/reload-plugins"],
+        ["out", "reload plugins in the current Claude Code session"],
         ["cmd", "claude plugin validate --strict .claude-plugin/marketplace.json"],
         ["ok",  "strict validation passed"],
       ],
     },
-    crush: {
-      title: "ds4cc — crush cli",
+    copilot: {
+      title: "ds4cc — github copilot cli",
       lines: [
-        ["cmd", "git clone https://github.com/VeigaPunk/ds4cc-marketplace.git && cd ds4cc-marketplace"],
-        ["out", "cloning into 'ds4cc-marketplace'... done"],
-        ["cmd", "mkdir -p ~/.config/crush/skills && cp -r marketplace/plugins/ds4cc/skills/* ~/.config/crush/skills/"],
-        ["ok",  "ds4cc skills linked into crush"],
-        ["cmd", "for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do cp -r \\\"marketplace/plugins/$p/skills/\\\"* ~/.config/crush/skills/; done"],
-        ["ok",  "common set installed — 6 plugins' skills"],
-        ["out", "invoke as /skill:ds4cc-docs · skills only, no agent profiles"],
+        ["cmd", "copilot plugin marketplace add VeigaPunk/ds4cc-marketplace"],
+        ["ok",  "added marketplace `ds4cc`"],
+        ["cmd", "copilot plugin marketplace browse ds4cc"],
+        ["out", "16 plugins available"],
+        ["cmd", "copilot plugin install myagents@ds4cc"],
+        ["ok",  "installed `myagents` from marketplace `ds4cc`"],
+        ["cmd", "copilot plugin list"],
       ],
     },
     kimi: {
-      title: "ds4cc — kimi code cli 0.28.1",
+      title: "ds4cc — kimi code cli",
       lines: [
-        ["cmd", "/plugins install https://github.com/VeigaPunk/ds4cc-marketplace"],
+        ["tui", "/plugins install https://github.com/VeigaPunk/ds4cc-marketplace"],
         ["warn", "third-party plugin — trust confirmation shown"],
         ["ok",  "DS4CC bootstrap plugin installed"],
-        ["cmd", "/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json"],
+        ["tui", "/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json"],
         ["ok",  "catalog registered — 16 packaged plugins"],
-        ["cmd", "/reload"],
+        ["tui", "/reload"],
         ["out", "skills live as /skill:<name> · commands as /<plugin>:<command>"],
       ],
     },
@@ -838,8 +846,9 @@ distiller / simplifier / scribe native</pre>
         ["cmd", "git clone https://github.com/VeigaPunk/ds4cc-marketplace.git"],
         ["out", "cloning into 'ds4cc-marketplace'... done"],
         ["cmd", "node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global"],
-        ["ok",  "wrote 14 the-* agents plus network-auditor to ~/.config/opencode/agents"],
-        ["ok",  "primary mode `orch` ready — XBGST default, judge-level godspeed"],
+        ["ok",  "wrote 15 the-* agents plus network-auditor — 16 subagents total"],
+        ["ok",  "separate primary mode `orch` ready — XBGST default, judge-level godspeed"],
+        ["out", "destination: ${XDG_CONFIG_HOME:-$HOME/.config}/opencode/agents"],
         ["warn", "note: xask on PATH required for cross-model delegation (not bundled)"],
       ],
     },
@@ -867,9 +876,9 @@ distiller / simplifier / scribe native</pre>
     for (const [type, text] of script.lines) {
       if (my !== playToken) return;
       const line = document.createElement("div");
-      if (type === "cmd") {
+      if (type === "cmd" || type === "tui") {
         line.className = "cmd";
-        line.appendChild(span("ps1", "$ "));
+        line.appendChild(span("ps1", type === "tui" ? "› " : "$ "));
         const typed = span("", "");
         const cur = document.createElement("span");
         cur.className = "cursor";

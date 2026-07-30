@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 
 const EXPECTED_AGENTS = [
   "network-auditor",
+  "the-architect",
   "the-connector",
   "the-critic",
   "the-distiller",
@@ -26,6 +27,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const errors = [];
 const GODSPEED_INVARIANT = "**Godspeed is inherited.**";
 const DELEGATION_INVARIANT = "**Delegation is transitive.**";
+const CONCURRENCY_CEILING = "- **Concurrency ceiling.** Never have more than 16 concurrently spawned subagents.";
 const PROHIBITED_PROFILE_TEXT = [
   "gpt55",
   "gpt-5.6-sol",
@@ -62,7 +64,7 @@ async function exists(filePath) {
 const agentsDir = path.join(root, "marketplace", "plugins", "myagents", "agents");
 const files = (await readdir(agentsDir)).filter((name) => name.endsWith(".agent.md")).sort();
 const actualAgents = files.map((name) => name.slice(0, -".agent.md".length));
-check(files.length === 15, `expected 14 the-* agent payloads plus network-auditor, found ${files.length}`);
+check(files.length === 16, `expected 15 the-* agent payloads plus network-auditor, found ${files.length}`);
 check(
   actualAgents.length === EXPECTED_AGENTS.length && EXPECTED_AGENTS.every((name) => actualAgents.includes(name)),
   `stale or unexpected agent names: expected ${EXPECTED_AGENTS.join(", ")}; found ${actualAgents.join(", ")}`,
@@ -89,6 +91,7 @@ for (const filename of files) {
   }
   check(source.includes(GODSPEED_INVARIANT), `${filename}: missing Godspeed inheritance invariant`);
   check(source.includes(DELEGATION_INVARIANT), `${filename}: missing transitive delegation invariant`);
+  check(source.includes(CONCURRENCY_CEILING), `${filename}: missing 16-subagent concurrency ceiling`);
   for (const prohibited of PROHIBITED_PROFILE_TEXT) {
     check(!source.includes(prohibited), `${filename}: prohibited stale delegation text: ${prohibited}`);
   }
@@ -162,5 +165,5 @@ if (errors.length > 0) {
   for (const error of errors) console.error(`Error: ${error}`);
   process.exitCode = 1;
 } else {
-  console.log("Validated 14 the-* Godspeed agent payloads plus network-auditor, packaged skills, and synchronized Codex/Copilot/Claude metadata.");
+  console.log("Validated 15 the-* Godspeed agent payloads plus network-auditor (16 subagents total), packaged skills, and synchronized Codex/Copilot/Claude metadata.");
 }

@@ -41,8 +41,8 @@ grok plugin details myagents
 **Codex:**
 
 ```bash
-codex exec --agent executor "Implement the failing test"
-codex exec --agent reviewer "Review this diff for bugs"
+codex "Use the executor profile to implement the failing test"
+codex "Use the reviewer profile to review this diff for bugs"
 ```
 
 ## Create a new agent profile

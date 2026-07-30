@@ -12,8 +12,9 @@ This plugin explains how to review and register the marketplace and how to choos
 
 ```bash
 grok plugin marketplace add VeigaPunk/ds4cc-marketplace
-grok plugin list --available
-grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/myagents" --trust
+grok plugin list --available --json
+grok plugin install myagents --trust
+grok plugin enable myagents
 ```
 
 Paste-friendly bootstrap: see repo root [`GROK_PASTE.md`](../../../GROK_PASTE.md).
@@ -22,9 +23,12 @@ Paste-friendly bootstrap: see repo root [`GROK_PASTE.md`](../../../GROK_PASTE.md
 
 ```bash
 codex plugin marketplace add VeigaPunk/ds4cc-marketplace
-codex plugin list
-codex plugin add <plugin-name>@ds4cc
+codex plugin list --available --json
+codex plugin add myagents@ds4cc --json
+codex plugin list --json
 ```
+
+Adding a plugin installs it enabled. Start a new Codex session to load bundled skills and tools. In the Codex TUI, open `/plugins` and press `Space` to toggle state.
 
 ## Quick start (Kimi Code CLI 0.28.1)
 

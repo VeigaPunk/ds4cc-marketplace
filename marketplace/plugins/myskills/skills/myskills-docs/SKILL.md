@@ -25,11 +25,7 @@ cp -r ./skills/* ~/.claude/skills/ 2>/dev/null || true
 
 **Grok Build** — skills under `~/.grok/skills/` or the enabled plugin are auto-discovered; invoke by name or paste the `SKILL.md` body into chat.
 
-**Codex:**
-
-```bash
-codex exec "/skill-name <arguments>"
-```
+**Codex:** open the Codex TUI, enter `/skills`, and select the installed skill. Slash commands are interactive TUI commands, not arguments to `codex exec`.
 
 ## Create a new skill
 

@@ -24,15 +24,16 @@ Sixteen curated plugins, Rust-validated and curation-gated. Register one repo, i
 
 ```bash
 grok plugin marketplace add VeigaPunk/ds4cc-marketplace
-grok plugin list --available
-grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/myagents" --trust
+grok plugin list --available --json
+grok plugin install myagents --trust
+grok plugin enable myagents
 ```
 
 Install several core plugins:
 
 ```bash
 for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
-  grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/$p" --trust
+  grok plugin install "$p" --trust && grok plugin enable "$p"
 done
 ```
 
@@ -48,18 +49,17 @@ grok plugin marketplace add .
 
 ```bash
 codex plugin marketplace add VeigaPunk/ds4cc-marketplace
+codex plugin list --available --json
+codex plugin add myagents@ds4cc --json
+codex plugin list --json
 ```
+
+Adding a plugin installs it enabled. Start a new Codex session to load its bundled skills and tools. To toggle plugin state, open `/plugins` in the Codex TUI and press `Space`.
 
 Or local dev:
 
 ```bash
 codex plugin marketplace add .
-```
-
-Install `myagents` after adding the marketplace:
-
-```bash
-codex plugin add myagents@ds4cc
 ```
 
 ## Claude Code
@@ -147,7 +147,7 @@ node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
 node ds4cc-marketplace/scripts/install-opencode-agents.mjs --project /path/to/project
 ```
 
-The commands are alternatives, not sequential steps. The installer writes native agent files to `${XDG_CONFIG_HOME:-~/.config}/opencode/agents` or `<project>/.opencode/agents`. It installs 14 `the-*` subagents plus `network-auditor` (15 profiles total), and a separate `orch` primary mode aligned to `the-judge`. `orch` runs XBGST by default, loads all three Godspeed sources at the judge level, and injects the core directive into every delegation. The installer refuses differing existing files unless `--force` is supplied and does not edit `opencode.json`.
+The commands are alternatives, not sequential steps. The installer writes native agent files to `${XDG_CONFIG_HOME:-~/.config}/opencode/agents` or `<project>/.opencode/agents`. It installs 15 `the-*` subagents plus `network-auditor` (16 subagents total), and a separate `orch` primary mode aligned to `the-judge`. `orch` runs XBGST by default, loads all three Godspeed sources at the judge level, and injects the core directive into every delegation. The installer refuses differing existing files unless `--force` is supplied and does not edit `opencode.json`.
 
 Profiles use `xask --spark --gs codex` for cross-model delegation. `xask` is an external prerequisite, is not bundled by `myagents`, and must be installed separately on `PATH`; profiles that do not invoke cross-model delegation remain usable without it.
 
@@ -189,11 +189,13 @@ Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `a
 
 ```bash
 # Grok
-grok plugin install "VeigaPunk/ds4cc-marketplace#marketplace/plugins/<plugin-name>" --trust
+grok plugin install <plugin-name> --trust
+grok plugin enable <plugin-name>
 
 # Codex
-codex plugin list
-codex plugin add <plugin-name>@ds4cc
+codex plugin list --available --json
+codex plugin add <plugin-name>@ds4cc --json
+codex plugin list --json
 
 # Claude Code
 claude plugin install <plugin-name>@ds4cc

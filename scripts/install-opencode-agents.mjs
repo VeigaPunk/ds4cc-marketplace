@@ -33,6 +33,7 @@ Execute tool calls concurrently in large batches. Do not serialize what can run 
 Do not output philosophical reasoning or verbose plans. Act directly via tool calls.
 
 Delegation is transitive. Every delegated prompt MUST carry this directive and end with the literal suffix \` | godspeed\`, or \` | godspeed-impl\` for executor prompts. Every delegate MUST repeat this requirement for prompts it delegates.
+- **Concurrency ceiling.** Never have more than 16 concurrently spawned subagents.
 
 `;
 const ORCH_POSTURE = `## OpenCode orch mode

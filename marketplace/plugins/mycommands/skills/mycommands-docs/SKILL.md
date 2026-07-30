@@ -28,7 +28,7 @@ cp -r ./commands/* ~/.claude/commands/ 2>/dev/null || true
 **Codex:**
 
 ```bash
-codex exec "/my-command-name"
+codex "Use the installed my-command-name command pack for this task"
 ```
 
 ## Add a new reusable command

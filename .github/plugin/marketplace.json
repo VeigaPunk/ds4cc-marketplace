@@ -16,10 +16,7 @@
     },
     {
       "name": "aaronplug",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/aaronplug"
-      },
+      "source": "./marketplace/plugins/aaronplug",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -28,10 +25,7 @@
     },
     {
       "name": "agent-pip",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/agent-pip"
-      },
+      "source": "./marketplace/plugins/agent-pip",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -41,10 +35,7 @@
     },
     {
       "name": "agent-wall",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/agent-wall"
-      },
+      "source": "./marketplace/plugins/agent-wall",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -53,10 +44,7 @@
     },
     {
       "name": "ds4cc",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/ds4cc"
-      },
+      "source": "./marketplace/plugins/ds4cc",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -65,10 +53,7 @@
     },
     {
       "name": "godspeed-codex-command",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/godspeed-codex-command"
-      },
+      "source": "./marketplace/plugins/godspeed-codex-command",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -77,10 +62,7 @@
     },
     {
       "name": "godspeed-core",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/godspeed-core"
-      },
+      "source": "./marketplace/plugins/godspeed-core",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -89,10 +71,7 @@
     },
     {
       "name": "infinizoom",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/infinizoom"
-      },
+      "source": "./marketplace/plugins/infinizoom",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -101,10 +80,7 @@
     },
     {
       "name": "mycommands",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/mycommands"
-      },
+      "source": "./marketplace/plugins/mycommands",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -113,10 +89,7 @@
     },
     {
       "name": "myskills",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/myskills"
-      },
+      "source": "./marketplace/plugins/myskills",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -125,10 +98,7 @@
     },
     {
       "name": "spoderman",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/spoderman"
-      },
+      "source": "./marketplace/plugins/spoderman",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -137,10 +107,7 @@
     },
     {
       "name": "the-almanacker",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/the-almanacker"
-      },
+      "source": "./marketplace/plugins/the-almanacker",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -149,10 +116,7 @@
     },
     {
       "name": "the-kimiraikoner",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/the-kimiraikoner"
-      },
+      "source": "./marketplace/plugins/the-kimiraikoner",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -161,10 +125,7 @@
     },
     {
       "name": "the-musketeer",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/the-musketeer"
-      },
+      "source": "./marketplace/plugins/the-musketeer",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -173,10 +134,7 @@
     },
     {
       "name": "the-puppeteer",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/the-puppeteer"
-      },
+      "source": "./marketplace/plugins/the-puppeteer",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -185,10 +143,7 @@
     },
     {
       "name": "xbrd-gdsp-fknpft",
-      "source": {
-        "source": "local",
-        "path": "./marketplace/plugins/xbrd-gdsp-fknpft"
-      },
+      "source": "./marketplace/plugins/xbrd-gdsp-fknpft",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"

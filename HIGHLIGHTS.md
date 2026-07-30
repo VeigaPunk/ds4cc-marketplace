@@ -29,9 +29,9 @@ Every plugin now ships a `SKILL.md` with real, copy-pasteable commands. Validati
 
 | Plugin | What it does | Key actionable command |
 |---|---|---|
-| `myagents` | Browse/copy user agent templates | `codex exec --agent executor "..."` |
-| `mycommands` | Reusable shell command packs | `codex exec "/my-command-name"` |
-| `myskills` | Discoverable Codex skill workflows | `codex exec "/skill-name <args>"` |
+| `myagents` | Browse/copy user agent templates | `codex "Use the executor profile to implement the failing test"` |
+| `mycommands` | Reusable shell command packs | `codex "Use the installed command pack for this task"` |
+| `myskills` | Discoverable Codex skill workflows | Open the Codex TUI and use `/skills` |
 | `agent-wall` | Handoff checkpoints between sessions | `codex exec "Create an agent-wall checkpoint..."` |
 | `ds4cc` | Meta-plugin: browse/install this marketplace | `codex plugin marketplace add VeigaPunk/ds4cc-marketplace` |
 
