@@ -20,7 +20,7 @@
       "id": "ds4cc",
       "displayName": "DS4CC Marketplace",
       "version": "0.3.0",
-      "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Grok Build, Codex, Kimi Code CLI, or OpenCode after source review.",
+      "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Grok Build, Codex, Kimi Code, and OpenCode bootstrap after source review.",
       "homepage": "https://ds4cc.com/",
       "keywords": [
         "plugins",
@@ -120,7 +120,7 @@
     },
     {
       "id": "the-netsshark",
-      "displayName": "The Netsshark",
+      "displayName": "The NetShark",
       "version": "0.2.0",
       "description": "Empirical network configuration audits with adversarial validation.",
       "homepage": "https://ds4cc.com",
@@ -141,6 +141,14 @@
       "description": "Multimodel dispatch orchestration and benchmark workflows",
       "homepage": "https://github.com/VeigaPunk/xbrd-gdsp-fknpft",
       "source": "./artifacts/xbrd-gdsp-fknpft-8.16.137.zip"
+    },
+    {
+      "id": "xbrd-selector",
+      "displayName": "Xbrd Selector (VeigaPunk)",
+      "version": "0.1.0",
+      "description": "Rust-only model selection and dispatch helper for xbrd workflows.",
+      "homepage": "https://github.com/VeigaPunk/xbrd-selector",
+      "source": "./artifacts/xbrd-selector-0.1.0.zip"
     }
   ]
 }
