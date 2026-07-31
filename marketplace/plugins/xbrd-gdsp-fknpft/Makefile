@@ -1,4 +1,4 @@
-.PHONY: install build test-xask-shell verify verify-docs verify-repo verify-install
+.PHONY: install build bench test-xask-shell verify verify-docs verify-repo verify-install
 .ONESHELL:
 SHELL := /bin/bash
 .SHELLFLAGS := -euo pipefail -c
@@ -11,6 +11,10 @@ SHELL := /bin/bash
 ## Only `install` and `verify-install` provide the full atomic post-deploy check.
 build:
 	cargo build --release
+
+## bench: documented dry-plan benchmark; never opts into paid inference.
+bench:
+	bash scripts/bench-openai-models.sh --seed 42 --routes raw,xask,xbreed
 
 ## test-xask-shell: shell-level integration test for xask {{EFFORT}} substitution
 test-xask-shell:
@@ -42,6 +46,7 @@ verify-repo:
 	@echo "verify: tests/agent_model_selector_skill.sh"; bash tests/agent_model_selector_skill.sh
 	@echo "verify: tests/xask_model_override.sh"; bash tests/xask_model_override.sh
 	@echo "verify: tests/codex_godspeed_skill_install.sh"; bash tests/codex_godspeed_skill_install.sh
+	@echo "verify: tests/openai_model_benchmark.sh"; bash tests/openai_model_benchmark.sh
 	@echo "verify: scripts/check-godspeed-prompts.mjs"; node scripts/check-godspeed-prompts.mjs
 
 ## verify-install: home-state checks (symlinks, binaries, dispatch copies, axis schema)

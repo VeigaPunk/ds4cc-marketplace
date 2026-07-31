@@ -26,6 +26,8 @@ randomized schedule, and writes artifacts without sending any prompt:
 scripts/bench-openai-models.sh --seed 42 --routes raw,xask,xbreed
 ```
 
+`make bench` runs that same dry plan and cannot opt into paid inference.
+
 Use `--refresh-catalog` to read the current/refreshed catalog instead. Catalog
 discovery is not an inference call, but the refreshed form may contact the
 service. Inspect `summary.json`, `schedule.json`, and `scheduled-count.txt`
@@ -119,6 +121,10 @@ throughput. Summaries contain:
 - per-cell and global totals
 
 Missing or malformed terminal usage is a `parse_failure`, never zero usage.
+Required usage fields are `input_tokens`, `cached_input_tokens`, and
+`output_tokens`. `cache_write_input_tokens` and `reasoning_output_tokens` may be
+missing or JSON `null`; when present they must be numeric. Attempt records keep
+JSON `null` for missing usage fields instead of coercing them to zero.
 Exhausted live failures make the runner exit nonzero while retaining artifacts.
 
 ## Artifacts
@@ -144,8 +150,9 @@ Important files:
 
 The run directory is mode 0700 and prompt copies are mode 0600. Normalized
 records contain redacted argv; exact prompt text is not duplicated into the
-manifest or attempts JSONL. Executable paths, versions, and SHA-256 values are
-recorded as provenance.
+manifest or attempts JSONL. Prompt bytes are preserved through argv with a
+sentinel readback path, and NUL-bearing prompts are rejected. Executable paths,
+versions, and SHA-256 values are recorded as provenance.
 
 ## Offline verification
 
@@ -156,3 +163,6 @@ bash tests/openai_model_benchmark.sh
 
 The test uses fake FNM, Codex, xask, and xbreed executables and makes no network
 or paid inference calls.
+
+Route selection is dependency-shaped: raw cells are resolved only when `raw`
+is selected; wrapper-only runs skip catalog expansion.

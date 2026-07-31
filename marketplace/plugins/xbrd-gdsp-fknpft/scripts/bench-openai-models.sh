@@ -11,6 +11,7 @@ MAX_RETRIES=5
 MAX_REPETITIONS=5
 MAX_TRIALS=2000
 MAX_PAID_ATTEMPTS=4000
+PROMPT_SENTINEL='__XBRD_PROMPT_SENTINEL__'
 
 RUN_LIVE=false
 REFRESH_CATALOG=false
@@ -74,6 +75,25 @@ argv_redacted_json(){
   local last=$(( ${#argv[@]} - 1 ))
   argv[$last]='<PROMPT>'
   argv_json "${argv[@]}"
+}
+
+route_selected(){
+  case ",$ROUTES_CSV," in *",$1,"*) return 0 ;; *) return 1 ;; esac
+}
+
+read_prompt_bytes(){
+  local src="$1"
+  perl -e '
+    use strict; use warnings;
+    my ($path, $sentinel) = @ARGV;
+    open my $fh, "<:raw", $path or die "open $path: $!";
+    local $/;
+    my $s = <$fh>;
+    defined $s or die "read $path: $!";
+    die "prompt contains NUL: $path" if index($s, "\0") >= 0;
+    die "prompt ends with sentinel: $path" if length($s) >= length($sentinel) && substr($s, -length($sentinel)) eq $sentinel;
+    print $s, $sentinel;
+  ' "$src" "$PROMPT_SENTINEL"
 }
 
 resolve_exec(){
@@ -226,7 +246,7 @@ parse_usage(){
     my ($file) = @ARGV;
     open my $fh, "<", $file or die "open $file: $!";
     my $found;
-    while (my $line = <$fh>) {
+  while (my $line = <$fh>) {
       chomp $line; next if $line =~ /^\s*$/;
       my $obj = eval { JSON::PP->new->decode($line) };
       if ($@) {
@@ -239,23 +259,15 @@ parse_usage(){
     die "missing turn.completed usage" unless $found;
     my $u = $found->{usage};
     die "missing usage object" unless ref($u) eq "HASH";
-    my %want = (
-      input_tokens => undef,
-      cached_input_tokens => undef,
-      cache_write_input_tokens => undef,
-      output_tokens => undef,
-      reasoning_output_tokens => undef,
-    );
-    for my $k (keys %want) {
-      if (exists $u->{$k}) { $want{$k} = $u->{$k}; }
-      else {
-        my %compat = (
-          cache_write_input_tokens => q{cache_write_tokens},
-          reasoning_output_tokens => q{reasoning_tokens},
-        );
-        if (exists $compat{$k} && exists $u->{$compat{$k}}) { $want{$k} = $u->{$compat{$k}}; }
-      }
-      die "missing usage field $k" unless defined $want{$k} && $want{$k} =~ /^\d+$/;
+    my %want;
+    for my $k (qw(input_tokens cached_input_tokens output_tokens)) {
+      die "missing usage field $k" unless exists $u->{$k} && defined $u->{$k} && $u->{$k} =~ /^\d+$/;
+      $want{$k} = 0 + $u->{$k};
+    }
+    for my $k (qw(cache_write_input_tokens reasoning_output_tokens)) {
+      if (!exists $u->{$k} || !defined $u->{$k}) { $want{$k} = undef; next; }
+      die "invalid usage field $k" unless $u->{$k} =~ /^\d+$/;
+      $want{$k} = 0 + $u->{$k};
     }
     print JSON::PP->new->canonical->encode(\%want);
   ' "$1"
@@ -305,7 +317,8 @@ run_attempt(){
   stdout_path="$attempt_dir/stdout.log"
   stderr_path="$attempt_dir/stderr.log"
   prompt_path="$run_dir/inputs/$prompt_copy"
-  prompt_text="$(<"$prompt_path")"
+  prompt_text="$(read_prompt_bytes "$prompt_path")"
+  prompt_text="${prompt_text%"$PROMPT_SENTINEL"}"
   local -a cmd=()
   case "$route:$lane:$requested_model:$requested_effort" in
     raw:raw-fast:*) cmd=("$fnm_path" exec "--using=$nodev" "$codex_path" exec --skip-git-repo-check --color never --ephemeral --sandbox workspace-write --json -c approval_policy=never -c include_permissions_instructions=false -c include_apps_instructions=false -c include_environment_context=false -c service_tier=fast -c features.fast_mode=true -m "$requested_model" -c "model_reasoning_effort=$requested_effort" "$prompt_text") ;;
@@ -322,7 +335,7 @@ run_attempt(){
     duration_s=0
     exit_code=0
     usage_json='{"input_tokens":null,"cached_input_tokens":null,"cache_write_input_tokens":null,"output_tokens":null,"reasoning_output_tokens":null}'
-    output_tokens=0; input_tokens=0; cached_input_tokens=0; cache_write_input_tokens=0; reasoning_output_tokens=0; goodput_tok_s=null
+    output_tokens=null; input_tokens=null; cached_input_tokens=null; cache_write_input_tokens=null; reasoning_output_tokens=null; goodput_tok_s=null
   else
     mkdir -p "$attempt_dir/tmp"
     local start end rc
@@ -358,7 +371,7 @@ run_attempt(){
       goodput_tok_s="$(perl -e 'my ($o,$d)=@ARGV; printf "%.9f", $o / $d' "$output_tokens" "$duration_s")"
     else
       usage_json='{"input_tokens":null,"cached_input_tokens":null,"cache_write_input_tokens":null,"output_tokens":null,"reasoning_output_tokens":null}'
-      output_tokens=0; input_tokens=0; cached_input_tokens=0; cache_write_input_tokens=0; reasoning_output_tokens=0; goodput_tok_s=null
+      output_tokens=null; input_tokens=null; cached_input_tokens=null; cache_write_input_tokens=null; reasoning_output_tokens=null; goodput_tok_s=null
     fi
   fi
   attempt_record_json "$trial_id" "$attempt_no" "$retry_of" "$route" "$lane" "$requested_model" "$requested_effort" "$prompt_id" "$prompt_hash" "$prompt_copy" "$status" "$duration_s" "$exit_code" "$nodev" "$command_redacted_json" "" "$stdout_path" "$stderr_path" "$attempt_dir" "$usage_json" "$output_tokens" "$input_tokens" "$cached_input_tokens" "$cache_write_input_tokens" "$reasoning_output_tokens" "$goodput_tok_s" > "$attempt_dir/attempt.json"
@@ -463,34 +476,43 @@ main(){
   ensure_output_root "$OUTPUT_ROOT"
   output_root_real="$(realpath_abs "$OUTPUT_ROOT")"
 
-  local fnm_path codex_path xask_path xbreed_path nodev fnm_ver codex_ver xask_ver xbreed_ver fnm_hash codex_hash xask_hash xbreed_hash
-  fnm_path="$(resolve_exec "$FNM_CMD")"
-  codex_path="$(resolve_exec "$CODEX_CMD")"
-  xask_path="$(resolve_exec "$XASK_CMD")"
-  xbreed_path="$(resolve_exec "$XBREED_CMD")"
-  nodev="$(node_version "$fnm_path")"
-  nodev="${nodev#v}"
-  fnm_ver="$(model_version "$fnm_path")"
-  codex_ver="$(model_version "$codex_path")"
-  xask_ver="$(model_version "$xask_path")"
-  xbreed_ver="$(model_version "$xbreed_path")"
-  fnm_hash="$(sha256_file "$fnm_path")"
-  codex_hash="$(sha256_file "$codex_path")"
-  xask_hash="$(sha256_file "$xask_path")"
-  xbreed_hash="$(sha256_file "$xbreed_path")"
+  local fnm_path= codex_path= xask_path= xbreed_path= nodev= fnm_ver= codex_ver= xask_ver= xbreed_ver= fnm_hash= codex_hash= xask_hash= xbreed_hash=
+  if route_selected raw; then
+    fnm_path="$(resolve_exec "$FNM_CMD")"
+    codex_path="$(resolve_exec "$CODEX_CMD")"
+    nodev="$(node_version "$fnm_path")"
+    nodev="${nodev#v}"
+    fnm_ver="$(model_version "$fnm_path")"
+    codex_ver="$(model_version "$codex_path")"
+    fnm_hash="$(sha256_file "$fnm_path")"
+    codex_hash="$(sha256_file "$codex_path")"
+  fi
+  if route_selected xask; then
+    xask_path="$(resolve_exec "$XASK_CMD")"
+    xask_ver="$(model_version "$xask_path")"
+    xask_hash="$(sha256_file "$xask_path")"
+  fi
+  if route_selected xbreed; then
+    xbreed_path="$(resolve_exec "$XBREED_CMD")"
+    xbreed_ver="$(model_version "$xbreed_path")"
+    xbreed_hash="$(sha256_file "$xbreed_path")"
+  fi
 
   local run_dir; run_dir="$(mktemp -d "$output_root_real/run.XXXXXX")" || die "mktemp failed"
   chmod 700 "$run_dir" || die "chmod failed for run dir"
   mkdir -p "$run_dir/inputs" "$run_dir/attempts"
 
-  local catalog_cmd catalog_hash
-  if [[ "$REFRESH_CATALOG" == true ]]; then
-    catalog_cmd=("$codex_path" debug models)
-  else
-    catalog_cmd=("$codex_path" debug models --bundled)
+  local catalog_hash=null
+  if route_selected raw; then
+    local catalog_cmd
+    if [[ "$REFRESH_CATALOG" == true ]]; then
+      catalog_cmd=("$codex_path" debug models)
+    else
+      catalog_cmd=("$codex_path" debug models --bundled)
+    fi
+    "${catalog_cmd[@]}" > "$run_dir/catalog.json" 2> "$run_dir/catalog.stderr" || die "catalog command failed"
+    catalog_hash="$(sha256_file "$run_dir/catalog.json")"
   fi
-  "${catalog_cmd[@]}" > "$run_dir/catalog.json" 2> "$run_dir/catalog.stderr" || die "catalog command failed"
-  catalog_hash="$(sha256_file "$run_dir/catalog.json")"
 
   local semantic_tsv="$run_dir/semantic.tsv" prompt_manifest_tsv="$run_dir/prompts.tsv"
   : > "$semantic_tsv"; : > "$prompt_manifest_tsv"
@@ -505,11 +527,6 @@ main(){
 
   local -a raw_cells=() wrapper_cells=()
   local route route_key lane model effort prompt_id prompt_hash prompt_copy prompt_src repetition
-  while IFS=$'\t' read -r model effort; do
-    [[ -n "$model" ]] || continue
-    raw_cells+=("$model"$'\t'"$effort")
-  done < <(catalog_cells "$run_dir/catalog.json")
-  ((${#raw_cells[@]})) || die "catalog produced zero raw cells"
   wrapper_cells=(
     $'spark\tgpt-5.6-luna\tlow'
     $'gpt55\tgpt-5.6-sol\tlow'
@@ -517,6 +534,13 @@ main(){
     $'gpt55\tgpt-5.6-sol\thigh'
     $'gpt55\tgpt-5.6-sol\txhigh'
   )
+  if route_selected raw; then
+    while IFS=$'\t' read -r model effort; do
+      [[ -n "$model" ]] || continue
+      raw_cells+=("$model"$'\t'"$effort")
+    done < <(catalog_cells "$run_dir/catalog.json")
+    ((${#raw_cells[@]})) || die "catalog produced zero raw cells"
+  fi
 
   while IFS= read -r route; do
     case "$route" in
@@ -604,7 +628,7 @@ main(){
     --arg summary "$(sha256_file "$run_dir/summary.json")" \
     --arg evidence "$(sha256_file "$run_dir/evidence-sha256.json")" \
     --arg provenance "$(jq -nc --arg fnm "$fnm_path" --arg fnm_ver "$fnm_ver" --arg fnm_hash "$fnm_hash" --arg nodev "$nodev" --arg codex "$codex_path" --arg codex_ver "$codex_ver" --arg codex_hash "$codex_hash" --arg xask "$xask_path" --arg xask_ver "$xask_ver" --arg xask_hash "$xask_hash" --arg xbreed "$xbreed_path" --arg xbreed_ver "$xbreed_ver" --arg xbreed_hash "$xbreed_hash" '{fnm:{path:$fnm,version:$fnm_ver,sha256:$fnm_hash,node_version:$nodev},codex:{path:$codex,version:$codex_ver,sha256:$codex_hash},xask:{path:$xask,version:$xask_ver,sha256:$xask_hash},xbreed:{path:$xbreed,version:$xbreed_ver,sha256:$xbreed_hash}}')" \
-    '{catalog:$catalog,prompts:$prompts,schedule:$schedule,manifest:$manifest,attempts:$attempts,summary:$summary,evidence:$evidence,provenance:($provenance|fromjson)}' > "$run_dir/sha256-index.json"
+    '{catalog:(if $catalog=="null" then null else $catalog end),prompts:$prompts,schedule:$schedule,manifest:$manifest,attempts:$attempts,summary:$summary,evidence:$evidence,provenance:($provenance|fromjson)}' > "$run_dir/sha256-index.json"
 
   printf '%s\n' "$summary_json"
   printf 'run_dir=%s\n' "$run_dir" >&2

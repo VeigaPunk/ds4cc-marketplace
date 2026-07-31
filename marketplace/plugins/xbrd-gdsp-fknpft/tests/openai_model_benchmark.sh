@@ -6,7 +6,7 @@ REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SCRIPT="$REPO_ROOT/scripts/bench-openai-models.sh"
 FIXTURE="$REPO_ROOT/benchmarks/openai-model-v1/fixtures/catalog-real-schema.json"
 PROMPTS="$REPO_ROOT/benchmarks/openai-model-v1/prompts/v1"
-TMP="$(mktemp -d /tmp/openai-model-bench.XXXXXX)"
+TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT INT TERM HUP
 
 FAKE_BIN="$TMP/bin"
@@ -50,6 +50,10 @@ esac
 prompt="${@: -1}"
 case "$prompt" in
   *BAD_USAGE*) printf '{"type":"turn.completed","usage":"oops"}\n' ; exit 0 ;;
+  *TURN_BAD_JSON*) printf '{"type":"turn.completed","usage":{"input_tokens":1,"cached_input_tokens":2,"output_tokens":3}\n' ; exit 0 ;;
+  *TURN_MISSING_REQUIRED*) printf '{"type":"turn.completed","usage":{"cached_input_tokens":2,"output_tokens":3}}\n' ; exit 0 ;;
+  *TURN_NULLS*) printf '{"type":"turn.completed","usage":{"input_tokens":5,"cached_input_tokens":6,"cache_write_input_tokens":null,"output_tokens":7,"reasoning_output_tokens":null}}\n' ; exit 0 ;;
+  *TURN_OK*) cat "__TURN_OK_FIXTURE__" ; exit 0 ;;
   *FAIL_ALWAYS*) exit 7 ;;
   *FAIL_ONCE*)
     key="$(printf '%s' "$prompt" | tr -c 'A-Za-z0-9' '_')"
@@ -83,6 +87,7 @@ exit 0
 EOF
 
 chmod 755 "$FAKE_BIN"/*
+perl -0pi -e 's#__TURN_OK_FIXTURE__#'"$REPO_ROOT"'/tests/fixtures/turn.completed.sanitized.3field.jsonl#g' "$FAKE_BIN/codex"
 
 write_prompt_dir(){
   local dir="$1"; shift
@@ -92,6 +97,16 @@ write_prompt_dir(){
     shift 2
     printf '%s\n' "$text" > "$dir/$name"
   done
+}
+
+write_prompt_bytes(){
+  local path="$1" data="$2"
+  perl -e 'use strict; use warnings; my ($path, $data) = @ARGV; open my $fh, ">:raw", $path or die "open $path: $!"; print {$fh} $data or die "write $path: $!";' "$path" "$data"
+}
+
+check_file_hash(){
+  local path="$1" expected="$2"
+  [ "$(sha256sum "$path" | cut -d' ' -f1)" = "$expected" ]
 }
 
 set -- $PROMPTS/*.md
@@ -225,6 +240,55 @@ check_live_timeout_and_parse_failure() {
   jq -s -e 'map(select(.status == "parse_failure")) | length == 9' "$runp/attempts.jsonl" >/dev/null
 }
 
+check_turn_completed_fixture_nulls_and_parse_failures() {
+  local pdir="$TMP/prompts-turn" out="$TMP/out-turn" log="$TMP/log-turn.jsonl" mini_catalog="$TMP/mini-catalog.json"
+  printf '{"models":[{"slug":"mini","supported_reasoning_levels":[{"effort":"low"}]}]}' > "$mini_catalog"
+  write_prompt_dir "$pdir" ok.md 'TURN_OK'
+  write_prompt_dir "$pdir" nulls.md 'TURN_NULLS'
+  write_prompt_dir "$pdir" badjson.md 'TURN_BAD_JSON'
+  write_prompt_dir "$pdir" missing.md 'TURN_MISSING_REQUIRED'
+  mkdir -p "$out"
+  set +e
+  env -i PATH="$FAKE_BIN:/usr/bin:/bin" HOME="$TMP/home-turn" CALL_LOG="$log" STATE_DIR="$TMP/state" CATALOG_FIXTURE="$mini_catalog" BENCH_OUTPUT_ROOT="$out" BENCH_PROMPT_DIR="$pdir" BENCH_FNM_CMD="$FAKE_BIN/fnm" BENCH_CODEX_CMD="$FAKE_BIN/codex" BENCH_XASK_CMD="$FAKE_BIN/xask" BENCH_XBREED_CMD="$FAKE_BIN/xbreed" BENCH_ALLOW_PAID=YES BENCH_ALLOW_CUSTOM_PROMPTS=YES BENCH_APPROVE_TRIALS=4 BENCH_APPROVE_ATTEMPTS=4 bash "$SCRIPT" --seed 23 --routes raw --repetitions 1 --run >/dev/null
+  local turn_rc=$?
+  set -e
+  [ "$turn_rc" -ne 0 ]
+  set -- "$out"/*; local run="$1"
+  jq -s -e 'any(.[]; .status == "ok" and .prompt_id == "ok.md" and .usage.input_tokens == 11 and .usage.cached_input_tokens == 22 and .usage.output_tokens == 33 and .usage.cache_write_input_tokens == null and .usage.reasoning_output_tokens == null and .input_tokens == 11 and .cached_input_tokens == 22 and .output_tokens == 33 and .cache_write_input_tokens == null and .reasoning_output_tokens == null) and any(.[]; .status == "ok" and .prompt_id == "nulls.md" and .usage.cache_write_input_tokens == null and .usage.reasoning_output_tokens == null and .cache_write_input_tokens == null and .reasoning_output_tokens == null and .input_tokens == 5 and .cached_input_tokens == 6 and .output_tokens == 7) and any(.[]; .status == "parse_failure" and .prompt_id == "badjson.md" and .usage.input_tokens == null and .input_tokens == null and .cache_write_input_tokens == null) and any(.[]; .status == "parse_failure" and .prompt_id == "missing.md" and .usage.input_tokens == null and .input_tokens == null and .cache_write_input_tokens == null)' "$run/attempts.jsonl" >/dev/null
+}
+
+check_prompt_bytes_and_nul_rejection() {
+  local pdir="$TMP/prompts-bytes" out="$TMP/out-bytes" log="$TMP/log-bytes.jsonl" nuldir="$TMP/prompts-nul" outnul="$TMP/out-nul" lognul="$TMP/log-nul.jsonl"
+  mkdir -p "$pdir" "$out" "$nuldir" "$outnul"
+  write_prompt_bytes "$pdir/bytes.md" $'alpha\nbeta\n\n\n'
+  env -i PATH="$FAKE_BIN:/usr/bin:/bin" HOME="$TMP/home-bytes" CALL_LOG="$log" STATE_DIR="$TMP/state" CATALOG_FIXTURE="$FIXTURE" BENCH_OUTPUT_ROOT="$out" BENCH_PROMPT_DIR="$pdir" BENCH_FNM_CMD="$FAKE_BIN/fnm" BENCH_CODEX_CMD="$FAKE_BIN/codex" BENCH_XASK_CMD="$FAKE_BIN/xask" BENCH_XBREED_CMD="$FAKE_BIN/xbreed" BENCH_ALLOW_PAID=YES BENCH_ALLOW_CUSTOM_PROMPTS=YES BENCH_APPROVE_TRIALS=5 BENCH_APPROVE_ATTEMPTS=5 bash "$SCRIPT" --seed 31 --routes xask --repetitions 1 --run >/dev/null
+  local expected_hash actual_hash
+  expected_hash="$(sha256sum "$pdir/bytes.md" | cut -d' ' -f1)"
+  actual_hash="$(jq -r -j 'select(.cmd == "xask" and (.argv | index("codex"))) | .argv[-1]' "$log" | sha256sum | cut -d' ' -f1)"
+  [ "$expected_hash" = "$actual_hash" ]
+
+  perl -e 'use strict; use warnings; my $p = $ARGV[0]; open my $fh, ">:raw", $p or die $!; print {$fh} "NUL\0PROMPT\n" or die $!' "$nuldir/nul.md"
+  set +e
+  env -i PATH="$FAKE_BIN:/usr/bin:/bin" HOME="$TMP/home-nul" CALL_LOG="$lognul" STATE_DIR="$TMP/state" CATALOG_FIXTURE="$FIXTURE" BENCH_OUTPUT_ROOT="$outnul" BENCH_PROMPT_DIR="$nuldir" BENCH_FNM_CMD="$FAKE_BIN/fnm" BENCH_CODEX_CMD="$FAKE_BIN/codex" BENCH_XASK_CMD="$FAKE_BIN/xask" BENCH_XBREED_CMD="$FAKE_BIN/xbreed" BENCH_ALLOW_PAID=YES BENCH_ALLOW_CUSTOM_PROMPTS=YES BENCH_APPROVE_TRIALS=5 BENCH_APPROVE_ATTEMPTS=5 bash "$SCRIPT" --seed 32 --routes xask --repetitions 1 --run >/dev/null
+  local nul_rc=$?
+  set -e
+  [ "$nul_rc" -ne 0 ]
+  jq -s -e 'all(.[]; .cmd == "xask" and (.argv | index("--version")))' "$lognul" >/dev/null
+}
+
+check_dependency_matrix() {
+  local raw_out="$TMP/out-rawdeps" xask_out="$TMP/out-xaskdeps" xbreed_out="$TMP/out-xbreeddeps" raw_log="$TMP/log-rawdeps.jsonl" xask_log="$TMP/log-xaskdeps.jsonl" xbreed_log="$TMP/log-xbreeddeps.jsonl"
+  mkdir -p "$raw_out" "$xask_out" "$xbreed_out"
+  env -i PATH="$FAKE_BIN:/usr/bin:/bin" HOME="$TMP/home-rawdeps" CALL_LOG="$raw_log" STATE_DIR="$TMP/state" CATALOG_FIXTURE="$FIXTURE" BENCH_OUTPUT_ROOT="$raw_out" BENCH_PROMPT_DIR="$PROMPTS" BENCH_FNM_CMD="$FAKE_BIN/fnm" BENCH_CODEX_CMD="$FAKE_BIN/codex" BENCH_XASK_CMD="$FAKE_BIN/xask" BENCH_XBREED_CMD="$FAKE_BIN/xbreed" bash "$SCRIPT" --seed 41 --routes raw --repetitions 1 >/dev/null
+  jq -s -e 'all(.[]; .cmd == "fnm" or .cmd == "codex") and any(.[]; .cmd == "fnm") and any(.[]; .cmd == "codex") and all(.[]; .cmd != "xask" and .cmd != "xbreed")' "$raw_log" >/dev/null
+
+  env -i PATH="$FAKE_BIN:/usr/bin:/bin" HOME="$TMP/home-xaskdeps" CALL_LOG="$xask_log" STATE_DIR="$TMP/state" CATALOG_FIXTURE="$FIXTURE" BENCH_OUTPUT_ROOT="$xask_out" BENCH_PROMPT_DIR="$PROMPTS" BENCH_FNM_CMD="$FAKE_BIN/fnm" BENCH_CODEX_CMD="$FAKE_BIN/codex" BENCH_XASK_CMD="$FAKE_BIN/xask" BENCH_XBREED_CMD="$FAKE_BIN/xbreed" bash "$SCRIPT" --seed 42 --routes xask --repetitions 1 >/dev/null
+  jq -s -e 'all(.[]; .cmd == "xask") and any(.[]; .cmd == "xask") and all(.[]; .cmd != "fnm" and .cmd != "codex" and .cmd != "xbreed")' "$xask_log" >/dev/null
+
+  env -i PATH="$FAKE_BIN:/usr/bin:/bin" HOME="$TMP/home-xbreeddeps" CALL_LOG="$xbreed_log" STATE_DIR="$TMP/state" CATALOG_FIXTURE="$FIXTURE" BENCH_OUTPUT_ROOT="$xbreed_out" BENCH_PROMPT_DIR="$PROMPTS" BENCH_FNM_CMD="$FAKE_BIN/fnm" BENCH_CODEX_CMD="$FAKE_BIN/codex" BENCH_XASK_CMD="$FAKE_BIN/xask" BENCH_XBREED_CMD="$FAKE_BIN/xbreed" bash "$SCRIPT" --seed 43 --routes xbreed --repetitions 1 >/dev/null
+  jq -s -e 'all(.[]; .cmd == "xbreed") and any(.[]; .cmd == "xbreed") and all(.[]; .cmd != "fnm" and .cmd != "codex" and .cmd != "xask")' "$xbreed_log" >/dev/null
+}
+
 check_live_wrapper_routes() {
   local pdir="$TMP/prompts-wrappers" out="$TMP/out-wrappers" log="$TMP/log-wrappers.jsonl"
   write_prompt_dir "$pdir" wrapper.md 'Return WRAPPER_OK only.'
@@ -310,5 +374,8 @@ check_live_wrapper_routes
 check_guards_and_rejections
 check_summary_and_dry_run_only
 check_repetitions_expand_schedule
+check_turn_completed_fixture_nulls_and_parse_failures
+check_prompt_bytes_and_nul_rejection
+check_dependency_matrix
 
 echo "PASS: openai model benchmark harness"
