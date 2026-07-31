@@ -11,53 +11,54 @@ html,body{margin:0;min-height:100%;background:#06101c;color:#dffef3}body{display
 <body>
 <pre class="mermaid">
 flowchart TB
-  T["THE NEW UFO FRONTIER · BENXSHITTER&lt;br/&gt;GPT-5.6 · 19 isolated cells · 76/76 successful trials"]
+  T["THE NEW UFO FRONTIER · BENXSHITTER&lt;br/&gt;GPT-5.6 · 19 cells · 256/256 accepted attempts"]
   T --> S
   T --> L
   T --> R
   T --> P
 
   subgraph S["SOL · p50 / p90 seconds · invocation goodput tok/s"]
-    S1["low · 4.027 / 4.358 · 47.92"]
-    S2["medium · 4.565 / 5.058 · 39.28"]
-    S3["high · 4.517 / 6.204 · 43.20"]
-    S4["xhigh · 7.849 / 9.104 · 38.09"]
-    S5["max · 3.414 / 8.474 · 40.84"]
-    S6["ultra · 6.507 / 6.788 · 37.34"]
+    S1["low · 4.027 / 22.443 · 45.16 · PARETO"]
+    S2["medium · 4.565 / 34.075 · 35.68"]
+    S3["high · 4.517 / 23.472 · 41.77"]
+    S4["xhigh · 6.614 / 25.972 · 39.41"]
+    S5["max · 3.964 / 25.516 · 39.77"]
+    S6["ultra · 6.507 / 27.177 · 39.35"]
   end
 
   subgraph L["LUNA · p50 / p90 seconds · invocation goodput tok/s"]
-    L1["low · 4.378 / 8.665 · 42.97"]
-    L2["medium · 3.143 / 3.751 · 48.57&lt;br/&gt;PARETO · minimum p90"]
-    L3["high · 2.875 / 3.887 · 51.72&lt;br/&gt;PARETO · minimum p50 + maximum goodput"]
-    L4["xhigh · 4.504 / 5.947 · 47.33"]
-    L5["max · 3.251 / 9.205 · 43.17"]
+    L1["low · 3.411 / 26.436 · 46.13"]
+    L2["medium · 3.405 / 25.533 · 46.72"]
+    L3["high · 3.143 / 23.028 · 42.07 · PARETO"]
+    L4["xhigh · 3.012 / 23.889 · 48.52&lt;br/&gt;PARETO · minimum p50"]
+    L5["max · 3.295 / 28.738 · 44.15"]
   end
 
   subgraph R["TERRA · p50 / p90 seconds · invocation goodput tok/s"]
-    R1["low · 3.131 / 5.696 · 40.58"]
-    R2["medium · 5.092 / 13.363 · 34.26"]
-    R3["high · 3.516 / 3.957 · 47.17"]
-    R4["xhigh · 4.852 / 13.423 · 36.39"]
-    R5["max · 5.236 / 5.469 · 51.24"]
-    R6["ultra · 3.515 / 7.499 · 50.56"]
+    R1["low · 3.540 / 22.466 · 46.25 · PARETO"]
+    R2["medium · 5.092 / 22.077 · 38.29&lt;br/&gt;PARETO · minimum p90"]
+    R3["high · 3.635 / 22.745 · 48.86 · PARETO"]
+    R4["xhigh · 3.323 / 25.724 · 43.06"]
+    R5["max · 5.469 / 26.143 · 42.74"]
+    R6["ultra · 5.534 / 27.066 · 49.17&lt;br/&gt;PARETO · maximum goodput"]
   end
 
   subgraph P["SPARK CONTROLS · GPT-5.6 Luna low"]
-    P1["xask Spark · 4.036 / 4.072 · 48.25"]
-    P2["xbreed Spark · 2.928 / 4.835 · 49.17"]
+    P1["xask Spark · 4.036 / 23.685 · 48.94 · PARETO"]
+    P2["xbreed Spark · 3.258 / 23.827 · 49.01 · PARETO"]
   end
 
-  L2 --> F["OBSERVED PARETO FRONTIER"]
-  L3 --> F
-  N["Seed 42 · one repetition · four fixtures per cell&lt;br/&gt;Full-invocation goodput · not decode throughput"] --> F
+  L4 --> F
+  R2 --> F
+  R6 --> F
+  F["NINE-CELL OBSERVED PARETO FRONTIER&lt;br/&gt;axis extremes shown"]
+  N["Seeds 42–46 · unequal n=8–24&lt;br/&gt;Full-invocation goodput · not decode throughput"] --> F
 
   classDef title fill:#071a2f,stroke:#64ffda,color:#fff,stroke-width:4px;
   classDef frontier fill:#dffff3,stroke:#00d6a3,color:#003d30,stroke-width:5px;
   classDef control fill:#fff1bf,stroke:#ffb000,color:#513600,stroke-width:3px;
   class T title;
-  class L2,L3,F frontier;
-  class P1,P2 control;
+  class S1,L3,L4,R1,R2,R3,R6,P1,P2,F frontier;
 </pre>
 <script type="module">
 import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
