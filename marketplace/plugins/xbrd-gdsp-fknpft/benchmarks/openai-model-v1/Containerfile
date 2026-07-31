@@ -1,0 +1,15 @@
+FROM archlinux:base@sha256:3406a568f45d68f0bef35dc80b3eacec8bda59b0292b2e50d5932ba1667f20cf
+
+RUN pacman -Syu --noconfirm --needed bash ca-certificates coreutils findutils gawk jq perl shadow \
+ && pacman -Scc --noconfirm \
+ && useradd --create-home --uid 1000 --shell /bin/bash bench \
+ && install -d -o bench -g bench /home/bench/.local/bin /home/bench/.local/share/fnm /home/bench/.local/templates/dispatch /home/bench/.codex /home/bench/.cache /home/bench/.config/xbreed/skills /home/bench/.local/state
+
+COPY benchmarks/openai-model-v1/bench-entry.sh /usr/local/bin/bench-entry
+COPY skills/godspeed /home/bench/.config/xbreed/skills/godspeed
+RUN chmod 0755 /usr/local/bin/bench-entry \
+ && chown -R bench:bench /home/bench/.config/xbreed
+
+USER bench
+WORKDIR /bench
+ENTRYPOINT ["/usr/local/bin/bench-entry"]

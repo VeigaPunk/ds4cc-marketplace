@@ -264,7 +264,7 @@ check_prompt_bytes_and_nul_rejection() {
   env -i PATH="$FAKE_BIN:/usr/bin:/bin" HOME="$TMP/home-bytes" CALL_LOG="$log" STATE_DIR="$TMP/state" CATALOG_FIXTURE="$FIXTURE" BENCH_OUTPUT_ROOT="$out" BENCH_PROMPT_DIR="$pdir" BENCH_FNM_CMD="$FAKE_BIN/fnm" BENCH_CODEX_CMD="$FAKE_BIN/codex" BENCH_XASK_CMD="$FAKE_BIN/xask" BENCH_XBREED_CMD="$FAKE_BIN/xbreed" BENCH_ALLOW_PAID=YES BENCH_ALLOW_CUSTOM_PROMPTS=YES BENCH_APPROVE_TRIALS=5 BENCH_APPROVE_ATTEMPTS=5 bash "$SCRIPT" --seed 31 --routes xask --repetitions 1 --run >/dev/null
   local expected_hash actual_hash
   expected_hash="$(sha256sum "$pdir/bytes.md" | cut -d' ' -f1)"
-  actual_hash="$(jq -r -j 'select(.cmd == "xask" and (.argv | index("codex"))) | .argv[-1]' "$log" | sha256sum | cut -d' ' -f1)"
+  actual_hash="$(jq -s -r -j 'first(.[] | select(.cmd == "xask" and (.argv | index("codex")))) | .argv[-1]' "$log" | sha256sum | cut -d' ' -f1)"
   [ "$expected_hash" = "$actual_hash" ]
 
   perl -e 'use strict; use warnings; my $p = $ARGV[0]; open my $fh, ">:raw", $p or die $!; print {$fh} "NUL\0PROMPT\n" or die $!' "$nuldir/nul.md"
@@ -366,6 +366,44 @@ check_repetitions_expand_schedule() {
   jq -e 'any(.trials[]; .repetition == 1) and any(.trials[]; .repetition == 2)' "$run/schedule.json" >/dev/null
 }
 
+check_exact_terra_xhigh_cell() {
+  local catalog="$TMP/catalog-terra-xhigh.json" dry_out="$TMP/out-terra-xhigh-dry" bad_out="$TMP/out-terra-xhigh-bad" live_out="$TMP/out-terra-xhigh-live" dry_log="$TMP/log-terra-xhigh-dry.jsonl" bad_log="$TMP/log-terra-xhigh-bad.jsonl" live_log="$TMP/log-terra-xhigh-live.jsonl"
+  printf '%s\n' '{"models":[{"slug":"gpt-5.6-terra","visibility":"list","supported_reasoning_levels":[{"effort":"xhigh"}]}]}' > "$catalog"
+  mkdir -p "$dry_out" "$bad_out" "$live_out"
+
+  env -i PATH="$FAKE_BIN:/usr/bin:/bin" HOME="$TMP/home-terra-xhigh-dry" CALL_LOG="$dry_log" STATE_DIR="$TMP/state" CATALOG_FIXTURE="$catalog" BENCH_OUTPUT_ROOT="$dry_out" BENCH_PROMPT_DIR="$PROMPTS" BENCH_FNM_CMD="$FAKE_BIN/fnm" BENCH_CODEX_CMD="$FAKE_BIN/codex" BENCH_XASK_CMD="$FAKE_BIN/xask" BENCH_XBREED_CMD="$FAKE_BIN/xbreed" bash "$SCRIPT" --seed 42 --cell raw:raw-fast:gpt-5.6-terra:xhigh --repetitions 1 --retries 0 --timeout-seconds 300 >/dev/null
+  set -- "$dry_out"/*; local dry_run="$1" plan_sha
+  plan_sha="$(<"$dry_run/plan-sha256.txt")"
+  [ "$(<"$dry_run/scheduled-count.txt")" = 4 ]
+  [ "$(<"$dry_run/max-paid-attempts.txt")" = 4 ]
+  jq -e '.mode == "dry-run" and .planned.scheduled_trials == 4 and .planned.route_counts == {raw:4} and .planned.lane_counts == {"raw-fast":4}' "$dry_run/summary.json" >/dev/null
+  jq -e '(.trials | length) == 4 and all(.trials[]; .route == "raw" and .lane == "raw-fast" and .requested_model == "gpt-5.6-terra" and .requested_effort == "xhigh")' "$dry_run/schedule.json" >/dev/null
+  [ "$(sha256sum "$dry_run/summary.json" | cut -d' ' -f1)" = "$(jq -r '.summary' "$dry_run/sha256-index.json")" ]
+
+  set +e
+  env -i PATH="$FAKE_BIN:/usr/bin:/bin" HOME="$TMP/home-terra-xhigh-bad" CALL_LOG="$bad_log" STATE_DIR="$TMP/state" CATALOG_FIXTURE="$catalog" BENCH_OUTPUT_ROOT="$bad_out" BENCH_PROMPT_DIR="$PROMPTS" BENCH_FNM_CMD="$FAKE_BIN/fnm" BENCH_CODEX_CMD="$FAKE_BIN/codex" BENCH_XASK_CMD="$FAKE_BIN/xask" BENCH_XBREED_CMD="$FAKE_BIN/xbreed" BENCH_ALLOW_PAID=YES BENCH_APPROVE_TRIALS=4 BENCH_APPROVE_ATTEMPTS=4 BENCH_APPROVE_PLAN_SHA256=invalid bash "$SCRIPT" --run --seed 42 --cell raw:raw-fast:gpt-5.6-terra:xhigh --repetitions 1 --retries 0 --timeout-seconds 300 >/dev/null
+  local bad_rc=$?
+  set -e
+  [ "$bad_rc" -ne 0 ]
+  ! jq -s -e 'any(.[]; .cmd == "codex" and (.argv | index("exec")))' "$bad_log" >/dev/null
+
+  env -i PATH="$FAKE_BIN:/usr/bin:/bin" HOME="$TMP/home-terra-xhigh-live" CALL_LOG="$live_log" STATE_DIR="$TMP/state" CATALOG_FIXTURE="$catalog" BENCH_OUTPUT_ROOT="$live_out" BENCH_PROMPT_DIR="$PROMPTS" BENCH_FNM_CMD="$FAKE_BIN/fnm" BENCH_CODEX_CMD="$FAKE_BIN/codex" BENCH_XASK_CMD="$FAKE_BIN/xask" BENCH_XBREED_CMD="$FAKE_BIN/xbreed" BENCH_ALLOW_PAID=YES BENCH_APPROVE_TRIALS=4 BENCH_APPROVE_ATTEMPTS=4 BENCH_APPROVE_PLAN_SHA256="$plan_sha" bash "$SCRIPT" --run --seed 42 --cell raw:raw-fast:gpt-5.6-terra:xhigh --repetitions 1 --retries 0 --timeout-seconds 300 >/dev/null
+  set -- "$live_out"/*; local live_run="$1"
+  jq -e '.mode == "live" and .totals.scheduled_trials == 4 and .totals.final_success_after_retries == 4 and .totals.final_failure_after_retries == 0 and (.by_cell | length) == 1 and .by_cell[0].route == "raw" and .by_cell[0].lane == "raw-fast" and .by_cell[0].requested_model == "gpt-5.6-terra" and .by_cell[0].requested_effort == "xhigh"' "$live_run/summary.json" >/dev/null
+  [ "$(sha256sum "$live_run/summary.json" | cut -d' ' -f1)" = "$(jq -r '.summary' "$live_run/sha256-index.json")" ]
+  jq -s -e '
+    [.[] | select(.cmd == "codex" and (.argv | index("exec")))] as $runs
+    | ($runs | length) == 4
+    and all($runs[];
+      (.argv | index("-m")) as $model_index
+      | .argv[$model_index + 1] == "gpt-5.6-terra"
+      and ((.argv | index("model_reasoning_effort=xhigh")) != null)
+      and ((.argv | index("service_tier=fast")) != null)
+      and ((.argv | index("features.fast_mode=true")) != null)
+    )
+  ' "$live_log" >/dev/null
+}
+
 check_default_run
 check_seed_determinism
 check_live_retry_and_usage
@@ -374,6 +412,7 @@ check_live_wrapper_routes
 check_guards_and_rejections
 check_summary_and_dry_run_only
 check_repetitions_expand_schedule
+check_exact_terra_xhigh_cell
 check_turn_completed_fixture_nulls_and_parse_failures
 check_prompt_bytes_and_nul_rejection
 check_dependency_matrix

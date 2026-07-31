@@ -20,6 +20,7 @@ SEED=""
 OUTPUT_ROOT="${BENCH_OUTPUT_ROOT:-$DEFAULT_STATE_ROOT}"
 PROMPT_DIR="${BENCH_PROMPT_DIR:-$DEFAULT_PROMPT_DIR}"
 ROUTES_CSV="raw,xask,xbreed"
+CELL_SPEC=""
 RETRIES="${BENCH_RETRIES:-0}"
 REPETITIONS="${BENCH_REPETITIONS:-1}"
 TIMEOUT_S="${BENCH_TIMEOUT_S:-0}"
@@ -200,6 +201,11 @@ validate_args(){
   validate_uint repetitions "$REPETITIONS" "$MAX_REPETITIONS"
   validate_decimal timeout "$TIMEOUT_S" 86400
   validate_routes "$ROUTES_CSV" ROUTES_CSV
+  if [[ -n "$CELL_SPEC" ]]; then
+    [[ "$CELL_SPEC" =~ ^(raw|xask|xbreed):(raw-fast|spark|gpt55):[A-Za-z0-9._-]+:[A-Za-z0-9._-]+$ ]] || die "invalid cell selector: $CELL_SPEC"
+    local cell_route="${CELL_SPEC%%:*}"
+    ROUTES_CSV="$cell_route"
+  fi
 }
 
 parse_args(){
@@ -212,6 +218,7 @@ parse_args(){
       --output-root) OUTPUT_ROOT="${2:?missing output root}"; shift ;;
       --prompt-dir) PROMPT_DIR="${2:?missing prompt dir}"; shift ;;
       --routes) ROUTES_CSV="${2:?missing routes}"; shift ;;
+      --cell) CELL_SPEC="${2:?missing cell}"; shift ;;
       --retries) RETRIES="${2:?missing retries}"; shift ;;
       --repetitions) REPETITIONS="${2:?missing repetitions}"; shift ;;
       --timeout-seconds) TIMEOUT_S="${2:?missing timeout}"; shift ;;
@@ -229,6 +236,7 @@ Usage: bench-openai-models.sh [options]
   --output-root DIR       private run root (default: XDG_STATE_HOME/.../openai-model-v1)
   --prompt-dir DIR        prompt fixture dir (default: benchmarks/openai-model-v1/prompts/v1)
   --routes CSV            raw,xask,xbreed subset (deduped)
+  --cell SPEC             exact route:lane:model:effort cell
   --retries N             max retries
   --repetitions N         repetitions per prompt fixture
   --timeout-seconds N     per-attempt timeout in seconds
@@ -317,7 +325,7 @@ run_attempt(){
   stdout_path="$attempt_dir/stdout.log"
   stderr_path="$attempt_dir/stderr.log"
   prompt_path="$run_dir/inputs/$prompt_copy"
-  prompt_text="$(read_prompt_bytes "$prompt_path")"
+  prompt_text="$(read_prompt_bytes "$prompt_path")" || die "failed to read prompt bytes: $prompt_path"
   prompt_text="${prompt_text%"$PROMPT_SENTINEL"}"
   local -a cmd=()
   case "$route:$lane:$requested_model:$requested_effort" in
@@ -348,7 +356,7 @@ run_attempt(){
       else
         env -i HOME="$home" USER="${USER:-$(id -un)}" LOGNAME="${LOGNAME:-$(id -un)}" PATH="${PATH:-/usr/bin:/bin}" TERM="${TERM:-dumb}" TMPDIR="$attempt_dir/tmp" XDG_CACHE_HOME="${XDG_CACHE_HOME:-$home/.cache}" XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$home/.config}" XDG_STATE_HOME="${XDG_STATE_HOME:-$home/.local/state}" STATE_DIR="${STATE_DIR:-}" CALL_LOG="${CALL_LOG:-}" "${cmd[@]}"
       fi
-    ) >"$stdout_path" 2>"$stderr_path"
+    ) </dev/null >"$stdout_path" 2>"$stderr_path"
     rc=$?
     set -e
     end="$(perl -MTime::HiRes=CLOCK_MONOTONIC -e 'printf "%.9f", Time::HiRes::clock_gettime(CLOCK_MONOTONIC)')"
@@ -487,6 +495,7 @@ main(){
     fnm_hash="$(sha256_file "$fnm_path")"
     codex_hash="$(sha256_file "$codex_path")"
   fi
+
   if route_selected xask; then
     xask_path="$(resolve_exec "$XASK_CMD")"
     xask_ver="$(model_version "$xask_path")"
@@ -542,6 +551,32 @@ main(){
     ((${#raw_cells[@]})) || die "catalog produced zero raw cells"
   fi
 
+  if [[ -n "$CELL_SPEC" ]]; then
+    local selected_route selected_lane selected_model selected_effort match_count=0
+    IFS=: read -r selected_route selected_lane selected_model selected_effort <<<"$CELL_SPEC"
+    if [[ "$selected_route" == raw ]]; then
+      [[ "$selected_lane" == raw-fast ]] || die "cell not available: $CELL_SPEC"
+      local -a selected_raw=()
+      for route_key in "${raw_cells[@]}"; do
+        model="${route_key%%$'\t'*}"; effort="${route_key#*$'\t'}"
+        if [[ "$model" == "$selected_model" && "$effort" == "$selected_effort" ]]; then
+          selected_raw+=("$route_key"); match_count=$((match_count + 1))
+        fi
+      done
+      raw_cells=("${selected_raw[@]}")
+    else
+      local -a selected_wrappers=()
+      for route_key in "${wrapper_cells[@]}"; do
+        IFS=$'\t' read -r lane model effort <<<"$route_key"
+        if [[ "$lane" == "$selected_lane" && "$model" == "$selected_model" && "$effort" == "$selected_effort" ]]; then
+          selected_wrappers+=("$route_key"); match_count=$((match_count + 1))
+        fi
+      done
+      wrapper_cells=("${selected_wrappers[@]}")
+    fi
+    (( match_count == 1 )) || die "cell not available: $CELL_SPEC"
+  fi
+
   while IFS= read -r route; do
     case "$route" in
       raw)
@@ -576,10 +611,15 @@ main(){
   (( max_paid_attempts <= MAX_PAID_ATTEMPTS )) || die "maximum paid attempts $max_paid_attempts exceeds cap $MAX_PAID_ATTEMPTS"
   printf '%s\n' "$scheduled_trials" > "$run_dir/scheduled-count.txt"
   printf '%s\n' "$max_paid_attempts" > "$run_dir/max-paid-attempts.txt"
+  local plan_sha256; plan_sha256="$(sha256_file "$trials_tsv")"
+  printf '%s\n' "$plan_sha256" > "$run_dir/plan-sha256.txt"
   [[ "$RUN_LIVE" == true ]] && {
     [[ "${BENCH_ALLOW_PAID:-}" == YES ]] || die "live run requires BENCH_ALLOW_PAID=YES"
     [[ "${BENCH_APPROVE_TRIALS:-}" == "$scheduled_trials" ]] || die "live run requires BENCH_APPROVE_TRIALS=$scheduled_trials"
     [[ "${BENCH_APPROVE_ATTEMPTS:-}" == "$max_paid_attempts" ]] || die "live run requires BENCH_APPROVE_ATTEMPTS=$max_paid_attempts"
+    if [[ -n "$CELL_SPEC" ]]; then
+      [[ "${BENCH_APPROVE_PLAN_SHA256:-}" == "$plan_sha256" ]] || die "live run requires BENCH_APPROVE_PLAN_SHA256=$plan_sha256"
+    fi
   }
 
   local attempts_jsonl="$run_dir/attempts.jsonl"; : > "$attempts_jsonl"
