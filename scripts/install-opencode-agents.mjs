@@ -124,6 +124,15 @@ function parseAgent(source, filename) {
     fail(`missing or unsupported description in ${filename}`);
   }
 
+  let portableModel = "";
+  if (filename === "the-executor.agent.md") {
+    const model = fields.get("model");
+    if (!model || !/^[a-z0-9][a-z0-9-]*\/[A-Za-z0-9][A-Za-z0-9._-]*$/.test(model)) {
+      fail(`the-executor requires a provider-qualified model in ${filename}`);
+    }
+    portableModel = `model: ${model}\n`;
+  }
+
   let body = match[2];
   body = body
     .replace(
@@ -135,7 +144,7 @@ function parseAgent(source, filename) {
     .replaceAll("TaskUpdate completed.", "If the host supports task-state updates, mark the task completed.")
     .replaceAll('`advisor()`', "the host's deep-reasoning facility (if available)");
 
-  return `---\ndescription: ${description}\nmode: subagent\n---\n\n${GODSPEED}${PORTABILITY}${body.replace(/^\s+/, "")}`;
+  return `---\ndescription: ${description}\nmode: subagent\n${portableModel}---\n\n${GODSPEED}${PORTABILITY}${body.replace(/^\s+/, "")}`;
 }
 
 function createOrchAgent(judge) {

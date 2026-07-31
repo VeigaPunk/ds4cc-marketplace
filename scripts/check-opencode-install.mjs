@@ -32,8 +32,13 @@ try {
     const fields = frontmatter[1].split("\n").map((line) => line.split(":", 1)[0]);
     const expectedMode = filename === "orch.md" ? "primary" : "subagent";
     const actualMode = frontmatter[1].match(/^mode: (primary|subagent)$/m)?.[1];
-    if (fields.join(",") !== "description,mode" || actualMode !== expectedMode) {
+    const expectedFields = filename === "the-executor.md" ? "description,mode,model" : "description,mode";
+    if (fields.join(",") !== expectedFields || actualMode !== expectedMode) {
       throw new Error(`${filename}: invalid OpenCode frontmatter`);
+    }
+    const actualModel = frontmatter[1].match(/^model: (\S+)$/m)?.[1];
+    if (filename === "the-executor.md" && actualModel !== "openai/gpt-5.6-luna-fast") {
+      throw new Error("the-executor.md: Luna-fast model pin missing");
     }
     modeCounts[actualMode] += 1;
     if (!content.includes("## OpenCode portability")) throw new Error(`${filename}: portability directive missing`);
