@@ -31,7 +31,7 @@ xbrd-selector tui
 
 ## Notes
 
-- No Bun dependency.
+- Rust-native build and runtime.
 - Keep local model endpoints on loopback only.
 - Do not edit auth metadata by hand; inspect it read-only.
 - Use the TUI for model selection and dispatch routing.

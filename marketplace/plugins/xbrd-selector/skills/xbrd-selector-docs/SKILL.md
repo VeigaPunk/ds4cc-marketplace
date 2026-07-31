@@ -30,7 +30,7 @@ xbrd-selector tui
 - Keep local model endpoints on loopback only.
 - OpenCode OAuth login is limited to `openai` and `github-copilot`.
 - Treat auth metadata as read-only.
-- No Bun dependency.
+- Use the Rust-native build and runtime.
 - Use the Ratatui TUI for selection and dispatch.
 
 ## Verify
