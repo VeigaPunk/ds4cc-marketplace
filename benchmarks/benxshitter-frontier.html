@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Benxshitter · GPT-5.6 Frontier</title>
+<style>
+html,body{margin:0;min-height:100%;background:#06101c;color:#dffef3}body{display:grid;place-items:center;padding:2vw;box-sizing:border-box}.mermaid{width:min(1800px,96vw);min-height:94vh;display:grid;place-items:center}.mermaid svg{max-width:100%!important;height:auto!important;filter:drop-shadow(0 24px 55px #0009)}
+</style>
+</head>
+<body>
+<pre class="mermaid">
+flowchart TB
+  T["THE NEW UFO FRONTIER · BENXSHITTER&lt;br/&gt;GPT-5.6 · 19 isolated cells · 76/76 successful trials"]
+  T --> S
+  T --> L
+  T --> R
+  T --> P
+
+  subgraph S["SOL · p50 / p90 seconds · invocation goodput tok/s"]
+    S1["low · 4.027 / 4.358 · 47.92"]
+    S2["medium · 4.565 / 5.058 · 39.28"]
+    S3["high · 4.517 / 6.204 · 43.20"]
+    S4["xhigh · 7.849 / 9.104 · 38.09"]
+    S5["max · 3.414 / 8.474 · 40.84"]
+    S6["ultra · 6.507 / 6.788 · 37.34"]
+  end
+
+  subgraph L["LUNA · p50 / p90 seconds · invocation goodput tok/s"]
+    L1["low · 4.378 / 8.665 · 42.97"]
+    L2["medium · 3.143 / 3.751 · 48.57&lt;br/&gt;PARETO · minimum p90"]
+    L3["high · 2.875 / 3.887 · 51.72&lt;br/&gt;PARETO · minimum p50 + maximum goodput"]
+    L4["xhigh · 4.504 / 5.947 · 47.33"]
+    L5["max · 3.251 / 9.205 · 43.17"]
+  end
+
+  subgraph R["TERRA · p50 / p90 seconds · invocation goodput tok/s"]
+    R1["low · 3.131 / 5.696 · 40.58"]
+    R2["medium · 5.092 / 13.363 · 34.26"]
+    R3["high · 3.516 / 3.957 · 47.17"]
+    R4["xhigh · 4.852 / 13.423 · 36.39"]
+    R5["max · 5.236 / 5.469 · 51.24"]
+    R6["ultra · 3.515 / 7.499 · 50.56"]
+  end
+
+  subgraph P["SPARK CONTROLS · GPT-5.6 Luna low"]
+    P1["xask Spark · 4.036 / 4.072 · 48.25"]
+    P2["xbreed Spark · 2.928 / 4.835 · 49.17"]
+  end
+
+  L2 --> F["OBSERVED PARETO FRONTIER"]
+  L3 --> F
+  N["Seed 42 · one repetition · four fixtures per cell&lt;br/&gt;Full-invocation goodput · not decode throughput"] --> F
+
+  classDef title fill:#071a2f,stroke:#64ffda,color:#fff,stroke-width:4px;
+  classDef frontier fill:#dffff3,stroke:#00d6a3,color:#003d30,stroke-width:5px;
+  classDef control fill:#fff1bf,stroke:#ffb000,color:#513600,stroke-width:3px;
+  class T title;
+  class L2,L3,F frontier;
+  class P1,P2 control;
+</pre>
+<script type="module">
+import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+mermaid.initialize({startOnLoad:true,theme:'dark',securityLevel:'strict',flowchart:{curve:'basis',htmlLabels:true},themeVariables:{fontFamily:'Inter,Arial,sans-serif',primaryColor:'#10243b',primaryTextColor:'#eafff8',primaryBorderColor:'#39e6bd',lineColor:'#79a8c9',clusterBkg:'#0a1726',clusterBorder:'#2c657d'}});
+</script>
+</body>
+</html>
