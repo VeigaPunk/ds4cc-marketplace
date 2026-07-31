@@ -216,6 +216,20 @@
         "name": "VeigaPunk"
       },
       "homepage": "https://github.com/VeigaPunk/xbrd-gdsp-fknpft"
+    },
+    {
+      "name": "xbrd-selector",
+      "version": "0.1.0",
+      "description": "Rust-only model selection and dispatch helper for xbrd workflows",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/xbrd-selector"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://github.com/VeigaPunk/xbrd-selector"
     }
   ]
 }

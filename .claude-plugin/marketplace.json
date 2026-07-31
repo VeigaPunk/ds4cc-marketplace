@@ -97,6 +97,12 @@
       "source": "./marketplace/plugins/xbrd-gdsp-fknpft",
       "version": "8.16.137",
       "description": "Multimodel dispatch orchestration and benchmark workflows"
+    },
+    {
+      "name": "xbrd-selector",
+      "source": "./marketplace/plugins/xbrd-selector",
+      "version": "0.1.0",
+      "description": "Rust-only model selection and dispatch helper for xbrd workflows"
     }
   ]
 }

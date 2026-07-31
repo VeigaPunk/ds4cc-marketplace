@@ -1,0 +1,12 @@
+{
+  "name": "xbrd-selector",
+  "version": "0.1.0",
+  "description": "Rust-only model selection and dispatch helper for xbrd workflows.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/xbrd-selector",
+  "repository": "https://github.com/VeigaPunk/xbrd-selector",
+  "license": "BSD-3-Clause",
+  "skills": "./skills/"
+}

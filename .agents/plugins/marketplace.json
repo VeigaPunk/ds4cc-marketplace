@@ -184,6 +184,19 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Developer"
+    },
+    {
+      "name": "xbrd-selector",
+      "source": {
+        "source": "local",
+        "path": "./marketplace/plugins/xbrd-selector"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer",
+      "version": "0.1.0"
     }
   ]
 }

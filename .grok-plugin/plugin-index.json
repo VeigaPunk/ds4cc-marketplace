@@ -241,6 +241,17 @@
           }
         ]
       }
+    },
+    "xbrd-selector": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "xbrd-selector-docs",
+            "description": "Install and run xbrd-selector through verified build commands and a Ratatui TUI."
+          }
+        ]
+      }
     }
   }
 }

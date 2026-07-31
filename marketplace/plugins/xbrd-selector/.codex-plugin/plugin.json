@@ -1,0 +1,28 @@
+{
+  "name": "xbrd-selector",
+  "version": "0.1.0",
+  "description": "VeigaPunk Xbrd Selector plugin for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "interface": {
+    "displayName": "Xbrd Selector (VeigaPunk)",
+    "shortDescription": "Model selection and dispatch helper workflows",
+    "longDescription": "Rust-only xbrd-selector workflows for choosing models, routing dispatches, and coordinating lightweight selection logic with strict loopback local models.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [
+      "Model Selection",
+      "Dispatch Routing",
+      "Workflow Coordination"
+    ],
+    "defaultPrompt": [
+      "Show me docs for Xbrd Selector.",
+      "Open VeigaPunk Xbrd Selector plugin usage.",
+      "Refresh this plugin from the marketplace."
+    ]
+  },
+  "homepage": "https://github.com/VeigaPunk/xbrd-selector",
+  "repository": "https://github.com/VeigaPunk/xbrd-selector",
+  "license": "BSD-3-Clause"
+}

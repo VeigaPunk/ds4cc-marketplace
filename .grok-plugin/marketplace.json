@@ -372,6 +372,32 @@
       "author": {
         "name": "VeigaPunk"
       }
+    },
+    {
+      "name": "xbrd-selector",
+      "version": "0.1.0",
+      "description": "Rust-only model selection and dispatch helper for xbrd workflows",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/xbrd-selector"
+      },
+      "homepage": "https://github.com/VeigaPunk/xbrd-selector",
+      "keywords": [
+        "xbrd-selector",
+        "xbrd",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "ds4cc.com",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
     }
   ]
 }
