@@ -64,14 +64,6 @@
       "source": "./artifacts/myagents-0.2.0.zip"
     },
     {
-      "id": "the-netsshark",
-      "displayName": "The Netsshark",
-      "version": "0.2.0",
-      "description": "Empirical network configuration audits with adversarial validation.",
-      "homepage": "https://ds4cc.com",
-      "source": "./artifacts/the-netsshark-0.2.0.zip"
-    },
-    {
       "id": "mycommands",
       "displayName": "My Commands",
       "version": "0.2.0",
@@ -125,6 +117,14 @@
       "description": "Drive Grok-only web UI features through agent-browser and an authenticated CDP profile.",
       "homepage": "https://github.com/VeigaPunk/the-musketeer",
       "source": "./artifacts/the-musketeer-0.3.0.zip"
+    },
+    {
+      "id": "the-netsshark",
+      "displayName": "The Netsshark",
+      "version": "0.2.0",
+      "description": "Empirical network configuration audits with adversarial validation.",
+      "homepage": "https://ds4cc.com",
+      "source": "./artifacts/the-netsshark-0.2.0.zip"
     },
     {
       "id": "the-puppeteer",
