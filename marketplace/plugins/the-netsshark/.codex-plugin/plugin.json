@@ -1,11 +1,11 @@
 {
-  "name": "network-auditor",
+  "name": "the-netsshark",
   "version": "0.2.0",
   "description": "Empirical network configuration audits with adversarial validation.",
   "author": { "name": "VeigaPunk" },
   "skills": "./skills/",
   "interface": {
-    "displayName": "Network Auditor",
+    "displayName": "The NetShark",
     "shortDescription": "Audit DNS, routing, proxies, firewalls, and connectivity",
     "longDescription": "Snapshots network state, runs empirical probes, adversarially validates candidate configuration changes, and returns Pareto-ranked recommendations with rollback steps.",
     "developerName": "VeigaPunk",

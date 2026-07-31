@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>DS4CC — 16 plugins for six supported agent CLIs</title>
-<meta name="description" content="DS4CC Marketplace: 16 curated Rust-validated plugins with host-specific guidance for Grok Build, Codex, Claude Code, Kimi Code CLI, GitHub Copilot CLI and OpenCode." />
-<meta property="og:title" content="DS4CC Marketplace — six supported agent CLIs" />
-<meta property="og:description" content="16 curated plugins with host-specific install guidance for Grok, Codex, Claude Code, Kimi, GitHub Copilot CLI and OpenCode." />
+<title>DS4CC — 16 plugins for four supported agent CLIs</title>
+    <meta name="description" content="DS4CC Marketplace: 16 curated Rust-validated plugins with host-specific guidance for Grok Build, Codex, Kimi Code CLI and OpenCode." />
+<meta property="og:title" content="DS4CC Marketplace — four supported agent CLIs" />
+    <meta property="og:description" content="16 curated plugins with host-specific install guidance for Grok, Codex, Kimi and OpenCode." />
 <meta property="og:url" content="https://ds4cc.com/" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
@@ -345,7 +345,6 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
     <div class="nav-links">
       <a href="#demo">demo</a>
       <a href="#plugins">plugins</a>
-      <a href="#agent-pip">agent pip</a>
       <a href="#install">install</a>
       <a href="#app">chatgpt app</a>
       <a href="#validator">validator</a>
@@ -360,7 +359,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
   <header class="hero">
     <div>
       <span class="badge">16 plugins</span>
-      <span class="badge dark">6 agent CLIs</span>
+      <span class="badge dark">5 agent CLIs</span>
       <span class="badge dark">rust-validated</span>
       <span class="badge cyan">MIT</span>
     </div>
@@ -372,11 +371,10 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 ██████╔╝ ███████║      ██║ ╚██████╗ ╚██████╗
 ╚═════╝  ╚══════╝      ╚═╝  ╚═════╝  ╚═════╝
 </pre>
-    <h1>One marketplace. <em>Six supported agent CLIs.</em></h1>
+    <h1>One marketplace. <em>Four supported agent CLIs.</em></h1>
     <p class="tagline">
-      Static plugin payloads for <strong>Grok Build</strong>, <strong>Codex</strong>, <strong>Claude Code</strong>,
-      <strong>Kimi Code CLI</strong> and <strong>GitHub Copilot CLI</strong> — plus a dependency-free
-      bootstrap for <strong>OpenCode</strong>. Register one repo, install what you need, ship.
+      Static plugin payloads for <strong>Grok Build</strong>, <strong>Codex</strong>, <strong>Kimi Code CLI</strong>,
+      and a dependency-free bootstrap for <strong>OpenCode</strong>. Register one repo, install what you need, ship.
     </p>
     <div class="hero-row">
       <span class="chip"><span class="dot"></span> all 16 plugins available</span>
@@ -385,7 +383,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
     <div class="hero-row">
       <div class="oneliner">
         <code><span class="p">$</span> grok plugin marketplace add VeigaPunk/ds4cc-marketplace</code>
-        <button class="copy-btn" data-copy="grok plugin marketplace add VeigaPunk/ds4cc-marketplace">COPY</button>
+        <button type="button" class="copy-btn" data-copy="grok plugin marketplace add VeigaPunk/ds4cc-marketplace">COPY</button>
       </div>
       <a class="btn solid" href="#plugins">BROWSE PLUGINS</a>
       <a class="btn" href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">NON-CLI GROK CHAT FALLBACK ↗</a>
@@ -394,15 +392,13 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 
   <section id="demo" class="reveal">
     <h2><span class="idx">01</span>Pick your host — watch it install</h2>
-    <p class="sub">Live terminal. Six hosts, one repo. Commands below are the real install paths — outputs are representative.</p>
+    <p class="sub">Live terminal. Four hosts, one repo. Commands below are the real install paths — outputs are representative.</p>
     <div class="term-wrap">
-      <div class="host-tabs" role="tablist" aria-label="agent CLI hosts">
-        <button class="host-tab active" data-host="grok" role="tab">grok</button>
-        <button class="host-tab" data-host="codex" role="tab">codex</button>
-        <button class="host-tab" data-host="claude" role="tab">claude</button>
-        <button class="host-tab" data-host="kimi" role="tab">kimi</button>
-        <button class="host-tab" data-host="copilot" role="tab">copilot</button>
-        <button class="host-tab" data-host="opencode" role="tab">opencode</button>
+        <div class="host-tabs" role="tablist" aria-label="agent CLI hosts">
+        <button type="button" class="host-tab active" data-host="grok" role="tab">grok</button>
+        <button type="button" class="host-tab" data-host="codex" role="tab">codex</button>
+        <button type="button" class="host-tab" data-host="kimi" role="tab">kimi</button>
+        <button type="button" class="host-tab" data-host="opencode" role="tab">opencode</button>
       </div>
       <div class="term" aria-live="polite">
         <div class="term-bar">
@@ -425,7 +421,6 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
     <div class="plugins" id="plugGrid"></div>
   </section>
 
-  <section id="agent-pip" class="reveal">
     <h2><span class="idx">03</span>Agent Pip — live tmux output in Waybar</h2>
     <p class="sub">A compact Rust dashboard that renders every live tmux pane side by side, preserving terminal color while keeping each pane’s newest output line anchored at the bottom.</p>
     <div class="grid-2">
@@ -451,14 +446,9 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
       <div class="panel" style="padding:14px 16px">
         <h3 style="margin-top:0;font-size:0.95rem">Build and run</h3>
         <div class="oneliner" style="margin:8px 0">
-          <code><span class="p">$</span> git clone https://github.com/VeigaPunk/agent-pip.git</code>
-          <button class="copy-btn" data-copy="git clone https://github.com/VeigaPunk/agent-pip.git">COPY</button>
         </div>
-<pre><span class="p">$</span> cd agent-pip
 <span class="p">$</span> cargo build --release
-<span class="p">$</span> ./target/release/agent-wall --status-pango</pre>
         <p>Use the standalone TUI or feed Pango JSON into Waybar. The renderer keeps the existing 130px bar height, JetBrains Mono metrics, and native polling setup.</p>
-        <a class="btn" href="https://github.com/VeigaPunk/agent-pip" target="_blank" rel="noopener">VIEW SOURCE ↗</a>
       </div>
     </div>
   </section>
@@ -475,7 +465,6 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 <span class="p">$</span> grok plugin install myagents --trust
 <span class="p">$</span> grok plugin enable myagents</pre>
 <pre><span class="c"># install the core set in one loop</span>
-<span class="p">$</span> for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
     grok plugin install "$p" --trust &amp;&amp; grok plugin enable "$p"
   done</pre>
         <p class="note"><strong>Non-CLI fallback:</strong> paste <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">GROK_PASTE.md</a> into a Grok chat. This is separate from the Grok Build CLI flow above.</p>
@@ -491,15 +480,6 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
       </div>
 
       <div class="host">
-        <h3>Claude Code <span class="tag">Anthropic</span></h3>
-<pre><span class="p">$</span> claude plugin marketplace add VeigaPunk/ds4cc-marketplace
-<span class="p">$</span> claude plugin install myagents@ds4cc</pre>
-<pre><span class="c"># in the current Claude Code session</span>
-<span class="g">/reload-plugins</span></pre>
-        <p class="note">Strict-validated: <code>claude plugin validate --strict .claude-plugin/marketplace.json</code> passes in CI. Reload plugins in any session that was already open.</p>
-      </div>
-
-      <div class="host">
         <h3>Kimi Code CLI <span class="tag">TUI plugins</span></h3>
 <pre><span class="c"># commands to enter in the Kimi TUI</span>
 <span class="g">/plugins install https://github.com/VeigaPunk/ds4cc-marketplace</span>
@@ -512,20 +492,11 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
       </div>
 
       <div class="host">
-        <h3>GitHub Copilot CLI <span class="tag">GitHub</span></h3>
-<pre><button class="copy-btn" data-copy="copilot plugin marketplace add VeigaPunk/ds4cc-marketplace&#10;copilot plugin marketplace browse ds4cc&#10;copilot plugin install myagents@ds4cc&#10;copilot plugin list">COPY</button><span class="p">$</span> copilot plugin marketplace add VeigaPunk/ds4cc-marketplace
-<span class="p">$</span> copilot plugin marketplace browse ds4cc
-<span class="p">$</span> copilot plugin install myagents@ds4cc
-<span class="p">$</span> copilot plugin list</pre>
-        <p class="note">The Copilot catalog uses relative string sources in <code>.github/plugin/marketplace.json</code>.</p>
-      </div>
-
-      <div class="host">
         <h3>OpenCode <span class="tag">bootstrap script</span></h3>
 <pre><span class="p">$</span> git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
 <span class="p">$</span> node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
 <span class="c"># or: --project /path/to/project</span></pre>
-        <p class="note">Writes 15 <code>the-*</code> agents plus <code>network-auditor</code> (16 subagents total), and a separate <code>orch</code> primary mode.</p>
+        <p class="note">Writes 15 <code>the-*</code> agents plus <code>the-netsshark</code> (16 subagents total), and a separate <code>orch</code> primary mode.</p>
       </div>
 
     </div>
@@ -539,7 +510,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
         <h3 style="margin-top:0;font-size:0.95rem">MCP endpoint</h3>
         <div class="oneliner" style="margin:8px 0">
           <code><span class="p">›</span> https://app.ds4cc.com/mcp</code>
-          <button class="copy-btn" data-copy="https://app.ds4cc.com/mcp">COPY</button>
+          <button type="button" class="copy-btn" data-copy="https://app.ds4cc.com/mcp">COPY</button>
         </div>
         <p>Scoped to an explicitly reviewed, read-only tool surface with required annotations and widget CSP/domain metadata. It is <em>not</em> the public 16-plugin marketplace.</p>
         <div class="kv">
@@ -583,7 +554,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
       <div>
         <h3 style="font-size:0.95rem;margin-top:0">What every plugin must prove</h3>
         <ol class="gate">
-          <li><b>Local source integrity</b> — path pinned to <code>./plugins/<name></code></li>
+          <li><b>Local source integrity</b> — path pinned to <code>./plugins/&lt;name&gt;</code></li>
           <li><b>Manifest parses</b> — <code>.codex-plugin/plugin.json</code>, name matches entry</li>
           <li><b>Semver</b> — strict <code>X.Y.Z</code></li>
           <li><b>Full interface block</b> — display, descriptions, developer, category, capabilities</li>
@@ -641,7 +612,7 @@ the-sentinel sonnet · medium
 the-critic sonnet · medium
 the-mutation-tester sonnet · medium
 the-scribe sonnet · medium
-network-auditor host extension</pre>
+the-netsshark host extension</pre>
     <h3>Execution gates</h3>
 <pre>planner wwkd · native
 scout / labrat / executor xask --spark --gs codex → gpt-5.4-mini
@@ -671,9 +642,8 @@ distiller / simplifier / scribe native</pre>
         <b>catalog endpoints</b>
         grok · <code>.grok-plugin/marketplace.json</code><br/>
         codex · <code>.agents/plugins/marketplace.json</code><br/>
-        claude · <code>.claude-plugin/marketplace.json</code><br/>
         kimi · <a href="https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json" target="_blank" rel="noopener">published catalog</a><br/>
-        copilot · <code>.github/plugin/marketplace.json</code>
+        opencode · bootstrap installer
       </div>
       <div>
         <b>referrals</b>
@@ -710,7 +680,7 @@ distiller / simplifier / scribe native</pre>
     { n: "ds4cc", v: "0.3.0", d: "Marketplace meta-plugin — discover/install plugins and run ds4cc/orch mode.", c: "codex plugin marketplace add VeigaPunk/ds4cc-marketplace" },
     { n: "spoderman", v: "0.2.0", d: "Attack harness & hook safety research for agent runtimes.", c: "bash ./spoderman validate --hooks" },
     { n: "xbrd-gdsp-fknpft", v: "8.16.137", d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
-    { n: "network-auditor", v: "0.2.0", d: "Empirical DNS, routing, proxy, firewall, MTU, and connectivity audits.", c: 'codex "Use the network-auditor skill"' },
+    { n: "the-netsshark", v: "0.2.0", d: "Empirical DNS, routing, proxy, firewall, MTU, and connectivity audits.", c: 'codex "Use the-netsshark skill"' },
     { n: "aaronplug", v: "0.2.0", d: "Academic paper retrieval across arXiv, Semantic Scholar and Sci-Hub.", c: 'npx @veigapunk/aaron papers search "..."' },
     { n: "infinizoom", v: "0.2.0", d: "Fractal-zoom visualization QA & server.", c: "node qa-zoom.mjs" },
     { n: "godspeed-codex-command", v: "0.2.0", d: "Command-mode bootstrap & Codex posture controls.", c: "bash ./scripts/install-commands.sh" },
@@ -802,31 +772,6 @@ distiller / simplifier / scribe native</pre>
         ["out", "start a new session; use /plugins + Space to toggle state"],
       ],
     },
-    claude: {
-      title: "ds4cc — claude code",
-      lines: [
-        ["cmd", "claude plugin marketplace add VeigaPunk/ds4cc-marketplace"],
-        ["ok",  "marketplace `ds4cc` registered"],
-        ["cmd", "claude plugin install myagents@ds4cc"],
-        ["ok",  "installed `myagents` 0.2.0"],
-        ["tui", "/reload-plugins"],
-        ["out", "reload plugins in the current Claude Code session"],
-        ["cmd", "claude plugin validate --strict .claude-plugin/marketplace.json"],
-        ["ok",  "strict validation passed"],
-      ],
-    },
-    copilot: {
-      title: "ds4cc — github copilot cli",
-      lines: [
-        ["cmd", "copilot plugin marketplace add VeigaPunk/ds4cc-marketplace"],
-        ["ok",  "added marketplace `ds4cc`"],
-        ["cmd", "copilot plugin marketplace browse ds4cc"],
-        ["out", "16 plugins available"],
-        ["cmd", "copilot plugin install myagents@ds4cc"],
-        ["ok",  "installed `myagents` from marketplace `ds4cc`"],
-        ["cmd", "copilot plugin list"],
-      ],
-    },
     kimi: {
       title: "ds4cc — kimi code cli",
       lines: [
@@ -845,7 +790,7 @@ distiller / simplifier / scribe native</pre>
         ["cmd", "git clone https://github.com/VeigaPunk/ds4cc-marketplace.git"],
         ["out", "cloning into 'ds4cc-marketplace'... done"],
         ["cmd", "node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global"],
-        ["ok",  "wrote 15 the-* agents plus network-auditor — 16 subagents total"],
+        ["ok",  "wrote 15 the-* agents plus the-netsshark — 16 subagents total"],
         ["ok",  "separate primary mode `orch` ready — XBGST default, judge-level godspeed"],
         ["out", "destination: ${XDG_CONFIG_HOME:-$HOME/.config}/opencode/agents"],
         ["warn", "note: xask on PATH required for cross-model delegation (not bundled)"],
@@ -911,16 +856,27 @@ distiller / simplifier / scribe native</pre>
     termBody.appendChild(idle);
   }
 
-  tabs.forEach(t => t.addEventListener("click", () => {
-    tabs.forEach(x => x.classList.toggle("active", x === t));
-    play(t.dataset.host);
-  }));
+  tabs.forEach((t) => {
+    t.addEventListener("click", () => {
+      tabs.forEach((x) => {
+        x.classList.toggle("active", x === t);
+      });
+      play(t.dataset.host);
+    });
+  });
   play("grok");
 
   const io = new IntersectionObserver((entries) => {
-    entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add("in"); io.unobserve(en.target); } });
+    entries.forEach((en) => {
+      if (en.isIntersecting) {
+        en.target.classList.add("in");
+        io.unobserve(en.target);
+      }
+    });
   }, { threshold: 0.08 });
-  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+  document.querySelectorAll(".reveal").forEach((el) => {
+    io.observe(el);
+  });
 })();
 </script>
 </body>

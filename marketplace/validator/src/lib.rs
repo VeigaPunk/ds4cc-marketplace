@@ -457,7 +457,7 @@ fn is_valid_semver(version: &str) -> bool {
 /// Strips frontmatter (content between --- delimiters at the start), then checks for:
 /// - A fenced code block (```)
 /// - A line starting with $
-/// - A specific command pattern: codex , cargo , node , bash , ./, npx
+/// - A specific command pattern: codex , grok , cargo , node , bash , ./, npx
 pub fn is_skill_actionable(skill_content: &str) -> bool {
     // Strip frontmatter if present
     let body = strip_frontmatter(skill_content);
@@ -476,7 +476,6 @@ pub fn is_skill_actionable(skill_content: &str) -> bool {
         if trimmed.starts_with("codex ")
             || trimmed.starts_with("grok ")
             || trimmed.starts_with("claude ")
-            || trimmed.starts_with("copilot ")
             || trimmed.starts_with("cargo ")
             || trimmed.starts_with("node ")
             || trimmed.starts_with("bash ")

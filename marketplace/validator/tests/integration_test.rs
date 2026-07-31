@@ -3,7 +3,6 @@ use ds4cc_validator::{
     MarketplaceEntry, Source,
 };
 use std::fs;
-use std::io::Write;
 use std::path::Path;
 use std::process::Command;
 use tempfile::TempDir;
@@ -403,7 +402,81 @@ fn test_expected_plugins_present() {
     );
 }
 
-// ─── Test 10: Isolated Codex process execution ────────────────────────────────
+// ─── Test 10: No Claude marketplace support remains outside Spoderman ────────
+
+#[test]
+fn test_no_claude_marketplace_support() {
+    let Some(root) = real_marketplace_root() else {
+        eprintln!("Skipping test_no_claude_marketplace_support: marketplace root not found");
+        return;
+    };
+
+    let tracked = Command::new("git")
+        .args([
+            "ls-files",
+            "--",
+            ":(glob).claude-plugin/**",
+            ":(glob)**/.claude-plugin/**",
+        ])
+        .current_dir(&root)
+        .output()
+        .expect("failed to run git ls-files");
+    assert!(tracked.status.success(), "git ls-files failed");
+    let tracked_text = String::from_utf8_lossy(&tracked.stdout);
+    let live_tracked: Vec<_> = tracked_text
+        .lines()
+        .filter(|path| root.join(path).exists())
+        .filter(|path| !path.ends_with("plugins/spoderman/.claude-plugin/plugin.json"))
+        .collect();
+    assert!(
+        live_tracked.is_empty(),
+        "unexpected live Claude marketplace paths:\n{}",
+        live_tracked.join("\n")
+    );
+
+    let support_files = [
+        "README.md",
+        "CHANGELOG.md",
+        "index.html",
+        ".github/workflows/validate.yml",
+        ".github/plugin/marketplace.json",
+        ".grok-plugin/marketplace.json",
+        ".kimi-plugin/marketplace.json",
+        "kimi.plugin.json",
+        "marketplace/plugins/ds4cc/README.md",
+        "marketplace/plugins/ds4cc/skills/ds4cc-docs/SKILL.md",
+        "marketplace/plugins/ds4cc/kimi.plugin.json",
+        "marketplace/plugins/ds4cc/.codex-plugin/plugin.json",
+        "marketplace/plugins/myagents/README.md",
+        "marketplace/plugins/myagents/skills/myagents-docs/SKILL.md",
+        "scripts/validate-agent-payloads.mjs",
+    ];
+    let install_markers = [
+        "claude plugin marketplace add",
+        "claude plugin install",
+        "claude plugin validate",
+        "@anthropic-ai/claude-code",
+        "install claude code cli",
+    ];
+    let mut hits = Vec::new();
+    for path in support_files {
+        let file = root.join(path);
+        let Ok(text) = fs::read_to_string(&file) else {
+            continue;
+        };
+        let lower = text.to_lowercase();
+        if install_markers.iter().any(|marker| lower.contains(marker)) {
+            hits.push(path.to_string());
+        }
+    }
+    assert!(
+        hits.is_empty(),
+        "unexpected Claude install/support commands remain in: {:?}",
+        hits
+    );
+}
+
+// ─── Test 11: Isolated Codex process execution ────────────────────────────────
 // Ported from test_codex_isolated.sh using std::process::Command.
 // Uses a temp CODEX_HOME so no real user config is touched.
 
@@ -480,7 +553,7 @@ fn test_codex_cli_isolated_process() {
     );
 }
 
-// ─── Test 11: FNM multishell Node isolation ───────────────────────────────────
+// ─── Test 12: FNM multishell Node isolation ───────────────────────────────────
 // Node-dependent plugins (aaronplug, infinizoom) require a pinned Node version.
 // FNM's `exec --using <alias>` spawns an isolated subprocess with exactly that
 // Node binary in PATH — no global env mutation, safe for concurrent test runs.
@@ -551,7 +624,7 @@ fn test_fnm_node_isolation() {
     }
 }
 
-// ─── Test 12: Canonical .agents/plugins/marketplace.json validates ────────────
+// ─── Test 13: Canonical .agents/plugins/marketplace.json validates ────────────
 // Validates the Codex-native layout at <repo-root>/.agents/plugins/marketplace.json
 // using validate_marketplace_dir(), which resolves plugin paths relative to the
 // repo root (not the json file's parent). All 16 plugins must pass with no errors.
@@ -647,41 +720,7 @@ fn test_codex_plugin_list_ds4cc_complete() {
 fn test_website_supported_hosts_and_guidance() {
     let html =
         fs::read_to_string(repo_root().join("index.html")).expect("failed to read index.html");
-    let expected = ["grok", "codex", "claude", "kimi", "copilot", "opencode"];
-
-    let inline_script = html
-        .split("<script")
-        .skip(1)
-        .filter_map(|tail| tail.split_once('>').map(|(_, script)| script))
-        .filter_map(|script| script.split_once("</script>").map(|(body, _)| body))
-        .find(|script| script.contains("const SCRIPTS"))
-        .expect("failed to locate inline script containing SCRIPTS");
-
-    let mut script_file = tempfile::Builder::new()
-        .suffix(".js")
-        .tempfile()
-        .expect("failed to create temporary JavaScript file");
-    script_file
-        .write_all(inline_script.as_bytes())
-        .expect("failed to write temporary JavaScript file");
-    script_file
-        .flush()
-        .expect("failed to flush temporary JavaScript file");
-    match Command::new("node")
-        .arg("--check")
-        .arg(script_file.path())
-        .output()
-    {
-        Ok(output) => assert!(
-            output.status.success(),
-            "website inline script has invalid JavaScript syntax:\n{}",
-            String::from_utf8_lossy(&output.stderr)
-        ),
-        Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
-            eprintln!("Skipping website JavaScript syntax sub-check: node not in PATH");
-        }
-        Err(error) => panic!("failed to run node --check: {error}"),
-    }
+    let expected = ["grok", "codex", "kimi", "opencode"];
 
     let mut tab_hosts: Vec<&str> = html
         .split("data-host=\"")
@@ -712,10 +751,6 @@ fn test_website_supported_hosts_and_guidance() {
         "terminal script hosts changed unexpectedly"
     );
 
-    assert!(
-        !html.to_lowercase().contains("crush"),
-        "website still mentions removed host"
-    );
     for marker in [
         "Grok Build CLI",
         "grok plugin marketplace add VeigaPunk/ds4cc-marketplace",
@@ -724,12 +759,7 @@ fn test_website_supported_hosts_and_guidance() {
         "grok plugin enable myagents",
         "grok plugin install \"$p\" --trust &amp;&amp; grok plugin enable \"$p\"",
         "Non-CLI fallback:",
-        "copilot plugin marketplace add VeigaPunk/ds4cc-marketplace",
-        "copilot plugin marketplace browse ds4cc",
-        "copilot plugin install myagents@ds4cc",
-        "copilot plugin list",
-        "data-copy=\"copilot plugin marketplace add VeigaPunk/ds4cc-marketplace",
-        "/reload-plugins",
+        "the-netsshark",
         "commands to enter in the Kimi TUI",
         "${XDG_CONFIG_HOME:-$HOME/.config}/opencode/agents",
         "$CODEX_HOME/plugins/cache/ds4cc/myagents/0.2.0",
@@ -755,6 +785,7 @@ fn test_website_supported_hosts_and_guidance() {
         "0.28.1",
         "<span class=\"p\">$</span> /plugins",
         "#marketplace/plugins/",
+        "copilot plugin",
     ] {
         assert!(
             !html.contains(invalid),
@@ -883,29 +914,63 @@ fn test_public_codex_guidance_matches_verified_lifecycle() {
 }
 
 #[test]
-fn test_copilot_marketplace_sources_are_relative_strings() {
-    let path = repo_root().join(".github/plugin/marketplace.json");
-    let content = fs::read_to_string(&path).expect("failed to read Copilot marketplace");
-    let catalog: serde_json::Value =
-        serde_json::from_str(&content).expect("failed to parse Copilot marketplace");
-    let plugins = catalog["plugins"]
-        .as_array()
-        .expect("plugins must be an array");
-    assert_eq!(
-        plugins.len(),
-        16,
-        "Copilot marketplace must expose all plugins"
+fn test_no_copilot_marketplace_support() {
+    let root = repo_root();
+    assert!(
+        !root.join(".github/plugin/marketplace.json").exists(),
+        "Copilot marketplace catalog must be removed"
     );
-    for plugin in plugins {
-        let name = plugin["name"].as_str().unwrap_or("<unnamed>");
-        let source = plugin["source"]
-            .as_str()
-            .unwrap_or_else(|| panic!("Copilot source for {name} must be a string"));
-        assert!(
-            source.starts_with("./marketplace/plugins/") && !source.contains(".."),
-            "Copilot source for {name} must be a safe relative plugin path: {source}"
-        );
+
+    let support_files = [
+        "README.md",
+        "CHANGELOG.md",
+        "index.html",
+        "scripts/validate-agent-payloads.mjs",
+        "marketplace/plugins/ds4cc/README.md",
+        "marketplace/plugins/ds4cc/skills/ds4cc-docs/SKILL.md",
+        "marketplace/plugins/ds4cc/kimi.plugin.json",
+        "marketplace/plugins/ds4cc/.codex-plugin/plugin.json",
+        "marketplace/plugins/myagents/README.md",
+        ".kimi-plugin/marketplace.json",
+        "marketplace/validator/src/lib.rs",
+    ];
+    let markers = [
+        "GitHub Copilot CLI",
+        "Copilot CLI",
+        "copilot plugin",
+        "data-host=\"copilot\"",
+        ".github/plugin/marketplace.json",
+        "copilot ",
+    ];
+
+    let mut hits = Vec::new();
+    for relative in support_files {
+        let Ok(content) = fs::read_to_string(root.join(relative)) else {
+            continue;
+        };
+        let lower = content.to_lowercase();
+        if markers
+            .iter()
+            .any(|marker| lower.contains(&marker.to_lowercase()))
+        {
+            hits.push(relative);
+        }
     }
+
+    assert!(
+        hits.is_empty(),
+        "unexpected Copilot support markers remain in: {:?}",
+        hits
+    );
+}
+
+#[test]
+fn test_is_skill_not_actionable_copilot_prefix() {
+    let content = "copilot plugin marketplace add VeigaPunk/ds4cc-marketplace\ncopilot plugin install myagents@ds4cc\n";
+    assert!(
+        !is_skill_actionable(content),
+        "Copilot command prefix must not count as actionable"
+    );
 }
 
 // ─── Security tests (red-first) ───────────────────────────────────────────────

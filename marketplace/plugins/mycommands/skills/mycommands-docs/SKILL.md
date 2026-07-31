@@ -1,6 +1,6 @@
 ---
 name: mycommands-docs
-description: List and execute reusable command packs from mycommands on Grok Build, Claude Code, or Codex.
+description: List and execute reusable command packs from mycommands on Grok Build, OpenCode, or Codex.
 ---
 
 mycommands catalogs recurring shell and repository automation routines.

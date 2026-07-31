@@ -1,6 +1,6 @@
 ---
 name: myskills-docs
-description: Discover, apply, and create reusable skill workflows from myskills on Grok Build, Claude Code, or Codex.
+description: Discover, apply, and create reusable skill workflows from myskills on Grok Build, OpenCode, or Codex.
 ---
 
 myskills presents discoverable skill definitions for domain-specific tasks.

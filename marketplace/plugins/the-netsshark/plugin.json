@@ -1,5 +1,5 @@
 {
-  "name": "network-auditor",
+  "name": "the-netsshark",
   "version": "0.2.0",
   "description": "Empirical network configuration audits with adversarial validation and Pareto-ranked recommendations.",
   "author": { "name": "VeigaPunk" },

@@ -102,10 +102,10 @@
       "category": "Developer"
     },
     {
-      "name": "network-auditor",
+      "name": "the-netsshark",
       "source": {
         "source": "local",
-        "path": "./marketplace/plugins/network-auditor"
+        "path": "./marketplace/plugins/the-netsshark"
       },
       "policy": {
         "installation": "AVAILABLE",

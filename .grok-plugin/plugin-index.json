@@ -137,23 +137,6 @@
         ]
       }
     },
-    "network-auditor": {
-      "version": "0.2.0",
-      "components": {
-        "skills": [
-          {
-            "name": "network-auditor",
-            "description": "Audit connectivity, DNS, routing, proxies, firewalls, MTU, privacy, and network reliability with empirical probes and safe rollback plans."
-          }
-        ],
-        "agents": [
-          {
-            "name": "network-auditor",
-            "description": "network-auditor.agent"
-          }
-        ]
-      }
-    },
     "mycommands": {
       "version": "0.2.0",
       "components": {
@@ -249,6 +232,23 @@
           {
             "name": "xbrd-selector-docs",
             "description": "Install and run xbrd-selector through verified build commands and a Ratatui TUI."
+          }
+        ]
+      }
+    },
+    "the-netsshark": {
+      "version": "0.2.0",
+      "components": {
+        "skills": [
+          {
+            "name": "the-netsshark-docs",
+            "description": "Audit connectivity, DNS, routing, proxies, firewalls, MTU, privacy, and network reliability with empirical probes and safe rollback plans."
+          }
+        ],
+        "agents": [
+          {
+            "name": "the-netsshark",
+            "description": "the-netsshark.agent"
           }
         ]
       }

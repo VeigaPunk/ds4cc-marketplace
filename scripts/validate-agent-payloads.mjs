@@ -5,7 +5,6 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const EXPECTED_AGENTS = [
-  "network-auditor",
   "the-architect",
   "the-connector",
   "the-critic",
@@ -61,10 +60,15 @@ async function exists(filePath) {
   }
 }
 
+check(
+  !(await exists(path.join(root, ".github", "plugin", "marketplace.json"))),
+  "removed marketplace catalog must not exist",
+);
+
 const agentsDir = path.join(root, "marketplace", "plugins", "myagents", "agents");
 const files = (await readdir(agentsDir)).filter((name) => name.endsWith(".agent.md")).sort();
 const actualAgents = files.map((name) => name.slice(0, -".agent.md".length));
-check(files.length === 16, `expected 15 the-* agent payloads plus network-auditor, found ${files.length}`);
+check(files.length === 15, `expected 15 the-* agent payloads, found ${files.length}`);
 check(
   actualAgents.length === EXPECTED_AGENTS.length && EXPECTED_AGENTS.every((name) => actualAgents.includes(name)),
   `stale or unexpected agent names: expected ${EXPECTED_AGENTS.join(", ")}; found ${actualAgents.join(", ")}`,
@@ -117,47 +121,27 @@ for (const skill of ["godspeed", "wwkd"]) {
   check(await exists(skillPath), `myagents: missing packaged ${skill} skill`);
 }
 
-const copilotMarketplace = await readJson(".github/plugin/marketplace.json");
-const claudeMarketplace = await readJson(".claude-plugin/marketplace.json");
-const copilotPlugin = await readJson("marketplace/plugins/myagents/plugin.json");
-const claudePlugin = await readJson("marketplace/plugins/myagents/.claude-plugin/plugin.json");
+const marketplacePlugin = await readJson("marketplace/plugins/myagents/plugin.json");
 const codexPlugin = await readJson("marketplace/plugins/myagents/.codex-plugin/plugin.json");
 
-if (copilotMarketplace && claudeMarketplace && copilotPlugin && claudePlugin && codexPlugin) {
-  const copilotEntry = copilotMarketplace.plugins?.find((plugin) => plugin.name === "myagents");
-  const claudeEntry = claudeMarketplace.plugins?.find((plugin) => plugin.name === "myagents");
-  check(copilotMarketplace.name === "ds4cc", "Copilot marketplace name must be ds4cc");
-  check(claudeMarketplace.name === "ds4cc", "Claude marketplace name must be ds4cc");
-  check(Boolean(claudeEntry), "Claude marketplace must include myagents");
-  check(claudeEntry?.source === "./marketplace/plugins/myagents", "Claude myagents source is incorrect");
-  check(
-    Array.isArray(claudeMarketplace.plugins) && claudeMarketplace.plugins.length >= 1,
-    "Claude marketplace must list at least myagents",
-  );
-
+if (marketplacePlugin && codexPlugin) {
   const versions = [
-    copilotEntry?.version,
-    copilotPlugin.version,
-    claudeEntry?.version,
-    claudePlugin.version,
+    marketplacePlugin.version,
     codexPlugin.version,
   ];
-  check(versions.every((version) => version === versions[0]), `Codex/Copilot/Claude myagents versions are not synchronized: ${versions.join(", ")}`);
+  check(versions.every((version) => version === versions[0]), `Codex myagents versions are not synchronized: ${versions.join(", ")}`);
 
   const descriptions = [
-    copilotEntry?.description,
-    copilotPlugin.description,
-    claudeEntry?.description,
-    claudePlugin.description,
+    marketplacePlugin.description,
     codexPlugin.description,
   ];
   check(
     descriptions.every((description) => typeof description === "string" && description.trim().length > 0),
-    "Codex/Copilot/Claude myagents descriptions must be non-empty",
+    "Codex myagents descriptions must be non-empty",
   );
   check(
     descriptions.every((description) => description === descriptions[0]),
-    `Codex/Copilot/Claude descriptions are not synchronized: ${descriptions.join(" | ")}`,
+    `Codex descriptions are not synchronized: ${descriptions.join(" | ")}`,
   );
 }
 
@@ -165,5 +149,5 @@ if (errors.length > 0) {
   for (const error of errors) console.error(`Error: ${error}`);
   process.exitCode = 1;
 } else {
-  console.log("Validated 15 the-* Godspeed agent payloads plus network-auditor (16 subagents total), packaged skills, and synchronized Codex/Copilot/Claude metadata.");
+  console.log("Validated 15 the-* Godspeed agent payloads, packaged skills, and synchronized Codex metadata.");
 }

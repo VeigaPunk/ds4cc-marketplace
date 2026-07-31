@@ -2,7 +2,7 @@
 
 **[ds4cc.com](https://ds4cc.com)** — one marketplace, every agent CLI.
 
-Static plugin payloads for **Grok Build**, **Codex**, **Claude Code**, **Kimi Code CLI**, and **Crush CLI**. OpenCode agents ship through a dependency-free bootstrap script (OpenCode has no marketplace protocol).
+Static plugin payloads for **Grok Build**, **Codex**, **Kimi Code CLI**, and **OpenCode**. OpenCode agents ship through a dependency-free bootstrap script (OpenCode has no marketplace protocol).
 
 Sixteen curated plugins, Rust-validated and curation-gated. Register one repo, install what you need, ship.
 
@@ -10,9 +10,7 @@ Sixteen curated plugins, Rust-validated and curation-gated. Register one repo, i
 | --- | --- |
 | Grok Build | `.grok-plugin/marketplace.json` (+ generated `plugin-index.json`) |
 | Codex | `.agents/plugins/marketplace.json` and `marketplace/marketplace.json` |
-| Claude Code | `.claude-plugin/marketplace.json` |
 | Kimi Code 0.28.1 | `.kimi-plugin/marketplace.json` + minimal ZIP packages (`marketplace/plugins/<name>/kimi.plugin.json`) |
-| Crush | `.crush-plugin/marketplace.json` (points to per-plugin `./skills/` roots) |
 
 - Plugin assets: `marketplace/plugins/<name>/`
 - Validator: `marketplace/validator/` (Rust, `cargo test`)
@@ -62,20 +60,6 @@ Or local dev:
 codex plugin marketplace add .
 ```
 
-## Claude Code
-
-```bash
-claude plugin marketplace add VeigaPunk/ds4cc-marketplace
-claude plugin install myagents@ds4cc
-```
-
-All 16 plugins are registered for Claude Code (each ships a `.claude-plugin/plugin.json`), so you can browse and install any of them the same way:
-
-```bash
-claude plugin install xbrd-gdsp-fknpft@ds4cc   # /godspeed, /goal, /wwkd, /xgs, /xbt, /xbreed, /xbgst
-claude plugin install <any-plugin>@ds4cc
-```
-
 ## Kimi Code CLI 0.28.1
 
 The repository URL can be installed directly as the DS4CC bootstrap plugin:
@@ -101,41 +85,6 @@ Install a catalog artifact URL (or a built local ZIP path), then reload:
 
 Invoke installed skills as `/skill:<skill-name>` and plugin commands as `/<plugin>:<command>`. Third-party installs show a trust confirmation first, so review the source before approving. Kimi 0.28.1 installs the skills and commands in these deliberately minimal packages, but it cannot install this marketplace's custom `the-*` agent profiles. Kimi's built-in agents remain available.
 
-## Crush CLI
-
-Crush discovers skills from directories listed in `crush.json` under `options.skills_paths`. Each DS4CC plugin exposes its skills under `marketplace/plugins/<name>/skills/`.
-
-Clone and review the source, then copy the skills you want into your Crush skills directory:
-
-```bash
-git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
-cd ds4cc-marketplace
-mkdir -p ~/.config/crush/skills
-cp -r marketplace/plugins/ds4cc/skills/* ~/.config/crush/skills/
-```
-
-Or add a plugin's skills path directly to `~/.config/crush/crush.json`:
-
-```json
-{
-  "options": {
-    "skills_paths": [
-      "$HOME/Projects/ds4cc-marketplace/marketplace/plugins/ds4cc/skills"
-    ]
-  }
-}
-```
-
-Install the common set (review each source first):
-
-```bash
-for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
-  cp -r "marketplace/plugins/$p/skills/"* ~/.config/crush/skills/
-done
-```
-
-Reload Crush or start a new session, then invoke skills by name (e.g. `/skill:ds4cc-docs`). Crush uses `SKILL.md` skills, not the Grok/Kimi agent profiles in `agents/` directories.
-
 ## OpenCode
 
 OpenCode does not have a native marketplace. Clone this repository and choose one scope:
@@ -147,7 +96,7 @@ node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
 node ds4cc-marketplace/scripts/install-opencode-agents.mjs --project /path/to/project
 ```
 
-The commands are alternatives, not sequential steps. The installer writes native agent files to `${XDG_CONFIG_HOME:-~/.config}/opencode/agents` or `<project>/.opencode/agents`. It installs 15 `the-*` subagents plus `network-auditor` (16 subagents total), and a separate `orch` primary mode aligned to `the-judge`. `orch` runs XBGST by default, loads all three Godspeed sources at the judge level, and injects the core directive into every delegation. The installer refuses differing existing files unless `--force` is supplied and does not edit `opencode.json`.
+The commands are alternatives, not sequential steps. The installer writes native agent files to `${XDG_CONFIG_HOME:-~/.config}/opencode/agents` or `<project>/.opencode/agents`. It installs 15 `the-*` subagents plus `the-netsshark` (16 subagents total), and a separate `orch` primary mode aligned to `the-judge`. `orch` runs XBGST by default, loads all three Godspeed sources at the judge level, and injects the core directive into every delegation. The installer refuses differing existing files unless `--force` is supplied and does not edit `opencode.json`.
 
 Profiles use `xask --spark --gs codex` for cross-model delegation. `xask` is an external prerequisite, is not bundled by `myagents`, and must be installed separately on `PATH`; profiles that do not invoke cross-model delegation remain usable without it.
 
@@ -196,9 +145,6 @@ grok plugin enable <plugin-name>
 codex plugin list --available --json
 codex plugin add <plugin-name>@ds4cc --json
 codex plugin list --json
-
-# Claude Code
-claude plugin install <plugin-name>@ds4cc
 ```
 
 ## Validate the marketplace locally
@@ -219,14 +165,9 @@ python3 scripts/build-kimi-marketplace.py --check
 python3 -m unittest -v tests.test_build_kimi_marketplace
 python3 scripts/build-kimi-marketplace.py
 
-# Crush catalog check and test
-python3 scripts/build-crush-marketplace.py --check
-python3 -m unittest -v tests.test_build_crush_marketplace
-python3 scripts/build-crush-marketplace.py
-
-# Claude Code strict marketplace and plugin validation
-claude plugin validate --strict .claude-plugin/marketplace.json
-claude plugin validate --strict marketplace/plugins/myagents
+# Rust validator and agent payload checks
+cargo test --manifest-path marketplace/validator/Cargo.toml
+node scripts/validate-agent-payloads.mjs
 
 # Optional focused isolated Codex check
 cargo test --manifest-path marketplace/validator/Cargo.toml test_codex_cli_isolated_process

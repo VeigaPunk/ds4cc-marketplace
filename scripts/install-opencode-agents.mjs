@@ -177,6 +177,19 @@ async function loadAgents(sourceDir) {
   return agents;
 }
 
+async function loadTheNetShark(repositoryRoot) {
+  const sourcePath = path.join(
+    repositoryRoot,
+    "marketplace",
+    "plugins",
+    "the-netsshark",
+    "agents",
+    "the-netsshark.agent.md",
+  );
+  const source = await readFile(sourcePath, "utf8");
+  return [{ content: parseAgent(source, "the-netsshark.agent.md"), name: "the-netsshark" }];
+}
+
 async function resolveDestination(options) {
   if (options.scope === "project") {
     const projectRoot = path.resolve(options.projectDir);
@@ -244,7 +257,7 @@ async function main() {
   const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
   const sourceDir = path.join(repositoryRoot, "marketplace", "plugins", "myagents", "agents");
   const destinationDir = await resolveDestination(options);
-  const agents = await loadAgents(sourceDir);
+  const agents = [...await loadAgents(sourceDir), ...await loadTheNetShark(repositoryRoot)];
   const writes = await preflight(agents, destinationDir, options.force);
 
   await mkdir(destinationDir, { recursive: true });

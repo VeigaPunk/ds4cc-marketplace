@@ -88,23 +88,8 @@ class MarketplaceCatalogDriftTests(unittest.TestCase):
         catalog = read_json(ROOT / ".kimi-plugin" / "marketplace.json")
         self.assert_names(ROOT / ".kimi-plugin/marketplace.json", list_map(catalog["plugins"]))
 
-    def test_crush_catalog_names_and_versions(self):
-        catalog = read_json(ROOT / ".crush-plugin" / "marketplace.json")
-        self.assert_names(ROOT / ".crush-plugin/marketplace.json", list_map(catalog["plugins"]))
-
-    def test_claude_catalog_names_and_versions(self):
-        catalog = read_json(ROOT / ".claude-plugin" / "marketplace.json")
-        self.assert_names(ROOT / ".claude-plugin/marketplace.json", list_map(catalog["plugins"]))
-
-    def test_claude_catalog_matches_plugin_manifests(self):
-        catalog_path = ROOT / ".claude-plugin" / "marketplace.json"
-        catalog = read_json(catalog_path)
-        self.assert_host_descriptors(catalog_path, catalog["plugins"])
-        for entry in catalog["plugins"]:
-            manifest_path = ROOT / source_path(entry) / ".claude-plugin" / "plugin.json"
-            manifest = read_json(manifest_path)
-            self.assertEqual(manifest["name"], entry["name"], f"{manifest_path}: name drift")
-            self.assertEqual(manifest["version"], entry["version"], f"{manifest_path}: version drift")
+    def test_legacy_crush_catalog_is_absent(self):
+        self.assertFalse((ROOT / ".crush-plugin" / "marketplace.json").exists())
 
     def test_grok_catalog_names_and_versions(self):
         catalog = read_json(ROOT / ".grok-plugin" / "marketplace.json")
@@ -113,10 +98,6 @@ class MarketplaceCatalogDriftTests(unittest.TestCase):
     def test_github_catalog_host_descriptors(self):
         catalog = read_json(ROOT / ".github" / "plugin" / "marketplace.json")
         self.assert_host_descriptors(ROOT / ".github/plugin/marketplace.json", catalog["plugins"])
-
-    def test_crush_catalog_host_descriptors(self):
-        catalog = read_json(ROOT / ".crush-plugin" / "marketplace.json")
-        self.assert_host_descriptors(ROOT / ".crush-plugin/marketplace.json", catalog["plugins"])
 
     def test_codex_catalog_host_descriptors(self):
         catalog = read_json(ROOT / ".agents" / "plugins" / "marketplace.json")
@@ -183,7 +164,7 @@ class MarketplaceCatalogDriftTests(unittest.TestCase):
             "the-scribe",
         ):
             route_for(role, "sonnet · medium")
-        route_for("network-auditor", "host extension")
+        route_for("the-netsshark", "host extension")
 
         gates = re.search(r">Execution gates</h3>\s*<pre>(.*?)</pre>", lanes, re.S)
         self.assertIsNotNone(gates, "missing execution gate block")

@@ -19,7 +19,7 @@
   "interface": {
     "displayName": "DS4CC Marketplace",
     "shortDescription": "Bootstrap and browse the DS4CC plugin marketplace",
-    "longDescription": "Provides marketplace registration and reviewed plugin installation guidance for Kimi Code, Grok Build, Codex CLI, Claude Code, Crush CLI, and GitHub Copilot CLI.",
+    "longDescription": "Provides marketplace registration and reviewed plugin installation guidance for Kimi Code, Grok Build, Codex CLI, and OpenCode bootstrap.",
     "developerName": "VeigaPunk",
     "websiteURL": "https://veigapunk.github.io/ds4cc-marketplace/"
   }

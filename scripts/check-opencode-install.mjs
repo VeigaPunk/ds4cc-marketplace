@@ -58,7 +58,7 @@ try {
     throw new Error(`unexpected OpenCode modes: ${modeCounts.subagent} subagents, ${modeCounts.primary} primary`);
   }
 
-  console.log(`Validated isolated OpenCode install: ${files.length} portable files (15 the-* agents + network-auditor = 16 subagents, plus separate orch primary mode) in ${destination}`);
+  console.log(`Validated isolated OpenCode install: ${files.length} portable files (15 the-* agents + the-netsshark = 16 subagents, plus separate orch primary mode) in ${destination}`);
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }

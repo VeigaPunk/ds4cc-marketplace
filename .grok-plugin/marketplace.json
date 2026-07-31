@@ -1,6 +1,6 @@
 {
   "name": "ds4cc",
-  "description": "DS4CC public developer plugin marketplace for Grok Build, Codex, Claude Code, Kimi Code CLI, Crush CLI, and GitHub Copilot CLI.",
+  "description": "DS4CC public developer plugin marketplace for Grok Build, Codex, Kimi Code CLI, and OpenCode.",
   "owner": {
     "name": "VeigaPunk"
   },
@@ -156,17 +156,29 @@
       }
     },
     {
-      "name": "network-auditor",
+      "name": "the-netsshark",
       "version": "0.2.0",
       "description": "Empirical network configuration audits with adversarial validation.",
       "category": "development",
       "source": {
         "type": "local",
-        "path": "./marketplace/plugins/network-auditor"
+        "path": "./marketplace/plugins/the-netsshark"
       },
       "homepage": "https://ds4cc.com",
-      "keywords": ["network", "dns", "routing", "proxy", "firewall", "ds4cc"],
-      "domains": ["ds4cc.com", "app.ds4cc.com", "github.com/VeigaPunk/ds4cc-marketplace"],
+      "keywords": [
+        "the-netsshark",
+        "network",
+        "dns",
+        "routing",
+        "proxy",
+        "firewall",
+        "ds4cc"
+      ],
+      "domains": [
+        "ds4cc.com",
+        "app.ds4cc.com",
+        "github.com/VeigaPunk/ds4cc-marketplace"
+      ],
       "author": {
         "name": "VeigaPunk"
       }

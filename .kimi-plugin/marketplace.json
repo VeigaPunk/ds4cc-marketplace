@@ -20,7 +20,7 @@
       "id": "ds4cc",
       "displayName": "DS4CC Marketplace",
       "version": "0.3.0",
-      "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Grok Build, Codex, Claude Code, Kimi Code, Crush CLI, or GitHub Copilot CLI after source review.",
+      "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Grok Build, Codex, Kimi Code CLI, or OpenCode after source review.",
       "homepage": "https://ds4cc.com/",
       "keywords": [
         "plugins",
@@ -64,12 +64,12 @@
       "source": "./artifacts/myagents-0.2.0.zip"
     },
     {
-      "id": "network-auditor",
-      "displayName": "Network Auditor",
+      "id": "the-netsshark",
+      "displayName": "The Netsshark",
       "version": "0.2.0",
       "description": "Empirical network configuration audits with adversarial validation.",
       "homepage": "https://ds4cc.com",
-      "source": "./artifacts/network-auditor-0.2.0.zip"
+      "source": "./artifacts/the-netsshark-0.2.0.zip"
     },
     {
       "id": "mycommands",

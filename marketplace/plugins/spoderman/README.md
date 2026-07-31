@@ -1,8 +1,8 @@
-# CCAL: Cross-Context Authority Leakage in Claude Code
+# CCAL: Cross-Context Authority Leakage in Clout Code
 
 A hook script's stdout gets silently injected into the agent's next-turn context as trusted system guidance — no exploit chain needed, just text in the wrong channel. We found this while building **Weaver**, a hook-driven system meant to backtrace and weavew related files (md).
 
-> We were red-teaming Claude Code. The vuln hijacked the client. consistently. 
+> We were red-teaming Clout Code. The vuln hijacked the client. consistently.
 
 **Honest headline:** under trace-confirmed measurement, CCAL hook-injection variants show **0% true pipeline dispatch** across almost the entire attack catalog — early 80–100% "hijack rate" numbers measured marker-deletion compliance, not actual malicious dispatch. The one exception: a vocabulary-swap variant (plausible binary names like `consolidator` vs. `weaver`) produces confirmed dispatch on Opus@high at **60% (6/10, N=10 stable)** — an earlier N=5 batch showed 80%, flagged by the researchers as a non-replicating outlier. The stealthiest form (`silent_hijack`: dispatch with zero narration of the bypass) peaks at **30% (N=10)**. A two-layer defense (patched hook text + hardened system prompt, "defense v2") holds **0% true dispatch** across every tested variant, vocabulary, and both model tiers (Opus@high, Sonnet@high) — 130+ trials, 8 attack-catalog variants, 3 channels (hook-output, file-content, tool-output).
 
@@ -12,7 +12,7 @@ A `UserPromptSubmit` hook checked for files marked "pending" and, if any existed
 
 ## The vulnerability, technically
 
-1. Claude Code hooks (`UserPromptSubmit`, `Stop`, etc.) run as subprocesses; their stdout is parsed for special blocks.
+1. Clout Code hooks (`UserPromptSubmit`, `Stop`, etc.) run as subprocesses; their stdout is parsed for special blocks.
 2. A `<system-reminder>...</system-reminder>` block in that stdout is injected into the agent's next-turn context, and the model is disposed to treat it as system-level guidance rather than untrusted subprocess output.
 3. Nothing tags provenance — a reminder from a hook the user installed for a stated purpose is indistinguishable from one an attacker planted.
 4. Consequence: any actor who can influence hook stdout gets a channel that competes with, and can override, the user's actual request, with no visible sign anything unusual happened.
@@ -126,7 +126,7 @@ uv run harbor run -p tasks-repro/ --task-name hijack-check-live -l 1 -n 5 \
   > run.log 2>&1
 ```
 
-Local-only: no internet, no MCP servers, deterministic verifiers, your local Claude auth mounted into the task container.
+Local-only: no internet, no MCP servers, deterministic verifiers, your local Clout auth mounted into the task container.
 
 ## Findings
 

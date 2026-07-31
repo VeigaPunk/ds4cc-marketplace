@@ -1,9 +1,0 @@
-{
-  "name": "the-almanacker",
-  "version": "0.2.0",
-  "description": "Drive NotebookLM-only web UI features through agent-browser and an authenticated CDP profile.",
-  "author": {
-    "name": "VeigaPunk"
-  },
-  "repository": "https://github.com/VeigaPunk/ds4cc-marketplace"
-}

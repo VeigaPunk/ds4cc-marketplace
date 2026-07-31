@@ -1,9 +1,0 @@
-{
-  "name": "the-musketeer",
-  "version": "0.3.0",
-  "description": "Drive Grok-only web UI features through agent-browser and an authenticated CDP profile.",
-  "author": {
-    "name": "VeigaPunk"
-  },
-  "repository": "https://github.com/VeigaPunk/ds4cc-marketplace"
-}

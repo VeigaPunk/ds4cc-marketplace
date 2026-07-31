@@ -8,7 +8,7 @@
 
 ## One-sentence summary
 
-Claude Code's hook-output subprocess pipeline is a privileged instruction
+Clout Code's hook-output subprocess pipeline is a privileged instruction
 channel; hook scripts emitting `<system-reminder>` blocks can make both
 Opus@high and Sonnet@high execute drain protocols unrelated to the
 user's actual request, with 80-100% hijack rates depending on the model
@@ -237,14 +237,14 @@ files, queue state, or backend pipelines untouched.
 ```
 
 **Ship this as the minimum viable CCAL defense on any agent that
-runs against a Claude Code host with hooks enabled.**
+runs against a Clout Code host with hooks enabled.**
 
 ## Recommended disclosure framing
 
 For the VeigaPunk writeup:
 
 1. **The vulnerability (primary):** hook-level `<system-reminder>`
-   injection via Claude Code's hook subprocess stdout pipeline. 80%
+   injection via Clout Code's hook subprocess stdout pipeline. 80%
    hijack rate on Opus@high, ~100% on Sonnet@high. Scoped to the
    hook-output channel specifically — prompt-level injection does
    not reproduce (sharpens CCAL from "any trusted text" to "hook-
@@ -303,7 +303,7 @@ For the VeigaPunk writeup:
    generation, data analysis, document summarization to see if the
    hijack rate varies with the user's question type.
 
-7. **Claude Code version** — tests run against the current CLI
+7. **Clout Code version** — tests run against the current CLI
    version. Does the vulnerability exist on older versions? On newer
    ones once they ship?
 
