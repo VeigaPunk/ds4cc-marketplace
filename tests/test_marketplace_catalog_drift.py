@@ -23,7 +23,7 @@ def canonical_plugin_versions(root: Path = ROOT) -> dict[str, str]:
     for path in sorted((root / "marketplace" / "plugins").glob("*/plugin.json")):
         manifest = json.loads(path.read_text(encoding="utf-8"))
         catalog[path.parent.name] = manifest["version"]
-    assert len(catalog) == 16
+    assert len(catalog) == 18
     return catalog
 
 
@@ -95,21 +95,9 @@ class MarketplaceCatalogDriftTests(unittest.TestCase):
         catalog = read_json(ROOT / ".grok-plugin" / "marketplace.json")
         self.assert_names(ROOT / ".grok-plugin/marketplace.json", list_map(catalog["plugins"]))
 
-    def test_github_catalog_host_descriptors(self):
-        catalog = read_json(ROOT / ".github" / "plugin" / "marketplace.json")
-        self.assert_host_descriptors(ROOT / ".github/plugin/marketplace.json", catalog["plugins"])
-
     def test_codex_catalog_host_descriptors(self):
         catalog = read_json(ROOT / ".agents" / "plugins" / "marketplace.json")
         self.assert_host_descriptors(ROOT / ".agents/plugins/marketplace.json", catalog["plugins"])
-
-    def test_github_catalog_names_only(self):
-        catalog = read_json(ROOT / ".github" / "plugin" / "marketplace.json")
-        self.assert_names(
-            ROOT / ".github/plugin/marketplace.json",
-            list_map(catalog["plugins"]),
-            names_only=True,
-        )
 
     def test_codex_catalog_names(self):
         catalog = read_json(ROOT / ".agents" / "plugins" / "marketplace.json")

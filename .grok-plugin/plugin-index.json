@@ -12,6 +12,28 @@
         ]
       }
     },
+    "agent-pip": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "agent-pip-docs",
+            "description": "Install, run, and control the independent agent-pip multi-panel tmux dashboard."
+          }
+        ]
+      }
+    },
+    "agent-wall": {
+      "version": "0.2.0",
+      "components": {
+        "skills": [
+          {
+            "name": "agent-wall-docs",
+            "description": "Create handoff checkpoints and manage agent session continuity."
+          }
+        ]
+      }
+    },
     "ds4cc": {
       "version": "0.3.0",
       "components": {

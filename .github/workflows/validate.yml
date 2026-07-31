@@ -18,6 +18,20 @@ jobs:
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: Install Claude Code CLI
+          run: npm install --global --ignore-scripts @anthropic-ai/claude-code@2.1.220
+
+      - name: Validate Claude marketplace manifest (strict)
+        run: claude plugin validate --strict .claude-plugin/marketplace.json
+
+      - name: Validate every Claude plugin directory (strict)
+        run: |
+          set -euo pipefail
+          for dir in marketplace/plugins/*/; do
+            echo "== ${dir}"
+            claude plugin validate --strict "${dir}"
+          done
+
       - name: Validate marketplace manifest with Rust
         run: cargo test --manifest-path marketplace/validator/Cargo.toml
 

@@ -1,0 +1,10 @@
+{
+  "name": "the-musketeer",
+  "version": "0.3.0",
+  "description": "Grok web UI automation through agent-browser",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/the-musketeer",
+  "homepage": "https://ds4cc.com/"
+}

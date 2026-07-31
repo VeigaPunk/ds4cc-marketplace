@@ -1,6 +1,6 @@
 {
   "name": "ds4cc",
-  "description": "DS4CC public developer plugin marketplace for Grok Build, Codex, Kimi Code CLI, and OpenCode.",
+  "description": "DS4CC public developer plugin marketplace for Grok Build, Codex, Claude Code, Kimi Code CLI, and OpenCode bootstrap.",
   "owner": {
     "name": "VeigaPunk"
   },
@@ -25,6 +25,56 @@
         "veigapunk.github.io",
         "ds4cc.com",
         "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "agent-pip",
+      "version": "0.1.0",
+      "description": "Independent multi-panel tmux agent dashboard",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/agent-pip"
+      },
+      "homepage": "https://github.com/VeigaPunk/agent-pip",
+      "keywords": [
+        "agent-pip",
+        "tmux",
+        "dashboard",
+        "ds4cc"
+      ],
+      "domains": [
+        "ds4cc.com",
+        "app.ds4cc.com",
+        "github.com/VeigaPunk/ds4cc-marketplace"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "agent-wall",
+      "version": "0.2.0",
+      "description": "Runtime handoff and session continuity workflows",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/agent-wall"
+      },
+      "homepage": "https://github.com/VeigaPunk/agent-wall",
+      "keywords": [
+        "agent-wall",
+        "handoff",
+        "continuity",
+        "ds4cc"
+      ],
+      "domains": [
+        "ds4cc.com",
+        "app.ds4cc.com",
+        "github.com/VeigaPunk/ds4cc-marketplace"
       ],
       "author": {
         "name": "VeigaPunk"
@@ -166,7 +216,6 @@
       },
       "homepage": "https://ds4cc.com",
       "keywords": [
-        "the-netsshark",
         "network",
         "dns",
         "routing",

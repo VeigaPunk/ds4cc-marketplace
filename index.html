@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>DS4CC — 16 plugins for four supported agent CLIs</title>
-    <meta name="description" content="DS4CC Marketplace: 16 curated Rust-validated plugins with host-specific guidance for Grok Build, Codex, Kimi Code CLI and OpenCode." />
-<meta property="og:title" content="DS4CC Marketplace — four supported agent CLIs" />
-    <meta property="og:description" content="16 curated plugins with host-specific install guidance for Grok, Codex, Kimi and OpenCode." />
+<title>DS4CC — 18 plugins for five supported agent CLIs</title>
+    <meta name="description" content="DS4CC Marketplace: 18 curated Rust-validated plugins with host-specific guidance for Grok Build, Codex, Claude Code, Kimi Code CLI and OpenCode." />
+<meta property="og:title" content="DS4CC Marketplace — five supported agent CLIs" />
+    <meta property="og:description" content="18 curated plugins with host-specific install guidance for Grok, Codex, Claude Code, Kimi and OpenCode." />
 <meta property="og:url" content="https://ds4cc.com/" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
@@ -345,6 +345,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
     <div class="nav-links">
       <a href="#demo">demo</a>
       <a href="#plugins">plugins</a>
+      <a href="#agent-pip">agent pip</a>
       <a href="#install">install</a>
       <a href="#app">chatgpt app</a>
       <a href="#validator">validator</a>
@@ -358,7 +359,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 
   <header class="hero">
     <div>
-      <span class="badge">16 plugins</span>
+      <span class="badge">18 plugins</span>
       <span class="badge dark">5 agent CLIs</span>
       <span class="badge dark">rust-validated</span>
       <span class="badge cyan">MIT</span>
@@ -371,13 +372,13 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 ██████╔╝ ███████║      ██║ ╚██████╗ ╚██████╗
 ╚═════╝  ╚══════╝      ╚═╝  ╚═════╝  ╚═════╝
 </pre>
-    <h1>One marketplace. <em>Four supported agent CLIs.</em></h1>
+      <h1>One marketplace. <em>Five supported agent CLIs.</em></h1>
     <p class="tagline">
-      Static plugin payloads for <strong>Grok Build</strong>, <strong>Codex</strong>, <strong>Kimi Code CLI</strong>,
-      and a dependency-free bootstrap for <strong>OpenCode</strong>. Register one repo, install what you need, ship.
+      Static plugin payloads for <strong>Grok Build</strong>, <strong>Codex</strong>, <strong>Claude Code</strong>,
+      <strong>Kimi Code CLI</strong>, and a dependency-free bootstrap for <strong>OpenCode</strong>. Register one repo, install what you need, ship.
     </p>
     <div class="hero-row">
-      <span class="chip"><span class="dot"></span> all 16 plugins available</span>
+      <span class="chip"><span class="dot"></span> all 18 plugins available</span>
       <span class="chip amber"><span class="dot"></span> curation-gated</span>
     </div>
     <div class="hero-row">
@@ -392,11 +393,12 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 
   <section id="demo" class="reveal">
     <h2><span class="idx">01</span>Pick your host — watch it install</h2>
-    <p class="sub">Live terminal. Four hosts, one repo. Commands below are the real install paths — outputs are representative.</p>
+    <p class="sub">Live terminal. Five hosts, one repo. Commands below are the real install paths — outputs are representative.</p>
     <div class="term-wrap">
         <div class="host-tabs" role="tablist" aria-label="agent CLI hosts">
         <button type="button" class="host-tab active" data-host="grok" role="tab">grok</button>
         <button type="button" class="host-tab" data-host="codex" role="tab">codex</button>
+        <button type="button" class="host-tab" data-host="claude" role="tab">claude</button>
         <button type="button" class="host-tab" data-host="kimi" role="tab">kimi</button>
         <button type="button" class="host-tab" data-host="opencode" role="tab">opencode</button>
       </div>
@@ -412,15 +414,16 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
   </section>
 
   <section id="plugins" class="reveal">
-    <h2><span class="idx">02</span>The catalog — 16 curated plugins</h2>
+    <h2><span class="idx">02</span>The catalog — 18 curated plugins</h2>
     <p class="sub">Every plugin ships an actionable <code>SKILL.md</code> (fenced commands, no boilerplate) and passes the Rust validator. Filter by name or capability.</p>
     <div class="grid-tools">
       <input class="filter" id="plugFilter" type="search" placeholder="filter plugins… (try: agents, grok, papers, godspeed)" aria-label="filter plugins" />
-      <span class="count" id="plugCount">16 / 16</span>
+      <span class="count" id="plugCount">18 / 18</span>
     </div>
     <div class="plugins" id="plugGrid"></div>
   </section>
 
+  <section id="agent-pip" class="reveal">
     <h2><span class="idx">03</span>Agent Pip — live tmux output in Waybar</h2>
     <p class="sub">A compact Rust dashboard that renders every live tmux pane side by side, preserving terminal color while keeping each pane’s newest output line anchored at the bottom.</p>
     <div class="grid-2">
@@ -446,9 +449,14 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
       <div class="panel" style="padding:14px 16px">
         <h3 style="margin-top:0;font-size:0.95rem">Build and run</h3>
         <div class="oneliner" style="margin:8px 0">
+          <code><span class="p">$</span> git clone --branch v0.2.1 --depth 1 https://github.com/VeigaPunk/agent-pip.git</code>
+          <button type="button" class="copy-btn" data-copy="git clone --branch v0.2.1 --depth 1 https://github.com/VeigaPunk/agent-pip.git">COPY</button>
         </div>
+<pre><span class="p">$</span> cd agent-pip
 <span class="p">$</span> cargo build --release
+<span class="p">$</span> ./target/release/agent-pip</pre>
         <p>Use the standalone TUI or feed Pango JSON into Waybar. The renderer keeps the existing 130px bar height, JetBrains Mono metrics, and native polling setup.</p>
+        <a class="btn" href="https://github.com/VeigaPunk/agent-pip" target="_blank" rel="noopener">VIEW SOURCE ↗</a>
       </div>
     </div>
   </section>
@@ -465,6 +473,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 <span class="p">$</span> grok plugin install myagents --trust
 <span class="p">$</span> grok plugin enable myagents</pre>
 <pre><span class="c"># install the core set in one loop</span>
+<span class="p">$</span> for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
     grok plugin install "$p" --trust &amp;&amp; grok plugin enable "$p"
   done</pre>
         <p class="note"><strong>Non-CLI fallback:</strong> paste <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">GROK_PASTE.md</a> into a Grok chat. This is separate from the Grok Build CLI flow above.</p>
@@ -477,6 +486,16 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 <span class="p">$</span> codex plugin add myagents@ds4cc --json
 <span class="p">$</span> codex plugin list --json</pre>
         <p class="note">Adding a plugin installs it enabled. Start a new Codex session to load its bundled skills and tools; in the TUI, use <code>/plugins</code> and press <code>Space</code> to toggle state. Local dev checkout: <code>codex plugin marketplace add .</code> — the canonical manifest lives at <code>.agents/plugins/marketplace.json</code>.</p>
+      </div>
+
+      <div class="host">
+        <h3>Claude Code <span class="tag">Anthropic</span></h3>
+<pre><span class="p">$</span> claude plugin marketplace add VeigaPunk/ds4cc-marketplace
+<span class="p">$</span> claude plugin list --available --json
+<span class="p">$</span> claude plugin install myagents@ds4cc</pre>
+<pre><span class="c"># strict validation from a local checkout</span>
+<span class="p">$</span> claude plugin validate --strict .claude-plugin/marketplace.json</pre>
+        <p class="note">Local dev checkout: <code>claude plugin marketplace add ./</code> — the canonical manifest lives at <code>.claude-plugin/marketplace.json</code>, and each plugin ships <code>.claude-plugin/plugin.json</code>.</p>
       </div>
 
       <div class="host">
@@ -512,7 +531,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
           <code><span class="p">›</span> https://app.ds4cc.com/mcp</code>
           <button type="button" class="copy-btn" data-copy="https://app.ds4cc.com/mcp">COPY</button>
         </div>
-        <p>Scoped to an explicitly reviewed, read-only tool surface with required annotations and widget CSP/domain metadata. It is <em>not</em> the public 16-plugin marketplace.</p>
+        <p>Scoped to an explicitly reviewed, read-only tool surface with required annotations and widget CSP/domain metadata. It is <em>not</em> the public 18-plugin marketplace.</p>
         <div class="kv">
           <span class="ok-chip">read-only</span>
           <span class="ok-chip">reviewed subset</span>
@@ -544,7 +563,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
         <div class="kv">
           <span class="ok-chip">cargo fmt — clean</span>
           <span class="ok-chip">clippy -D warnings — 0</span>
-          <span class="ok-chip">13 integration tests</span>
+          <span class="ok-chip">integration tests</span>
         </div>
         <div class="callout">
           <strong>Dual-layout aware:</strong> <code>marketplace/</code> (web/CI) and repo root (canonical Codex layout at
@@ -642,6 +661,7 @@ distiller / simplifier / scribe native</pre>
         <b>catalog endpoints</b>
         grok · <code>.grok-plugin/marketplace.json</code><br/>
         codex · <code>.agents/plugins/marketplace.json</code><br/>
+        claude · <code>.claude-plugin/marketplace.json</code><br/>
         kimi · <a href="https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json" target="_blank" rel="noopener">published catalog</a><br/>
         opencode · bootstrap installer
       </div>
@@ -674,6 +694,8 @@ distiller / simplifier / scribe native</pre>
   const REPO = "https://github.com/VeigaPunk/ds4cc-marketplace";
   const PLUGINS = [
     { n: "myagents", v: "0.2.0", d: "Curated agent profiles for development, review, research, and orchestration.", c: 'codex "Use the executor agent profile for this task"' },
+    { n: "agent-pip", v: "0.1.0", d: "Independent multi-panel tmux agent dashboard.", c: 'codex "Use the agent-pip docs skill"' },
+    { n: "agent-wall", v: "0.2.0", d: "Runtime handoff checkpoints and session continuity workflows.", c: 'codex "Use the agent-wall docs skill"' },
     { n: "godspeed-core", v: "0.2.0", d: "Adaptive execution doctrine & Pareto walk policy for long tasks.", c: 'codex "godspeed: <task>"' },
     { n: "mycommands", v: "0.2.0", d: "Reusable command packs & shell routines, ready to exec.", c: 'codex "Use the installed command pack for this task"' },
     { n: "myskills", v: "0.2.0", d: "Curated skill inventory & workflow helpers, discoverable in-session.", c: "Open the Codex TUI and use /skills" },
@@ -749,7 +771,7 @@ distiller / simplifier / scribe native</pre>
         ["cmd", "grok plugin marketplace add VeigaPunk/ds4cc-marketplace"],
         ["ok",  "marketplace registered"],
         ["cmd", "grok plugin list --available --json"],
-        ["out", "JSON returned 16 available marketplace entries"],
+        ["out", "JSON returned 18 available marketplace entries"],
         ["cmd", "grok plugin install myagents --trust"],
         ["ok",  "installed `myagents` from the registered marketplace"],
         ["cmd", "grok plugin enable myagents"],
@@ -772,6 +794,17 @@ distiller / simplifier / scribe native</pre>
         ["out", "start a new session; use /plugins + Space to toggle state"],
       ],
     },
+    claude: {
+      title: "ds4cc — claude code",
+      lines: [
+        ["cmd", "claude plugin marketplace add VeigaPunk/ds4cc-marketplace"],
+        ["ok",  "added marketplace `ds4cc` from VeigaPunk/ds4cc-marketplace"],
+        ["cmd", "claude plugin list --available --json"],
+        ["out", "available catalog returned as JSON"],
+        ["cmd", "claude plugin install myagents@ds4cc"],
+        ["ok",  "`myagents` installed and enabled"],
+      ],
+    },
     kimi: {
       title: "ds4cc — kimi code cli",
       lines: [
@@ -779,7 +812,7 @@ distiller / simplifier / scribe native</pre>
         ["warn", "third-party plugin — trust confirmation shown"],
         ["ok",  "DS4CC bootstrap plugin installed"],
         ["tui", "/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json"],
-        ["ok",  "catalog registered — 16 packaged plugins"],
+        ["ok",  "catalog registered — 18 packaged plugins"],
         ["tui", "/reload"],
         ["out", "skills live as /skill:<name> · commands as /<plugin>:<command>"],
       ],

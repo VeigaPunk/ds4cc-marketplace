@@ -1,0 +1,10 @@
+{
+  "name": "the-puppeteer",
+  "version": "0.2.0",
+  "description": "Web UI task execution and long-running assistant flows",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/the-puppeteer",
+  "homepage": "https://github.com/VeigaPunk/the-puppeteer"
+}

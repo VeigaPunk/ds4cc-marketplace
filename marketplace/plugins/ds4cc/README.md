@@ -2,7 +2,7 @@
 
 Documentation-only plugin for the public DS4CC multi-CLI marketplace, maintained by VeigaPunk.
 
-This plugin explains how to review and register the marketplace and how to choose install commands for **Grok Build**, Codex, Kimi Code CLI, and OpenCode bootstrap. It does not install or execute anything automatically.
+This plugin explains how to review and register the marketplace and how to choose install commands for **Grok Build**, **Codex**, **Claude Code**, **Kimi Code CLI**, and **OpenCode** bootstrap. It does not install or execute anything automatically.
 
 ## Skills
 
@@ -29,6 +29,16 @@ codex plugin list --json
 ```
 
 Adding a plugin installs it enabled. Start a new Codex session to load bundled skills and tools. In the Codex TUI, open `/plugins` and press `Space` to toggle state.
+
+## Quick start (Claude Code)
+
+```bash
+claude plugin marketplace add VeigaPunk/ds4cc-marketplace
+claude plugin list --available --json
+claude plugin install myagents@ds4cc
+```
+
+Adding a plugin installs it enabled. Start a new Claude session to load bundled skills and tools. From a local checkout, validate the marketplace with `claude plugin validate --strict .claude-plugin/marketplace.json`.
 
 ## Quick start (Kimi Code CLI 0.28.1)
 

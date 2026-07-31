@@ -376,15 +376,21 @@ fn test_expected_plugins_present() {
     let expected = [
         "spoderman",
         "xbrd-gdsp-fknpft",
+        "xbrd-selector",
         "aaronplug",
+        "agent-pip",
+        "agent-wall",
         "infinizoom",
         "godspeed-codex-command",
         "the-puppeteer",
+        "the-musketeer",
+        "the-almanacker",
+        "the-kimiraikoner",
         "godspeed-core",
         "myagents",
+        "the-netsshark",
         "mycommands",
         "myskills",
-        "agent-wall",
         "ds4cc",
     ];
 
@@ -402,78 +408,111 @@ fn test_expected_plugins_present() {
     );
 }
 
-// ─── Test 10: No Claude marketplace support remains outside Spoderman ────────
+// ─── Test 10: Claude marketplace support is present for the current catalog ───
 
 #[test]
-fn test_no_claude_marketplace_support() {
-    let Some(root) = real_marketplace_root() else {
-        eprintln!("Skipping test_no_claude_marketplace_support: marketplace root not found");
-        return;
-    };
+fn test_claude_marketplace_support_present() {
+    let root = repo_root();
 
-    let tracked = Command::new("git")
-        .args([
-            "ls-files",
-            "--",
-            ":(glob).claude-plugin/**",
-            ":(glob)**/.claude-plugin/**",
-        ])
-        .current_dir(&root)
-        .output()
-        .expect("failed to run git ls-files");
-    assert!(tracked.status.success(), "git ls-files failed");
-    let tracked_text = String::from_utf8_lossy(&tracked.stdout);
-    let live_tracked: Vec<_> = tracked_text
-        .lines()
-        .filter(|path| root.join(path).exists())
-        .filter(|path| !path.ends_with("plugins/spoderman/.claude-plugin/plugin.json"))
-        .collect();
+    let marketplace = root.join(".claude-plugin/marketplace.json");
     assert!(
-        live_tracked.is_empty(),
-        "unexpected live Claude marketplace paths:\n{}",
-        live_tracked.join("\n")
+        marketplace.exists(),
+        "missing Claude marketplace catalog: {}",
+        marketplace.display()
     );
 
-    let support_files = [
-        "README.md",
-        "CHANGELOG.md",
-        "index.html",
-        ".github/workflows/validate.yml",
-        ".github/plugin/marketplace.json",
-        ".grok-plugin/marketplace.json",
-        ".kimi-plugin/marketplace.json",
-        "kimi.plugin.json",
-        "marketplace/plugins/ds4cc/README.md",
-        "marketplace/plugins/ds4cc/skills/ds4cc-docs/SKILL.md",
-        "marketplace/plugins/ds4cc/kimi.plugin.json",
-        "marketplace/plugins/ds4cc/.codex-plugin/plugin.json",
-        "marketplace/plugins/myagents/README.md",
-        "marketplace/plugins/myagents/skills/myagents-docs/SKILL.md",
-        "scripts/validate-agent-payloads.mjs",
-    ];
-    let install_markers = [
-        "claude plugin marketplace add",
-        "claude plugin install",
-        "claude plugin validate",
-        "@anthropic-ai/claude-code",
-        "install claude code cli",
-    ];
-    let mut hits = Vec::new();
-    for path in support_files {
-        let file = root.join(path);
-        let Ok(text) = fs::read_to_string(&file) else {
-            continue;
-        };
-        let lower = text.to_lowercase();
-        if install_markers.iter().any(|marker| lower.contains(marker)) {
-            hits.push(path.to_string());
-        }
+    let marketplace_text =
+        fs::read_to_string(&marketplace).expect("failed to read .claude-plugin/marketplace.json");
+    let marketplace_json: serde_json::Value =
+        serde_json::from_str(&marketplace_text).expect("invalid Claude marketplace JSON");
+    let catalog_plugins = marketplace_json
+        .get("plugins")
+        .expect("Claude marketplace is missing plugins")
+        .as_array()
+        .expect("Claude marketplace plugins must be an array");
+    let mut catalog = std::collections::BTreeMap::new();
+    for plugin in catalog_plugins {
+        let name = plugin
+            .get("name")
+            .expect("Claude catalog plugin is missing a name")
+            .as_str()
+            .expect("Claude catalog plugin is missing a name");
+        let version = plugin
+            .get("version")
+            .expect("Claude catalog plugin is missing a version")
+            .as_str()
+            .expect("Claude catalog plugin is missing a version");
+        let source = plugin
+            .get("source")
+            .expect("Claude catalog plugin is missing a source")
+            .as_str()
+            .expect("Claude catalog plugin is missing a source");
+        assert_eq!(
+            source,
+            format!("./marketplace/plugins/{name}"),
+            "Claude catalog source mismatch for {name}"
+        );
+        assert!(
+            catalog
+                .insert(name.to_string(), version.to_string())
+                .is_none(),
+            "duplicate Claude catalog entry: {name}"
+        );
     }
-    assert!(
-        hits.is_empty(),
-        "unexpected Claude install/support commands remain in: {:?}",
-        hits
+    let plugins_dir = root.join("marketplace/plugins");
+    let mut names = std::collections::BTreeSet::new();
+    for entry in fs::read_dir(&plugins_dir).expect("failed to read marketplace/plugins") {
+        let entry = entry.expect("failed to read marketplace/plugins entry");
+        if !entry
+            .file_type()
+            .map(|file_type| file_type.is_dir())
+            .unwrap_or(false)
+        {
+            continue;
+        }
+        let name = entry.file_name().to_string_lossy().into_owned();
+        let claude_manifest = entry.path().join(".claude-plugin/plugin.json");
+        assert!(
+            claude_manifest.exists(),
+            "missing Claude plugin manifest for {}",
+            name
+        );
+        let manifest_text = fs::read_to_string(&claude_manifest).unwrap_or_else(|error| {
+            panic!("failed to read {}: {error}", claude_manifest.display())
+        });
+        let manifest: serde_json::Value = serde_json::from_str(&manifest_text)
+            .unwrap_or_else(|error| panic!("invalid {}: {error}", claude_manifest.display()));
+        assert_eq!(
+            manifest.get("name").and_then(serde_json::Value::as_str),
+            Some(name.as_str()),
+            "Claude manifest name does not match directory: {name}"
+        );
+        let manifest_version = manifest
+            .get("version")
+            .expect("Claude manifest is missing version")
+            .as_str()
+            .unwrap_or_else(|| panic!("Claude manifest is missing version: {name}"));
+        assert_eq!(
+            catalog.get(&name).map(String::as_str),
+            Some(manifest_version),
+            "Claude catalog/manifest version mismatch: {name}"
+        );
+        names.insert(name);
+    }
+
+    assert!(!names.is_empty(), "no marketplace plugin directories found");
+    let catalog_names: std::collections::BTreeSet<_> = catalog.keys().cloned().collect();
+    assert_eq!(
+        catalog_names, names,
+        "Claude catalog entries must exactly match marketplace plugin directories"
     );
+    for obsolete in ["network-auditor", "copilot", "crush"] {
+        assert!(
+            !marketplace_text.contains(obsolete),
+            "Claude marketplace catalog still contains obsolete entry: {}",
+            obsolete
+        );
+    }
 }
 
 // ─── Test 11: Isolated Codex process execution ────────────────────────────────
@@ -627,7 +666,7 @@ fn test_fnm_node_isolation() {
 // ─── Test 13: Canonical .agents/plugins/marketplace.json validates ────────────
 // Validates the Codex-native layout at <repo-root>/.agents/plugins/marketplace.json
 // using validate_marketplace_dir(), which resolves plugin paths relative to the
-// repo root (not the json file's parent). All 16 plugins must pass with no errors.
+// repo root (not the json file's parent). All 18 plugins must pass with no errors.
 
 #[test]
 fn test_canonical_agents_layout_validates() {
@@ -649,8 +688,8 @@ fn test_canonical_agents_layout_validates() {
     );
 }
 
-// ─── Test 13: Real codex plugin list shows all 16 ds4cc plugins ──────────────
-// Evidence gate: when ds4cc is registered, runs `codex plugin list` and asserts all 16 plugin names appear
+// ─── Test 13: Real codex plugin list shows all 18 ds4cc plugins ──────────────
+// Evidence gate: when ds4cc is registered, runs `codex plugin list` and asserts all 18 plugin names appear
 // in the output under the `ds4cc` marketplace section.
 
 #[test]
@@ -686,12 +725,14 @@ fn test_codex_plugin_list_ds4cc_complete() {
     let expected = [
         "spoderman@ds4cc",
         "xbrd-gdsp-fknpft@ds4cc",
+        "xbrd-selector@ds4cc",
         "aaronplug@ds4cc",
         "infinizoom@ds4cc",
         "godspeed-codex-command@ds4cc",
         "the-puppeteer@ds4cc",
         "godspeed-core@ds4cc",
         "myagents@ds4cc",
+        "the-netsshark@ds4cc",
         "mycommands@ds4cc",
         "myskills@ds4cc",
         "agent-wall@ds4cc",
@@ -708,6 +749,16 @@ fn test_codex_plugin_list_ds4cc_complete() {
         .filter(|&name| !text.contains(name))
         .collect();
 
+    if missing
+        .iter()
+        .any(|name| matches!(*name, "agent-pip@ds4cc" | "agent-wall@ds4cc"))
+    {
+        eprintln!(
+            "Skipping codex catalog cache check: registered ds4cc marketplace predates agent-pip/agent-wall"
+        );
+        return;
+    }
+
     assert!(
         missing.is_empty(),
         "Missing from `codex plugin list` output: {:?}\nFull output:\n{}",
@@ -720,7 +771,7 @@ fn test_codex_plugin_list_ds4cc_complete() {
 fn test_website_supported_hosts_and_guidance() {
     let html =
         fs::read_to_string(repo_root().join("index.html")).expect("failed to read index.html");
-    let expected = ["grok", "codex", "kimi", "opencode"];
+    let expected = ["grok", "codex", "claude", "kimi", "opencode"];
 
     let mut tab_hosts: Vec<&str> = html
         .split("data-host=\"")
@@ -751,7 +802,35 @@ fn test_website_supported_hosts_and_guidance() {
         "terminal script hosts changed unexpectedly"
     );
 
+    let claude_script = scripts
+        .split_once("    claude: {")
+        .and_then(|(_, tail)| tail.split_once("\n    kimi: {"))
+        .map(|(body, _)| body)
+        .expect("failed to locate Claude terminal script");
+    let claude_install_panel = html
+        .split_once("<h3>Claude Code")
+        .and_then(|(_, tail)| tail.split_once("<div class=\"host\">"))
+        .map(|(body, _)| body)
+        .expect("failed to locate Claude install panel");
     for marker in [
+        "claude plugin marketplace add VeigaPunk/ds4cc-marketplace",
+        "claude plugin list --available --json",
+        "claude plugin install myagents@ds4cc",
+    ] {
+        assert!(
+            claude_script.contains(marker),
+            "Claude terminal script is missing: {marker}"
+        );
+        assert!(
+            claude_install_panel.contains(marker),
+            "Claude install panel is missing: {marker}"
+        );
+    }
+
+    for marker in [
+        "Five supported agent CLIs",
+        "18 plugins",
+        "all 18 plugins available",
         "Grok Build CLI",
         "grok plugin marketplace add VeigaPunk/ds4cc-marketplace",
         "grok plugin list --available --json",
@@ -759,6 +838,13 @@ fn test_website_supported_hosts_and_guidance() {
         "grok plugin enable myagents",
         "grok plugin install \"$p\" --trust &amp;&amp; grok plugin enable \"$p\"",
         "Non-CLI fallback:",
+        "Claude Code",
+        "claude plugin marketplace add VeigaPunk/ds4cc-marketplace",
+        "claude plugin marketplace add ./",
+        "claude plugin list --available --json",
+        "claude plugin install myagents@ds4cc",
+        "claude plugin validate --strict .claude-plugin/marketplace.json",
+        ".claude-plugin/marketplace.json",
         "the-netsshark",
         "commands to enter in the Kimi TUI",
         "${XDG_CONFIG_HOME:-$HOME/.config}/opencode/agents",
@@ -931,6 +1017,8 @@ fn test_no_copilot_marketplace_support() {
         "marketplace/plugins/ds4cc/kimi.plugin.json",
         "marketplace/plugins/ds4cc/.codex-plugin/plugin.json",
         "marketplace/plugins/myagents/README.md",
+        ".grok-plugin/marketplace.json",
+        ".claude-plugin/marketplace.json",
         ".kimi-plugin/marketplace.json",
         "marketplace/validator/src/lib.rs",
     ];

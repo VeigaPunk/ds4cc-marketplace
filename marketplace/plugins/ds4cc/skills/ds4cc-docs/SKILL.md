@@ -1,11 +1,11 @@
 ---
 name: ds4cc-docs
-description: Review the DS4CC marketplace and show verified install commands for Grok Build, Codex, Kimi Code CLI, and OpenCode bootstrap without executing them. Use when the user pastes a ds4cc-marketplace URL, asks to install DS4CC plugins, or wants marketplace setup.
+description: Review the DS4CC marketplace and show verified install commands for Grok Build, Codex, Claude Code, Kimi Code CLI, and OpenCode bootstrap without executing them. Use when the user pastes a ds4cc-marketplace URL, asks to install DS4CC plugins, or wants marketplace setup.
 ---
 
 DS4CC is VeigaPunk's public multi-CLI plugin marketplace. Provide guidance only: never run installation commands automatically. Tell the user to review a plugin's source and requested capabilities before installing it.
 
-Prefer the section matching the CLI the user is currently on (**OpenCode** when using the bootstrap installer, **Kimi Code CLI** when in Kimi, **Grok Build** when in Grok CLI / a Grok chat). Fall back to Codex when they name that host.
+Prefer the section matching the CLI the user is currently on (**OpenCode** when using the bootstrap installer, **Kimi Code CLI** when in Kimi, **Claude Code** when in Claude, **Grok Build** when in Grok CLI / a Grok chat). Fall back to Codex when they name that host.
 
 ## Grok Build (paste-friendly)
 
@@ -84,6 +84,16 @@ Local development:
 codex plugin marketplace add .
 codex plugin add ds4cc@ds4cc --json
 ```
+
+## Claude Code
+
+```bash
+claude plugin marketplace add VeigaPunk/ds4cc-marketplace
+claude plugin list --available --json
+claude plugin install <plugin-name>@ds4cc
+```
+
+Adding a plugin installs it enabled. Start a new Claude session to load bundled skills and tools. For local development, register the checkout with `claude plugin marketplace add ./` and validate it with `claude plugin validate --strict .claude-plugin/marketplace.json`.
 
 ## OpenCode
 

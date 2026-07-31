@@ -1,11 +1,10 @@
 {
   "name": "spoderman",
   "version": "0.2.0",
-  "description": "VeigaPunk Spoderman plugin for Codex marketplace access.",
+  "description": "Attack harness workflows and hook safety research",
   "author": {
     "name": "VeigaPunk"
   },
-  "homepage": "https://github.com/VeigaPunk/spoderman",
   "repository": "https://github.com/VeigaPunk/spoderman",
-  "license": "MIT"
+  "homepage": "https://github.com/VeigaPunk/spoderman"
 }

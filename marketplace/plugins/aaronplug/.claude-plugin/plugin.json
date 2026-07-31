@@ -1,0 +1,10 @@
+{
+  "name": "aaronplug",
+  "version": "0.2.0",
+  "description": "Academic paper retrieval workflows",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/aaronplug",
+  "homepage": "https://github.com/VeigaPunk/aaronplug"
+}

@@ -1,0 +1,28 @@
+{
+  "name": "agent-wall",
+  "version": "0.2.0",
+  "description": "Runtime handoff surface for agent-based workflows",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Agent Wall (VeigaPunk)",
+    "shortDescription": "Runtime handoff surface for agent-based workflows",
+    "longDescription": "Provides handoff checkpoints, checkpoint restore, and session continuity guidance for multi-agent workflows.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [
+      "Handoff Checkpoints",
+      "Session Continuity",
+      "Agent Workflow Restore"
+    ],
+    "defaultPrompt": [
+      "Create a handoff checkpoint.",
+      "How do I restore a session from agent-wall?",
+      "Summarize the current workflow state for agent-wall."
+    ]
+  },
+  "repository": "https://github.com/VeigaPunk/agent-wall",
+  "homepage": "https://github.com/VeigaPunk/agent-wall"
+}

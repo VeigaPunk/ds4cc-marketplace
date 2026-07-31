@@ -17,10 +17,26 @@
       "source": "./artifacts/aaronplug-0.2.0.zip"
     },
     {
+      "id": "agent-pip",
+      "displayName": "Agent Pip",
+      "version": "0.1.0",
+      "description": "Independent multi-panel tmux agent dashboard",
+      "homepage": "https://github.com/VeigaPunk/agent-pip",
+      "source": "./artifacts/agent-pip-0.1.0.zip"
+    },
+    {
+      "id": "agent-wall",
+      "displayName": "Agent Wall",
+      "version": "0.2.0",
+      "description": "Runtime handoff and session continuity workflows",
+      "homepage": "https://github.com/VeigaPunk/agent-wall",
+      "source": "./artifacts/agent-wall-0.2.0.zip"
+    },
+    {
       "id": "ds4cc",
       "displayName": "DS4CC Marketplace",
       "version": "0.3.0",
-      "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Grok Build, Codex, Kimi Code CLI, or OpenCode after source review.",
+      "description": "Read-only guidance for discovering reviewed DS4CC plugins and installing them with Grok Build, Codex, Kimi Code, or OpenCode bootstrap after source review.",
       "homepage": "https://ds4cc.com/",
       "keywords": [
         "plugins",
@@ -65,7 +81,7 @@
     },
     {
       "id": "the-netsshark",
-      "displayName": "The Netsshark",
+      "displayName": "Network Auditor",
       "version": "0.2.0",
       "description": "Empirical network configuration audits with adversarial validation.",
       "homepage": "https://ds4cc.com",
@@ -141,6 +157,14 @@
       "description": "Multimodel dispatch orchestration and benchmark workflows",
       "homepage": "https://github.com/VeigaPunk/xbrd-gdsp-fknpft",
       "source": "./artifacts/xbrd-gdsp-fknpft-8.16.137.zip"
+    },
+    {
+      "id": "xbrd-selector",
+      "displayName": "Xbrd Selector (VeigaPunk)",
+      "version": "0.1.0",
+      "description": "Rust-only model selection and dispatch helper for xbrd workflows.",
+      "homepage": "https://github.com/VeigaPunk/xbrd-selector",
+      "source": "./artifacts/xbrd-selector-0.1.0.zip"
     }
   ]
 }

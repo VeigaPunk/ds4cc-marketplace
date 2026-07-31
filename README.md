@@ -2,14 +2,15 @@
 
 **[ds4cc.com](https://ds4cc.com)** — one marketplace, every agent CLI.
 
-Static plugin payloads for **Grok Build**, **Codex**, **Kimi Code CLI**, and **OpenCode**. OpenCode agents ship through a dependency-free bootstrap script (OpenCode has no marketplace protocol).
+Static plugin payloads for **Grok Build**, **Codex**, **Claude Code**, **Kimi Code CLI**, and **OpenCode**. OpenCode agents ship through a dependency-free bootstrap script (OpenCode has no marketplace protocol).
 
-Sixteen curated plugins, Rust-validated and curation-gated. Register one repo, install what you need, ship.
+Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, install what you need, ship.
 
 | Host | Catalog |
 | --- | --- |
 | Grok Build | `.grok-plugin/marketplace.json` (+ generated `plugin-index.json`) |
 | Codex | `.agents/plugins/marketplace.json` and `marketplace/marketplace.json` |
+| Claude Code | `.claude-plugin/marketplace.json` and `marketplace/plugins/<name>/.claude-plugin/plugin.json` |
 | Kimi Code 0.28.1 | `.kimi-plugin/marketplace.json` + minimal ZIP packages (`marketplace/plugins/<name>/kimi.plugin.json`) |
 
 - Plugin assets: `marketplace/plugins/<name>/`
@@ -60,6 +61,21 @@ Or local dev:
 codex plugin marketplace add .
 ```
 
+## Claude Code (Anthropic)
+
+```bash
+claude plugin marketplace add VeigaPunk/ds4cc-marketplace
+claude plugin list --available --json
+claude plugin install myagents@ds4cc
+```
+
+Local dev:
+
+```bash
+claude plugin marketplace add ./
+claude plugin validate --strict .claude-plugin/marketplace.json
+```
+
 ## Kimi Code CLI 0.28.1
 
 The repository URL can be installed directly as the DS4CC bootstrap plugin:
@@ -102,7 +118,7 @@ Profiles use `xask --spark --gs codex` for cross-model delegation. `xask` is an 
 
 ## OpenAI Apps SDK
 
-The read-only Apps SDK wrapper in `apps-sdk/` exposes only an explicitly reviewed subset through a production MCP endpoint and embedded catalog widget. It is not the public 16-plugin marketplace. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
+The read-only Apps SDK wrapper in `apps-sdk/` exposes only an explicitly reviewed subset through a production MCP endpoint and embedded catalog widget. It is not the public 18-plugin marketplace. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
 
 ```bash
 cd apps-sdk
@@ -113,7 +129,7 @@ npm test
 
 Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `app.ds4cc.com`, and follow `apps-sdk/SUBMISSION.md` for the OpenAI plugin portal fields and tests.
 
-## Plugins (16)
+## Plugins (18)
 
 | Plugin | Category | Description |
 |---|---|---|
@@ -128,11 +144,13 @@ Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `a
 | `the-kimiraikoner` | Developer | Kimi web UI adapter (agent-browser / CDP) |
 | `godspeed-core` | Developer | Adaptive execution doctrine & Pareto walk policy |
 | `myagents` | Developer | Curated agent workflow launchpad |
+| `the-netsshark` | Developer | Network audit and connectivity diagnostics |
 | `mycommands` | Developer | Reusable command packs & shell routines |
 | `myskills` | Developer | Curated skill inventory & workflow helpers |
 | `agent-wall` | Developer | Handoff checkpoints & session continuity |
 | `agent-pip` | Developer | Multi-panel tmux agent terminal dashboard in Rust |
 | `ds4cc` | Developer | Marketplace meta-plugin (discover, install, manage) |
+| `xbrd-selector` | Developer | Rust-only model selection and dispatch helper |
 
 ## Install a plugin
 
@@ -152,6 +170,9 @@ codex plugin list --json
 ```bash
 # Rust validator
 cargo run --manifest-path marketplace/validator/Cargo.toml -- marketplace
+
+# Strict Claude marketplace validation
+claude plugin validate --strict .claude-plugin/marketplace.json
 
 # Rust integration tests (includes std::process-based isolated Codex CLI test)
 cargo test --manifest-path marketplace/validator/Cargo.toml
@@ -179,6 +200,7 @@ Each plugin lives at `marketplace/plugins/<name>/` and must contain:
 
 ```
 <name>/
+  .claude-plugin/plugin.json   # required: Claude marketplace metadata
   .codex-plugin/plugin.json   # required: name, version, description, author, interface
   kimi.plugin.json            # Kimi 0.28.1 metadata and ./ skills/commands roots
   README.md                   # required
@@ -217,7 +239,7 @@ A `SKILL.md` is **actionable** if its body (after frontmatter) contains at least
 
 ## Official OpenAI submission bundle
 
-The OpenAI submission is the isolated source tree at `official/ds4cc/`, not the public plugin at `marketplace/plugins/ds4cc/` and not the public 16-plugin marketplace. Its skill uses only the read-only `browse_ds4cc_marketplace` MCP tool and reviewed results. Build the deterministic, path-safe archive locally:
+The OpenAI submission is the isolated source tree at `official/ds4cc/`, not the public plugin at `marketplace/plugins/ds4cc/` and not the public 18-plugin marketplace. Its skill uses only the read-only `browse_ds4cc_marketplace` MCP tool and reviewed results. Build the deterministic, path-safe archive locally:
 
 ```bash
 python3 scripts/build-ds4cc-submission.py

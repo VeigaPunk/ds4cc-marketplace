@@ -123,25 +123,34 @@ for (const skill of ["godspeed", "wwkd"]) {
 
 const marketplacePlugin = await readJson("marketplace/plugins/myagents/plugin.json");
 const codexPlugin = await readJson("marketplace/plugins/myagents/.codex-plugin/plugin.json");
+const claudeMarketplace = await readJson(".claude-plugin/marketplace.json");
+const claudePlugin = await readJson("marketplace/plugins/myagents/.claude-plugin/plugin.json");
 
-if (marketplacePlugin && codexPlugin) {
+if (marketplacePlugin && codexPlugin && claudeMarketplace && claudePlugin) {
+  const claudeMarketplacePlugin = claudeMarketplace.plugins?.find((plugin) => plugin.name === "myagents");
+  check(claudeMarketplacePlugin, "Claude marketplace is missing myagents");
+
   const versions = [
     marketplacePlugin.version,
     codexPlugin.version,
+    claudePlugin.version,
+    claudeMarketplacePlugin?.version,
   ];
-  check(versions.every((version) => version === versions[0]), `Codex myagents versions are not synchronized: ${versions.join(", ")}`);
+  check(versions.every((version) => version === versions[0]), `Codex/Claude myagents versions are not synchronized: ${versions.join(", ")}`);
 
   const descriptions = [
     marketplacePlugin.description,
     codexPlugin.description,
+    claudePlugin.description,
+    claudeMarketplacePlugin?.description,
   ];
   check(
     descriptions.every((description) => typeof description === "string" && description.trim().length > 0),
-    "Codex myagents descriptions must be non-empty",
+    "Codex/Claude myagents descriptions must be non-empty",
   );
   check(
     descriptions.every((description) => description === descriptions[0]),
-    `Codex descriptions are not synchronized: ${descriptions.join(" | ")}`,
+    `Codex/Claude descriptions are not synchronized: ${descriptions.join(" | ")}`,
   );
 }
 
@@ -149,5 +158,5 @@ if (errors.length > 0) {
   for (const error of errors) console.error(`Error: ${error}`);
   process.exitCode = 1;
 } else {
-  console.log("Validated 15 the-* Godspeed agent payloads, packaged skills, and synchronized Codex metadata.");
+  console.log("Validated 15 the-* Godspeed agent payloads, packaged skills, and synchronized Codex/Claude metadata.");
 }

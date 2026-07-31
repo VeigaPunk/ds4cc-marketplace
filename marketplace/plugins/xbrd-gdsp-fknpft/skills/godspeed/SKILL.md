@@ -19,3 +19,7 @@ Delegation is transitive. Every delegated prompt MUST carry this directive and e
 
 In Codex, type `$godspeed` in the prompt or choose `godspeed` from `/skills`.
 The CLI's `-s` option selects a sandbox policy, not a skill.
+
+```text
+Run the Rust validator before reporting marketplace changes complete.
+```
