@@ -18,4 +18,4 @@ Delegation is transitive. Every delegated prompt MUST carry this directive and e
 ## Invocation
 
 In Codex, type `$godspeed` in the prompt or choose `godspeed` from `/skills`.
-Do not use `codex -s godspeed`; `-s` selects a sandbox policy, not a skill.
+The CLI's `-s` option selects a sandbox policy, not a skill.

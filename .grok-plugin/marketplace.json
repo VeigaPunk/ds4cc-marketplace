@@ -31,56 +31,6 @@
       }
     },
     {
-      "name": "agent-wall",
-      "version": "0.2.0",
-      "description": "Runtime handoff surface for agent-based workflows",
-      "category": "development",
-      "source": {
-        "type": "local",
-        "path": "./marketplace/plugins/agent-wall"
-      },
-      "homepage": "https://github.com/VeigaPunk/agent-wall",
-      "keywords": [
-        "agent-wall",
-        "ds4cc",
-        "veigapunk"
-      ],
-      "domains": [
-        "github.com/VeigaPunk/ds4cc-marketplace",
-        "veigapunk.github.io",
-        "ds4cc.com",
-        "app.ds4cc.com"
-      ],
-      "author": {
-        "name": "VeigaPunk"
-      }
-    },
-    {
-      "name": "agent-pip",
-      "version": "0.2.1",
-      "description": "Multi-panel tmux agent terminal dashboard in Rust",
-      "category": "development",
-      "source": {
-        "type": "local",
-        "path": "./marketplace/plugins/agent-pip"
-      },
-      "homepage": "https://github.com/VeigaPunk/agent-pip",
-      "keywords": [
-        "agent-pip",
-        "ds4cc",
-        "veigapunk"
-      ],
-      "domains": [
-        "github.com/VeigaPunk/ds4cc-marketplace",
-        "veigapunk.github.io",
-        "ds4cc.com",
-        "app.ds4cc.com"
-      ],
-      "author": {
-        "name": "VeigaPunk"
-      }
-    },
-    {
       "name": "ds4cc",
       "version": "0.3.0",
       "description": "Review DS4CC plugins and Codex install steps",
@@ -201,6 +151,22 @@
         "ds4cc.com",
         "app.ds4cc.com"
       ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "network-auditor",
+      "version": "0.2.0",
+      "description": "Empirical network configuration audits with adversarial validation.",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/network-auditor"
+      },
+      "homepage": "https://ds4cc.com",
+      "keywords": ["network", "dns", "routing", "proxy", "firewall", "ds4cc"],
+      "domains": ["ds4cc.com", "app.ds4cc.com", "github.com/VeigaPunk/ds4cc-marketplace"],
       "author": {
         "name": "VeigaPunk"
       }
@@ -384,7 +350,7 @@
     },
     {
       "name": "xbrd-gdsp-fknpft",
-      "version": "0.2.2",
+      "version": "8.16.137",
       "description": "Multimodel dispatch orchestration and benchmark workflows",
       "category": "development",
       "source": {

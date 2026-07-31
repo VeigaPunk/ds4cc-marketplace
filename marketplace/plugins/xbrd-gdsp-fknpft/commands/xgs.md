@@ -65,14 +65,14 @@ Axis → profile mapping (see `~/.claude/commands/references/xbreed-shared.md` f
 - Planning, Phase 0, WWKD sequencing → `the-planner` (fable · high, Layer-0 wwkd skill load)
 - Complexity reduction → `simplifier` (sonnet)
 
-Team size maximum: <=1024 teammates per round.
+Hard global ceiling: <=16 concurrently spawned subagents.
 
 ### Phase 2 — Spawn all with full peer roster
 
 Each brief includes:
 1. Full peer roster (all names from Phase 1)
 2. Axis assignment
-3. **Godspeed mode:** prepend the canonical Godspeed block, including the fixed team-size maximum of 1024, then append ` | godspeed`; executor prompts append ` | godspeed-impl`. Delegates repeat both requirements for every nested delegation.
+3. **Godspeed mode:** prepend the canonical Godspeed block, including the hard global ceiling of 16 concurrent subagents, then append ` | godspeed`; executor prompts append ` | godspeed-impl`. Delegates repeat both requirements for every nested delegation.
 4. Task: propose ONE move (<=200 words)
 5. After proposing, DM each peer by name with one-line critique
 6. Mark task completed
@@ -119,7 +119,7 @@ CONFLICTS (emit only if cross-teammate contradictions exist):
 
 After each round, immediately assess and dispatch next round if frontier still moving. Do not pause. Do not ask. The user interrupts when they want to steer.
 
-**Limits:** <=4 rounds, <=1024 teammates, <=200-word proposals. The team-size maximum is fixed at 1024.
+**Limits:** <=4 rounds, <=16 concurrent subagents globally, <=200-word proposals.
 
 ## Step 6 — Auto-cleanup after frontier
 

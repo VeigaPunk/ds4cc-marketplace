@@ -15,18 +15,6 @@
       "description": "Academic paper retrieval workflows"
     },
     {
-      "name": "agent-wall",
-      "source": "./marketplace/plugins/agent-wall",
-      "version": "0.2.0",
-      "description": "Runtime handoff surface for agent-based workflows"
-    },
-    {
-      "name": "agent-pip",
-      "source": "./marketplace/plugins/agent-pip",
-      "version": "0.2.1",
-      "description": "Multi-panel tmux agent terminal dashboard in Rust"
-    },
-    {
       "name": "ds4cc",
       "source": "./marketplace/plugins/ds4cc",
       "version": "0.3.0",
@@ -55,6 +43,12 @@
       "source": "./marketplace/plugins/myagents",
       "version": "0.2.0",
       "description": "Curated agent profiles for development, review, research, and orchestration."
+    },
+    {
+      "name": "network-auditor",
+      "source": "./marketplace/plugins/network-auditor",
+      "version": "0.2.0",
+      "description": "Empirical network configuration audits with adversarial validation."
     },
     {
       "name": "mycommands",
@@ -101,7 +95,7 @@
     {
       "name": "xbrd-gdsp-fknpft",
       "source": "./marketplace/plugins/xbrd-gdsp-fknpft",
-      "version": "0.2.2",
+      "version": "8.16.137",
       "description": "Multimodel dispatch orchestration and benchmark workflows"
     }
   ]

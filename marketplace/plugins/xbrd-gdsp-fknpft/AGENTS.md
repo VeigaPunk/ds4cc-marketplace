@@ -14,7 +14,7 @@ to kill source-of-truth ambiguity; recover a historical snapshot via
 | **scout** | sonnet · medium | Research lens. Finds what exists outside the repo — libraries, docs, prior art, release notes. Delegates to Codex. | `xask --spark --gs codex` (default); use `xask --gpt55 --gs -e low codex` for high-ambiguity research when Spark is insufficient |
 | **reviewer** | sonnet · medium | Surgical code reviewer. Finds the bug that ships to prod. Delegates to Codex always. | `xask --gpt55 --gs -e low codex` (gpt-5.6-sol + fast_mode + reasoning=low, uniform codex lane per 2026-04-24) |
 | **labrat** | sonnet · medium | Expendable single-shot probe. Tests one hypothesis cheap and fast. State nuked on despawn. | `xask --spark --gs codex` (default), `xask --gpt55 --gs -e low codex` when Spark is insufficient |
-| **connector** | sonnet · medium | Cross-axis pattern matcher. Sees the whole table, calls out unusual connections and second-order effects. Breadth over depth. | `xask --spark codex` (no `--gs`; avoids double-godspeed frame on pontification-prone lane), `advisor()` for reasoning |
+| **connector** | sonnet · medium | Cross-axis pattern matcher. Sees the whole table, calls out unusual connections and second-order effects. Breadth over depth. | `xask --spark --gs codex`, `advisor()` for reasoning |
 | **distiller** | sonnet · medium | Deduplicates N parallel findings, flags contradictions, assigns confidence scores. Text synthesis with optional tool verification. Sits between workers and the-judge. | Spawned after peer DMs land, before judge Pareto filter; persistent across rounds |
 | **executor** | `openai/gpt-5.4-mini` (Codex Spark only) | Writes code, runs tests, returns results. Stateless by default — scoped to one subtask. | `xask --spark --gs codex` only; no model, effort, or advisor escape hatch |
 | **simplifier** | sonnet · medium | YAGNI enforcer. Finds what to delete. If removing it passes all tests, it was dead. | Direct analysis + deletion verification |
@@ -60,7 +60,7 @@ All sonnet teammates have two escalation paths:
 
 ## Swarm capabilities
 
-- **Labrat swarm:** Up to 1024 labrats in parallel. Fire-and-forget — no
+- **Labrat swarm:** Up to 16 total concurrent subagents. Fire-and-forget — no
   TaskCreate, they report via SendMessage + DESPAWN signal.
 - **Gemini labrat swarm (universal):** Any agent role can fire a 1-call, 10-probe
   fan-out inside Gemini's context. Refire up to 2x (30 max probes).

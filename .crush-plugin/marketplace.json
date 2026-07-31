@@ -23,34 +23,6 @@
       "homepage": "https://github.com/VeigaPunk/aaronplug"
     },
     {
-      "name": "agent-pip",
-      "version": "0.2.1",
-      "description": "Multi-panel tmux agent terminal dashboard in Rust",
-      "source": {
-        "type": "local",
-        "path": "./marketplace/plugins/agent-pip"
-      },
-      "skills": "./skills/",
-      "author": {
-        "name": "VeigaPunk"
-      },
-      "homepage": "https://github.com/VeigaPunk/agent-pip"
-    },
-    {
-      "name": "agent-wall",
-      "version": "0.2.0",
-      "description": "Runtime handoff surface for agent-based workflows",
-      "source": {
-        "type": "local",
-        "path": "./marketplace/plugins/agent-wall"
-      },
-      "skills": "./skills/",
-      "author": {
-        "name": "VeigaPunk"
-      },
-      "homepage": "https://github.com/VeigaPunk/agent-wall"
-    },
-    {
       "name": "ds4cc",
       "version": "0.3.0",
       "description": "DS4CC marketplace meta-plugin: discover/install plugins and run ds4cc/orch mode (parallel Godspeed specialists).",
@@ -118,6 +90,20 @@
       "author": {
         "name": "VeigaPunk"
       }
+    },
+    {
+      "name": "network-auditor",
+      "version": "0.2.0",
+      "description": "Empirical network configuration audits with adversarial validation.",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/network-auditor"
+      },
+      "skills": "./skills/",
+      "author": {
+        "name": "VeigaPunk"
+      },
+      "homepage": "https://ds4cc.com"
     },
     {
       "name": "mycommands",
@@ -219,7 +205,7 @@
     },
     {
       "name": "xbrd-gdsp-fknpft",
-      "version": "0.2.2",
+      "version": "8.16.137",
       "description": "Multimodel dispatch orchestration and benchmark workflows",
       "source": {
         "type": "local",

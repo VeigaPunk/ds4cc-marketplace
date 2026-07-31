@@ -49,11 +49,11 @@ Axis -> profile mapping (from the-judge.md dispatch table):
 - Correctness, bugs, code review -> `reviewer` (sonnet) — delegates to `xask --gpt55 --gs -e low codex`
 - Empirical probes, dry-runs -> `labrat` (sonnet) — delegates to `xask --spark --gs codex`
 - Code execution, implementation -> `executor` (`openai/gpt-5.4-mini`, Codex Spark only) — delegates only to `xask --spark --gs codex`; no alternate model/effort lane
-- Cross-axis patterns, breadth -> `connector` (sonnet) — delegates to `xask --spark codex` (no `--gs`; avoids double-godspeed frame on pontification-prone lane)
+- Cross-axis patterns, breadth -> `connector` (sonnet) — delegates to `xask --spark --gs codex`
 - Findings synthesis, dedup -> `distiller` (sonnet) — in-session text synthesis (no xask)
 - Complexity reduction, YAGNI -> `simplifier` (sonnet) — uses CC native tools
 
-Team size maximum: <=1024 teammates per round.
+Hard global ceiling: <=16 concurrently spawned subagents.
 
 ### Phase 2 — Spawn all with full peer roster AND xask gate
 
@@ -73,7 +73,7 @@ Each brief includes:
 - **scout** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark --gs codex '<your research question for this axis>'. Do not call Read, Grep, or any other tool until xask returns."`
 - **reviewer** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --gpt55 --gs -e low codex '<your review question for this axis>'. Do not call Read, Grep, or any other tool until xask returns."`
 - **labrat** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark --gs codex '<your probe hypothesis for this axis>'. Do not call Read, Grep, or any other tool until xask returns."`
-- **connector** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark codex '<your cross-axis pattern question>'. Do not call Read, Grep, or any other tool until xask returns. Note: no --gs — connector deliberately skips explicit godspeed-skill load to avoid double-frame stacking."`
+- **connector** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark --gs codex '<your cross-axis pattern question>'. Do not call Read, Grep, or any other tool until xask returns."`
 - **executor** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark --gs codex '<your implementation task for this axis>'. Do not call Read, Grep, or any other tool until xask returns."`
 - **mutation-tester** brief prefix: `"Your FIRST tool call MUST be Bash running: xask --spark --gs codex '<generate mutation for this function>'. Do not call Read, Grep, or any other tool until xask returns."`
 - **simplifier/distiller**: No xask gate. These use CC native tools or in-session synthesis.
@@ -144,7 +144,7 @@ Trigger: opposite verdicts on same claim — cross-model (codex) vs in-session (
 
 After each round, immediately assess and dispatch next round if frontier still moving. Do not pause. Do not ask. The user interrupts when they want to steer.
 
-**Limits:** <=4 rounds, <=1024 teammates per round, <=200-word proposals. The team-size maximum is fixed at 1024.
+**Limits:** <=4 rounds, <=16 concurrent subagents globally, <=200-word proposals.
 
 ## Step 6 — Hold after frontier
 

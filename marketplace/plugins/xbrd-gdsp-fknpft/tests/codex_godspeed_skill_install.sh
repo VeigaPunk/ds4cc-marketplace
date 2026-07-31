@@ -10,13 +10,15 @@ HOME_DIR="$TMP_ROOT/home"
 CODEX_SKILLS="$TMP_ROOT/agents/skills"
 TARGET_DIR="$CODEX_SKILLS/godspeed"
 SIBLING_DIR="$CODEX_SKILLS/keeper"
+FAIL_BIN="$TMP_ROOT/fail-bin"
 
 mkdir -p \
   "$FIXTURE/scripts" \
   "$FIXTURE/skills/godspeed" \
   "$HOME_DIR" \
   "$CODEX_SKILLS" \
-  "$SIBLING_DIR"
+  "$SIBLING_DIR" \
+  "$FAIL_BIN"
 
 cp "$PLUGIN_ROOT/scripts/install-codex-godspeed-skill.sh" "$FIXTURE/scripts/"
 cp "$PLUGIN_ROOT/skills/godspeed/SKILL.md" "$FIXTURE/skills/godspeed/"
@@ -29,11 +31,55 @@ printf '%s\n' 'stale directive' >"$TARGET_DIR/directive.md"
 
 run_installer() {
   HOME="$HOME_DIR" CODEX_SKILLS_DIR="$CODEX_SKILLS" PATH="/usr/bin:/bin" \
-    bash "$FIXTURE/scripts/install-codex-godspeed-skill.sh"
+    bash "$FIXTURE/scripts/install-codex-godspeed-skill.sh" "$@"
 }
 
-first_out="$(run_installer)"
 expected_target="$CODEX_SKILLS/godspeed"
+if run_installer >"$TMP_ROOT/refuse.out" 2>"$TMP_ROOT/refuse.err"; then
+  printf 'installer replaced an existing skill without --force\n' >&2
+  exit 1
+fi
+grep -Fq 'stale skill' "$TARGET_DIR/SKILL.md"
+grep -Fq 'use --force' "$TMP_ROOT/refuse.err"
+
+cat >"$FAIL_BIN/mv" <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+count=0
+[[ ! -f "$MV_COUNT_FILE" ]] || count="$(<"$MV_COUNT_FILE")"
+count=$((count + 1))
+printf '%s\n' "$count" >"$MV_COUNT_FILE"
+if [[ "$count" -eq 2 ]]; then
+  exit 70
+fi
+exec /usr/bin/mv "$@"
+EOF
+chmod +x "$FAIL_BIN/mv"
+if HOME="$HOME_DIR" CODEX_SKILLS_DIR="$CODEX_SKILLS" MV_COUNT_FILE="$TMP_ROOT/mv-count" PATH="$FAIL_BIN:/usr/bin:/bin" \
+  bash "$FIXTURE/scripts/install-codex-godspeed-skill.sh" --force >"$TMP_ROOT/fail.out" 2>"$TMP_ROOT/fail.err"; then
+  printf 'injected installer failure unexpectedly succeeded\n' >&2
+  exit 1
+fi
+grep -Fq 'stale skill' "$TARGET_DIR/SKILL.md"
+grep -Fq 'stale directive' "$TARGET_DIR/directive.md"
+
+rm -rf "$TARGET_DIR"
+printf '%s\n' 'user-owned regular file' >"$TARGET_DIR"
+rm -f "$TMP_ROOT/mv-count"
+if HOME="$HOME_DIR" CODEX_SKILLS_DIR="$CODEX_SKILLS" MV_COUNT_FILE="$TMP_ROOT/mv-count" PATH="$FAIL_BIN:/usr/bin:/bin" \
+  bash "$FIXTURE/scripts/install-codex-godspeed-skill.sh" --force >"$TMP_ROOT/file-fail.out" 2>"$TMP_ROOT/file-fail.err"; then
+  printf 'regular-file rollback failure unexpectedly succeeded\n' >&2
+  exit 1
+fi
+[[ -f "$TARGET_DIR" ]]
+grep -Fq 'user-owned regular file' "$TARGET_DIR"
+
+rm -f "$TARGET_DIR"
+mkdir -p "$TARGET_DIR"
+printf '%s\n' 'stale skill' >"$TARGET_DIR/SKILL.md"
+printf '%s\n' 'stale directive' >"$TARGET_DIR/directive.md"
+
+first_out="$(run_installer --force)"
 [[ "$first_out" == "$expected_target" ]] || {
   printf 'unexpected installer output: %s\n' "$first_out" >&2
   exit 1
@@ -45,6 +91,11 @@ grep -Fq 'Godspeed is inherited.' "$TARGET_DIR/SKILL.md"
 grep -Fq 'Delegation is transitive.' "$TARGET_DIR/SKILL.md"
 grep -Fq 'You are a Godspeed-enabled subagent.' "$TARGET_DIR/directive.md"
 grep -Fq 'Every delegated prompt MUST carry this directive' "$TARGET_DIR/SKILL.md"
+grep -Fq 'type `$godspeed`' "$TARGET_DIR/SKILL.md"
+if grep -Fq 'codex -s godspeed' "$TARGET_DIR/SKILL.md"; then
+  printf 'skill documents sandbox flag as a skill selector\n' >&2
+  exit 1
+fi
 cmp -s "$SIBLING_DIR/keep.txt" <(printf '%s\n' 'persistent sibling')
 
 before_skill_sum="$(sha256sum "$TARGET_DIR/SKILL.md")"

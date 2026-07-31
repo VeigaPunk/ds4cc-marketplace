@@ -51,6 +51,29 @@ pub fn build_codex_ask_with_loadout(
     json: bool,
     output_last_message: Option<&Path>,
 ) -> Command {
+    build_codex_ask_with_model(
+        loadout,
+        spark,
+        review,
+        full,
+        gpt55,
+        json,
+        output_last_message,
+        None,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn build_codex_ask_with_model(
+    loadout: &Loadout,
+    spark: bool,
+    review: bool,
+    full: bool,
+    gpt55: bool,
+    json: bool,
+    output_last_message: Option<&Path>,
+    model_override: Option<&str>,
+) -> Command {
     let mut c = Command::new("codex");
     c.arg("exec")
         .arg("--skip-git-repo-check")
@@ -79,7 +102,10 @@ pub fn build_codex_ask_with_loadout(
         c.arg("-o").arg(path);
     }
 
-    if spark {
+    if let Some(model) = model_override.filter(|model| !model.trim().is_empty()) {
+        c.arg("-m").arg(model);
+        c.arg("-c").arg("features.fast_mode=true");
+    } else if spark {
         c.arg("-m").arg(CODEX_SPARK_MODEL);
         c.arg("-c").arg("model_reasoning_effort=low");
         c.arg("-c").arg("features.fast_mode=true");
@@ -334,6 +360,7 @@ pub fn dispatch(
     prompt: &str,
     loadout: &Loadout,
     effort: Option<&str>,
+    model_override: Option<&str>,
     spark: bool,
     review: bool,
     full: bool,
@@ -358,7 +385,10 @@ pub fn dispatch(
             .filter(|&n| n > 0)
             .map(std::time::Duration::from_secs)
             .unwrap_or(std::time::Duration::from_secs(600));
-        let cmd = build_gemma(prompt, loadout);
+        let mut cmd = build_gemma(prompt, loadout);
+        if let Some(model) = model_override.filter(|model| !model.trim().is_empty()) {
+            cmd.env("HVM_GEMMA_MODEL", model);
+        }
         let output =
             execute_with_timeout(cmd, gemma_timeout).map_err(|e| anyhow::anyhow!("gemma: {e}"))?;
         if output.status.success() {
@@ -376,7 +406,7 @@ pub fn dispatch(
 
     let cmd = match cli {
         "codex" => {
-            let mut c = build_codex_ask_with_loadout(
+            let mut c = build_codex_ask_with_model(
                 loadout,
                 spark,
                 review,
@@ -384,6 +414,7 @@ pub fn dispatch(
                 gpt55,
                 json,
                 output_last_message,
+                model_override,
             );
             if spark {
                 warn_codex_spark_effort(effort);
@@ -638,6 +669,7 @@ mod tests {
             "hello",
             &l,
             None,
+            None,
             false,
             false,
             false,
@@ -796,6 +828,7 @@ mod tests {
             "codex",
             "test prompt",
             &super::Loadout::empty(),
+            None,
             None,
             false,
             false,

@@ -456,7 +456,7 @@ when the tier pivoted; every teammate prefix now maps to medium in the
 DEBUG trap.
 
 **Godspeed inheritance:** every teammate dispatch prepends the canonical
-Godspeed block, including the fixed team-size maximum of 1024, and appends
+Godspeed block, including the hard global ceiling of 16 concurrent subagents, and appends
 ` | godspeed` (or ` | godspeed-impl` for the executor lane) as its transport
 marker. The suffix does not replace the inherited directive.
 

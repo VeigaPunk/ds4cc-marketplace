@@ -29,7 +29,7 @@ bash "$CHECKER" >/dev/null 2>&1 || fail "baseline verify-routing.sh did not pass
 echo "STEP 0 OK: baseline green"
 
 # P1 — judge counterexample: shared-row lane mutation (M-G class).
-sed -i 's|xask --spark codex "<q>"|xask --effort xhigh codex "<q>"|' "$JUDGE_MD"
+sed -i 's|xask --spark --gs codex "<q>"|xask --effort xhigh codex "<q>"|' "$JUDGE_MD"
 set +e; OUT=$(bash "$CHECKER" 2>&1); ST=$?; set -e
 restore
 [[ $ST -eq 1 ]] || fail "P1 shared-row mutation not caught (exit $ST)"

@@ -10,7 +10,7 @@ Referenced by `/xbreed`, `/xbt`, `/xgs`, `/xbgst`. Do not duplicate — load thi
 
 **Purest form directive.** Every godspeed teammate dispatch prepends the canonical Godspeed block to the Agent() prompt and appends the literal string ` | godspeed` as the minimal carrier. The executor lane uses ` | godspeed-impl` instead (red-before-green evidence discipline). The block is the semantic guarantee; the suffix remains the transport marker.
 
-The canonical block is the inherited directive; the suffix is only its transport marker. Every delegated prompt must carry both so the fixed team-size maximum of 1024 and all other invariants propagate transitively.
+The canonical block is the inherited directive; the suffix is only its transport marker. Every delegated prompt must carry both so the hard global ceiling of 16 concurrent subagents and all other invariants propagate transitively.
 
 **Skill split (2026-04-17):** godspeed is backed by TWO user-scoped CC skills, by scope of use:
 
@@ -40,7 +40,7 @@ Include as FIRST instruction in every teammate brief that requires cross-model d
 - **scout**: `"Your FIRST tool call MUST be Bash: xask --spark --gs codex '<research question>'. No other tool before xask returns."` (scout applies built-in curation taste; use `xask --gpt55 --gs -e low codex '<research question>'` for high-ambiguity research when Spark is insufficient.)
 - **reviewer**: `"Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e low codex '<review question>'. No other tool before xask returns."` (`--gpt55 -e low` = gpt-5.6-sol + `features.fast_mode=true` + reasoning=low; uniform codex lane for review-class roles per 2026-04-24 pivot — supersedes the prior `-R codex` → gpt-5.6-sol routing. For diffs spanning >10 files, caller MUST pass `-scp <behavioral-change-files>` to scope the review (e.g. `git diff --name-only | grep -v generated | grep -v lock`). Closes the churn-padding attack vector where reviewer misses real bugs behind noisy renames/lockfiles.)
 - **labrat**: `"Your FIRST tool call MUST be Bash: xask --spark --gs codex '<probe hypothesis>'. No other tool before xask returns."`
-- **connector**: `"Your FIRST tool call MUST be Bash: xask --spark codex '<pattern question>'. No other tool before xask returns."` *(codex-medium primary; fallback on failure is **sonnet in-session** — compose from Grep/Read within the reasoning cap. Connector deliberately omits `--gs` to avoid stacking a second godspeed frame on top of the `| godspeed` suffix on a lane already prone to pontification (`feedback_connector_stall.md`).)*
+- **connector**: `"Your FIRST tool call MUST be Bash: xask --spark --gs codex '<pattern question>'. No other tool before xask returns."` *(codex-medium primary; fallback on failure is **sonnet in-session** — compose from Grep/Read within the reasoning cap.)*
 - **the-revenger**: `"Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e low codex '<RECON / surface enumeration question>'. No other tool before xask returns."` (`--gpt55 -e low` = gpt-5.6-sol + fast_mode + reasoning=low. For deep single-file reverse engineering, skip the xask gate and use advisor() instead.)
 - **sentinel**: `"Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e low codex '<exploit/vulnerability analysis question>'. No other tool before xask returns."` (gpt-5.6-sol-low, uniform codex lane)
 - **critic**: `"Your FIRST tool call MUST be Skill(skill='heuer-planning') — this is Layer 0. After the skill loads, your SECOND tool call MUST be Bash: xask --gpt55 --gs -e low codex '<design review question>'. No other tool before xask returns."` (critic runs sonnet · medium per the unified scheme 2026-04-17 — the Axis → Profile Mapping below is authoritative; Layer-0 heuer-planning load applies to all critic teammates via on_spawn_skill frontmatter. If the skill is unavailable in the environment, the critic notes it and proceeds to Layer 1.)
@@ -106,7 +106,7 @@ construction. Skipping connector is a structural gap, not a speed optimization.
 | Correctness, bugs | `reviewer` | sonnet · medium | `xask --gpt55 --gs -e low codex` (gpt-5.6-sol + fast_mode + reasoning=low, uniform codex lane per 2026-04-24) | All |
 | Empirical probes | `labrat` | sonnet · medium | `xask --spark --gs codex` | All |
 | Code execution | `executor` | `openai/gpt-5.4-mini` (Codex Spark only) | `xask --spark --gs codex` only; no model, effort, or advisor escape hatch | All |
-| Cross-axis patterns | `connector` | sonnet · medium | via Bash tool — xask is a shell CLI on PATH, not a native tool: `xask --spark codex` (primary; no `--gs` — avoids double-godspeed frame on pontification-prone lane) → **sonnet in-session** (fallback — composes from Grep/Read within the reasoning cap; emit `obs: xask BLOCKED [exact stderr]` only after that Bash invocation actually runs and errors) | All |
+| Cross-axis patterns | `connector` | sonnet · medium | via Bash tool — xask is a shell CLI on PATH, not a native tool: `xask --spark --gs codex` → **sonnet in-session** fallback | All |
 | Synthesis, dedup | `distiller` | sonnet · medium | in-session | All |
 | Deletion, YAGNI | `simplifier` | sonnet · medium | CC native | All |
 | Reverse engineering | `the-revenger` | sonnet · medium | `xask --gpt55 --gs -e low codex` for RECON (gpt-5.6-sol low); skip xask for in-repo single-file RE and use advisor() instead | All |
@@ -155,7 +155,7 @@ Prefix signals where reasoning lives (the target model for xask delegation), not
 Any agent can spawn a labrat probe. Two paths:
 
 1. **Subagent spawn:** `Agent(subagent_type="labrat", name="cdx-labrat-<hypothesis>", model="sonnet", prompt="<probe> | godspeed")`
-2. **Bash call:** `xask --spark codex "<probe hypothesis>"` — codex-5.3-spark, fire-and-forget
+2. **Bash call:** `xask --spark --gs codex "<probe hypothesis>"` — codex-5.3-spark, fire-and-forget
 
 **Codex-spark is the sole labrat channel (user directive 2026-04-18).** No gemini labrat delegation. The codex-5.3-spark lane is fast, cheap, and expendable enough to be the complete labrat surface — both for single probes and in-model fanout.
 

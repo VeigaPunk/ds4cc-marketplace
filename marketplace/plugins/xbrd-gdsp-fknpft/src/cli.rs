@@ -53,6 +53,9 @@ pub enum Commands {
             value_parser = ["low", "medium", "high", "xhigh"]
         )]
         effort: Option<String>,
+        /// Exact provider model ID. Overrides xbreed lane defaults.
+        #[arg(long, conflicts_with_all = ["spark", "review", "full", "gpt55"])]
+        model: Option<String>,
         /// Use the fast codex-spark model with low effort (codex only).
         /// Equivalent to: -m gpt-5.4-mini + model_reasoning_effort=low
         #[arg(long)]
@@ -100,7 +103,7 @@ pub enum Commands {
 
 #[derive(Subcommand, Debug)]
 pub enum PrecheckAction {
-    /// Check whether the requested team size is at most 1024.
+    /// Check whether the requested team size is at most 16.
     /// Retains the pane-cap command name for CLI compatibility; does not query tmux.
     PaneCap {
         /// Number of teammates about to be spawned

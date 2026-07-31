@@ -8,7 +8,7 @@
 ## 1. Synopsis
 
 ```
-xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--gs] [-e <level>] [-o <file>] [--json] <model> "<query>" ["<context>"] ["<skill>"]
+xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--model-id <id>] [--gs] [-e <level>] [-o <file>] [--json] <model> "<query>" ["<context>"] ["<skill>"]
 ```
 
 `<model>` is `gemma` (alias `g`; legacy alias `gemini`) or `codex`. Gemma aliases route to the local HVM bridge. (`claude` dispatch was removed in R2-A5.)
@@ -25,6 +25,7 @@ xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--gs] [-e <level>] [-
 | `--scope` | `-scp` | Scope boundary injected into `{{SCOPE_BOUNDARY}}` in the dispatch template. | all | `"entire project"` |
 | `--rich` | `-r` | Accepted for compatibility; ignored by the local Gemma/HVM lane. | gemma aliases | `false` |
 | `--spark` | `--spk` | Pin codex to `gpt-5.4-mini` + `model_reasoning_effort=low`. Bare `xask codex` selects this route unless effort/review/full/gpt55 selects another lane. Spark wins when combined. | codex | structural default |
+| `--model-id` | — | Select an exact Codex or local Gemma model ID. Cannot be combined with built-in lane flags. | codex + gemma aliases | unset |
 | `--effort` | `-e` | One of `low`, `medium`, `high`, `xhigh`. Codex: native `model_reasoning_effort`; Gemma aliases: advisory `thinkingBudget` prompt text. | codex + gemma aliases | unset |
 | `--direct` | — | **Removed in R2.** No longer accepted — xask hard-fails at the flag parser (`*) echo ... exit 1`). Suppression is always-on; use `--effort` to control reasoning level. | — | — |
 
@@ -93,7 +94,8 @@ Full (`-R -F`): `gpt-5.6-sol` (1.05M ctx) + `features.fast_mode=true` — escape
 gpt-5.6-sol lane (`--gpt55`): `gpt-5.6-sol` + `features.fast_mode=true` — every role route uses `-e low`; only the native planner retains high effort outside this lane.
 Spark (`--spark`): `gpt-5.4-mini` + `model_reasoning_effort=low` (fast_mode enabled).
 
-Precedence: `--spark` > `--gpt55` > `-R -F` > `-R` > default.
+Precedence: `--model-id` is an exclusive exact-model route; otherwise
+`--spark` > `--gpt55` > `-R -F` > `-R` > default.
 
 ---
 

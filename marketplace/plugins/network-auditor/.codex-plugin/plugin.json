@@ -1,0 +1,19 @@
+{
+  "name": "network-auditor",
+  "version": "0.2.0",
+  "description": "Empirical network configuration audits with adversarial validation.",
+  "author": { "name": "VeigaPunk" },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Network Auditor",
+    "shortDescription": "Audit DNS, routing, proxies, firewalls, and connectivity",
+    "longDescription": "Snapshots network state, runs empirical probes, adversarially validates candidate configuration changes, and returns Pareto-ranked recommendations with rollback steps.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": ["Network Diagnostics", "Configuration Audit", "Security Review"],
+    "defaultPrompt": ["Audit my network configuration.", "Diagnose DNS and routing issues.", "Review proxy and firewall settings."]
+  },
+  "homepage": "https://ds4cc.com",
+  "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
+  "license": "MIT"
+}

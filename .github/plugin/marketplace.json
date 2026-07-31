@@ -15,27 +15,14 @@
       "description": "Curated agent profiles for development, review, research, and orchestration."
     },
     {
+      "name": "network-auditor",
+      "source": "./marketplace/plugins/network-auditor",
+      "version": "0.2.0",
+      "description": "Empirical network configuration audits with adversarial validation."
+    },
+    {
       "name": "aaronplug",
       "source": "./marketplace/plugins/aaronplug",
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Developer"
-    },
-    {
-      "name": "agent-pip",
-      "source": "./marketplace/plugins/agent-pip",
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Developer",
-      "version": "0.2.1"
-    },
-    {
-      "name": "agent-wall",
-      "source": "./marketplace/plugins/agent-wall",
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
@@ -149,7 +136,7 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Developer",
-      "version": "0.2.2"
+      "version": "8.16.137"
     }
   ]
 }

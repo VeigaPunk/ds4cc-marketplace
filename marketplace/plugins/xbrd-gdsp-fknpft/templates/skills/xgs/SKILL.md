@@ -57,14 +57,14 @@ Axis -> profile mapping (from the-judge.md dispatch table):
 - Findings synthesis, dedup -> `distiller` (sonnet)
 - Complexity reduction, YAGNI -> `simplifier` (sonnet)
 
-Team size maximum: <=1024 teammates per round.
+Hard global ceiling: <=16 concurrently spawned subagents.
 
 ### Phase 2 — Spawn all with full peer roster
 
 Spawn all teammates. Each brief includes:
 1. The full peer roster (all teammate names from Phase 1)
 2. Their axis assignment (name + direction + observable)
-3. **Godspeed mode:** prepend the canonical Godspeed block, including the fixed team-size maximum of 1024, then append ` | godspeed`; executor prompts append ` | godspeed-impl`. Delegates repeat both requirements for every nested delegation.
+3. **Godspeed mode:** prepend the canonical Godspeed block, including the hard global ceiling of 16 concurrent subagents, then append ` | godspeed`; executor prompts append ` | godspeed-impl`. Delegates repeat both requirements for every nested delegation.
 4. Task: propose ONE move on their axis (<=200 words)
 5. After proposing, DM each peer by name with a one-line critique
 6. Mark task completed after sending
@@ -117,7 +117,7 @@ Trigger: opposite verdicts on same claim, OR one teammate's move regresses anoth
 
 After delivering a round's results, immediately assess: did any axis improve? If yes, dispatch the next round. Do not pause to ask "what next?" or prompt cleanup. The user interrupts when they want to steer. Keep the Pareto walk moving until the frontier stops or 4 rounds hit.
 
-**Limits:** <=4 rounds, <=1024 teammates per round, <=200-word proposals per teammate. The team-size maximum is fixed at 1024.
+**Limits:** <=4 rounds, <=16 concurrent subagents globally, <=200-word proposals per teammate.
 
 ## Step 6 — Hold after frontier
 

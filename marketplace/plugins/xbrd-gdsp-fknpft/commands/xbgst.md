@@ -68,18 +68,18 @@ Axis → profile mapping (see `~/.claude/commands/references/xbreed-shared.md` f
 - Correctness, bugs → `reviewer` — `xask --gpt55 --gs -e low codex`
 - Empirical probes → `labrat` — `xask --spark --gs codex`
 - Code execution → `executor` (`openai/gpt-5.4-mini`, Codex Spark only) — `xask --spark --gs codex` only; no alternate model/effort lane
-- Cross-axis patterns → `connector` — `xask --spark codex`
+- Cross-axis patterns → `connector` — `xask --spark --gs codex`
 - Synthesis, dedup → `distiller` — in-session
 - Complexity reduction → `simplifier` — CC native
 
-Team size maximum: <=1024 teammates per round.
+Hard global ceiling: <=16 concurrently spawned subagents.
 
 ### Phase 2 — Spawn all with full peer roster AND xask gate
 
 Each brief includes:
 1. Full peer roster (all names from Phase 1)
 2. Axis assignment
-3. **Godspeed inheritance:** prepend the canonical Godspeed block, including the fixed team-size maximum of 1024, and append ` | godspeed` (literal, with leading space) as its transport marker.
+3. **Godspeed inheritance:** prepend the canonical Godspeed block, including the hard global ceiling of 16 concurrent subagents, and append ` | godspeed` (literal, with leading space) as its transport marker.
 4. **Structural xask gate — verbatim Layer-1 string per role (MANDATORY inline, NOT via pointer).** Paste the exact per-role gate string into the teammate brief. Indirection ("Read shared.md and apply") is lossy — teammates skip the gate when the string is not physically present. The table below is the source-of-truth; mirror from `xbreed-shared.md §xask Gate (4 layers)` if either drifts.
 
 | Role | Verbatim Layer-1 string to include in brief |
@@ -88,7 +88,7 @@ Each brief includes:
 | `reviewer` | `Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e low codex '<review question>'. No other tool before xask returns.` |
 | `labrat` | `Your FIRST tool call MUST be Bash: xask --spark --gs codex '<probe hypothesis>'. No other tool before xask returns.` |
 | `executor` | `Your FIRST tool call MUST be Bash: xask --spark --gs codex '<task>'. No other tool before xask returns.` |
-| `connector` | `Your FIRST tool call MUST be Bash: xask --spark codex '<pattern question>'. No other tool before xask returns.` |
+| `connector` | `Your FIRST tool call MUST be Bash: xask --spark --gs codex '<pattern question>'. No other tool before xask returns.` |
 | `the-revenger` | `Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e low codex '<RECON / surface enumeration question>'. No other tool before xask returns.` |
 | `sentinel` | `Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e low codex '<exploit/vulnerability analysis question>'. No other tool before xask returns.` |
 | `critic` | `Your FIRST tool call MUST be Skill(skill='heuer-planning') — this is Layer 0. After the skill loads, your SECOND tool call MUST be Bash: xask --gpt55 --gs -e low codex '<design review question>'. No other tool before xask returns.` |
@@ -154,7 +154,7 @@ CONFLICTS (emit only if cross-model contradictions exist):
 
 Do not pause. Do not ask. User interrupts to steer. Keep iterating.
 
-Limits: <=4 rounds, <=1024 teammates, <=200-word proposals. Exit semantics live in `xbreed-shared.md`.
+Limits: <=4 rounds, <=16 concurrent subagents globally, <=200-word proposals. Exit semantics live in `xbreed-shared.md`.
 
 ## Step 6 — Auto-cleanup after frontier
 

@@ -12,28 +12,6 @@
         ]
       }
     },
-    "agent-wall": {
-      "version": "0.2.0",
-      "components": {
-        "skills": [
-          {
-            "name": "agent-wall-docs",
-            "description": "Create handoff checkpoints and manage agent session continuity via agent-wall."
-          }
-        ]
-      }
-    },
-    "agent-pip": {
-      "version": "0.2.1",
-      "components": {
-        "skills": [
-          {
-            "name": "agent-pip-docs",
-            "description": "Install, run, and control the agent-pip multi-panel tmux agent dashboard."
-          }
-        ]
-      }
-    },
     "ds4cc": {
       "version": "0.3.0",
       "components": {
@@ -97,6 +75,10 @@
         ],
         "agents": [
           {
+            "name": "the-architect",
+            "description": "the-architect.agent"
+          },
+          {
             "name": "the-connector",
             "description": "the-connector.agent"
           },
@@ -151,6 +133,23 @@
           {
             "name": "the-simplifier",
             "description": "the-simplifier.agent"
+          }
+        ]
+      }
+    },
+    "network-auditor": {
+      "version": "0.2.0",
+      "components": {
+        "skills": [
+          {
+            "name": "network-auditor",
+            "description": "Audit connectivity, DNS, routing, proxies, firewalls, MTU, privacy, and network reliability with empirical probes and safe rollback plans."
+          }
+        ],
+        "agents": [
+          {
+            "name": "network-auditor",
+            "description": "network-auditor.agent"
           }
         ]
       }
@@ -233,7 +232,7 @@
       }
     },
     "xbrd-gdsp-fknpft": {
-      "version": "0.2.2",
+      "version": "8.16.137",
       "components": {
         "skills": [
           {

@@ -33,4 +33,4 @@ Auto-approve the first shutdown_request. Die clean.
 
 ## Swarm mode
 
-Up to 1024 labrats spawned in parallel. Each gets a unique hypothesis. No TaskCreate — fire-and-forget. Reports go to team-lead. Lead batch-shutdowns as DESPAWN signals arrive.
+Never exceed the hard global ceiling of 16 concurrent subagents. Each labrat gets a unique hypothesis. No TaskCreate — fire-and-forget. Reports go to team-lead. Lead batch-shutdowns as DESPAWN signals arrive.

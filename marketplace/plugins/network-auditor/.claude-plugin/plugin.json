@@ -1,0 +1,7 @@
+{
+  "name": "network-auditor",
+  "version": "0.2.0",
+  "description": "Empirical network configuration audits with adversarial validation.",
+  "author": { "name": "VeigaPunk" },
+  "repository": "https://github.com/VeigaPunk/ds4cc-marketplace"
+}

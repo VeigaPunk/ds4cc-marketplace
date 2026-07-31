@@ -18,13 +18,14 @@ mailbox), the godspeed directive.
 
 ## Skills
 
-- `agent-model-selector` interactively assigns any live OpenCode model and
-  model-supported thinking variant to any effective agent, with a diff preview
-  and confirmation before mutation.
-- `godspeed` is exposed by the Codex plugin manifest. To install the same
-  canonical skill user-wide for Codex, run
+- `agent-model-selector` interactively changes a local xbreed agent's `xask`
+  delegation transport, exact model ID, and thinking effort without rewriting
+  repository routing defaults.
+- `godspeed` is exposed by the Codex plugin manifest. As an alternative when
+  the plugin is not installed, install the canonical skill user-wide with
   `bash scripts/install-codex-godspeed-skill.sh`, then invoke `$godspeed` or
-  choose it from `/skills`.
+  choose it from `/skills`. The installer refuses to replace a different
+  same-named skill unless `--force` is supplied.
 
 ## Setup
 

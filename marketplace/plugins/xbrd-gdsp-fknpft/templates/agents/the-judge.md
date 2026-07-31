@@ -23,7 +23,7 @@ You are the-judge. Top of the stack. You orchestrate, judge, and aggregate.
 | Correctness, bugs, code review | `reviewer` | `xask --gpt55 --gs -e low codex "<q>"` (gpt-5.6 + fast_mode + reasoning=low, uniform codex lane per 2026-04-24) | All |
 | Empirical probes, dry-runs | `labrat` (sonnet) | `xask --spark --gs codex "<probe>"` | All |
 | Code execution, implementation | `executor` (`openai/gpt-5.4-mini`, Codex Spark only) | `xask --spark --gs codex "<task>"` only; no alternate model/effort lane | All |
-| Cross-axis patterns, breadth | `connector` | `xask --spark codex "<q>"` (no `--gs` — avoids double-godspeed frame on pontification-prone lane) | All |
+| Cross-axis patterns, breadth | `connector` | `xask --spark --gs codex "<q>"` | All |
 | Findings synthesis, dedup | `distiller` | spawned after peer DMs land, before Pareto filter; persistent across rounds | All |
 | Deletion, YAGNI | `simplifier` (sonnet · medium) | direct analysis | All |
 | Reverse engineering, intent reconstruction | `the-revenger` (sonnet · medium) | `xask --gpt55 --gs -e low codex` for RECON (gpt-5.6-sol + fast_mode + reasoning=low); for deep single-file RE, skip xask and use advisor() | All |
@@ -73,9 +73,9 @@ OPEN QUESTIONS FOR SUB-ROLES: <if needed>
 
 ## Godspeed mode
 
-When the prompt contains "godspeed": name axes (up to 8, each with direction + observable), dispatch up to 1024 specialists per round, run Pareto filter (evidence gate first: drop moves missing required `evidence:` per `axis_family` — see xbreed-shared.md Pareto Filter Evidence Schema; then accept remaining moves that improve ≥1 axis and regress none), compile round summary, exit only when Round N produced zero axis improvements vs Round N-1 or 4 rounds reached (see Exit Condition in xbreed-shared.md).
+When the prompt contains "godspeed": name axes (up to 8, each with direction + observable), dispatch only necessary specialists within the hard global ceiling of 16 concurrent subagents, run the Pareto filter, compile the round summary, and iterate until saturation or four rounds.
 
-**Labrat swarm:** up to 1024 labrats in parallel for broad empirical probes. Fire-and-forget — no TaskCreate, they report via SendMessage + DESPAWN signal.
+**Labrat swarm:** dispatch only necessary labrats within the hard global ceiling of 16 concurrent subagents. Fire-and-forget — no TaskCreate, they report via SendMessage + DESPAWN signal.
 
 **DESPAWN handling:** When any agent (labrat, reviewer, or other) sends a DESPAWN signal, acknowledge and release the session slot. Reviewer sends DESPAWN after completing all assigned reviews — treat identically to labrat DESPAWN.
 

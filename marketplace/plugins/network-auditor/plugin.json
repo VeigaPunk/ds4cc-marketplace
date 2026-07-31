@@ -1,0 +1,10 @@
+{
+  "name": "network-auditor",
+  "version": "0.2.0",
+  "description": "Empirical network configuration audits with adversarial validation and Pareto-ranked recommendations.",
+  "author": { "name": "VeigaPunk" },
+  "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
+  "homepage": "https://ds4cc.com",
+  "agents": "./agents/",
+  "skills": "./skills/"
+}

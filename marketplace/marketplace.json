@@ -27,7 +27,7 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Developer",
-      "version": "0.2.2"
+      "version": "8.16.137"
     },
     {
       "name": "aaronplug",
@@ -138,6 +138,18 @@
       "category": "Developer"
     },
     {
+      "name": "network-auditor",
+      "source": {
+        "source": "local",
+        "path": "./plugins/network-auditor"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer"
+    },
+    {
       "name": "mycommands",
       "source": {
         "source": "local",
@@ -160,31 +172,6 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Developer"
-    },
-    {
-      "name": "agent-wall",
-      "source": {
-        "source": "local",
-        "path": "./plugins/agent-wall"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Developer"
-    },
-    {
-      "name": "agent-pip",
-      "source": {
-        "source": "local",
-        "path": "./plugins/agent-pip"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Developer",
-      "version": "0.2.1"
     },
     {
       "name": "ds4cc",

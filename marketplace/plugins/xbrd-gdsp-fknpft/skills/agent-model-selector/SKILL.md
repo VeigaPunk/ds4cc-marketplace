@@ -1,89 +1,84 @@
 ---
 name: agent-model-selector
-description: Interactively configure any OpenCode agent's model and supported thinking effort. Use when the user asks to choose, switch, assign, or pin a model or reasoning variant for an agent.
-compatibility: OpenCode 1.18 or newer
+description: Interactively change local xbrd-gdsp-fknpft agent delegation models and thinking effort. Use when selecting or overriding the model route for an xbreed agent.
 ---
 
-# OpenCode Agent Model Selector
+# Local xbreed delegation selector
 
-Configure exactly one agent per invocation. Selection menus are the requested
-interface, not ambiguity-driven clarification. Never guess an agent, model, or
-effort.
+This skill configures xbrd-gdsp-fknpft agent delegation commands. It must not
+read or edit OpenCode agents, `opencode.json`, or OpenCode model settings.
 
-## 1. Guard and discover
+## Discover
 
-1. Require the `opencode` executable. If it is unavailable, stop without
-   writing and explain that this workflow is OpenCode-specific.
-2. Run `opencode agent list` and use every returned effective agent as the
-   agent menu. Do not hard-code agent names.
-3. Run `opencode models --verbose`. Each plain `provider/model` line begins a
-   model record and the following JSON object describes that model. Build the
-   model menu from those live IDs. Read the selected record's `variants` keys
-   to build the effort menu. Do not infer variants from another model.
-4. Locate definitions and precedence before offering a write target:
-   - project Markdown: `.opencode/agent/<name>.md` and
-     `.opencode/agents/<name>.md`;
-   - global Markdown: `${XDG_CONFIG_HOME:-$HOME/.config}/opencode/agent(s)/<name>.md`;
-   - project config: `opencode.json`, `opencode.jsonc`, or
-     `.opencode/opencode.json[c]`;
-   - global config: `${XDG_CONFIG_HOME:-$HOME/.config}/opencode/opencode.json`.
-   Project definitions override global definitions. Report shadowed copies and
-   edit the effective Markdown definition by default.
+1. Locate the xbrd-gdsp-fknpft repository and its `templates/agents/*.md`.
+2. Discover installed local definitions under `${XBREED_AGENTS_DIR:-$HOME/.claude/agents}`.
+3. Build the agent menu from xbreed's agent templates. For each agent, inspect
+   its actual `xask` command and classify it as:
+   - configurable: contains an automatic `xask` delegation;
+   - native: has no automatic cross-model delegation;
+   - locked: its prompt explicitly forbids changing the route.
+4. Discover model IDs rather than hard-coding them:
+   - Codex: read `${CODEX_HOME:-$HOME/.codex}/models_cache.json` when present and include the
+     current `config/models.yaml` Codex default;
+   - local Gemma/Ollama: run `ollama list` and include the current
+     `config/models.yaml` Gemma default.
+5. Accept only model IDs matching `[A-Za-z0-9._:/+-]+`. Reject whitespace,
+   shell metacharacters, leading dashes, and control characters before preview.
 
-## 2. Ask through menus
+Native and locked agents remain visible, but refuse a no-op or invariant-
+breaking write and explain the governing line.
 
-Use the `question` tool for these choices, in order:
+## Select interactively
 
-1. **Agent** — every effective agent from `opencode agent list`.
-2. **Model** — every live `provider/model` ID from `opencode models --verbose`.
-3. **Thinking effort** — only keys in that model's `variants` object. Also
-   offer **Provider default (no variant)**. If `variants` is empty, select the
-   provider default and do not invent an effort.
-4. **Scope**, only when a built-in or inline/config-defined agent needs an
-   override — project or global.
+Use the `question` tool for these requested choices:
 
-If `question` is unavailable, print the same choices as numbered lists and
-stop for a numbered reply. Never silently select the first item. Cancellation
-at any menu exits without a write.
+1. xbreed agent;
+2. transport: `codex` or local `gemma`;
+3. exact discovered model ID;
+4. effort: `low`, `medium`, `high`, or `xhigh`.
 
-## 3. Resolve the mutation
+For Gemma, label effort as advisory prompt budget. If `question` is
+unavailable, present identical numbered menus and stop for a numbered reply.
+Never choose silently. Cancellation writes nothing.
 
-- **Effective Markdown agent:** update only top-level YAML `model:` and
-  `variant:` fields inside the existing frontmatter. Preserve all other
-  frontmatter, comments, ordering where practical, and the body byte-for-byte.
-- **Built-in or config-defined agent:** add or update only
-  `agent.<name>.model` and `agent.<name>.variant` in the selected JSON/JSONC
-  config. Create the narrowest valid override and preserve `$schema`, comments,
-  trailing commas, and unrelated keys. Never replace the whole config object.
-- Write `model` as the exact `provider/model` ID.
-- For **Provider default**, remove a stale `variant` field instead of writing
-  `null`, an empty string, or a guessed effort.
-- Use OpenCode's `variant` field; do not write provider-specific
-  `reasoningEffort` options.
+## Local target
 
-If the agent prompt or repository routing policy pins a model or effort, show
-the conflicting text. Permit the override only after a separate second
-confirmation; do not rewrite the prompt or policy.
+The default mutation target is the selected installed agent file under
+`${XBREED_AGENTS_DIR:-$HOME/.claude/agents}`. Local configuration must not
+rewrite repository routing documentation.
 
-## 4. Preview, confirm, and write safely
+- If the installed file is absent, copy its repository template first.
+- If it is a symlink into the repository, replace the symlink with a local
+  regular-file copy before editing so the repository default remains intact.
+- Preserve frontmatter and unrelated prompt text byte-for-byte.
+- Change only the operative default `xask` delegation command for the selected
+  agent. Remove conflicting lane flags (`--spark`, `--gpt55`, `--review`,
+  `--full`) and write:
 
-Show the selected agent, exact target path, prior and new model/variant, source
-scope, shadowing notes, and the exact diff. Ask for confirmation with the
-`question` tool. A negative or missing answer means no write.
+```text
+xask --model-id <exact-model-id> --effort <level> --gs <codex|gemma> "<existing prompt>"
+```
 
-Immediately before editing, re-read the target and compare it with the version
-used for the preview. Abort if it changed. Apply one atomic replacement in the
-same directory; do not touch unrelated files.
+Keep existing scope, output, JSON, context, prompt, and Godspeed suffix
+arguments. Do not change examples or historical prose that are not operative
+instructions. If more than one operative delegation exists, show each and ask
+which route to change.
 
-## 5. Verify
+Construct the replacement as shell tokens, not string concatenation. Quote the
+validated model and prompt arguments with a shell-safe encoder such as
+`printf %q`; never paste untrusted model text into executable syntax.
 
-1. Re-run `opencode agent list` and ensure it succeeds.
-2. Confirm the target contains the exact selected `model` and either the exact
-   supported `variant` or no variant for provider default.
-3. Re-run `opencode models --verbose` and confirm the selected model still
-   exists and the selected variant is still a key in its own record.
-4. Report the changed path and concise before/after values. Tell the user to
-   quit and restart OpenCode because configuration is loaded at startup.
+## Preview and apply
 
-If validation fails, report it prominently; never claim the configuration is
-active merely because the file write succeeded.
+Show agent, target path, transport, model, effort, and exact diff. Confirm with
+the `question` tool. Re-read the file immediately before writing and abort if
+it changed. Write atomically in the same directory and preserve permissions.
+
+## Verify
+
+1. Run `xask --debug --model-id <model> --effort <effort> <transport> probe`
+   and confirm `MODEL_ID`, `EFFORT`, transport, and `SPARK: false`.
+2. Re-read the installed agent and confirm its operative command contains the
+   exact selected route once, with no conflicting lane flag.
+3. Report that this is a local override; repository defaults and other agents
+   are unchanged. A new agent session may be required to load the file.

@@ -1,0 +1,16 @@
+{
+  "name": "network-auditor",
+  "version": "0.2.0",
+  "description": "Empirical network configuration audits with adversarial validation.",
+  "author": { "name": "VeigaPunk" },
+  "homepage": "https://ds4cc.com",
+  "license": "MIT",
+  "interface": {
+    "displayName": "Network Auditor",
+    "shortDescription": "Audit DNS, routing, proxies, firewalls, and connectivity",
+    "longDescription": "Runs empirical network probes and returns Pareto-ranked recommendations with rollback steps.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://ds4cc.com"
+  },
+  "skills": "./skills/"
+}

@@ -18,7 +18,7 @@ if grep -Eq 'std::process|Command::|tmux' "$ROOT/src/precheck.rs"; then
   exit 1
 fi
 
-for team_size in 0 1 1024; do
+for team_size in 0 1 16; do
   PATH="$TMP:/usr/bin:/bin" "$BIN" precheck pane-cap -n "$team_size" >"$TMP/out" 2>"$TMP/err"
   grep -Fq "pane-cap ok: team_size=$team_size" "$TMP/out"
 done
@@ -27,7 +27,7 @@ if PATH="$TMP:/usr/bin:/bin" "$BIN" precheck pane-cap -n 1025 >"$TMP/out" 2>"$TM
   printf 'FAIL: pane-cap accepted team_size 1025\n' >&2
   exit 1
 fi
-grep -Fq 'maximum team size is 1024' "$TMP/err"
+grep -Fq 'maximum team size is 16' "$TMP/err"
 
 if [[ -e "$TMP/tmux-was-called" ]]; then
   printf 'FAIL: pane-cap invoked tmux\n' >&2

@@ -40,6 +40,7 @@ verify-repo:
 	@echo "verify: tests/routing_drift_mutation.sh"; bash tests/routing_drift_mutation.sh
 	@echo "verify: tests/godspeed_always_install.sh"; bash tests/godspeed_always_install.sh
 	@echo "verify: tests/agent_model_selector_skill.sh"; bash tests/agent_model_selector_skill.sh
+	@echo "verify: tests/xask_model_override.sh"; bash tests/xask_model_override.sh
 	@echo "verify: tests/codex_godspeed_skill_install.sh"; bash tests/codex_godspeed_skill_install.sh
 	@echo "verify: scripts/check-godspeed-prompts.mjs"; node scripts/check-godspeed-prompts.mjs
 

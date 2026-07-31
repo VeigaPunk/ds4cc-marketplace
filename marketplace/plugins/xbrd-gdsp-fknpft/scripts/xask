@@ -1,6 +1,6 @@
 #!/bin/bash
 # xask — minimal routing protocol for cross-model orchestration
-# Usage: xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--gs] [-e <level>] [-o <file>] [--json] <model> "<query>" ["<context>"] ["<skill>"]
+# Usage: xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--model-id <id>] [--gs] [-e <level>] [-o <file>] [--json] <model> "<query>" ["<context>"] ["<skill>"]
 #
 # All dispatches route through `xbreed ask`. Always-on: suppression, bounded
 # non-interactive dispatch, godspeed forwarding, fast_mode (all Codex lanes).
@@ -12,7 +12,7 @@
 #
 # Flags: -d (debug) | -scp (scope; was -s, renamed 2026-04-24 — -s conflicted)
 #      | -r (rich) | --spk (spark) | -R (review) | -F (full) | --gpt55 (gpt-5.6-sol)
-#      | --gs (explicit godspeed SKILL load) | -e (effort) | -o (output-last-message) | --json
+#      | --model-id (exact provider model) | --gs (explicit godspeed SKILL load) | -e (effort) | -o (output-last-message) | --json
 #
 # codex model lanes:
 #   default:       gpt-5.4-mini (reasoning=low)
@@ -48,11 +48,14 @@ DEBUG=false
 SCOPE="entire project"
 RICH=false
 SPARK=false
+SPARK_REQUESTED=false
 REVIEW=false
 FULL=false
 GPT55=false
 FORCE_GS=false
 EFFORT=""
+MODEL_ID=""
+MODEL_FLAGS=()
 OUTPUT_LAST_MESSAGE=""
 EFFORT_FLAGS=()
 SPARK_FLAGS=()
@@ -73,15 +76,16 @@ while [[ "$1" == -* ]]; do
     --debug  | -d)   DEBUG=true; shift ;;
     --scope  | -scp) require_flag_value "$@"; SCOPE="$2"; shift 2 ;;
     --rich   | -r)   RICH=true; shift ;;
-    --spark  | --spk) SPARK=true; shift ;;
+    --spark  | --spk) SPARK=true; SPARK_REQUESTED=true; shift ;;
     --review | -R)   REVIEW=true; shift ;;
     --full   | -F)   FULL=true; shift ;;
     --gpt55) GPT55=true; shift ;;
+    --model-id) require_flag_value "$@"; MODEL_ID="$2"; shift 2 ;;
     --gs) FORCE_GS=true; shift ;;
     --effort | -e)   require_flag_value "$@"; EFFORT="$2"; shift 2 ;;
     --output-last-message | -o) require_flag_value "$@"; OUTPUT_LAST_MESSAGE="$2"; shift 2 ;;
     --json) JSON=true; shift ;;
-    *) echo "xask: unknown flag '$1' (valid: -d|--debug, -scp|--scope, -r|--rich, --spk|--spark, -R|--review, -F|--full, --gpt55, --gs, -e|--effort, -o|--output-last-message, --json)" >&2; exit 1 ;;
+    *) echo "xask: unknown flag '$1' (valid: -d|--debug, -scp|--scope, -r|--rich, --spk|--spark, -R|--review, -F|--full, --gpt55, --model-id, --gs, -e|--effort, -o|--output-last-message, --json)" >&2; exit 1 ;;
   esac
 done
 
@@ -91,6 +95,11 @@ if [ -n "$EFFORT" ]; then
     *) echo "xask: invalid effort level '$EFFORT' (use low|medium|high|xhigh)" >&2; exit 1 ;;
   esac
 fi
+
+if [ -n "$MODEL_ID" ] && { [ "$SPARK_REQUESTED" = true ] || [ "$REVIEW" = true ] || [ "$FULL" = true ] || [ "$GPT55" = true ]; }; then
+  echo "xask: --model-id cannot be combined with --spark, --review, --full, or --gpt55" >&2
+  exit 1
+fi
 MODEL="$1"
 QUERY="$2"
 CONTEXT="${3:-No prior context.}"
@@ -98,11 +107,12 @@ SKILL="${4:-godspeed}"
 
 # Structural default: codex delegations use spark unless caller asked for a
 # non-spark lane explicitly (effort/review/full/gpt55).
-if [ "$MODEL" = "codex" ] && [ -z "$EFFORT" ] && [ "$REVIEW" = false ] && [ "$FULL" = false ] && [ "$GPT55" = false ]; then
+if [ "$MODEL" = "codex" ] && [ -z "$MODEL_ID" ] && [ -z "$EFFORT" ] && [ "$REVIEW" = false ] && [ "$FULL" = false ] && [ "$GPT55" = false ]; then
   SPARK=true
 fi
 
 [ -n "$EFFORT" ] && EFFORT_FLAGS=(--effort "$EFFORT")
+[ -n "$MODEL_ID" ] && MODEL_FLAGS=(--model "$MODEL_ID")
 [ "$SPARK" = true ] && SPARK_FLAGS=(--spark)
 [ "$REVIEW" = true ] && REVIEW_FLAGS=(--review)
 [ "$FULL" = true ] && FULL_FLAGS=(--full)
@@ -144,7 +154,7 @@ TEMPLATE_DIR="${XBREED_DISPATCH_DIR:-$SCRIPT_DIR/../templates/dispatch}"
 TEMPLATE="$TEMPLATE_DIR/${DISPATCH_MODEL}.md"
 
 if [ -z "$MODEL" ] || [ -z "$QUERY" ]; then
-  echo "Usage: xask [-d|--debug] [-scp|--scope <scope>] [-r|--rich] [--spk|--spark] [-R|--review] [-F|--full] [-e|--effort <level>] [-o|--output-last-message <FILE>] [--json] <model> \"<query>\" [\"<context>\"] [\"<skill>\"]" >&2
+  echo "Usage: xask [-d|--debug] [-scp|--scope <scope>] [-r|--rich] [--spk|--spark] [-R|--review] [-F|--full] [--model-id <id>] [-e|--effort <level>] [-o|--output-last-message <FILE>] [--json] <model> \"<query>\" [\"<context>\"] [\"<skill>\"]" >&2
   exit 1
 fi
 
@@ -221,6 +231,7 @@ if [ "$DEBUG" = true ]; then
   echo "SPARK: $SPARK"
   echo "REVIEW: $REVIEW"
   echo "EFFORT: ${EFFORT:-<unset>}"
+  echo "MODEL_ID: ${MODEL_ID:-<default>}"
   echo "SCOPE: $SCOPE"
   echo "SKILL: $SKILL"
   echo "TEMPLATE: $TEMPLATE"
@@ -241,10 +252,10 @@ case "$MODEL" in
     if [ "$RICH" = true ]; then
       echo "xask: --rich is ignored for local gemma/HVM lane" >&2
     fi
-    xbreed ask gemma --with "$SKILL" "${EFFORT_FLAGS[@]}" "$PROMPT"
+    xbreed ask gemma --with "$SKILL" "${MODEL_FLAGS[@]}" "${EFFORT_FLAGS[@]}" "$PROMPT"
     ;;
   codex)
-    xbreed ask codex --with "$SKILL" "${SPARK_FLAGS[@]}" "${REVIEW_FLAGS[@]}" "${FULL_FLAGS[@]}" "${GPT55_FLAGS[@]}" "${EFFORT_FLAGS[@]}" "${OUTPUT_FLAGS[@]}" "${JSON_FLAGS[@]}" "$PROMPT"
+    xbreed ask codex --with "$SKILL" "${MODEL_FLAGS[@]}" "${SPARK_FLAGS[@]}" "${REVIEW_FLAGS[@]}" "${FULL_FLAGS[@]}" "${GPT55_FLAGS[@]}" "${EFFORT_FLAGS[@]}" "${OUTPUT_FLAGS[@]}" "${JSON_FLAGS[@]}" "$PROMPT"
     ;;
   *)
     echo "Unknown model: $MODEL. Use gemma (g- prefix / HVM) or codex." >&2
