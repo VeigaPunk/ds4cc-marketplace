@@ -174,7 +174,7 @@ class MarketplaceCatalogDriftTests(unittest.TestCase):
         compact_ssot = compact(ssot_text)
 
         self.assertIn(compact("planner wwkd · native"), compact(" ".join(gate_lines)))
-        self.assertIn(compact("scout / labrat / executor xask --spark --gs codex → gpt-5.4-mini"), compact(" ".join(gate_lines)))
+        self.assertIn(compact("scout / labrat / executor xask --spark --gs codex → gpt-5.6-luna"), compact(" ".join(gate_lines)))
         normalized_gates = compact(" ".join(gate_lines))
         critic_route = compact("critic Layer-0: heuer-planning → xask --gpt55 --gs -e low codex → gpt-5.6-sol")
         self.assertIn(critic_route, normalized_gates)

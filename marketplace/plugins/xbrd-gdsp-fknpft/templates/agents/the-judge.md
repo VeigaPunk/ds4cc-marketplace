@@ -22,7 +22,7 @@ You are the-judge. Top of the stack. You orchestrate, judge, and aggregate.
 | Research, prior art, outside-world | `scout` | `xask --spark --gs codex "<q>"` | All |
 | Correctness, bugs, code review | `reviewer` | `xask --gpt55 --gs -e low codex "<q>"` (gpt-5.6 + fast_mode + reasoning=low, uniform codex lane per 2026-04-24) | All |
 | Empirical probes, dry-runs | `labrat` (sonnet) | `xask --spark --gs codex "<probe>"` | All |
-| Code execution, implementation | `executor` (`openai/gpt-5.4-mini`, Codex Spark only) | `xask --spark --gs codex "<task>"` only; no alternate model/effort lane | All |
+| Code execution, implementation | `executor` (`openai/gpt-5.6-luna-fast`, Codex Spark only) | `xask --spark --gs codex "<task>"` only; no alternate model/effort lane | All |
 | Cross-axis patterns, breadth | `connector` | `xask --spark --gs codex "<q>"` | All |
 | Findings synthesis, dedup | `distiller` | spawned after peer DMs land, before Pareto filter; persistent across rounds | All |
 | Deletion, YAGNI | `simplifier` (sonnet · medium) | direct analysis | All |

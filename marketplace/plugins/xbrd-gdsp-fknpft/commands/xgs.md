@@ -59,7 +59,7 @@ Axis → profile mapping (see `~/.claude/commands/references/xbreed-shared.md` f
 - Research, prior art → `scout` (sonnet)
 - Correctness, bugs → `reviewer` (sonnet)
 - Empirical probes → `labrat` (sonnet)
-- Code execution → `executor` (`openai/gpt-5.4-mini`, Codex Spark only; no alternate model/effort lane)
+- Code execution → `executor` (`openai/gpt-5.6-luna-fast`, Codex Spark only; no alternate model/effort lane)
 - Cross-axis patterns → `connector` (sonnet)
 - Synthesis, dedup → `distiller` (sonnet)
 - Planning, Phase 0, WWKD sequencing → `the-planner` (fable · high, Layer-0 wwkd skill load)

@@ -79,7 +79,7 @@ controls; backend fulfillment still remains provider-controlled.
 
 Wrappers are not crossed with arbitrary catalog models. Their control cells are:
 
-- `gpt-5.4-mini/low` through the Spark lane
+- `gpt-5.6-luna/low` through the Spark lane
 - `gpt-5.6-sol/{low,medium,high,xhigh}` through the gpt55 lane
 
 This prevents a fixed wrapper model from being mislabeled as an arbitrary

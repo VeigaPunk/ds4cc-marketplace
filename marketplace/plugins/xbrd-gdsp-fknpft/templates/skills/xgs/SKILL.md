@@ -52,7 +52,7 @@ Axis -> profile mapping (from the-judge.md dispatch table):
 - Research, prior art, outside-world -> `scout` (sonnet)
 - Correctness, bugs, code review -> `reviewer` (sonnet)
 - Empirical probes, dry-runs -> `labrat` (sonnet) — CC native probes (all-Claude mode: no xask)
-- Code execution, implementation -> `executor` (`openai/gpt-5.4-mini`, Codex Spark only; no alternate model/effort lane)
+- Code execution, implementation -> `executor` (`openai/gpt-5.6-luna-fast`, Codex Spark only; no alternate model/effort lane)
 - Cross-axis patterns, breadth -> `connector` (sonnet)
 - Findings synthesis, dedup -> `distiller` (sonnet)
 - Complexity reduction, YAGNI -> `simplifier` (sonnet)

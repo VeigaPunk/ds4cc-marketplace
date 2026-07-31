@@ -597,7 +597,7 @@ fn ask_codex_spark_wins_over_review_and_full() {
         .expect("missing -m in spark argv");
     assert_eq!(
         argv[m_idx + 1],
-        "gpt-5.4-mini",
+        "gpt-5.6-luna",
         "spark must win over review/full and pin spark model: {argv:?}"
     );
     assert!(

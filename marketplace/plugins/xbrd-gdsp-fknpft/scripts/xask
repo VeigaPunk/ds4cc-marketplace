@@ -15,8 +15,8 @@
 #      | --model-id (exact provider model) | --gs (explicit godspeed SKILL load) | -e (effort) | -o (output-last-message) | --json
 #
 # codex model lanes:
-#   default:       gpt-5.4-mini (reasoning=low)
-#   --spark:       gpt-5.4-mini + reasoning=low (labrat probes)
+#   default:       gpt-5.6-luna (reasoning=low)
+#   --spark:       gpt-5.6-luna + reasoning=low (labrat probes)
 #   --review / -R: gpt-5.6-sol + fast_mode (reviewer/critic/sentinel default per 2026-04-18)
 #   -R --full/-F:  gpt-5.6-sol full + fast_mode (the-revenger RECON escape hatch, 1.05M ctx)
 #   --gpt55:       gpt-5.6-sol + fast_mode (xbrd-exec bench xask-arm measurement, 2026-04-24)

@@ -48,7 +48,7 @@ Axis -> profile mapping (from the-judge.md dispatch table):
 - Research, prior art, outside-world -> `scout` (sonnet) — delegates to `xask --spark --gs codex`
 - Correctness, bugs, code review -> `reviewer` (sonnet) — delegates to `xask --gpt55 --gs -e low codex`
 - Empirical probes, dry-runs -> `labrat` (sonnet) — delegates to `xask --spark --gs codex`
-- Code execution, implementation -> `executor` (`openai/gpt-5.4-mini`, Codex Spark only) — delegates only to `xask --spark --gs codex`; no alternate model/effort lane
+- Code execution, implementation -> `executor` (`openai/gpt-5.6-luna-fast`, Codex Spark only) — delegates only to `xask --spark --gs codex`; no alternate model/effort lane
 - Cross-axis patterns, breadth -> `connector` (sonnet) — delegates to `xask --spark --gs codex`
 - Findings synthesis, dedup -> `distiller` (sonnet) — in-session text synthesis (no xask)
 - Complexity reduction, YAGNI -> `simplifier` (sonnet) — uses CC native tools

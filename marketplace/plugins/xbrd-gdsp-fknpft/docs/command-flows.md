@@ -94,7 +94,7 @@ flowchart TD
     E -->|codex| Cdx{codex lane}
     E -->|gemini| H["gemini -m gemini-3.1-pro-preview \n-p <prompt> --approval-mode yolo \n(env_remove GEMINI_API_KEY; reads ~/.gemini/oauth_creds.json)"]
 
-    Cdx -->|--spark| Csp["codex exec -m gpt-5.4-mini \n-c model_reasoning_effort=low \n(fast_mode enabled)"]
+    Cdx -->|--spark| Csp["codex exec -m gpt-5.6-luna \n-c model_reasoning_effort=low \n(fast_mode enabled)"]
     Cdx -->|--gpt55| Cg5["codex exec -m gpt-5.6-sol \n-c features.fast_mode=true \n-c model_reasoning_effort=low for role routes \n**xbreed uniform codex lane 2026-04-24**"]
     Cdx -->|"-R / --review"| Crv["codex exec -m gpt-5.6-sol \n-c features.fast_mode=true \n(legacy; -R -F escapes to full gpt-5.6-sol)"]
     Cdx -->|default| Cdf["codex exec -m gpt-5.6-sol \n-c features.fast_mode=true \n-c model_reasoning_effort=low"]
@@ -123,7 +123,7 @@ flowchart TD
 
 | Flag | Model | Reasoning | fast_mode | Used by |
 |------|-------|-----------|-----------|---------|
-| `--spark` | `gpt-5.4-mini` | low | on | labrat, executor, mutation-tester (single, ≤4 targets) |
+| `--spark` | `gpt-5.6-luna` | low | on | labrat, executor, mutation-tester (single, ≤4 targets) |
 | `--gpt55` | `gpt-5.6-sol` | low for all role routes | on | **xbreed uniform codex lane (2026-04-24)**: reviewer/sentinel/critic/the-revenger and breadth roles at `-e low` |
 | `-R -F` / `--review --full` | `gpt-5.6-sol` (full, 1.05M ctx) | low by default | on | manual escape hatch for larger context, not higher effort |
 | `-R` / `--review` | `gpt-5.6-sol` | low by default | on | legacy; superseded by `--gpt55 -e low` in xbreed dispatch |
@@ -462,7 +462,7 @@ marker. The suffix does not replace the inherited directive.
 
 **Codex dispatch lanes** (`src/ask.rs` `build_codex_ask_with_loadout`):
 
-- `--spark` → `gpt-5.4-mini` + `model_reasoning_effort=low` (fast_mode enabled) — labrat/executor/mutation-tester-single
+- `--spark` → `gpt-5.6-luna` + `model_reasoning_effort=low` (fast_mode enabled) — labrat/executor/mutation-tester-single
 - `--gpt55` → `gpt-5.6-sol` + `features.fast_mode=true` — every role route uses `-e low`, including reviewer/sentinel/critic/the-revenger and breadth roles
 - `-R -F` / `--review --full` → `gpt-5.6-sol` (full, 1.05M ctx) + `features.fast_mode=true` — escape hatch, reserved for large-context RECON where extra headroom is needed
 - `-R` / `--review` → `gpt-5.6-sol` + `features.fast_mode=true` — legacy review lane; superseded by `--gpt55 -e low` in xbreed dispatch

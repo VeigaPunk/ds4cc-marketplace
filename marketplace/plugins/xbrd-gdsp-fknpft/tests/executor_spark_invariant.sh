@@ -9,7 +9,7 @@ fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 
 for file in "$CANONICAL" "$TEMPLATE"; do
   [[ -f "$file" ]] || fail "missing executor declaration: $file"
-  grep -Fxq 'model: openai/gpt-5.4-mini' "$file" || fail "executor model is not pinned in $file"
+  grep -Fxq 'model: openai/gpt-5.6-luna-fast' "$file" || fail "executor model is not pinned in $file"
   grep -Fq 'Codex Spark only.' "$file" || fail "Spark-only declaration missing in $file"
   grep -Fq 'Never switch the executor or its implementation delegation to another model or effort lane.' "$file" \
     || fail "executor escape-hatch prohibition missing in $file"
@@ -34,9 +34,9 @@ for file in "${active[@]}"; do
   done <"$file"
 done
 
-grep -Fq '| **executor** | `openai/gpt-5.4-mini` (Codex Spark only)' "$ROOT/AGENTS.md" \
+grep -Fq '| **executor** | `openai/gpt-5.6-luna-fast` (Codex Spark only)' "$ROOT/AGENTS.md" \
   || fail 'active roster does not identify executor as Codex Spark only'
-grep -Fq '| Code execution | `executor` | `openai/gpt-5.4-mini` (Codex Spark only)' "$ROOT/commands/references/xbreed-shared.md" \
+grep -Fq '| Code execution | `executor` | `openai/gpt-5.6-luna-fast` (Codex Spark only)' "$ROOT/commands/references/xbreed-shared.md" \
   || fail 'SSoT routing row does not identify executor as Codex Spark only'
 
-printf 'PASS: executor is pinned to openai/gpt-5.4-mini / Codex Spark across canonical and active surfaces\n'
+printf 'PASS: executor is pinned to openai/gpt-5.6-luna-fast / Codex Spark across canonical and active surfaces\n'

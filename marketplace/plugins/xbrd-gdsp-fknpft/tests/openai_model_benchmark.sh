@@ -133,7 +133,7 @@ check_default_run() {
   jq -s -e 'all(.[]; .status == "planned" and .ttft_s == null and .tpot_s == null and .decode_tok_s == null and .goodput_label == "reported_output_tokens_per_invocation_second")' "$run/attempts.jsonl" >/dev/null
   jq -s -e 'any(.[]; .command_redacted[-1] == "<PROMPT>")' "$run/attempts.jsonl" >/dev/null
   jq -s -e 'all(.[]; has("prompt_text") | not)' "$run/attempts.jsonl" >/dev/null
-  jq -s -e 'any(.[]; .route == "xask" and .lane == "spark" and .requested_model == "gpt-5.4-mini" and .requested_effort == "low")' "$run/attempts.jsonl" >/dev/null
+  jq -s -e 'any(.[]; .route == "xask" and .lane == "spark" and .requested_model == "gpt-5.6-luna" and .requested_effort == "low")' "$run/attempts.jsonl" >/dev/null
   jq -s -e 'any(.[]; .route == "xbreed" and .lane == "gpt55" and .requested_model == "gpt-5.6-sol" and .requested_effort == "xhigh")' "$run/attempts.jsonl" >/dev/null
   jq -s -e 'any(.[]; .route == "raw" and .requested_model == "gpt-5.7-ultra" and .requested_effort == "max")' "$run/attempts.jsonl" >/dev/null
   jq -s -e 'any(.[]; .route == "raw" and .command_redacted[-1] == "<PROMPT>")' "$run/attempts.jsonl" >/dev/null

@@ -309,9 +309,9 @@ run_attempt(){
   local -a cmd=()
   case "$route:$lane:$requested_model:$requested_effort" in
     raw:raw-fast:*) cmd=("$fnm_path" exec "--using=$nodev" "$codex_path" exec --skip-git-repo-check --color never --ephemeral --sandbox workspace-write --json -c approval_policy=never -c include_permissions_instructions=false -c include_apps_instructions=false -c include_environment_context=false -c service_tier=fast -c features.fast_mode=true -m "$requested_model" -c "model_reasoning_effort=$requested_effort" "$prompt_text") ;;
-    xask:spark:gpt-5.4-mini:low) cmd=("$xask_path" --spark --json codex "$prompt_text") ;;
+    xask:spark:gpt-5.6-luna:low) cmd=("$xask_path" --spark --json codex "$prompt_text") ;;
     xask:gpt55:gpt-5.6-sol:low|xask:gpt55:gpt-5.6-sol:medium|xask:gpt55:gpt-5.6-sol:high|xask:gpt55:gpt-5.6-sol:xhigh) cmd=("$xask_path" --gpt55 --effort "$requested_effort" --json codex "$prompt_text") ;;
-    xbreed:spark:gpt-5.4-mini:low) cmd=("$xbreed_path" ask codex --spark --json "$prompt_text") ;;
+    xbreed:spark:gpt-5.6-luna:low) cmd=("$xbreed_path" ask codex --spark --json "$prompt_text") ;;
     xbreed:gpt55:gpt-5.6-sol:low|xbreed:gpt55:gpt-5.6-sol:medium|xbreed:gpt55:gpt-5.6-sol:high|xbreed:gpt55:gpt-5.6-sol:xhigh) cmd=("$xbreed_path" ask codex --gpt55 --effort "$requested_effort" --json "$prompt_text") ;;
     *) die "unreachable trial $route/$lane/$requested_model/$requested_effort" ;;
   esac
@@ -511,7 +511,7 @@ main(){
   done < <(catalog_cells "$run_dir/catalog.json")
   ((${#raw_cells[@]})) || die "catalog produced zero raw cells"
   wrapper_cells=(
-    $'spark\tgpt-5.4-mini\tlow'
+    $'spark\tgpt-5.6-luna\tlow'
     $'gpt55\tgpt-5.6-sol\tlow'
     $'gpt55\tgpt-5.6-sol\tmedium'
     $'gpt55\tgpt-5.6-sol\thigh'

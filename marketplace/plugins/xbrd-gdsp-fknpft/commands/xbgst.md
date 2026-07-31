@@ -67,7 +67,7 @@ Axis → profile mapping (see `~/.claude/commands/references/xbreed-shared.md` f
 - Research, prior art → `scout` — `xask --spark --gs codex`
 - Correctness, bugs → `reviewer` — `xask --gpt55 --gs -e low codex`
 - Empirical probes → `labrat` — `xask --spark --gs codex`
-- Code execution → `executor` (`openai/gpt-5.4-mini`, Codex Spark only) — `xask --spark --gs codex` only; no alternate model/effort lane
+- Code execution → `executor` (`openai/gpt-5.6-luna-fast`, Codex Spark only) — `xask --spark --gs codex` only; no alternate model/effort lane
 - Cross-axis patterns → `connector` — `xask --spark --gs codex`
 - Synthesis, dedup → `distiller` — in-session
 - Complexity reduction → `simplifier` — CC native

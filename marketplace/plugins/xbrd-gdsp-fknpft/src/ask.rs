@@ -152,7 +152,7 @@ pub const GEMMA_DEFAULT_BIN: &str = "gemma-hvm";
 pub const GEMINI_DEFAULT_MODEL: &str = GEMMA_DEFAULT_MODEL;
 
 /// The codex model used for spark (cheap/fast/expendable) probes.
-pub const CODEX_SPARK_MODEL: &str = "gpt-5.4-mini";
+pub const CODEX_SPARK_MODEL: &str = "gpt-5.6-luna";
 
 /// The codex model used for the `-R -F` escape hatch — full `gpt-5.6-sol`,
 /// codex's full-capacity model in v0.120.0 (1.05M context window). Reserved
