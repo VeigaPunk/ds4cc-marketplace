@@ -48,6 +48,23 @@
       "source": "./artifacts/godspeed-core-0.2.0.zip"
     },
     {
+      "id": "heuer-planning",
+      "displayName": "Heuer Planning",
+      "version": "0.1.0",
+      "description": "Structured Heuer-style brainstorming and planning skill (ACH, assumptions, devil's advocate)",
+      "homepage": "https://github.com/VeigaPunk/myskills/tree/main/heuer-planning",
+      "keywords": [
+        "heuer",
+        "planning",
+        "ach",
+        "assumptions",
+        "brainstorming",
+        "skills",
+        "kimi-code"
+      ],
+      "source": "./artifacts/heuer-planning-0.1.0.zip"
+    },
+    {
       "id": "infinizoom",
       "displayName": "Infinizoom (VeigaPunk)",
       "version": "0.2.0",

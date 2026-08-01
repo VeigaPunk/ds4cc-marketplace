@@ -5,31 +5,6 @@
   },
   "plugins": [
     {
-      "name": "spoderman",
-      "source": {
-        "source": "local",
-        "path": "./plugins/spoderman"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Developer"
-    },
-    {
-      "name": "xbrd-gdsp-fknpft",
-      "source": {
-        "source": "local",
-        "path": "./plugins/xbrd-gdsp-fknpft"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Developer",
-      "version": "8.16.137"
-    },
-    {
       "name": "aaronplug",
       "source": {
         "source": "local",
@@ -42,10 +17,10 @@
       "category": "Developer"
     },
     {
-      "name": "infinizoom",
+      "name": "ds4cc",
       "source": {
         "source": "local",
-        "path": "./plugins/infinizoom"
+        "path": "./plugins/ds4cc"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -66,54 +41,6 @@
       "category": "Developer"
     },
     {
-      "name": "the-puppeteer",
-      "source": {
-        "source": "local",
-        "path": "./plugins/the-puppeteer"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Developer"
-    },
-    {
-      "name": "the-musketeer",
-      "source": {
-        "source": "local",
-        "path": "./plugins/the-musketeer"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Developer"
-    },
-    {
-      "name": "the-almanacker",
-      "source": {
-        "source": "local",
-        "path": "./plugins/the-almanacker"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Developer"
-    },
-    {
-      "name": "the-kimiraikoner",
-      "source": {
-        "source": "local",
-        "path": "./plugins/the-kimiraikoner"
-      },
-      "policy": {
-        "installation": "AVAILABLE",
-        "authentication": "ON_INSTALL"
-      },
-      "category": "Developer"
-    },
-    {
       "name": "godspeed-core",
       "source": {
         "source": "local",
@@ -126,10 +53,23 @@
       "category": "Developer"
     },
     {
-      "name": "myagents",
+      "name": "heuer-planning",
       "source": {
         "source": "local",
-        "path": "./plugins/myagents"
+        "path": "./plugins/heuer-planning"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer",
+      "version": "0.1.0"
+    },
+    {
+      "name": "infinizoom",
+      "source": {
+        "source": "local",
+        "path": "./plugins/infinizoom"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -138,10 +78,10 @@
       "category": "Developer"
     },
     {
-      "name": "the-netsshark",
+      "name": "myagents",
       "source": {
         "source": "local",
-        "path": "./plugins/the-netsshark"
+        "path": "./plugins/myagents"
       },
       "policy": {
         "installation": "AVAILABLE",
@@ -174,16 +114,89 @@
       "category": "Developer"
     },
     {
-      "name": "ds4cc",
+      "name": "spoderman",
       "source": {
         "source": "local",
-        "path": "./plugins/ds4cc"
+        "path": "./plugins/spoderman"
       },
       "policy": {
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
       "category": "Developer"
+    },
+    {
+      "name": "the-almanacker",
+      "source": {
+        "source": "local",
+        "path": "./plugins/the-almanacker"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer"
+    },
+    {
+      "name": "the-kimiraikoner",
+      "source": {
+        "source": "local",
+        "path": "./plugins/the-kimiraikoner"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer"
+    },
+    {
+      "name": "the-musketeer",
+      "source": {
+        "source": "local",
+        "path": "./plugins/the-musketeer"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer"
+    },
+    {
+      "name": "the-netsshark",
+      "source": {
+        "source": "local",
+        "path": "./plugins/the-netsshark"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer"
+    },
+    {
+      "name": "the-puppeteer",
+      "source": {
+        "source": "local",
+        "path": "./plugins/the-puppeteer"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer"
+    },
+    {
+      "name": "xbrd-gdsp-fknpft",
+      "source": {
+        "source": "local",
+        "path": "./plugins/xbrd-gdsp-fknpft"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer",
+      "version": "8.16.137"
     },
     {
       "name": "xbrd-selector",

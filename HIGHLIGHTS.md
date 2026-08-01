@@ -6,7 +6,7 @@
 
 ## What changed
 
-### From docs-only to actionable — all 16 plugins
+### From docs-only to actionable — all 17 plugins
 
 Every plugin now ships a `SKILL.md` with real, copy-pasteable commands. Validation _rejects_ boilerplate ("Read the README…") and only accepts files that contain:
 
@@ -163,7 +163,7 @@ The validator's `validate_marketplace_dir(root)` auto-detects which layout is pr
 codex plugin marketplace add .
 # → Added marketplace `ds4cc` from /home/vhpnk/repos/ds4cc-marketplace.
 
-# Install all 16 plugins
+# Install all 17 plugins
 for plugin in spoderman xbrd-gdsp-fknpft aaronplug infinizoom \
               godspeed-codex-command the-puppeteer godspeed-core \
               myagents mycommands myskills agent-wall agent-pip ds4cc \
@@ -187,7 +187,7 @@ ds4cc-marketplace/
 ├── .agents/plugins/
 │   └── marketplace.json          ← canonical Codex layout (name: "ds4cc", paths: ./marketplace/plugins/<name>)
 ├── marketplace/
-│   ├── marketplace.json          ← web/CI layout (16 plugins, paths: ./plugins/<name>)
+│   ├── marketplace.json          ← web/CI layout (17 plugins, paths: ./plugins/<name>)
 │   ├── plugins/<name>/
 │   │   ├── .codex-plugin/
 │   │   │   └── plugin.json       ← manifest: name, version, interface, capabilities
@@ -245,7 +245,7 @@ Per instructions: no `git add`, no `git commit`, no `git push`. All changes are 
 
 | File | Change |
 |---|---|
-| `.agents/plugins/marketplace.json` | Updated: name `"ds4cc"`, 16 plugins, paths `./marketplace/plugins/<name>` |
+| `.agents/plugins/marketplace.json` | Updated: name `"ds4cc"`, 17 plugins, paths `./marketplace/plugins/<name>` |
 | `.gitignore` | Updated: allow `.agents/plugins/marketplace.json` to be tracked |
 | `marketplace/validator/src/lib.rs` | Added `validate_marketplace_dir()`, `validate_marketplace_with_base()`, dual-path convention support |
 | `marketplace/validator/src/main.rs` | Updated to use `validate_marketplace_dir()` (auto-detects layout) |

@@ -106,6 +106,33 @@
       }
     },
     {
+      "name": "heuer-planning",
+      "version": "0.1.0",
+      "description": "Structured Heuer-style brainstorming and planning skill (ACH, assumptions, devil's advocate)",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/heuer-planning"
+      },
+      "homepage": "https://github.com/VeigaPunk/myskills/tree/main/heuer-planning",
+      "keywords": [
+        "heuer-planning",
+        "ds4cc",
+        "veigapunk",
+        "planning",
+        "heuer"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "ds4cc.com",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
       "name": "infinizoom",
       "version": "0.2.0",
       "description": "Visualization workflow and UI demos",
@@ -150,34 +177,6 @@
         "veigapunk.github.io",
         "ds4cc.com",
         "app.ds4cc.com"
-      ],
-      "author": {
-        "name": "VeigaPunk"
-      }
-    },
-    {
-      "name": "the-netsshark",
-      "version": "0.2.0",
-      "description": "Empirical network configuration audits with adversarial validation.",
-      "category": "development",
-      "source": {
-        "type": "local",
-        "path": "./marketplace/plugins/the-netsshark"
-      },
-      "homepage": "https://ds4cc.com",
-      "keywords": [
-        "the-netsshark",
-        "network",
-        "dns",
-        "routing",
-        "proxy",
-        "firewall",
-        "ds4cc"
-      ],
-      "domains": [
-        "ds4cc.com",
-        "app.ds4cc.com",
-        "github.com/VeigaPunk/ds4cc-marketplace"
       ],
       "author": {
         "name": "VeigaPunk"
@@ -330,6 +329,34 @@
         "veigapunk.github.io",
         "ds4cc.com",
         "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "the-netsshark",
+      "version": "0.2.0",
+      "description": "Empirical network configuration audits with adversarial validation.",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/the-netsshark"
+      },
+      "homepage": "https://ds4cc.com",
+      "keywords": [
+        "the-netsshark",
+        "network",
+        "dns",
+        "routing",
+        "proxy",
+        "firewall",
+        "ds4cc"
+      ],
+      "domains": [
+        "ds4cc.com",
+        "app.ds4cc.com",
+        "github.com/VeigaPunk/ds4cc-marketplace"
       ],
       "author": {
         "name": "VeigaPunk"

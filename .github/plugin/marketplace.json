@@ -14,7 +14,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.2.0",
+      "description": "Academic paper retrieval workflows"
     },
     {
       "name": "ds4cc",
@@ -26,7 +28,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.3.0",
+      "description": "DS4CC marketplace meta-plugin: discover/install plugins and run ds4cc/orch mode (parallel Godspeed specialists)."
     },
     {
       "name": "godspeed-codex-command",
@@ -38,7 +42,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.2.0",
+      "description": "Command-mode bootstrap and Codex posture controls"
     },
     {
       "name": "godspeed-core",
@@ -50,7 +56,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.2.0",
+      "description": "Adaptive execution doctrine and Pareto walk policy"
     },
     {
       "name": "heuer-planning",
@@ -63,7 +71,8 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Developer",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "description": "Structured Heuer-style brainstorming and planning skill (ACH, assumptions, devil's advocate)"
     },
     {
       "name": "infinizoom",
@@ -75,7 +84,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.2.0",
+      "description": "Visualization workflow and UI demos"
     },
     {
       "name": "myagents",
@@ -87,7 +98,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.2.0",
+      "description": "Curated agent profiles for development, review, research, and orchestration."
     },
     {
       "name": "mycommands",
@@ -99,7 +112,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.2.0",
+      "description": "Reusable command packs for recurring workflows"
     },
     {
       "name": "myskills",
@@ -111,7 +126,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.2.0",
+      "description": "Curated skill workflows for your active tasks"
     },
     {
       "name": "spoderman",
@@ -123,7 +140,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.2.0",
+      "description": "Attack harness workflows and hook safety research"
     },
     {
       "name": "the-almanacker",
@@ -135,7 +154,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.2.0",
+      "description": "NotebookLM web UI automation through agent-browser"
     },
     {
       "name": "the-kimiraikoner",
@@ -147,7 +168,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.1.0",
+      "description": "Kimi web UI automation through agent-browser"
     },
     {
       "name": "the-musketeer",
@@ -159,7 +182,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.3.0",
+      "description": "Grok web UI automation through agent-browser"
     },
     {
       "name": "the-netsshark",
@@ -171,7 +196,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.2.0",
+      "description": "Empirical network configuration audits with adversarial validation and Pareto-ranked recommendations."
     },
     {
       "name": "the-puppeteer",
@@ -183,7 +210,9 @@
         "installation": "AVAILABLE",
         "authentication": "ON_INSTALL"
       },
-      "category": "Developer"
+      "category": "Developer",
+      "version": "0.2.0",
+      "description": "Web UI task execution and long-running assistant flows"
     },
     {
       "name": "xbrd-gdsp-fknpft",
@@ -196,7 +225,8 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Developer",
-      "version": "8.16.137"
+      "version": "8.16.137",
+      "description": "Multimodel dispatch orchestration and benchmark workflows"
     },
     {
       "name": "xbrd-selector",
@@ -209,7 +239,8 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Developer",
-      "version": "0.1.0"
+      "version": "0.1.0",
+      "description": "Rust-only model selection and dispatch helper for xbrd workflows."
     }
   ]
 }

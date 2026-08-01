@@ -1,0 +1,11 @@
+{
+  "name": "heuer-planning",
+  "version": "0.1.0",
+  "description": "Structured Heuer-style brainstorming and planning skill (ACH, assumptions, devil's advocate)",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/myskills",
+  "homepage": "https://github.com/VeigaPunk/myskills/tree/main/heuer-planning",
+  "skills": "./skills/"
+}

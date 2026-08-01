@@ -1,0 +1,27 @@
+{
+  "name": "heuer-planning",
+  "version": "0.1.0",
+  "description": "Structured Heuer-style brainstorming and planning skill (ACH, assumptions, devil's advocate)",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/myskills/tree/main/heuer-planning",
+  "license": "MIT",
+  "keywords": [
+    "heuer",
+    "planning",
+    "ach",
+    "assumptions",
+    "brainstorming",
+    "skills",
+    "kimi-code"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Heuer Planning",
+    "shortDescription": "Structured Heuer-style planning and devil's-advocate brainstorming",
+    "longDescription": "Standalone skill for rigorous co-planning using Heuer-inspired structured analytic techniques. Install separately; not wired into orchestration plugins.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/myskills/tree/main/heuer-planning"
+  }
+}

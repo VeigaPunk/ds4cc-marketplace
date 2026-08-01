@@ -1,0 +1,30 @@
+{
+  "name": "heuer-planning",
+  "version": "0.1.0",
+  "description": "Standalone Heuer planning skill: structured analytic techniques for rigorous co-planning and assumption pressure-testing.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Heuer Planning",
+    "shortDescription": "Structured Heuer-style planning and devil's-advocate brainstorming",
+    "longDescription": "Standalone skill implementing Richard J. Heuer Jr.–inspired structured analytic techniques (ACH, key assumptions check, devil's advocacy, pre-mortem, indicators) for rigorous collaborative planning. Not wired into other plugins — install and invoke on demand.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [
+      "Structured Planning",
+      "Assumption Testing",
+      "Analysis of Competing Hypotheses",
+      "Devil's Advocacy"
+    ],
+    "defaultPrompt": [
+      "Help me plan this with heuer-planning rigor.",
+      "Be my devil's advocate on this design.",
+      "Pressure-test the assumptions in this idea."
+    ]
+  },
+  "homepage": "https://github.com/VeigaPunk/myskills/tree/main/heuer-planning",
+  "repository": "https://github.com/VeigaPunk/myskills",
+  "license": "MIT"
+}

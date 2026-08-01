@@ -4,7 +4,7 @@
 
 Static plugin payloads for **Grok Build**, **Codex**, **Kimi Code CLI**, and **OpenCode**. OpenCode agents ship through a dependency-free bootstrap script (OpenCode has no marketplace protocol).
 
-Sixteen curated plugins, Rust-validated and curation-gated. Register one repo, install what you need, ship.
+Seventeen curated plugins, Rust-validated and curation-gated. Register one repo, install what you need, ship.
 
 | Host | Catalog |
 | --- | --- |
@@ -113,7 +113,7 @@ npm test
 
 Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `app.ds4cc.com`, and follow `apps-sdk/SUBMISSION.md` for the OpenAI plugin portal fields and tests.
 
-## Plugins (16)
+## Plugins (17)
 
 | Plugin | Category | Description |
 |---|---|---|
@@ -130,6 +130,7 @@ Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `a
 | `myagents` | Developer | Curated agent workflow launchpad |
 | `mycommands` | Developer | Reusable command packs & shell routines |
 | `myskills` | Developer | Curated skill inventory & workflow helpers |
+| `heuer-planning` | Developer | Standalone Heuer-style structured planning skill |
 | `agent-wall` | Developer | Handoff checkpoints & session continuity |
 | `agent-pip` | Developer | Multi-panel tmux agent terminal dashboard in Rust |
 | `ds4cc` | Developer | Marketplace meta-plugin (discover, install, manage) |

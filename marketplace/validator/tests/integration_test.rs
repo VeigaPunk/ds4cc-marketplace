@@ -384,6 +384,7 @@ fn test_expected_plugins_present() {
         "myagents",
         "mycommands",
         "myskills",
+        "heuer-planning",
         "agent-wall",
         "ds4cc",
     ];
@@ -627,7 +628,7 @@ fn test_fnm_node_isolation() {
 // ─── Test 13: Canonical .agents/plugins/marketplace.json validates ────────────
 // Validates the Codex-native layout at <repo-root>/.agents/plugins/marketplace.json
 // using validate_marketplace_dir(), which resolves plugin paths relative to the
-// repo root (not the json file's parent). All 16 plugins must pass with no errors.
+// repo root (not the json file's parent). All 17 plugins must pass with no errors.
 
 #[test]
 fn test_canonical_agents_layout_validates() {
@@ -649,8 +650,8 @@ fn test_canonical_agents_layout_validates() {
     );
 }
 
-// ─── Test 13: Real codex plugin list shows all 16 ds4cc plugins ──────────────
-// Evidence gate: when ds4cc is registered, runs `codex plugin list` and asserts all 16 plugin names appear
+// ─── Test 13: Real codex plugin list shows all 17 ds4cc plugins ──────────────
+// Evidence gate: when ds4cc is registered, runs `codex plugin list` and asserts all 17 plugin names appear
 // in the output under the `ds4cc` marketplace section.
 
 #[test]
@@ -694,6 +695,7 @@ fn test_codex_plugin_list_ds4cc_complete() {
         "myagents@ds4cc",
         "mycommands@ds4cc",
         "myskills@ds4cc",
+        "heuer-planning@ds4cc",
         "agent-wall@ds4cc",
         "agent-pip@ds4cc",
         "ds4cc@ds4cc",

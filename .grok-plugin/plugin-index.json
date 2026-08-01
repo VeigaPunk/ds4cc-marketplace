@@ -45,6 +45,17 @@
         ]
       }
     },
+    "heuer-planning": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "heuer-planning",
+            "description": "Structured Heuer-style planning: ACH, key assumptions check, devil's advocacy, pre-mortem."
+          }
+        ]
+      }
+    },
     "infinizoom": {
       "version": "0.2.0",
       "components": {
@@ -203,6 +214,23 @@
         ]
       }
     },
+    "the-netsshark": {
+      "version": "0.2.0",
+      "components": {
+        "skills": [
+          {
+            "name": "the-netsshark-docs",
+            "description": "Audit connectivity, DNS, routing, proxies, firewalls, MTU, privacy, and network reliability with empirical probes and safe rollback plans."
+          }
+        ],
+        "agents": [
+          {
+            "name": "the-netsshark",
+            "description": "the-netsshark.agent"
+          }
+        ]
+      }
+    },
     "the-puppeteer": {
       "version": "0.2.0",
       "components": {
@@ -232,23 +260,6 @@
           {
             "name": "xbrd-selector-docs",
             "description": "Install and run xbrd-selector through verified build commands and a Ratatui TUI."
-          }
-        ]
-      }
-    },
-    "the-netsshark": {
-      "version": "0.2.0",
-      "components": {
-        "skills": [
-          {
-            "name": "the-netsshark-docs",
-            "description": "Audit connectivity, DNS, routing, proxies, firewalls, MTU, privacy, and network reliability with empirical probes and safe rollback plans."
-          }
-        ],
-        "agents": [
-          {
-            "name": "the-netsshark",
-            "description": "the-netsshark.agent"
           }
         ]
       }
