@@ -23,31 +23,35 @@ Sekhmet is **always available to be called**: any agent, labrat swarm, mutation 
 
 ```bash
 cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
-# or from a local clone:
-# cargo install --path /path/to/xbrd-spark --force
+# installs both: sekhmet + xbrd-spark
 ```
 
-Requires `codex` on `PATH` for live runs (`--dry-run` needs neither codex nor xask).
+**Runtime:** Codex Titanium (`codex-titanium` preferred, or `CODEX_BIN`).  
+**Model:** `gpt-5.3-codex-spark` (`XBRD_SPARK_MODEL`).  
+`--dry-run` needs neither titanium nor xask.
 
 ## CLI
 
 ```bash
 # Offline gate / dry-run (full namespace + stub + NDJSON)
-xbrd-spark run --dry-run --task "probe" --root "$(mktemp -d)"
+sekhmet run --dry-run --task "probe" --root "$(mktemp -d)"
 
-# Live direct (prefer codex over xask)
-xbrd-spark run --direct --timeout 90 --task "Reply with SPARK_OK"
+# Live on Codex Titanium (prefer --direct)
+sekhmet run --direct --timeout 90 --task "Reply with SPARK_OK"
+
+# Swarm: up to 64 concurrent Titanium runners (default -j 16)
+printf 't1\nt2\nt3\n' | sekhmet swarm --direct -j 32 --tasks-file - --root "$(mktemp -d)"
 
 # Read-only sandbox
-xbrd-spark run --ro --task "..."
+sekhmet run --ro --task "..."
 
 # Scope snapshot into workspace
-xbrd-spark run --scope /path/to/dir --direct --task "..."
+sekhmet run --scope /path/to/dir --direct --task "..."
 
 # Collect / status / gc
-xbrd-spark collect <id> --root "$ROOT"
-xbrd-spark status <id> --root "$ROOT"
-xbrd-spark gc --max-age 2 --root "$ROOT"
+sekhmet collect <id> --root "$ROOT"
+sekhmet status <id> --root "$ROOT"
+sekhmet gc --max-age 2 --root "$ROOT"
 ```
 
 ## Install this marketplace plugin

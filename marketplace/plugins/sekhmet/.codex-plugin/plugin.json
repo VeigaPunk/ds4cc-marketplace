@@ -1,7 +1,7 @@
 {
   "name": "sekhmet",
-  "version": "0.1.0",
-  "description": "Sekhmet — swarm dispatch substrate (layer 3 of xbreed) for Codex marketplace access.",
+  "version": "0.1.1",
+  "description": "Sekhmet — always-available Codex Titanium swarm substrate (xbreed L3, max 64 runners).",
   "author": {
     "name": "VeigaPunk"
   },

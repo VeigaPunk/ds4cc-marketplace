@@ -141,7 +141,7 @@
         "authentication": "ON_INSTALL"
       },
       "category": "Developer",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "description": "Sekhmet — always-available swarm dispatch substrate (layer 3 of xbreed). Pure L3 namespaced codex-spark. Rust only."
     },
     {

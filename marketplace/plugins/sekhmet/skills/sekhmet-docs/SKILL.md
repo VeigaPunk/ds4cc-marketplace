@@ -19,31 +19,29 @@ Sekhmet is the DS4CC marketplace name for **xbrd-spark**: pure L3 worker surface
 
 ```bash
 cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
+# bins: sekhmet + xbrd-spark
 ```
 
-Local clone:
-
-```bash
-cargo install --path . --force --offline
-```
+Requires **Codex Titanium** on PATH (`codex-titanium` or `codex` → titanium). Pin with `CODEX_BIN`.
 
 ## Smoke (offline — required gate)
 
 ```bash
 ROOT=$(mktemp -d)
-xbrd-spark run --dry-run --deterministic --task 'sekhmet-smoke' --root "$ROOT"
+sekhmet run --dry-run --deterministic --task 'sekhmet-smoke' --root "$ROOT"
 ID=$(ls "$ROOT")
-xbrd-spark collect "$ID" --root "$ROOT"
-xbrd-spark status "$ID" --root "$ROOT"
-xbrd-spark gc --max-age 0 --root "$ROOT"
+sekhmet collect "$ID" --root "$ROOT"
+sekhmet status "$ID" --root "$ROOT"
+sekhmet gc --max-age 0 --root "$ROOT"
 ```
 
-## Live (required when testing the substrate)
+## Live on Codex Titanium
 
 ```bash
 ROOT=$(mktemp -d)
-xbrd-spark run --direct --timeout 90 --task 'Reply with exactly: SPARK_LIVE_OK' --root "$ROOT"
-xbrd-spark run --ro --timeout 90 --task 'Reply with exactly: SPARK_RO_OK' --root "$(mktemp -d)"
+sekhmet run --direct --timeout 90 --task 'Reply with exactly: SPARK_LIVE_OK' --root "$ROOT"
+# swarm: up to 64 concurrent (default 16)
+printf 'Reply A\nReply B\n' | sekhmet swarm --direct -j 32 --tasks-file - --root "$(mktemp -d)"
 ```
 
 ## Rules

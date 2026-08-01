@@ -1,7 +1,7 @@
 {
   "name": "sekhmet",
-  "version": "0.1.0",
-  "description": "Sekhmet — always-available swarm dispatch substrate (layer 3 of xbreed). Pure L3 namespaced codex-spark. Rust only.",
+  "version": "0.1.1",
+  "description": "Sekhmet — always-available swarm on Codex Titanium (xbreed L3). Up to 64 concurrent runners. Rust only.",
   "author": {
     "name": "VeigaPunk"
   },
