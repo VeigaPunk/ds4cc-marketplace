@@ -168,7 +168,13 @@ def load_plugin(manifest_path: Path) -> tuple[dict, dict[str, Path]]:
     name = nonempty_string(manifest.get("name"), "name")
     if not NAME_RE.fullmatch(name):
         fail(f"invalid plugin name: {name}")
-    if name != plugin_dir.name:
+    # Root bootstrap (skills under ./marketplace/...) may live in a clone
+    # named ds4cc or ds4cc-marketplace; skip name/dir match there.
+    skills_decl = manifest.get("skills")
+    is_repo_bootstrap = isinstance(skills_decl, str) and skills_decl.startswith(
+        "./marketplace/"
+    )
+    if not is_repo_bootstrap and name != plugin_dir.name:
         fail(f"manifest name {name!r} does not match directory {plugin_dir.name!r}")
     version = nonempty_string(manifest.get("version"), f"{name}.version")
     version_match = SEMVER_RE.fullmatch(version)

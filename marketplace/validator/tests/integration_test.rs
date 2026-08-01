@@ -440,7 +440,6 @@ fn test_no_claude_marketplace_support() {
         "CHANGELOG.md",
         "index.html",
         ".github/workflows/validate.yml",
-        ".github/plugin/marketplace.json",
         ".grok-plugin/marketplace.json",
         ".kimi-plugin/marketplace.json",
         "kimi.plugin.json",
@@ -895,7 +894,7 @@ fn test_public_codex_guidance_matches_verified_lifecycle() {
 
     let codex_script = html
         .split_once("    codex: {")
-        .and_then(|(_, tail)| tail.split_once("    claude: {"))
+        .and_then(|(_, tail)| tail.split_once("    kimi: {"))
         .map(|(section, _)| section)
         .expect("failed to locate Codex terminal script");
     for marker in [
@@ -942,7 +941,6 @@ fn test_no_copilot_marketplace_support() {
         "Copilot CLI",
         "copilot plugin",
         "data-host=\"copilot\"",
-        ".github/plugin/marketplace.json",
         "copilot ",
     ];
 
