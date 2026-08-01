@@ -23,7 +23,7 @@ def canonical_plugin_versions(root: Path = ROOT) -> dict[str, str]:
     for path in sorted((root / "marketplace" / "plugins").glob("*/plugin.json")):
         manifest = json.loads(path.read_text(encoding="utf-8"))
         catalog[path.parent.name] = manifest["version"]
-    assert len(catalog) == 17
+    assert len(catalog) == 18
     return catalog
 
 

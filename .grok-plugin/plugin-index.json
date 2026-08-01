@@ -170,6 +170,17 @@
         ]
       }
     },
+    "sekhmet": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "sekhmet-docs",
+            "description": "Always-available swarm dispatch substrate (layer 3 of xbreed). Install and call Sekhmet/xbrd-spark for namespaced codex-spark runs. Rust only."
+          }
+        ]
+      }
+    },
     "spoderman": {
       "version": "0.2.0",
       "components": {

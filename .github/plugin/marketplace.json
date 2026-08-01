@@ -131,6 +131,20 @@
       "description": "Curated skill workflows for your active tasks"
     },
     {
+      "name": "sekhmet",
+      "source": {
+        "source": "local",
+        "path": "./marketplace/plugins/sekhmet"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer",
+      "version": "0.1.0",
+      "description": "Sekhmet — always-available swarm dispatch substrate (layer 3 of xbreed). Pure L3 namespaced codex-spark. Rust only."
+    },
+    {
       "name": "spoderman",
       "source": {
         "source": "local",

@@ -385,8 +385,8 @@ fn test_expected_plugins_present() {
         "mycommands",
         "myskills",
         "heuer-planning",
-        "agent-wall",
         "ds4cc",
+        "sekhmet",
     ];
 
     let missing: Vec<&str> = expected
@@ -628,7 +628,7 @@ fn test_fnm_node_isolation() {
 // ─── Test 13: Canonical .agents/plugins/marketplace.json validates ────────────
 // Validates the Codex-native layout at <repo-root>/.agents/plugins/marketplace.json
 // using validate_marketplace_dir(), which resolves plugin paths relative to the
-// repo root (not the json file's parent). All 17 plugins must pass with no errors.
+// repo root (not the json file's parent). All 18 plugins must pass with no errors.
 
 #[test]
 fn test_canonical_agents_layout_validates() {
@@ -687,6 +687,7 @@ fn test_codex_plugin_list_ds4cc_complete() {
     let expected = [
         "spoderman@ds4cc",
         "xbrd-gdsp-fknpft@ds4cc",
+        "xbrd-selector@ds4cc",
         "aaronplug@ds4cc",
         "infinizoom@ds4cc",
         "godspeed-codex-command@ds4cc",
@@ -696,12 +697,12 @@ fn test_codex_plugin_list_ds4cc_complete() {
         "mycommands@ds4cc",
         "myskills@ds4cc",
         "heuer-planning@ds4cc",
-        "agent-wall@ds4cc",
-        "agent-pip@ds4cc",
+        "sekhmet@ds4cc",
         "ds4cc@ds4cc",
         "the-almanacker@ds4cc",
         "the-kimiraikoner@ds4cc",
         "the-musketeer@ds4cc",
+        "the-netsshark@ds4cc",
     ];
 
     let missing: Vec<&str> = expected

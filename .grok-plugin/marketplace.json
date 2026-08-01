@@ -233,6 +233,35 @@
       }
     },
     {
+      "name": "sekhmet",
+      "version": "0.1.0",
+      "description": "Sekhmet — always-available swarm dispatch substrate (layer 3 of xbreed). Pure L3 namespaced codex-spark. Rust only.",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/sekhmet"
+      },
+      "homepage": "https://github.com/VeigaPunk/xbrd-spark",
+      "keywords": [
+        "sekhmet",
+        "xbrd-spark",
+        "xbreed",
+        "layer-3",
+        "swarm",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "ds4cc.com",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
       "name": "spoderman",
       "version": "0.2.0",
       "description": "Attack harness workflows and hook safety research",

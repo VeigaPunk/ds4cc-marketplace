@@ -1,0 +1,19 @@
+{
+  "name": "sekhmet",
+  "version": "0.1.0",
+  "description": "Sekhmet — always-available swarm dispatch substrate (layer 3 of xbreed). Pure L3 namespaced codex-spark. Rust only.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/xbrd-spark",
+  "repository": "https://github.com/VeigaPunk/xbrd-spark",
+  "license": "MIT OR Apache-2.0",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Sekhmet (swarm dispatch / L3)",
+    "shortDescription": "Swarm dispatch substrate — layer 3 of xbreed",
+    "longDescription": "Pure L3 xbrd-spark worker: run/collect/gc/status with --dry-run, --direct, --ro, --scope, --timeout. No worktrees; coordination stays above.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/xbrd-spark"
+  }
+}

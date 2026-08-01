@@ -4,7 +4,7 @@
 
 Static plugin payloads for **Grok Build**, **Codex**, **Kimi Code CLI**, and **OpenCode**. OpenCode agents ship through a dependency-free bootstrap script (OpenCode has no marketplace protocol).
 
-Seventeen curated plugins, Rust-validated and curation-gated. Register one repo, install what you need, ship.
+Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, install what you need, ship.
 
 | Host | Catalog |
 | --- | --- |
@@ -113,12 +113,13 @@ npm test
 
 Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `app.ds4cc.com`, and follow `apps-sdk/SUBMISSION.md` for the OpenAI plugin portal fields and tests.
 
-## Plugins (17)
+## Plugins (18)
 
 | Plugin | Category | Description |
 |---|---|---|
 | `spoderman` | Developer | Attack harness & hook safety research |
 | `xbrd-gdsp-fknpft` | Developer | Multimodel dispatch (xask/xbreed) & benchmark workflows |
+| `sekhmet` | Developer | Always-available swarm dispatch substrate (layer 3 of xbreed; Rust `xbrd-spark`) |
 | `aaronplug` | Developer | Academic paper retrieval (arXiv, Semantic Scholar, Sci-Hub) |
 | `infinizoom` | Developer | Fractal-zoom visualization QA & server |
 | `godspeed-codex-command` | Developer | Command-mode bootstrap & Codex posture controls |

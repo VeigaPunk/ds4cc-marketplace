@@ -6,7 +6,7 @@
 
 ## What changed
 
-### From docs-only to actionable — all 17 plugins
+### From docs-only to actionable — all 18 plugins
 
 Every plugin now ships a `SKILL.md` with real, copy-pasteable commands. Validation _rejects_ boilerplate ("Read the README…") and only accepts files that contain:
 
@@ -163,7 +163,7 @@ The validator's `validate_marketplace_dir(root)` auto-detects which layout is pr
 codex plugin marketplace add .
 # → Added marketplace `ds4cc` from /home/vhpnk/repos/ds4cc-marketplace.
 
-# Install all 17 plugins
+# Install all 18 plugins
 for plugin in spoderman xbrd-gdsp-fknpft aaronplug infinizoom \
               godspeed-codex-command the-puppeteer godspeed-core \
               myagents mycommands myskills agent-wall agent-pip ds4cc \

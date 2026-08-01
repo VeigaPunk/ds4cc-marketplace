@@ -204,3 +204,9 @@ A plan is not a destination — it is a hypothesis with a monitoring set.
 Any assumption that cannot be stated with a falsification condition is not an assumption —
 it is an unexamined belief. All load-bearing assumptions must have stated falsification
 conditions before the plan proceeds.
+
+## Invoke
+
+```bash
+cargo build --release
+```

@@ -1,0 +1,29 @@
+{
+  "name": "sekhmet",
+  "version": "0.1.0",
+  "description": "Sekhmet — swarm dispatch substrate (layer 3 of xbreed) for Codex marketplace access.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "interface": {
+    "displayName": "Sekhmet (swarm dispatch / L3)",
+    "shortDescription": "Always-on swarm dispatch substrate — layer 3 of xbreed",
+    "longDescription": "Sekhmet is always available to be called: pure L3 worker surface under xbreed/xbgst for swarm dispatch. Namespaced ephemeral codex-spark runs without git worktrees, double-work tolerant, with dry-run, --ro, --scope, --timeout, collect, and gc. Rust-only binary xbrd-spark (source VeigaPunk/xbrd-spark).",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [
+      "Swarm Dispatch",
+      "Namespaced Execution",
+      "Codex-Spark Substrate",
+      "Labrat / Executor Channel"
+    ],
+    "defaultPrompt": [
+      "Install and smoke-test Sekhmet (xbrd-spark) dry-run.",
+      "Run a live Sekhmet spark with --direct and collect results.",
+      "Explain Sekhmet as layer 3 of xbreed."
+    ]
+  },
+  "homepage": "https://github.com/VeigaPunk/xbrd-spark",
+  "repository": "https://github.com/VeigaPunk/xbrd-spark",
+  "license": "MIT OR Apache-2.0"
+}
