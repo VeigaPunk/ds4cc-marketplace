@@ -20,7 +20,7 @@ DS4CC marketplace plugin: set up sandbox runs on your own PC through SSH, using 
 
 ## Quick start
 
-See `skills/ssh-sandbox-docs/SKILL.md` for the full actionable command set.
+See `skills/the-sshid-sandbox-docs/SKILL.md` for the full actionable command set.
 
 ```bash
 # 1. Set your Termius handle
