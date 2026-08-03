@@ -130,19 +130,33 @@ The xbreed stack has CLI-exclusive pure-execution layers. **Codex Titanium L3 (s
 
 Runtime resolve order: `CODEX_BIN` → `codex-titanium` → `codex`. Model default `gpt-5.3-codex-spark` (override `XBRD_SPARK_MODEL`).
 
-### Grok Build (xbgst exclusive)
+### Grok Build (xbgst exclusive + livepatch ban)
+
+Recommended host config (same file served on the Titanium / ds4cc Pages site):
+
+- **Pages:** https://veigapunk.github.io/ds4cc-marketplace/grok-cli-config.toml  
+- **Repo:** [grok-cli-config.toml](./grok-cli-config.toml)
 
 ```bash
-# Skill install (Grok-native godspeed orchestrator)
-mkdir -p ~/.grok/skills
-git clone https://github.com/VeigaPunk/xbrd-grok.git /tmp/xbrd-grok
-cp -r /tmp/xbrd-grok/xbgst ~/.grok/skills/   # or copy SKILL.md
-# or via marketplace if published as skill
+# 1) host config
+mkdir -p ~/.grok
+curl -fsSL https://veigapunk.github.io/ds4cc-marketplace/grok-cli-config.toml -o ~/.grok/config.toml
+
+# 2) hard-ban general-purpose/explore in the CLI binary
+git clone git@github.com:VeigaPunk/grok-build-livepatch.git
+cd grok-build-livepatch
+./scripts/check-and-patch.sh
+./scripts/install-timer.sh --link-bin   # active_cli=livepatch
+
+# 3) xbgst-stack + ds4cc catalog
+grok plugin marketplace add VeigaPunk/grok-marketplace
 grok plugin marketplace add VeigaPunk/ds4cc-marketplace
-# use xbrd-gdsp-fknpft + godspeed-core for shared surface
+grok plugin install xbgst-stack@veigapunk/grok-marketplace --trust
+bash ~/.grok/installed-plugins/xbgst-stack-*/scripts/install-host.sh
+# optional skill tree: VeigaPunk/xbrd-grok
 ```
 
-Hard locks: subagents receive only short godspeed directive; judge alone runs full trilogy; Rust only; concurrency hardcap 16; connector mandatory every round.
+Hard locks: subagents receive only short godspeed directive; judge alone runs full trilogy; Rust only; concurrency hardcap 16; connector mandatory every round. Binary ban rejects `general-purpose`/`explore` (case-insensitive); first-party full-tool paths use `agent`.
 
 ### Shared multi-model (xbrd-gdsp-fknpft + xbrd-selector)
 
