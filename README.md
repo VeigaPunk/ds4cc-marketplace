@@ -100,6 +100,72 @@ The commands are alternatives, not sequential steps. The installer writes native
 
 Profiles use `xask --spark --gs codex` for cross-model delegation. `xask` is an external prerequisite, is not bundled by `myagents`, and must be installed separately on `PATH`; profiles that do not invoke cross-model delegation remain usable without it.
 
+## Exclusive xbrd substrates (per CLI)
+
+The xbreed stack has CLI-exclusive pure-execution layers. **Codex Titanium L3 (sekhmet / xbrd-spark) is the optimal execution substrate as of 2026-08**: namespaced ephemeral sparks, no git worktrees, double-work tolerant, up to 64 concurrent runners, Rust-only, routes through the hardened Codex Titanium binary.
+
+### Codex (preferred path — Titanium L3)
+
+1. Install the hardened binary:
+   ```bash
+   brew install VeigaPunk/tap/codex-titanium   # Linux x86_64; creates codex-titanium + codex symlink
+   # or build from source: https://github.com/VeigaPunk/codex-titanium
+   install -Dm600 titanium/config.toml "${CODEX_HOME:-$HOME/.codex}/config.toml"
+   ```
+2. Install the L3 swarm substrate:
+   ```bash
+   cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
+   # provides both `sekhmet` and `xbrd-spark`
+   ```
+3. Marketplace plugin (skills + docs):
+   ```bash
+   codex plugin marketplace add VeigaPunk/ds4cc-marketplace
+   codex plugin add sekhmet@ds4cc --json
+   ```
+4. Smoke:
+   ```bash
+   sekhmet run --dry-run --task "probe" --root "$(mktemp -d)"
+   sekhmet run --direct --timeout 60 --task "Reply with SPARK_OK"
+   ```
+
+Runtime resolve order: `CODEX_BIN` → `codex-titanium` → `codex`. Model default `gpt-5.3-codex-spark` (override `XBRD_SPARK_MODEL`).
+
+### Grok Build (xbgst exclusive)
+
+```bash
+# Skill install (Grok-native godspeed orchestrator)
+mkdir -p ~/.grok/skills
+git clone https://github.com/VeigaPunk/xbrd-grok.git /tmp/xbrd-grok
+cp -r /tmp/xbrd-grok/xbgst ~/.grok/skills/   # or copy SKILL.md
+# or via marketplace if published as skill
+grok plugin marketplace add VeigaPunk/ds4cc-marketplace
+# use xbrd-gdsp-fknpft + godspeed-core for shared surface
+```
+
+Hard locks: subagents receive only short godspeed directive; judge alone runs full trilogy; Rust only; concurrency hardcap 16; connector mandatory every round.
+
+### Shared multi-model (xbrd-gdsp-fknpft + xbrd-selector)
+
+Available on every host via the marketplace plugin:
+
+```bash
+# Grok
+grok plugin install xbrd-gdsp-fknpft --trust && grok plugin enable xbrd-gdsp-fknpft
+# Codex
+codex plugin add xbrd-gdsp-fknpft@ds4cc --json
+# Kimi
+/plugins install https://github.com/VeigaPunk/ds4cc-marketplace   # or specific artifact
+# OpenCode
+# already injected via install-opencode-agents.mjs godspeed + xask dependency
+```
+
+Requires `xask` on `PATH` for cross-model. See plugin README for full setup gates.
+
+### Kimi Code CLI & OpenCode
+
+No dedicated exclusive binary yet. Consume the shared xbrd plugins + sekhmet (where Titanium is available) through their bootstrap paths. OpenCode installer injects Godspeed + orch (XBGST posture) automatically. Kimi uses the minimal packages; custom `the-*` profiles are not installed.
+
+
 ## OpenAI Apps SDK
 
 The read-only Apps SDK wrapper in `apps-sdk/` exposes only an explicitly reviewed subset through a production MCP endpoint and embedded catalog widget. It is not the public 16-plugin marketplace. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
