@@ -4,9 +4,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>DS4CC — 18 plugins for four supported agent CLIs</title>
-    <meta name="description" content="DS4CC Marketplace: 16 curated Rust-validated plugins with host-specific guidance for Grok Build, Codex, Kimi Code CLI and OpenCode." />
+    <meta name="description" content="DS4CC Marketplace: 18 curated Rust-validated plugins with host-specific guidance for Grok Build, Codex, Kimi Code CLI and OpenCode." />
 <meta property="og:title" content="DS4CC Marketplace — four supported agent CLIs" />
-    <meta property="og:description" content="16 curated plugins with host-specific install guidance for Grok, Codex, Kimi and OpenCode." />
+    <meta property="og:description" content="18 curated plugins with host-specific install guidance for Grok, Codex, Kimi and OpenCode." />
 <meta property="og:url" content="https://ds4cc.com/" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
@@ -359,7 +359,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
   <header class="hero">
     <div>
       <span class="badge">18 plugins</span>
-      <span class="badge dark">5 agent CLIs</span>
+      <span class="badge dark">4 agent CLIs</span>
       <span class="badge dark">rust-validated</span>
       <span class="badge cyan">MIT</span>
     </div>
@@ -412,11 +412,11 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
   </section>
 
   <section id="plugins" class="reveal">
-    <h2><span class="idx">02</span>The catalog — 16 curated plugins</h2>
+    <h2><span class="idx">02</span>The catalog — 18 curated plugins</h2>
     <p class="sub">Every plugin ships an actionable <code>SKILL.md</code> (fenced commands, no boilerplate) and passes the Rust validator. Filter by name or capability.</p>
     <div class="grid-tools">
       <input class="filter" id="plugFilter" type="search" placeholder="filter plugins… (try: agents, grok, papers, godspeed)" aria-label="filter plugins" />
-      <span class="count" id="plugCount">16 / 16</span>
+      <span class="count" id="plugCount">18 / 18</span>
     </div>
     <div class="plugins" id="plugGrid"></div>
   </section>
@@ -455,7 +455,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 
   <section id="install" class="reveal">
     <h2><span class="idx">04</span>Install — host-specific guidance</h2>
-    <p class="sub">Use the supported flow for your host; review third-party plugin sources before installation.</p>
+    <p class="sub">Use the supported flow for your host; review third-party plugin sources before installation. <strong>Codex Titanium L3 (sekhmet) is the optimal execution substrate as of 2026-08.</strong></p>
     <div class="hosts">
 
       <div class="host">
@@ -465,18 +465,24 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 <span class="p">$</span> grok plugin install myagents --trust
 <span class="p">$</span> grok plugin enable myagents</pre>
 <pre><span class="c"># install the core set in one loop</span>
-    grok plugin install "$p" --trust &amp;&amp; grok plugin enable "$p"
-  done</pre>
-        <p class="note"><strong>Non-CLI fallback:</strong> paste <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">GROK_PASTE.md</a> into a Grok chat. This is separate from the Grok Build CLI flow above.</p>
+for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
+  grok plugin install "$p" --trust && grok plugin enable "$p"
+done</pre>
+        <p class="note"><strong>Exclusive xbrd:</strong> copy <a href="https://github.com/VeigaPunk/xbrd-grok" target="_blank" rel="noopener">xbrd-grok / xbgst</a> skill into <code>~/.grok/skills/xbgst/</code>. <strong>Non-CLI fallback:</strong> paste <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">GROK_PASTE.md</a>.</p>
       </div>
 
       <div class="host">
-        <h3>Codex <span class="tag">OpenAI CLI</span></h3>
-<pre><span class="p">$</span> codex plugin marketplace add VeigaPunk/ds4cc-marketplace
-<span class="p">$</span> codex plugin list --available --json
-<span class="p">$</span> codex plugin add myagents@ds4cc --json
-<span class="p">$</span> codex plugin list --json</pre>
-        <p class="note">Adding a plugin installs it enabled. Start a new Codex session to load its bundled skills and tools; in the TUI, use <code>/plugins</code> and press <code>Space</code> to toggle state. Local dev checkout: <code>codex plugin marketplace add .</code> — the canonical manifest lives at <code>.agents/plugins/marketplace.json</code>.</p>
+        <h3>Codex <span class="tag">OpenAI CLI · Titanium preferred</span></h3>
+<pre><span class="c"># preferred hardened binary (Codex Titanium)</span>
+<span class="p">$</span> brew install VeigaPunk/tap/codex-titanium
+<span class="p">$</span> install -Dm600 titanium/config.toml "${CODEX_HOME:-$HOME/.codex}/config.toml"
+<span class="c"># L3 execution substrate (sekhmet / xbrd-spark)</span>
+<span class="p">$</span> cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
+<span class="c"># marketplace plugins</span>
+<span class="p">$</span> codex plugin marketplace add VeigaPunk/ds4cc-marketplace
+<span class="p">$</span> codex plugin add sekhmet@ds4cc --json
+<span class="p">$</span> codex plugin add myagents@ds4cc --json</pre>
+        <p class="note"><strong>Optimal substrate (as of 2026-08):</strong> Codex Titanium + sekhmet (xbreed L3) — pure namespaced sparks, no worktrees, up to 64 concurrent, double-work tolerant, Rust-only. Adding a plugin installs it enabled. TUI: <code>/plugins</code> + <code>Space</code>. Local: <code>codex plugin marketplace add .</code></p>
       </div>
 
       <div class="host">
@@ -486,9 +492,9 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 <span class="g">/reload</span></pre>
 <pre><span class="c"># or register the full packaged catalog in the Kimi TUI</span>
 <span class="g">/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json</span>
-<span class="g">/plugins install &lt;artifact-url-or-local-path&gt;</span>
+<span class="g">/plugins install <artifact-url-or-local-path></span>
 <span class="g">/reload</span></pre>
-        <p class="note">Invoke as <code>/skill:&lt;skill-name&gt;</code> and <code>/&lt;plugin&gt;:&lt;command&gt;</code>. Third-party installs ask for trust first — review before approving.</p>
+        <p class="note">Invoke as <code>/skill:<skill-name></code> and <code>/<plugin>:<command></code>. Third-party installs ask for trust first — review before approving.</p>
       </div>
 
       <div class="host">
@@ -496,7 +502,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 <pre><span class="p">$</span> git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
 <span class="p">$</span> node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
 <span class="c"># or: --project /path/to/project</span></pre>
-        <p class="note">Writes 15 <code>the-*</code> agents plus <code>the-netsshark</code> (16 subagents total), and a separate <code>orch</code> primary mode.</p>
+        <p class="note">Writes 15 <code>the-*</code> agents plus <code>the-netsshark</code> (16 subagents total), and a separate <code>orch</code> primary mode. Structurally verified.</p>
       </div>
 
     </div>
@@ -512,7 +518,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
           <code><span class="p">›</span> https://app.ds4cc.com/mcp</code>
           <button type="button" class="copy-btn" data-copy="https://app.ds4cc.com/mcp">COPY</button>
         </div>
-        <p>Scoped to an explicitly reviewed, read-only tool surface with required annotations and widget CSP/domain metadata. It is <em>not</em> the public 16-plugin marketplace.</p>
+        <p>Scoped to an explicitly reviewed, read-only tool surface with required annotations and widget CSP/domain metadata. It is <em>not</em> the public 18-plugin marketplace.</p>
         <div class="kv">
           <span class="ok-chip">read-only</span>
           <span class="ok-chip">reviewed subset</span>
@@ -554,7 +560,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
       <div>
         <h3 style="font-size:0.95rem;margin-top:0">What every plugin must prove</h3>
         <ol class="gate">
-          <li><b>Local source integrity</b> — path pinned to <code>./plugins/&lt;name&gt;</code></li>
+          <li><b>Local source integrity</b> — path pinned to <code>./plugins/<name></code></li>
           <li><b>Manifest parses</b> — <code>.codex-plugin/plugin.json</code>, name matches entry</li>
           <li><b>Semver</b> — strict <code>X.Y.Z</code></li>
           <li><b>Full interface block</b> — display, descriptions, developer, category, capabilities</li>
@@ -621,8 +627,8 @@ critic Layer-0: heuer-planning → xask --gpt55 --gs -e low codex → gpt-5.6-so
 revenger RECON xask --gpt55 --gs -e high codex → gpt-5.6-sol
 sentinel xask --gpt55 --gs -e low codex → gpt-5.6-sol
 connector xask --spark codex · no --gs
-mutation: single / &lt;=4 xask --spark --gs codex
-mutation: &gt;=5 / breadth xask --effort high --gs codex
+mutation: single / <=4 xask --spark --gs codex
+mutation: >=5 / breadth xask --effort high --gs codex
 distiller / simplifier / scribe native</pre>
     <h3>Local lane — Gemma 4 over HVM4</h3>
     <p><code>xask gemma</code> (aliases <code>g</code>, legacy <code>gemini</code>) dispatches through <code>xbreed ask gemma</code> → <code>gemma-hvm</code> → <code>run.sh/run-hvm4.sh</code> → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama. Default model <code>gemma4:26b</code> via <code>HVM_GEMMA_MODEL</code>. Cloud Gemini CLI is retired — do not call the <code>gemini</code> binary. Connector and any <code>g-*</code> teammates MUST use this lane for cross-model breadth.</p>
@@ -660,9 +666,9 @@ distiller / simplifier / scribe native</pre>
         <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">horizon halo ↗</a>
       </div>
     </div>
-    <p class="note">Disclosure: <a href="https://www.kimi.com/activities/invite/share?scenario=invite&amp;from=share_poster&amp;invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">the Kimi invite link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
+    <p class="note">Disclosure: <a href="https://www.kimi.com/activities/invite/share?scenario=invite&from=share_poster&invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">the Kimi invite link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
     <p class="note">Disclosure: <a href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">the OpenCode link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
-    <div>DS4CC · VeigaPunk · MIT License · shipped 2026-07-29</div>
+    <div>DS4CC · VeigaPunk · MIT License · shipped 2026-07-29 · updated 2026-08-03</div>
     <div>Design language: <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">Horizon Halo</a> — green console, JetBrainsMonoNL Nerd Font.</div>
   </footer>
 </div>
@@ -752,7 +758,7 @@ distiller / simplifier / scribe native</pre>
         ["cmd", "grok plugin marketplace add VeigaPunk/ds4cc-marketplace"],
         ["ok",  "marketplace registered"],
         ["cmd", "grok plugin list --available --json"],
-        ["out", "JSON returned 16 available marketplace entries"],
+        ["out", "JSON returned 18 available marketplace entries"],
         ["cmd", "grok plugin install myagents --trust"],
         ["ok",  "installed `myagents` from the registered marketplace"],
         ["cmd", "grok plugin enable myagents"],
@@ -761,17 +767,18 @@ distiller / simplifier / scribe native</pre>
       ],
     },
     codex: {
-      title: "ds4cc — codex",
+      title: "ds4cc — codex titanium + sekhmet L3",
       lines: [
+        ["cmd", "brew install VeigaPunk/tap/codex-titanium"],
+        ["ok",  "codex-titanium + codex symlink installed"],
+        ["cmd", "cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked"],
+        ["ok",  "sekhmet + xbrd-spark on PATH"],
         ["cmd", "codex plugin marketplace add VeigaPunk/ds4cc-marketplace"],
-        ["ok",  "added marketplace `ds4cc` from VeigaPunk/ds4cc-marketplace"],
-        ["cmd", "codex plugin list --available --json"],
-        ["out", "available catalog returned as JSON"],
+        ["ok",  "added marketplace `ds4cc`"],
+        ["cmd", "codex plugin add sekhmet@ds4cc --json"],
+        ["ok",  "`sekhmet` installed (L3 substrate)"],
         ["cmd", "codex plugin add myagents@ds4cc --json"],
         ["ok",  "`myagents` installed and enabled"],
-        ["out", "installed plugin root: $CODEX_HOME/plugins/cache/ds4cc/myagents/0.2.0"],
-        ["cmd", "codex plugin list --json"],
-        ["out", "myagents: installed=true, enabled=true"],
         ["out", "start a new session; use /plugins + Space to toggle state"],
       ],
     },
@@ -782,7 +789,7 @@ distiller / simplifier / scribe native</pre>
         ["warn", "third-party plugin — trust confirmation shown"],
         ["ok",  "DS4CC bootstrap plugin installed"],
         ["tui", "/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json"],
-        ["ok",  "catalog registered — 17 packaged plugins"],
+        ["ok",  "catalog registered — 18 packaged plugins"],
         ["tui", "/reload"],
         ["out", "skills live as /skill:<name> · commands as /<plugin>:<command>"],
       ],
