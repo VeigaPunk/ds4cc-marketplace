@@ -1,12 +1,13 @@
 {
   "name": "the-sshid-sandbox",
   "version": "0.1.0",
-  "description": "Termius SSH ID connector for isolated sandbox runs on your own PC. Public-key provision only via sshid.io + restricted shell substrate.",
+  "description": "Termius SSH ID provisioned local/remote sandbox substrate. Public keys only via sshid.io + restricted Docker/Podman or dedicated-user runs for safe agent execution on own PC.",
   "author": {
     "name": "VeigaPunk"
   },
   "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
   "homepage": "https://ds4cc.com",
   "skills": "./skills/",
+  "agents": "./agents/",
   "license": "MIT"
 }

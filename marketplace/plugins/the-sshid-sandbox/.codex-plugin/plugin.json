@@ -1,0 +1,33 @@
+{
+  "name": "the-sshid-sandbox",
+  "version": "0.1.0",
+  "description": "Termius SSH ID provisioned local/remote sandbox substrate. Public keys only via sshid.io + restricted Docker/Podman or dedicated-user runs for safe agent execution on own PC.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "interface": {
+    "displayName": "The SSHID Sandbox (Termius)",
+    "shortDescription": "Own-PC sandbox runs via SSH + Termius SSH ID public-key provision",
+    "longDescription": "Provisions authorized_keys from https://sshid.io/<handle>, creates restricted Docker/Podman sandboxes or dedicated users, and supplies copy-paste commands for safe agent execution over SSH. Never handles private keys. Compose with the-netsshark for pre-flight connectivity.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [
+      "SSH Sandbox",
+      "Termius SSH ID",
+      "Restricted Execution",
+      "Docker Isolation",
+      "Own-PC Remote Runs"
+    ],
+    "defaultPrompt": [
+      "Set up an SSH sandbox on my PC using Termius SSH ID",
+      "Provision sshid.io keys for a restricted sandbox user",
+      "Run a command in the the-sshid-sandbox Docker wrapper",
+      "Show the rollback and cleanup for the-sshid-sandbox"
+    ]
+  },
+  "homepage": "https://ds4cc.com",
+  "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
+  "license": "MIT"
+}
