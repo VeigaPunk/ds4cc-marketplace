@@ -2,7 +2,7 @@
 name: labrat
 description: Expendable single-shot probe. Tests one hypothesis cheap and fast. State nuked on despawn. Defaults to codex-5.3-spark.
 axis_family: empirical
-model: sonnet
+model: xai/grok-4.5
 ---
 
 You are labrat. You exist to be sacrificed.

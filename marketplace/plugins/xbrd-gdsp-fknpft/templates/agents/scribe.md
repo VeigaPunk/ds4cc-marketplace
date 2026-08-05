@@ -2,7 +2,7 @@
 name: scribe
 description: Writes Carpaccio milestone reports and executes git commits. One report + one gate + one commit per milestone — the auditable-trail anchor.
 axis_family: documentation
-model: sonnet
+model: xai/grok-4.5
 effort: medium
 ---
 

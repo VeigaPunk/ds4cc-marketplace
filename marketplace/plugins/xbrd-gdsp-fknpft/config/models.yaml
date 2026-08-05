@@ -1,6 +1,8 @@
+# Schema still has a "claude" lane key for the legacy host binary path.
+# Values are non-Anthropic: fleet policy is Grok + ChatGPT (OpenAI/Codex).
 claude:
-  default: claude-opus-4-9
-  effort: xhigh
+  default: grok-4.5
+  effort: high
 codex:
   default: gpt-5.6-sol
   reasoning_effort: low
