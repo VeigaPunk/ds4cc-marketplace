@@ -8,12 +8,40 @@
 
 ### From docs-only to actionable — all 18 plugins
 
-Every plugin now ships a `SKILL.md` with real, copy-pasteable commands. Validation _rejects_ boilerplate ("Read the README…") and only accepts files that contain:
+Every plugin under `marketplace/plugins/` ships a `SKILL.md` with real, copy-pasteable commands. Validation _rejects_ boilerplate ("Read the README…") and only accepts files that contain:
 
 - A fenced code block (` ``` `), or
 - A line starting with `$`, `codex`, `cargo`, `node`, `bash`, `./`, or `npx`
 
-**7 original plugins verified actionable:**
+**SSoT catalog (18 plugin directories):**
+
+| Plugin | Role (short) |
+|---|---|
+| `aaronplug` | Academic paper retrieval |
+| `ds4cc` | Meta-plugin: browse/install this marketplace |
+| `godspeed-codex-command` | Codex command-mode bootstrap |
+| `godspeed-core` | Pareto / godspeed doctrine |
+| `heuer-planning` | Planning skill pack |
+| `infinizoom` | Fractal-zoom visualization |
+| `myagents` | Browse/copy user agent templates |
+| `mycommands` | Reusable shell command packs |
+| `myskills` | Discoverable skill workflows |
+| `sekhmet` | Host/orchestration docs (Titanium-adjacent) |
+| `spoderman` | Hook / injection research harness |
+| `the-almanacker` | NotebookLM adapter |
+| `the-kimiraikoner` | Kimi web UI adapter (plugin slug; product may spell `the-kimiraikkoner`) |
+| `the-musketeer` | Grok web UI adapter |
+| `the-netsshark` | Net/SSH specialist agent pack |
+| `the-puppeteer` | Web automation bridge |
+| `xbrd-gdsp-fknpft` | Multimodel dispatch (xbreed) |
+| `xbrd-selector` | Breed/selector tooling |
+
+**Not marketplace plugins:**
+
+- **agent-wall** — not installable via this catalog. Glossary: crate name `agent-wall` / product **plazir18** (not a ds4cc plugin id).
+- **agent-pip** — not present under `marketplace/plugins/`; do not list as installable.
+
+**Sample actionable commands (subset):**
 
 | Plugin | Key actionable command |
 |---|---|
@@ -24,16 +52,10 @@ Every plugin now ships a `SKILL.md` with real, copy-pasteable commands. Validati
 | `godspeed-codex-command` | `bash ./scripts/install-commands.sh` |
 | `the-puppeteer` | `chitchat "..."` |
 | `xbrd-gdsp-fknpft` | `cargo build --release && ./target/release/xbreed --help` |
-
-**5 new plugins added and validated:**
-
-| Plugin | What it does | Key actionable command |
-|---|---|---|
-| `myagents` | Browse/copy user agent templates | `codex "Use the executor profile to implement the failing test"` |
-| `mycommands` | Reusable shell command packs | `codex "Use the installed command pack for this task"` |
-| `myskills` | Discoverable Codex skill workflows | Open the Codex TUI and use `/skills` |
-| `agent-wall` | Handoff checkpoints between sessions | `codex exec "Create an agent-wall checkpoint..."` |
-| `ds4cc` | Meta-plugin: browse/install this marketplace | `codex plugin marketplace add VeigaPunk/ds4cc-marketplace` |
+| `myagents` | `codex "Use the executor profile to implement the failing test"` |
+| `mycommands` | `codex "Use the installed command pack for this task"` |
+| `myskills` | Open the Codex TUI and use `/skills` |
+| `ds4cc` | `codex plugin marketplace add VeigaPunk/ds4cc-marketplace` |
 
 ---
 
@@ -156,27 +178,29 @@ ds4cc-validator .               # canonical: reads .agents/plugins/marketplace.j
 
 The validator's `validate_marketplace_dir(root)` auto-detects which layout is present (legacy first, then canonical) and resolves all plugin paths relative to `root`.
 
-### Real probes (executed)
+### Real probes (install all 18)
 
 ```bash
 # Register the ds4cc marketplace
 codex plugin marketplace add .
-# → Added marketplace `ds4cc` from /home/vhpnk/repos/ds4cc-marketplace.
+# → Added marketplace `ds4cc` from the local clone.
 
-# Install all 18 plugins
-for plugin in spoderman xbrd-gdsp-fknpft aaronplug infinizoom \
-              godspeed-codex-command the-puppeteer godspeed-core \
-              myagents mycommands myskills agent-wall agent-pip ds4cc \
-              the-almanacker the-kimiraikoner the-musketeer; do
+# Install all 18 plugins (names match marketplace/plugins/*)
+for plugin in aaronplug ds4cc godspeed-codex-command godspeed-core \
+              heuer-planning infinizoom myagents mycommands myskills \
+              sekhmet spoderman the-almanacker the-kimiraikoner \
+              the-musketeer the-netsshark the-puppeteer \
+              xbrd-gdsp-fknpft xbrd-selector; do
   codex plugin add "${plugin}@ds4cc"
 done
 # Each → Added plugin `<name>` from marketplace `ds4cc`.
-#         Installed plugin root: /home/vhpnk/.codex/plugins/cache/ds4cc/<name>/<version>
 
 # Confirm
 codex plugin list | grep "@ds4cc"
-# All 16 show: installed and enabled at their manifest versions
+# All 18 show: installed and enabled at their manifest versions
 ```
+
+Do **not** `codex plugin add agent-wall@ds4cc` or `agent-pip@ds4cc` — those are not catalog plugins.
 
 ---
 
@@ -187,8 +211,8 @@ ds4cc-marketplace/
 ├── .agents/plugins/
 │   └── marketplace.json          ← canonical Codex layout (name: "ds4cc", paths: ./marketplace/plugins/<name>)
 ├── marketplace/
-│   ├── marketplace.json          ← web/CI layout (17 plugins, paths: ./plugins/<name>)
-│   ├── plugins/<name>/
+│   ├── marketplace.json          ← web/CI layout (18 plugins, paths: ./plugins/<name>)
+│   ├── plugins/<name>/           ← 18 plugin directories (SSoT)
 │   │   ├── .codex-plugin/
 │   │   │   └── plugin.json       ← manifest: name, version, interface, capabilities
 │   │   ├── skills/<name>/
@@ -199,7 +223,7 @@ ds4cc-marketplace/
 │       │   ├── lib.rs            ← validate_marketplace_dir(), validate_marketplace(), validate_plugin()
 │       │   └── main.rs           ← CLI binary: ds4cc-validator <dir> (auto-detects layout)
 │       └── tests/
-│           └── integration_test.rs  ← 13 tests (schema + both layouts + codex CLI + FNM + live list)
+│           └── integration_test.rs  ← schema + both layouts + codex CLI + FNM + live list
 ```
 
 **Codex plugin contract** (what Codex reads at install time):
@@ -209,13 +233,7 @@ ds4cc-marketplace/
 
 ---
 
-## Blockers and open items
-
-### Not blocked
-
-All functional work is complete. The validator, manifests, SKILL.md files, and marketplace.json are all verified.
-
-### Local registration
+## Local registration
 
 Codex registration uses the repository root, where `.agents/plugins/marketplace.json` lives. From a clone:
 
@@ -223,33 +241,34 @@ Codex registration uses the repository root, where `.agents/plugins/marketplace.
 # Register this repository root as a local source
 codex plugin marketplace add .
 
-# Then install individual plugins
+# Then install individual plugins (examples)
 codex plugin add myagents@ds4cc
 codex plugin add mycommands@ds4cc
 codex plugin add myskills@ds4cc
-codex plugin add agent-wall@ds4cc
 codex plugin add ds4cc@ds4cc
+codex plugin add sekhmet@ds4cc
 ```
 
 ### Gap: FNM isolation scoped to version probe only
 
 `test_fnm_node_isolation` proves FNM can spawn a clean Node subprocess. It does _not_ run `npm install` or `bun install` in an FNM-isolated temp dir for aaronplug/infinizoom — that would require network access and a writable temp `node_modules`. The test is intentionally scoped to the structure proof (parseable `package.json`) plus runtime probe (`node --version via fnm exec`). Full install probes would be added to a separate CI job gated on network availability.
 
-### Not committed or pushed
+---
 
-Per instructions: no `git add`, no `git commit`, no `git push`. All changes are local working tree modifications.
+## Apps SDK vs full marketplace
+
+- **Public Git marketplace:** 18 plugins under `marketplace/plugins/`.
+- **OpenAI Apps SDK app (`apps-sdk/`, `app.ds4cc.com`):** reviewed **five-plugin** allowlist only — not the full catalog.
 
 ---
 
-## Files changed / added in this session
+## Files historically touched for dual-layout work
 
 | File | Change |
 |---|---|
-| `.agents/plugins/marketplace.json` | Updated: name `"ds4cc"`, 17 plugins, paths `./marketplace/plugins/<name>` |
-| `.gitignore` | Updated: allow `.agents/plugins/marketplace.json` to be tracked |
-| `marketplace/validator/src/lib.rs` | Added `validate_marketplace_dir()`, `validate_marketplace_with_base()`, dual-path convention support |
-| `marketplace/validator/src/main.rs` | Updated to use `validate_marketplace_dir()` (auto-detects layout) |
-| `marketplace/validator/tests/integration_test.rs` | Added tests 11–13: FNM isolation, canonical layout validation, `codex plugin list` evidence gate |
-| `HIGHLIGHTS.md` | Created (this file) |
-
-All plugin files, plugin.json manifests, SKILL.md files, README.md files, and `marketplace/marketplace.json` were established in prior sessions and are preserved exactly.
+| `.agents/plugins/marketplace.json` | Canonical Codex layout (`ds4cc`, paths `./marketplace/plugins/<name>`) |
+| `.gitignore` | Allow `.agents/plugins/marketplace.json` to be tracked |
+| `marketplace/validator/src/lib.rs` | Dual-path convention support |
+| `marketplace/validator/src/main.rs` | `validate_marketplace_dir()` auto-detect |
+| `marketplace/validator/tests/integration_test.rs` | Layout + CLI + FNM gates |
+| `HIGHLIGHTS.md` | Catalog accuracy (18 plugins; no agent-wall install loop) |

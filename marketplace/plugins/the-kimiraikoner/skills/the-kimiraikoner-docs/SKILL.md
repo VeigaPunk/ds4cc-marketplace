@@ -7,6 +7,8 @@ description: Install and run The KimiRaikoner Kimi web UI adapter through agent-
 
 CLI bridge for Kimi web chat via loopback CDP + agent-browser. Sibling of the-musketeer (Grok), the-puppeteer (ChatGPT), and the-almanacker (NotebookLM).
 
+**Naming:** marketplace plugin id / folder is `the-kimiraikoner` (SSoT for install). Product/repo name may appear as `the-kimiraikkoner` (double **k**); use the disk slug for plugin install commands.
+
 ## Install adapter
 
 ```bash

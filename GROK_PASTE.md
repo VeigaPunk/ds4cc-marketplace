@@ -31,21 +31,26 @@ grok plugin list --available --json | jq '.[] | select(.marketplace=="ds4cc-mark
 
 - `myagents` — agent profiles
 - `godspeed-core` — godspeed / Pareto posture
-- `agent-wall` — handoff checkpoints
 - `mycommands` — command packs
 - `myskills` — skill helpers
 - `ds4cc` — marketplace docs skill
 
 ```bash
-for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
+for p in myagents godspeed-core mycommands myskills ds4cc; do
   grok plugin install "$p" --trust && grok plugin enable "$p"
 done
 grok plugin list
 ```
 
-## Full catalog (16)
+## Full catalog (18 plugins on disk under `marketplace/plugins/`)
 
-`aaronplug`, `agent-pip`, `agent-wall`, `ds4cc`, `godspeed-codex-command`, `godspeed-core`, `infinizoom`, `myagents`, `mycommands`, `myskills`, `spoderman`, `the-almanacker`, `the-kimiraikoner`, `the-musketeer`, `the-puppeteer`, `xbrd-gdsp-fknpft`
+`aaronplug`, `ds4cc`, `godspeed-codex-command`, `godspeed-core`, `heuer-planning`, `infinizoom`, `myagents`, `mycommands`, `myskills`, `sekhmet`, `spoderman`, `the-almanacker`, `the-kimiraikoner`, `the-musketeer`, `the-netsshark`, `the-puppeteer`, `xbrd-gdsp-fknpft`, `xbrd-selector`
+
+Notes:
+
+- **agent-wall** is not a marketplace plugin id. Related product/crate naming: crate `agent-wall` / product **plazir18** — install from that product, not via `grok plugin install agent-wall`.
+- **agent-pip** is not on disk and is not installable from this marketplace.
+- Plugin id **`the-kimiraikoner`** matches the folder on disk (SSoT). Product/repo spelling may use **`the-kimiraikkoner`** (double **k**); use the disk slug for `grok plugin install`.
 
 ## After install
 
@@ -58,6 +63,6 @@ grok plugin list
 Public repo: https://github.com/VeigaPunk/ds4cc-marketplace  
 Homepage: https://ds4cc.com/  
 GitHub Pages mirror: https://veigapunk.github.io/ds4cc-marketplace/  
-App (separate OpenAI Apps SDK package): https://app.ds4cc.com/
+App (separate OpenAI Apps SDK package; **five-plugin** reviewed allowlist only): https://app.ds4cc.com/
 
 Start by registering the marketplace and listing available plugins. Wait for me to pick installs.

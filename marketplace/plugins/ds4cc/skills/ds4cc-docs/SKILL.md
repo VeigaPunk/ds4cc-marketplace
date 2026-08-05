@@ -31,7 +31,7 @@ grok plugin enable <plugin-name>
 Install several common plugins:
 
 ```bash
-for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
+for p in myagents godspeed-core mycommands myskills ds4cc; do
   grok plugin install "$p" --trust && grok plugin enable "$p"
 done
 ```
@@ -136,24 +136,31 @@ node ds4cc-marketplace/scripts/install-opencode-agents.mjs --project /path/to/pr
 
 The installer writes 15 `the-*` subagents plus `the-netsshark` (16 subagents total), and a separate `orch` primary mode aligned to `the-judge`.
 
-## Plugin catalog (developer marketplace)
+## Plugin catalog (developer marketplace — 18 on disk)
+
+SSoT: `ls marketplace/plugins` (do not invent ids).
 
 | Plugin | Role |
 |---|---|
-| `myagents` | Curated agent profiles |
+| `aaronplug` | Academic paper retrieval |
+| `ds4cc` | This meta-plugin |
+| `godspeed-codex-command` | Codex command-mode bootstrap |
 | `godspeed-core` | Pareto / godspeed doctrine |
-| `agent-wall` | Session handoff checkpoints |
+| `heuer-planning` | Planning skill pack |
+| `infinizoom` | Fractal-zoom visualization |
+| `myagents` | Curated agent profiles |
 | `mycommands` | Reusable command packs |
 | `myskills` | Skill inventory helpers |
-| `ds4cc` | This meta-plugin |
+| `sekhmet` | Host/orchestration docs |
 | `spoderman` | Hook / injection research harness |
-| `xbrd-gdsp-fknpft` | Multimodel dispatch (xbreed) |
-| `aaronplug` | Academic paper retrieval |
-| `infinizoom` | Fractal-zoom visualization |
-| `godspeed-codex-command` | Codex command-mode bootstrap |
-| `the-puppeteer` | Web automation bridge |
-| `the-musketeer` | Grok web UI adapter |
 | `the-almanacker` | NotebookLM adapter |
-| `the-kimiraikoner` | Kimi web UI adapter |
+| `the-kimiraikoner` | Kimi web UI adapter (plugin slug = disk name; product repo may spell `the-kimiraikkoner`) |
+| `the-musketeer` | Grok web UI adapter |
+| `the-netsshark` | Net/SSH specialist agent pack |
+| `the-puppeteer` | Web automation bridge |
+| `xbrd-gdsp-fknpft` | Multimodel dispatch (xbreed) |
+| `xbrd-selector` | Breed/selector tooling |
 
-Official OpenAI Apps SDK package is separate: `official/ds4cc/` + `https://app.ds4cc.com/mcp`.
+**Not installable as marketplace plugins:** `agent-wall` (crate `agent-wall` / product **plazir18** — not a ds4cc plugin id); `agent-pip` (not on disk).
+
+Official OpenAI Apps SDK package is separate (**five-plugin** reviewed allowlist only): `official/ds4cc/` + `https://app.ds4cc.com/mcp`.
