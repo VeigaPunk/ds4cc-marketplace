@@ -41,13 +41,33 @@ sekhmet status "$ID" --root "$ROOT"
 sekhmet gc --max-age 0 --root "$ROOT"
 ```
 
-## Live on Codex Titanium
+## Host always-on (L3)
 
 ```bash
+. ~/.xbgst/env.l3-sekhmet.sh   # XBRD_SPARK_JOBS=64  XBRD_SPARK_SERVICE_TIER=fast
+```
+
+Default swarm concurrency is **64** (`XBRD_SPARK_JOBS` / `sekhmet swarm -j 64`, hard cap 64).
+
+## Live on Codex Titanium (luna + fast)
+
+Preferred L3 pin for xbgst / xbrd-sol-ultra waves (ChatGPT OAuth, not platform API key):
+
+```bash
+. ~/.xbgst/env.l3-sekhmet.sh
 ROOT=$(mktemp -d)
-sekhmet run --direct --timeout 90 --task 'Reply with exactly: SPARK_LIVE_OK' --root "$ROOT"
-# swarm: up to 64 concurrent (default 16)
-printf 'Reply A\nReply B\n' | sekhmet swarm --direct -j 32 --tasks-file - --root "$(mktemp -d)"
+XBRD_SPARK_MODEL=gpt-5.6-luna \
+XBRD_SPARK_FALLBACK_MODEL=none \
+XBRD_SPARK_SERVICE_TIER=fast \
+sekhmet run --direct --ro --timeout 90 --no-keep \
+  --task 'Reply with exactly: SEKHMET_LUNA_FAST_OK' --root "$ROOT"
+
+# swarm: default 64 concurrent (sol-ultra / xbgst contract — do not silently lower)
+XBRD_SPARK_MODEL=gpt-5.6-luna \
+XBRD_SPARK_FALLBACK_MODEL=none \
+XBRD_SPARK_SERVICE_TIER=fast \
+sekhmet swarm --direct -j 64 --ro --timeout 180 --no-keep \
+  --tasks-file tasks.txt --root "$(mktemp -d)"
 ```
 
 ## Rules
@@ -57,6 +77,7 @@ printf 'Reply A\nReply B\n' | sekhmet swarm --direct -j 32 --tasks-file - --root
 - **Do not put judge/pareto/cluster logic in this layer**
 - Prefer `--ro` for pure probes; `--scope DIR` for mutation harbors
 - Live needs Titanium via `CODEX_BIN` / `codex-titanium` / `codex` on PATH; dry-run does not
+- **Luna + fast** under xbgst/sol-ultra: `XBRD_SPARK_MODEL=gpt-5.6-luna`, `XBRD_SPARK_SERVICE_TIER=fast`
 
 ## Verify crate tests
 
