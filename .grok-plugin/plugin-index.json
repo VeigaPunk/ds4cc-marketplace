@@ -265,12 +265,12 @@
       }
     },
     "xbrd-selector": {
-      "version": "0.1.0",
+      "version": "0.1.1",
       "components": {
         "skills": [
           {
             "name": "xbrd-selector-docs",
-            "description": "Install and run xbrd-selector through verified build commands and a Ratatui TUI."
+            "description": "Install and run xbrd-selector (OpenAI + xAI Grok; no Claude) with dual-tier TUI."
           }
         ]
       }

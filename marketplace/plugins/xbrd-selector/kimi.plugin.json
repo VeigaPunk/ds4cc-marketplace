@@ -1,7 +1,7 @@
 {
   "name": "xbrd-selector",
-  "version": "0.1.0",
-  "description": "Rust-only model selection and dispatch helper for xbrd workflows.",
+  "version": "0.1.1",
+  "description": "Rust-only model selection and dispatch helper (OpenAI + xAI Grok; no Claude).",
   "author": {
     "name": "VeigaPunk"
   },
@@ -11,7 +11,7 @@
   "interface": {
     "displayName": "Xbrd Selector (VeigaPunk)",
     "shortDescription": "Model selection and dispatch helper workflows",
-    "longDescription": "Uses the xbrd-selector TUI for model selection and dispatch routing with strict loopback local models, Rust-only builds, and read-only auth metadata.",
+    "longDescription": "Uses the xbrd-selector TUI for dual-tier selection: OpenAI ChatGPT + xAI Grok cloud catalog, plus strict loopback local models. Rust-only builds and read-only auth metadata.",
     "developerName": "VeigaPunk",
     "websiteURL": "https://github.com/VeigaPunk/xbrd-selector"
   }

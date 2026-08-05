@@ -27,11 +27,12 @@ xbrd-selector tui
 
 ## Rules
 
-- Keep local model endpoints on loopback only.
-- OpenCode OAuth login is limited to `openai` and `github-copilot`.
+- Keep local model endpoints on loopback only (local tier separate from cloud).
+- OpenCode OAuth login is limited to `openai` (ChatGPT) and `xai` (Grok).
+- Claude/Anthropic and github-copilot are never Usable on the cloud surface.
 - Treat auth metadata as read-only.
 - Use the Rust-native build and runtime.
-- Use the Ratatui TUI for selection and dispatch.
+- Use the Ratatui TUI for dual-tier selection (cloud catalog + local loopback).
 
 ## Verify
 

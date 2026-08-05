@@ -1,14 +1,14 @@
 {
   "name": "xbrd-selector",
-  "version": "0.1.0",
-  "description": "VeigaPunk Xbrd Selector plugin for Codex marketplace access.",
+  "version": "0.1.1",
+  "description": "VeigaPunk Xbrd Selector plugin (OpenAI + xAI Grok; no Claude).",
   "author": {
     "name": "VeigaPunk"
   },
   "interface": {
     "displayName": "Xbrd Selector (VeigaPunk)",
     "shortDescription": "Model selection and dispatch helper workflows",
-    "longDescription": "Rust-only xbrd-selector workflows for choosing models, routing dispatches, and coordinating lightweight selection logic with strict loopback local models.",
+    "longDescription": "Rust-only xbrd-selector workflows for choosing OpenAI ChatGPT and xAI Grok models, plus loopback local models, routing dispatches, and coordinating selection logic.",
     "developerName": "VeigaPunk",
     "category": "Developer",
     "capabilities": [
