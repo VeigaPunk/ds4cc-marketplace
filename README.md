@@ -16,7 +16,19 @@ Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, 
 - Validator: `marketplace/validator/` (Rust, `cargo test`)
 - Curation and claim policy: [`CURATION.md`](CURATION.md)
 - Paste-into-Grok-chat block: [`GROK_PASTE.md`](GROK_PASTE.md)
+- Titanium host resolve: [`docs/TITANIUM-HOST.md`](docs/TITANIUM-HOST.md)
 - Site: [ds4cc.com](https://ds4cc.com) · MCP: [app.ds4cc.com/mcp](https://app.ds4cc.com/mcp)
+
+## Titanium host resolve
+
+Codex Titanium is a **host binary**, not a plugin twin. Marketplace plugins do **not** ship `codex-titanium` / `codex` binaries — only skills and docs (e.g. `sekhmet`).
+
+```bash
+# runtime resolve chain (scout / sekhmet / xbrd-spark)
+CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
+```
+
+Put `sekhmet` / `xbrd-spark` on `PATH` via `cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked`. Optional hardened binary: `brew install VeigaPunk/tap/codex-titanium`. Details: [`docs/TITANIUM-HOST.md`](docs/TITANIUM-HOST.md).
 
 ## Grok Build (xAI CLI)
 

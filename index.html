@@ -455,7 +455,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 
   <section id="install" class="reveal">
     <h2><span class="idx">04</span>Install — host-specific guidance</h2>
-    <p class="sub">Use the supported flow for your host; review third-party plugin sources before installation. <strong>Codex Titanium L3 (sekhmet) is the optimal execution substrate as of 2026-08.</strong></p>
+    <p class="sub">Use the supported flow for your host; review third-party plugin sources before installation. <strong>Codex + sekhmet L3 is the optimal execution substrate as of 2026-08 (host binary resolve: repo docs).</strong></p>
     <div class="hosts">
 
       <div class="host">
@@ -471,29 +471,28 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 <span class="c"># marketplaces + stack</span>
 <span class="p">$</span> grok plugin marketplace add VeigaPunk/grok-marketplace
 <span class="p">$</span> grok plugin marketplace add VeigaPunk/ds4cc-marketplace
+<span class="p">$</span> grok plugin list --available --json
 <span class="p">$</span> grok plugin install xbgst-stack@veigapunk/grok-marketplace --trust
 <span class="p">$</span> bash ~/.grok/installed-plugins/xbgst-stack-*/scripts/install-host.sh
 <span class="p">$</span> grok plugin install myagents --trust
 <span class="p">$</span> grok plugin enable myagents</pre>
 <pre><span class="c"># install the core set in one loop</span>
 for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
-  grok plugin install "$p" --trust && grok plugin enable "$p"
+  grok plugin install "$p" --trust &amp;&amp; grok plugin enable "$p"
 done</pre>
         <p class="note"><strong>Config:</strong> <a href="grok-cli-config.toml">grok-cli-config.toml</a> (Pages) · <strong>Livepatch:</strong> <a href="https://github.com/VeigaPunk/grok-build-livepatch" target="_blank" rel="noopener">grok-build-livepatch</a> hard-bans <code>general-purpose</code>/<code>explore</code>; first-party full tools use <code>agent</code>. <strong>xbgst:</strong> <a href="https://github.com/VeigaPunk/grok-marketplace" target="_blank" rel="noopener">grok-marketplace</a> / xbrd-grok. <strong>Non-CLI fallback:</strong> paste <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">GROK_PASTE.md</a>.</p>
       </div>
 
       <div class="host">
-        <h3>Codex <span class="tag">OpenAI CLI · Titanium preferred</span></h3>
-<pre><span class="c"># preferred hardened binary (Codex Titanium)</span>
-<span class="p">$</span> brew install VeigaPunk/tap/codex-titanium
-<span class="p">$</span> install -Dm600 titanium/config.toml "${CODEX_HOME:-$HOME/.codex}/config.toml"
-<span class="c"># L3 execution substrate (sekhmet / xbrd-spark)</span>
+        <h3>Codex <span class="tag">OpenAI CLI</span></h3>
+<pre><span class="c"># marketplace plugins (hardened host binary: repo docs/TITANIUM-HOST.md)</span>
 <span class="p">$</span> cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
-<span class="c"># marketplace plugins</span>
 <span class="p">$</span> codex plugin marketplace add VeigaPunk/ds4cc-marketplace
+<span class="p">$</span> codex plugin list --available --json
 <span class="p">$</span> codex plugin add sekhmet@ds4cc --json
-<span class="p">$</span> codex plugin add myagents@ds4cc --json</pre>
-        <p class="note"><strong>Optimal substrate (as of 2026-08):</strong> Codex Titanium + sekhmet (xbreed L3) — pure namespaced sparks, no worktrees, up to 64 concurrent, double-work tolerant, Rust-only. Adding a plugin installs it enabled. TUI: <code>/plugins</code> + <code>Space</code>. Local: <code>codex plugin marketplace add .</code></p>
+<span class="p">$</span> codex plugin add myagents@ds4cc --json
+<span class="p">$</span> codex plugin list --json</pre>
+        <p class="note"><strong>Optimal substrate (as of 2026-08):</strong> Codex + sekhmet (xbreed L3) — pure namespaced sparks, no worktrees, up to 64 concurrent, double-work tolerant, Rust-only. Adding a plugin installs it enabled. Start a new Codex session to load skills/tools. Cache example: <code>$CODEX_HOME/plugins/cache/ds4cc/myagents/0.2.0</code>. TUI: <code>/plugins</code> + <code>Space</code>. Local: <code>codex plugin marketplace add .</code></p>
       </div>
 
       <div class="host">
@@ -664,7 +663,7 @@ distiller / simplifier / scribe native</pre>
       </div>
       <div>
         <b>referrals</b>
-        <a href="https://www.kimi.com/activities/invite/share?scenario=invite&from=share_poster&invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">kimi invite</a><br/>
+        <a href="https://www.kimi.com/activities/invite/share?scenario=invite&amp;from=share_poster&amp;invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">kimi invite</a><br/>
         <a href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">opencode invite</a><br/>
         <a href="https://help.openai.com/en/articles/20001271-codex-referral-promotions" target="_blank" rel="sponsored nofollow noopener">codex referral program</a>
       </div>
@@ -677,7 +676,7 @@ distiller / simplifier / scribe native</pre>
         <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">horizon halo ↗</a>
       </div>
     </div>
-    <p class="note">Disclosure: <a href="https://www.kimi.com/activities/invite/share?scenario=invite&from=share_poster&invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">the Kimi invite link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
+    <p class="note">Disclosure: <a href="https://www.kimi.com/activities/invite/share?scenario=invite&amp;from=share_poster&amp;invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">the Kimi invite link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
     <p class="note">Disclosure: <a href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">the OpenCode link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
     <div>DS4CC · VeigaPunk · MIT License · shipped 2026-07-29 · updated 2026-08-03</div>
     <div>Design language: <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">Horizon Halo</a> — green console, JetBrainsMonoNL Nerd Font.</div>
@@ -782,19 +781,17 @@ distiller / simplifier / scribe native</pre>
       ],
     },
     codex: {
-      title: "ds4cc — codex titanium + sekhmet L3",
+      title: "ds4cc — codex + sekhmet L3",
       lines: [
-        ["cmd", "brew install VeigaPunk/tap/codex-titanium"],
-        ["ok",  "codex-titanium + codex symlink installed"],
         ["cmd", "cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked"],
         ["ok",  "sekhmet + xbrd-spark on PATH"],
         ["cmd", "codex plugin marketplace add VeigaPunk/ds4cc-marketplace"],
         ["ok",  "added marketplace `ds4cc`"],
-        ["cmd", "codex plugin add sekhmet@ds4cc --json"],
-        ["ok",  "`sekhmet` installed (L3 substrate)"],
+        ["cmd", "codex plugin list --available --json"],
         ["cmd", "codex plugin add myagents@ds4cc --json"],
-        ["ok",  "`myagents` installed and enabled"],
-        ["out", "start a new session; use /plugins + Space to toggle state"],
+        ["ok",  "myagents: installed=true, enabled=true"],
+        ["cmd", "codex plugin list --json"],
+        ["out", "Start a new Codex session; use /plugins + Space to toggle state"],
       ],
     },
     kimi: {
