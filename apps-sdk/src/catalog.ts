@@ -41,11 +41,11 @@ const repositoryRoot = resolve(dirname(fileURLToPath(import.meta.url)), "../..")
 const marketplaceDir = resolve(repositoryRoot, "marketplace");
 const repositoryUrl = "https://github.com/VeigaPunk/ds4cc-marketplace";
 export const REVIEWED_PLUGIN_ALLOWLIST = Object.freeze([
-  "agent-wall",
   "ds4cc",
   "infinizoom",
   "mycommands",
   "myskills",
+  "sekhmet",
 ]);
 const reviewedPlugins = new Set(REVIEWED_PLUGIN_ALLOWLIST);
 

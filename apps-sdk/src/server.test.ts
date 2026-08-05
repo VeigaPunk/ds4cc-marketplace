@@ -135,11 +135,11 @@ test("official package uses only supported interface manifest fields and valid p
   }
 });
 
-test("public marketplace remains exactly 16 source-bound plugins", () => {
+test("public marketplace remains exactly 18 source-bound plugins", () => {
   for (const file of ["marketplace/marketplace.json", ".agents/plugins/marketplace.json"]) {
     const manifest = JSON.parse(readFileSync(resolve(process.cwd(), "..", file), "utf8")) as { plugins: Array<{ name: string; source: { path: string } }> };
-    assert.equal(manifest.plugins.length, 16, file);
-    assert.equal(new Set(manifest.plugins.map((plugin) => plugin.name)).size, 16, file);
+    assert.equal(manifest.plugins.length, 18, file);
+    assert.equal(new Set(manifest.plugins.map((plugin) => plugin.name)).size, 18, file);
     for (const plugin of manifest.plugins) assert.ok(plugin.source.path.endsWith(`/plugins/${plugin.name}`), `${file}: ${plugin.name}`);
   }
   const pluginRoot = resolve(process.cwd(), "../marketplace/plugins/ds4cc");
@@ -157,7 +157,7 @@ test("official catalog uses a reviewed allowlist and truthful sourced Codex comm
   for (const excluded of ["aaronplug", "spoderman", "xbrd-gdsp-fknpft", "the-puppeteer", "godspeed-codex-command", "godspeed-core"]) {
     assert.equal(names.has(excluded), false, `${excluded} must not be exposed by the submitted app`);
   }
-  assert.deepEqual([...names].sort(), ["agent-wall", "ds4cc", "infinizoom", "mycommands", "myskills"]);
+  assert.deepEqual([...names].sort(), ["ds4cc", "infinizoom", "mycommands", "myskills", "sekhmet"]);
   assert.deepEqual([...REVIEWED_PLUGIN_ALLOWLIST].sort(), [...names].sort());
   for (const plugin of catalog) {
     const marketplace = JSON.parse(readFileSync(resolve(process.cwd(), "../marketplace/marketplace.json"), "utf8")) as { plugins: Array<{ name: string; category: string }> };
