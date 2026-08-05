@@ -613,36 +613,44 @@ done</pre>
 
   <section id="lanes" class="reveal">
     <h2><span class="idx">08</span>Orchestration lanes — live routing</h2>
-    <p class="note">Mirrored from the packaged SSoT (<code>marketplace/plugins/xbrd-gdsp-fknpft/commands/references/xbreed-shared.md</code>). If this section and the SSoT disagree, the SSoT wins and this section is drift.</p>
+    <p class="note">Mirrored from the packaged SSoT (<code>marketplace/plugins/xbrd-gdsp-fknpft/commands/references/xbreed-shared.md</code> § Axis → Profile Mapping + xask Gate). If this section and the SSoT disagree, the SSoT wins and this section is drift.</p>
     <h3>Role declarations</h3>
-<pre>the-judge fable 5 · xhigh
-the-planner sonnet · medium
-the-scout sonnet · medium
-the-reviewer sonnet · medium
-the-labrat sonnet · medium
-the-executor sonnet · medium
-the-connector sonnet · medium
-the-distiller sonnet · medium
-the-simplifier sonnet · medium
-the-revenger sonnet · medium
-the-sentinel sonnet · medium
-the-critic sonnet · medium
-the-mutation-tester sonnet · medium
-the-scribe sonnet · medium
-the-netsshark host extension</pre>
-    <h3>Execution gates</h3>
-<pre>planner wwkd · native
-scout / labrat / executor xask --spark --gs codex → gpt-5.4-mini
-reviewer xask --gpt55 --gs -e low codex → gpt-5.6-sol
-critic Layer-0: heuer-planning → xask --gpt55 --gs -e low codex → gpt-5.6-sol
-revenger RECON xask --gpt55 --gs -e high codex → gpt-5.6-sol
-sentinel xask --gpt55 --gs -e low codex → gpt-5.6-sol
-connector xask --spark codex · no --gs
-mutation: single / <=4 xask --spark --gs codex
-mutation: >=5 / breadth xask --effort high --gs codex
-distiller / simplifier / scribe native</pre>
+<pre>the-judge            fable 5 · xhigh          (top-of-stack; dispatches specialists)
+the-planner          fable · high             Layer-0 wwkd · CC native (Phase 0 first spawn)
+the-scout            sonnet · medium
+the-reviewer         sonnet · medium
+the-labrat           sonnet · medium
+the-executor         openai/gpt-5.4-mini      Codex Spark only (no model/effort/advisor escape)
+the-connector        sonnet · medium
+the-distiller        sonnet · medium
+the-simplifier       sonnet · medium
+the-revenger         sonnet · medium
+the-sentinel         sonnet · medium
+the-critic           sonnet · medium          Layer-0 heuer-planning
+the-mutation-tester  sonnet · medium
+the-scribe           sonnet · medium
+the-netsshark        host extension           (separate plugin; not an xbreed axis role)</pre>
+    <h3>Execution gates (Layer-1 xask / native)</h3>
+<pre>planner              Layer-0 wwkd → CC native (no xask)
+scout                xask --spark --gs codex → gpt-5.4-mini
+                       escalate: xask --gpt55 --gs -e low codex → gpt-5.6-sol (high-ambiguity)
+labrat               xask --spark --gs codex → gpt-5.4-mini
+executor             xask --spark --gs codex → gpt-5.4-mini only
+reviewer             xask --gpt55 --gs -e low codex → gpt-5.6-sol (+ fast_mode)
+critic               Layer-0 heuer-planning → xask --gpt55 --gs -e low codex → gpt-5.6-sol
+revenger RECON       xask --gpt55 --gs -e low codex → gpt-5.6-sol
+                       in-repo single-file RE: skip xask · use advisor()
+sentinel             xask --gpt55 --gs -e low codex → gpt-5.6-sol
+                       + xask --spark --gs codex for CVE prior art
+connector            xask --spark --gs codex → sonnet in-session fallback
+mutation ≤4 / single xask --spark --gs codex → gpt-5.4-mini
+mutation ≥5 / breadth xask --gpt55 --gs -e low codex → gpt-5.6-sol
+distiller            in-session (no xask)
+simplifier           CC native (no xask)
+scribe               CC native (no xask)</pre>
+    <p class="note">Codex Sol lanes use <code>features.fast_mode=true</code> + reasoning=low. Spark lanes resolve to <code>gpt-5.4-mini</code>. Teammate prefixes: <code>ccs-</code> sonnet, <code>cco-</code> fable 5 (judge), <code>cdx-</code> codex, <code>g-</code> local Gemma/HVM.</p>
     <h3>Local lane — Gemma 4 over HVM4</h3>
-    <p><code>xask gemma</code> (aliases <code>g</code>, legacy <code>gemini</code>) dispatches through <code>xbreed ask gemma</code> → <code>gemma-hvm</code> → <code>run.sh/run-hvm4.sh</code> → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama. Default model <code>gemma4:26b</code> via <code>HVM_GEMMA_MODEL</code>. Cloud Gemini CLI is retired — do not call the <code>gemini</code> binary. Connector and any <code>g-*</code> teammates MUST use this lane for cross-model breadth.</p>
+    <p><code>xask gemma</code> (aliases <code>g</code>, legacy <code>gemini</code>) dispatches through <code>xbreed ask gemma</code> → <code>gemma-hvm</code> → <code>run.sh/run-hvm4.sh</code> → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama. Default model <code>gemma4:26b</code> via <code>HVM_GEMMA_MODEL</code>. Cloud Gemini CLI is retired — do not call the <code>gemini</code> binary. Any <code>g-*</code> teammate (and connector when routing local breadth) MUST use this lane — not the retired cloud Gemini path.</p>
     <p class="note">Ollama/Gemma 4 is the serving substrate. HVM4 controls routing only; tensor inference is not claimed to run in HVM4.</p>
   </section>
 
@@ -679,7 +687,7 @@ distiller / simplifier / scribe native</pre>
     </div>
     <p class="note">Disclosure: <a href="https://www.kimi.com/activities/invite/share?scenario=invite&amp;from=share_poster&amp;invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">the Kimi invite link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
     <p class="note">Disclosure: <a href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">the OpenCode link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
-    <div>DS4CC · VeigaPunk · MIT License · shipped 2026-07-29 · updated 2026-08-03</div>
+    <div>DS4CC · VeigaPunk · MIT License · shipped 2026-07-29 · updated 2026-08-05</div>
     <div>Design language: <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">Horizon Halo</a> — green console, JetBrainsMonoNL Nerd Font.</div>
   </footer>
 </div>
