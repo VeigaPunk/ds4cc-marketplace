@@ -477,7 +477,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 <span class="p">$</span> grok plugin install myagents --trust
 <span class="p">$</span> grok plugin enable myagents</pre>
 <pre><span class="c"># install the core set in one loop</span>
-for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
+for p in myagents godspeed-core mycommands myskills sekhmet xbrd-selector ds4cc; do
   grok plugin install "$p" --trust &amp;&amp; grok plugin enable "$p"
 done</pre>
         <p class="note"><strong>Config:</strong> <a href="grok-cli-config.toml">grok-cli-config.toml</a> (Pages) · <strong>Livepatch:</strong> <a href="https://github.com/VeigaPunk/grok-build-livepatch" target="_blank" rel="noopener">grok-build-livepatch</a> hard-bans <code>general-purpose</code>/<code>explore</code>; first-party full tools use <code>agent</code>. <strong>xbgst:</strong> <a href="https://github.com/VeigaPunk/grok-marketplace" target="_blank" rel="noopener">grok-marketplace</a> / xbrd-grok. <strong>Non-CLI fallback:</strong> paste <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">GROK_PASTE.md</a>.</p>
@@ -704,7 +704,7 @@ distiller / simplifier / scribe native</pre>
     { n: "the-musketeer", v: "0.3.0", d: "Grok web UI adapter (agent-browser / CDP).", c: "agent-browser session --host grok" },
     { n: "the-netsshark", v: "0.2.0", d: "Empirical DNS, routing, proxy, firewall, MTU, and connectivity audits.", c: 'codex "Use the-netsshark skill"' },
     { n: "the-puppeteer", v: "0.2.0", d: "Web automation & long-running ChatGPT bridge.", c: 'chitchat "..."' },
-    { n: "sekhmet", v: "0.1.1", d: "Always-available Codex Titanium swarm (xbreed L3). Up to 64 concurrent runners.", c: "sekhmet swarm --direct -j 32 --tasks-file tasks.txt" },
+    { n: "sekhmet", v: "0.1.1", d: "Always-available Codex Titanium swarm (xbreed L3). Up to 64 concurrent runners.", c: "sekhmet swarm --direct -j 64 --tasks-file tasks.txt" },
     { n: "xbrd-gdsp-fknpft", v: "8.16.137", d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
     { n: "xbrd-selector", v: "0.1.0", d: "Model/agent selector helpers for xbreed stacks.", c: 'codex \"Use xbrd-selector\"' },
   ];

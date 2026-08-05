@@ -42,7 +42,7 @@ grok plugin enable myagents
 Install several core plugins:
 
 ```bash
-for p in myagents godspeed-core agent-wall mycommands myskills ds4cc; do
+for p in myagents godspeed-core mycommands myskills sekhmet xbrd-selector ds4cc; do
   grok plugin install "$p" --trust && grok plugin enable "$p"
 done
 ```
@@ -194,7 +194,7 @@ No dedicated exclusive binary yet. Consume the shared xbrd plugins + sekhmet (wh
 
 ## OpenAI Apps SDK
 
-The read-only Apps SDK wrapper in `apps-sdk/` exposes only an explicitly reviewed subset through a production MCP endpoint and embedded catalog widget. It is not the public 16-plugin marketplace. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
+The read-only Apps SDK wrapper in `apps-sdk/` exposes only an explicitly reviewed subset through a production MCP endpoint and embedded catalog widget. It is not the public 18-plugin marketplace. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
 
 ```bash
 cd apps-sdk
@@ -207,26 +207,28 @@ Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `a
 
 ## Plugins (18)
 
+SSoT: `marketplace/plugins/<name>/` and `marketplace/marketplace.json` (18 entries). Drafts under `drafts/` are **not** catalog plugins.
+
 | Plugin | Category | Description |
 |---|---|---|
-| `spoderman` | Developer | Attack harness & hook safety research |
-| `xbrd-gdsp-fknpft` | Developer | Multimodel dispatch (xask/xbreed) & benchmark workflows |
-| `sekhmet` | Developer | Always-available swarm dispatch substrate (layer 3 of xbreed; Rust `xbrd-spark`) |
 | `aaronplug` | Developer | Academic paper retrieval (arXiv, Semantic Scholar, Sci-Hub) |
-| `infinizoom` | Developer | Fractal-zoom visualization QA & server |
+| `ds4cc` | Developer | Marketplace meta-plugin (discover, install, manage) |
 | `godspeed-codex-command` | Developer | Command-mode bootstrap & Codex posture controls |
-| `the-puppeteer` | Developer | Web automation & long-running ChatGPT bridge |
-| `the-musketeer` | Developer | Grok web UI adapter (agent-browser / CDP) |
-| `the-almanacker` | Developer | NotebookLM web UI adapter |
-| `the-kimiraikoner` | Developer | Kimi web UI adapter (agent-browser / CDP) |
 | `godspeed-core` | Developer | Adaptive execution doctrine & Pareto walk policy |
+| `heuer-planning` | Developer | Standalone Heuer-style structured planning skill |
+| `infinizoom` | Developer | Fractal-zoom visualization QA & server |
 | `myagents` | Developer | Curated agent workflow launchpad |
 | `mycommands` | Developer | Reusable command packs & shell routines |
 | `myskills` | Developer | Curated skill inventory & workflow helpers |
-| `heuer-planning` | Developer | Standalone Heuer-style structured planning skill |
-| `agent-wall` | Developer | Handoff checkpoints & session continuity |
-| `agent-pip` | Developer | Multi-panel tmux agent terminal dashboard in Rust |
-| `ds4cc` | Developer | Marketplace meta-plugin (discover, install, manage) |
+| `sekhmet` | Developer | Always-available swarm substrate (xbreed L3; Rust `xbrd-spark`, up to 64 runners) |
+| `spoderman` | Developer | Attack harness & hook safety research |
+| `the-almanacker` | Developer | NotebookLM web UI adapter |
+| `the-kimiraikoner` | Developer | Kimi web UI adapter (agent-browser / CDP) |
+| `the-musketeer` | Developer | Grok web UI adapter (agent-browser / CDP) |
+| `the-netsshark` | Developer | Empirical DNS, routing, proxy, firewall, MTU, connectivity audits |
+| `the-puppeteer` | Developer | Web automation & long-running ChatGPT bridge |
+| `xbrd-gdsp-fknpft` | Developer | Multimodel dispatch (xask/xbreed) & benchmark workflows |
+| `xbrd-selector` | Developer | Pure-Rust rover / model selector helpers for xbreed stacks |
 
 ## Install a plugin
 
@@ -311,13 +313,25 @@ A `SKILL.md` is **actionable** if its body (after frontmatter) contains at least
 
 ## Official OpenAI submission bundle
 
-The OpenAI submission is the isolated source tree at `official/ds4cc/`, not the public plugin at `marketplace/plugins/ds4cc/` and not the public 16-plugin marketplace. Its skill uses only the read-only `browse_ds4cc_marketplace` MCP tool and reviewed results. Build the deterministic, path-safe archive locally:
+The OpenAI submission is the isolated source tree at `official/ds4cc/`, not the public plugin at `marketplace/plugins/ds4cc/` and not the public 18-plugin marketplace. Its skill uses only the read-only `browse_ds4cc_marketplace` MCP tool and reviewed results. Build the deterministic, path-safe archive locally:
 
 ```bash
 python3 scripts/build-ds4cc-submission.py
 ```
 
 The ignored output is `artifacts/ds4cc-openai-submission.zip`. The builder accepts exactly the reviewed files in `official/ds4cc/`, including its LICENSE; it rejects extras, links, unsafe names, and traversal, and writes deterministic regular mode-0644 entries. The portal MCP URL is entered separately as `https://app.ds4cc.com/mcp`. The public plugin remains functional documentation for registering and using the full developer marketplace, but it is never bundled for official review.
+
+## Related stack
+
+| Piece | Role |
+| --- | --- |
+| [xbrd-spark](https://github.com/VeigaPunk/xbrd-spark) | L3 Sekhmet swarm binary (`sekhmet` / `xbrd-spark`); global cap **64** concurrent workers |
+| [xbgst](https://github.com/VeigaPunk/xbgst) | Grok host Godspeed stack (judge concurrency 16; L3 remains 64 via Sekhmet) |
+| [xbrd-sol-ultra](https://github.com/VeigaPunk/xbrd-sol-ultra) | Sol Ultra root judge skill: one `sekhmet swarm -j 64` wave per round |
+| [xbrd-selector](https://github.com/VeigaPunk/xbrd-selector) | Rover CLI; also packaged here as plugin `xbrd-selector` |
+| Site | [ds4cc.com](https://ds4cc.com) · MCP [app.ds4cc.com/mcp](https://app.ds4cc.com/mcp) |
+
+**Hosts (4):** Grok Build, Codex, Kimi Code CLI, OpenCode (bootstrap script; no native marketplace protocol).
 
 ## Licensing
 
