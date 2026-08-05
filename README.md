@@ -326,6 +326,7 @@ The ignored output is `artifacts/ds4cc-openai-submission.zip`. The builder accep
 | Piece | Role |
 | --- | --- |
 | [xbrd-spark](https://github.com/VeigaPunk/xbrd-spark) | L3 Sekhmet swarm binary (`sekhmet` / `xbrd-spark`); global cap **64** concurrent workers |
+| [sekhmet-l3](https://github.com/VeigaPunk/sekhmet-l3) | Public L3 usage + GATE evidence pack (luna + fast, j=64) |
 | [xbgst](https://github.com/VeigaPunk/xbgst) | Grok host Godspeed stack (judge concurrency 16; L3 remains 64 via Sekhmet) |
 | [xbgst-site](https://github.com/VeigaPunk/xbgst-site) | Public xbgst hub · [https://veigapunk.github.io/xbgst-site/](https://veigapunk.github.io/xbgst-site/) · [repo](https://github.com/VeigaPunk/xbgst-site) |
 | [xbrd-sol-ultra](https://github.com/VeigaPunk/xbrd-sol-ultra) | Sol Ultra root judge skill: one `sekhmet swarm -j 64` wave per round |
