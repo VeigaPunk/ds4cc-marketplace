@@ -477,6 +477,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 <span class="p">$</span> grok plugin install myagents --trust
 <span class="p">$</span> grok plugin enable myagents</pre>
 <pre><span class="c"># install the core set in one loop</span>
+<!-- catalog-install-loop:2026-08-05-residual sekhmet+xbrd-selector (no agent-wall) -->
 for p in myagents godspeed-core mycommands myskills sekhmet xbrd-selector ds4cc; do
   grok plugin install "$p" --trust &amp;&amp; grok plugin enable "$p"
 done</pre>
