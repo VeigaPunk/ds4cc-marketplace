@@ -47,7 +47,13 @@ Multi-model meta-launcher orchestrating Claude Code, Codex CLI, and Gemini CLI w
 
 ## When Dispatched by xbreed
 
-You are invoked via `codex exec -p xbreed` (autonomous, workspace-write) or `codex exec -p xbreed_review` (read-only, xhigh reasoning). Inter-Model Protocol v0.2 expects minimal blocks: `# Goal` + `# State` + `# Action` + `# Artifact: <type>`. Use inline status tags: `obs:`, `inf:`, `asm:`, `risk:` with confidence (certain/strong/moderate/weak/speculative).
+Host resolve (Titanium preferred; not a plugin twin):
+
+```bash
+CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
+```
+
+You are invoked via `"$CODEX_BIN" exec -p xbreed` (autonomous, workspace-write) or `"$CODEX_BIN" exec -p xbreed_review` (read-only, xhigh reasoning). Inter-Model Protocol v0.2 expects minimal blocks: `# Goal` + `# State` + `# Action` + `# Artifact: <type>`. Use inline status tags: `obs:`, `inf:`, `asm:`, `risk:` with confidence (certain/strong/moderate/weak/speculative).
 
 **Tell me what to do, not what to think.** Prefer concrete diffs/commands over philosophical reasoning.
 

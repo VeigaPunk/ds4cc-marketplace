@@ -26,7 +26,14 @@ cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
 # installs both: sekhmet + xbrd-spark
 ```
 
-**Runtime:** Codex Titanium (`codex-titanium` preferred, or `CODEX_BIN`).  
+**Runtime:** Codex Titanium host binary (not a plugin twin). Resolve:
+
+```bash
+CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
+# then: "$CODEX_BIN" exec ...  |  sekhmet/xbrd-spark also honor CODEX_BIN
+```
+
+Details: repo root [`docs/TITANIUM-HOST.md`](../../../../docs/TITANIUM-HOST.md).  
 **Model:** `gpt-5.3-codex-spark` (`XBRD_SPARK_MODEL`).  
 `--dry-run` needs neither titanium nor xask.
 

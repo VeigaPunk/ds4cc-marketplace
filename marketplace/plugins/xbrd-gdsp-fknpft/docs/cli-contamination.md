@@ -87,6 +87,14 @@ GEMINI.md files from directories touched at runtime are injected (v0.36.0+). No 
 | Environment context | OS, shell, git repo info |
 | `~/.codex/config.toml` | personality, plugins, project trust levels |
 
+### Host resolve (Titanium)
+
+```bash
+CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
+```
+
+Prefer `"$CODEX_BIN" exec ...` over bare `codex exec` so Titanium wins when installed.
+
 ### Key flags (`codex exec`)
 
 ```
@@ -102,7 +110,8 @@ GEMINI.md files from directories touched at runtime are injected (v0.36.0+). No 
 ### Context suppression via `-c` flags
 
 ```bash
-codex exec \
+CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
+"$CODEX_BIN" exec \
   --skip-git-repo-check \
   -c include_permissions_instructions=false \
   -c include_apps_instructions=false \

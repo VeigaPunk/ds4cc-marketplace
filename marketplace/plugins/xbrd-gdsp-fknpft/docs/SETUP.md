@@ -33,11 +33,14 @@ Required on PATH before starting:
 Gate:
 
 ```bash
+CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
 git --version && jq --version && cargo --version \
-  && command -v claude && command -v codex \
+  && command -v claude && test -n "$CODEX_BIN" \
   && echo "$PATH" | grep -q "$HOME/.local/bin" \
-  && echo PREREQS-OK
+  && echo PREREQS-OK "codex=$CODEX_BIN"
 ```
+
+Titanium host resolve: `CODEX_BIN` → `codex-titanium` → `codex` (see marketplace `docs/TITANIUM-HOST.md`).
 
 ---
 

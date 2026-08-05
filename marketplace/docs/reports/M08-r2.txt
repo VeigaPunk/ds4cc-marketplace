@@ -1,0 +1,194 @@
+# M08-r2 — Titanium host resolve (plugin docs) + OpenCode verify + gates
+
+Date: 2026-08-05
+Commit base: 7073531 (no commit this round)
+
+## Axes
+- titanium host+
+- minimal surface+
+- install load+
+
+## Task 1 — rg shell-out without CODEX_BIN chain
+
+Live plugin docs (excl. historical reports / xask-only lanes) that shell out or prereq-check bare `codex`:
+
+| File | Before | Action |
+| --- | --- | --- |
+| marketplace/plugins/sekhmet/README.md | mentions CODEX_BIN, no resolve snippet | patched |
+| marketplace/plugins/sekhmet/skills/sekhmet-docs/SKILL.md | CODEX_BIN pin text only; "codex on PATH" | patched |
+| marketplace/plugins/xbrd-gdsp-fknpft/CODEX.md | bare `codex exec -p ...` | patched |
+| marketplace/plugins/xbrd-gdsp-fknpft/docs/SETUP.md | `command -v codex` only | patched |
+| marketplace/plugins/xbrd-gdsp-fknpft/docs/cli-contamination.md | bare `codex exec \` recipes | patched |
+
+Skipped (not shell-out docs / pure xask / historical / code not docs):
+- xbrd `scripts/xask` codex lanes (xask --spark/--gs)
+- `docs/reports/**`, plans, bench tables
+- `src/ask.rs` Command::new("codex") — code path out of "plugin docs" + prefer tiny surface
+- myskills SKILL (explicitly says NOT codex exec)
+- root README + docs/TITANIUM-HOST.md already have resolve (M03/M05)
+
+Snippet applied:
+
+```bash
+CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
+```
+
+## Task 3 — OpenCode agents install verify
+
+```
+$ node scripts/check-opencode-install.mjs
+Validated isolated OpenCode install: 17 portable files (15 the-* agents + the-netsshark = 16 subagents, plus separate orch primary mode) in /tmp/ds4cc-opencode-*/.opencode/agents
+exit:0
+```
+(install-opencode-agents.mjs --help unknown; check-only path used; no --force user overwrite)
+
+## Task 4 — package integrity + sekhmet dry
+
+Static 18-plugin sweep: plugin.json + README.md + JSON parse + kimi.plugin.json if present → plugins=18 fail=0
+sekhmet run --dry-run --deterministic --task m08-r2-package-integrity → status=ok dry_run=true
+cli-parity-probe.sh dry-run: plugins=18 pass=18 fail_rows=0 HOST=ok:codex-titanium
+
+## Task 5 — gates
+
+python -m unittest discover -s tests -v → 27 tests OK
+cargo test --manifest-path marketplace/validator/Cargo.toml --offline → 23 integration + unit OK
+
+## Diff stat (uncommitted)
+
+```
+ marketplace/plugins/sekhmet/README.md                         | +6
+ marketplace/plugins/sekhmet/skills/sekhmet-docs/SKILL.md      | +8/-2
+ marketplace/plugins/xbrd-gdsp-fknpft/CODEX.md                 | +6/-1
+ marketplace/plugins/xbrd-gdsp-fknpft/docs/SETUP.md            | +4/-1
+ marketplace/plugins/xbrd-gdsp-fknpft/docs/cli-contamination.md| +8/-2
+```
+
+Status: done — no commit/push
+
+## git diff --stat
+ marketplace/plugins/sekhmet/README.md                         |  9 ++++++++-
+ marketplace/plugins/sekhmet/skills/sekhmet-docs/SKILL.md      | 10 ++++++++--
+ marketplace/plugins/xbrd-gdsp-fknpft/CODEX.md                 |  8 +++++++-
+ marketplace/plugins/xbrd-gdsp-fknpft/docs/SETUP.md            |  7 +++++--
+ .../plugins/xbrd-gdsp-fknpft/docs/cli-contamination.md        | 11 ++++++++++-
+ 5 files changed, 38 insertions(+), 7 deletions(-)
+
+## git diff (full)
+diff --git i/marketplace/plugins/sekhmet/README.md w/marketplace/plugins/sekhmet/README.md
+index 57c0ca6..67a78d6 100644
+--- i/marketplace/plugins/sekhmet/README.md
++++ w/marketplace/plugins/sekhmet/README.md
+@@ -26,7 +26,14 @@ cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
+ # installs both: sekhmet + xbrd-spark
+ ```
+ 
+-**Runtime:** Codex Titanium (`codex-titanium` preferred, or `CODEX_BIN`).  
++**Runtime:** Codex Titanium host binary (not a plugin twin). Resolve:
++
++```bash
++CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
++# then: "$CODEX_BIN" exec ...  |  sekhmet/xbrd-spark also honor CODEX_BIN
++```
++
++Details: repo root [`docs/TITANIUM-HOST.md`](../../../../docs/TITANIUM-HOST.md).  
+ **Model:** `gpt-5.3-codex-spark` (`XBRD_SPARK_MODEL`).  
+ `--dry-run` needs neither titanium nor xask.
+ 
+diff --git i/marketplace/plugins/sekhmet/skills/sekhmet-docs/SKILL.md w/marketplace/plugins/sekhmet/skills/sekhmet-docs/SKILL.md
+index 96894fd..3cdfb16 100644
+--- i/marketplace/plugins/sekhmet/skills/sekhmet-docs/SKILL.md
++++ w/marketplace/plugins/sekhmet/skills/sekhmet-docs/SKILL.md
+@@ -22,7 +22,13 @@ cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
+ # bins: sekhmet + xbrd-spark
+ ```
+ 
+-Requires **Codex Titanium** on PATH (`codex-titanium` or `codex` → titanium). Pin with `CODEX_BIN`.
++Requires **Codex Titanium** host binary (not shipped by this plugin). Resolve:
++
++```bash
++CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
++```
++
++Order: `CODEX_BIN` → `codex-titanium` → `codex`. See marketplace `docs/TITANIUM-HOST.md`.
+ 
+ ## Smoke (offline — required gate)
+ 
+@@ -50,7 +56,7 @@ printf 'Reply A\nReply B\n' | sekhmet swarm --direct -j 32 --tasks-file - --root
+ - **Double-work is intentional** — emit everything; distill above
+ - **Do not put judge/pareto/cluster logic in this layer**
+ - Prefer `--ro` for pure probes; `--scope DIR` for mutation harbors
+-- Live needs `codex` on PATH; dry-run does not
++- Live needs Titanium via `CODEX_BIN` / `codex-titanium` / `codex` on PATH; dry-run does not
+ 
+ ## Verify crate tests
+ 
+diff --git i/marketplace/plugins/xbrd-gdsp-fknpft/CODEX.md w/marketplace/plugins/xbrd-gdsp-fknpft/CODEX.md
+index 6a75f9e..cdca7fa 100644
+--- i/marketplace/plugins/xbrd-gdsp-fknpft/CODEX.md
++++ w/marketplace/plugins/xbrd-gdsp-fknpft/CODEX.md
+@@ -47,7 +47,13 @@ Multi-model meta-launcher orchestrating Claude Code, Codex CLI, and Gemini CLI w
+ 
+ ## When Dispatched by xbreed
+ 
+-You are invoked via `codex exec -p xbreed` (autonomous, workspace-write) or `codex exec -p xbreed_review` (read-only, xhigh reasoning). Inter-Model Protocol v0.2 expects minimal blocks: `# Goal` + `# State` + `# Action` + `# Artifact: <type>`. Use inline status tags: `obs:`, `inf:`, `asm:`, `risk:` with confidence (certain/strong/moderate/weak/speculative).
++Host resolve (Titanium preferred; not a plugin twin):
++
++```bash
++CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
++```
++
++You are invoked via `"$CODEX_BIN" exec -p xbreed` (autonomous, workspace-write) or `"$CODEX_BIN" exec -p xbreed_review` (read-only, xhigh reasoning). Inter-Model Protocol v0.2 expects minimal blocks: `# Goal` + `# State` + `# Action` + `# Artifact: <type>`. Use inline status tags: `obs:`, `inf:`, `asm:`, `risk:` with confidence (certain/strong/moderate/weak/speculative).
+ 
+ **Tell me what to do, not what to think.** Prefer concrete diffs/commands over philosophical reasoning.
+ 
+diff --git i/marketplace/plugins/xbrd-gdsp-fknpft/docs/SETUP.md w/marketplace/plugins/xbrd-gdsp-fknpft/docs/SETUP.md
+index 7416dd9..43c72b0 100644
+--- i/marketplace/plugins/xbrd-gdsp-fknpft/docs/SETUP.md
++++ w/marketplace/plugins/xbrd-gdsp-fknpft/docs/SETUP.md
+@@ -33,12 +33,15 @@ Required on PATH before starting:
+ Gate:
+ 
+ ```bash
++CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
+ git --version && jq --version && cargo --version \
+-  && command -v claude && command -v codex \
++  && command -v claude && test -n "$CODEX_BIN" \
+   && echo "$PATH" | grep -q "$HOME/.local/bin" \
+-  && echo PREREQS-OK
++  && echo PREREQS-OK "codex=$CODEX_BIN"
+ ```
+ 
++Titanium host resolve: `CODEX_BIN` → `codex-titanium` → `codex` (see marketplace `docs/TITANIUM-HOST.md`).
++
+ ---
+ 
+ ## 1. Clone
+diff --git i/marketplace/plugins/xbrd-gdsp-fknpft/docs/cli-contamination.md w/marketplace/plugins/xbrd-gdsp-fknpft/docs/cli-contamination.md
+index f7310c5..17ac08f 100644
+--- i/marketplace/plugins/xbrd-gdsp-fknpft/docs/cli-contamination.md
++++ w/marketplace/plugins/xbrd-gdsp-fknpft/docs/cli-contamination.md
+@@ -87,6 +87,14 @@ GEMINI.md files from directories touched at runtime are injected (v0.36.0+). No
+ | Environment context | OS, shell, git repo info |
+ | `~/.codex/config.toml` | personality, plugins, project trust levels |
+ 
++### Host resolve (Titanium)
++
++```bash
++CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
++```
++
++Prefer `"$CODEX_BIN" exec ...` over bare `codex exec` so Titanium wins when installed.
++
+ ### Key flags (`codex exec`)
+ 
+ ```
+@@ -102,7 +110,8 @@ GEMINI.md files from directories touched at runtime are injected (v0.36.0+). No
+ ### Context suppression via `-c` flags
+ 
+ ```bash
+-codex exec \
++CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
++"$CODEX_BIN" exec \
+   --skip-git-repo-check \
+   -c include_permissions_instructions=false \
+   -c include_apps_instructions=false \

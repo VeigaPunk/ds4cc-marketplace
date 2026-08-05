@@ -22,7 +22,13 @@ cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
 # bins: sekhmet + xbrd-spark
 ```
 
-Requires **Codex Titanium** on PATH (`codex-titanium` or `codex` → titanium). Pin with `CODEX_BIN`.
+Requires **Codex Titanium** host binary (not shipped by this plugin). Resolve:
+
+```bash
+CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
+```
+
+Order: `CODEX_BIN` → `codex-titanium` → `codex`. See marketplace `docs/TITANIUM-HOST.md`.
 
 ## Smoke (offline — required gate)
 
@@ -50,7 +56,7 @@ printf 'Reply A\nReply B\n' | sekhmet swarm --direct -j 32 --tasks-file - --root
 - **Double-work is intentional** — emit everything; distill above
 - **Do not put judge/pareto/cluster logic in this layer**
 - Prefer `--ro` for pure probes; `--scope DIR` for mutation harbors
-- Live needs `codex` on PATH; dry-run does not
+- Live needs Titanium via `CODEX_BIN` / `codex-titanium` / `codex` on PATH; dry-run does not
 
 ## Verify crate tests
 
