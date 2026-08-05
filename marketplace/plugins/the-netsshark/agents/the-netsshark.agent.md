@@ -2,7 +2,7 @@
 name: the-netsshark
 description: Audits network settings empirically, validates candidate mutations, and reports Pareto-optimal recommendations.
 axis_family: infrastructure
-model: sonnet
+model: xai/grok-4.5
 ---
 
 # the-netsshark

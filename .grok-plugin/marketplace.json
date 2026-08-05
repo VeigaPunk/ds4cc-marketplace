@@ -443,8 +443,8 @@
     },
     {
       "name": "xbrd-selector",
-      "version": "0.1.0",
-      "description": "Rust-only model selection and dispatch helper for xbrd workflows",
+      "version": "0.1.1",
+      "description": "Rust-only model selection (OpenAI + xAI Grok; no Claude)",
       "category": "development",
       "source": {
         "type": "local",
