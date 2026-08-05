@@ -1,1 +1,996 @@
-PLACEHOLDER
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>DS4CC — 18 plugins for four supported agent CLIs</title>
+<meta name="description" content="DS4CC Marketplace: 18 curated Rust-validated plugins with host-specific guidance for Grok Build, Codex, Kimi Code CLI and OpenCode." />
+<meta property="og:title" content="DS4CC Marketplace — four supported agent CLIs" />
+<meta property="og:description" content="18 curated plugins with host-specific install guidance for Grok, Codex, Kimi and OpenCode." />
+<meta property="og:url" content="https://ds4cc.com/" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta name="theme-color" content="#050605" />
+<script>document.documentElement.classList.add('js');</script>
+<style>
+@font-face {
+  font-family: "JetBrainsMonoNL";
+  src: url("assets/fonts/JetBrainsMonoNLNerdFontMono-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "JetBrainsMonoNL";
+  src: url("assets/fonts/JetBrainsMonoNLNerdFontMono-Medium.woff2") format("woff2");
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "JetBrainsMonoNL";
+  src: url("assets/fonts/JetBrainsMonoNLNerdFontMono-SemiBold.woff2") format("woff2");
+  font-weight: 600; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "JetBrainsMonoNL";
+  src: url("assets/fonts/JetBrainsMonoNLNerdFontMono-Bold.woff2") format("woff2");
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "JetBrainsMonoNL";
+  src: url("assets/fonts/JetBrainsMonoNLNerdFontMono-ExtraBold.woff2") format("woff2");
+  font-weight: 800; font-style: normal; font-display: swap;
+}
+
+:root {
+  --bg: #050605;
+  --panel: #0d100d;
+  --panel2: #121612;
+  --fg: #e8f0e6;
+  --body: #c5d0c3;
+  --muted: #7a8a78;
+  --green: #51ff00;
+  --green-dim: #38b000;
+  --amber: #ffb020;
+  --red: #ff3b30;
+  --cyan: #3de0ff;
+  --border: #1e281e;
+  --border2: #2a332a;
+  --rule: #1a201a;
+  --code: #b8f5a0;
+  --font: "JetBrainsMonoNL", "JetBrainsMono Nerd Font", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font);
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--green); color: #000; }
+a { color: var(--green); text-decoration: none; }
+a:hover { text-decoration: underline; }
+code { color: var(--code); }
+:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+
+.page { max-width: 1120px; margin: 0 auto; padding: 0 16px 90px; }
+
+/* ---------- nav ---------- */
+nav {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  border-bottom: 1px solid var(--rule);
+  backdrop-filter: blur(10px);
+}
+.nav-inner {
+  max-width: 1120px; margin: 0 auto; padding: 10px 16px;
+  display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+}
+.brand { font-weight: 700; letter-spacing: 0.06em; font-size: 0.95rem; color: var(--fg); text-decoration: none; }
+.brand:hover { text-decoration: none; }
+.brand b { color: var(--green); text-shadow: 0 0 12px rgba(81,255,0,0.35); }
+.brand span { color: var(--muted); font-weight: 400; }
+.nav-links { display: flex; gap: 14px; flex-wrap: wrap; margin-left: auto; align-items: center; }
+.nav-links a { color: var(--muted); font-size: 0.8rem; letter-spacing: 0.04em; }
+.nav-links a:hover { color: var(--green); text-decoration: none; }
+.nav-cta {
+  background: #000; color: var(--green); border: 1px solid var(--green);
+  padding: 5px 10px; font-size: 0.78rem; border-radius: 4px;
+}
+.nav-cta:hover { background: #51ff0022; text-decoration: none; }
+.nav-toggle {
+  display: none; margin-left: auto;
+  background: #000; color: var(--muted); border: 1px solid var(--border2);
+  border-radius: 4px; padding: 6px 10px; font-family: inherit; font-size: 0.78rem;
+}
+.nav-toggle:hover { color: var(--green); border-color: var(--green); }
+@media (max-width: 720px) {
+  .nav-toggle { display: block; }
+  .nav-links {
+    display: none; width: 100%; flex-direction: column; align-items: flex-start;
+    gap: 8px; padding: 8px 0 4px; border-top: 1px solid var(--rule); margin-top: 6px;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { font-size: 0.9rem; padding: 4px 0; }
+  .nav-inner { flex-wrap: wrap; }
+}
+
+/* ---------- shared ---------- */
+.badge {
+  display: inline-block;
+  background: var(--green); color: #000;
+  font-weight: 700; font-size: 0.68rem;
+  padding: 3px 8px; margin: 0 6px 6px 0;
+  letter-spacing: 0.04em;
+}
+.badge.dark { background: #000; color: var(--green); border: 1px solid var(--green); }
+.badge.cyan { background: #000; color: var(--cyan); border: 1px solid var(--cyan); }
+section {
+  margin: 34px 0; border-top: 1px solid var(--rule);
+  padding-top: 22px; scroll-margin-top: 70px;
+}
+h2 {
+  font-size: 1.05rem; margin: 0 0 6px; color: var(--green);
+  letter-spacing: 0.03em; text-shadow: 0 0 18px rgba(81,255,0,0.18);
+}
+h2 .idx { color: var(--muted); font-weight: 400; margin-right: 8px; }
+.sub { color: var(--muted); font-size: 0.88rem; margin: 0 0 16px; line-height: 1.55; }
+p, li { line-height: 1.55; font-size: 0.92rem; color: var(--body); }
+.callout {
+  border-left: 3px solid var(--green); background: #0d140d;
+  padding: 12px 14px; margin: 14px 0;
+}
+.callout.amber { border-left-color: var(--amber); background: #14100a; }
+.callout.red { border-left-color: var(--red); background: #140d0d; }
+.panel {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 8px;
+}
+pre {
+  background: #080a08; border: 1px solid var(--border); border-radius: 6px;
+  padding: 12px 14px; overflow-x: auto; font-size: 0.82rem; line-height: 1.6;
+  color: var(--body); margin: 10px 0; font-family: var(--font);
+}
+pre .c { color: var(--muted); }
+pre .p { color: var(--cyan); }
+pre .g { color: var(--green); }
+table.spec { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+table.spec th, table.spec td {
+  text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); vertical-align: top;
+}
+table.spec th { color: var(--muted); font-weight: 500; width: 30%; }
+.btn {
+  display: inline-block; background: #000; color: var(--green);
+  border: 1px solid var(--green); border-radius: 4px;
+  padding: 8px 14px; font-family: inherit; font-size: 0.82rem; cursor: pointer;
+  letter-spacing: 0.03em;
+}
+.btn:hover { background: #51ff0022; text-decoration: none; }
+.btn:active { background: var(--green); color: #000; }
+.btn.solid { background: var(--green); color: #000; font-weight: 700; }
+.btn.solid:hover { background: #6bff2e; }
+.btn.small { padding: 4px 9px; font-size: 0.72rem; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(0,0,0,.55); border: 1px solid var(--border2); border-radius: 4px;
+  padding: 6px 10px; font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase;
+  color: var(--body);
+}
+.chip .dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 8px var(--green);
+}
+.chip.amber .dot { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+
+/* ---------- hero ---------- */
+header.hero { padding: 34px 0 8px; }
+.ascii {
+  font-size: clamp(6px, 1.55vw, 13px);
+  line-height: 1.15;
+  color: var(--green);
+  text-shadow: 0 0 14px rgba(81,255,0,0.35);
+  background: none; border: none; padding: 0; margin: 14px 0 6px;
+  overflow: visible; white-space: pre;
+  font-family: var(--font);
+}
+.hero h1 {
+  font-size: clamp(1.25rem, 3.2vw, 1.9rem);
+  font-weight: 600; letter-spacing: 0.02em; margin: 10px 0 8px;
+}
+.hero h1 em { color: var(--green); font-style: normal; text-shadow: 0 0 16px rgba(81,255,0,0.25); }
+.tagline { color: var(--muted); font-size: 0.95rem; margin: 0 0 18px; max-width: 760px; line-height: 1.55; }
+.hero-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin: 14px 0 8px; }
+.oneliner {
+  display: flex; align-items: stretch; gap: 0; max-width: 100%;
+  border: 1px solid var(--border2); border-radius: 6px; overflow: hidden;
+  background: #080a08;
+}
+.oneliner code {
+  padding: 10px 14px; font-size: 0.82rem; color: var(--code);
+  overflow-x: auto; white-space: nowrap; font-family: var(--font);
+}
+.oneliner .p { color: var(--cyan); }
+.copy-btn {
+  background: #000; color: var(--green); border: none; border-left: 1px solid var(--border2);
+  font-family: inherit; font-size: 0.72rem; padding: 0 14px; cursor: pointer; letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.copy-btn:hover { background: #51ff0022; }
+.copy-btn.done { background: var(--green); color: #000; font-weight: 700; }
+
+/* ---------- terminal device ---------- */
+.term-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.term {
+  width: min(100%, 780px);
+  background: #0a0d0a; border: 2px solid var(--border2); border-radius: 10px;
+  overflow: hidden; box-shadow: 0 0 0 6px #070807, 0 24px 60px rgba(0,0,0,.55), 0 0 40px rgba(81,255,0,0.06);
+}
+.term-bar {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--panel2); border-bottom: 1px solid var(--border2);
+  padding: 8px 12px; font-size: 0.72rem; color: var(--muted); letter-spacing: 0.05em;
+}
+.term-bar .sq { width: 9px; height: 9px; }
+.term-bar .sq.r { background: var(--red); }
+.term-bar .sq.a { background: var(--amber); }
+.term-bar .sq.g { background: var(--green); box-shadow: 0 0 6px var(--green); }
+.term-bar .title { margin-left: 8px; }
+.term-body {
+  padding: 16px; min-height: 300px; font-size: 0.82rem; line-height: 1.7;
+  color: var(--body); white-space: pre-wrap; word-break: break-word;
+  font-family: var(--font);
+}
+.term-body .cmd { color: var(--fg); }
+.term-body .cmd .ps1 { color: var(--cyan); }
+.term-body .out { color: var(--muted); }
+.term-body .ok { color: var(--green); }
+.term-body .warn { color: var(--amber); }
+.cursor {
+  display: inline-block; width: 8px; height: 14px; background: var(--green);
+  vertical-align: -2px; animation: blink 1s steps(1) infinite;
+  box-shadow: 0 0 8px var(--green);
+}
+@keyframes blink { 50% { opacity: 0; } }
+.host-tabs { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.host-tab {
+  background: #000; color: var(--green); border: 1px solid var(--green); border-radius: 4px;
+  padding: 6px 12px; font-family: inherit; font-size: 0.78rem; cursor: pointer; letter-spacing: 0.03em;
+}
+.host-tab:hover { background: #51ff0022; }
+.host-tab.active { background: var(--green); color: #000; font-weight: 700; box-shadow: 0 0 14px rgba(81,255,0,0.35); }
+.term-note { font-size: 0.74rem; color: var(--muted); text-align: center; margin: 0; }
+
+/* ---------- plugin grid ---------- */
+.grid-tools { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+.filter {
+  flex: 1; min-width: 220px;
+  background: #080a08; border: 1px solid var(--border2); border-radius: 6px;
+  color: var(--fg); font-family: inherit; font-size: 0.85rem; padding: 9px 12px;
+}
+.filter::placeholder { color: var(--muted); }
+.filter:focus { outline: none; border-color: var(--green); box-shadow: 0 0 0 1px rgba(81,255,0,0.25); }
+.count { color: var(--muted); font-size: 0.78rem; letter-spacing: 0.05em; }
+.cat-chips {
+  display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px;
+}
+.cat-chip {
+  background: #000; color: var(--muted); border: 1px solid var(--border2);
+  border-radius: 999px; padding: 4px 10px; font-family: inherit; font-size: 0.72rem;
+  letter-spacing: 0.04em; text-transform: lowercase; cursor: pointer;
+}
+.cat-chip:hover { color: var(--green); border-color: var(--green); }
+.cat-chip.active {
+  background: var(--green); color: #000; border-color: var(--green); font-weight: 700;
+  box-shadow: 0 0 10px rgba(81,255,0,0.25);
+}
+.plugins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 940px) { .plugins { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 620px) { .plugins { grid-template-columns: 1fr; } }
+.plug {
+  background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--border2);
+  border-radius: 6px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;
+  transition: border-color 160ms linear, transform 160ms linear, box-shadow 160ms linear;
+}
+.plug:hover {
+  border-left-color: var(--green); transform: translateY(-2px);
+  box-shadow: 0 0 20px rgba(81,255,0,0.08);
+}
+.plug-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.plug-name { color: var(--green); font-weight: 700; font-size: 0.92rem; letter-spacing: 0.02em; }
+.plug-ver {
+  color: var(--muted); font-size: 0.68rem; border: 1px solid var(--border2);
+  padding: 1px 6px; border-radius: 3px;
+}
+.plug-cat {
+  margin-left: auto; color: var(--muted); font-size: 0.68rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+}
+.plug-desc { font-size: 0.82rem; color: var(--body); line-height: 1.5; margin: 0; flex: 1; }
+.plug-cmd {
+  font-size: 0.72rem; color: var(--code); background: #080a08;
+  border: 1px solid var(--border); border-radius: 4px; padding: 6px 8px;
+  overflow-x: auto; white-space: nowrap; font-family: var(--font);
+}
+.plug-foot { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.plug-src { margin-left: auto; font-size: 0.74rem; color: var(--muted); }
+.plug-src:hover { color: var(--green); }
+
+/* ---------- install panels ---------- */
+.hosts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+@media (max-width: 860px) { .hosts { grid-template-columns: 1fr; } }
+.host {
+  background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px;
+}
+.host h3 {
+  margin: 0 0 4px; font-size: 0.95rem; color: var(--fg);
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.host h3 .tag {
+  font-size: 0.66rem; color: var(--cyan); border: 1px solid var(--cyan);
+  padding: 1px 6px; border-radius: 3px; letter-spacing: 0.06em;
+}
+.host .note { font-size: 0.78rem; color: var(--muted); margin: 6px 0 0; line-height: 1.55; }
+.host pre { position: relative; }
+.host .copy-btn {
+  position: absolute; top: 8px; right: 8px; padding: 4px 10px;
+  border: 1px solid var(--border2); border-radius: 4px;
+}
+
+/* ---------- app / validator ---------- */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+.kv { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+.ok-chip {
+  font-size: 0.72rem; color: var(--green); border: 1px solid var(--green);
+  border-radius: 3px; padding: 3px 8px; letter-spacing: 0.04em; background: #000;
+}
+ol.gate { margin: 8px 0; padding-left: 22px; }
+ol.gate li { margin: 6px 0; }
+ol.gate li b { color: var(--fg); }
+
+/* ---------- footer ---------- */
+footer {
+  margin-top: 44px; color: var(--muted); font-size: 0.78rem;
+  border-top: 1px solid var(--rule); padding-top: 16px; line-height: 1.8;
+}
+footer .cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 12px; }
+@media (max-width: 900px) { footer .cols { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 520px) { footer .cols { grid-template-columns: 1fr; } }
+footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.8rem; }
+
+/* ---------- reveal ---------- */
+.js .reveal { opacity: 0; transform: translateY(12px); transition: opacity 420ms ease, transform 420ms ease; }
+.js .reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+  html { scroll-behavior: auto; }
+  .cursor { animation: none; }
+}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="#top"><b>DS4CC</b> <span>// marketplace</span></a>
+    <button type="button" class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">menu</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#demo">demo</a>
+      <a href="#plugins">plugins</a>
+      <a href="#agent-pip">agent-pip</a>
+      <a href="#install">install</a>
+      <a href="#app">chatgpt app</a>
+      <a href="#validator">validator</a>
+      <a href="#curation">curation</a>
+      <a href="#lanes">lanes</a>
+      <a class="nav-cta" href="https://github.com/VeigaPunk/ds4cc-marketplace" target="_blank" rel="noopener">GITHUB ↗</a>
+    </div>
+  </div>
+</nav>
+
+<div class="page" id="top">
+
+  <header class="hero">
+    <div>
+      <span class="badge">18 plugins</span>
+      <span class="badge dark">4 agent CLIs</span>
+      <span class="badge dark">rust-validated</span>
+      <span class="badge cyan">MIT</span>
+    </div>
+<pre class="ascii" aria-hidden="true">
+██████╗  ███████╗ ██╗ ██╗  ██████╗  ██████╗
+██╔══██╗ ██╔════╝ ██║ ██║ ██╔════╝ ██╔════╝
+██║  ██║ ███████╗ ███████║ ██║      ██║
+██║  ██║ ╚════██║ ╚════██║ ██║      ██║
+██████╔╝ ███████║      ██║ ╚██████╗ ╚██████╗
+╚═════╝  ╚══════╝      ╚═╝  ╚═════╝  ╚═════╝
+</pre>
+    <h1>One marketplace. <em>Four supported agent CLIs.</em></h1>
+    <p class="tagline">
+      Static plugin payloads for <strong>Grok Build</strong>, <strong>Codex</strong>, <strong>Kimi Code CLI</strong>,
+      and a dependency-free bootstrap for <strong>OpenCode</strong>. Register one repo, install what you need, ship.
+    </p>
+    <div class="hero-row">
+      <span class="chip"><span class="dot"></span> all 18 plugins available</span>
+      <span class="chip amber"><span class="dot"></span> curation-gated</span>
+      <span class="chip"><span class="dot"></span> Titanium L3 substrate</span>
+    </div>
+    <div class="hero-row">
+      <div class="oneliner">
+        <code><span class="p">$</span> grok plugin marketplace add VeigaPunk/ds4cc-marketplace</code>
+        <button type="button" class="copy-btn" data-copy="grok plugin marketplace add VeigaPunk/ds4cc-marketplace">COPY</button>
+      </div>
+      <a class="btn solid" href="#plugins">BROWSE PLUGINS</a>
+      <a class="btn" href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">NON-CLI GROK CHAT FALLBACK ↗</a>
+    </div>
+  </header>
+
+  <section id="demo" class="reveal">
+    <h2><span class="idx">01</span>Pick your host — watch it install</h2>
+    <p class="sub">Live terminal. Four hosts, one repo. Commands below are the real install paths — outputs are representative.</p>
+    <div class="term-wrap">
+        <div class="host-tabs" role="tablist" aria-label="agent CLI hosts">
+        <button type="button" class="host-tab active" data-host="grok" role="tab">grok</button>
+        <button type="button" class="host-tab" data-host="codex" role="tab">codex</button>
+        <button type="button" class="host-tab" data-host="kimi" role="tab">kimi</button>
+        <button type="button" class="host-tab" data-host="opencode" role="tab">opencode</button>
+      </div>
+      <div class="term" aria-live="polite">
+        <div class="term-bar">
+          <span class="sq r"></span><span class="sq a"></span><span class="sq g"></span>
+          <span class="title" id="termTitle">ds4cc — grok build</span>
+        </div>
+        <div class="term-body" id="termBody"></div>
+      </div>
+      <p class="term-note">click a host to replay its install sequence · sound off, green on</p>
+    </div>
+  </section>
+
+  <section id="plugins" class="reveal">
+    <h2><span class="idx">02</span>The catalog — 18 curated plugins</h2>
+    <p class="sub">Every plugin ships an actionable <code>SKILL.md</code> (fenced commands, no boilerplate) and passes the Rust validator. Filter by name, category chips, or capability.</p>
+    <div class="grid-tools">
+      <input class="filter" id="plugFilter" type="search" placeholder="filter plugins… (try: agents, grok, papers, godspeed)" aria-label="filter plugins" />
+      <span class="count" id="plugCount">18 / 18</span>
+    </div>
+    <div class="cat-chips" id="catChips" role="group" aria-label="filter by category">
+      <button type="button" class="cat-chip active" data-cat="all">all</button>
+      <button type="button" class="cat-chip" data-cat="agents">agents</button>
+      <button type="button" class="cat-chip" data-cat="skills">skills</button>
+      <button type="button" class="cat-chip" data-cat="commands">commands</button>
+      <button type="button" class="cat-chip" data-cat="orchestration">orchestration</button>
+      <button type="button" class="cat-chip" data-cat="swarm">swarm</button>
+      <button type="button" class="cat-chip" data-cat="adapters">adapters</button>
+      <button type="button" class="cat-chip" data-cat="research">research</button>
+      <button type="button" class="cat-chip" data-cat="network">network</button>
+      <button type="button" class="cat-chip" data-cat="security">security</button>
+      <button type="button" class="cat-chip" data-cat="viz">viz</button>
+      <button type="button" class="cat-chip" data-cat="meta">meta</button>
+    </div>
+    <div class="plugins" id="plugGrid"></div>
+  </section>
+
+  <section id="agent-pip" class="reveal">
+    <h2><span class="idx">03</span>Agent Pip — live tmux output in Waybar</h2>
+    <p class="sub">A compact Rust dashboard that renders every live tmux pane side by side, preserving terminal color while keeping each pane’s newest output line anchored at the bottom. <em>Not a marketplace plugin</em> — companion binary; install from source.</p>
+    <div class="grid-2">
+      <div class="panel" style="padding:14px 16px">
+        <h3 style="margin-top:0;font-size:0.95rem">Latest output stays visible</h3>
+<pre><span class="g">┌ attached · build ────────┐</span>
+│ compiling renderer       │
+│ running regression suite │
+│                          │
+│                          │
+│                          │
+│                          │
+│ <span class="g">68 passed; 0 failed</span>      │
+<span class="g">└──────────────────────────┘</span></pre>
+        <p>Blank interior rows remain blank above the content. The last retained output line sits directly above the lower border, so the current result is visible at a glance.</p>
+        <div class="kv">
+          <span class="ok-chip">ANSI color</span>
+          <span class="ok-chip">tmux panes</span>
+          <span class="ok-chip">Waybar Pango</span>
+          <span class="ok-chip">v0.2.0</span>
+        </div>
+      </div>
+      <div class="panel" style="padding:14px 16px">
+        <h3 style="margin-top:0;font-size:0.95rem">Build and run</h3>
+        <div class="oneliner" style="margin:8px 0">
+          <code><span class="p">$</span> cargo build --release</code>
+          <button type="button" class="copy-btn" data-copy="cargo build --release">COPY</button>
+        </div>
+        <p>Use the standalone TUI or feed Pango JSON into Waybar. The renderer keeps the existing 130px bar height, JetBrains Mono metrics, and native polling setup. Source: companion crate (not catalogued under marketplace/plugins).</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="install" class="reveal">
+    <h2><span class="idx">04</span>Install — host-specific guidance</h2>
+    <p class="sub">Use the supported flow for your host; review third-party plugin sources before installation. <strong>Codex + sekhmet L3 is the optimal execution substrate as of 2026-08 (host binary resolve: repo docs).</strong></p>
+    <div class="hosts">
+
+      <div class="host">
+        <h3>Grok Build CLI <span class="tag">xAI CLI · livepatch ban</span></h3>
+<pre><span class="c"># recommended host config (xbgst-stack + ban toggles)</span>
+<span class="p">$</span> curl -fsSL https://veigapunk.github.io/ds4cc-marketplace/grok-cli-config.toml -o ~/.grok/config.toml
+<span class="c"># or merge: https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/grok-cli-config.toml</span>
+
+<span class="c"># ban general-purpose/explore in the binary (6h re-apply)</span>
+<span class="p">$</span> git clone git@github.com:VeigaPunk/grok-build-livepatch.git
+<span class="p">$</span> cd grok-build-livepatch &amp;&amp; ./scripts/check-and-patch.sh &amp;&amp; ./scripts/install-timer.sh --link-bin
+
+<span class="c"># marketplaces + stack</span>
+<span class="p">$</span> grok plugin marketplace add VeigaPunk/grok-marketplace
+<span class="p">$</span> grok plugin marketplace add VeigaPunk/ds4cc-marketplace
+<span class="p">$</span> grok plugin list --available --json
+<span class="p">$</span> grok plugin install xbgst-stack@veigapunk/grok-marketplace --trust
+<span class="p">$</span> bash ~/.grok/installed-plugins/xbgst-stack-*/scripts/install-host.sh
+<span class="p">$</span> grok plugin install myagents --trust
+<span class="p">$</span> grok plugin enable myagents</pre>
+<pre><span class="c"># install the core set in one loop</span>
+<!-- catalog-install-loop:2026-08-05-residual sekhmet+xbrd-selector (no agent-wall) -->
+for p in myagents godspeed-core mycommands myskills sekhmet xbrd-selector ds4cc; do
+  grok plugin install "$p" --trust &amp;&amp; grok plugin enable "$p"
+done</pre>
+        <p class="note"><strong>Config:</strong> <a href="grok-cli-config.toml">grok-cli-config.toml</a> (Pages) · <strong>Livepatch:</strong> <a href="https://github.com/VeigaPunk/grok-build-livepatch" target="_blank" rel="noopener">grok-build-livepatch</a> hard-bans <code>general-purpose</code>/<code>explore</code>; first-party full tools use <code>agent</code>. <strong>xbgst:</strong> <a href="https://github.com/VeigaPunk/grok-marketplace" target="_blank" rel="noopener">grok-marketplace</a> / xbrd-grok. <strong>Non-CLI fallback:</strong> paste <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">GROK_PASTE.md</a>.</p>
+      </div>
+
+      <div class="host">
+        <h3>Codex <span class="tag">OpenAI CLI</span></h3>
+<pre><span class="c"># marketplace plugins (hardened host binary: repo docs/TITANIUM-HOST.md)</span>
+<span class="p">$</span> cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
+<span class="p">$</span> codex plugin marketplace add VeigaPunk/ds4cc-marketplace
+<span class="p">$</span> codex plugin list --available --json
+<span class="p">$</span> codex plugin add sekhmet@ds4cc --json
+<span class="p">$</span> codex plugin add myagents@ds4cc --json
+<span class="p">$</span> codex plugin list --json</pre>
+        <p class="note"><strong>Optimal substrate (as of 2026-08):</strong> Codex + sekhmet (xbreed L3) — pure namespaced sparks, no worktrees, up to 64 concurrent, double-work tolerant, Rust-only. Adding a plugin installs it enabled. Start a new Codex session to load skills/tools. Cache example: <code>$CODEX_HOME/plugins/cache/ds4cc/myagents/0.2.0</code>. TUI: <code>/plugins</code> + <code>Space</code>. Local: <code>codex plugin marketplace add .</code></p>
+      </div>
+
+      <div class="host">
+        <h3>Kimi Code CLI <span class="tag">TUI plugins</span></h3>
+<pre><span class="c"># commands to enter in the Kimi TUI</span>
+<span class="g">/plugins install https://github.com/VeigaPunk/ds4cc-marketplace</span>
+<span class="g">/reload</span></pre>
+<pre><span class="c"># or register the full packaged catalog in the Kimi TUI</span>
+<span class="g">/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json</span>
+<span class="g">/plugins install <artifact-url-or-local-path></span>
+<span class="g">/reload</span></pre>
+        <p class="note">Invoke as <code>/skill:<skill-name></code> and <code>/<plugin>:<command></code>. Third-party installs ask for trust first — review before approving.</p>
+      </div>
+
+      <div class="host">
+        <h3>OpenCode <span class="tag">bootstrap script</span></h3>
+<pre><span class="p">$</span> git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
+<span class="p">$</span> node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
+<span class="c"># or: --project /path/to/project</span></pre>
+        <p class="note">Writes 15 <code>the-*</code> agents plus <code>the-netsshark</code> (16 subagents total), and a separate <code>orch</code> primary mode. Structurally verified.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="app" class="reveal">
+    <h2><span class="idx">05</span>ChatGPT app — app.ds4cc.com</h2>
+    <p class="sub">A read-only Apps SDK wrapper exposes a reviewed subset of the catalog through a production MCP endpoint with an embedded catalog widget.</p>
+    <div class="grid-2">
+      <div class="panel" style="padding:14px 16px">
+        <h3 style="margin-top:0;font-size:0.95rem">MCP endpoint</h3>
+        <div class="oneliner" style="margin:8px 0">
+          <code><span class="p">›</span> https://app.ds4cc.com/mcp</code>
+          <button type="button" class="copy-btn" data-copy="https://app.ds4cc.com/mcp">COPY</button>
+        </div>
+        <p>Scoped to an explicitly reviewed, read-only tool surface with required annotations and widget CSP/domain metadata. It is <em>not</em> the public 18-plugin marketplace.</p>
+        <div class="kv">
+          <span class="ok-chip">read-only</span>
+          <span class="ok-chip">reviewed subset</span>
+          <span class="ok-chip">health route</span>
+          <span class="ok-chip">domain-verified</span>
+        </div>
+      </div>
+      <div class="panel" style="padding:14px 16px">
+        <h3 style="margin-top:0;font-size:0.95rem">Trust routes</h3>
+        <table class="spec">
+          <tr><th>privacy</th><td><a href="https://app.ds4cc.com/privacy" target="_blank" rel="noopener">app.ds4cc.com/privacy</a></td></tr>
+          <tr><th>terms</th><td><a href="https://app.ds4cc.com/terms" target="_blank" rel="noopener">app.ds4cc.com/terms</a></td></tr>
+          <tr><th>support</th><td><a href="https://app.ds4cc.com/support" target="_blank" rel="noopener">app.ds4cc.com/support</a></td></tr>
+          <tr><th>health</th><td><a href="https://app.ds4cc.com/health" target="_blank" rel="noopener">app.ds4cc.com/health</a></td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="validator" class="reveal">
+    <h2><span class="idx">06</span>The Rust validator — no broken plugins, ever</h2>
+    <p class="sub">A binary crate (<code>ds4cc-validator</code>) gates every plugin on structure, schema, and skill actionability. CI runs it on each push.</p>
+    <div class="grid-2">
+      <div>
+<pre><span class="p">$</span> cargo run --manifest-path marketplace/validator/Cargo.toml -- marketplace
+<span class="g">Validation passed.</span>
+<span class="p">$</span> cargo test --manifest-path marketplace/validator/Cargo.toml
+<span class="g">test result: ok. all green</span></pre>
+        <div class="kv">
+          <span class="ok-chip">cargo fmt — clean</span>
+          <span class="ok-chip">clippy -D warnings — 0</span>
+          <span class="ok-chip">13 integration tests</span>
+        </div>
+        <div class="callout">
+          <strong>Dual-layout aware:</strong> <code>marketplace/</code> (web/CI) and repo root (canonical Codex layout at
+          <code>.agents/plugins/marketplace.json</code>) both validate.
+        </div>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;margin-top:0">What every plugin must prove</h3>
+        <ol class="gate">
+          <li><b>Local source integrity</b> — path pinned to <code>./plugins/<name></code></li>
+          <li><b>Manifest parses</b> — <code>.codex-plugin/plugin.json</code>, name matches entry</li>
+          <li><b>Semver</b> — strict <code>X.Y.Z</code></li>
+          <li><b>Full interface block</b> — display, descriptions, developer, category, capabilities</li>
+          <li><b>Skills exist</b> — <code>skills/</code> + <code>README.md</code> present</li>
+          <li><b>Actionable SKILL.md</b> — fenced code or recognized CLI prefix; boilerplate rejected</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section id="curation" class="reveal">
+    <h2><span class="idx">07</span>Curation — a living marketplace, not a junk drawer</h2>
+    <p class="sub">DS4CC keeps the strongest entry per domain and updates the reviewed set as better evidence emerges. Full policy in <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/CURATION.md" target="_blank" rel="noopener">CURATION.md</a>.</p>
+    <div class="grid-2">
+      <div>
+        <h3 style="font-size:0.95rem;margin-top:0">Admission gate</h3>
+        <ol class="gate">
+          <li><b>Useful capability</b> with a reproducible demonstration</li>
+          <li><b>Provenance</b> — identifiable maintainer or publisher</li>
+          <li><b>Current docs</b> — install steps + supported-platform scope</li>
+          <li><b>Compatible licensing</b> and required notices</li>
+          <li><b>Reviewed security/privacy posture</b> for its permissions</li>
+          <li><b>Automated structural checks</b> + manual end-to-end capability check</li>
+          <li><b>Claims limited</b> to demonstrated evidence</li>
+        </ol>
+      </div>
+      <div>
+        <h3 style="font-size:0.95rem;margin-top:0">Claim discipline</h3>
+        <p>Comparative, compatibility, price, and “full functionality” claims require a dated evidence packet: tested hardware/software, comparison baseline, known limitations, repeatable demo.</p>
+        <div class="callout amber">
+          <strong>Proposed, not advertised:</strong> <em>DS4CC microG</em> stays off the public listing until its parity matrix, demos, latency numbers, and price source land in the repo.
+        </div>
+        <div class="callout red">
+          <strong>Removal:</strong> entries are demoted or dropped when unmaintained, unsafe, misleading, legally unclear, or dominated by a demonstrably stronger option.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="lanes" class="reveal">
+    <h2><span class="idx">08</span>Orchestration lanes — live routing</h2>
+    <p class="note">Mirrored from the packaged SSoT (<code>marketplace/plugins/xbrd-gdsp-fknpft/commands/references/xbreed-shared.md</code> § Axis → Profile Mapping + xask Gate). If this section and the SSoT disagree, the SSoT wins and this section is drift.</p>
+    <h3>Role declarations</h3>
+<pre>the-judge            fable 5 · xhigh
+the-planner          sonnet · medium
+the-scout            sonnet · medium
+the-reviewer         sonnet · medium
+the-labrat           sonnet · medium
+the-executor         sonnet · medium
+the-connector        sonnet · medium
+the-distiller        sonnet · medium
+the-simplifier       sonnet · medium
+the-revenger         sonnet · medium
+the-sentinel         sonnet · medium
+the-critic           sonnet · medium
+the-mutation-tester  sonnet · medium
+the-scribe           sonnet · medium
+the-netsshark        host extension</pre>
+    <h3>Execution gates</h3>
+<pre>planner              wwkd · native
+scout / labrat / executor xask --spark --gs codex → gpt-5.4-mini
+reviewer             xask --gpt55 --gs -e low codex → gpt-5.6-sol (+ fast_mode)
+critic               Layer-0: heuer-planning → xask --gpt55 --gs -e low codex → gpt-5.6-sol
+revenger RECON       xask --gpt55 --gs -e high codex → gpt-5.6-sol
+sentinel             xask --gpt55 --gs -e low codex → gpt-5.6-sol
+connector            xask --spark codex · no --gs
+mutation: single / <=4 xask --spark --gs codex
+mutation: >=5 / breadth xask --effort high --gs codex
+distiller / simplifier / scribe native</pre>
+    <p class="note">Codex Sol lanes use <code>features.fast_mode=true</code> + reasoning=low. Spark lanes resolve to <code>gpt-5.4-mini</code>. Teammate prefixes: <code>ccs-</code> sonnet, <code>cco-</code> fable 5 (judge), <code>cdx-</code> codex, <code>g-</code> local Gemma/HVM.</p>
+    <h3>Local lane — Gemma 4 over HVM4</h3>
+    <p><code>xask gemma</code> (aliases <code>g</code>, legacy <code>gemini</code>) dispatches through <code>xbreed ask gemma</code> → <code>gemma-hvm</code> → <code>run.sh/run-hvm4.sh</code> → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama. Default model <code>gemma4:26b</code> via <code>HVM_GEMMA_MODEL</code>. Cloud Gemini CLI is retired — do not call the <code>gemini</code> binary. Any <code>g-*</code> teammate (and connector when routing local breadth) MUST use this lane — not the retired cloud Gemini path.</p>
+    <p class="note">Ollama/Gemma 4 is the serving substrate. HVM4 controls routing only; tensor inference is not claimed to run in HVM4.</p>
+  </section>
+
+  <footer>
+    <div class="cols">
+      <div>
+        <b>marketplace</b>
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace" target="_blank" rel="noopener">github repo</a><br/>
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/README.md" target="_blank" rel="noopener">README</a><br/>
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/HIGHLIGHTS.md" target="_blank" rel="noopener">technical highlights</a><br/>
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/CURATION.md" target="_blank" rel="noopener">curation policy</a>
+      </div>
+      <div>
+        <b>catalog endpoints</b>
+        grok · <code>.grok-plugin/marketplace.json</code><br/>
+        codex · <code>.agents/plugins/marketplace.json</code><br/>
+        kimi · <a href="https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json" target="_blank" rel="noopener">published catalog</a><br/>
+        opencode · bootstrap installer
+      </div>
+      <div>
+        <b>related stack</b>
+        <a href="https://github.com/VeigaPunk/xbrd-spark" target="_blank" rel="noopener">xbrd-spark</a> · sekhmet L3 binary<br/>
+        <a href="https://github.com/VeigaPunk/sekhmet-l3" target="_blank" rel="noopener">sekhmet-l3</a> · GATE evidence<br/>
+        <a href="https://github.com/VeigaPunk/xbgst" target="_blank" rel="noopener">xbgst</a> · Grok Godspeed stack<br/>
+        <a href="https://veigapunk.github.io/xbgst-site/" target="_blank" rel="noopener">xbgst-site</a> · public hub<br/>
+        <a href="https://github.com/VeigaPunk/xbrd-selector" target="_blank" rel="noopener">xbrd-selector</a>
+      </div>
+      <div>
+        <b>app & site</b>
+        <a href="https://app.ds4cc.com/mcp" target="_blank" rel="noopener">app.ds4cc.com/mcp</a><br/>
+        <a href="https://app.ds4cc.com/privacy" target="_blank" rel="noopener">privacy</a> ·
+        <a href="https://app.ds4cc.com/terms" target="_blank" rel="noopener">terms</a> ·
+        <a href="https://app.ds4cc.com/support" target="_blank" rel="noopener">support</a><br/>
+        <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">horizon halo ↗</a>
+      </div>
+    </div>
+    <p class="note">Disclosure: <a href="https://www.kimi.com/activities/invite/share?scenario=invite&amp;from=share_poster&amp;invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">the Kimi invite link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
+    <p class="note">Disclosure: <a href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">the OpenCode link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
+    <div>DS4CC · VeigaPunk · MIT License · shipped 2026-07-29 · updated 2026-08-05</div>
+    <div>Design language: <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">Horizon Halo</a> — green console, JetBrainsMonoNL Nerd Font.</div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // mobile nav
+  const navToggle = document.getElementById("navToggle");
+  const navLinks = document.getElementById("navLinks");
+  if (navToggle && navLinks) {
+    navToggle.addEventListener("click", () => {
+      const open = navLinks.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", open ? "true" : "false");
+      navToggle.textContent = open ? "close" : "menu";
+    });
+    navLinks.querySelectorAll("a").forEach(a => {
+      a.addEventListener("click", () => {
+        navLinks.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.textContent = "menu";
+      });
+    });
+  }
+
+  const REPO = "https://github.com/VeigaPunk/ds4cc-marketplace";
+  const PLUGINS = [
+    { n: "aaronplug", v: "0.2.0", cat: "research", d: "Academic paper retrieval across arXiv, Semantic Scholar and Sci-Hub.", c: 'npx @veigapunk/aaron papers search "..."' },
+    { n: "ds4cc", v: "0.3.0", cat: "meta", d: "Marketplace meta-plugin — discover/install plugins and run ds4cc/orch mode.", c: "codex plugin marketplace add VeigaPunk/ds4cc-marketplace" },
+    { n: "godspeed-codex-command", v: "0.2.0", cat: "commands", d: "Command-mode bootstrap & Codex posture controls.", c: "bash ./scripts/install-commands.sh" },
+    { n: "godspeed-core", v: "0.2.0", cat: "orchestration", d: "Adaptive execution doctrine & Pareto walk policy for long tasks.", c: 'codex "godspeed: <task>"' },
+    { n: "heuer-planning", v: "0.1.0", cat: "skills", d: "Standalone Heuer-style structured planning skill (ACH, assumptions, devil's advocate).", c: 'Skill(skill=\"heuer-planning\")' },
+    { n: "infinizoom", v: "0.2.0", cat: "viz", d: "Fractal-zoom visualization QA & server.", c: "node qa-zoom.mjs" },
+    { n: "myagents", v: "0.2.0", cat: "agents", d: "Curated agent profiles for development, review, research, and orchestration.", c: 'codex "Use the executor agent profile for this task"' },
+    { n: "mycommands", v: "0.2.0", cat: "commands", d: "Reusable command packs & shell routines, ready to exec.", c: 'codex "Use the installed command pack for this task"' },
+    { n: "myskills", v: "0.2.0", cat: "skills", d: "Curated skill inventory & workflow helpers, discoverable in-session.", c: "Open the Codex TUI and use /skills" },
+    { n: "spoderman", v: "0.2.0", cat: "security", d: "Attack harness & hook safety research for agent runtimes.", c: "bash ./spoderman validate --hooks" },
+    { n: "the-almanacker", v: "0.2.0", cat: "adapters", d: "NotebookLM web UI adapter for source-grounded research.", c: "agent-browser session --host notebooklm" },
+    { n: "the-kimiraikoner", v: "0.1.0", cat: "adapters", d: "Kimi web UI adapter (agent-browser / CDP).", c: "agent-browser session --host kimi" },
+    { n: "the-musketeer", v: "0.3.0", cat: "adapters", d: "Grok web UI adapter (agent-browser / CDP).", c: "agent-browser session --host grok" },
+    { n: "the-netsshark", v: "0.2.0", cat: "network", d: "Empirical DNS, routing, proxy, firewall, MTU, and connectivity audits.", c: 'codex "Use the-netsshark skill"' },
+    { n: "the-puppeteer", v: "0.2.0", cat: "adapters", d: "Web automation & long-running ChatGPT bridge.", c: 'chitchat "..."' },
+    { n: "sekhmet", v: "0.1.1", cat: "swarm", d: "Always-available Codex Titanium swarm (xbreed L3). Up to 64 concurrent runners.", c: "sekhmet swarm --direct -j 64 --tasks-file tasks.txt" },
+    { n: "xbrd-gdsp-fknpft", v: "8.16.137", cat: "orchestration", d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
+    { n: "xbrd-selector", v: "0.1.1", cat: "orchestration", d: "Model/agent selector helpers for xbreed stacks.", c: 'codex \"Use xbrd-selector\"' },
+  ];
+
+  const grid = document.getElementById("plugGrid");
+  const count = document.getElementById("plugCount");
+  const filter = document.getElementById("plugFilter");
+  const catChips = document.getElementById("catChips");
+  let activeCat = "all";
+
+  function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
+
+  function filtered() {
+    const q = (filter.value || "").trim().toLowerCase();
+    return PLUGINS.filter(p => {
+      const catOk = activeCat === "all" || (p.cat || "tools") === activeCat;
+      if (!catOk) return false;
+      if (!q) return true;
+      return p.n.toLowerCase().includes(q) || p.d.toLowerCase().includes(q) || p.c.toLowerCase().includes(q) || (p.cat || "").toLowerCase().includes(q);
+    });
+  }
+
+  function render(list) {
+    grid.innerHTML = list.map(p => `
+      <div class="plug">
+        <div class="plug-head">
+          <span class="plug-name">${esc(p.n)}</span>
+          <span class="plug-ver">v${esc(p.v)}</span>
+          <span class="plug-cat">${esc(p.cat || "tools")}</span>
+        </div>
+        <p class="plug-desc">${esc(p.d)}</p>
+        <div class="plug-cmd" title="key command">${esc(p.c)}</div>
+        <div class="plug-foot">
+          <button class="btn small" data-copy="codex plugin add ${esc(p.n)}@ds4cc">COPY INSTALL</button>
+          <a class="plug-src" href="${REPO}/tree/main/marketplace/plugins/${encodeURIComponent(p.n)}" target="_blank" rel="noopener">source ↗</a>
+        </div>
+      </div>`).join("");
+    count.textContent = list.length + " / " + PLUGINS.length;
+  }
+  render(filtered());
+
+  filter.addEventListener("input", () => render(filtered()));
+
+  if (catChips) {
+    catChips.addEventListener("click", (e) => {
+      const btn = e.target.closest(".cat-chip");
+      if (!btn) return;
+      activeCat = btn.getAttribute("data-cat") || "all";
+      catChips.querySelectorAll(".cat-chip").forEach(b => b.classList.toggle("active", b === btn));
+      render(filtered());
+    });
+  }
+
+  document.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-copy]");
+    if (!btn) return;
+    const text = btn.getAttribute("data-copy");
+    const done = () => {
+      const old = btn.textContent;
+      btn.textContent = "COPIED";
+      btn.classList.add("done");
+      setTimeout(() => { btn.textContent = old; btn.classList.remove("done"); }, 1400);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done).catch(done);
+    } else {
+      const ta = document.createElement("textarea");
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); } catch (_) {}
+      document.body.removeChild(ta); done();
+    }
+  });
+
+  const SCRIPTS = {
+    grok: {
+      title: "ds4cc — Grok Builder CLI + livepatch",
+      lines: [
+        ["cmd", "curl -fsSL https://veigapunk.github.io/ds4cc-marketplace/grok-cli-config.toml -o ~/.grok/config.toml"],
+        ["ok",  "host config: xbgst-stack marketplaces + GP/explore toggles"],
+        ["cmd", "git clone git@github.com:VeigaPunk/grok-build-livepatch.git && cd grok-build-livepatch"],
+        ["ok",  "livepatch tree ready"],
+        ["cmd", "./scripts/check-and-patch.sh && ./scripts/install-timer.sh --link-bin"],
+        ["ok",  "active_cli=livepatch · ban_in_binary=yes"],
+        ["cmd", "grok plugin marketplace add VeigaPunk/grok-marketplace"],
+        ["cmd", "grok plugin marketplace add VeigaPunk/ds4cc-marketplace"],
+        ["cmd", "grok plugin install xbgst-stack@veigapunk/grok-marketplace --trust"],
+        ["ok",  "xbgst-stack + ban hard-gate"],
+        ["cmd", "grok plugin install myagents --trust"],
+        ["ok",  "installed `myagents`"],
+        ["out", "non-CLI fallback: paste GROK_PASTE.md into a Grok chat"],
+      ],
+    },
+    codex: {
+      title: "ds4cc — codex + sekhmet L3",
+      lines: [
+        ["cmd", "cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked"],
+        ["ok",  "sekhmet + xbrd-spark on PATH"],
+        ["cmd", "codex plugin marketplace add VeigaPunk/ds4cc-marketplace"],
+        ["ok",  "added marketplace `ds4cc`"],
+        ["cmd", "codex plugin list --available --json"],
+        ["cmd", "codex plugin add sekhmet@ds4cc --json"],
+        ["ok",  "sekhmet: Titanium L3 substrate ready"],
+        ["cmd", "codex plugin add myagents@ds4cc --json"],
+        ["ok",  "myagents: installed=true, enabled=true"],
+        ["cmd", "codex plugin list --json"],
+        ["out", "Start a new Codex session; use /plugins + Space to toggle state"],
+      ],
+    },
+    kimi: {
+      title: "ds4cc — kimi code cli",
+      lines: [
+        ["tui", "/plugins install https://github.com/VeigaPunk/ds4cc-marketplace"],
+        ["warn", "third-party plugin — trust confirmation shown"],
+        ["ok",  "DS4CC bootstrap plugin installed"],
+        ["tui", "/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json"],
+        ["ok",  "catalog registered — 18 packaged plugins"],
+        ["tui", "/reload"],
+        ["out", "skills live as /skill:<name> · commands as /<plugin>:<command>"],
+      ],
+    },
+    opencode: {
+      title: "ds4cc — opencode bootstrap",
+      lines: [
+        ["cmd", "git clone https://github.com/VeigaPunk/ds4cc-marketplace.git"],
+        ["out", "cloning into 'ds4cc-marketplace'... done"],
+        ["cmd", "node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global"],
+        ["ok",  "wrote 15 the-* agents plus the-netsshark — 16 subagents total"],
+        ["ok",  "separate primary mode `orch` ready — XBGST default, judge-level godspeed"],
+        ["out", "destination: ${XDG_CONFIG_HOME:-$HOME/.config}/opencode/agents"],
+        ["warn", "note: xask on PATH required for cross-model delegation (not bundled)"],
+      ],
+    },
+  };
+
+  const termBody = document.getElementById("termBody");
+  const termTitle = document.getElementById("termTitle");
+  const tabs = Array.from(document.querySelectorAll(".host-tab"));
+  const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let playToken = 0;
+
+  function span(cls, text) {
+    const s = document.createElement("span");
+    if (cls) s.className = cls;
+    s.textContent = text;
+    return s;
+  }
+
+  async function play(host) {
+    const my = ++playToken;
+    const script = SCRIPTS[host];
+    termTitle.textContent = script.title;
+    termBody.innerHTML = "";
+
+    for (const [type, text] of script.lines) {
+      if (my !== playToken) return;
+      const line = document.createElement("div");
+      if (type === "cmd" || type === "tui") {
+        line.className = "cmd";
+        line.appendChild(span("ps1", type === "tui" ? "› " : "$ "));
+        const typed = span("", "");
+        const cur = document.createElement("span");
+        cur.className = "cursor";
+        line.appendChild(typed);
+        line.appendChild(cur);
+        termBody.appendChild(line);
+        if (reduced) {
+          typed.textContent = text;
+        } else {
+          for (let i = 0; i < text.length; i++) {
+            if (my !== playToken) return;
+            typed.textContent += text[i];
+            await new Promise(r => setTimeout(r, text.length > 70 ? 8 : 16));
+          }
+        }
+        cur.remove();
+        await new Promise(r => setTimeout(r, reduced ? 0 : 260));
+      } else {
+        line.className = type;
+        line.textContent = (type === "out" ? "  " : type === "ok" ? "✓ " : "! ") + text;
+        termBody.appendChild(line);
+        await new Promise(r => setTimeout(r, reduced ? 0 : 300));
+      }
+      if (my !== playToken) return;
+    }
+    const idle = document.createElement("div");
+    idle.appendChild(span("ps1", "$ "));
+    const cur = document.createElement("span");
+    cur.className = "cursor";
+    idle.appendChild(cur);
+    termBody.appendChild(idle);
+  }
+
+  tabs.forEach((t) => {
+    t.addEventListener("click", () => {
+      tabs.forEach((x) => {
+        x.classList.toggle("active", x === t);
+      });
+      play(t.dataset.host);
+    });
+  });
+  play("grok");
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((en) => {
+      if (en.isIntersecting) {
+        en.target.classList.add("in");
+        io.unobserve(en.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll(".reveal").forEach((el) => {
+    io.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
