@@ -34,20 +34,25 @@ CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
 ```
 
 Details: repo root [`docs/TITANIUM-HOST.md`](../../../../docs/TITANIUM-HOST.md).  
-**Model:** `gpt-5.3-codex-spark` (`XBRD_SPARK_MODEL`).  
+**Default model pin (L3 always-on):** `gpt-5.6-luna` + service tier `fast` via `~/.xbgst/env.l3-sekhmet.sh`  
+(`XBRD_SPARK_MODEL`, `XBRD_SPARK_SERVICE_TIER`). Override only when deliberately probing other models.  
 `--dry-run` needs neither titanium nor xask.
 
 ## CLI
 
 ```bash
+# Always-on L3 env (jobs=64, service_tier=fast)
+. ~/.xbgst/env.l3-sekhmet.sh
+
 # Offline gate / dry-run (full namespace + stub + NDJSON)
 sekhmet run --dry-run --task "probe" --root "$(mktemp -d)"
 
-# Live on Codex Titanium (prefer --direct)
-sekhmet run --direct --timeout 90 --task "Reply with SPARK_OK"
+# Live on Codex Titanium (prefer --direct); luna+fast is the xbgst/sol-ultra pin
+XBRD_SPARK_MODEL=gpt-5.6-luna XBRD_SPARK_SERVICE_TIER=fast \
+  sekhmet run --direct --timeout 90 --task "Reply with SPARK_OK"
 
-# Swarm: up to 64 concurrent Titanium runners (default -j 16)
-printf 't1\nt2\nt3\n' | sekhmet swarm --direct -j 32 --tasks-file - --root "$(mktemp -d)"
+# Swarm: default -j 64 concurrent runners (hard cap 64; env XBRD_SPARK_JOBS)
+printf 't1\nt2\nt3\n' | sekhmet swarm --direct -j 64 --tasks-file - --root "$(mktemp -d)"
 
 # Read-only sandbox
 sekhmet run --ro --task "..."
