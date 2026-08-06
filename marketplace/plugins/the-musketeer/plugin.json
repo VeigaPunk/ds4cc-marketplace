@@ -1,7 +1,7 @@
 {
   "name": "the-musketeer",
-  "version": "0.3.0",
-  "description": "Grok web UI automation through agent-browser",
+  "version": "0.3.1",
+  "description": "Grok web UI adapter (agent-browser/CDP): chat Expert/Fast/Heavy, Imagine, Automations surfaces",
   "author": {
     "name": "VeigaPunk"
   },

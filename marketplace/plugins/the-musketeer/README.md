@@ -124,3 +124,16 @@ Likely direction: (D) first (it's a one-line agent-spec fix, already in place), 
 ## Security
 
 Your Chrome Dev profile holds your Grok session (plus everything else). Running Chrome with `--remote-debugging-port=9222` exposes CDP to anything that can reach `localhost:9222` on your Windows box — don't enable this port on a shared or exposed machine. On WSL the port is reachable from the Linux side only (same machine); that's fine. If you ever expose the port outside localhost, treat it as granting full control over your browser, including any signed-in session.
+
+
+## Web UI map (2026 grok.com)
+
+Surfaces (sidebar): **Search**, **New Chat**, **Imagine** (`/imagine`), **Automations**, **Skills and Connectors**, **Projects**, **History**.
+
+Composer:
+- Input: `[contenteditable=true][aria-label="Ask Grok anything"]`
+- Model: `button[aria-label="Model select"]` → Auto | Fast | Expert | Heavy | Build Beta (Grok 4.5 family)
+- Attach, Voice (Ctrl+⇧O), Dictation, Private chat
+
+Default CLI mode: **Expert** (`GROK_MODE=Expert`). Host: **musketeer-chrome** + **fnm multishell**.
+

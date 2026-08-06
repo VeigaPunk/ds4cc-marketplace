@@ -112,7 +112,10 @@ cdp_ready() {
 
 ensure_chrome_cdp() {
   cdp_ready && return 0
-  if [[ "$(uname -s)" == Linux ]] && command -v systemctl >/dev/null 2>&1 \
+  # Prefer shared burner Chrome for Testing (musketeer-chrome) — pre-authed family profile.
+  if command -v musketeer-chrome >/dev/null 2>&1; then
+    nohup musketeer-chrome >/tmp/musketeer-chrome.log 2>&1 &
+  elif [[ "$(uname -s)" == Linux ]] && command -v systemctl >/dev/null 2>&1 \
       && systemctl --user cat ds4cc-cdp.service >/dev/null 2>&1; then
     systemctl --user start ds4cc-cdp.service
   elif [[ -n "${WSL_DISTRO_NAME:-}" ]] || command -v cmd.exe >/dev/null 2>&1; then
@@ -137,6 +140,17 @@ ensure_chrome_cdp() {
 
 ensure_chrome_cdp
 AGENT_BROWSER=(agent-browser --cdp "$CHITCHAT_CDP_ENDPOINT")
+# Optional surface: CHITCHAT_SURFACE=Chat|Work (2026 radiogroup "Select chat surface")
+if [[ -n "${CHITCHAT_SURFACE:-}" ]]; then
+  "${AGENT_BROWSER[@]}" eval "
+  (() => {
+    const want = '${CHITCHAT_SURFACE}';
+    const r = Array.from(document.querySelectorAll('[role=radio]'))
+      .find(el => (el.getAttribute('aria-label')||el.innerText||'').trim() === want);
+    if (r) r.click();
+    return r ? 'surface:'+want : 'surface:miss';
+  })()" >/dev/null 2>&1 || true
+fi
 echo "→ Firing prompt into ChatGPT${MODEL:+ (model=$MODEL)}${TOOL:+ (tool=$TOOL)}..."
 
 CHATGPT_IDX=$("${AGENT_BROWSER[@]}" tab list 2>&1 | grep -E '\[t[0-9]+\][[:space:]].*https?://chatgpt\.com' | grep -oE 't[0-9]+' | sed -n '1p' || true)
@@ -152,18 +166,41 @@ PROMPT_READY=0
 for _ in 1 2 3 4 5; do
   TITLE=$("${AGENT_BROWSER[@]}" eval "document.title" 2>&1 | grep -v '^[✓✗]' | tr -d '"' || true)
   PROMPT_READY=$("${AGENT_BROWSER[@]}" get count '#prompt-textarea' 2>/dev/null || echo 0)
+  if [[ ! "$PROMPT_READY" =~ ^[1-9] ]]; then
+    PROMPT_READY=$("${AGENT_BROWSER[@]}" eval 'document.querySelectorAll("#prompt-textarea, [contenteditable=true][data-virtualkeyboard], textarea, [aria-label*=\"Chat with ChatGPT\" i]").length' 2>/dev/null | grep -v '^[✓✗]' | tr -d '"' || echo 0)
+  fi
   [[ "$PROMPT_READY" =~ ^[0-9]+$ && "$PROMPT_READY" -gt 0 ]] && break
   sleep 2
 done
 [[ "$PROMPT_READY" =~ ^[0-9]+$ && "$PROMPT_READY" -gt 0 ]] \
   || die "tab is not ready (title: ${TITLE:-unknown}; Cloudflare challenge or login redirect); clear it manually"
 
-if [[ -n "$MODEL_TESTID" ]]; then
-  "${AGENT_BROWSER[@]}" click '[data-testid="model-switcher-dropdown-button"]' >/dev/null 2>&1
+if [[ -n "$MODEL" && "$MODEL" != "auto" ]]; then
+  # 2026 chatgpt.com: composer shows a "Pro" (or model) pill; legacy data-testid model-switcher may be absent.
+  "${AGENT_BROWSER[@]}" click '[data-testid="model-switcher-dropdown-button"]' >/dev/null 2>&1 \
+    || "${AGENT_BROWSER[@]}" eval "
+    (() => {
+      const b = Array.from(document.querySelectorAll('button'))
+        .find(x => /^(Pro|ChatGPT|Auto|Instant|Thinking)$/i.test((x.innerText||'').trim()));
+      if (b) b.click();
+      return b ? 'opened' : 'no-pill';
+    })()" >/dev/null 2>&1
   "${AGENT_BROWSER[@]}" wait 500 >/dev/null 2>&1
-  if ! "${AGENT_BROWSER[@]}" click "[data-testid=\"$MODEL_TESTID\"]" >/dev/null 2>&1; then
-    echo "chitchat: model '$MODEL' is unavailable; keeping the current model" >&2
-    "${AGENT_BROWSER[@]}" press Escape >/dev/null 2>&1
+  if [[ -n "$MODEL_TESTID" ]]; then
+    if ! "${AGENT_BROWSER[@]}" click "[data-testid=\"$MODEL_TESTID\"]" >/dev/null 2>&1; then
+      # fallback: match menu item text for pro/thinking/instant
+      "${AGENT_BROWSER[@]}" eval "
+      (() => {
+        const want = '$MODEL';
+        const map = {pro:'pro', p:'pro', thinking:'thinking', think:'thinking', t:'thinking', instant:'instant', i:'instant'};
+        const key = map[want] || want;
+        const item = Array.from(document.querySelectorAll('[role=menuitem],[role=menuitemradio],button'))
+          .find(el => new RegExp(key, 'i').test((el.innerText||'')+' '+(el.getAttribute('data-testid')||'')));
+        if (item) item.click();
+        return item ? 'picked' : 'miss';
+      })()" >/dev/null 2>&1 || true
+      echo "chitchat: model '$MODEL' best-effort (legacy testid missing)" >&2
+    fi
   fi
 fi
 
@@ -177,8 +214,11 @@ if [[ -n "$TOOL" ]]; then
 fi
 
 BEFORE=$("${AGENT_BROWSER[@]}" get count '[data-message-author-role="user"]' 2>/dev/null || echo 0)
-"${AGENT_BROWSER[@]}" focus '#prompt-textarea' >/dev/null 2>&1
-printf '%s' "$PROMPT" | /usr/bin/node "$SCRIPT_DIR/chitchat-batch.mjs" | "${AGENT_BROWSER[@]}" batch --bail --json >/dev/null
+"${AGENT_BROWSER[@]}" focus '#prompt-textarea' >/dev/null 2>&1 \
+  || "${AGENT_BROWSER[@]}" focus '[aria-label="Chat with ChatGPT"]' >/dev/null 2>&1 \
+  || "${AGENT_BROWSER[@]}" click '[data-testid="composer-plus-btn"]' >/dev/null 2>&1
+NODE_BIN="$(command -v node || true)"; [[ -x "$NODE_BIN" ]] || NODE_BIN=/usr/bin/node
+printf '%s' "$PROMPT" | "$NODE_BIN" "$SCRIPT_DIR/chitchat-batch.mjs" | "${AGENT_BROWSER[@]}" batch --bail --json >/dev/null
 sleep 2
 AFTER=$("${AGENT_BROWSER[@]}" get count '[data-message-author-role="user"]' 2>/dev/null || echo 0)
 GENERATING=$("${AGENT_BROWSER[@]}" get count 'button[aria-label*="Stop"]' 2>/dev/null || echo 0)

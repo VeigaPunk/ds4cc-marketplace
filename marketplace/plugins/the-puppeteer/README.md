@@ -127,3 +127,21 @@ See `SETUP.md` for the original WSL2 + Windows bootstrap details. Native Linux f
 ## Security
 
 The dedicated profile holds your authenticated browser session. CDP grants full browser control: bind it only to loopback, use an isolated profile, and do not share the machine account. `CHITCHAT_CDP_HOST` accepts only `127.0.0.1`, `localhost`, or `[::1]` by default. The explicit `CHITCHAT_DANGEROUS_ALLOW_REMOTE_CDP=1` override is dangerous and should not be used with an authenticated profile. Prompt payloads are sent to `agent-browser batch` over stdin rather than exposed in child-process arguments.
+
+
+## Web UI map (2026 chatgpt.com)
+
+Sidebar: Home, Search, **Library**, **Projects**, **Scheduled**, **Plugins**, Pinned/Recents.
+
+Composer:
+- `#prompt-textarea` or `aria-label="Chat with ChatGPT"`
+- `data-testid="composer-plus-btn"` — Add files and more (tools: image / deep research / web search when available)
+- `data-testid="send-button"` / Send prompt
+- Model: **Pro** pill (legacy `model-switcher-dropdown-button` often absent)
+- Surface radiogroup: **Chat** | **Work** (`CHITCHAT_SURFACE`)
+- Temporary chat, voice, profile
+
+Prompts must carry **public URLs or inline content** — no local `/home` paths.
+
+Host: **musketeer-chrome** + **fnm multishell** (`node` for chitchat-batch.mjs).
+

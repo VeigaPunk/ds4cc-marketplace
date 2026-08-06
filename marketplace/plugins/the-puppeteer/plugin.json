@@ -1,7 +1,7 @@
 {
   "name": "the-puppeteer",
-  "version": "0.2.0",
-  "description": "Web UI task execution and long-running assistant flows",
+  "version": "0.2.1",
+  "description": "ChatGPT web UI bridge (CDP): Pro model pill, Chat/Work surface, composer tools, musketeer-chrome host",
   "author": {
     "name": "VeigaPunk"
   },
