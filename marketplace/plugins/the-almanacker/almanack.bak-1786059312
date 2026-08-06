@@ -13,11 +13,10 @@
 #   studio infographic "<prompt>" [--style <style>]         Customize + generate Infographic
 #       style ∈ auto | professional | scientific | editorial | instructive | kawaii | anime | clay | bento | bricks | sketch
 #
-# Requires: musketeer-chrome (or compatible) with CDP on 127.0.0.1:9222,
-# signed into notebook.google.com / notebooklm.google.com (Gemini Notebook).
-# Prefer fnm multishell so agent-browser resolves under node.
+# Requires: Windows Chrome Dev with --remote-debugging-port=9222 and
+# --user-data-dir=C:\ChromeAutomation, signed into notebooklm.google.com.
 # For chat/rename/add/studio: a /notebook/<uuid> tab must be open.
-# See README.md and docs/WEB-UI-AUTOMATION-CDP-RUNBOOK.md (xbrd-spark).
+# See README.md.
 
 set -u
 
@@ -37,8 +36,8 @@ SUBCMD="${1:-}"
 # label it doesn't set falls back to the selected built-in. Find your UI's exact
 # strings by reading the labels in NotebookLM's Studio panel for your locale.
 #
-# NOTE: en-US length labels (Short/Default/Long as of 2026 Gemini Notebook UI)
-# and report templates (Briefing doc/Study guide/Blog post); re-verify after UI ships;
+# NOTE: en-US length labels (Shorter/Default/Longer) and report templates
+# (Briefing doc/Study guide/Blog post) are confirmed against Google's docs;
 # the infographic style labels are best-effort — adjust via an override file if
 # your UI differs.
 # ──────────────────────────────────────────────────────────────────────────────
@@ -50,9 +49,9 @@ L_PANEL_AUDIO="Audio Overview"
 L_PANEL_REPORT="Reports"
 L_PANEL_INFOGRAPHIC="Infographic"
 
-L_LEN_SHORT="Short"
+L_LEN_SHORT="Shorter"
 L_LEN_STANDARD="Default"
-L_LEN_LONG="Long"
+L_LEN_LONG="Longer"
 
 L_TPL_FROM_SCRATCH="Create from scratch"
 L_TPL_SUMMARY="Briefing doc"
@@ -156,21 +155,18 @@ focus_notebook_tab() {
   local list
   list=$(ab tab list 2>&1)
 
-  # Host rebrand: notebook.google.com (Gemini Notebook) coexists with notebooklm.google.com.
-  local nb_re='https?://(notebooklm\.|notebook\.)google\.com/notebook/'
-
   local active_line
-  active_line=$(echo "$list" | grep -E "^→[[:space:]]+\[t[0-9]+\][[:space:]].*${nb_re}" || true)
+  active_line=$(echo "$list" | grep -E '^→[[:space:]]+\[t[0-9]+\][[:space:]].*https?://notebooklm\.google\.com/notebook/' || true)
   local idx
   if [ -n "$active_line" ]; then
     idx=$(echo "$active_line" | grep -oE 't[0-9]+')
   else
-    idx=$(echo "$list" | grep -E "\[t[0-9]+\][[:space:]].*${nb_re}" | head -1 | grep -oE 't[0-9]+')
+    idx=$(echo "$list" | grep -E '\[t[0-9]+\][[:space:]].*https?://notebooklm\.google\.com/notebook/' | head -1 | grep -oE 't[0-9]+')
   fi
 
   if [ -z "$idx" ]; then
-    echo "✗ No Notebook (NotebookLM/Gemini Notebook) tab is open." >&2
-    echo "  Open a specific notebook at notebook.google.com/notebook/<id> (or run 'almanack create' first)." >&2
+    echo "✗ No NotebookLM notebook tab is open." >&2
+    echo "  Open a specific notebook (or run 'almanack create' first)." >&2
     exit 1
   fi
 
@@ -228,17 +224,10 @@ cmd_create() {
   # Open a fresh dashboard tab — safer than hijacking an existing tab whose
   # state we don't control.
   ab tab new > /dev/null 2>&1
-  # Prefer current host; notebooklm.google.com often redirects to notebook.google.com.
-  ab open https://notebook.google.com --wait 3000ms > /dev/null 2>&1
+  ab open https://notebooklm.google.com --wait 3000ms > /dev/null 2>&1
 
-  # Create entry points vary by UI generation:
-  # - legacy: mat-card.create-new-action-button
-  # - 2026 Gemini Notebook: button[aria-label="Create new notebook"] / "Create notebook"
-  ab click 'mat-card.create-new-action-button' > /dev/null 2>&1 \
-    || ab click 'button[aria-label="Create new notebook"]' > /dev/null 2>&1 \
-    || ab click 'button[aria-label="Create notebook"]' > /dev/null 2>&1 \
-    || ab find text "Create new notebook" click > /dev/null 2>&1 \
-    || ab find text "Create notebook" click > /dev/null 2>&1
+  # The Create card is an Angular Material card with a stable class.
+  ab click 'mat-card.create-new-action-button' > /dev/null 2>&1
 
   # Wait for navigation — the new-notebook URL has /notebook/<uuid>.
   sleep 4
@@ -254,20 +243,7 @@ cmd_create() {
   # mounts; wait for it, then fill.
   if [ -n "$name" ]; then
     ab wait 800 > /dev/null 2>&1
-    ab fill 'input.title-input' "$name" > /dev/null 2>&1 \
-      || ab fill 'input[aria-label*="title" i]' "$name" > /dev/null 2>&1 \
-      || ab eval "
-      (() => {
-        const el = document.querySelector('input.title-input')
-          || Array.from(document.querySelectorAll('input[type=text], input:not([type])'))
-               .find(i => (i.getAttribute('aria-label')||'').match(/title|name/i) || i.value);
-        if (!el) return 'no-title';
-        el.focus(); el.value = ''; el.dispatchEvent(new Event('input', {bubbles:true}));
-        return 'ok';
-      })()" > /dev/null 2>&1
-    if ab eval 'document.querySelector("input.title-input")' > /dev/null 2>&1; then
-      ab keyboard inserttext "$name" > /dev/null 2>&1 || true
-    fi
+    ab fill 'input.title-input' "$name" > /dev/null 2>&1
     # Commit the rename by blurring — NotebookLM persists on blur.
     ab eval 'document.querySelector("input.title-input")?.blur()' > /dev/null 2>&1
   fi
@@ -524,22 +500,10 @@ open_studio_panel() {
 }
 
 click_generate() {
-  # Primary Generate control. Prefer stable class, fall back to visible label and
-  # aria-label (2026 Gemini Notebook "Customize Audio Overview" dialog).
-  ab click 'mat-dialog-container button.button-color--primary' > /dev/null 2>&1 \
-    || ab click 'mat-dialog-container button[aria-label="Generate"]' > /dev/null 2>&1 \
-    || ab find text "Generate" click --exact > /dev/null 2>&1 \
-    || ab eval "
-    (() => {
-      const d = document.querySelector('mat-dialog-container, [role=dialog]');
-      if (!d) return 'no-dialog';
-      const b = Array.from(d.querySelectorAll('button'))
-        .find(x => /^(Generate|Gerar|Créer|Generieren)$/i.test((x.innerText||'').trim())
-               || /generate/i.test(x.getAttribute('aria-label')||''));
-      if (!b) return 'no-generate';
-      b.click();
-      return 'clicked';
-    })()" > /dev/null 2>&1
+  # The primary action button inside the dialog is the Generate button. We match
+  # it by its primary-color class, not its (localized) text — so this is
+  # locale-independent.
+  ab click 'mat-dialog-container button.button-color--primary' > /dev/null 2>&1
 }
 
 cmd_studio_audio() {
@@ -578,23 +542,13 @@ cmd_studio_audio() {
 
   open_studio_panel "$L_PANEL_AUDIO"
 
-  # Select the mode radio: prefer value= (legacy), then aria-label / visible title
-  # (2026 dialog: "Deep Dive", "Brief", "Critique", "Debate").
+  # Select the mode radio by value attribute (stable across locales).
   ab eval "
   (() => {
-    const dialog = document.querySelector('mat-dialog-container, [role=dialog]');
-    if (!dialog) return 'no-dialog';
-    let radio = dialog.querySelector('input[type=\"radio\"][value=\"$radio_value\"]');
-    if (radio) { radio.click(); return 'value-clicked'; }
-    const modeNames = {1:'Deep Dive',2:'Brief',3:'Critique',4:'Debate'};
-    const want = modeNames[$radio_value] || '';
-    const byAria = Array.from(dialog.querySelectorAll('[role=radio], input[type=radio], mat-radio-button'))
-      .find(el => {
-        const a = (el.getAttribute('aria-label') || el.innerText || '').trim();
-        return want && a.toLowerCase().startsWith(want.toLowerCase());
-      });
-    if (byAria) { byAria.click(); return 'aria-clicked:'+want; }
-    return 'no-radio';
+    const radio = document.querySelector('mat-dialog-container input[type=\"radio\"][value=\"$radio_value\"]');
+    if (!radio) return 'no-radio';
+    radio.click();
+    return 'clicked';
   })()
   " > /dev/null 2>&1
   ab wait 400 > /dev/null 2>&1
@@ -618,16 +572,14 @@ cmd_studio_audio() {
 
   # Fill the customize prompt if provided.
   if [ -n "$prompt" ]; then
-    ab click 'mat-dialog-container textarea[aria-label*="focus" i]' > /dev/null 2>&1 \
-      || ab click 'mat-dialog-container textarea' > /dev/null 2>&1 \
-      || ab click 'textarea[aria-label="What should the AI hosts focus on in this episode?"]' > /dev/null 2>&1
+    ab click 'mat-dialog-container textarea' > /dev/null 2>&1
     ab keyboard inserttext "$prompt" > /dev/null 2>&1
     ab wait 400 > /dev/null 2>&1
   fi
 
   click_generate
   ab wait 500 > /dev/null 2>&1
-  echo "✓ Audio Overview generation started (mode: $mode, length: ${length:-standard}). Read the result in NotebookLM/Gemini Notebook when it finishes."
+  echo "✓ Audio Overview generation started (mode: $mode, length: ${length:-standard}). Read the result in NotebookLM when it finishes."
 }
 
 cmd_studio_report() {
@@ -783,9 +735,8 @@ Usage: almanack <subcommand> [args...]
       editorial | instructive | kawaii | anime | clay | bento | bricks | sketch.
       Default style is auto.
 
-All subcommands expect musketeer-chrome (or CDP Chrome) on 127.0.0.1:9222 with a
-pre-authed notebook.google.com / notebooklm.google.com session. Prefer fnm multishell
-for agent-browser. See README.md + WEB-UI-AUTOMATION-CDP-RUNBOOK.md.
+All subcommands expect Windows Chrome Dev running with CDP on 9222 and the
+C:\ChromeAutomation profile signed into notebooklm.google.com. See README.md.
 EOF
 }
 

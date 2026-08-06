@@ -32,3 +32,7 @@ almanack studio audio deep-dive "A 3-host deep dive on agentic orchestration"
 ```
 
 Use the plugin README for full command reference.
+
+## Host (2026)
+
+Use musketeer-chrome CDP on `127.0.0.1:9222` with fnm multishell. Notebooks live at `https://notebook.google.com/notebook/<uuid>`.
