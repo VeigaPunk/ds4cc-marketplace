@@ -1,7 +1,7 @@
 {
   "name": "mycommands",
   "version": "0.2.0",
-  "description": "Reusable command packs for recurring workflows",
+  "description": "Thin xbreed/xbgst slash-command packs and install docs (narrow claim \u2014 not a full automation catalog)",
   "author": {
     "name": "VeigaPunk"
   },
