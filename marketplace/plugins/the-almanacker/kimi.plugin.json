@@ -1,7 +1,7 @@
 {
   "name": "the-almanacker",
-  "version": "0.2.0",
-  "description": "Drive NotebookLM-only web UI features through agent-browser and an authenticated CDP profile.",
+  "version": "0.2.1",
+  "description": "NotebookLM / Gemini Notebook web UI automation via agent-browser (notebook.google.com + studio DOM 2026)",
   "author": {
     "name": "VeigaPunk"
   },

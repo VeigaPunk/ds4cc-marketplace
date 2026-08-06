@@ -222,11 +222,11 @@ SSoT: `marketplace/plugins/<name>/` and `marketplace/marketplace.json` (18 entri
 | `myskills` | Developer | Curated skill inventory & workflow helpers |
 | `sekhmet` | Developer | Always-available swarm substrate (xbreed L3; Rust `xbrd-spark`, up to 64 runners) |
 | `spoderman` | Developer | Attack harness & hook safety research |
-| `the-almanacker` | Developer | NotebookLM web UI adapter |
+| `the-almanacker` | Developer | Gemini Notebook / NotebookLM adapter (0.2.1) |
 | `the-kimiraikoner` | Developer | Kimi web UI adapter (agent-browser / CDP) |
-| `the-musketeer` | Developer | Grok web UI adapter (agent-browser / CDP) |
+| `the-musketeer` | Developer | Grok web UI adapter — Expert/Imagine/Automations (0.3.1) |
 | `the-netsshark` | Developer | Empirical DNS, routing, proxy, firewall, MTU, connectivity audits |
-| `the-puppeteer` | Developer | Web automation & long-running ChatGPT bridge |
+| `the-puppeteer` | Developer | ChatGPT web UI bridge — Pro/Chat-Work (0.2.1) |
 | `xbrd-gdsp-fknpft` | Developer | Multimodel dispatch (xask/xbreed) & benchmark workflows |
 | `xbrd-selector` | Developer | Pure-Rust rover / model selector helpers for xbreed stacks |
 

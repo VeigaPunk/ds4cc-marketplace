@@ -272,3 +272,13 @@ codex plugin add sekhmet@ds4cc
 | `marketplace/validator/src/main.rs` | `validate_marketplace_dir()` auto-detect |
 | `marketplace/validator/tests/integration_test.rs` | Layout + CLI + FNM gates |
 | `HIGHLIGHTS.md` | Catalog accuracy (18 plugins; no agent-wall install loop) |
+
+## Adapter release 2026-08-06
+
+| Plugin | Version | Headline |
+|--------|---------|----------|
+| `the-almanacker` | **0.2.1** | `notebook.google.com` + Studio Deep Dive Long DOM |
+| `the-musketeer` | **0.3.1** | musketeer-chrome host + Grok 4.5 model menu |
+| `the-puppeteer` | **0.2.1** | Pro pill / Chat-Work / fnm node + musketeer-chrome |
+
+Changelogs: `marketplace/plugins/<name>/CHANGELOG.md`.
