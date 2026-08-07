@@ -160,6 +160,13 @@ Related:
 
 ---
 
+
+## Genre: memorymancers / copromancers
+
+Marketing names vary (memory that reasons, neuromancer cosplay, persistent duo-queues).
+Operator name: **copromancers** — read deuces, write shit. Sticky install, cloud key sprawl, fake continuity.
+**OpenClaw → Hermes → Honcho-class memory** sit in this bin. Disgust is evidence. Prefer SQLite + sekhmet.
+
 ## Anti-pattern principles (short)
 
 1. **Tools adapt to us** — never reverse.
