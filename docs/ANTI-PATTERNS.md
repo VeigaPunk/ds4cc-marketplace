@@ -161,7 +161,7 @@ Related:
 ---
 
 
-## Genre: memorymancers / copromancers
+## Genre: memorymancers / copromancers (**copromancy**: real term)
 
 Marketing names vary (memory that reasons, neuromancer cosplay, persistent duo-queues).
 Operator name: **copromancers** — read deuces, write shit. Sticky install, cloud key sprawl, fake continuity.

@@ -4,6 +4,8 @@
 
 ### Added
 
+- **Copromancy** (real term) genre label on `bloat.html` + ANTI-PATTERNS for memorymancer stacks.
+
 - **OpenClaw** hard-no + **Hermes unsalvageable** (~$200 DigitalOcean salvage failed) on `bloat.html` + ANTI-PATTERNS.
 
 - **`docs/MCP-STANCE.md`**: operator SSoT — **Exa is the only MCP that proved its worth**; other general web MCPs treated as bloat/lag/snake oil until proven; research → Exa, live UI → burner Chrome agent-browser. Wired into README, GROK_PASTE, and grok-cli-config comments.
