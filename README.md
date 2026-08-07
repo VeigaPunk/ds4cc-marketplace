@@ -16,8 +16,14 @@ Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, 
 - Validator: `marketplace/validator/` (Rust, `cargo test`)
 - Curation and claim policy: [`CURATION.md`](CURATION.md)
 - Paste-into-Grok-chat block: [`GROK_PASTE.md`](GROK_PASTE.md)
+- **MCP operator stance (Exa only paid rent):** [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md)
 - Titanium host resolve: [`docs/TITANIUM-HOST.md`](docs/TITANIUM-HOST.md)
 - Site: [ds4cc.com](https://ds4cc.com) · MCP: [app.ds4cc.com/mcp](https://app.ds4cc.com/mcp)
+
+### MCP (operator evidence)
+
+**The only MCP integration that proved its worth in real sessions so far is Exa.**  
+Everything else is treated as bloat / lag / snake oil until proven otherwise. Research → Exa; live UI truth → burner Chrome agent-browser. Details: [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md).
 
 ## Titanium host resolve
 

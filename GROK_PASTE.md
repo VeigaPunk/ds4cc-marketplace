@@ -14,6 +14,20 @@ You are helping me use the **DS4CC marketplace** (`VeigaPunk/ds4cc-marketplace`)
 4. Do **not** auto-install or enable hooks/MCP without my explicit OK.
 5. Prefer `grok plugin …` commands. Do not require Codex unless I ask.
 
+## MCP stance (mandatory)
+
+**The only MCP that proved its worth up to now is Exa. For real.**  
+All other general web/knowledge MCPs are **bloat, laggy, and mostly snake oil** unless the task is literally that product’s API.
+
+| Job | Tool |
+| --- | --- |
+| Research / docs / facts | **Exa only** (`web_search_exa` → `web_fetch_exa`) |
+| Live UI / KYC / real buttons | **Agent-browser on burner Chrome** (CDP) |
+| Click automation only | TinyFish automation *maybe* — **never** TinyFish search as default knowledge |
+| Secrets | the-janitor + `op` |
+
+Full write-up: [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md).
+
 ## Register (idempotent)
 
 ```bash

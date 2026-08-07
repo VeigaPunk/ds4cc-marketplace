@@ -7,6 +7,10 @@
 #
 # Hard-ban of general-purpose/explore is enforced in the livepatched binary
 # (not only by [subagents.toggle]). First-party full-tool paths use "agent".
+#
+# MCP stance (see docs/MCP-STANCE.md): Exa is the only research MCP that
+# proved its worth. Other web MCPs = bloat until task-specific need. Prefer
+# agent-browser / burner CDP for live UI over laggy fetch middlemen.
 
 [cli]
 installer = "internal"
