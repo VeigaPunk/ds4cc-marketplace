@@ -28,6 +28,18 @@ All other general web/knowledge MCPs are **bloat, laggy, and mostly snake oil** 
 
 Full write-up: [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md).
 
+## Anti-patterns (mandatory)
+
+Do **not** re-propose killed stack choices without matching **reopen** evidence.
+Canonical list: [`docs/ANTI-PATTERNS.md`](docs/ANTI-PATTERNS.md).
+
+Notable kills:
+
+- **Honcho** (agent memory / MCP) — not Phase-0 / not default memory; SQLite-authoritative instead
+- **general-purpose / explore** subagents under xbgst
+- **MCP zoo** and TinyFish-as-research
+- **Client-side capability patching** to fit a vendor tool (trendsetter principle)
+
 ## Register (idempotent)
 
 ```bash

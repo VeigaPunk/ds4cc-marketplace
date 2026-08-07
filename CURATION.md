@@ -4,6 +4,11 @@ DS4CC is a living marketplace, but not an indiscriminate catalog. We keep the
 strongest entries in each domain we explore and update the reviewed set as
 better evidence or better tools emerge.
 
+**The dual of admission is rejection.** Explicit *what not to use* prevents
+re-litigating killed tools every session. Operator anti-patterns (Honcho
+memory, MCP zoo, general-purpose agents, client-side capability patching):
+**[`docs/ANTI-PATTERNS.md`](docs/ANTI-PATTERNS.md)**.
+
 ## Admission gate
 
 An entry must have:
@@ -18,6 +23,10 @@ An entry must have:
 
 Entries can be removed or demoted when they become unmaintained, unsafe,
 misleading, legally unclear, or dominated by a demonstrably stronger option.
+
+Demotion or kill should preferably land a short entry in
+[`docs/ANTI-PATTERNS.md`](docs/ANTI-PATTERNS.md) with **status**, **why**,
+**use instead**, and **reopen triggers** (or “none”).
 
 ## Claim discipline
 

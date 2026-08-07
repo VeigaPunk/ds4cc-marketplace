@@ -36,7 +36,7 @@ Treat other MCP servers as **bloat until proven otherwise** in *this* host’s h
 
 Recommended Grok plugins for intelligence work: **`exa` on**. Do **not** enable a zoo of web MCPs “just in case.” Every extra MCP costs context, cold starts, failed auth, and wrong-tool bias.
 
-See also: [`GROK_PASTE.md`](../GROK_PASTE.md) (agent paste block), [`grok-cli-config.toml`](../grok-cli-config.toml).
+See also: [`ANTI-PATTERNS.md`](ANTI-PATTERNS.md) (Honcho + broader “what not to use”), [`GROK_PASTE.md`](../GROK_PASTE.md) (agent paste block), [`grok-cli-config.toml`](../grok-cli-config.toml).
 
 ## Evidence date
 

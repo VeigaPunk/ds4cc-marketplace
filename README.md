@@ -15,6 +15,7 @@ Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, 
 - Plugin assets: `marketplace/plugins/<name>/`
 - Validator: `marketplace/validator/` (Rust, `cargo test`)
 - Curation and claim policy: [`CURATION.md`](CURATION.md)
+- **Anti-patterns (what not to use — Honcho, MCP zoo, …):** [`docs/ANTI-PATTERNS.md`](docs/ANTI-PATTERNS.md)
 - Paste-into-Grok-chat block: [`GROK_PASTE.md`](GROK_PASTE.md)
 - **MCP operator stance (Exa only paid rent):** [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md)
 - Titanium host resolve: [`docs/TITANIUM-HOST.md`](docs/TITANIUM-HOST.md)
