@@ -71,6 +71,58 @@ if (( CHROME_MAJOR < 149 )); then
   exit 1
 fi
 
+# Ensure 1Password BrowserSupport native-messaging host is present for the
+# burner profile. Custom --user-data-dir does NOT inherit ~/.config/google-chrome
+# NativeMessagingHosts, so the extension cannot talk to the desktop app unless
+# we install the host under $PROFILE/NativeMessagingHosts/.
+ensure_1password_nmh() {
+  local profile="$1"
+  local nmh_dir="$profile/NativeMessagingHosts"
+  local dest="$nmh_dir/com.1password.1password.json"
+  local src=""
+  local candidate
+  for candidate in \
+    "${HOME}/.config/google-chrome/NativeMessagingHosts/com.1password.1password.json" \
+    "${HOME}/.config/google-chrome-beta/NativeMessagingHosts/com.1password.1password.json" \
+    "${HOME}/.config/chromium/NativeMessagingHosts/com.1password.1password.json" \
+    "${HOME}/.config/BraveSoftware/Brave-Browser/NativeMessagingHosts/com.1password.1password.json"
+  do
+    if [[ -f "$candidate" ]]; then
+      src="$candidate"
+      break
+    fi
+  done
+  if [[ -z "$src" ]]; then
+    # Fallback: write a known-good host manifest if BrowserSupport is installed.
+    if [[ -x /opt/1Password/1Password-BrowserSupport ]]; then
+      mkdir -p -- "$nmh_dir"
+      cat >"$dest" <<'JSON'
+{
+  "name": "com.1password.1password",
+  "description": "1Password BrowserSupport",
+  "path": "/opt/1Password/1Password-BrowserSupport",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://hjlinigoblmkhjejkmbegnoaljkphmgo/",
+    "chrome-extension://bkpbhnjcbehoklfkljkkbbmipaphipgl/",
+    "chrome-extension://gejiddohjgogedgjnonbofjigllpkmbf/",
+    "chrome-extension://khgocmkkpikpnmmkgmdnfckapcdkgfaf/",
+    "chrome-extension://aeblfdkhhhdcdjpifhhbdiojplfjncoa/",
+    "chrome-extension://dppgmdbiimibapkepcbdbmkaabgiofem/"
+  ]
+}
+JSON
+      return 0
+    fi
+    return 0
+  fi
+  mkdir -p -- "$nmh_dir"
+  if [[ ! -f "$dest" ]] || ! cmp -s "$src" "$dest" 2>/dev/null; then
+    cp -a -- "$src" "$dest"
+  fi
+}
+ensure_1password_nmh "$PROFILE"
+
 if (( $# == 0 )); then
   set -- \
     https://notebooklm.google.com/ \
