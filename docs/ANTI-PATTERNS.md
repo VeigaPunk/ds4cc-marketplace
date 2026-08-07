@@ -167,6 +167,14 @@ Marketing names vary (memory that reasons, neuromancer cosplay, persistent duo-q
 Operator name: **copromancers** — read deuces, write shit. Sticky install, cloud key sprawl, fake continuity.
 **OpenClaw → Hermes → Honcho-class memory** sit in this bin. Disgust is evidence. Prefer SQLite + sekhmet.
 
+### Literary frame (operator)
+
+- **Copromancy** — real term; “reading feces” as divination.
+- **Rubem Fonseca** — BR hard prose energy: look at the dung without soft focus.
+- **DFW, *Oblivion* — *The Suffering Channel*** — fecal art + the culture machine that curates it.
+- **Nous × Honcho** (metaphor) — that collab: specialist copromancers. Read deuces, write shit.
+
+
 ## Anti-pattern principles (short)
 
 1. **Tools adapt to us** — never reverse.

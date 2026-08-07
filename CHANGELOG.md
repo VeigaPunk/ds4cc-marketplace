@@ -4,6 +4,8 @@
 
 ### Added
 
+- Literary frame on bloat: Fonseca / DFW *The Suffering Channel* → Nous×Honcho as copromancy collab.
+
 - **Copromancy** (real term) genre label on `bloat.html` + ANTI-PATTERNS for memorymancer stacks.
 
 - **OpenClaw** hard-no + **Hermes unsalvageable** (~$200 DigitalOcean salvage failed) on `bloat.html` + ANTI-PATTERNS.
