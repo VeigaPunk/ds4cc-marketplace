@@ -1,6 +1,7 @@
 # MCP stance (operator evidence, 2026-08)
 
-**Explicit SSoT for DS4CC / Grok agents:**
+**Explicit SSoT for DS4CC / Grok agents.**  
+**Public praise:** [ds4cc.com/#exa](https://ds4cc.com/#exa) — we call out [Exa.ai](https://exa.ai) by name as the first good thing in the MCP hop-on bloat.
 
 ## The only MCP that proved its worth
 

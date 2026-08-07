@@ -21,10 +21,12 @@ Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, 
 - Titanium host resolve: [`docs/TITANIUM-HOST.md`](docs/TITANIUM-HOST.md)
 - Site: [ds4cc.com](https://ds4cc.com) · MCP: [app.ds4cc.com/mcp](https://app.ds4cc.com/mcp)
 
-### MCP (operator evidence)
+### MCP (operator evidence) — we praise Exa on purpose
 
-**The only MCP integration that proved its worth in real sessions so far is Exa.**  
-Everything else is treated as bloat / lag / snake oil until proven otherwise. Research → Exa; live UI truth → burner Chrome agent-browser. Details: [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md).
+**[Exa.ai](https://exa.ai) is the first good thing we saw in the MCP hop-on-bloat wave.**  
+The only general research MCP that paid rent in real operator sessions. Everything else is treated as bloat / lag / snake oil until proven. Research → Exa; live UI → burner Chrome agent-browser.
+
+Site section: [ds4cc.com#exa](https://ds4cc.com/#exa) · SSoT: [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md).
 
 ## Titanium host resolve
 
