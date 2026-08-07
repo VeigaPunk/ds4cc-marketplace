@@ -70,7 +70,7 @@ Related:
 | **Status** | **KILLED** |
 | **Class** | Agent product · bloatware · sticky install |
 | **Date** | 2026-08 (operator kill) |
-| **Why** | Literal bloatware: emoji-drenched control surfaces, resource hog on VPS **and** local (host was not the bug). Felt like malware-grade stickiness — hard to nuke process/unit/user dirs. **Google Workspace API key paths** + “persistent memory” via **duo-queuing** the worst memory feature imaginable. Bundled/adjacent sludge: **gsync**, **rclone** glue as default gravity well. Not thin. Not recoverable. Not funny after the second reinstall. |
+| **Why** | Literal bloatware: emoji-drenched control surfaces, resource hog on VPS **and** local (host was not the bug). Felt like malware-grade stickiness — hard to nuke process/unit/user dirs. **Google Workspace API key paths** + “persistent memory” via **duo-queuing** the worst memory feature imaginable. Bundled/adjacent sludge: **gsync**, **rclone** glue as default gravity well. Operator burned **~$200 USD DigitalOcean** trying to make it good after OpenClaw was already a hard no — every salvage attempt failed. **Garbage to the core. Cannot be salvaged.** VPS suck, then local suck: not a host problem. The product is the bug. |
 | **Use instead** | sekhmet / Codex Titanium pure sparks; xbgst specialists; local SQLite authority; explicit `op`/janitor secrets — no Workspace-key spaghetti |
 | **Reopen** | None unless product becomes a single static binary with zero emoji dashboard, zero forced sync daemons, and a one-command uninstall that actually works |
 | **Evidence** | Operator sessions: VPS fail → local retry worse; uninstall friction; memory/sync architecture disgust |

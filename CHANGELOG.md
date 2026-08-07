@@ -4,6 +4,8 @@
 
 ### Added
 
+- **OpenClaw** hard-no + **Hermes unsalvageable** (~$200 DigitalOcean salvage failed) on `bloat.html` + ANTI-PATTERNS.
+
 - **`docs/MCP-STANCE.md`**: operator SSoT — **Exa is the only MCP that proved its worth**; other general web MCPs treated as bloat/lag/snake oil until proven; research → Exa, live UI → burner Chrome agent-browser. Wired into README, GROK_PASTE, and grok-cli-config comments.
 - **`docs/ANTI-PATTERNS.md`**: dual of curation — explicit *what not to use* with status/why/use-instead/reopen. Flagship entry: **Honcho** (killed as stack memory; SQLite instead), plus MCP zoo, TinyFish-as-research, general-purpose/explore, client-side capability patching. Linked from CURATION, README, GROK_PASTE.
 - **Exa separate tab** `exa.html` — product praise, **not** Titanium MCP. Hero: Titanium = no MCP.
