@@ -50,7 +50,7 @@ Related:
 
 | | |
 | --- | --- |
-| **Status** | **KILLED** as stack memory / Phase-0 substrate · **DEFERRED** only as optional NL audit sidecar under tight conditions |
+| **Status** | **KILLED** as stack memory / Phase-0 substrate · **worst suck measured** · **DEFERRED** only as optional NL audit sidecar under tight conditions |
 | **Class** | Architecture · external memory service · MCP |
 | **Date** | 2026-04-18 (reaudit closure); still binding 2026-08 |
 | **Why** | **Trendsetter principle:** tools adapt to us — we do not client-patch our stack to host a vendor’s model. **R5 (semantic Phase-0 enrichment) durably killed** on primary-source grounds: no user metadata on `ConclusionCreate` (schema coercion / `icontains` hell), and `/chat` is a **probabilistic tool-loop agent** (non-deterministic recall). Mission namespace / durable authority does not match Honcho’s session semantics without learning-around theater. |
@@ -61,6 +61,34 @@ Related:
 **Agent line:** Do **not** propose Honcho (or Honcho MCP) as default memory for xbgst / DS4CC / judge Phase 0. If the user asks, cite this anti-pattern and the closure.
 
 ---
+
+
+### Hermes agent (Nous Research stack / sticky autonomy slime)
+
+| | |
+| --- | --- |
+| **Status** | **KILLED** |
+| **Class** | Agent product · bloatware · sticky install |
+| **Date** | 2026-08 (operator kill) |
+| **Why** | Literal bloatware: emoji-drenched control surfaces, resource hog on VPS **and** local (host was not the bug). Felt like malware-grade stickiness — hard to nuke process/unit/user dirs. **Google Workspace API key paths** + “persistent memory” via **duo-queuing** the worst memory feature imaginable. Bundled/adjacent sludge: **gsync**, **rclone** glue as default gravity well. Not thin. Not recoverable. Not funny after the second reinstall. |
+| **Use instead** | sekhmet / Codex Titanium pure sparks; xbgst specialists; local SQLite authority; explicit `op`/janitor secrets — no Workspace-key spaghetti |
+| **Reopen** | None unless product becomes a single static binary with zero emoji dashboard, zero forced sync daemons, and a one-command uninstall that actually works |
+| **Evidence** | Operator sessions: VPS fail → local retry worse; uninstall friction; memory/sync architecture disgust |
+
+**Agent line:** Do **not** propose Hermes / Nous “autonomy boxes” as default agents. If found running: kill + purge; do not “just disable.”
+
+---
+
+### gsync / rclone-as-agent-default
+
+| | |
+| --- | --- |
+| **Status** | **AVOID-AS-DEFAULT** (with Hermes-class stacks: **KILLED**) |
+| **Class** | Sync glue · agent bundling |
+| **Date** | 2026-08 |
+| **Why** | Fine tools *in isolation* for humans who chose them. As **default agent infrastructure** (Hermes-class): silent complexity, credential sprawl, “memory” that is just dual queues over cloud trash. Not a memory model — a sync accident. |
+| **Use instead** | Explicit human-owned sync if needed; mission SQLite; no agent-owned Workspace key farms |
+| **Reopen** | Never as automatic agent substrate |
 
 ### General-purpose / explore host subagents (Grok Build)
 

@@ -14,19 +14,21 @@ You are helping me use the **DS4CC marketplace** (`VeigaPunk/ds4cc-marketplace`)
 4. Do **not** auto-install or enable hooks/MCP without my explicit OK.
 5. Prefer `grok plugin …` commands. Do not require Codex unless I ask.
 
-## MCP stance (mandatory)
+## MCP / Titanium (mandatory)
 
-**The only MCP that proved its worth up to now is Exa. For real.**  
-All other general web/knowledge MCPs are **bloat, laggy, and mostly snake oil** unless the task is literally that product’s API.
+**Titanium / sekhmet L3 = no MCP policy.** Do not enable MCP zoos on Codex Titanium.
 
-| Job | Tool |
+**Exa** is praised as a **research product** (see `exa.html`) — extremely good — **not** as “ship MCP into L3.”
+
+| Surface | Rule |
 | --- | --- |
-| Research / docs / facts | **Exa only** (`web_search_exa` → `web_fetch_exa`) |
-| Live UI / KYC / real buttons | **Agent-browser on burner Chrome** (CDP) |
-| Click automation only | TinyFish automation *maybe* — **never** TinyFish search as default knowledge |
+| Titanium / sekhmet | **No MCP** |
+| Non-Titanium research hosts | Exa-quality research OK if already integrated |
+| Live UI | burner Chrome / agent-browser |
 | Secrets | the-janitor + `op` |
+| Honcho / Hermes | **KILLED** — see `bloat.html` / ANTI-PATTERNS |
 
-Full write-up: [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md).
+Full: [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md) · [`docs/ANTI-PATTERNS.md`](docs/ANTI-PATTERNS.md).
 
 ## Anti-patterns (mandatory)
 

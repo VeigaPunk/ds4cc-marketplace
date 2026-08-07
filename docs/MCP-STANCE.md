@@ -3,6 +3,16 @@
 **Explicit SSoT for DS4CC / Grok agents.**  
 **Public praise:** [ds4cc.com/#exa](https://ds4cc.com/#exa) — we call out [Exa.ai](https://exa.ai) by name as the first good thing in the MCP hop-on bloat.
 
+
+## Titanium / sekhmet L3 — **no MCP policy**
+
+Codex Titanium, sekhmet workers, and L3 pure-exec sparks **do not** take an MCP zoo.
+Do **not** ship Exa (or any MCP) onto the Titanium host as default stack policy.
+
+- **Exa praise** lives on the public site as a **product** tab (`exa.html`) — research quality.
+- **Not** an instruction to wire MCP into L3.
+- Research hosts that already integrate Exa tools are a separate path from Titanium.
+
 ## The only MCP that proved its worth
 
 **Exa** (`exa` plugin — `web_search_exa` / `web_fetch_exa`) is the **only** general-purpose MCP integration that has earned default trust in real operator sessions so far.
@@ -35,7 +45,7 @@ Treat other MCP servers as **bloat until proven otherwise** in *this* host’s h
 
 ## Config implication
 
-Recommended Grok plugins for intelligence work: **`exa` on**. Do **not** enable a zoo of web MCPs “just in case.” Every extra MCP costs context, cold starts, failed auth, and wrong-tool bias.
+On **non-Titanium** research hosts that already use Exa tools: fine. **Never** as Titanium MCP policy. Do **not** enable a zoo of web MCPs “just in case.” Every extra MCP costs context, cold starts, failed auth, and wrong-tool bias.
 
 See also: [`ANTI-PATTERNS.md`](ANTI-PATTERNS.md) (Honcho + broader “what not to use”), [`GROK_PASTE.md`](../GROK_PASTE.md) (agent paste block), [`grok-cli-config.toml`](../grok-cli-config.toml).
 

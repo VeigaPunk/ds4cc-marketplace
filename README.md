@@ -21,12 +21,14 @@ Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, 
 - Titanium host resolve: [`docs/TITANIUM-HOST.md`](docs/TITANIUM-HOST.md)
 - Site: [ds4cc.com](https://ds4cc.com) · MCP: [app.ds4cc.com/mcp](https://app.ds4cc.com/mcp)
 
-### MCP (operator evidence) — we praise Exa on purpose
+### Exa (product praise) · Titanium = **no MCP**
 
-**[Exa.ai](https://exa.ai) is the first good thing we saw in the MCP hop-on-bloat wave.**  
-The only general research MCP that paid rent in real operator sessions. Everything else is treated as bloat / lag / snake oil until proven. Research → Exa; live UI → burner Chrome agent-browser.
+**[Exa.ai](https://exa.ai)** gets a **separate tab** — extremely good research product.  
+**Not** Titanium/sekhmet policy: L3 stays **no MCP**. Do not ship MCP zoos onto Codex Titanium.
 
-Site section: [ds4cc.com#exa](https://ds4cc.com/#exa) · SSoT: [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md).
+- Praise: [ds4cc.com/exa.html](https://ds4cc.com/exa.html)
+- Bloat kills (Honcho, Hermes, …): [ds4cc.com/bloat.html](https://ds4cc.com/bloat.html)
+- SSoT: [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md) · [`docs/ANTI-PATTERNS.md`](docs/ANTI-PATTERNS.md)
 
 ## Titanium host resolve
 
