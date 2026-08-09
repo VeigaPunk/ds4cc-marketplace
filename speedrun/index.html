@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Token Speedrun — $200 and the runs that matter</title>
+  <meta name="description" content="Public token / burn speedruns. First entry: VeigaPunk $200 USD DigitalOcean detour. Infinite mode = local free, never unpaid cloud fraud." />
+  <meta name="theme-color" content="#07080a" />
+  <meta property="og:title" content="Token Speedrun" />
+  <meta property="og:description" content="Leaderboard for expensive lessons. Featured: $200 USD run." />
+  <meta property="og:type" content="website" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="brand">
+      <span class="mark" aria-hidden="true">⚡</span>
+      <div>
+        <p class="eyebrow">token speedrun</p>
+        <h1>Burn the budget. Keep the receipt.</h1>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#run-200">$200 run</a>
+      <a href="#board">Board</a>
+      <a href="#infinite">Infinite</a>
+      <a href="#br">Brazil edge</a>
+      <a href="https://ds4cc.com/" rel="noopener">ds4cc.com</a>
+      <a href="https://veigapunk.github.io/omegag-site/" rel="noopener">omegaG</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <p class="kicker">Public leaderboard · no fake free cloud APIs</p>
+      <p class="lede">
+        Speedruns are real spend, real time, real outcome. Featured: operator burned
+        <strong>~$200&nbsp;USD</strong> learning a stack was unsalvageable.
+        <em>Infinite</em> means local / self-host metering off — not stolen Moonshot credits.
+      </p>
+      <div class="hero-stats" id="hero-stats">
+        <div class="stat"><span class="n">$200</span><span class="l">featured budget</span></div>
+        <div class="stat"><span class="n">1</span><span class="l">closed run</span></div>
+        <div class="stat"><span class="n">∞</span><span class="l">local mode only</span></div>
+      </div>
+    </section>
+
+    <section class="panel" id="run-200" aria-labelledby="run-title">
+      <p class="eyebrow">featured run</p>
+      <h2 id="run-title">VeigaPunk — $200 USD</h2>
+      <p class="summary" id="run-summary">Loading run…</p>
+      <ol class="timeline" id="run-timeline"></ol>
+      <dl class="metrics" id="run-metrics"></dl>
+      <p class="links" id="run-links"></p>
+    </section>
+
+    <section class="panel" id="board" aria-labelledby="board-title">
+      <p class="eyebrow">leaderboard</p>
+      <h2 id="board-title">Runs</h2>
+      <table class="board">
+        <thead>
+          <tr><th>#</th><th>Runner</th><th>Budget</th><th>Status</th><th>Note</th></tr>
+        </thead>
+        <tbody id="board-body"></tbody>
+      </table>
+    </section>
+
+    <section class="panel" id="infinite" aria-labelledby="inf-title">
+      <p class="eyebrow">infinite mode (legitimate)</p>
+      <h2 id="inf-title">What “infinite tokens” means here</h2>
+      <ul class="rules">
+        <li><strong>Allowed:</strong> local models, self-hosted endpoints, open weights — usage not billed by a cloud meter.</li>
+        <li><strong>Allowed:</strong> UI / game mode that does not claim free commercial API.</li>
+        <li><strong>Forbidden:</strong> cracked keys, shared paid accounts, billing bypass for Moonshot/Kimi/OpenAI/etc.</li>
+      </ul>
+      <p class="muted">This page will never ship unpaid infinite Moonshot API. If you want unlimited cloud, pay them or run local.</p>
+    </section>
+
+    <section class="panel" id="br" aria-labelledby="br-title">
+      <p class="eyebrow">latency · Brazil</p>
+      <h2 id="br-title">Serve near the user (BR first)</h2>
+      <p>
+        Operator base: <strong>Rio de Janeiro / BR</strong>. GitHub Pages sometimes lands
+        <code>brazilsouth</code>, sometimes a US edge — that friction is real.
+        Preferred path: <strong>Cloudflare</strong> (anycast, GRU/nearby POP) or origin in
+        <strong>AWS sa-east-1 / GCP southamerica-east1</strong>. See
+        <a href="docs/BR-HOSTING.md"><code>docs/BR-HOSTING.md</code></a>.
+      </p>
+      <pre class="code" id="latency-box">Run <code>bash scripts/br-latency-probe.sh</code> from a BR machine to compare TTFB.</pre>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <p>
+      Plug stack:
+      <a href="https://ds4cc.com/" rel="noopener">ds4cc.com</a> ·
+      <a href="https://veigapunk.github.io/omegag-site/" rel="noopener">omegaG</a> ·
+      <a href="https://github.com/vgpnk-holdings-llc/omegaG" rel="noopener">omegaG source</a>
+    </p>
+    <p class="muted">Static site · data-driven from <code>data/run-200usd.json</code></p>
+  </footer>
+  <script src="main.js" type="module"></script>
+</body>
+</html>

@@ -28,6 +28,7 @@ Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, 
 
 - Praise: [ds4cc.com/exa.html](https://ds4cc.com/exa.html)
 - Bloat kills (Honcho, Hermes, …): [ds4cc.com/bloat.html](https://ds4cc.com/bloat.html)
+- Token speedrun board (featured **$200** run): [`~/Projects/token-speedrun`](../token-speedrun) — deploy on **Cloudflare Pages** for BR edge latency
 - SSoT: [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md) · [`docs/ANTI-PATTERNS.md`](docs/ANTI-PATTERNS.md)
 
 ## Titanium host resolve

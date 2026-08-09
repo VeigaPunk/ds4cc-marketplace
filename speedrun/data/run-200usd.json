@@ -1,0 +1,46 @@
+{
+  "id": "veigapunk-200-usd-r0",
+  "title": "$200 USD token speedrun",
+  "runner": "VeigaPunk",
+  "budget_usd": 200,
+  "currency": "USD",
+  "status": "closed",
+  "venue": "DigitalOcean credit burn after OpenClaw hard-no; local salvage attempted",
+  "summary": "Spent ~$200 USD trying to force a bad stack into usefulness (VPS then local). VPS trash was not a host bug — product was garbage to the core. Every salvage path failed. Documented as anti-pattern + speedrun so the cost is a permanent public lesson, not a private regret.",
+  "timeline": [
+    {
+      "t": "phase-0",
+      "label": "OpenClaw already rejected",
+      "note": "Hard no before the $200 detour"
+    },
+    {
+      "t": "phase-1",
+      "label": "DigitalOcean ~$200 credit",
+      "note": "Figured why not — ran the stack on a VPS"
+    },
+    {
+      "t": "phase-2",
+      "label": "Blame the VPS, go local",
+      "note": "Local was a bigger mistake; same bloat, worse stickiness"
+    },
+    {
+      "t": "phase-3",
+      "label": "Salvage attempts",
+      "note": "Could not. Literally. Garbage to the core. Cannot be salvaged."
+    }
+  ],
+  "metrics": {
+    "budget_usd": 200,
+    "spent_usd_approx": 200,
+    "tokens_total": null,
+    "tokens_note": "Not a clean provider token meter — spend was infra + failed salvage, not a single API receipt. Treat $200 as the score.",
+    "wall_clock": "multi-session detour",
+    "outcome": "reject + document anti-pattern"
+  },
+  "links": {
+    "anti_pattern": "https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/docs/ANTI-PATTERNS.md",
+    "bloat_html": "https://ds4cc.com/",
+    "omegag": "https://veigapunk.github.io/omegag-site/"
+  },
+  "tags": ["anti-pattern", "do-not-repeat", "200usd", "speedrun"]
+}
