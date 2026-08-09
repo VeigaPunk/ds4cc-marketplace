@@ -4,6 +4,7 @@
 
 ### Added
 
+- **§ Model Studio public-good** (`#modelstudio` on ds4cc.com): Singapore console + OpenAI-compat notes + benefits referral `A927SY` (sponsored/nofollow), framed as shared agent-stack wiring rather than a product pitch.
 - Footer referral disclosure for [Alibaba Cloud benefits campaign](https://www.alibabacloud.com/campaign/benefits?referral_code=A927SY) (`referral_code=A927SY`), same sponsored/nofollow pattern as Kimi and OpenCode.
 
 - Literary frame on bloat: Fonseca / DFW *The Suffering Channel* → Nous×Honcho as copromancy collab.
