@@ -1,26 +1,25 @@
 {
   "name": "aaronplug",
-  "version": "0.3.0",
-  "description": "VeigaPunk Aaronplug plugin for Codex marketplace access.",
+  "version": "0.4.0",
+  "description": "aaron CLI tool for Codex hosts — invoke via Bash, not as an agent.",
   "author": {
     "name": "VeigaPunk"
   },
-  "skills": "./skills/",
   "interface": {
-    "displayName": "Aaronplug (VeigaPunk)",
-    "shortDescription": "Academic paper retrieval workflows",
-    "longDescription": "Provides Codex-facing access to Aaronplug commands for paper search, metadata normalization, and local artifact storage.",
+    "displayName": "aaron (CLI tool)",
+    "shortDescription": "Bash-invocable book/paper fetcher",
+    "longDescription": "Installs the `aaron` binary. Scout and other agents call it via Bash (run_terminal_command). Not an agent profile, not MCP, no skills.",
     "developerName": "VeigaPunk",
     "category": "Developer",
     "capabilities": [
-      "Research Search",
-      "Paper Discovery",
-      "File Export"
+      "CLI Tool",
+      "Book Search",
+      "Paper Fetch"
     ],
     "defaultPrompt": [
-      "Show me docs for Aaronplug.",
-      "Open VeigaPunk Aaronplug plugin usage.",
-      "Refresh this plugin from the marketplace."
+      "Install aaron on PATH with npm run link-local (fnm/node).",
+      "Run: aaron books search \"query\"",
+      "Run: aaron papers fetch <doi>"
     ]
   },
   "homepage": "https://github.com/VeigaPunk/aaronplug",

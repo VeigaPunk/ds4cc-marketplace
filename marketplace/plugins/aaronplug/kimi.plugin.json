@@ -1,24 +1,23 @@
 {
   "name": "aaronplug",
-  "version": "0.3.0",
-  "description": "Academic paper retrieval workflows",
+  "version": "0.4.0",
+  "description": "aaron CLI tool — Bash-invocable book/paper fetcher (not an agent)",
   "author": {
     "name": "VeigaPunk"
   },
   "homepage": "https://github.com/VeigaPunk/aaronplug",
   "license": "Unlicense",
   "keywords": [
-    "academic-papers",
-    "arxiv",
-    "semantic-scholar",
-    "research",
-    "skills"
+    "aaron",
+    "cli",
+    "tool",
+    "books",
+    "papers"
   ],
-  "skills": "./skills/",
   "interface": {
-    "displayName": "Aaronplug (VeigaPunk)",
-    "shortDescription": "Academic paper retrieval workflows",
-    "longDescription": "Provides Kimi Code-facing access to Aaronplug for paper search, metadata normalization, and local artifact storage.",
+    "displayName": "aaron (CLI tool)",
+    "shortDescription": "Bash-invocable book/paper fetcher",
+    "longDescription": "Provides the `aaron` command. Agents invoke it via shell. Not a skill pack, not MCP.",
     "developerName": "VeigaPunk",
     "websiteURL": "https://github.com/VeigaPunk/aaronplug"
   }

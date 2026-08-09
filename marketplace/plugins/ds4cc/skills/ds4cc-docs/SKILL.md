@@ -142,7 +142,7 @@ SSoT: `ls marketplace/plugins` (do not invent ids).
 
 | Plugin | Role |
 |---|---|
-| `aaronplug` | Academic paper retrieval |
+| `aaronplug` | `aaron` CLI tool (Bash-invocable book/paper fetch; not an agent) |
 | `ds4cc` | This meta-plugin |
 | `godspeed-codex-command` | Codex command-mode bootstrap |
 | `godspeed-core` | Pareto / godspeed doctrine |

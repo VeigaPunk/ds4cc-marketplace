@@ -1,5 +1,7 @@
 const HELP = `
-aaron — model-callable fetcher for books (lib*) and papers (sci*/arxiv/s2)
+aaron — Bash-invocable tool for books (lib*) and papers (arxiv/s2/sci*)
+
+NOT an agent. NOT a skill. NOT MCP. Scout (and any tools={*} host) calls this via Bash.
 
 USAGE
   aaron <command> [options]
@@ -17,7 +19,10 @@ COMMANDS
 
 OUTPUT
   stdout: JSON (for scripts and agents)
-  stderr: progress, warnings, errors
+  stderr: progress, warnings
+
+RUNTIME
+  Node ≥20 via fnm. Build: npm run build (esbuild). No bun.
 
 EXAMPLES
   aaron books search "tolstoy war and peace"
