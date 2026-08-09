@@ -2,7 +2,7 @@
   "name": "@veigapunk/aaron",
   "version": "0.1.0",
   "type": "module",
-  "description": "aaron — a minimal model-callable tool for fetching public-domain books (lib*) and papers (sci*/arxiv/semantic-scholar). CLI + MCP stdio server.",
+  "description": "aaron — a minimal model-callable tool for fetching epub-domain books (lib*) and papers (sci*/arxiv/semantic-scholar). CLI + MCP stdio server.",
   "main": "./build/aaron.js",
   "bin": {
     "aaron": "./build/aaron.js"

@@ -4,7 +4,7 @@
     {
       "id": "aaronplug",
       "displayName": "Aaronplug (VeigaPunk)",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "description": "Academic paper retrieval workflows",
       "homepage": "https://github.com/VeigaPunk/aaronplug",
       "keywords": [
@@ -14,7 +14,7 @@
         "research",
         "skills"
       ],
-      "source": "./artifacts/aaronplug-0.2.0.zip"
+      "source": "./artifacts/aaronplug-0.3.0.zip"
     },
     {
       "id": "ds4cc",
@@ -122,10 +122,10 @@
     {
       "id": "the-almanacker",
       "displayName": "The Almanacker (VeigaPunk)",
-      "version": "0.2.0",
-      "description": "Drive NotebookLM-only web UI features through agent-browser and an authenticated CDP profile.",
+      "version": "0.2.1",
+      "description": "NotebookLM / Gemini Notebook web UI automation via agent-browser (notebook.google.com + studio DOM 2026)",
       "homepage": "https://github.com/VeigaPunk/the-almanacker",
-      "source": "./artifacts/the-almanacker-0.2.0.zip"
+      "source": "./artifacts/the-almanacker-0.2.1.zip"
     },
     {
       "id": "the-kimiraikoner",
@@ -138,10 +138,10 @@
     {
       "id": "the-musketeer",
       "displayName": "The Musketeer (VeigaPunk)",
-      "version": "0.3.0",
-      "description": "Drive Grok-only web UI features through agent-browser and an authenticated CDP profile.",
+      "version": "0.3.1",
+      "description": "Grok web UI adapter (agent-browser/CDP): chat Expert/Fast/Heavy, Imagine, Automations surfaces",
       "homepage": "https://github.com/VeigaPunk/the-musketeer",
-      "source": "./artifacts/the-musketeer-0.3.0.zip"
+      "source": "./artifacts/the-musketeer-0.3.1.zip"
     },
     {
       "id": "the-netsshark",
@@ -154,10 +154,10 @@
     {
       "id": "the-puppeteer",
       "displayName": "The Puppeteer (VeigaPunk)",
-      "version": "0.2.0",
-      "description": "Web UI task execution and long-running assistant flows",
+      "version": "0.2.1",
+      "description": "ChatGPT web UI bridge (CDP): Pro model pill, Chat/Work surface, composer tools, musketeer-chrome host",
       "homepage": "https://github.com/VeigaPunk/the-puppeteer",
-      "source": "./artifacts/the-puppeteer-0.2.0.zip"
+      "source": "./artifacts/the-puppeteer-0.2.1.zip"
     },
     {
       "id": "xbrd-gdsp-fknpft",

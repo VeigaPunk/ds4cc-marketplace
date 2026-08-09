@@ -1,8 +1,8 @@
 # aaron
 
-**Download almost any research paper or ""public domain"" book straight from your terminal — just ask for it in plain English.**
+**Download almost any research paper or book straight from your terminal — just ask for it in plain English.**
 
-You talk to your AI assistant (Claude Code, Codex, Gemini CLI). It runs `aaron` for you. The paper or book lands on your disk. No browser, no account, no sign-up.
+You talk to your AI assistant. It runs `aaron` for you. The paper or book lands on your disk. No browser, no account, no sign-up.
 
 ---
 
@@ -78,9 +78,5 @@ aaron papers fetch 10.48550/arXiv.1706.03762
 ---
 
 ## The fine print
-
-Unlicense — public domain. Do whatever you want with it.
-
-Use it for what your local law allows. This is a convenience wrapper around sources that already exist on the open internet; you're responsible for how you use it.
 
 <sub>Named for Aaron Swartz. Forked from `epubdomain-downloader` by Omercan Balandi — the TUI was stripped out and paper-fetching + JSON output added so any model can drive it.</sub>
