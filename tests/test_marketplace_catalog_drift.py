@@ -206,14 +206,14 @@ class MarketplaceCatalogDriftTests(unittest.TestCase):
         referral_links = [
             "https://www.kimi.com/activities/invite/share?scenario=invite&from=share_poster&invitation_code=W6NGNP",
             "https://opencode.ai/go?ref=GF5DFYD5MJ",
-            "https://help.openai.com/en/articles/20001271-codex-referral-promotions",
+            "https://www.alibabacloud.com/campaign/benefits?referral_code=A927SY",
         ]
         parser = AnchorCollector()
         parser.feed(text)
         hrefs = {anchor.get("href") for anchor in parser.anchors}
         self.assertTrue(set(referral_links).issubset(hrefs))
 
-        for url in referral_links[:2]:
+        for url in referral_links:
             note = re.search(rf'<p class="note">(?:(?!</p>).)*href="{re.escape(url).replace("&", "&amp;")}"(?:(?!</p>).)*</p>', text, re.S)
             self.assertIsNotNone(note, f"missing adjacent disclosure for {url}")
             self.assertIn("DS4CC may receive a benefit if", note.group(0))
@@ -226,7 +226,7 @@ class MarketplaceCatalogDriftTests(unittest.TestCase):
         referral_links = [
             "https://www.kimi.com/activities/invite/share?scenario=invite&from=share_poster&invitation_code=W6NGNP",
             "https://opencode.ai/go?ref=GF5DFYD5MJ",
-            "https://help.openai.com/en/articles/20001271-codex-referral-promotions",
+            "https://www.alibabacloud.com/campaign/benefits?referral_code=A927SY",
         ]
 
         parser = AnchorCollector()
