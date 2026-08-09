@@ -1,46 +1,54 @@
 {
-  "id": "veigapunk-200-usd-r0",
-  "title": "$200 USD token speedrun",
+  "id": "veigapunk-kimi-200-usd-48h",
+  "title": "$200 Kimi / Moonshot sub — 48h burn",
   "runner": "VeigaPunk",
+  "account_hint": "jpveigao10@gmail.com",
+  "provider": "Moonshot / Kimi",
+  "product": "Kimi $200 USD subscription (limited grant / early access class)",
   "budget_usd": 200,
   "currency": "USD",
   "status": "closed",
-  "venue": "DigitalOcean credit burn after OpenClaw hard-no; local salvage attempted",
-  "summary": "Spent ~$200 USD trying to force a bad stack into usefulness (VPS then local). VPS trash was not a host bug — product was garbage to the core. Every salvage path failed. Documented as anti-pattern + speedrun so the cost is a permanent public lesson, not a private regret.",
+  "duration": "48 hours",
+  "duration_hours": 48,
+  "venue": "Kimi agent mode · heavy parallelization across agent CLIs",
+  "summary": "Burned a $200 USD Kimi (Moonshot) subscription in about 48 hours. Mode: agent mode, used extensively, with heavy parallelization. Very few people got this tier — a clean early data point for public value / efficiency scoreboards across providers, CLIs, and models.",
   "timeline": [
     {
-      "t": "phase-0",
-      "label": "OpenClaw already rejected",
-      "note": "Hard no before the $200 detour"
+      "t": "t0",
+      "label": "Sub active",
+      "note": "$200 USD Kimi / Moonshot subscription under jpveigao10@gmail.com"
     },
     {
-      "t": "phase-1",
-      "label": "DigitalOcean ~$200 credit",
-      "note": "Figured why not — ran the stack on a VPS"
+      "t": "t0–48h",
+      "label": "Agent mode + parallel fan-out",
+      "note": "Extensive agent-mode use; heavy parallelization across agents/CLIs — max extract from the grant window"
     },
     {
-      "t": "phase-2",
-      "label": "Blame the VPS, go local",
-      "note": "Local was a bigger mistake; same bloat, worse stickiness"
-    },
-    {
-      "t": "phase-3",
-      "label": "Salvage attempts",
-      "note": "Could not. Literally. Garbage to the core. Cannot be salvaged."
+      "t": "t+48h",
+      "label": "Budget exhausted",
+      "note": "Sub burn complete in ~48 hours. Run closed for the board."
     }
   ],
   "metrics": {
     "budget_usd": 200,
     "spent_usd_approx": 200,
+    "wall_clock_hours": 48,
     "tokens_total": null,
-    "tokens_note": "Not a clean provider token meter — spend was infra + failed salvage, not a single API receipt. Treat $200 as the score.",
-    "wall_clock": "multi-session detour",
-    "outcome": "reject + document anti-pattern"
+    "tokens_note": "Provider UI metering may not export a single public token total; primary score is $200 / 48h under agent mode + parallel load.",
+    "mode": "agent mode",
+    "parallelization": "heavy",
+    "outcome": "full burn · closed · board seed run"
+  },
+  "axes": {
+    "value_per_dollar": "empirical — how much real agent work landed per $",
+    "efficiency": "time-to-exhaust + parallel throughput under agent mode",
+    "boundary_push": "multi-CLI / multi-model agent stacks against a fixed sub ceiling"
   },
   "links": {
-    "anti_pattern": "https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/docs/ANTI-PATTERNS.md",
-    "bloat_html": "https://ds4cc.com/",
+    "kimi": "https://www.kimi.com/",
+    "moonshot": "https://www.moonshot.ai/",
+    "ds4cc": "https://ds4cc.com/",
     "omegag": "https://veigapunk.github.io/omegag-site/"
   },
-  "tags": ["anti-pattern", "do-not-repeat", "200usd", "speedrun"]
+  "tags": ["kimi", "moonshot", "200usd", "48h", "agent-mode", "parallel", "seed-run"]
 }

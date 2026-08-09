@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Token Speedrun — $200 and the runs that matter</title>
-  <meta name="description" content="Public token / burn speedruns. First entry: VeigaPunk $200 USD DigitalOcean detour. Infinite mode = local free, never unpaid cloud fraud." />
+  <title>Token Speedrun — public value board for AI subs</title>
+  <meta name="description" content="Fixed-budget agent runs with receipts. Seed: VeigaPunk burned a $200 Kimi/Moonshot sub in 48h under agent mode + heavy parallelization. Providers win by proving value, not ads." />
   <meta name="theme-color" content="#07080a" />
   <meta property="og:title" content="Token Speedrun" />
-  <meta property="og:description" content="Leaderboard for expensive lessons. Featured: $200 USD run." />
+  <meta property="og:description" content="$200 Kimi/Moonshot · 48h · agent mode · parallel. Empirical value board for every sub." />
   <meta property="og:type" content="website" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -18,13 +18,14 @@
       <span class="mark" aria-hidden="true">⚡</span>
       <div>
         <p class="eyebrow">token speedrun</p>
-        <h1>Burn the budget. Keep the receipt.</h1>
+        <h1>Prove the sub. Publish the burn.</h1>
       </div>
     </div>
     <nav class="nav">
-      <a href="#run-200">$200 run</a>
+      <a href="#thesis">Why</a>
+      <a href="#run-200">$200 · 48h</a>
       <a href="#board">Board</a>
-      <a href="#infinite">Infinite</a>
+      <a href="#subsidize">Subsidize</a>
       <a href="#br">Brazil edge</a>
       <a href="https://ds4cc.com/" rel="noopener">ds4cc.com</a>
       <a href="https://veigapunk.github.io/omegag-site/" rel="noopener">omegaG</a>
@@ -33,23 +34,36 @@
 
   <main id="main">
     <section class="hero">
-      <p class="kicker">Public leaderboard · no fake free cloud APIs</p>
+      <p class="kicker">multi-provider · multi-CLI · multi-model · receipts only</p>
       <p class="lede">
-        Speedruns are real spend, real time, real outcome. Featured: operator burned
-        <strong>~$200&nbsp;USD</strong> learning a stack was unsalvageable.
-        <em>Infinite</em> means local / self-host metering off — not stolen Moonshot credits.
+        A public scoreboard for <strong>fixed-budget agent work</strong>.
+        Seed run: <strong>$200 Kimi / Moonshot</strong> subscription burned in
+        <strong>~48 hours</strong> with <strong>agent mode</strong> and
+        <strong>heavy parallelization</strong> (account under
+        <code>jpveigao10@gmail.com</code>). Few people got that tier — good time to start the board.
       </p>
-      <div class="hero-stats" id="hero-stats">
-        <div class="stat"><span class="n">$200</span><span class="l">featured budget</span></div>
-        <div class="stat"><span class="n">1</span><span class="l">closed run</span></div>
-        <div class="stat"><span class="n">∞</span><span class="l">local mode only</span></div>
+      <div class="hero-stats">
+        <div class="stat"><span class="n">$200</span><span class="l">Kimi sub budget</span></div>
+        <div class="stat"><span class="n">48h</span><span class="l">time to exhaust</span></div>
+        <div class="stat"><span class="n">∥</span><span class="l">heavy parallel agents</span></div>
       </div>
     </section>
 
+    <section class="panel" id="thesis" aria-labelledby="thesis-title">
+      <p class="eyebrow">thesis</p>
+      <h2 id="thesis-title">Why providers should subsidize this</h2>
+      <ul class="rules">
+        <li><strong>Empirical claims.</strong> “Better value” and “more efficient” stop being ads — they become rows on a board with budget, wall clock, mode, and CLI stack.</li>
+        <li><strong>Aligned incentive.</strong> Each sub provider can fund fair runs so their tier can win in public. Losing is still data; silence is worse.</li>
+        <li><strong>Boundary pressure.</strong> Fixed ceilings force parallel agent stacks, multi-CLI orchestration, and model routing to get sharper. That lifts the whole ecosystem.</li>
+        <li><strong>All CLIs · all models.</strong> Grok, Codex, Kimi, OpenCode, whatever ships next — same rules: state the budget, the mode, the parallel shape, the outcome.</li>
+      </ul>
+    </section>
+
     <section class="panel" id="run-200" aria-labelledby="run-title">
-      <p class="eyebrow">featured run</p>
-      <h2 id="run-title">VeigaPunk — $200 USD</h2>
-      <p class="summary" id="run-summary">Loading run…</p>
+      <p class="eyebrow">seed run · closed</p>
+      <h2 id="run-title">Loading…</h2>
+      <p class="summary" id="run-summary"></p>
       <ol class="timeline" id="run-timeline"></ol>
       <dl class="metrics" id="run-metrics"></dl>
       <p class="links" id="run-links"></p>
@@ -60,45 +74,42 @@
       <h2 id="board-title">Runs</h2>
       <table class="board">
         <thead>
-          <tr><th>#</th><th>Runner</th><th>Budget</th><th>Status</th><th>Note</th></tr>
+          <tr>
+            <th>#</th><th>Runner</th><th>Provider</th><th>Budget</th><th>Clock</th><th>Mode</th><th>Status</th>
+          </tr>
         </thead>
         <tbody id="board-body"></tbody>
       </table>
     </section>
 
-    <section class="panel" id="infinite" aria-labelledby="inf-title">
-      <p class="eyebrow">infinite mode (legitimate)</p>
-      <h2 id="inf-title">What “infinite tokens” means here</h2>
-      <ul class="rules">
-        <li><strong>Allowed:</strong> local models, self-hosted endpoints, open weights — usage not billed by a cloud meter.</li>
-        <li><strong>Allowed:</strong> UI / game mode that does not claim free commercial API.</li>
-        <li><strong>Forbidden:</strong> cracked keys, shared paid accounts, billing bypass for Moonshot/Kimi/OpenAI/etc.</li>
-      </ul>
-      <p class="muted">This page will never ship unpaid infinite Moonshot API. If you want unlimited cloud, pay them or run local.</p>
+    <section class="panel" id="subsidize" aria-labelledby="sub-title">
+      <p class="eyebrow">for moonshot · kimi · everyone else</p>
+      <h2 id="sub-title">Subsidize a fair lane</h2>
+      <p class="muted">
+        Grant a fixed sub or API credit, publish the rules, let operators go hard
+        (agent mode, parallel fan-out, multi-CLI). Winner is whoever delivers the
+        most real work per dollar before the ceiling. This board is the receipt.
+      </p>
     </section>
 
     <section class="panel" id="br" aria-labelledby="br-title">
       <p class="eyebrow">latency · Brazil</p>
-      <h2 id="br-title">Serve near the user (BR first)</h2>
-      <p>
-        Operator base: <strong>Rio de Janeiro / BR</strong>. GitHub Pages sometimes lands
-        <code>brazilsouth</code>, sometimes a US edge — that friction is real.
-        Preferred path: <strong>Cloudflare</strong> (anycast, GRU/nearby POP) or origin in
-        <strong>AWS sa-east-1 / GCP southamerica-east1</strong>. See
-        <a href="docs/BR-HOSTING.md"><code>docs/BR-HOSTING.md</code></a>.
+      <h2 id="br-title">Serve near the runners</h2>
+      <p class="muted">
+        Operator base includes <strong>Rio / BR</strong>. Prefer Cloudflare Pages
+        or São Paulo origin so the board itself is not a US-edge lottery.
+        See <a href="docs/BR-HOSTING.md"><code>docs/BR-HOSTING.md</code></a>.
       </p>
-      <pre class="code" id="latency-box">Run <code>bash scripts/br-latency-probe.sh</code> from a BR machine to compare TTFB.</pre>
     </section>
   </main>
 
   <footer class="foot">
     <p>
-      Plug stack:
       <a href="https://ds4cc.com/" rel="noopener">ds4cc.com</a> ·
-      <a href="https://veigapunk.github.io/omegag-site/" rel="noopener">omegaG</a> ·
-      <a href="https://github.com/vgpnk-holdings-llc/omegaG" rel="noopener">omegaG source</a>
+      <a href="https://ds4cc.com/speedrun/" rel="noopener">ds4cc.com/speedrun</a> ·
+      <a href="https://veigapunk.github.io/omegag-site/" rel="noopener">omegaG</a>
     </p>
-    <p class="muted">Static site · data-driven from <code>data/run-200usd.json</code></p>
+    <p class="muted">Data: <code>data/run-200usd.json</code> · no fraudulent infinite cloud APIs</p>
   </footer>
   <script src="main.js" type="module"></script>
 </body>
