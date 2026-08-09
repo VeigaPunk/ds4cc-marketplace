@@ -338,7 +338,10 @@ header.hero { padding: 34px 0 8px; }
 
 /* ---------- app / validator ---------- */
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-@media (max-width: 860px) { .grid-2 { grid-template-columns: 1fr; } }
+@media (max-width: 860px) {
+  .grid-2 { grid-template-columns: 1fr; }
+  .grid-2[style*="1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
+}
 .kv { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
 .ok-chip {
   font-size: 0.72rem; color: var(--green); border: 1px solid var(--green);
@@ -382,6 +385,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
       <a href="#validator">validator</a>
       <a href="#curation">curation</a>
       <a href="#modelstudio">model studio</a>
+      <a href="#referrals">referrals</a>
       <a href="./exa.html">exa</a>
       <a href="./bloat.html">bloat</a>
       <a href="./speedrun/">speedrun</a>
@@ -719,11 +723,64 @@ done</pre>
         </p>
       </div>
     </div>
-    <p class="note" style="margin-top:14px">Disclosure: the benefits link is a referral (<code>referral_code=A927SY</code>) — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time. Product docs: <a href="https://www.alibabacloud.com/help/en/model-studio/compatibility-of-openai-with-dashscope" target="_blank" rel="noopener">OpenAI-compatible chat</a> · <a href="https://www.alibabacloud.com/help/en/model-studio/get-api-key" target="_blank" rel="noopener">API key</a>.</p>
+    <p class="note" style="margin-top:14px">Disclosure: the benefits link is a referral (<code>referral_code=A927SY</code>) — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time. Product docs: <a href="https://www.alibabacloud.com/help/en/model-studio/compatibility-of-openai-with-dashscope" target="_blank" rel="noopener">OpenAI-compatible chat</a> · <a href="https://www.alibabacloud.com/help/en/model-studio/get-api-key" target="_blank" rel="noopener">API key</a>. See also <a href="#referrals">#referrals</a>.</p>
+  </section>
+
+  <section id="referrals" class="reveal">
+    <h2><span class="idx">10</span>Referrals — tools we actually use</h2>
+    <p class="sub">Disclosed invites only. No dark patterns. We ship the path (docs, base URLs, secret hygiene) because the agent stack is better when builders share what works.</p>
+    <div class="callout amber" style="margin-bottom:16px">
+      <strong>Headliner: Alibaba Cloud Model Studio (intl).</strong>
+      OpenAI-compatible Qwen APIs, Anthropic-compatible messages, free new-user token quota (offer varies), official <code>bl</code> CLI.
+      Wired for agent stacks on DS4CC — this is a public good, not a drive-by affiliate dump.
+      <a href="#modelstudio">Read the wire-up →</a>
+    </div>
+    <div class="grid-2" style="grid-template-columns:1fr 1fr 1fr">
+      <div class="panel" style="padding:14px 16px; border-color:var(--green)">
+        <div class="kv" style="margin-top:0">
+          <span class="ok-chip">featured</span>
+          <span class="ok-chip">intl singapore</span>
+          <span class="ok-chip">A927SY</span>
+        </div>
+        <h3 style="margin-top:8px;font-size:0.95rem">Model Studio / Alibaba Cloud</h3>
+        <p style="color:var(--muted);font-size:0.88rem;line-height:1.5;margin:0 0 12px">
+          Benefits campaign + Model Studio free-quota path. Same referral code on the official benefits page.
+        </p>
+        <p style="margin:0 0 8px">
+          <a class="btn solid" href="https://www.alibabacloud.com/campaign/benefits?referral_code=A927SY" target="_blank" rel="sponsored nofollow noopener">JOIN VIA A927SY →</a>
+        </p>
+        <p style="margin:0">
+          <a class="btn small" href="https://modelstudio.console.alibabacloud.com/ap-southeast-1?tab=api#/api" target="_blank" rel="noopener">console</a>
+          <a class="btn small" href="#modelstudio">wire notes</a>
+        </p>
+        <p class="note" style="margin-top:12px">Disclosure: <a href="https://www.alibabacloud.com/campaign/benefits?referral_code=A927SY" target="_blank" rel="sponsored nofollow noopener">the Alibaba Cloud benefits campaign link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
+      </div>
+      <div class="panel" style="padding:14px 16px">
+        <h3 style="margin-top:0;font-size:0.95rem">Kimi</h3>
+        <p style="color:var(--muted);font-size:0.88rem;line-height:1.5;margin:0 0 12px">
+          Invite for Kimi — used in the DS4CC agent lane mix (connector / revenger paths).
+        </p>
+        <p style="margin:0">
+          <a class="btn" href="https://www.kimi.com/activities/invite/share?scenario=invite&amp;from=share_poster&amp;invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">KIMI INVITE →</a>
+        </p>
+        <p class="note" style="margin-top:12px">Disclosure: <a href="https://www.kimi.com/activities/invite/share?scenario=invite&amp;from=share_poster&amp;invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">the Kimi invite link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
+      </div>
+      <div class="panel" style="padding:14px 16px">
+        <h3 style="margin-top:0;font-size:0.95rem">OpenCode</h3>
+        <p style="color:var(--muted);font-size:0.88rem;line-height:1.5;margin:0 0 12px">
+          Bootstrap path for the OpenCode host in the four-CLI marketplace.
+        </p>
+        <p style="margin:0">
+          <a class="btn" href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">OPENCODE REF →</a>
+        </p>
+        <p class="note" style="margin-top:12px">Disclosure: <a href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">the OpenCode link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:14px">Footer mirrors the same three disclosures. No Grok/x.ai invite links by policy.</p>
   </section>
 
   <section id="lanes" class="reveal">
-    <h2><span class="idx">10</span>Orchestration lanes — live routing</h2>
+    <h2><span class="idx">11</span>Orchestration lanes — live routing</h2>
     <p class="note">Mirrored from the packaged SSoT (<code>marketplace/plugins/xbrd-gdsp-fknpft/commands/references/xbreed-shared.md</code> § Axis → Profile Mapping + xask Gate). If this section and the SSoT disagree, the SSoT wins and this section is drift.</p>
     <h3>Role declarations</h3>
 <pre>the-judge            fable 5 · xhigh
@@ -791,9 +848,10 @@ distiller / simplifier / scribe native</pre>
         <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">horizon halo ↗</a>
       </div>
     </div>
+    <p class="note"><b>Referrals</b> · full cards: <a href="#referrals">#referrals</a> · Model Studio wire: <a href="#modelstudio">#modelstudio</a></p>
     <p class="note">Disclosure: <a href="https://www.kimi.com/activities/invite/share?scenario=invite&amp;from=share_poster&amp;invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">the Kimi invite link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
     <p class="note">Disclosure: <a href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">the OpenCode link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
-    <p class="note">Disclosure: <a href="https://www.alibabacloud.com/campaign/benefits?referral_code=A927SY" target="_blank" rel="sponsored nofollow noopener">the Alibaba Cloud benefits campaign link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
+    <p class="note">Disclosure: <a href="https://www.alibabacloud.com/campaign/benefits?referral_code=A927SY" target="_blank" rel="sponsored nofollow noopener">the Alibaba Cloud benefits campaign link</a> (Model Studio / intl benefits, code <code>A927SY</code>) is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
     <div>DS4CC · VeigaPunk · MIT License · shipped 2026-07-29 · updated 2026-08-09</div>
     <div>Design language: <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">Horizon Halo</a> — green console, JetBrainsMonoNL Nerd Font.</div>
   </footer>
