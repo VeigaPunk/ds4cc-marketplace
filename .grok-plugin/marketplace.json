@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "aaronplug",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "description": "Academic paper retrieval workflows",
       "category": "development",
       "source": {
@@ -235,7 +235,7 @@
     {
       "name": "sekhmet",
       "version": "0.1.1",
-      "description": "Sekhmet — always-available swarm on Codex Titanium (xbreed L3). Up to 64 concurrent runners. Rust only.",
+      "description": "Sekhmet \u2014 always-available swarm on Codex Titanium (xbreed L3). Up to 64 concurrent runners. Rust only.",
       "category": "development",
       "source": {
         "type": "local",
