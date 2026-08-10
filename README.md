@@ -1,6 +1,6 @@
 # DS4CC Marketplace
 
-**[ds4cc.com](https://ds4cc.com)** — one marketplace, every agent CLI.
+**[ds4cc.com](https://ds4cc.com)** — one marketplace, and the few good CLIs.
 
 Static plugin payloads for **Grok Build**, **Codex**, **Kimi Code CLI**, and **OpenCode**. OpenCode agents ship through a dependency-free bootstrap script (OpenCode has no marketplace protocol).
 
