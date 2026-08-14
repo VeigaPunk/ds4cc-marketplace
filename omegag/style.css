@@ -121,12 +121,39 @@ a { color: inherit; }
   text-align: center;
   padding: 7rem 1.5rem 4rem;
 }
+.vibe-card {
+  position: relative;
+  width: min(1100px, 92vw);
+  margin: 0 auto;
+  border-radius: 20px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #000;
+  box-shadow:
+    0 0 0 1px rgba(255, 92, 186, 0.28),
+    0 0 36px rgba(255, 70, 180, 0.22),
+    0 0 120px rgba(255, 46, 160, 0.12),
+    0 40px 90px rgba(0, 0, 0, 0.7);
+}
+.vibe-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.28);
+}
+.vibe-card img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 .hero-art {
-  width: min(860px, 88vw);
+  width: min(240px, 46vw);
   max-width: 100%;
   height: auto;
-  border-radius: 12px;
+  border-radius: 10px;
   display: block;
+  margin-top: 1.8rem;
 }
 .hero-eyebrow {
   margin-top: 2.6rem;
@@ -359,9 +386,12 @@ a { color: inherit; }
   position: relative;
   max-width: 1360px;
   margin: 0 auto;
-  border-radius: 14px;
+  border-radius: 18px;
   overflow: hidden;
-  border: 1px solid var(--line);
+  border: 1px solid rgba(255, 92, 186, 0.18);
+  box-shadow:
+    0 0 40px rgba(255, 70, 180, 0.1),
+    0 28px 70px rgba(0, 0, 0, 0.55);
 }
 .device-art { display: block; width: 100%; max-width: 100%; height: auto; }
 .etch {
@@ -490,6 +520,7 @@ a { color: inherit; }
   .etch-left, .etch-right { display: none; }
   .hero-sub { font-size: 0.62rem; }
   .hero-art { width: 100%; }
+  .vibe-card { width: 100%; border-radius: 14px; }
 }
 
 @media (max-width: 390px) {
