@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>burnerchrome — Musketeer family</title>
+  <meta name="description" content="Four CDP adapters. One permanent burner Chrome. Persistent OAuth for web-GUI-only features." />
+  <meta name="theme-color" content="#0c0c0b" />
+  <link rel="canonical" href="https://ds4cc.com/burnerchrome/" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preload" href="fonts/JetBrainsMonoNLNerdFontMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/JetBrainsMonoNLNerdFontMono-Medium.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <div class="navwrap">
+      <a class="brand" href="index.html">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M6 26 L26 6"/><path d="M10 6 L22 26"/><path d="M26 18 L6 14"/><path d="M16 4 L16 28"/>
+        </svg>
+        <span>Musketeer</span>
+      </a>
+      <nav class="desk"><a href="https://ds4cc.com/">ds4cc.com</a>
+          <a class="" href="family.html">Family</a>
+          <a class="" href="install.html">Install</a>
+          <a class="" href="burner.html">Burner Chrome</a>
+          <a class="" href="compare.html">Vs Playwright</a>
+          <a class="" href="marketplace.html">DS4CC</a></nav>
+      <button class="burger" type="button" data-burger aria-expanded="false" aria-label="Open menu">☰</button>
+    </div>
+    <div class="mob" data-mob><a href="https://ds4cc.com/">ds4cc.com</a>
+          <a href="family.html">Family</a>
+          <a href="install.html">Install</a>
+          <a href="burner.html">Burner Chrome</a>
+          <a href="compare.html">Vs Playwright</a>
+          <a href="marketplace.html">DS4CC</a></div>
+  </header>
+  <main id="content">
+    <section class="band">
+      <div class="wrap split">
+        <div>
+          <p class="eyebrow">VeigaPunk · DS4CC</p>
+          <h1 class="hero">Four adapters. One permanent burner Chrome.</h1>
+          <p class="lede">Drive Grok, ChatGPT, Kimi, and NotebookLM from the CLI — including web-GUI-only features — through a dedicated Chrome for Testing profile. Persistent OAuth. Loopback CDP. Never your daily browser.</p>
+          <div class="row">
+            <a class="btn" href="install.html">One copy-paste install →</a>
+            <a class="btn ghost" href="compare.html">Why not Playwright</a>
+          </div>
+          <p class="sm subtle" style="margin-top:1.5rem;max-width:32rem">Shared transport: Chrome 149+ on 127.0.0.1:9222 via musketeer-chrome, driven by Vercel Labs agent-browser --cdp 9222.</p>
+        </div>
+        <div class="chrome">
+          <div class="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span>
+            <span class="xs subtle" style="margin-left:0.5rem">musketeer-chrome · 127.0.0.1:9222</span>
+          </div>
+          <div class="tabs">
+            <div class="tab">NotebookLM</div>
+            <div class="tab on">Grok</div>
+            <div class="tab">ChatGPT</div>
+            <div class="tab">Kimi</div>
+          </div>
+          <div class="pane">
+            <div class="bar" style="width:60%"></div>
+            <div class="bar" style="width:100%"></div>
+            <div class="bar" style="width:80%"></div>
+            <div class="clip">agent-browser --cdp 9222</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="band">
+      <div class="wrap grid4" style="padding-top:2.5rem;padding-bottom:2.5rem">
+        <article class="card">
+          <h2 class="md">Real Chrome</h2>
+          <p class="sm muted" style="margin-top:0.5rem">Visible Chrome for Testing. Cloudflare and Turnstile see a browser, not a headless fingerprint.</p>
+        </article>
+        <article class="card">
+          <h2 class="md">Live OAuth</h2>
+          <p class="sm muted" style="margin-top:0.5rem">Sign in once in the burner profile. No cookie export, no session JSON, no password replay.</p>
+        </article>
+        <article class="card">
+          <h2 class="md">Never daily</h2>
+          <p class="sm muted" style="margin-top:0.5rem">Isolated --user-data-dir. Chrome 136+ already refuses CDP on the default sync profile.</p>
+        </article>
+        <article class="card">
+          <h2 class="md">Agent-cheap</h2>
+          <p class="sm muted" style="margin-top:0.5rem">Compact a11y snapshots (~2k tokens) instead of 50–100k DOM dumps per Playwright step.</p>
+        </article>
+      </div>
+    </section>
+    <section class="band">
+      <div class="wrap">
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem;align-items:flex-end">
+          <div>
+            <p class="eyebrow">The family</p>
+            <h2 class="sec" style="margin-top:0.5rem">One profile, four signed-in tabs.</h2>
+          </div>
+          <a class="u sm" href="family.html">Full roster →</a>
+        </div>
+        <div class="grid2" style="margin-top:2rem">
+            <a class="card" href="adapters/musketeer.html">
+              <div style="display:flex;justify-content:space-between;gap:0.75rem;align-items:flex-start">
+                <div>
+                  <h3 class="md">The Musketeer</h3>
+                  <p class="sm muted" style="margin-top:0.25rem">Grok SuperGrok web UI</p>
+                </div>
+                <span class="badge ok">Blocks until Copy capture</span>
+              </div>
+              <p class="xs subtle" style="margin-top:1rem">grok-web · grok.com</p>
+              <p class="sm muted" style="margin-top:0.75rem">xAI&#x27;s API meters credits. SuperGrok already pays for an unmetered web-UI entitlement — Expert, Heavy, Imagine, Automations — that no official CLI fully exposes.</p>
+            </a>
+            <a class="card" href="adapters/puppeteer.html">
+              <div style="display:flex;justify-content:space-between;gap:0.75rem;align-items:flex-start">
+                <div>
+                  <h3 class="md">The Puppeteer</h3>
+                  <p class="sm muted" style="margin-top:0.25rem">ChatGPT Plus / Pro web UI</p>
+                </div>
+                <span class="badge ">Fire-and-forget</span>
+              </div>
+              <p class="xs subtle" style="margin-top:1rem">chitchat · chatgpt.com</p>
+              <p class="sm muted" style="margin-top:0.75rem">GPT-5.4-Pro extended thinking and Deep Research live only on the authenticated chatgpt.com surface. Codex CLI cannot target them.</p>
+            </a>
+            <a class="card" href="adapters/kimiraikkoner.html">
+              <div style="display:flex;justify-content:space-between;gap:0.75rem;align-items:flex-start">
+                <div>
+                  <h3 class="md">The Kimi Räikkönen</h3>
+                  <p class="sm muted" style="margin-top:0.25rem">Kimi web UI</p>
+                </div>
+                <span class="badge ">Fire-and-forget</span>
+              </div>
+              <p class="xs subtle" style="margin-top:1rem">kimiraikkoner · kimi.com</p>
+              <p class="sm muted" style="margin-top:0.75rem">Kimi web-UI capabilities are not the same surface as the official Kimi Code CLI. The adapter reuses the already-signed-in family profile — no cookie export, no API keys.</p>
+            </a>
+            <a class="card" href="adapters/almanacker.html">
+              <div style="display:flex;justify-content:space-between;gap:0.75rem;align-items:flex-start">
+                <div>
+                  <h3 class="md">The Almanacker</h3>
+                  <p class="sm muted" style="margin-top:0.25rem">NotebookLM studio</p>
+                </div>
+                <span class="badge ">Fire-and-forget</span>
+              </div>
+              <p class="xs subtle" style="margin-top:1rem">almanack · notebook.google.com</p>
+              <p class="sm muted" style="margin-top:0.75rem">Audio Overviews, Reports, Infographics, and notebook-scoped chat have no public API. They live inside a multi-layered Google GUI. Almanacker collapses a click-path into one command, authenticated by the live Google OAuth session.</p>
+            </a>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="wrap split-rev">
+        <div>
+          <p class="eyebrow">One paste</p>
+          <h2 class="sec" style="margin-top:0.5rem">Marketplace plugins plus host CLIs plus burner Chrome.</h2>
+          <p class="sm muted" style="margin-top:1rem">Registers <a class="u" href="https://ds4cc.com">ds4cc-marketplace</a>, installs the four adapter plugins, clones the public repos, runs each install.sh, and provisions musketeer-chrome. Then you sign in once.</p>
+          <p style="margin-top:1.5rem"><a class="btn ghost" href="install.html">Step-by-step</a></p>
+        </div>
+        <div><div class="copy">
+  <div class="copyhead"><span>one-paste.sh</span><button type="button" data-copy="one-paste">Copy</button></div>
+  <pre><code id="one-paste">#!/usr/bin/env bash
+# Musketeer family — one paste. Review before running.
+set -euo pipefail
+export PATH=&quot;${HOME}/.local/bin:${PATH}&quot;
+mkdir -p &quot;${HOME}/projects&quot; &quot;${HOME}/.local/bin&quot;
+
+# CDP driver
+if ! command -v agent-browser &gt;/dev/null 2&gt;&amp;1; then
+  npm install -g agent-browser
+fi
+
+# Official Grok CLI (skip if you already have it)
+if ! command -v grok &gt;/dev/null 2&gt;&amp;1; then
+  curl -fsSL https://x.ai/cli/install.sh | bash
+fi
+
+# DS4CC marketplace + the four adapter plugins
+if command -v grok &gt;/dev/null 2&gt;&amp;1; then
+  grok plugin marketplace add VeigaPunk/ds4cc-marketplace
+  for p in the-musketeer the-puppeteer the-almanacker the-kimiraikoner; do
+    grok plugin install &quot;$p&quot; --trust &amp;&amp; grok plugin enable &quot;$p&quot;
+  done
+fi
+
+clone_or_pull() {
+  local repo=&quot;$1&quot; dest=&quot;$2&quot;
+  if [[ -d &quot;$dest/.git&quot; ]]; then
+    git -C &quot;$dest&quot; pull --ff-only
+  else
+    git clone --depth 1 &quot;https://github.com/${repo}.git&quot; &quot;$dest&quot;
+  fi
+}
+
+clone_or_pull VeigaPunk/the-musketeer     &quot;${HOME}/projects/the-musketeer&quot;
+clone_or_pull VeigaPunk/the-puppeteer     &quot;${HOME}/projects/the-puppeteer&quot;
+clone_or_pull VeigaPunk/the-almanacker    &quot;${HOME}/projects/the-almanacker&quot;
+clone_or_pull VeigaPunk/the-kimiraikkoner &quot;${HOME}/projects/the-kimiraikkoner&quot;
+
+( cd &quot;${HOME}/projects/the-musketeer&quot;     &amp;&amp; bash ./install.sh &amp;&amp; bash ./scripts/install-automation-chrome )
+( cd &quot;${HOME}/projects/the-puppeteer&quot;     &amp;&amp; bash ./install.sh )
+( cd &quot;${HOME}/projects/the-almanacker&quot;    &amp;&amp; bash ./install.sh )
+( cd &quot;${HOME}/projects/the-kimiraikkoner&quot; &amp;&amp; bash ./install.sh )
+
+echo
+echo &quot;Launch the burner profile, then sign in once on the four tabs:&quot;
+echo &quot;  musketeer-chrome&quot;
+echo
+echo &quot;Verify CDP (loopback only):&quot;
+echo &quot;  curl -sS http://127.0.0.1:9222/json/version&quot;
+</code></pre>
+</div></div>
+      </div>
+    </section>
+    </main>
+  <footer class="bot">
+    <div class="foot">
+      <div>
+        <h2>Four for one Chrome.</h2>
+        <p>Permanent burner profile. Loopback CDP. Live OAuth. Never the daily browser. Set in JetBrainsMonoNL Nerd Font Mono.</p>
+      </div>
+      <div class="flinks">
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace">ds4cc-marketplace</a>
+        <a href="https://ds4cc.com">ds4cc.com</a>
+        <a href="https://github.com/vercel-labs/agent-browser">agent-browser</a>
+        <a href="https://github.com/VeigaPunk/burnerchrome">source</a>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>

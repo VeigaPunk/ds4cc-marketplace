@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Burner Chrome — Musketeer family</title>
+  <meta name="description" content="Four CDP adapters. One permanent burner Chrome. Persistent OAuth for web-GUI-only features." />
+  <meta name="theme-color" content="#0c0c0b" />
+  <link rel="canonical" href="https://ds4cc.com/burnerchrome/" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preload" href="fonts/JetBrainsMonoNLNerdFontMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/JetBrainsMonoNLNerdFontMono-Medium.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <div class="navwrap">
+      <a class="brand" href="index.html">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M6 26 L26 6"/><path d="M10 6 L22 26"/><path d="M26 18 L6 14"/><path d="M16 4 L16 28"/>
+        </svg>
+        <span>Musketeer</span>
+      </a>
+      <nav class="desk"><a href="https://ds4cc.com/">ds4cc.com</a>
+          <a class="" href="family.html">Family</a>
+          <a class="" href="install.html">Install</a>
+          <a class="on" href="burner.html">Burner Chrome</a>
+          <a class="" href="compare.html">Vs Playwright</a>
+          <a class="" href="marketplace.html">DS4CC</a></nav>
+      <button class="burger" type="button" data-burger aria-expanded="false" aria-label="Open menu">☰</button>
+    </div>
+    <div class="mob" data-mob><a href="https://ds4cc.com/">ds4cc.com</a>
+          <a href="family.html">Family</a>
+          <a href="install.html">Install</a>
+          <a href="burner.html">Burner Chrome</a>
+          <a href="compare.html">Vs Playwright</a>
+          <a href="marketplace.html">DS4CC</a></div>
+  </header>
+  <main id="content">
+    <article class="wrap">
+      <p class="eyebrow">Permanent burner</p>
+      <h1 class="hero">A Chrome that exists only for agents — and keeps your OAuth.</h1>
+      <p class="lede">musketeer-chrome (also installed as ds4cc-chrome) launches stable Chrome for Testing into a dedicated profile. You sign into Grok, ChatGPT, Kimi, and NotebookLM once. Every later launch reuses that session. Your daily browser is never started, never attached, never inspected.</p>
+      <div class="grid4" style="margin-top:2.5rem">
+        <div class="card"><p class="xs subtle">You</p><p class="sm" style="margin-top:0.5rem">CLI / agent</p></div>
+        <div class="card"><p class="xs subtle">Driver</p><p class="sm" style="margin-top:0.5rem">agent-browser --cdp 9222</p></div>
+        <div class="card"><p class="xs subtle">Wire</p><p class="sm" style="margin-top:0.5rem">127.0.0.1 only</p></div>
+        <div class="card"><p class="xs subtle">Host</p><p class="sm" style="margin-top:0.5rem">musketeer-chrome profile</p></div>
+      </div>
+      <section style="margin-top:3.5rem">
+        <h2 class="sec">Why a separate profile is mandatory</h2>
+        <div class="grid2" style="margin-top:1.5rem">
+          <div class="card pad">
+            <h3 class="md">Chrome 136+ refuses default-profile CDP</h3>
+            <p class="sm muted" style="margin-top:0.5rem">Launching Chrome with --remote-debugging-port against your everyday user-data-dir fails closed. No error you can see in the UI — the debug endpoint simply never comes up. Isolated --user-data-dir is not optional.</p>
+          </div>
+          <div class="card pad">
+            <h3 class="md">CDP is full browser control</h3>
+            <p class="sm muted" style="margin-top:0.5rem">Anyone who can reach the debug port can read cookies, click, type, and exfiltrate every signed-in session. Bind 127.0.0.1. Do not expose it on a LAN. Do not point it at Brave, daily Chrome, or anything with banking tabs.</p>
+          </div>
+        </div>
+      </section>
+      <section style="margin-top:3.5rem">
+        <h2 class="sec">Where the profile lives</h2>
+        <p class="muted" style="margin-top:0.75rem;max-width:36rem">The launcher prefers an explicit MUSKETEER_CHROME_BIN. Otherwise it reuses a legacy DS4CC pair only if both the executable and a real (non-symlink) profile exist. Partial leftovers fall back to the canonical the-musketeer paths.</p>
+        <div class="tablewrap hair" style="margin-top:1.5rem">
+          <table>
+            <thead><tr><th>Role</th><th>Path</th></tr></thead>
+            <tbody>
+              <tr><td class="muted">Canonical binary</td><td class="break">~/.local/share/the-musketeer/chrome-canary</td></tr>
+              <tr><td class="muted">Canonical profile</td><td class="break">~/.local/share/the-musketeer/chrome-profile</td></tr>
+              <tr><td class="muted">Legacy DS4CC pair</td><td class="break">~/.local/share/ds4cc/chrome-canary + ~/.local/share/ds4cc/agent-chrome-profile</td></tr>
+              <tr><td class="muted">WSL / Windows</td><td class="break">C:\ChromeAutomation</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="sm subtle" style="margin-top:0.75rem">Neither installer deletes profiles or replaces authentication data. Stable Chrome for Testing is deliberate — Canary 152 crashed on Google sign-in pages despite passing blank-page CDP probes.</p>
+      </section>
+      <section style="margin-top:3.5rem">
+        <h2 class="sec">Launch configuration</h2>
+        <p class="muted" style="margin-top:0.75rem;max-width:36rem">Evidence-backed flags only. Sandbox stays on. No forced renderer accessibility, no Vulkan disable, no /dev/shm disable, no ANGLE override. chrome://flags remain at Default.</p>
+        <ul class="card" style="list-style:none;padding:0;margin:1.5rem 0 0;overflow:hidden"><li class="steps" style="border:0;padding:1rem;border-bottom:1px solid var(--border)"><code class="xs" style="color:var(--accent)">--user-data-dir</code><p class="sm muted">Mandatory isolated profile. Chrome 136+ silently disables CDP on the default sync profile.</p></li><li class="steps" style="border:0;padding:1rem;border-bottom:1px solid var(--border)"><code class="xs" style="color:var(--accent)">--remote-debugging-address=127.0.0.1</code><p class="sm muted">Loopback only. Anything that can reach this port owns every signed-in session in the profile.</p></li><li class="steps" style="border:0;padding:1rem;border-bottom:1px solid var(--border)"><code class="xs" style="color:var(--accent)">--remote-debugging-port=9222</code><p class="sm muted">Shared family port. Override with MUSKETEER_CDP_PORT. One Chrome, one port.</p></li><li class="steps" style="border:0;padding:1rem;border-bottom:1px solid var(--border)"><code class="xs" style="color:var(--accent)">--disable-sync</code><p class="sm muted">This is not a daily browser. Sync would couple it to your real Google profile.</p></li><li class="steps" style="border:0;padding:1rem;border-bottom:1px solid var(--border)"><code class="xs" style="color:var(--accent)">--disable-session-crashed-bubble</code><p class="sm muted">Crash-recovery UI blocks CDP clicks. The launcher suppresses it.</p></li><li class="steps" style="border:0;padding:1rem;border-bottom:1px solid var(--border)"><code class="xs" style="color:var(--accent)">--window-size=1440,1000</code><p class="sm muted">Fixed desktop geometry so a11y snapshots and responsive layouts stay repeatable.</p></li><li class="steps" style="border:0;padding:1rem;border-bottom:1px solid var(--border)"><code class="xs" style="color:var(--accent)">--ozone-platform=wayland</code><p class="sm muted">Native Wayland on Linux. No sandbox disable. No Vulkan/ANGLE experiments.</p></li><li class="steps" style="border:0;padding:1rem;border-bottom:1px solid var(--border)"><code class="xs" style="color:var(--accent)">Cloudflare DoH</code><p class="sm muted">Secure DNS-over-HTTPS to cloudflare-dns.com. Not a chrome://flags experiment.</p></li></ul>
+      </section>
+      <section class="grid2" style="margin-top:3.5rem">
+        <div>
+          <h2 class="sec">Linux / Omarchy</h2>
+          <p class="sm muted" style="margin-top:0.75rem">After <a class="u" href="install.html">install</a>, boot the four default tabs and confirm DevTools is listening.</p>
+          <div style="margin-top:1rem"><div class="copy">
+  <div class="copyhead"><span>linux</span><button type="button" data-copy="burn-linux">Copy</button></div>
+  <pre><code id="burn-linux">eval &quot;$(fnm env --shell bash)&quot;   # node + agent-browser on PATH
+export PATH=&quot;$(dirname &quot;$(command -v node)&quot;):$HOME/.local/bin:$PATH&quot;
+musketeer-chrome
+curl -sS http://127.0.0.1:9222/json/version</code></pre>
+</div></div>
+        </div>
+        <div>
+          <h2 class="sec">WSL → Windows Chrome Dev</h2>
+          <p class="sm muted" style="margin-top:0.75rem">Close tray-resident Chrome Dev first. New launches inherit the previous instance's empty flag set if one is still running.</p>
+          <div style="margin-top:1rem"><div class="copy">
+  <div class="copyhead"><span>windows shortcut</span><button type="button" data-copy="burn-wsl">Copy</button></div>
+  <pre><code id="burn-wsl">&quot;C:\Program Files\Google\Chrome Dev\Application\chrome.exe&quot; &quot;--user-data-dir=C:\ChromeAutomation&quot; --remote-debugging-port=9222 --no-first-run --no-default-browser-check</code></pre>
+</div></div>
+        </div>
+      </section>
+      <section class="card pad raised" style="margin-top:3.5rem">
+        <div class="row" style="margin-top:0;align-items:center"><span class="badge warn">Repair</span><h2 class="md">SIGTRAP crash loop</h2></div>
+        <p class="sm muted" style="margin-top:0.75rem;max-width:36rem">If Chrome reaches DevTools listening and then repeatedly dies, the persistent profile may hold incompatible state. Preserve it — do not delete credentials:</p>
+        <div style="margin-top:1rem"><div class="copy">
+  <div class="copyhead"><span>repair</span><button type="button" data-copy="burn-repair">Copy</button></div>
+  <pre><code id="burn-repair">./scripts/repair-chrome-profile
+musketeer-chrome</code></pre>
+</div></div>
+        <p class="sm subtle" style="margin-top:0.75rem">Repair refuses to run while Chrome owns the profile and moves the old directory to a timestamped .crash-backup-* path. Sign in once in the clean profile.</p>
+      </section>
+    </article></main>
+  <footer class="bot">
+    <div class="foot">
+      <div>
+        <h2>Four for one Chrome.</h2>
+        <p>Permanent burner profile. Loopback CDP. Live OAuth. Never the daily browser. Set in JetBrainsMonoNL Nerd Font Mono.</p>
+      </div>
+      <div class="flinks">
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace">ds4cc-marketplace</a>
+        <a href="https://ds4cc.com">ds4cc.com</a>
+        <a href="https://github.com/vercel-labs/agent-browser">agent-browser</a>
+        <a href="https://github.com/VeigaPunk/burnerchrome">source</a>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>

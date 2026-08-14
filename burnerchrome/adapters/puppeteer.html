@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>The Puppeteer — Musketeer family</title>
+  <meta name="description" content="Four CDP adapters. One permanent burner Chrome. Persistent OAuth for web-GUI-only features." />
+  <meta name="theme-color" content="#0c0c0b" />
+  <link rel="canonical" href="https://ds4cc.com/burnerchrome/" />
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+  <link rel="preload" href="../fonts/JetBrainsMonoNLNerdFontMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="../fonts/JetBrainsMonoNLNerdFontMono-Medium.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <div class="navwrap">
+      <a class="brand" href="../index.html">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M6 26 L26 6"/><path d="M10 6 L22 26"/><path d="M26 18 L6 14"/><path d="M16 4 L16 28"/>
+        </svg>
+        <span>Musketeer</span>
+      </a>
+      <nav class="desk"><a href="https://ds4cc.com/">ds4cc.com</a>
+          <a class="on" href="../family.html">Family</a>
+          <a class="" href="../install.html">Install</a>
+          <a class="" href="../burner.html">Burner Chrome</a>
+          <a class="" href="../compare.html">Vs Playwright</a>
+          <a class="" href="../marketplace.html">DS4CC</a></nav>
+      <button class="burger" type="button" data-burger aria-expanded="false" aria-label="Open menu">☰</button>
+    </div>
+    <div class="mob" data-mob><a href="https://ds4cc.com/">ds4cc.com</a>
+          <a href="../family.html">Family</a>
+          <a href="../install.html">Install</a>
+          <a href="../burner.html">Burner Chrome</a>
+          <a href="../compare.html">Vs Playwright</a>
+          <a href="../marketplace.html">DS4CC</a></div>
+  </header>
+  <main id="content">
+    <article class="wrap">
+      <a class="sm muted u" href="../family.html">← Family</a>
+      <div style="margin-top:1.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem">
+        <div>
+          <p class="eyebrow">chatgpt.com</p>
+          <h1 class="hero">The Puppeteer</h1>
+          <p class="muted" style="margin-top:0.5rem">ChatGPT Plus / Pro web UI</p>
+        </div>
+        <div class="row" style="margin-top:0">
+          <span class="badge">chitchat</span>
+          <span class="badge">the-puppeteer</span>
+          <span class="badge ">Fire-and-forget</span>
+        </div>
+      </div>
+      <p class="lede">GPT-5.4-Pro extended thinking and Deep Research live only on the authenticated chatgpt.com surface. Codex CLI cannot target them.</p>
+      <p class="muted" style="margin-top:1rem;max-width:36rem">Drops a prompt into your signed-in ChatGPT tab and exits. Does not poll or scrape the reply — Pro Extended and Deep Research run for minutes to hours. You read the answer in the tab.</p>
+      <p class="sm subtle" style="margin-top:1rem;max-width:36rem">chitchat needs node on PATH (fnm is the documented host). Prompts over --stdin keep payload out of process arguments.</p>
+      <p style="margin-top:2rem"><a class="u sm" href="https://github.com/VeigaPunk/the-puppeteer">VeigaPunk/the-puppeteer ↗</a></p>
+      <section style="margin-top:3rem">
+        <h2 class="sec">Commands</h2>
+        <div style="margin-top:1rem"><div class="copy">
+  <div class="copyhead"><span>Pro extended</span><button type="button" data-copy="puppeteer-c0">Copy</button></div>
+  <pre><code id="puppeteer-c0">chitchat --model pro &quot;Research-grade analysis of lattice cryptography post-2024&quot;</code></pre>
+</div></div><div style="margin-top:1rem"><div class="copy">
+  <div class="copyhead"><span>Deep Research</span><button type="button" data-copy="puppeteer-c1">Copy</button></div>
+  <pre><code id="puppeteer-c1">chitchat --model pro --deep-research &quot;Survey post-quantum crypto 2026&quot;</code></pre>
+</div></div><div style="margin-top:1rem"><div class="copy">
+  <div class="copyhead"><span>Stdin, no argv leak</span><button type="button" data-copy="puppeteer-c2">Copy</button></div>
+  <pre><code id="puppeteer-c2">printf &#x27;%s&#x27; &quot;Research-grade prompt&quot; | chitchat --stdin --model pro</code></pre>
+</div></div>
+      </section>
+      <section class="grid2" style="margin-top:3rem">
+        <div>
+          <h2 class="sec">Limits</h2>
+          <ul class="sm muted" style="margin-top:1rem"><li>No response retrieval — by design. Read the tab.</li><li>Shares whatever chatgpt.com tab is open. Open New chat first for a fresh thread.</li><li>Tool modes (image / deep research / web search) apply to the next prompt only.</li><li>Prompts must carry public URLs or inline content — no local /home paths.</li></ul>
+        </div>
+        <div>
+          <h2 class="sec">Flags and env</h2>
+          <ul style="list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:0.5rem"><li class="card xs" style="padding:0.5rem 0.75rem">--model pro|thinking|instant</li><li class="card xs" style="padding:0.5rem 0.75rem">--deep-research</li><li class="card xs" style="padding:0.5rem 0.75rem">--web-search</li><li class="card xs" style="padding:0.5rem 0.75rem">--image</li><li class="card xs" style="padding:0.5rem 0.75rem">--stdin</li></ul>
+        </div>
+      </section>
+      <nav class="row" style="margin-top:3.5rem;border-top:1px solid var(--border);padding-top:2rem"><a class="btn ghost" href="musketeer.html">The Musketeer</a><a class="btn ghost" href="kimiraikkoner.html">The Kimi Räikkönen</a><a class="btn ghost" href="almanacker.html">The Almanacker</a></nav>
+    </article></main>
+  <footer class="bot">
+    <div class="foot">
+      <div>
+        <h2>Four for one Chrome.</h2>
+        <p>Permanent burner profile. Loopback CDP. Live OAuth. Never the daily browser. Set in JetBrainsMonoNL Nerd Font Mono.</p>
+      </div>
+      <div class="flinks">
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace">ds4cc-marketplace</a>
+        <a href="https://ds4cc.com">ds4cc.com</a>
+        <a href="https://github.com/vercel-labs/agent-browser">agent-browser</a>
+        <a href="https://github.com/VeigaPunk/burnerchrome">source</a>
+      </div>
+    </div>
+  </footer>
+  <script src="../assets/app.js"></script>
+</body>
+</html>

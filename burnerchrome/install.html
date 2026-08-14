@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Install — Musketeer family</title>
+  <meta name="description" content="Four CDP adapters. One permanent burner Chrome. Persistent OAuth for web-GUI-only features." />
+  <meta name="theme-color" content="#0c0c0b" />
+  <link rel="canonical" href="https://ds4cc.com/burnerchrome/" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preload" href="fonts/JetBrainsMonoNLNerdFontMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/JetBrainsMonoNLNerdFontMono-Medium.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <div class="navwrap">
+      <a class="brand" href="index.html">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M6 26 L26 6"/><path d="M10 6 L22 26"/><path d="M26 18 L6 14"/><path d="M16 4 L16 28"/>
+        </svg>
+        <span>Musketeer</span>
+      </a>
+      <nav class="desk"><a href="https://ds4cc.com/">ds4cc.com</a>
+          <a class="" href="family.html">Family</a>
+          <a class="on" href="install.html">Install</a>
+          <a class="" href="burner.html">Burner Chrome</a>
+          <a class="" href="compare.html">Vs Playwright</a>
+          <a class="" href="marketplace.html">DS4CC</a></nav>
+      <button class="burger" type="button" data-burger aria-expanded="false" aria-label="Open menu">☰</button>
+    </div>
+    <div class="mob" data-mob><a href="https://ds4cc.com/">ds4cc.com</a>
+          <a href="family.html">Family</a>
+          <a href="install.html">Install</a>
+          <a href="burner.html">Burner Chrome</a>
+          <a href="compare.html">Vs Playwright</a>
+          <a href="marketplace.html">DS4CC</a></div>
+  </header>
+  <main id="content">
+    <article class="wrap">
+      <p class="eyebrow">Install</p>
+      <h1 class="hero">One paste, then sign in once.</h1>
+      <p class="lede">Marketplace plugins give Grok and Codex the skills. The four public repos install the host CLIs and musketeer-chrome. Plugins alone do not launch Chrome. Chrome alone does not install chitchat.</p>
+      <div data-tabs>
+        <div class="tabsbar">
+          <button type="button" class="on" data-tab="one">One paste</button>
+          <button type="button" data-tab="grok">Grok plugins</button>
+          <button type="button" data-tab="codex">Codex plugins</button>
+          <button type="button" data-tab="kimi">Kimi CLI</button>
+        </div>
+        <div data-pane="one"><div class="copy">
+  <div class="copyhead"><span>one-paste.sh</span><button type="button" data-copy="inst-one">Copy</button></div>
+  <pre><code id="inst-one">#!/usr/bin/env bash
+# Musketeer family — one paste. Review before running.
+set -euo pipefail
+export PATH=&quot;${HOME}/.local/bin:${PATH}&quot;
+mkdir -p &quot;${HOME}/projects&quot; &quot;${HOME}/.local/bin&quot;
+
+# CDP driver
+if ! command -v agent-browser &gt;/dev/null 2&gt;&amp;1; then
+  npm install -g agent-browser
+fi
+
+# Official Grok CLI (skip if you already have it)
+if ! command -v grok &gt;/dev/null 2&gt;&amp;1; then
+  curl -fsSL https://x.ai/cli/install.sh | bash
+fi
+
+# DS4CC marketplace + the four adapter plugins
+if command -v grok &gt;/dev/null 2&gt;&amp;1; then
+  grok plugin marketplace add VeigaPunk/ds4cc-marketplace
+  for p in the-musketeer the-puppeteer the-almanacker the-kimiraikoner; do
+    grok plugin install &quot;$p&quot; --trust &amp;&amp; grok plugin enable &quot;$p&quot;
+  done
+fi
+
+clone_or_pull() {
+  local repo=&quot;$1&quot; dest=&quot;$2&quot;
+  if [[ -d &quot;$dest/.git&quot; ]]; then
+    git -C &quot;$dest&quot; pull --ff-only
+  else
+    git clone --depth 1 &quot;https://github.com/${repo}.git&quot; &quot;$dest&quot;
+  fi
+}
+
+clone_or_pull VeigaPunk/the-musketeer     &quot;${HOME}/projects/the-musketeer&quot;
+clone_or_pull VeigaPunk/the-puppeteer     &quot;${HOME}/projects/the-puppeteer&quot;
+clone_or_pull VeigaPunk/the-almanacker    &quot;${HOME}/projects/the-almanacker&quot;
+clone_or_pull VeigaPunk/the-kimiraikkoner &quot;${HOME}/projects/the-kimiraikkoner&quot;
+
+( cd &quot;${HOME}/projects/the-musketeer&quot;     &amp;&amp; bash ./install.sh &amp;&amp; bash ./scripts/install-automation-chrome )
+( cd &quot;${HOME}/projects/the-puppeteer&quot;     &amp;&amp; bash ./install.sh )
+( cd &quot;${HOME}/projects/the-almanacker&quot;    &amp;&amp; bash ./install.sh )
+( cd &quot;${HOME}/projects/the-kimiraikkoner&quot; &amp;&amp; bash ./install.sh )
+
+echo
+echo &quot;Launch the burner profile, then sign in once on the four tabs:&quot;
+echo &quot;  musketeer-chrome&quot;
+echo
+echo &quot;Verify CDP (loopback only):&quot;
+echo &quot;  curl -sS http://127.0.0.1:9222/json/version&quot;
+</code></pre>
+</div></div>
+        <div data-pane="grok" hidden><div class="copy">
+  <div class="copyhead"><span>grok plugin</span><button type="button" data-copy="inst-grok">Copy</button></div>
+  <pre><code id="inst-grok">grok plugin marketplace add VeigaPunk/ds4cc-marketplace
+for p in the-musketeer the-puppeteer the-almanacker the-kimiraikoner; do
+  grok plugin install &quot;$p&quot; --trust &amp;&amp; grok plugin enable &quot;$p&quot;
+done</code></pre>
+</div></div>
+        <div data-pane="codex" hidden><div class="copy">
+  <div class="copyhead"><span>codex plugin</span><button type="button" data-copy="inst-codex">Copy</button></div>
+  <pre><code id="inst-codex">codex plugin marketplace add VeigaPunk/ds4cc-marketplace
+for p in the-musketeer the-puppeteer the-almanacker the-kimiraikoner; do
+  codex plugin add &quot;${p}@ds4cc&quot; --json
+done</code></pre>
+</div></div>
+        <div data-pane="kimi" hidden><div class="copy">
+  <div class="copyhead"><span>kimi tui</span><button type="button" data-copy="inst-kimi">Copy</button></div>
+  <pre><code id="inst-kimi">/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json
+# Kimi 0.28.1 cannot install this marketplace&#x27;s custom the-* agent profiles.
+# Host CLIs still come from the four public repos + musketeer-chrome.</code></pre>
+</div></div>
+      </div>
+      <ol style="list-style:none;padding:0;margin:3.5rem 0 0;display:grid;gap:2.5rem">
+        <li class="steps">
+          <div><p class="num">01</p><h2 class="md">Review, then paste</h2></div>
+          <div class="muted">
+            <p>The one-paste block installs agent-browser, optionally the official Grok CLI, registers <a class="u" href="https://github.com/VeigaPunk/ds4cc-marketplace">VeigaPunk/ds4cc-marketplace</a>, enables the four adapter plugins, clones the four public repos, and runs each install.sh plus install-automation-chrome.</p>
+            <p class="sm subtle" style="margin-top:0.75rem">Plugin slug for Kimi is <span class="badge">the-kimiraikoner</span> (disk name). Product repo and CLI are <span class="badge">the-kimiraikkoner</span> / <span class="badge">kimiraikkoner</span>.</p>
+          </div>
+        </li>
+        <li class="steps">
+          <div><p class="num">02</p><h2 class="md">Launch the burner profile</h2></div>
+          <div class="muted">
+            <p>Argument-free musketeer-chrome opens NotebookLM, Grok, ChatGPT, and Kimi. Chrome 149+ only. Isolated user-data-dir. CDP on loopback. Details live on the <a class="u" href="burner.html">burner Chrome</a> page.</p>
+            <div style="margin-top:1rem"><div class="copy">
+  <div class="copyhead"><span>boot</span><button type="button" data-copy="inst-boot">Copy</button></div>
+  <pre><code id="inst-boot">eval &quot;$(fnm env --shell bash)&quot;   # node + agent-browser on PATH
+export PATH=&quot;$(dirname &quot;$(command -v node)&quot;):$HOME/.local/bin:$PATH&quot;
+musketeer-chrome
+curl -sS http://127.0.0.1:9222/json/version</code></pre>
+</div></div>
+          </div>
+        </li>
+        <li class="steps">
+          <div><p class="num">03</p><h2 class="md">Sign in once — four tabs</h2></div>
+          <div class="muted">
+            <ul>
+              <li>notebook.google.com — the Google account that owns your notebooks</li>
+              <li>grok.com — SuperGrok</li>
+              <li>chatgpt.com — Plus or Pro</li>
+              <li>kimi.com — your Kimi web session</li>
+            </ul>
+            <p style="margin-top:0.75rem">That live OAuth is the auth. There is no cookie file to export and no API key to mint. Later launches reuse the same profile.</p>
+          </div>
+        </li>
+        <li class="steps">
+          <div><p class="num">04</p><h2 class="md">WSL / Windows shortcut</h2></div>
+          <div class="muted">
+            <p>On WSL the Linux CLIs drive Windows Chrome Dev. Close every Chrome Dev instance first — including tray. The --user-data-dir flag is mandatory; Chrome 136+ silently refuses CDP on the default profile.</p>
+            <div style="margin-top:1rem"><div class="copy">
+  <div class="copyhead"><span>Windows shortcut target</span><button type="button" data-copy="inst-wsl">Copy</button></div>
+  <pre><code id="inst-wsl">&quot;C:\Program Files\Google\Chrome Dev\Application\chrome.exe&quot; &quot;--user-data-dir=C:\ChromeAutomation&quot; --remote-debugging-port=9222 --no-first-run --no-default-browser-check</code></pre>
+</div></div>
+          </div>
+        </li>
+        <li class="steps">
+          <div><p class="num">05</p><h2 class="md">Fire sequentially</h2></div>
+          <div class="muted">
+            <p>Concurrent bridges race tabs — ChatGPT can land on a Grok title. Wait for each confirmation before the next.</p>
+            <div style="margin-top:1rem"><div class="copy">
+  <div class="copyhead"><span>first fires</span><button type="button" data-copy="inst-fire">Copy</button></div>
+  <pre><code id="inst-fire"># Sequential only — concurrent bridges race tabs.
+chitchat --model pro &quot;Write a 40-page research brief on lattice cryptography post-2024&quot;
+grok-web &quot;give me a 3-line haiku about persistent browser cookies&quot;
+kimiraikkoner &quot;summarize the last answer in six lines&quot;
+almanack studio audio deep-dive &quot;A 3-host deep dive on agentic orchestration&quot;</code></pre>
+</div></div>
+            <p class="sm subtle" style="margin-top:0.75rem">grok-web blocks until Copy capture. chitchat, kimiraikkoner, and almanack are fire-and-forget — read the tab.</p>
+          </div>
+        </li>
+      </ol>
+    </article></main>
+  <footer class="bot">
+    <div class="foot">
+      <div>
+        <h2>Four for one Chrome.</h2>
+        <p>Permanent burner profile. Loopback CDP. Live OAuth. Never the daily browser. Set in JetBrainsMonoNL Nerd Font Mono.</p>
+      </div>
+      <div class="flinks">
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace">ds4cc-marketplace</a>
+        <a href="https://ds4cc.com">ds4cc.com</a>
+        <a href="https://github.com/vercel-labs/agent-browser">agent-browser</a>
+        <a href="https://github.com/VeigaPunk/burnerchrome">source</a>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>

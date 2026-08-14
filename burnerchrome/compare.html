@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vs Playwright — Musketeer family</title>
+  <meta name="description" content="Four CDP adapters. One permanent burner Chrome. Persistent OAuth for web-GUI-only features." />
+  <meta name="theme-color" content="#0c0c0b" />
+  <link rel="canonical" href="https://ds4cc.com/burnerchrome/" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preload" href="fonts/JetBrainsMonoNLNerdFontMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/JetBrainsMonoNLNerdFontMono-Medium.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/styles.css" />
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="top">
+    <div class="navwrap">
+      <a class="brand" href="index.html">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M6 26 L26 6"/><path d="M10 6 L22 26"/><path d="M26 18 L6 14"/><path d="M16 4 L16 28"/>
+        </svg>
+        <span>Musketeer</span>
+      </a>
+      <nav class="desk"><a href="https://ds4cc.com/">ds4cc.com</a>
+          <a class="" href="family.html">Family</a>
+          <a class="" href="install.html">Install</a>
+          <a class="" href="burner.html">Burner Chrome</a>
+          <a class="on" href="compare.html">Vs Playwright</a>
+          <a class="" href="marketplace.html">DS4CC</a></nav>
+      <button class="burger" type="button" data-burger aria-expanded="false" aria-label="Open menu">☰</button>
+    </div>
+    <div class="mob" data-mob><a href="https://ds4cc.com/">ds4cc.com</a>
+          <a href="family.html">Family</a>
+          <a href="install.html">Install</a>
+          <a href="burner.html">Burner Chrome</a>
+          <a href="compare.html">Vs Playwright</a>
+          <a href="marketplace.html">DS4CC</a></div>
+  </header>
+  <main id="content">
+    <article class="wrap">
+      <p class="eyebrow">Comparison</p>
+      <h1 class="hero">Playwright is a test runner. This is a standing agent browser.</h1>
+      <p class="lede">Playwright, Puppeteer, and Selenium are excellent at CI assertions against a disposable Chromium. They are the wrong shape for persistent OAuth, web-GUI-only product features, and an agent that must stay cheap in context.</p>
+      <div class="tablewrap hair" style="margin-top:2.5rem">
+        <table style="min-width:56rem">
+          <thead><tr><th>Axis</th><th>Musketeer family</th><th>Playwright</th><th>Puppeteer / others</th></tr></thead>
+          <tbody><tr><td><strong>Browser</strong></td><td>Real Chrome for Testing, visible window, no headless fingerprint</td><td class='muted'>Bundled Chromium, often headless — flagged by Cloudflare and Turnstile</td><td class='muted'>Puppeteer same stack. Selenium older WebDriver surface.</td></tr><tr><td><strong>Auth</strong></td><td>Live OAuth in a permanent burner profile. Sign in once. No cookie export.</td><td class='muted'>storageState JSON, saved cookies, or a fresh login every run</td><td class='muted'>Cookie jars, session JSON, password replay. High blast radius.</td></tr><tr><td><strong>Daily browser</strong></td><td>Never. Isolated --user-data-dir. Chrome 136+ refuses CDP on the default sync profile anyway.</td><td class='muted'>Can attach, but most guides launch or hijack the user&#x27;s main profile</td><td class='muted'>Commonly attach to the daily profile. One bug, whole session.</td></tr><tr><td><strong>Web-GUI-only features</strong></td><td>The point. GPT-5.4-Pro extended, Deep Research, NotebookLM Studio, Grok Expert/Imagine.</td><td class='muted'>Possible, but you write a test harness for each click-path</td><td class='muted'>API-first tools simply cannot reach these surfaces.</td></tr><tr><td><strong>Agent context cost</strong></td><td>agent-browser compact a11y snapshots — about 2k tokens</td><td class='muted'>Full DOM / accessibility tree, often 50–100k+ tokens per step</td><td class='muted'>Same class of dump, or screenshot-only vision.</td></tr><tr><td><strong>Driver</strong></td><td>Vercel Labs agent-browser — Rust daemon, --cdp 9222, --pin-tab</td><td class='muted'>Node test runner. Excellent for CI. Wrong shape for a standing agent CLI.</td><td class='muted'>Node Puppeteer, Java/Python Selenium, vision bots.</td></tr><tr><td><strong>Family sharing</strong></td><td>One profile, four signed-in tabs, four CLIs. Sequential fires only.</td><td class='muted'>DIY. Each script brings its own browser or fights for a port.</td><td class='muted'>Usually one-off scripts, not a family.</td></tr><tr><td><strong>Security posture</strong></td><td>CDP bound to 127.0.0.1 only. Non-loopback rejected. Sandbox kept. No crash-bubble, no sync.</td><td class='muted'>Devtools endpoint often left open; headless flags disable sandbox in CI recipes</td><td class='muted'>Remote Selenium grids expose the session. Cookie bots leak credentials.</td></tr></tbody>
+        </table>
+      </div>
+      <section class="grid3" style="margin-top:3.5rem">
+        <div class="card pad"><h2 class="md">Real Chrome, not a bot</h2><p class="sm muted" style="margin-top:0.5rem">Visible Chrome for Testing. No headless flag. Cloudflare and Turnstile treat it as a browser because it is one.</p></div>
+        <div class="card pad"><h2 class="md">OAuth stays in the profile</h2><p class="sm muted" style="margin-top:0.5rem">SuperGrok, ChatGPT Pro, Kimi, Google. Signed in once, in a window you can see. No storageState.json in a repo.</p></div>
+        <div class="card pad"><h2 class="md">Built for agents</h2><p class="sm muted" style="margin-top:0.5rem">agent-browser is a Rust daemon with pin-tab, compact snapshots, and a 50k character ceiling. Playwright dumps the world.</p></div>
+      </section>
+      <section class="card pad raised" style="margin-top:3.5rem">
+        <h2 class="md">What this is not</h2>
+        <ul class="sm muted" style="margin-top:0.75rem">
+          <li>Not a replacement for Playwright in CI. Keep Playwright for tests.</li>
+          <li>Not a stealth / anti-detect product. It is a real browser profile.</li>
+          <li>Not remote browser-as-a-service. CDP stays on this machine.</li>
+          <li>Not your daily driver. If you need shopping tabs, use the other Chrome.</li>
+        </ul>
+        <p style="margin-top:1.5rem"><a class="btn" href="install.html">Install the family</a></p>
+      </section>
+    </article></main>
+  <footer class="bot">
+    <div class="foot">
+      <div>
+        <h2>Four for one Chrome.</h2>
+        <p>Permanent burner profile. Loopback CDP. Live OAuth. Never the daily browser. Set in JetBrainsMonoNL Nerd Font Mono.</p>
+      </div>
+      <div class="flinks">
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace">ds4cc-marketplace</a>
+        <a href="https://ds4cc.com">ds4cc.com</a>
+        <a href="https://github.com/vercel-labs/agent-browser">agent-browser</a>
+        <a href="https://github.com/VeigaPunk/burnerchrome">source</a>
+      </div>
+    </div>
+  </footer>
+  <script src="assets/app.js"></script>
+</body>
+</html>
