@@ -3,18 +3,18 @@
   "plugins": [
     {
       "id": "aaronplug",
-      "displayName": "Aaronplug (VeigaPunk)",
-      "version": "0.3.0",
-      "description": "Academic paper retrieval workflows",
+      "displayName": "aaron (CLI tool)",
+      "version": "0.4.0",
+      "description": "aaron CLI tool \u2014 Bash-invocable book/paper fetcher (not an agent)",
       "homepage": "https://github.com/VeigaPunk/aaronplug",
       "keywords": [
-        "academic-papers",
-        "arxiv",
-        "semantic-scholar",
-        "research",
-        "skills"
+        "aaron",
+        "cli",
+        "tool",
+        "books",
+        "papers"
       ],
-      "source": "./artifacts/aaronplug-0.3.0.zip"
+      "source": "./artifacts/aaronplug-0.4.0.zip"
     },
     {
       "id": "ds4cc",
