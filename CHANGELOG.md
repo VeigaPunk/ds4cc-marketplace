@@ -4,6 +4,8 @@
 
 ### Added
 
+- **omegaG standalone path** on the domain: [`ds4cc.com/omegag/`](https://ds4cc.com/omegag/) — full product site (controller mapper, formerly DS4CC), nav + footer + research-note card. Mirrors `vgpnk-holdings-llc/omegaG` `website/`. Also live on [Vercel](https://omegag.vercel.app/) and [GitHub Pages](https://veigapunk.github.io/omegag-site/).
+
 - **§ Referrals** (`#referrals` on ds4cc.com): first-class referral section with Model Studio/Alibaba **featured** (`A927SY`), plus Kimi + OpenCode cards; nav + footer link into it; disclosures keep `sponsored nofollow`.
 - **§ Model Studio public-good** (`#modelstudio` on ds4cc.com): Singapore console + OpenAI-compat notes + benefits referral `A927SY` (sponsored/nofollow), framed as shared agent-stack wiring rather than a product pitch.
 - Footer referral disclosure for [Alibaba Cloud benefits campaign](https://www.alibabacloud.com/campaign/benefits?referral_code=A927SY) (`referral_code=A927SY`), same sponsored/nofollow pattern as Kimi and OpenCode.
