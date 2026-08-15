@@ -79,6 +79,22 @@ Related:
 
 ---
 
+### Playwright (and Puppeteer-as-agent, Selenium grids) as live-UI substrate
+
+| | |
+| --- | --- |
+| **Status** | **KILLED** as default agent / live-OAuth / web-GUI driver · **AVOID-AS-DEFAULT** even as “just attach to Chrome” · **fine in CI** as a *test runner*, not an agent browser |
+| **Class** | Tool · architecture · vendor hype (automation-as-intelligence) |
+| **Date** | 2026-08-14 (operator kill; burnerchrome family is the substitute) |
+| **Why** | Playwright is a **Node test runner that cosplays a browser**. Headless Chromium trips Turnstile. `storageState.json` is cookie export with extra steps. Guides still hijack the daily profile. Every step dumps 50–100k tokens of DOM so the agent can pretend it “saw” the page. You write a fixture for ChatGPT Pro, another for Imagine, another for NotebookLM Studio — a test suite for products that already have a window. CDP on a **standing burner Chrome** already exists; wrapping it in `chromium.launch()` is paying Node tax to re-lose OAuth. |
+| **Use instead** | **`musketeer-chrome`** (isolated `--user-data-dir`, loopback `127.0.0.1:9222`, Canary/CFT 149+) + **`agent-browser --cdp 9222`** (~2k-token a11y snapshots) + family CLIs (`grok-web`, `chitchat`, `kimiraikoner`, `almanack`). Sign in once. Sequential fires. Never daily Chrome. |
+| **Reopen** | Only if Playwright grows a first-class standing-profile mode that is not headless, not `storageState`, not a 100k DOM dump, and still cheaper than `agent-browser` on a measured task. “But our CI already uses it” is not a reopen — keep it in CI. |
+| **Evidence** | [`burnerchrome/compare.html`](../burnerchrome/compare.html) · [`burnerchrome/README.md`](../burnerchrome/README.md) · [`bloat.html`](../bloat.html) · live family: `ds4cc.com/burnerchrome/` |
+
+**Agent line:** Do **not** propose Playwright / Puppeteer / Selenium as the way to drive grok.com, chatgpt.com, kimi.com, or NotebookLM. Cite this kill. Point at burnerchrome + agent-browser. Playwright stays in the test job.
+
+---
+
 ### gsync / rclone-as-agent-default
 
 | | |
