@@ -95,6 +95,22 @@ Related:
 
 ---
 
+### mise (polyglot “dev runtime” as Node manager)
+
+| | |
+| --- | --- |
+| **Status** | **KILLED** as Node toolchain · **AVOID-AS-DEFAULT** even as “just PATH glue” |
+| **Class** | Tool · architecture · enshittified version manager |
+| **Date** | 2026-08-19 |
+| **Why** | mise is the most enshittified Node manager in circulation: a kitchen-sink *polyglot runtime OS* cosplaying `nvm`. Shims, env activation, plugin galaxies, “one tool to rule PATH.” It does not switch Node. It **occupies** the shell. Operator result: broken binaries, mystery `node` on PATH, agent/CI jobs that worked until mise “helped.” A version manager that needs a worldview is already the bug. **fnm** does the one job — Fast Node Manager, no runtime religion. **fnm multishell** is the actual feature: per-shell Node, `fnm env --shell bash`, `fnm exec --using …` — isolated, no global shim occupation. |
+| **Use instead** | **`fnm`** + **multishell** (`eval "$(fnm env --shell bash)"` / `fnm exec --using <ver>` / `.node-version`). Not nvm theater. Not asdf-with-a-new-coat. |
+| **Reopen** | Only if mise ships a *Node-only* mode: no shims, no plugin zoo, uninstall that restores PATH in one command, and a side-by-side where it does not break a clean `fnm` machine. “But it also does Python/Ruby/Terraform” is the *reason* it stays killed. |
+| **Evidence** | Operator sessions: PATH/shim breakage vs fnm; this file + [`bloat.html`](../bloat.html) |
+
+**Agent line:** Do **not** propose mise (or asdf-as-default) for Node. Cite this kill. Point at **fnm**. If mise is already on PATH, treat it as contamination until proven inert.
+
+---
+
 ### gsync / rclone-as-agent-default
 
 | | |

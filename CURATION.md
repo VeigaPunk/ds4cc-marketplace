@@ -6,7 +6,7 @@ better evidence or better tools emerge.
 
 **The dual of admission is rejection.** Explicit *what not to use* prevents
 re-litigating killed tools every session. Operator anti-patterns (Honcho
-memory, MCP zoo, Playwright-as-agent, general-purpose agents, client-side
+memory, mise-as-Node, MCP zoo, Playwright-as-agent, general-purpose agents, client-side
 capability patching):
 **[`docs/ANTI-PATTERNS.md`](docs/ANTI-PATTERNS.md)**.
 

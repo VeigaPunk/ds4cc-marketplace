@@ -27,6 +27,7 @@ You are helping me use the **DS4CC marketplace** (`VeigaPunk/ds4cc-marketplace`)
 | Live UI | burner Chrome / agent-browser |
 | Secrets | the-janitor + `op` |
 | Honcho / Hermes | **KILLED** — see `bloat.html` / ANTI-PATTERNS |
+| mise (as Node manager) | **KILLED** — use **fnm multishell**; PATH/shim occupancy |
 
 Full: [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md) · [`docs/ANTI-PATTERNS.md`](docs/ANTI-PATTERNS.md).
 
@@ -38,6 +39,7 @@ Canonical list: [`docs/ANTI-PATTERNS.md`](docs/ANTI-PATTERNS.md).
 Notable kills:
 
 - **Honcho** (agent memory / MCP) — not Phase-0 / not default memory; SQLite-authoritative instead
+- **mise** as Node manager — enshittified PATH occupancy; use **fnm multishell**
 - **general-purpose / explore** subagents under xbgst
 - **MCP zoo** and TinyFish-as-research
 - **Client-side capability patching** to fit a vendor tool (trendsetter principle)

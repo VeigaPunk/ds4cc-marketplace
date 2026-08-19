@@ -4,6 +4,8 @@
 
 ### Added
 
+- **mise killed** as Node manager (`docs/ANTI-PATTERNS.md` + `bloat.html`): polyglot PATH occupancy / shim religion. Substitute: **fnm** (praise **multishell**: `fnm env` / `fnm exec`).
+
 - **omegaG standalone path** on the domain: [`ds4cc.com/omegag/`](https://ds4cc.com/omegag/) — full product site (controller mapper, formerly DS4CC), nav + footer + research-note card. Mirrors `vgpnk-holdings-llc/omegaG` `website/`. Also live on [Vercel](https://omegag.vercel.app/) and [GitHub Pages](https://veigapunk.github.io/omegag-site/).
 
 - **§ Referrals** (`#referrals` on ds4cc.com): first-class referral section with Model Studio/Alibaba **featured** (`A927SY`), plus Kimi + OpenCode cards; nav + footer link into it; disclosures keep `sponsored nofollow`.

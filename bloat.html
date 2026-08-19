@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Bloat we refuse · DS4CC</title>
-<meta name="description" content="Anti-patterns: Honcho, Hermes agent slime, MCP zoos. Operator kills." />
+<meta name="description" content="Anti-patterns: Honcho, Hermes agent slime, mise, MCP zoos. Operator kills." />
 <style>
 @font-face {
   font-family: "JetBrainsMonoNL";
@@ -501,6 +501,33 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
       <li><strong>Sync:</strong> gsync/rclone as agent substrate = credential sprawl</li>
       <li><strong>Use instead:</strong> sekhmet / Titanium pure sparks · xbgst · SQLite SSoT</li>
       <li><strong>If found:</strong> kill process + unit + user dirs; do not “disable”</li>
+    </ul>
+  </article>
+
+<article class="roast">
+    <div class="tag">killed · toolchain · enshittified PATH</div>
+    <h2>mise — the most enshittified Node manager ever shipped</h2>
+    <span class="status">KILLED</span><span class="status">not fnm</span><span class="status">PATH occupancy</span>
+    <p>
+      Imagine recommending <strong style="color:var(--fg)">mise</strong> for Node. XDDDD.
+      It is not a version manager. It is a <strong style="color:var(--fg)">polyglot runtime religion</strong>
+      wearing <code>nvm</code>’s coat: shims, activation hooks, plugin galaxies, “one tool to own PATH.”
+      The job was <em>pin Node</em>. The product is <em>occupy the shell</em>.
+    </p>
+    <p>
+      Elegant shit: a kitchen sink that <strong style="color:var(--fg)">breaks everything it pretends to unify</strong>.
+      Mystery <code>node</code>. Agent jobs that worked until the shim. CI that inherited a worldview.
+      <strong style="color:var(--fg)">fnm</strong> does the one job — Fast Node Manager, no runtime theocracy.
+      The glaze is earned: <strong style="color:var(--fg)">fnm multishell</strong> —
+      <code>eval "$(fnm env --shell bash)"</code>, <code>fnm exec --using …</code> —
+      per-shell Node, no global shim occupation. Tools adapt to us. mise wants the reverse.
+      Kill it as default. Do not “just try asdf again with a new name.”
+    </p>
+    <ul>
+      <li><strong>Suck factor:</strong> peak — most enshittified Node manager in the drawer</li>
+      <li><strong>Failure mode:</strong> PATH/shim occupancy, not “slow installs”</li>
+      <li><strong>Use instead:</strong> <code>fnm</code> <strong>multishell</strong> + <code>.node-version</code></li>
+      <li><strong>Reopen:</strong> Node-only, no shims, one-command PATH restore — not “but Python too”</li>
     </ul>
   </article>
 
