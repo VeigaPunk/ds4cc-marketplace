@@ -25,10 +25,10 @@ cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
 Requires **Codex Titanium** host binary (not shipped by this plugin). Resolve:
 
 ```bash
-CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
+export CODEX_BIN="$(command -v codex-titanium)"
 ```
 
-Order: `CODEX_BIN` → `codex-titanium` → `codex`. See marketplace `docs/TITANIUM-HOST.md`.
+Order: `CODEX_BIN` → `codex-titanium` → non-stub `codex` (omarchy npx `@openai/codex` stub is skipped). **Never** symlink titanium as `codex`. See marketplace `docs/TITANIUM-HOST.md`.
 
 ## Smoke (offline — required gate)
 
@@ -76,13 +76,13 @@ sekhmet swarm --direct -j 64 --ro --timeout 180 --no-keep \
 - **Double-work is intentional** — emit everything; distill above
 - **Do not put judge/pareto/cluster logic in this layer**
 - Prefer `--ro` for pure probes; `--scope DIR` for mutation harbors
-- Live needs Titanium via `CODEX_BIN` / `codex-titanium` / `codex` on PATH; dry-run does not
+- Live needs Titanium via `CODEX_BIN` / `codex-titanium` on PATH; dry-run does not
 - **Luna + fast** under xbgst/sol-ultra: `XBRD_SPARK_MODEL=gpt-5.6-luna`, `XBRD_SPARK_SERVICE_TIER=fast`
 
 ## Verify crate tests
 
 ```bash
-cargo test --offline
+cargo test
 ```
 
 ## Key flags
@@ -90,7 +90,7 @@ cargo test --offline
 | Flag | Effect |
 | --- | --- |
 | `--dry-run` | Namespace + stub; no codex/xask |
-| `--direct` | Prefer `codex` over `xask` |
+| `--direct` | Prefer Titanium (`CODEX_BIN` / `codex-titanium`) over `xask` |
 | `--ro` | Force codex `--sandbox read-only` |
 | `--scope DIR` | rsync directory into workspace |
 | `--timeout N` | Wall-clock kill; status=`timeout` when exceeded |

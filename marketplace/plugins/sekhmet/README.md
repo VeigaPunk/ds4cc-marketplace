@@ -8,16 +8,17 @@ Sekhmet is **always available to be called**: any agent, labrat swarm, mutation 
 | --- | --- |
 | L1 / judge | xbreed · xbgst · the-judge (Pareto, axes, approval) |
 | L2 / select | xbrd-selector · model/agent routing |
-| **L3 / Sekhmet** | **always-on namespaced codex-spark swarm dispatch** |
+| **L3 / Sekhmet** | **always-on namespaced Titanium swarm dispatch** |
 
 ## What it does
 
 - **Always-callable swarm substrate** — default channel for cheap parallel sparks
-- Runs **codex-spark** (GPT-5.3-Codex-Spark) in **ephemeral namespaces** — **no git worktrees**
+- Runs **`gpt-5.6-luna`** + effort **low** + `service_tier=fast` (fallback **none**) in **ephemeral namespaces** — **no git worktrees**
 - **Double-work tolerant** — concurrent identical tasks are fine; higher layers distill
 - Invocable by labrat swarms, mutation-tester, executor, or plain CLI
 - Coordination (judge / distill / dedup) stays **above** this surface
 - **Rust-only binary** — no Python runtime
+- Swarm default / hard cap: **`-j 64`**
 
 ## Install binary
 
@@ -26,16 +27,11 @@ cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
 # installs both: sekhmet + xbrd-spark
 ```
 
-**Runtime:** Codex Titanium host binary (not a plugin twin). Resolve:
-
-```bash
-CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
-# then: "$CODEX_BIN" exec ...  |  sekhmet/xbrd-spark also honor CODEX_BIN
-```
+**Runtime:** Codex Titanium host binary (not a plugin twin). Resolve: `CODEX_BIN` → `codex-titanium` → non-stub `codex` (omarchy npx stub skipped). **Never** symlink titanium as `codex`. **`xask`** = thin `sekhmet run --direct` shim on `PATH`.
 
 Details: repo root [`docs/TITANIUM-HOST.md`](../../../../docs/TITANIUM-HOST.md).  
-**Default model pin (L3 always-on):** `gpt-5.6-luna` + service tier `fast` via `~/.xbgst/env.l3-sekhmet.sh`  
-(`XBRD_SPARK_MODEL`, `XBRD_SPARK_SERVICE_TIER`). Override only when deliberately probing other models.  
+**Crate / L3 pin:** `gpt-5.6-luna` · effort `low` · `service_tier=fast` · fallback **none** · `-j 64`  
+(`XBRD_SPARK_MODEL`, `XBRD_SPARK_FALLBACK_MODEL`, `XBRD_SPARK_SERVICE_TIER`, `XBRD_SPARK_JOBS`; optional `~/.xbgst/env.l3-sekhmet.sh`).  
 `--dry-run` needs neither titanium nor xask.
 
 ## CLI

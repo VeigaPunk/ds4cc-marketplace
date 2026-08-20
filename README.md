@@ -36,11 +36,11 @@ Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, 
 Codex Titanium is a **host binary**, not a plugin twin. Marketplace plugins do **not** ship `codex-titanium` / `codex` binaries — only skills and docs (e.g. `sekhmet`).
 
 ```bash
-# runtime resolve chain (scout / sekhmet / xbrd-spark)
-CODEX_BIN=${CODEX_BIN:-$(command -v codex-titanium || command -v codex)}
+# preferred: pin Titanium by name (never symlink it as `codex`)
+export CODEX_BIN="$(command -v codex-titanium)"
 ```
 
-Put `sekhmet` / `xbrd-spark` on `PATH` via `cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked`. Optional hardened binary: `brew install VeigaPunk/tap/codex-titanium`. Details: [`docs/TITANIUM-HOST.md`](docs/TITANIUM-HOST.md).
+Resolve order: `CODEX_BIN` → `codex-titanium` → non-stub `codex` (omarchy npx `@openai/codex` stub is skipped). Put `sekhmet` / `xbrd-spark` on `PATH` via `cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked`. Optional hardened binary: `brew install VeigaPunk/tap/codex-titanium` — **do not** accept a `codex` symlink; keep `codex-titanium` as the Titanium name. Details: [`docs/TITANIUM-HOST.md`](docs/TITANIUM-HOST.md).
 
 ## Grok Build (xAI CLI)
 
@@ -130,11 +130,12 @@ The xbreed stack has CLI-exclusive pure-execution layers. **Codex Titanium L3 (s
 
 ### Codex (preferred path — Titanium L3)
 
-1. Install the hardened binary:
+1. Install the hardened binary as **`codex-titanium`** (never overwrite omarchy `codex`):
    ```bash
-   brew install VeigaPunk/tap/codex-titanium   # Linux x86_64; creates codex-titanium + codex symlink
+   # tarball → ~/.local/bin/codex-titanium  (inner archive entry is named `codex`; rename on install)
+   # brew install VeigaPunk/tap/codex-titanium   # Linux x86_64 — refuse a `codex` symlink
    # or build from source: https://github.com/VeigaPunk/codex-titanium
-   install -Dm600 titanium/config.toml "${CODEX_HOME:-$HOME/.codex}/config.toml"
+   export CODEX_BIN="$(command -v codex-titanium)"
    ```
 2. Install the L3 swarm substrate:
    ```bash
@@ -152,7 +153,7 @@ The xbreed stack has CLI-exclusive pure-execution layers. **Codex Titanium L3 (s
    sekhmet run --direct --timeout 60 --task "Reply with SPARK_OK"
    ```
 
-Runtime resolve order: `CODEX_BIN` → `codex-titanium` → `codex`. Model default `gpt-5.3-codex-spark` (override `XBRD_SPARK_MODEL`).
+Runtime resolve: `CODEX_BIN` → `codex-titanium` → skip omarchy npx `codex` stub. Crate default **`gpt-5.6-luna`** + effort **low** + `service_tier=fast` + fallback **none** (`XBRD_SPARK_MODEL` / `XBRD_SPARK_SERVICE_TIER`).
 
 ### Grok Build (xbgst exclusive + livepatch ban)
 
