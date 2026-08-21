@@ -31,7 +31,7 @@ xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--model-id <id>] [--g
 | `--debug` | `-d` | Print constructed prompt and exit (dry run). Matches gemini's own `-d/--debug`. | all | `false` |
 | `--scope` | `-scp` | Scope boundary injected into `{{SCOPE_BOUNDARY}}` in the dispatch template. | all | `"entire project"` |
 | `--rich` | `-r` | Accepted for compatibility; ignored by the local Gemma/HVM lane. | gemma aliases | `false` |
-| `--spark` | `--spk` | Pin codex/cdx to `gpt-5.4-mini` + `model_reasoning_effort=low`. Bare `xask codex`/`cdx` selects this route unless effort/review/full/gpt55 selects another lane. Rejected with `grok`/`qwen38`/`ds-flash`/`ds-pro`. | codex, cdx | structural default |
+| `--spark` | `--spk` | L3 `sekhmet run` (default `XBRD_SPARK_MODEL=gpt-5.6-luna`). Rejected with `grok`/`qwen38`/`ds-flash`/`ds-pro`. Bare `xask cdx` does **not** auto-spark. | codex, cdx | off |
 | `--model-id` | — | Select an exact Codex or local Gemma model ID. Cannot be combined with built-in lane flags. | codex + gemma aliases | unset |
 | `--effort` | `-e` | One of `low`, `medium`, `high`, `xhigh`. Codex: native `model_reasoning_effort`; Gemma aliases: advisory `thinkingBudget` prompt text. | codex + gemma aliases | unset |
 | `--direct` | — | **Removed in R2.** No longer accepted — xask hard-fails at the flag parser (`*) echo ... exit 1`). Suppression is always-on; use `--effort` to control reasoning level. | — | — |

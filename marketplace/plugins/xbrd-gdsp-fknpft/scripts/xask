@@ -274,26 +274,42 @@ DEBUG_ARGV=()
 case "$MODEL" in
   grok)
     CODEX_BIN_SET=0
-    DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL grok --always-approve --no-subagents --verbatim -p "$PROMPT")
-    DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL grok --always-approve --no-subagents --verbatim -p "<PROMPT>")
+    if [ "$JSON" = true ] || [ -n "$OUTPUT_LAST_MESSAGE" ] || [ "$GPT55" = true ] \
+      || [ "$REVIEW" = true ] || [ "$FULL" = true ]; then
+      echo "xask: --json/-o/--gpt55/-R/-F are not grok-cli flags (use -e/--model-id; --json is Codex JSONL, not grok --output-format)" >&2
+      exit 1
+    fi
+    GROK_EXTRA=()
+    [ -n "$EFFORT" ] && GROK_EXTRA+=(--reasoning-effort "$EFFORT")
+    [ -n "$MODEL_ID" ] && GROK_EXTRA+=(-m "$MODEL_ID")
+    DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL grok --always-approve --no-subagents --verbatim "${GROK_EXTRA[@]}" -p "$PROMPT")
+    DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL grok --always-approve --no-subagents --verbatim "${GROK_EXTRA[@]}" -p "<PROMPT>")
     ;;
   qwen38|ds-flash|ds-pro)
     CODEX_BIN_SET=0
+    if [ "$GPT55" = true ] || [ "$REVIEW" = true ] || [ "$FULL" = true ] || [ -n "$MODEL_ID" ]; then
+      echo "xask: --gpt55/-R/-F/--model-id contaminate Token Plan (profile owns model; no ChatGPT -m)" >&2
+      exit 1
+    fi
+    TP_EXTRA=()
+    [ "$JSON" = true ] && TP_EXTRA+=(--json)
+    [ -n "$OUTPUT_LAST_MESSAGE" ] && TP_EXTRA+=(-o "$OUTPUT_LAST_MESSAGE")
+    [ -n "$EFFORT" ] && TP_EXTRA+=(-c "model_reasoning_effort=$EFFORT")
     TP_BIN="codex-$MODEL"
     if ! command -v "$TP_BIN" >/dev/null 2>&1; then
       DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL codex-token-plan "$MODEL" exec
         --skip-git-repo-check --color never --ephemeral --sandbox workspace-write
-        -c 'approval_policy="never"' "$PROMPT")
+        -c 'approval_policy="never"' "${TP_EXTRA[@]}" "$PROMPT")
       DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL codex-token-plan "$MODEL" exec
         --skip-git-repo-check --color never --ephemeral --sandbox workspace-write
-        -c 'approval_policy="never"' "<PROMPT>")
+        -c 'approval_policy="never"' "${TP_EXTRA[@]}" "<PROMPT>")
     else
       DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$TP_BIN" exec
         --skip-git-repo-check --color never --ephemeral --sandbox workspace-write
-        -c 'approval_policy="never"' "$PROMPT")
+        -c 'approval_policy="never"' "${TP_EXTRA[@]}" "$PROMPT")
       DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$TP_BIN" exec
         --skip-git-repo-check --color never --ephemeral --sandbox workspace-write
-        -c 'approval_policy="never"' "<PROMPT>")
+        -c 'approval_policy="never"' "${TP_EXTRA[@]}" "<PROMPT>")
     fi
     ;;
   cdx|codex)
@@ -327,6 +343,11 @@ if [ "$SPARK" = true ]; then
         exit 1
       }
       LANE="sekhmet"
+      if [ "$JSON" = true ] || [ -n "$OUTPUT_LAST_MESSAGE" ] || [ "$GPT55" = true ] \
+        || [ "$REVIEW" = true ] || [ "$FULL" = true ]; then
+        echo "xask: --json/-o/--gpt55/-R/-F are dropped by --spark (sekhmet has no those flags)" >&2
+        exit 1
+      fi
       DISPATCH_ARGV=(env XBRD_SPARK_MODEL="$SPARK_MODEL" sekhmet run --task "$PROMPT")
       DEBUG_ARGV=(env XBRD_SPARK_MODEL="$SPARK_MODEL" sekhmet run --task "<PROMPT>")
       ;;

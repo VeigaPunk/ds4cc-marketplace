@@ -36,6 +36,13 @@ printf '%s\n' "$out" | grep -q 'CODEX_BIN_SET=0' || fail 'grok CODEX_BIN_SET'
 printf '%s\n' "$out" | grep -q 'grok --always-approve' || fail 'grok always-approve'
 printf '%s\n' "$out" | grep -q -- '-p ' || fail 'grok -p'
 printf '%s\n' "$out" | grep -q 'xbreed ask' && fail 'grok must not xbreed ask'
+out=$("$XASK" -d --gs -e low grok ping)
+printf '%s\n' "$out" | grep -q -- '--reasoning-effort low' || fail 'grok -e → --reasoning-effort'
+if "$XASK" -d --json --gs grok ping >/dev/null 2>&1; then fail 'grok --json must fail-loud'; fi
+if "$XASK" -d --gpt55 --gs qwen38 ping >/dev/null 2>&1; then fail 'qwen38 --gpt55 must fail-loud'; fi
+if "$XASK" -d --spark --json --gs cdx ping >/dev/null 2>&1; then fail 'spark --json must fail-loud'; fi
+out=$("$XASK" -d --gs -e low qwen38 ping)
+printf '%s\n' "$out" | grep -q 'model_reasoning_effort=low' || fail 'qwen38 -e → -c model_reasoning_effort'
 printf '%s\n' "$out" | grep -qi sekhmet && fail 'grok must not mention sekhmet'
 printf '%s\n' "$out" | grep -qi titanium && fail 'grok must not mention titanium'
 
