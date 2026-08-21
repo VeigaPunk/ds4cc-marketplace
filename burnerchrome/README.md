@@ -8,7 +8,7 @@ Four adapters share one isolated Chrome for Testing profile on loopback port 922
 |--------|-----|--------|----------|
 | [the-musketeer](https://github.com/VeigaPunk/the-musketeer) | `grok-web` | grok.com | Blocks until Copy capture |
 | [the-puppeteer](https://github.com/VeigaPunk/the-puppeteer) | `chitchat` | chatgpt.com | Fire-and-forget |
-| [the-kimiraikkoner](https://github.com/VeigaPunk/the-kimiraikkoner) | `kimiraikkoner` | kimi.com | Fire-and-forget |
+| [the-kimiraikkoner](https://github.com/VeigaPunk/the-kimiraikkoner) | `kimiraikkoner` | kimi.ai | Fire-and-forget |
 | [the-almanacker](https://github.com/VeigaPunk/the-almanacker) | `almanack` | NotebookLM | Fire-and-forget studio/chat |
 
 Typeface is **JetBrainsMonoNL Nerd Font Mono** (no ligatures) for every surface.

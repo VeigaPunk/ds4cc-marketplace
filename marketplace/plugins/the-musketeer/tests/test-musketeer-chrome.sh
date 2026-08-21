@@ -74,7 +74,7 @@ default_count=${#default_argv[@]}
   fail 'Grok is not the second landing page'
 [[ "${default_argv[default_count-2]}" == 'https://chatgpt.com/' ]] ||
   fail 'ChatGPT is not the third landing page'
-[[ "${default_argv[default_count-1]}" == 'https://www.kimi.com/' ]] ||
+[[ "${default_argv[default_count-1]}" == 'https://www.kimi.ai/' ]] ||
   fail 'Kimi is not the fourth landing page'
 
 # A partial legacy installation must never create a mixed binary/profile pair.
@@ -217,7 +217,7 @@ run_launcher "$home" "$TMP_ROOT/one-url.argv" "$one_url"
 assert_no_line 'https://grok.com' "$TMP_ROOT/one-url.argv"
 assert_no_line 'https://notebooklm.google.com/' "$TMP_ROOT/one-url.argv"
 assert_no_line 'https://chatgpt.com/' "$TMP_ROOT/one-url.argv"
-assert_no_line 'https://www.kimi.com/' "$TMP_ROOT/one-url.argv"
+assert_no_line 'https://www.kimi.ai/' "$TMP_ROOT/one-url.argv"
 [[ "$(wc -l <"$TMP_ROOT/one-url.argv")" -eq 17 ]] || fail 'explicit URL gained default pages'
 
 # Profile paths must be real directories, never symlinks.

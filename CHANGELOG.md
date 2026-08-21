@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### Changed
+
+- **kimi.ai TLD:** family adapter default is now `https://www.kimi.ai/` (`kimiraikkoner` / marketplace `the-kimiraikoner`, plus `musketeer-chrome` landing tab). Allowlist is `kimi.ai` (canonical), `kimi.com` (legacy signed-in tabs), and `moonshot.cn`. Spoof hosts such as `kimi.ai.evil.example` stay rejected.
+
 ### Added
 
 - **mise killed** as Node manager (`docs/ANTI-PATTERNS.md` + `bloat.html`): polyglot PATH occupancy / shim religion. Substitute: **fnm** (praise **multishell**: `fnm env` / `fnm exec`).

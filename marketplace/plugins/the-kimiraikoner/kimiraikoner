@@ -7,7 +7,7 @@
 
 set -euo pipefail
 
-VERSION="0.1.1"
+VERSION="0.1.2"
 
 canonical_path() {
   local target=$1 link dir resolved
@@ -31,7 +31,7 @@ SCRIPT_PATH=$(canonical_path "$0")
 SCRIPT_DIR=${SCRIPT_PATH%/*}
 KIMIRAIKONER_CDP_HOST="${KIMIRAIKONER_CDP_HOST:-127.0.0.1}"
 KIMIRAIKONER_CDP_PORT="${KIMIRAIKONER_CDP_PORT:-9222}"
-KIMIRAIKONER_URL="${KIMIRAIKONER_URL:-https://www.kimi.com}"
+KIMIRAIKONER_URL="${KIMIRAIKONER_URL:-https://www.kimi.ai}"
 
 usage() {
   cat <<'EOF'
@@ -46,7 +46,7 @@ Options:
 Env:
   KIMIRAIKONER_CDP_HOST   loopback only (default 127.0.0.1)
   KIMIRAIKONER_CDP_PORT   default 9222
-  KIMIRAIKONER_URL        default https://www.kimi.com (kimi.com / moonshot.cn hosts only)
+  KIMIRAIKONER_URL        default https://www.kimi.ai (kimi.ai / kimi.com / moonshot.cn hosts)
   KIMIRAIKONER_REQUIRE_LIVE=1  die if progressive (unverified) selectors miss
   KIMIRAIKONER_DANGEROUS_ALLOW_REMOTE_CDP=1  allow non-loopback CDP host
 EOF
@@ -54,9 +54,11 @@ EOF
 
 die() { printf 'kimiraikoner: %s\n' "$*" >&2; exit 1; }
 
-# Host must be kimi.com, *.kimi.com, moonshot.cn, or *.moonshot.cn (not kimi.com.evil.tld).
+# Host must be kimi.ai / kimi.com / moonshot.cn (or a subdomain). Rejects
+# spoofs such as kimi.ai.evil.tld and kimi.com.evil.tld.
 is_allowed_kimi_url() {
   local url=$1
+  [[ "$url" =~ ^https?://([a-zA-Z0-9-]+\.)*kimi\.ai(/|$|\?|#) ]] && return 0
   [[ "$url" =~ ^https?://([a-zA-Z0-9-]+\.)*kimi\.com(/|$|\?|#) ]] && return 0
   [[ "$url" =~ ^https?://([a-zA-Z0-9-]+\.)*moonshot\.cn(/|$|\?|#) ]] && return 0
   return 1
@@ -69,7 +71,7 @@ case "$KIMIRAIKONER_CDP_HOST" in
   *) [[ "${KIMIRAIKONER_DANGEROUS_ALLOW_REMOTE_CDP:-}" == 1 ]] || \
     die "KIMIRAIKONER_CDP_HOST must be loopback (127.0.0.1, localhost, or [::1]); set KIMIRAIKONER_DANGEROUS_ALLOW_REMOTE_CDP=1 to override" ;;
 esac
-is_allowed_kimi_url "$KIMIRAIKONER_URL" || die "KIMIRAIKONER_URL must be a kimi.com or moonshot.cn https URL (got: $KIMIRAIKONER_URL)"
+is_allowed_kimi_url "$KIMIRAIKONER_URL" || die "KIMIRAIKONER_URL must be a kimi.ai, kimi.com, or moonshot.cn https URL (got: $KIMIRAIKONER_URL)"
 KIMIRAIKONER_CDP_ENDPOINT="http://${KIMIRAIKONER_CDP_HOST}:${KIMIRAIKONER_CDP_PORT}"
 
 READ_STDIN=false
@@ -116,7 +118,7 @@ AGENT_BROWSER=(agent-browser --cdp "$KIMIRAIKONER_CDP_ENDPOINT")
 
 echo "→ Firing prompt into Kimi..."
 
-# Find existing Kimi tab — match full URL, then validate host (blocks kimi.com.evil spoof).
+# Find existing Kimi tab — match full URL, then validate host (blocks kimi.ai.evil spoof).
 KIMI_IDX=""
 while IFS= read -r line; do
   tab_id=$(printf '%s\n' "$line" | grep -oE 't[0-9]+' | sed -n '1p' || true)
@@ -135,7 +137,7 @@ else
   "${AGENT_BROWSER[@]}" tab "$KIMI_IDX" >/dev/null 2>&1
 fi
 
-# Progressive selectors — common chat UIs; NOT verified against live kimi.com DOM.
+# Progressive selectors — common chat UIs; NOT verified against live kimi.ai DOM.
 PROGRESSIVE_SELECTORS=(
   'textarea'
   '[contenteditable="true"]'
@@ -161,7 +163,7 @@ if [[ -z "$FOUND_SEL" ]]; then
   if [[ "${KIMIRAIKONER_REQUIRE_LIVE:-}" == 1 ]]; then
     die "no chat input found (KIMIRAIKONER_REQUIRE_LIVE=1); progressive selectors unverified — await DOM scout (M03). URL=$KIMIRAIKONER_URL"
   fi
-  die "no chat input found (tried textarea, contenteditable, role=textbox); open kimi.com, sign in, retry"
+  die "no chat input found (tried textarea, contenteditable, role=textbox); open kimi.ai, sign in, retry"
 fi
 
 if [[ "$FOUND_SEL" == '[data-kimiraikoner-input]' && "${KIMIRAIKONER_REQUIRE_LIVE:-}" == 1 ]]; then

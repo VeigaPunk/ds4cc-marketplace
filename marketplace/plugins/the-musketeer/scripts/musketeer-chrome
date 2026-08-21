@@ -128,7 +128,7 @@ if (( $# == 0 )); then
     https://notebooklm.google.com/ \
     https://grok.com \
     https://chatgpt.com/ \
-    https://www.kimi.com/
+    https://www.kimi.ai/
 fi
 
 exec "$CHROME" \

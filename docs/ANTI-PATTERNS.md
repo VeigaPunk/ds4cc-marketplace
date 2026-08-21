@@ -91,7 +91,7 @@ Related:
 | **Reopen** | Only if Playwright grows a first-class standing-profile mode that is not headless, not `storageState`, not a 100k DOM dump, and still cheaper than `agent-browser` on a measured task. “But our CI already uses it” is not a reopen — keep it in CI. |
 | **Evidence** | [`burnerchrome/compare.html`](../burnerchrome/compare.html) · [`burnerchrome/README.md`](../burnerchrome/README.md) · [`bloat.html`](../bloat.html) · live family: `ds4cc.com/burnerchrome/` |
 
-**Agent line:** Do **not** propose Playwright / Puppeteer / Selenium as the way to drive grok.com, chatgpt.com, kimi.com, or NotebookLM. Cite this kill. Point at burnerchrome + agent-browser. Playwright stays in the test job.
+**Agent line:** Do **not** propose Playwright / Puppeteer / Selenium as the way to drive grok.com, chatgpt.com, kimi.ai, or NotebookLM. Cite this kill. Point at burnerchrome + agent-browser. Playwright stays in the test job.
 
 ---
 

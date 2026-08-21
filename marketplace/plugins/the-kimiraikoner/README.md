@@ -1,6 +1,6 @@
 # The KimiRaikoner
 
-Fire-and-forget bridge from CLI → [Kimi](https://www.kimi.com) web UI via loopback CDP + `agent-browser`.
+Fire-and-forget bridge from CLI → [Kimi](https://www.kimi.ai) web UI via loopback CDP + `agent-browser`.
 
 Sibling to [the-puppeteer](https://github.com/VeigaPunk/the-puppeteer) (ChatGPT), [the-musketeer](https://github.com/VeigaPunk/the-musketeer) (Grok), and [the-almanacker](https://github.com/VeigaPunk/the-almanacker) (NotebookLM).
 
@@ -39,9 +39,9 @@ Success line:
 ## Security
 
 - **CDP must stay on loopback.** Default host is `127.0.0.1`. Non-loopback hosts are rejected unless `KIMIRAIKONER_DANGEROUS_ALLOW_REMOTE_CDP=1`.
-- **Dedicated automation profile only.** Do not attach CDP to your daily browser profile. Sign into kimi.com once in the shared family profile (same as puppeteer/musketeer/almanacker).
+- **Dedicated automation profile only.** Do not attach CDP to your daily browser profile. Sign into kimi.ai once in the shared family profile (same as puppeteer/musketeer/almanacker).
 - **No cookie export / no session JSON / no passwords.** Auth is the live browser session.
-- **Host allowlist.** Only `kimi.com` / `*.kimi.com` and `moonshot.cn` / `*.moonshot.cn` URLs are opened or matched. Spoof hosts like `kimi.com.evil.example` are rejected.
+- **Host allowlist.** Canonical host is `kimi.ai` / `*.kimi.ai`. Legacy `kimi.com` / `*.kimi.com` and `moonshot.cn` / `*.moonshot.cn` still match existing tabs. Spoof hosts like `kimi.ai.evil.example` are rejected.
 - **Prompt transport.** Prefer `--stdin`; the CLI inserts text via a short Node batch helper so the prompt is not passed as agent-browser argv.
 
 Firewall tip: keep port 9222 bound to localhost only.
@@ -52,7 +52,7 @@ Firewall tip: keep port 9222 bound to localhost only.
 |---|---|---|
 | `KIMIRAIKONER_CDP_HOST` | `127.0.0.1` | loopback only |
 | `KIMIRAIKONER_CDP_PORT` | `9222` | shared family port |
-| `KIMIRAIKONER_URL` | `https://www.kimi.com` | open target when no tab (allowlisted host) |
+| `KIMIRAIKONER_URL` | `https://www.kimi.ai` | open target when no tab (allowlisted host) |
 | `KIMIRAIKONER_REQUIRE_LIVE` | unset | `1` = fail closed if no input |
 | `KIMIRAIKONER_DANGEROUS_ALLOW_REMOTE_CDP` | unset | `1` = allow non-loopback CDP |
 
@@ -65,7 +65,7 @@ Progressive best-effort only — **not** live-scouted (CDP probe was blocked in 
 3. `[role=textbox]`
 4. `[data-kimiraikoner-input]` (PLACEHOLDER until live DOM scout)
 
-When your automation Chrome is up and signed into kimi.com, run `kimiraikoner "hello"` and refine selectors if the progressive set misses.
+When your automation Chrome is up and signed into kimi.ai, run `kimiraikoner "hello"` and refine selectors if the progressive set misses.
 
 ## Tests
 
