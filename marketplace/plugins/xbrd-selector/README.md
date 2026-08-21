@@ -14,11 +14,23 @@ Rust-only selection and dispatch helper for choosing models and routing work.
 
 ## Install
 
+This marketplace package contains documentation and manifests. It does not
+include the Rust source or install the executable. Check the host first:
+
 ```bash
-cargo build --release
+command -v xbrd-selector
 ```
 
-Arch Linux:
+If no path is printed, clone the upstream source and install from its repository
+root:
+
+```bash
+git clone https://github.com/VeigaPunk/xbrd-selector.git
+cd xbrd-selector
+cargo install --path ufo-cli --locked
+```
+
+Arch Linux, also from the upstream repository root:
 
 ```bash
 makepkg -si

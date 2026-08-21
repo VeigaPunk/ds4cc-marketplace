@@ -7,13 +7,25 @@ description: Install and run xbrd-selector through verified build commands, a Ru
 
 Rust-only model selector and dispatch helper.
 
-## Build
+## Check and install
+
+This marketplace package is documentation-only. It does not include the Rust
+source or install the executable. Check availability first:
 
 ```bash
-cargo build --release
+command -v xbrd-selector
 ```
 
-Arch Linux package build:
+If no path is printed, report that `xbrd-selector` is not installed on `PATH`.
+Install from an upstream source checkout, not from this plugin directory:
+
+```bash
+git clone https://github.com/VeigaPunk/xbrd-selector.git
+cd xbrd-selector
+cargo install --path ufo-cli --locked
+```
+
+Arch Linux package build, from the upstream repository root:
 
 ```bash
 makepkg -si
@@ -36,6 +48,10 @@ xbrd-selector tui
 
 ## Verify
 
+From the upstream repository root:
+
 ```bash
-cargo test
+cargo test --manifest-path ufo-cli/Cargo.toml --locked
 ```
+
+A source build or test does not mean the binary is installed on `PATH`.
