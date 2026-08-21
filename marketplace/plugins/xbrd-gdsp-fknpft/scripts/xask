@@ -2,24 +2,30 @@
 # xask — minimal routing protocol for cross-model orchestration
 # Usage: xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--model-id <id>] [--gs] [-e <level>] [-o <file>] [--json] <model> "<query>" ["<context>"] ["<skill>"]
 #
-# All dispatches route through `xbreed ask`. Always-on: suppression, bounded
-# non-interactive dispatch, godspeed forwarding, fast_mode (all Codex lanes).
+# Routes: gemma/codex/cdx → xbreed ask; grok → grok oneshot; qwen38/ds-* → Token Plan
+# wrappers. Always-on for xbreed codex: suppression, bounded non-interactive
+# dispatch, godspeed forwarding, fast_mode.
 #
-# Always-on codex exec flags (applied by src/ask.rs, not user-togglable here):
+# Always-on codex exec flags (xbreed ask.rs / Token Plan live argv):
 #   --skip-git-repo-check · --color never · --ephemeral · --sandbox workspace-write
-#   -c approval_policy="never" · -c include_permissions_instructions=false
-#   -c include_apps_instructions=false · -c include_environment_context=false
+#   -c approval_policy="never" · (xbreed also suppresses include_* instructions)
 #
 # Flags: -d (debug) | -scp (scope; was -s, renamed 2026-04-24 — -s conflicted)
 #      | -r (rich) | --spk (spark) | -R (review) | -F (full) | --gpt55 (gpt-5.6-sol)
 #      | --model-id (exact provider model) | --gs (explicit godspeed SKILL load) | -e (effort) | -o (output-last-message) | --json
 #
-# codex model lanes:
+# codex / cdx model lanes (stock ChatGPT Codex via xbreed ask):
 #   default:       gpt-5.4-mini (reasoning=low)
 #   --spark:       gpt-5.4-mini + reasoning=low (labrat probes)
 #   --review / -R: gpt-5.6-sol + fast_mode (reviewer/critic/sentinel default per 2026-04-18)
 #   -R --full/-F:  gpt-5.6-sol full + fast_mode (the-revenger RECON escape hatch, 1.05M ctx)
 #   --gpt55:       gpt-5.6-sol + fast_mode (xbrd-exec bench xask-arm measurement, 2026-04-24)
+#
+# Native / Token Plan lanes (no xbreed ask; env -u CODEX_BIN -u XBRD_SPARK_MODEL):
+#   grok:    grok --always-approve --no-subagents --verbatim -p
+#   qwen38:  codex-qwen38 exec … (aliases: qwen3.8-max, qwen)
+#   ds-flash / ds-pro: Token Plan debug + live wrappers (reject bare deepseek)
+#   --spark rejected with grok|qwen38|ds-flash|ds-pro
 #
 # Examples:
 #   xask gemma "What patterns exist?"               # local Gemma via HVM (g- prefix)
@@ -29,6 +35,9 @@
 #   xask -scp "src/ask.rs" gemma "Review this"      # scoped clean dispatch
 #   xask --spk codex "Probe this hypothesis"        # fast codex-spark, low effort
 #   xask codex "Probe this hypothesis"              # codex default now follows --spark
+#   xask cdx "Probe this hypothesis"                # alias → stock xbreed ask codex
+#   xask --gs grok "Probe oneshot"                  # bash-exec grok CLI
+#   xask --gs qwen38 "Token Plan probe"             # bash-exec codex-qwen38
 #   xask -R codex "Adversarial review of <diff>"    # review lane — gpt-5.6-sol
 #   xask -R -F codex "RECON codebase-scale"         # -R + -F escape hatch — full gpt-5.6-sol (1.05M ctx)
 #   xask --gpt55 --gs -e high codex "Deep question" # gpt-5.6-sol lane, explicit godspeed, high effort
@@ -105,9 +114,43 @@ QUERY="$2"
 CONTEXT="${3:-No prior context.}"
 SKILL="${4:-godspeed}"
 
-# Structural default: codex delegations use spark unless caller asked for a
-# non-spark lane explicitly (effort/review/full/gpt55).
-if [ "$MODEL" = "codex" ] && [ -z "$MODEL_ID" ] && [ -z "$EFFORT" ] && [ "$REVIEW" = false ] && [ "$FULL" = false ] && [ "$GPT55" = false ]; then
+# Validate MODEL before template construction to prevent path traversal
+# (previously: `xask -d ../../docs/xask-protocol probe` would exfil docs via
+# debug-mode early exit). Whitelist approach — matches the dispatch case below.
+# gemma|g|gemini → HVM; codex|cdx → xbreed ask codex; grok → grok CLI;
+# qwen38 (+aliases) / ds-flash / ds-pro → Token Plan. Reject bare deepseek.
+case "$MODEL" in
+  gemma|g|gemini|codex|cdx|grok|qwen38|qwen3.8-max|qwen|ds-flash|ds-pro) ;;
+  deepseek)
+    echo "xask: unknown model 'deepseek' (use ds-flash or ds-pro)." >&2
+    exit 1
+    ;;
+  *)
+    echo "xask: unknown model '$MODEL'. Use gemma (g), codex/cdx, grok, qwen38, ds-flash, or ds-pro." >&2
+    exit 1
+    ;;
+esac
+
+# Canonicalize Token Plan aliases; keep cdx as display name (DISPATCH_MODEL=codex).
+case "$MODEL" in
+  qwen3.8-max|qwen) MODEL=qwen38 ;;
+esac
+
+# Explicit --spark is ChatGPT-Codex-only; native/Token Plan lanes reject it.
+if [ "$SPARK_REQUESTED" = true ]; then
+  case "$MODEL" in
+    grok|qwen38|ds-flash|ds-pro)
+      echo "xask: --spark cannot be combined with $MODEL" >&2
+      exit 1
+      ;;
+  esac
+fi
+
+# Structural default: stock Codex (codex|cdx) uses spark unless a non-spark lane
+# was requested explicitly (effort/review/full/gpt55).
+if { [ "$MODEL" = "codex" ] || [ "$MODEL" = "cdx" ]; } \
+  && [ -z "$MODEL_ID" ] && [ -z "$EFFORT" ] \
+  && [ "$REVIEW" = false ] && [ "$FULL" = false ] && [ "$GPT55" = false ]; then
   SPARK=true
 fi
 
@@ -128,20 +171,23 @@ if [ "$FORCE_GS" = true ]; then
   SKILL="godspeed"
 fi
 
-# Validate MODEL before template construction to prevent path traversal
-# (previously: `xask -d ../../docs/xask-protocol probe` would exfil docs via
-# debug-mode early exit at line ~99). Whitelist approach — matches the
-# dispatch case statement below.
-# Canonical local-gemma names: gemma | g. Legacy alias: gemini → gemma template.
-case "$MODEL" in
-  gemma|g|gemini|codex) ;;
-  *) echo "xask: unknown model '$MODEL'. Use gemma (g- prefix / HVM) or codex." >&2; exit 1 ;;
-esac
-# Template file for short alias `g` is gemma.md
+# Template selection. Token Plan + cdx reuse codex.md (IMCP envelope).
 DISPATCH_MODEL="$MODEL"
-if [ "$MODEL" = "g" ]; then
-  DISPATCH_MODEL="gemma"
-fi
+case "$MODEL" in
+  g) DISPATCH_MODEL="gemma" ;;
+  cdx|qwen38|ds-flash|ds-pro) DISPATCH_MODEL="codex" ;;
+esac
+
+LANE=""
+case "$MODEL" in
+  grok) LANE="grok-cli" ;;
+  qwen38) LANE="token-plan-qwen38" ;;
+  ds-flash) LANE="token-plan-ds-flash" ;;
+  ds-pro) LANE="token-plan-ds-pro" ;;
+  cdx) LANE="stock-codex" ;;
+  codex) LANE="stock-codex" ;;
+  gemma|g|gemini) LANE="gemma-hvm" ;;
+esac
 
 # Real dir, not the invoked path — /usr/local/bin holds a shim symlink to this
 # script, and TEMPLATE_DIR below is relative to the real install location.
@@ -223,10 +269,63 @@ if [ "$SKILL" = "godspeed" ]; then
   PROMPT="$PROMPT | godspeed"
 fi
 
-# Debug mode
+# Build argv identity for native / Token Plan / cdx lanes (debug + exec).
+# Isolation: grok + Token Plan always drop titanium contamination vars.
+# Debug ARGV uses <PROMPT> so multiline bodies do not break identity greps.
+CODEX_BIN_SET=1
+[[ -z "${CODEX_BIN+x}" ]] && CODEX_BIN_SET=0
+DISPATCH_ARGV=()
+DEBUG_ARGV=()
+case "$MODEL" in
+  grok)
+    CODEX_BIN_SET=0
+    DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL grok --always-approve --no-subagents --verbatim -p "$PROMPT")
+    DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL grok --always-approve --no-subagents --verbatim -p "<PROMPT>")
+    ;;
+  qwen38|ds-flash|ds-pro)
+    CODEX_BIN_SET=0
+    TP_BIN="codex-$MODEL"
+    if ! command -v "$TP_BIN" >/dev/null 2>&1; then
+      DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL codex-token-plan "$MODEL" exec
+        --skip-git-repo-check --color never --ephemeral --sandbox workspace-write
+        -c 'approval_policy="never"' "$PROMPT")
+      DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL codex-token-plan "$MODEL" exec
+        --skip-git-repo-check --color never --ephemeral --sandbox workspace-write
+        -c 'approval_policy="never"' "<PROMPT>")
+    else
+      DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$TP_BIN" exec
+        --skip-git-repo-check --color never --ephemeral --sandbox workspace-write
+        -c 'approval_policy="never"' "$PROMPT")
+      DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$TP_BIN" exec
+        --skip-git-repo-check --color never --ephemeral --sandbox workspace-write
+        -c 'approval_policy="never"' "<PROMPT>")
+    fi
+    ;;
+  cdx|codex)
+    DISPATCH_ARGV=(xbreed ask codex --with "$SKILL" "${MODEL_FLAGS[@]}" "${SPARK_FLAGS[@]}"
+      "${REVIEW_FLAGS[@]}" "${FULL_FLAGS[@]}" "${GPT55_FLAGS[@]}" "${EFFORT_FLAGS[@]}"
+      "${OUTPUT_FLAGS[@]}" "${JSON_FLAGS[@]}" "$PROMPT")
+    DEBUG_ARGV=(xbreed ask codex --with "$SKILL" "${MODEL_FLAGS[@]}" "${SPARK_FLAGS[@]}"
+      "${REVIEW_FLAGS[@]}" "${FULL_FLAGS[@]}" "${GPT55_FLAGS[@]}" "${EFFORT_FLAGS[@]}"
+      "${OUTPUT_FLAGS[@]}" "${JSON_FLAGS[@]}" "<PROMPT>")
+    ;;
+  gemma|g|gemini)
+    DISPATCH_ARGV=(xbreed ask gemma --with "$SKILL" "${MODEL_FLAGS[@]}" "${EFFORT_FLAGS[@]}" "$PROMPT")
+    DEBUG_ARGV=(xbreed ask gemma --with "$SKILL" "${MODEL_FLAGS[@]}" "${EFFORT_FLAGS[@]}" "<PROMPT>")
+    ;;
+esac
+
+# Debug mode — gemma/codex keep legacy prompt dump; new lanes add LANE/ARGV/CODEX_BIN_SET.
 if [ "$DEBUG" = true ]; then
   echo "=== XASK DEBUG ==="
   echo "MODEL: $MODEL"
+  case "$MODEL" in
+    grok|qwen38|ds-flash|ds-pro|cdx)
+      echo "LANE: $LANE"
+      echo "ARGV: ${DEBUG_ARGV[*]}"
+      echo "CODEX_BIN_SET=$CODEX_BIN_SET"
+      ;;
+  esac
   echo "MODE: $([ "$RICH" = true ] && echo RICH || echo CLEAN)"
   echo "SPARK: $SPARK"
   echo "REVIEW: $REVIEW"
@@ -247,18 +346,22 @@ t_start_s=$(date +%s.%N)
 # Dispatch — contamination-aware per model
 # gemma / g / gemini (legacy) → local HVM bridge (gemma-hvm). --rich is a no-op
 # for gemma (no cloud settings tree); kept accepted so old flags don't fail.
+# grok / Token Plan → bash-exec native CLI with CODEX_BIN/XBRD_SPARK_MODEL cleared.
 case "$MODEL" in
   gemma|g|gemini)
     if [ "$RICH" = true ]; then
       echo "xask: --rich is ignored for local gemma/HVM lane" >&2
     fi
-    xbreed ask gemma --with "$SKILL" "${MODEL_FLAGS[@]}" "${EFFORT_FLAGS[@]}" "$PROMPT"
+    "${DISPATCH_ARGV[@]}"
     ;;
-  codex)
-    xbreed ask codex --with "$SKILL" "${MODEL_FLAGS[@]}" "${SPARK_FLAGS[@]}" "${REVIEW_FLAGS[@]}" "${FULL_FLAGS[@]}" "${GPT55_FLAGS[@]}" "${EFFORT_FLAGS[@]}" "${OUTPUT_FLAGS[@]}" "${JSON_FLAGS[@]}" "$PROMPT"
+  codex|cdx)
+    "${DISPATCH_ARGV[@]}"
+    ;;
+  grok|qwen38|ds-flash|ds-pro)
+    "${DISPATCH_ARGV[@]}"
     ;;
   *)
-    echo "Unknown model: $MODEL. Use gemma (g- prefix / HVM) or codex." >&2
+    echo "Unknown model: $MODEL. Use gemma (g), codex/cdx, grok, qwen38, ds-flash, or ds-pro." >&2
     exit 1
     ;;
 esac

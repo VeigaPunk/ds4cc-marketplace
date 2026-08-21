@@ -1,7 +1,7 @@
 # xask protocol reference
 
 > Contamination-aware template dispatch for cross-model orchestration.  
-> All dispatches route through `xbreed ask` — clean suppression, loadout injection, auth cascade, and godspeed forwarding are always-on.
+> Stock Gemma/Codex lanes route through `xbreed ask`. Grok and Token Plan lanes bash-exec native CLIs (with `CODEX_BIN` / `XBRD_SPARK_MODEL` cleared).
 
 ---
 
@@ -11,7 +11,14 @@
 xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--model-id <id>] [--gs] [-e <level>] [-o <file>] [--json] <model> "<query>" ["<context>"] ["<skill>"]
 ```
 
-`<model>` is `gemma` (alias `g`; legacy alias `gemini`) or `codex`. Gemma aliases route to the local HVM bridge. (`claude` dispatch was removed in R2-A5.)
+`<model>` is one of:
+- `gemma` (alias `g`; legacy `gemini`) — local HVM bridge via `xbreed ask gemma`
+- `codex` / `cdx` — stock ChatGPT Codex via `xbreed ask codex` (`cdx` is an alias)
+- `grok` — Grok Build oneshot CLI (`grok --always-approve --no-subagents --verbatim -p`)
+- `qwen38` (aliases `qwen3.8-max`, `qwen`) — Token Plan via `codex-qwen38` / `codex-token-plan`
+- `ds-flash` / `ds-pro` — Token Plan DeepSeek profiles (bare `deepseek` rejected)
+
+(`claude` dispatch was removed in R2-A5.)
 `<context>` defaults to `"No prior context."`.  
 `<skill>` defaults to `"godspeed"`.
 
@@ -24,7 +31,7 @@ xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--model-id <id>] [--g
 | `--debug` | `-d` | Print constructed prompt and exit (dry run). Matches gemini's own `-d/--debug`. | all | `false` |
 | `--scope` | `-scp` | Scope boundary injected into `{{SCOPE_BOUNDARY}}` in the dispatch template. | all | `"entire project"` |
 | `--rich` | `-r` | Accepted for compatibility; ignored by the local Gemma/HVM lane. | gemma aliases | `false` |
-| `--spark` | `--spk` | Pin codex to `gpt-5.4-mini` + `model_reasoning_effort=low`. Bare `xask codex` selects this route unless effort/review/full/gpt55 selects another lane. Spark wins when combined. | codex | structural default |
+| `--spark` | `--spk` | Pin codex/cdx to `gpt-5.4-mini` + `model_reasoning_effort=low`. Bare `xask codex`/`cdx` selects this route unless effort/review/full/gpt55 selects another lane. Rejected with `grok`/`qwen38`/`ds-flash`/`ds-pro`. | codex, cdx | structural default |
 | `--model-id` | — | Select an exact Codex or local Gemma model ID. Cannot be combined with built-in lane flags. | codex + gemma aliases | unset |
 | `--effort` | `-e` | One of `low`, `medium`, `high`, `xhigh`. Codex: native `model_reasoning_effort`; Gemma aliases: advisory `thinkingBudget` prompt text. | codex + gemma aliases | unset |
 | `--direct` | — | **Removed in R2.** No longer accepted — xask hard-fails at the flag parser (`*) echo ... exit 1`). Suppression is always-on; use `--effort` to control reasoning level. | — | — |
@@ -77,18 +84,21 @@ These are injected by xask/xbreed regardless of user flags.
 
 ## 4. Model dispatch table
 
-| Model | xask routes to | Rust function | Loadout injection method |
-|-------|---------------|---------------|--------------------------|
-| `gemma`, `g`, `gemini` (legacy) | `xbreed ask gemma` | local Gemma/HVM dispatch | Prompt prepend: `<loadout>\n\n---\n\n<prompt>` |
-| `codex` | `xbreed ask codex` | `build_codex_ask_with_loadout` + `dispatch` | `-c developer_instructions=<toml-quoted-string>` |
+| Model | xask routes to | Backend | Loadout / notes |
+|-------|---------------|---------|-----------------|
+| `gemma`, `g`, `gemini` (legacy) | `xbreed ask gemma` | local Gemma/HVM (`ask.rs`) | Prompt prepend loadout |
+| `codex`, `cdx` | `xbreed ask codex` | stock ChatGPT Codex (`ask.rs`) | `-c developer_instructions=…`; `cdx` alias keeps `DISPATCH_MODEL=codex` |
+| `grok` | `env -u CODEX_BIN -u XBRD_SPARK_MODEL grok --always-approve --no-subagents --verbatim -p` | Grok Build CLI | Template `templates/dispatch/grok.md`; no xbreed ask |
+| `qwen38` (`qwen3.8-max`, `qwen`) | `env -u … codex-qwen38 exec …` (or `codex-token-plan qwen38`) | Alibaba Token Plan | Reuses `codex.md` template; no `service_tier=fast` |
+| `ds-flash`, `ds-pro` | `env -u … codex-ds-* exec …` | Alibaba Token Plan | Debug + live wrappers; bare `deepseek` rejected |
 
 ### Gemma model
 
 The `gemma`, `g`, and legacy `gemini` spellings all route to the local Gemma/HVM bridge; no cloud Gemini route remains.
 
-### Codex model
+### Codex / cdx model
 
-Bare `xask codex` structurally selects Spark: `gpt-5.4-mini` + `model_reasoning_effort=low`. Direct bare `xbreed ask codex` retains its separate Rust-layer default.
+Bare `xask codex` and `xask cdx` structurally select Spark: `gpt-5.4-mini` + `model_reasoning_effort=low`. Direct bare `xbreed ask codex` retains its separate Rust-layer default.
 Review lane (`-R/--review`): `gpt-5.6-sol` + `features.fast_mode=true`.
 Full (`-R -F`): `gpt-5.6-sol` (1.05M ctx) + `features.fast_mode=true` — escape hatch.
 gpt-5.6-sol lane (`--gpt55`): `gpt-5.6-sol` + `features.fast_mode=true` — every role route uses `-e low`; only the native planner retains high effort outside this lane.
@@ -96,6 +106,10 @@ Spark (`--spark`): `gpt-5.4-mini` + `model_reasoning_effort=low` (fast_mode enab
 
 Precedence: `--model-id` is an exclusive exact-model route; otherwise
 `--spark` > `--gpt55` > `-R -F` > `-R` > default.
+
+### Grok / Token Plan isolation
+
+Parent shells may export `CODEX_BIN=codex-titanium`. Grok and Token Plan execs always run under `env -u CODEX_BIN -u XBRD_SPARK_MODEL`. Debug (`-d`) prints `MODEL`, `LANE`, `ARGV`, and `CODEX_BIN_SET=0` for these lanes (and for `cdx`) before the constructed prompt.
 
 ---
 
