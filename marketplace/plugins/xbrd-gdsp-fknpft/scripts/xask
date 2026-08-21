@@ -105,8 +105,8 @@ if [ -n "$EFFORT" ]; then
   esac
 fi
 
-if [ -n "$MODEL_ID" ] && { [ "$SPARK_REQUESTED" = true ] || [ "$REVIEW" = true ] || [ "$FULL" = true ] || [ "$GPT55" = true ]; }; then
-  echo "xask: --model-id cannot be combined with --spark, --review, --full, or --gpt55" >&2
+if [ -n "$MODEL_ID" ] && { [ "$REVIEW" = true ] || [ "$FULL" = true ] || [ "$GPT55" = true ]; }; then
+  echo "xask: --model-id cannot be combined with --review, --full, or --gpt55" >&2
   exit 1
 fi
 MODEL="$1"
@@ -146,13 +146,8 @@ if [ "$SPARK_REQUESTED" = true ]; then
   esac
 fi
 
-# Structural default: stock Codex (codex|cdx) uses spark unless a non-spark lane
-# was requested explicitly (effort/review/full/gpt55).
-if { [ "$MODEL" = "codex" ] || [ "$MODEL" = "cdx" ]; } \
-  && [ -z "$MODEL_ID" ] && [ -z "$EFFORT" ] \
-  && [ "$REVIEW" = false ] && [ "$FULL" = false ] && [ "$GPT55" = false ]; then
-  SPARK=true
-fi
+# Bare `xask cdx` is stock ChatGPT via xbreed (L2 consult). Explicit --spark
+# is L3 sekhmet / xbrd-spark (Titanium + XBRD_SPARK_MODEL). Do not auto-spark.
 
 [ -n "$EFFORT" ] && EFFORT_FLAGS=(--effort "$EFFORT")
 [ -n "$MODEL_ID" ] && MODEL_FLAGS=(--model "$MODEL_ID")
@@ -315,12 +310,35 @@ case "$MODEL" in
     ;;
 esac
 
+# Explicit --spark on cdx/codex → sekhmet (xbrd-spark). Inherit L3 CODEX_BIN.
+# Never Token Plan, never grok, never xask-l3 (would recurse).
+if [ "$SPARK" = true ]; then
+  case "$MODEL" in
+    cdx|codex)
+      SPARK_MODEL="${MODEL_ID:-${XBRD_SPARK_MODEL:-gpt-5.6-luna}}"
+      case "$SPARK_MODEL" in
+        qwen38|qwen3.8-max|qwen|ds-flash|ds-pro|grok|deepseek-v4-flash-0731|deepseek-v4-pro-0813|deepseek)
+          echo "xask: --spark model '$SPARK_MODEL' is not an L3 ChatGPT/Titanium id" >&2
+          exit 1
+          ;;
+      esac
+      command -v sekhmet >/dev/null 2>&1 || {
+        echo "xask: --spark requires sekhmet on PATH (xbrd-spark)" >&2
+        exit 1
+      }
+      LANE="sekhmet"
+      DISPATCH_ARGV=(env XBRD_SPARK_MODEL="$SPARK_MODEL" sekhmet run --task "$PROMPT")
+      DEBUG_ARGV=(env XBRD_SPARK_MODEL="$SPARK_MODEL" sekhmet run --task "<PROMPT>")
+      ;;
+  esac
+fi
+
 # Debug mode — gemma/codex keep legacy prompt dump; new lanes add LANE/ARGV/CODEX_BIN_SET.
 if [ "$DEBUG" = true ]; then
   echo "=== XASK DEBUG ==="
   echo "MODEL: $MODEL"
   case "$MODEL" in
-    grok|qwen38|ds-flash|ds-pro|cdx)
+    grok|qwen38|ds-flash|ds-pro|cdx|codex)
       echo "LANE: $LANE"
       echo "ARGV: ${DEBUG_ARGV[*]}"
       echo "CODEX_BIN_SET=$CODEX_BIN_SET"

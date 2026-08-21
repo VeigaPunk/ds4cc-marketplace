@@ -36,7 +36,8 @@ run -scp src g 'local query'
 run gemini 'legacy query'
 [[ "${ARGV[0]} ${ARGV[1]}" == 'ask gemma' ]] || fail 'gemini alias did not route to gemma'
 run codex 'default query'
-[[ " ${ARGV[*]} " == *' --spark '* ]] || fail 'default codex route is not spark'
+[[ "${ARGV[0]} ${ARGV[1]}" == 'ask codex' ]] || fail 'default codex route missing'
+[[ " ${ARGV[*]} " == *' --spark '* ]] && fail 'bare codex must not auto-spark (L3 sekhmet is explicit --spark)'
 
 # Value-taking flags fail with the exact diagnostic before dispatch, including
 # when the next token is another flag.

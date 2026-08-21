@@ -13,6 +13,11 @@ cat >"$TMP/xbreed" <<'EOF'
 printf '%s\0' "$@" >"$XASK_CAPTURE"
 EOF
 chmod +x "$TMP/xbreed"
+cat >"$TMP/sekhmet" <<'EOF'
+#!/usr/bin/env bash
+printf '%s\0' "$@" >"$XASK_CAPTURE"
+EOF
+chmod +x "$TMP/sekhmet"
 # Prefer fake xbreed; keep real grok/token-plan binaries visible for command -v.
 export PATH="$TMP:$HOME/.local/bin:/usr/bin:/bin"
 export XASK_CAPTURE="$CAPTURE"
@@ -59,7 +64,15 @@ printf '%s\n' "$out" | grep -q 'TEMPLATE:.*codex.md' || fail 'cdx uses codex.md'
 "$XASK" --gs cdx 'live probe' >/dev/null
 mapfile -d '' -t ARGV <"$CAPTURE"
 [[ "${ARGV[0]} ${ARGV[1]}" == 'ask codex' ]] || fail "cdx live route got: ${ARGV[*]}"
-[[ " ${ARGV[*]} " == *' --spark '* ]] || fail 'cdx default spark missing'
+[[ " ${ARGV[*]} " == *' --spark '* ]] && fail 'bare cdx must not auto-spark'
+
+# --- spark on cdx → sekhmet (debug argv; L3, not Token Plan) ---
+out=$("$XASK" -d --spark --gs cdx ping)
+printf '%s\n' "$out" | grep -q 'LANE: sekhmet' || fail 'spark LANE sekhmet'
+printf '%s\n' "$out" | grep -q 'sekhmet run' || fail 'spark argv sekhmet run'
+printf '%s\n' "$out" | grep -q 'XBRD_SPARK_MODEL=gpt-5.6-luna' || fail 'spark default luna'
+printf '%s\n' "$out" | grep -q 'gpt-5.4-mini' && fail 'spark must not be xbreed mini'
+printf '%s\n' "$out" | grep -q 'codex-qwen38' && fail 'spark must not Token Plan'
 
 # --- rejects ---
 if "$XASK" --spark --gs grok ping >/dev/null 2>&1; then fail 'spark+grok accepted'; fi
