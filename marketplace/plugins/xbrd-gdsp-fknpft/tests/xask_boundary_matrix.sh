@@ -31,7 +31,7 @@ run() {
   mapfile -d '' -t ARGV <"$CAPTURE"
 }
 
-# Accepted aliases, arbitrary flag order, and default Codex spark route.
+# Accepted aliases, arbitrary flag order, and default Codex stock route.
 run -r --scope src --debug codex query
 run --json -o "$TMP/out file" --gpt55 -e high codex 'quoted query'
 [[ "${ARGV[*]}" == *"ask codex --with godspeed"* ]] || fail 'codex route missing'
@@ -44,8 +44,11 @@ run -scp src g 'local query'
 run gemini 'legacy query'
 [[ "${ARGV[0]} ${ARGV[1]}" == 'ask gemma' ]] || fail 'gemini alias did not route to gemma'
 run codex 'default query'
-[[ "${ARGV[0]}" == sekhmet ]] || fail "bare codex should auto-spark sekhmet, got: ${ARGV[*]}"
-[[ " ${ARGV[*]} " == *' run '* ]] || fail 'bare codex auto-spark missing sekhmet run'
+[[ "${ARGV[0]}" == ask ]] || fail "bare codex should stock xbreed ask, got: ${ARGV[*]}"
+[[ " ${ARGV[*]} " == *' ask codex '* ]] || fail 'bare codex missing xbreed ask codex'
+run --spark codex 'spark query'
+[[ "${ARGV[0]}" == sekhmet ]] || fail "explicit --spark should sekhmet, got: ${ARGV[*]}"
+[[ " ${ARGV[*]} " == *' run '* ]] || fail 'explicit --spark missing sekhmet run'
 
 # Value-taking flags fail with the exact diagnostic before dispatch, including
 # when the next token is another flag.

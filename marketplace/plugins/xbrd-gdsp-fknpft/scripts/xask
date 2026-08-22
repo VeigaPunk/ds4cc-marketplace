@@ -20,9 +20,9 @@
 #      | --model-id (exact provider model) | --gs (explicit godspeed SKILL load) | -e (effort) | -o (output-last-message) | --json
 #
 # codex / cdx model lanes:
-#   default:       sekhmet L3 + gpt-5.3-codex-spark + service_tier=fast (codex-titanium)
-#   --spark:       same sekhmet L3 lane (fallback gpt-5.6-luna)
-#   --substrate stock / --model-id / --gpt55 / -R / -F: stock ChatGPT Codex via xbreed ask
+#   default:       stock ChatGPT Codex via xbreed ask (gpt-5.6-sol, service_tier=fast)
+#   --spark / --substrate sekhmet: L3 sekhmet + gpt-5.3-codex-spark (fallback gpt-5.6-luna)
+#   --model-id / --gpt55 / -R / -F: stock ChatGPT Codex via xbreed ask
 #   --review / -R: gpt-5.6-sol stock (reviewer/critic/sentinel opt-in)
 #   -R --full/-F:  gpt-5.6-sol full stock (the-revenger RECON escape hatch, 1.05M ctx)
 #   --gpt55:       gpt-5.6-sol stock
@@ -46,10 +46,10 @@
 #   xask gemini "What patterns exist?"              # LEGACY alias → gemma/HVM (cloud retired)
 #   xask --gs gemma "What patterns exist?"          # explicit godspeed load (SKILL override)
 #   xask -scp "src/ask.rs" gemma "Review this"      # scoped clean dispatch
-#   xask --spk codex "Probe this hypothesis"        # sekhmet + spark + fast
-#   xask codex "Probe this hypothesis"              # same default (sekhmet/titanium/fast)
-#   xask cdx "Probe this hypothesis"                # alias → same sekhmet default
-#   xask --substrate stock cdx "Probe"              # opt-in stock xbreed ask
+#   xask --spk codex "Probe this hypothesis"        # explicit sekhmet + spark + fast
+#   xask codex "Probe this hypothesis"              # stock xbreed ask (not spark)
+#   xask cdx "Probe this hypothesis"                # alias → stock xbreed ask
+#   xask --substrate sekhmet cdx "Probe"            # opt-in L3 sekhmet
 #   xask --gs grok "Probe oneshot"                  # bash-exec grok CLI
 #   xask --gs qwen38 "Token Plan probe"             # bash-exec codex-qwen38
 #   xask --gs kimi "Moonshot K3 probe"              # bash-exec kimi -m kimi-code/k3 (OAuth)
@@ -234,6 +234,9 @@ case "$SERVICE_TIER" in
   *) echo "xask: invalid service tier '$SERVICE_TIER' (use default|fast)" >&2; exit 1 ;;
 esac
 [[ "$SERVICE_TIER" == priority ]] && SERVICE_TIER=fast
+# Honor --spark before provider model defaults so chatgpt + --spark is
+# gpt-5.3-codex-spark, not stock sol.
+[[ "$SPARK_REQUESTED" == true ]] && SUBSTRATE=sekhmet
 
 if [ -n "$MODEL_ID" ] && { [ "$REVIEW" = true ] || [ "$FULL" = true ] || [ "$GPT55" = true ]; }; then
   echo "xask: --model-id cannot be combined with --review, --full, or --gpt55" >&2
@@ -252,12 +255,6 @@ if [[ -n "$PROVIDER" ]]; then
   case "$PROVIDER" in
     chatgpt)
       MODEL=codex
-      if [[ "$SUBSTRATE_EXPLICIT" != true && -z "$REQUESTED_MODEL_ID" \
-          && "$GPT55" != true && "$REVIEW" != true && "$FULL" != true ]]; then
-        SUBSTRATE=sekhmet
-        SPARK=true
-        SPARK_REQUESTED=true
-      fi
       if [[ -z "$MODEL_ID" ]]; then
         if [[ "$SUBSTRATE" == sekhmet ]]; then
           MODEL_ID="gpt-5.3-codex-spark"
@@ -352,15 +349,9 @@ if [[ -z "$PROVIDER" ]]; then
   esac
 fi
 
-# ChatGPT default lane is sekhmet (codex-titanium), not stock Codex.
-# Explicit --substrate, --model-id, or sol-lane flags (--gpt55/-R/-F) keep stock.
-if [[ "$PROVIDER" == chatgpt && "$SUBSTRATE_EXPLICIT" != true && -z "$MODEL_ID" \
-    && "$GPT55" != true && "$REVIEW" != true && "$FULL" != true ]]; then
-  SUBSTRATE=sekhmet
-  SPARK=true
-  SPARK_REQUESTED=true
-fi
-
+# ChatGPT default lane is stock xbreed. Spark/sekhmet is opt-in via --spark
+# or --substrate sekhmet so grok/qwen/kimi/gemma dispatch is never forced
+# through xbrd-spark namespaces.
 if [[ "$SUBSTRATE" == sekhmet ]]; then
   [[ "$PROVIDER" == chatgpt ]] || {
     echo "xask: sekhmet substrate is available only for the chatgpt provider" >&2
@@ -546,9 +537,8 @@ if [[ "$PLAN" == true ]]; then
   exit 0
 fi
 
-# Bare `xask cdx` and `xask plan --provider chatgpt` default to sekhmet
-# (codex-titanium, service_tier=fast, gpt-5.3-codex-spark). Explicit
-# --substrate stock, --model-id, or --gpt55/-R/-F keep the stock xbreed lane.
+# Bare `xask cdx` and `xask plan --provider chatgpt` default to stock xbreed.
+# Explicit --spark / --substrate sekhmet select L3 xbrd-spark.
 
 [ -n "$EFFORT" ] && EFFORT_FLAGS=(--effort "$EFFORT")
 [ -n "$MODEL_ID" ] && MODEL_FLAGS=(--model "$MODEL_ID")

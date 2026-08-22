@@ -101,8 +101,8 @@ jq -e '.selection.model_id == "gpt-5.3-codex-spark" and .selection.service_tier 
   <<<"$legacy_spark_plan" >/dev/null || fail 'legacy Spark plan drifted from the Codex-Spark/fast sekhmet runtime'
 
 chatgpt_default_plan="$($XASK plan --provider chatgpt --json -- ping)"
-jq -e '.selection.provider == "chatgpt" and .selection.substrate == "sekhmet" and .selection.model_id == "gpt-5.3-codex-spark" and .selection.service_tier == "fast"' \
-  <<<"$chatgpt_default_plan" >/dev/null || fail 'ChatGPT default plan must be sekhmet + spark + fast, not stock'
+jq -e '.selection.provider == "chatgpt" and .selection.substrate == "stock" and .selection.model_id == "gpt-5.6-sol" and .selection.service_tier == "fast"' \
+  <<<"$chatgpt_default_plan" >/dev/null || fail 'ChatGPT default plan must be stock + sol + fast, not auto-spark'
 
 custom_plan="$($XASK plan --provider chatgpt --model-id gpt-5.6-sol --json -- \
   probe 'shared context' reviewer)"

@@ -59,13 +59,13 @@ printf '%s\n' "$out" | grep -qi sekhmet && fail 'qwen38 must not mention sekhmet
 out=$("$XASK" -d --gs qwen ping)
 printf '%s\n' "$out" | grep -q '^MODEL: qwen38$' || fail 'qwen alias → qwen38'
 
-# --- cdx: default ChatGPT is sekhmet / titanium / fast ---
+# --- cdx: default ChatGPT is stock xbreed, not auto-spark ---
 : >"$CAPTURE"
 out=$("$XASK" -d --gs cdx ping)
 printf '%s\n' "$out" | grep -q '^MODEL: cdx$' || fail 'cdx MODEL'
-printf '%s\n' "$out" | grep -q 'LANE: sekhmet' || fail 'cdx default LANE sekhmet'
-printf '%s\n' "$out" | grep -q 'sekhmet run' || fail 'cdx default argv sekhmet run'
-printf '%s\n' "$out" | grep -q 'XBRD_SPARK_SERVICE_TIER=fast' || fail 'cdx default service_tier fast'
+printf '%s\n' "$out" | grep -q 'LANE: stock-codex' || fail 'cdx default LANE stock-codex'
+printf '%s\n' "$out" | grep -q 'xbreed ask' || fail 'cdx default argv xbreed ask'
+printf '%s\n' "$out" | grep -qi sekhmet && fail 'cdx default must not sekhmet'
 printf '%s\n' "$out" | grep -q 'TEMPLATE:.*codex.md' || fail 'cdx uses codex.md'
 
 # --- spark on cdx → sekhmet (debug argv; L3, not Token Plan) ---

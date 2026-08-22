@@ -47,9 +47,9 @@ and always loaded first.
 | `--debug` | `-d` | Print constructed prompt and exit (dry run). Matches gemini's own `-d/--debug`. | all | `false` |
 | `--scope` | `-scp` | Scope boundary injected into `{{SCOPE_BOUNDARY}}` in the dispatch template. | all | `"entire project"` |
 | `--rich` | `-r` | Accepted for compatibility; ignored by the local Gemma/HVM lane. | gemma aliases | `false` |
-| `--spark` | `--spk` | L3 `sekhmet run` (default `XBRD_SPARK_MODEL=gpt-5.3-codex-spark`, fallback `gpt-5.6-luna`, `service_tier=fast`, `codex-titanium`). Rejected with `grok`/`qwen38`/`ds-flash`/`ds-pro`. Bare `xask cdx` **does** auto-spark. Opt out with `--substrate stock`. | codex, cdx | on for chatgpt |
-| `--provider` | — | Normalized provider: `chatgpt`, `grok`, `token-plan`, or `local`. | all | inferred from legacy route |
-| `--substrate` | — | `stock` or `sekhmet`; Sekhmet is ChatGPT-only and fixed at low effort. ChatGPT default is `sekhmet`. | chatgpt | `sekhmet` |
+| `--spark` | `--spk` | L3 `sekhmet run` (default `XBRD_SPARK_MODEL=gpt-5.3-codex-spark`, fallback `gpt-5.6-luna`, `service_tier=fast`, `codex-titanium`). Rejected with `grok`/`qwen38`/`ds-flash`/`ds-pro`/`kimi`/`gemma`. Bare `xask cdx` is **stock** xbreed. Opt in with `--spark` or `--substrate sekhmet`. | codex, cdx | off |
+| `--provider` | — | Normalized provider: `chatgpt`, `grok`, `token-plan`, `local`, or `moonshot`. | all | inferred from legacy route |
+| `--substrate` | — | `stock` or `sekhmet`; Sekhmet is ChatGPT-only and fixed at low effort. ChatGPT default is `stock`. | chatgpt | `stock` |
 | `--model-id` | — | Select an exact Codex or local Gemma model ID. Cannot be combined with built-in lane flags. | codex + gemma aliases | unset |
 | `--effort` | `-e` | Model-aware `low`, `medium`, `high`, `xhigh`, `max`, or `ultra`. Unsupported model/tier pairs fail before dispatch. | all | catalog default in provider mode |
 | `--service-tier` | — | `default` or `fast`. ChatGPT default is `fast` (Daybreak / gpt-5.4-mini stay `default` and reject `fast`). Sekhmet transports the same choice. | chatgpt | `fast` |
@@ -124,11 +124,11 @@ The `gemma`, `g`, and legacy `gemini` spellings all route to the local Gemma/HVM
 
 ### Codex / cdx model
 
-Bare `xask codex` and `xask cdx` use stock Codex and pin `gpt-5.6-sol`; Spark is explicit only.
+Bare `xask codex` and `xask cdx` use stock Codex and pin `gpt-5.6-sol`; Spark is explicit `--spark` / `--substrate sekhmet` only.
 Review lane (`-R/--review`): `gpt-5.6-sol`; service defaults to ordinary unless fast is explicit.
 Full (`-R -F`): `gpt-5.6-sol` (1.05M ctx) — escape hatch.
 gpt-5.6-sol lane (`--gpt55`): `gpt-5.6-sol`; every role route uses `-e low`; only the native planner retains high effort outside this lane.
-Spark (`--spark` or `--substrate sekhmet`): Sekhmet L3, default `gpt-5.3-codex-spark`, fallback `gpt-5.6-luna`, fixed low effort, explicit default/fast tier transport, with the caller repository passed as a snapshot scope.
+Spark (`--spark` or `--substrate sekhmet` only): Sekhmet L3, default `gpt-5.3-codex-spark`, fallback `gpt-5.6-luna`, fixed low effort, explicit default/fast tier transport, with the caller repository passed as a snapshot scope. Not the ChatGPT default.
 
 Precedence: `--model-id` is an exclusive exact-model route; otherwise
 `--spark` > `--gpt55` > `-R -F` > `-R` > default.
