@@ -4,6 +4,8 @@
 
 ### Changed
 
+- **PATH `xask` ChatGPT default** is sekhmet / `codex-titanium` / `service_tier=fast` (`gpt-5.3-codex-spark`). Bare `xask cdx` auto-sparks. Opt-in stock remains `--substrate stock` / `--gpt55` / `--model-id`. Daybreak and `gpt-5.4-mini` still reject `fast`.
+
 - **kimi.ai TLD:** family adapter default is now `https://www.kimi.ai/` (`kimiraikkoner` / marketplace `the-kimiraikoner`, plus `musketeer-chrome` landing tab). Allowlist is `kimi.ai` (canonical), `kimi.com` (legacy signed-in tabs), and `moonshot.cn`. Spoof hosts such as `kimi.ai.evil.example` stay rejected.
 
 ### Added
