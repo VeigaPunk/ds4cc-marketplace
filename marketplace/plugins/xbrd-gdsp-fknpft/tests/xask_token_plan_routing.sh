@@ -92,4 +92,38 @@ printf '%s\n' "$out" | grep -q '^MODEL: ds-flash$' || fail 'ds-flash MODEL'
 printf '%s\n' "$out" | grep -Eq 'codex-ds-flash|codex-token-plan' || fail 'ds-flash bin'
 printf '%s\n' "$out" | grep -q 'CODEX_BIN_SET=0' || fail 'ds-flash CODEX_BIN_SET'
 
-printf 'PASS: offline xask token-plan / grok / cdx routing\n'
+# --- kimi: Kimi Code CLI one-shot over Moonshot API, isolated ---
+out=$(CODEX_BIN=$HOME/.local/bin/codex-titanium \
+  "$XASK" -d --gs kimi ping)
+printf '%s\n' "$out" | grep -q '^MODEL: kimi$' || fail 'kimi MODEL'
+printf '%s\n' "$out" | grep -q 'LANE: kimi-code-cli' || fail 'kimi LANE'
+printf '%s\n' "$out" | grep -q -- '-m kimi-code/k3' || fail 'kimi pins OAuth-managed K3 alias'
+printf '%s\n' "$out" | grep -q -- 'kimi -m kimi-code/k3 -p ' || fail 'kimi argv shape'
+printf '%s\n' "$out" | grep -q 'CODEX_BIN_SET=0' || fail 'kimi CODEX_BIN_SET'
+printf '%s\n' "$out" | grep -q 'TEMPLATE:.*kimi.md' || fail 'kimi uses kimi.md'
+printf '%s\n' "$out" | grep -q 'xbreed ask' && fail 'kimi must not xbreed ask'
+printf '%s\n' "$out" | grep -qi sekhmet && fail 'kimi must not mention sekhmet'
+
+# Alias canonicalization (model-named + transport-named)
+out=$("$XASK" -d --gs kimi-k3 ping)
+printf '%s\n' "$out" | grep -q '^MODEL: kimi$' || fail 'kimi-k3 alias → kimi'
+out=$("$XASK" -d --gs kimi-code ping)
+printf '%s\n' "$out" | grep -q '^MODEL: kimi$' || fail 'kimi-code alias → kimi'
+
+# Explicit --model-id passes through verbatim as the CLI alias
+out=$("$XASK" -d --gs --model-id kimi-for-coding kimi ping 2>/dev/null) \
+  || fail 'kimi rejected a legal --model-id'
+printf '%s\n' "$out" | grep -q -- '-m kimi-for-coding' || fail 'kimi --model-id passthrough'
+
+# API-key provider alias stays reachable for pay-as-you-go (OAuth quota exhausted)
+out=$("$XASK" -d --gs --model-id moonshotai/kimi-k3 kimi ping 2>/dev/null) \
+  || fail 'kimi rejected the API-key provider alias'
+printf '%s\n' "$out" | grep -q -- '-m moonshotai/kimi-k3' || fail 'kimi API-key alias passthrough'
+
+# Rejects: bare vendor name is ambiguous; spark is ChatGPT-only; Codex JSONL flags unsupported
+if "$XASK" -d --gs moonshot ping >/dev/null 2>&1; then fail 'bare moonshot accepted'; fi
+if "$XASK" --spark --gs kimi ping >/dev/null 2>&1; then fail 'spark+kimi accepted'; fi
+if "$XASK" -d --json --gs kimi ping >/dev/null 2>&1; then fail 'kimi --json must fail-loud'; fi
+if "$XASK" -e medium --gs kimi ping >/dev/null 2>&1; then fail 'kimi accepted unsupported medium effort'; fi
+
+printf 'PASS: offline xask token-plan / grok / cdx / kimi routing\n'

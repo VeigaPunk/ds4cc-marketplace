@@ -1,10 +1,15 @@
 #!/bin/bash
 # xask — minimal routing protocol for cross-model orchestration
-# Usage: xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--model-id <id>] [--gs] [-e <level>] [-o <file>] [--json] <model> "<query>" ["<context>"] ["<skill>"]
+# Usage: xask [catalog|providers|models] --json
+#        xask plan --provider <provider> [selection flags] -- "<query>"
+#        xask [selection flags] <route> "<query>" ["<context>"] ["<skill>"]
 #
 # Routes: gemma/codex/cdx → xbreed ask; grok → grok oneshot; qwen38/ds-* → Token Plan
-# wrappers. Always-on for xbreed codex: suppression, bounded non-interactive
-# dispatch, godspeed forwarding, fast_mode.
+# wrappers; kimi → Kimi Code CLI one-shot over Moonshot's OpenAI-compatible API
+# (api.moonshot.ai/v1 chat completions — no public /v1/responses, so a
+# codex-profile router lane is impossible on current codex builds).
+# Always-on for xbreed codex: suppression, bounded non-interactive
+# dispatch, exact Godspeed forwarding, and an explicit service tier.
 #
 # Always-on codex exec flags (xbreed ask.rs / Token Plan live argv):
 #   --skip-git-repo-check · --color never · --ephemeral · --sandbox workspace-write
@@ -15,17 +20,24 @@
 #      | --model-id (exact provider model) | --gs (explicit godspeed SKILL load) | -e (effort) | -o (output-last-message) | --json
 #
 # codex / cdx model lanes (stock ChatGPT Codex via xbreed ask):
-#   default:       gpt-5.4-mini (reasoning=low)
-#   --spark:       gpt-5.4-mini + reasoning=low (labrat probes)
-#   --review / -R: gpt-5.6-sol + fast_mode (reviewer/critic/sentinel default per 2026-04-18)
-#   -R --full/-F:  gpt-5.6-sol full + fast_mode (the-revenger RECON escape hatch, 1.05M ctx)
-#   --gpt55:       gpt-5.6-sol + fast_mode (xbrd-exec bench xask-arm measurement, 2026-04-24)
+#   default:       gpt-5.6-sol (reasoning=low)
+#   --spark:       gpt-5.6-luna + reasoning=low through Sekhmet L3
+#   --review / -R: gpt-5.6-sol (reviewer/critic/sentinel default per 2026-04-18)
+#   -R --full/-F:  gpt-5.6-sol full (the-revenger RECON escape hatch, 1.05M ctx)
+#   --gpt55:       gpt-5.6-sol (xbrd-exec bench xask-arm measurement, 2026-04-24)
+#   fast servicing is opt-in with --service-tier fast on compatible models.
 #
 # Native / Token Plan lanes (no xbreed ask; env -u CODEX_BIN -u XBRD_SPARK_MODEL):
 #   grok:    grok --always-approve --no-subagents --verbatim -p
 #   qwen38:  codex-qwen38 exec … (aliases: qwen3.8-max, qwen)
 #   ds-flash / ds-pro: Token Plan debug + live wrappers (reject bare deepseek)
-#   --spark rejected with grok|qwen38|ds-flash|ds-pro
+#   kimi:    kimi -m kimi-code/k3 -p … (aliases: kimi-k3, kimi-code;
+#            reject bare moonshot). Auth lives inside kimi-code (OAuth or the
+#            imported moonshotai API-key provider). Effort is envelope-text
+#            only (gemini-style): no reasoning-effort flag exists; tiers
+#            validated as low|high|max. Always pins -m (CLI default_model is
+#            kimi-for-coding, NOT K3).
+#   --spark rejected with grok|qwen38|ds-flash|ds-pro|kimi
 #
 # Examples:
 #   xask gemma "What patterns exist?"               # local Gemma via HVM (g- prefix)
@@ -34,10 +46,11 @@
 #   xask --gs gemma "What patterns exist?"          # explicit godspeed load (SKILL override)
 #   xask -scp "src/ask.rs" gemma "Review this"      # scoped clean dispatch
 #   xask --spk codex "Probe this hypothesis"        # fast codex-spark, low effort
-#   xask codex "Probe this hypothesis"              # codex default now follows --spark
+#   xask codex "Probe this hypothesis"              # stock Codex; spark is explicit
 #   xask cdx "Probe this hypothesis"                # alias → stock xbreed ask codex
 #   xask --gs grok "Probe oneshot"                  # bash-exec grok CLI
 #   xask --gs qwen38 "Token Plan probe"             # bash-exec codex-qwen38
+#   xask --gs kimi "Moonshot K3 probe"              # bash-exec kimi -m kimi-code/k3 (OAuth)
 #   xask -R codex "Adversarial review of <diff>"    # review lane — gpt-5.6-sol
 #   xask -R -F codex "RECON codebase-scale"         # -R + -F escape hatch — full gpt-5.6-sol (1.05M ctx)
 #   xask --gpt55 --gs -e high codex "Deep question" # gpt-5.6-sol lane, explicit godspeed, high effort
@@ -52,7 +65,98 @@ export PATH
 
 GEMINI_SETTINGS_FILE="$HOME/.gemini/settings.json"
 
+resolve_models_exporter() {
+  local candidate
+  for candidate in "$_XASK_DIR/xask-models" "$(command -v xask-models 2>/dev/null || true)"; do
+    if [[ -n "$candidate" && -x "$candidate" ]]; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done
+  echo "xask: xask-models exporter not found beside xask or on PATH" >&2
+  return 1
+}
+
+resolve_godspeed_directive() {
+  local candidate actual_hash
+  for candidate in \
+    "${XASK_GODSPEED_DIRECTIVE:-}" \
+    "$_XASK_DIR/../skills/godspeed/directive.md" \
+    "$HOME/.config/xbreed/skills/godspeed/directive.md"; do
+    if [[ -n "$candidate" && -f "$candidate" && ! -L "$candidate" ]]; then
+      actual_hash="$(sha256sum -- "$candidate" | awk '{print $1}')"
+      if [[ "$actual_hash" == db88963cbdf5a0db22b460b284bf6f1d1f4abac9eaadb28bdb5e9bffe27be3bb ]]; then
+        printf '%s\n' "$candidate"
+        return 0
+      fi
+      echo "xask: refusing non-canonical Godspeed directive at $candidate (sha256 $actual_hash)" >&2
+      return 1
+    fi
+  done
+  echo "xask: canonical Godspeed directive.md not found (set XASK_GODSPEED_DIRECTIVE)" >&2
+  return 1
+}
+
+trim_trailing_space() {
+  local value="$1"
+  while [[ "$value" == *[[:space:]] ]]; do value="${value%?}"; done
+  printf '%s' "$value"
+}
+
+strip_trailing_godspeed_markers() {
+  local value
+  value="$(trim_trailing_space "$1")"
+  while [[ "$value" =~ \|[[:space:]]*[Gg][Oo][Dd][Ss][Pp][Ee][Ee][Dd]$ ]]; do
+    value="${value:0:${#value}-${#BASH_REMATCH[0]}}"
+    value="$(trim_trailing_space "$value")"
+  done
+  printf '%s' "$value"
+}
+
+case "${1:-}" in
+  catalog|providers|models)
+    metadata_command=$1
+    shift
+    if [[ "${1:-}" == "--json" ]]; then shift; fi
+    [[ $# -eq 0 ]] || {
+      echo "xask: $metadata_command accepts only optional --json" >&2
+      exit 1
+    }
+    models_exporter=$(resolve_models_exporter) || exit 1
+    exec "$models_exporter" "$metadata_command"
+    ;;
+  help|--help|-h)
+    cat <<'EOF'
+xask — provider-aware cross-model delegation
+
+Metadata:
+  xask catalog --json
+  xask providers --json
+  xask models --json
+
+Preview without execution:
+  xask plan --provider chatgpt --model-id gpt-5.6-sol --effort high --json -- "task"
+
+Dispatch:
+  xask --provider chatgpt|grok|token-plan|local|moonshot \
+       [--substrate stock|sekhmet] [--model-id ID] \
+       [--effort low|medium|high|xhigh|max|ultra] \
+       [--service-tier default|fast] [--gs] -- "task"
+
+Legacy route tokens remain supported: codex|cdx, grok, qwen38, ds-flash,
+ds-pro, gemma|g|gemini, kimi|kimi-k3.
+EOF
+    exit 0
+    ;;
+esac
+
 # Handle flags
+PLAN=false
+PLAN_JSON=false
+if [[ "${1:-}" == "plan" ]]; then
+  PLAN=true
+  shift
+fi
 DEBUG=false
 SCOPE="entire project"
 RICH=false
@@ -64,6 +168,10 @@ GPT55=false
 FORCE_GS=false
 EFFORT=""
 MODEL_ID=""
+PROVIDER=""
+PROVIDER_EXPLICIT=false
+SUBSTRATE="stock"
+SERVICE_TIER=""
 MODEL_FLAGS=()
 OUTPUT_LAST_MESSAGE=""
 EFFORT_FLAGS=()
@@ -73,6 +181,8 @@ FULL_FLAGS=()
 GPT55_FLAGS=()
 OUTPUT_FLAGS=()
 JSON_FLAGS=()
+SERVICE_TIER_FLAGS=()
+JSON=false
 require_flag_value() {
   local flag="$1"
   if [[ $# -lt 2 || -z "$2" || "$2" == -* ]]; then
@@ -89,44 +199,130 @@ while [[ "$1" == -* ]]; do
     --review | -R)   REVIEW=true; shift ;;
     --full   | -F)   FULL=true; shift ;;
     --gpt55) GPT55=true; shift ;;
+    --provider) require_flag_value "$@"; PROVIDER="$2"; PROVIDER_EXPLICIT=true; shift 2 ;;
+    --substrate) require_flag_value "$@"; SUBSTRATE="$2"; shift 2 ;;
     --model-id) require_flag_value "$@"; MODEL_ID="$2"; shift 2 ;;
+    --service-tier) require_flag_value "$@"; SERVICE_TIER="$2"; shift 2 ;;
     --gs) FORCE_GS=true; shift ;;
     --effort | -e)   require_flag_value "$@"; EFFORT="$2"; shift 2 ;;
     --output-last-message | -o) require_flag_value "$@"; OUTPUT_LAST_MESSAGE="$2"; shift 2 ;;
-    --json) JSON=true; shift ;;
-    *) echo "xask: unknown flag '$1' (valid: -d|--debug, -scp|--scope, -r|--rich, --spk|--spark, -R|--review, -F|--full, --gpt55, --model-id, --gs, -e|--effort, -o|--output-last-message, --json)" >&2; exit 1 ;;
+    --json)
+      if [[ "$PLAN" == true ]]; then PLAN_JSON=true; else JSON=true; fi
+      shift
+      ;;
+    --) shift; break ;;
+    *) echo "xask: unknown flag '$1' (run 'xask help' for the current surface)" >&2; exit 1 ;;
   esac
 done
 
-if [ -n "$EFFORT" ]; then
+if [[ -n "$EFFORT" ]]; then
   case "$EFFORT" in
-    low|medium|high|xhigh) ;;
-    *) echo "xask: invalid effort level '$EFFORT' (use low|medium|high|xhigh)" >&2; exit 1 ;;
+    low|medium|high|xhigh|max|ultra) ;;
+    *) echo "xask: invalid effort level '$EFFORT' (use low|medium|high|xhigh|max|ultra)" >&2; exit 1 ;;
   esac
 fi
+
+case "$SUBSTRATE" in
+  stock|sekhmet) ;;
+  *) echo "xask: invalid substrate '$SUBSTRATE' (use stock|sekhmet)" >&2; exit 1 ;;
+esac
+case "$SERVICE_TIER" in
+  ""|default|fast|priority) ;;
+  *) echo "xask: invalid service tier '$SERVICE_TIER' (use default|fast)" >&2; exit 1 ;;
+esac
+[[ "$SERVICE_TIER" == priority ]] && SERVICE_TIER=fast
 
 if [ -n "$MODEL_ID" ] && { [ "$REVIEW" = true ] || [ "$FULL" = true ] || [ "$GPT55" = true ]; }; then
   echo "xask: --model-id cannot be combined with --review, --full, or --gpt55" >&2
   exit 1
 fi
-MODEL="$1"
-QUERY="$2"
-CONTEXT="${3:-No prior context.}"
-SKILL="${4:-godspeed}"
+REQUESTED_MODEL_ID="$MODEL_ID"
+if [[ -n "$PROVIDER" ]]; then
+  case "$PROVIDER" in
+    openai|codex) PROVIDER=chatgpt ;;
+    chatgpt|grok|token-plan|local|moonshot) ;;
+    *) echo "xask: invalid provider '$PROVIDER' (use chatgpt|grok|token-plan|local|moonshot)" >&2; exit 1 ;;
+  esac
+  QUERY="${1:-}"
+  CONTEXT="${2:-No prior context.}"
+  REQUESTED_SKILL="${3:-}"
+  case "$PROVIDER" in
+    chatgpt)
+      MODEL=codex
+      if [[ -z "$MODEL_ID" ]]; then
+        if [[ "$SUBSTRATE" == sekhmet ]]; then
+          MODEL_ID="gpt-5.6-luna"
+        else
+          MODEL_ID="gpt-5.6-sol"
+        fi
+      fi
+      ;;
+    grok)
+      MODEL=grok
+      MODEL_ID="${MODEL_ID:-grok-4.6}"
+      ;;
+    token-plan)
+      token_plan_id="${MODEL_ID:-qwen3.8-max}"
+      case "$token_plan_id" in
+        qwen3.8-max|qwen38|qwen) MODEL=qwen38 ;;
+        deepseek-v4-flash-0731|ds-flash) MODEL=ds-flash ;;
+        deepseek-v4-pro-0813|ds-pro) MODEL=ds-pro ;;
+        *) echo "xask: unknown Token Plan model '$token_plan_id'" >&2; exit 1 ;;
+      esac
+      MODEL_ID=""
+      ;;
+    local)
+      MODEL=gemma
+      MODEL_ID="${MODEL_ID:-gemma4:26b}"
+      ;;
+    moonshot)
+      MODEL=kimi
+      # MODEL_ID stays user-owned (like grok): empty → dispatch pins the K3 alias.
+      ;;
+  esac
+else
+  MODEL="${1:-}"
+  QUERY="${2:-}"
+  CONTEXT="${3:-No prior context.}"
+  REQUESTED_SKILL="${4:-}"
+fi
+
+# Godspeed is invariant, not an optional route. A legacy positional skill is
+# additive; it can never replace the canonical Godspeed loadout.
+SKILL="godspeed"
+if [[ -n "$REQUESTED_SKILL" && "$REQUESTED_SKILL" != godspeed ]]; then
+  SKILL="godspeed,$REQUESTED_SKILL"
+fi
+
+# UI callers include the required terminal closer in their task argv. Strip it
+# before template rendering, then append one closer to the final delegation
+# prompt so it cannot appear both inside the Goal block and at the envelope end.
+QUERY="$(strip_trailing_godspeed_markers "$QUERY")"
+
+[[ -n "$MODEL" && -n "$QUERY" ]] || {
+  echo "Usage: xask --provider <provider> [selection flags] -- \"<query>\"" >&2
+  echo "       xask [flags] <route> \"<query>\"" >&2
+  exit 1
+}
 
 # Validate MODEL before template construction to prevent path traversal
 # (previously: `xask -d ../../docs/xask-protocol probe` would exfil docs via
 # debug-mode early exit). Whitelist approach — matches the dispatch case below.
 # gemma|g|gemini → HVM; codex|cdx → xbreed ask codex; grok → grok CLI;
-# qwen38 (+aliases) / ds-flash / ds-pro → Token Plan. Reject bare deepseek.
+# qwen38 (+aliases) / ds-flash / ds-pro → Token Plan; kimi (+aliases) → Kimi
+# Code CLI over Moonshot API. Reject bare deepseek and bare moonshot.
 case "$MODEL" in
-  gemma|g|gemini|codex|cdx|grok|qwen38|qwen3.8-max|qwen|ds-flash|ds-pro) ;;
+  gemma|g|gemini|codex|cdx|grok|qwen38|qwen3.8-max|qwen|ds-flash|ds-pro|kimi|kimi-k3|kimi-code) ;;
   deepseek)
     echo "xask: unknown model 'deepseek' (use ds-flash or ds-pro)." >&2
     exit 1
     ;;
+  moonshot)
+    echo "xask: ambiguous route 'moonshot' (use kimi or kimi-code)." >&2
+    exit 1
+    ;;
   *)
-    echo "xask: unknown model '$MODEL'. Use gemma (g), codex/cdx, grok, qwen38, ds-flash, or ds-pro." >&2
+    echo "xask: unknown model '$MODEL'. Use gemma (g), codex/cdx, grok, qwen38, ds-flash, kimi, or ds-pro." >&2
     exit 1
     ;;
 esac
@@ -134,16 +330,197 @@ esac
 # Canonicalize Token Plan aliases; keep cdx as display name (DISPATCH_MODEL=codex).
 case "$MODEL" in
   qwen3.8-max|qwen) MODEL=qwen38 ;;
+  kimi-k3|kimi-code) MODEL=kimi ;;
+esac
+
+if [[ -z "$PROVIDER" ]]; then
+  case "$MODEL" in
+    codex|cdx) PROVIDER=chatgpt ;;
+    grok) PROVIDER=grok ;;
+    qwen38|ds-flash|ds-pro) PROVIDER=token-plan ;;
+    kimi) PROVIDER=moonshot ;;
+    gemma|g|gemini) PROVIDER=local ;;
+  esac
+fi
+
+if [[ "$SUBSTRATE" == sekhmet ]]; then
+  [[ "$PROVIDER" == chatgpt ]] || {
+    echo "xask: sekhmet substrate is available only for the chatgpt provider" >&2
+    exit 1
+  }
+  SPARK=true
+  SPARK_REQUESTED=true
+fi
+[[ "$SPARK_REQUESTED" == true ]] && SUBSTRATE=sekhmet
+
+case "$PROVIDER" in
+  chatgpt)
+    if [[ "$SUBSTRATE" == sekhmet ]]; then
+      SELECTED_MODEL_ID="${MODEL_ID:-gpt-5.6-luna}"
+    else
+      SELECTED_MODEL_ID="${MODEL_ID:-gpt-5.6-sol}"
+    fi
+    ;;
+  grok)
+    SELECTED_MODEL_ID="${MODEL_ID:-grok-4.6}"
+    ;;
+  token-plan)
+    case "$MODEL" in
+      qwen38) SELECTED_MODEL_ID=qwen3.8-max ;;
+      ds-flash) SELECTED_MODEL_ID=deepseek-v4-flash-0731 ;;
+      ds-pro) SELECTED_MODEL_ID=deepseek-v4-pro-0813 ;;
+    esac
+    ;;
+  local)
+    SELECTED_MODEL_ID="${MODEL_ID:-gemma4:26b}"
+    ;;
+  moonshot)
+    SELECTED_MODEL_ID="${MODEL_ID:-kimi-k3}"
+    ;;
+esac
+
+# The normalized provider interface is catalog-bound. Legacy route syntax
+# keeps accepting provider-native overrides, but UI/MCP callers must not be
+# able to pair (for example) a ChatGPT slug with the Grok transport.
+if [[ "$PROVIDER_EXPLICIT" == true ]]; then
+  model_matches_provider=false
+  case "$PROVIDER:$SELECTED_MODEL_ID" in
+    chatgpt:gpt-5.6-sol|chatgpt:gpt-5.6-terra|chatgpt:gpt-5.6-luna|\
+    chatgpt:gpt-daybreak-blue-latest|chatgpt:gpt-reserve|chatgpt:gpt-5.5|\
+    chatgpt:gpt-5.4|chatgpt:gpt-5.4-mini|chatgpt:gpt-5.3-codex-spark|\
+    chatgpt:codex-auto-review|grok:grok-4.6|grok:grok-4.5|\
+    token-plan:qwen3.8-max|token-plan:deepseek-v4-flash-0731|\
+    token-plan:deepseek-v4-pro-0813|local:gemma4:26b|moonshot:kimi-k3)
+      model_matches_provider=true
+      ;;
+  esac
+  [[ "$model_matches_provider" == true ]] || {
+    echo "xask: model '$SELECTED_MODEL_ID' is not registered for provider '$PROVIDER'" >&2
+    exit 1
+  }
+fi
+
+# Provider-mode calls are fully normalized: omitted effort becomes the model's
+# advertised default instead of inheriting an incompatible host-level setting.
+if [[ "$PROVIDER_EXPLICIT" == true && -z "$EFFORT" ]]; then
+  if [[ "$SUBSTRATE" == sekhmet ]]; then
+    EFFORT=low
+  else
+    case "$SELECTED_MODEL_ID" in
+    gpt-5.6-sol|gpt-daybreak-blue-latest) EFFORT=low ;;
+    gpt-5.6-terra|gpt-5.6-luna|gpt-reserve|gpt-5.5|gpt-5.4|gpt-5.4-mini|codex-auto-review|deepseek-v4-flash-0731|gemma4:26b) EFFORT=medium ;;
+    gpt-5.3-codex-spark|grok-4.6|grok-4.5) EFFORT=high ;;
+    qwen3.8-max|deepseek-v4-pro-0813) EFFORT=xhigh ;;
+    kimi-k3) EFFORT=high ;;
+    esac
+  fi
+fi
+
+if [[ "$PROVIDER_EXPLICIT" == true && -z "$SERVICE_TIER" ]]; then
+  SERVICE_TIER=default
+fi
+
+# Pin Grok's selected default so plan output and execution cannot drift when
+# the ambient Grok CLI changes its own default model.
+if [[ "$PROVIDER" == grok && -z "$MODEL_ID" ]]; then
+  MODEL_ID="$SELECTED_MODEL_ID"
+fi
+
+# Validate effort against the selected model rather than a global four-tier enum.
+if [[ -n "$EFFORT" ]]; then
+  supported=false
+  case "$SELECTED_MODEL_ID" in
+    gpt-5.6-sol|gpt-5.6-terra|gpt-daybreak-blue-latest|gemma4:26b)
+      [[ "$EFFORT" =~ ^(low|medium|high|xhigh|max|ultra)$ ]] && supported=true
+      ;;
+    gpt-5.6-luna|gpt-reserve|codex-auto-review)
+      [[ "$EFFORT" =~ ^(low|medium|high|xhigh|max)$ ]] && supported=true
+      ;;
+    gpt-5.5|gpt-5.4|gpt-5.4-mini|gpt-5.3-codex-spark|grok-4.6)
+      [[ "$EFFORT" =~ ^(low|medium|high|xhigh)$ ]] && supported=true
+      ;;
+    grok-4.5)
+      [[ "$EFFORT" =~ ^(low|medium|high)$ ]] && supported=true
+      ;;
+    kimi-k3)
+      # Moonshot K3 advertises low|high|max only; no medium tier.
+      [[ "$EFFORT" =~ ^(low|high|max)$ ]] && supported=true
+      ;;
+    qwen3.8-max|deepseek-v4-flash-0731|deepseek-v4-pro-0813)
+      [[ "$EFFORT" =~ ^(low|medium|xhigh)$ ]] && supported=true
+      ;;
+    *) supported=true ;;
+  esac
+  [[ "$supported" == true ]] || {
+    echo "xask: effort '$EFFORT' is not supported by $SELECTED_MODEL_ID" >&2
+    exit 1
+  }
+fi
+
+if [[ "$SUBSTRATE" == sekhmet && -n "$EFFORT" && "$EFFORT" != low ]]; then
+  echo "xask: sekhmet currently fixes effective effort at low; omit --effort or use low" >&2
+  exit 1
+fi
+
+case "$PROVIDER" in
+  chatgpt)
+    if [[ "$SELECTED_MODEL_ID" == gpt-daybreak-blue-latest || "$SELECTED_MODEL_ID" == gpt-5.4-mini \
+      || "$SELECTED_MODEL_ID" == gpt-5.3-codex-spark ]]; then
+      [[ -z "$SERVICE_TIER" || "$SERVICE_TIER" == default ]] || {
+        echo "xask: $SELECTED_MODEL_ID does not advertise the fast service tier" >&2
+        exit 1
+      }
+    fi
+    ;;
+  *)
+    [[ -z "$SERVICE_TIER" || "$SERVICE_TIER" == default ]] || {
+      echo "xask: --service-tier fast is available only for compatible ChatGPT models" >&2
+      exit 1
+    }
+    ;;
 esac
 
 # Explicit --spark is ChatGPT-Codex-only; native/Token Plan lanes reject it.
 if [ "$SPARK_REQUESTED" = true ]; then
   case "$MODEL" in
-    grok|qwen38|ds-flash|ds-pro)
+    grok|qwen38|ds-flash|ds-pro|kimi|gemma|g|gemini)
       echo "xask: --spark cannot be combined with $MODEL" >&2
       exit 1
       ;;
   esac
+fi
+
+if [[ "$PLAN" == true ]]; then
+  command -v jq >/dev/null 2>&1 || { echo "xask: jq is required for plan output" >&2; exit 1; }
+  PLAN_QUERY="$QUERY | godspeed"
+  plan_argv=(xask --provider "$PROVIDER" --substrate "$SUBSTRATE" --model-id "$SELECTED_MODEL_ID")
+  [[ -n "$EFFORT" ]] && plan_argv+=(--effort "$EFFORT")
+  [[ -n "$SERVICE_TIER" ]] && plan_argv+=(--service-tier "$SERVICE_TIER")
+  [[ -n "$OUTPUT_LAST_MESSAGE" ]] && plan_argv+=(--output-last-message "$OUTPUT_LAST_MESSAGE")
+  [[ "$RICH" == true ]] && plan_argv+=(--rich)
+  plan_argv+=(--gs)
+  [[ "$SCOPE" != "entire project" ]] && plan_argv+=(--scope "$SCOPE")
+  if [[ -n "$REQUESTED_SKILL" ]]; then
+    plan_argv+=(-- "$PLAN_QUERY" "$CONTEXT" "$REQUESTED_SKILL")
+  elif [[ "$CONTEXT" != "No prior context." ]]; then
+    plan_argv+=(-- "$PLAN_QUERY" "$CONTEXT")
+  else
+    plan_argv+=(-- "$PLAN_QUERY")
+  fi
+  plan_command=$(printf '%q ' "${plan_argv[@]}")
+  plan_command=${plan_command% }
+  if [[ "$PLAN_JSON" == true ]]; then
+    plan_argv_json=$(jq -cn --args '$ARGS.positional' -- "${plan_argv[@]}")
+    jq -n \
+      --arg provider "$PROVIDER" --arg substrate "$SUBSTRATE" \
+      --arg model_id "$SELECTED_MODEL_ID" --arg effort "${EFFORT:-default}" \
+      --arg service_tier "${SERVICE_TIER:-default}" --arg command "$plan_command" \
+      --argjson argv "$plan_argv_json" \
+      '{schema_version:1,selection:{provider:$provider,substrate:$substrate,model_id:$model_id,effort:$effort,service_tier:$service_tier},argv:$argv,command:$command,executes:false}'
+  else
+    printf '%s\n' "$plan_command"
+  fi
+  exit 0
 fi
 
 # Bare `xask cdx` is stock ChatGPT via xbreed (L2 consult). Explicit --spark
@@ -151,6 +528,7 @@ fi
 
 [ -n "$EFFORT" ] && EFFORT_FLAGS=(--effort "$EFFORT")
 [ -n "$MODEL_ID" ] && MODEL_FLAGS=(--model "$MODEL_ID")
+[ -n "$SERVICE_TIER" ] && SERVICE_TIER_FLAGS=(--service-tier "$SERVICE_TIER")
 [ "$SPARK" = true ] && SPARK_FLAGS=(--spark)
 [ "$REVIEW" = true ] && REVIEW_FLAGS=(--review)
 [ "$FULL" = true ] && FULL_FLAGS=(--full)
@@ -158,13 +536,8 @@ fi
 [ -n "$OUTPUT_LAST_MESSAGE" ] && OUTPUT_FLAGS=(--output-last-message "$OUTPUT_LAST_MESSAGE")
 [ "$JSON" = true ] && JSON_FLAGS=(--json)
 
-# --gs forces SKILL=godspeed regardless of the 4th positional (explicit load
-# through our xask <skill> dispatch — idempotent with the default since SKILL
-# already defaults to "godspeed", but makes intent visible and overrides any
-# non-default positional). Added 2026-04-24 after user request.
-if [ "$FORCE_GS" = true ]; then
-  SKILL="godspeed"
-fi
+# --gs is an explicit transport marker for the always-on Godspeed loadout. A
+# custom positional skill remains additive and is never discarded.
 
 # Template selection. Token Plan + cdx reuse codex.md (IMCP envelope).
 DISPATCH_MODEL="$MODEL"
@@ -179,6 +552,7 @@ case "$MODEL" in
   qwen38) LANE="token-plan-qwen38" ;;
   ds-flash) LANE="token-plan-ds-flash" ;;
   ds-pro) LANE="token-plan-ds-pro" ;;
+  kimi) LANE="kimi-code-cli" ;;
   cdx) LANE="stock-codex" ;;
   codex) LANE="stock-codex" ;;
   gemma|g|gemini) LANE="gemma-hvm" ;;
@@ -210,6 +584,8 @@ if [ -f "$TEMPLATE" ]; then
     medium) THINKING_BUDGET="4096" ;;
     high)   THINKING_BUDGET="8192" ;;
     xhigh)  THINKING_BUDGET="16384" ;;
+    max)    THINKING_BUDGET="32768" ;;
+    ultra)  THINKING_BUDGET="65536" ;;
     *)      THINKING_BUDGET="default" ;;
   esac
   # One-pass literal renderer. Values travel through the environment so awk
@@ -257,12 +633,17 @@ else
   exit 1
 fi
 
-# Forward godspeed posture through xask prompt text.
-# xbreed-ask paths already load SKILL.md via --with; this closes the gap for
-# codex-exec paths (spark/direct) where no skill mechanism exists.
-if [ "$SKILL" = "godspeed" ]; then
-  PROMPT="$PROMPT | godspeed"
-fi
+# Transport the quintessential directive on every provider lane. Stock xbreed
+# additionally receives `--with godspeed`; direct provider CLIs have no skill
+# flag, so the exact directive travels inline. Never substitute a compact form.
+GODSPEED_DIRECTIVE_FILE="$(resolve_godspeed_directive)" || exit 1
+GODSPEED_DIRECTIVE="$(<"$GODSPEED_DIRECTIVE_FILE")"
+PROMPT="$(strip_trailing_godspeed_markers "$PROMPT")"
+PROMPT="$GODSPEED_DIRECTIVE
+
+---
+
+$PROMPT | godspeed"
 
 # Build argv identity for native / Token Plan / cdx lanes (debug + exec).
 # Isolation: grok + Token Plan always drop titanium contamination vars.
@@ -312,13 +693,36 @@ case "$MODEL" in
         -c 'approval_policy="never"' "${TP_EXTRA[@]}" "<PROMPT>")
     fi
     ;;
+  kimi)
+    CODEX_BIN_SET=0
+    if [ "$JSON" = true ] || [ -n "$OUTPUT_LAST_MESSAGE" ] || [ "$GPT55" = true ] \
+      || [ "$REVIEW" = true ] || [ "$FULL" = true ]; then
+      echo "xask: --json/-o/--gpt55/-R/-F are not kimi-cli flags (use -e low|high|max; --json is Codex JSONL, not kimi --output-format)" >&2
+      exit 1
+    fi
+    # Effort travels envelope-text only ({{EFFORT}} in kimi.md) — the CLI has
+    # no reasoning-effort flag. Always pin -m: kimi-code's ambient default_model
+    # is kimi-for-coding (K2.7), which would silently violate the K3 route.
+    # Default alias targets the OAuth-managed K3 (subscription metering); the
+    # pay-as-you-go API-key provider stays reachable via --model-id
+    # moonshotai/kimi-k3 (`kimi provider catalog add moonshotai`).
+    KIMI_ALIAS="$MODEL_ID"
+    case "$KIMI_ALIAS" in
+      ""|kimi-k3) KIMI_ALIAS="kimi-code/k3" ;;
+    esac
+    # One-shot mode takes NO approval flag: the CLI rejects -p combined with
+    # both --auto and -y/--yolo (session-mode concepts). Plain -p is the
+    # supported non-interactive shape.
+    DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL kimi -m "$KIMI_ALIAS" -p "$PROMPT")
+    DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL kimi -m "$KIMI_ALIAS" -p "<PROMPT>")
+    ;;
   cdx|codex)
     DISPATCH_ARGV=(xbreed ask codex --with "$SKILL" "${MODEL_FLAGS[@]}" "${SPARK_FLAGS[@]}"
       "${REVIEW_FLAGS[@]}" "${FULL_FLAGS[@]}" "${GPT55_FLAGS[@]}" "${EFFORT_FLAGS[@]}"
-      "${OUTPUT_FLAGS[@]}" "${JSON_FLAGS[@]}" "$PROMPT")
+      "${SERVICE_TIER_FLAGS[@]}" "${OUTPUT_FLAGS[@]}" "${JSON_FLAGS[@]}" "$PROMPT")
     DEBUG_ARGV=(xbreed ask codex --with "$SKILL" "${MODEL_FLAGS[@]}" "${SPARK_FLAGS[@]}"
       "${REVIEW_FLAGS[@]}" "${FULL_FLAGS[@]}" "${GPT55_FLAGS[@]}" "${EFFORT_FLAGS[@]}"
-      "${OUTPUT_FLAGS[@]}" "${JSON_FLAGS[@]}" "<PROMPT>")
+      "${SERVICE_TIER_FLAGS[@]}" "${OUTPUT_FLAGS[@]}" "${JSON_FLAGS[@]}" "<PROMPT>")
     ;;
   gemma|g|gemini)
     DISPATCH_ARGV=(xbreed ask gemma --with "$SKILL" "${MODEL_FLAGS[@]}" "${EFFORT_FLAGS[@]}" "$PROMPT")
@@ -333,7 +737,9 @@ if [ "$SPARK" = true ]; then
     cdx|codex)
       SPARK_MODEL="${MODEL_ID:-${XBRD_SPARK_MODEL:-gpt-5.6-luna}}"
       case "$SPARK_MODEL" in
-        qwen38|qwen3.8-max|qwen|ds-flash|ds-pro|grok|deepseek-v4-flash-0731|deepseek-v4-pro-0813|deepseek)
+        gpt-5.6-sol|gpt-5.6-terra|gpt-5.6-luna|gpt-daybreak-blue-latest|gpt-reserve|\
+        gpt-5.5|gpt-5.4|gpt-5.4-mini|gpt-5.3-codex-spark|codex-auto-review) ;;
+        *)
           echo "xask: --spark model '$SPARK_MODEL' is not an L3 ChatGPT/Titanium id" >&2
           exit 1
           ;;
@@ -348,8 +754,11 @@ if [ "$SPARK" = true ]; then
         echo "xask: --json/-o/--gpt55/-R/-F are dropped by --spark (sekhmet has no those flags)" >&2
         exit 1
       fi
-      DISPATCH_ARGV=(env XBRD_SPARK_MODEL="$SPARK_MODEL" sekhmet run --task "$PROMPT")
-      DEBUG_ARGV=(env XBRD_SPARK_MODEL="$SPARK_MODEL" sekhmet run --task "<PROMPT>")
+      SPARK_SERVICE_TIER="${SERVICE_TIER:-default}"
+      DISPATCH_ARGV=(env XBRD_SPARK_MODEL="$SPARK_MODEL" XBRD_SPARK_SERVICE_TIER="$SPARK_SERVICE_TIER"
+        sekhmet run --scope "$PWD" --task "$PROMPT")
+      DEBUG_ARGV=(env XBRD_SPARK_MODEL="$SPARK_MODEL" XBRD_SPARK_SERVICE_TIER="$SPARK_SERVICE_TIER"
+        sekhmet run --scope "$PWD" --task "<PROMPT>")
       ;;
   esac
 fi
@@ -359,7 +768,7 @@ if [ "$DEBUG" = true ]; then
   echo "=== XASK DEBUG ==="
   echo "MODEL: $MODEL"
   case "$MODEL" in
-    grok|qwen38|ds-flash|ds-pro|cdx|codex)
+    grok|qwen38|ds-flash|ds-pro|kimi|cdx|codex)
       echo "LANE: $LANE"
       echo "ARGV: ${DEBUG_ARGV[*]}"
       echo "CODEX_BIN_SET=$CODEX_BIN_SET"
@@ -370,6 +779,9 @@ if [ "$DEBUG" = true ]; then
   echo "REVIEW: $REVIEW"
   echo "EFFORT: ${EFFORT:-<unset>}"
   echo "MODEL_ID: ${MODEL_ID:-<default>}"
+  echo "PROVIDER: $PROVIDER"
+  echo "SUBSTRATE: $SUBSTRATE"
+  echo "SERVICE_TIER: ${SERVICE_TIER:-<default>}"
   echo "SCOPE: $SCOPE"
   echo "SKILL: $SKILL"
   echo "TEMPLATE: $TEMPLATE"
@@ -385,7 +797,7 @@ t_start_s=$(date +%s.%N)
 # Dispatch — contamination-aware per model
 # gemma / g / gemini (legacy) → local HVM bridge (gemma-hvm). --rich is a no-op
 # for gemma (no cloud settings tree); kept accepted so old flags don't fail.
-# grok / Token Plan → bash-exec native CLI with CODEX_BIN/XBRD_SPARK_MODEL cleared.
+# grok / Token Plan / kimi → bash-exec native CLI with CODEX_BIN/XBRD_SPARK_MODEL cleared.
 case "$MODEL" in
   gemma|g|gemini)
     if [ "$RICH" = true ]; then
@@ -396,11 +808,11 @@ case "$MODEL" in
   codex|cdx)
     "${DISPATCH_ARGV[@]}"
     ;;
-  grok|qwen38|ds-flash|ds-pro)
+  grok|qwen38|ds-flash|ds-pro|kimi)
     "${DISPATCH_ARGV[@]}"
     ;;
   *)
-    echo "Unknown model: $MODEL. Use gemma (g), codex/cdx, grok, qwen38, ds-flash, or ds-pro." >&2
+    echo "Unknown model: $MODEL. Use gemma (g), codex/cdx, grok, qwen38, ds-flash, or kimi." >&2
     exit 1
     ;;
 esac

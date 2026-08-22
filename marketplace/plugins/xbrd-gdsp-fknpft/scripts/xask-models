@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+# Export xask's normalized provider/model registry with local availability.
+set -euo pipefail
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+catalog_file="${XASK_CATALOG_FILE:-}"
+if [[ -z "$catalog_file" ]]; then
+  for candidate in \
+    "$script_dir/../config/xask-models.json" \
+    "$script_dir/xask-models.json" \
+    "$HOME/.local/share/xbreed/xask-models.json"; do
+    if [[ -f "$candidate" ]]; then
+      catalog_file="$candidate"
+      break
+    fi
+  done
+fi
+
+[[ -n "$catalog_file" && -f "$catalog_file" ]] || {
+  printf 'xask: normalized model catalog not found (set XASK_CATALOG_FILE)\n' >&2
+  exit 1
+}
+command -v jq >/dev/null 2>&1 || {
+  printf 'xask: jq is required to export the model catalog\n' >&2
+  exit 1
+}
+
+chatgpt_stock_available=false
+grok_available=false
+local_available=false
+sekhmet_available=false
+moonshot_available=false
+tp_qwen_available=false
+tp_ds_flash_available=false
+tp_ds_pro_available=false
+command -v codex >/dev/null 2>&1 \
+  && command -v xbreed >/dev/null 2>&1 \
+  && chatgpt_stock_available=true
+command -v grok >/dev/null 2>&1 && grok_available=true
+if command -v codex-token-plan >/dev/null 2>&1; then
+  tp_qwen_available=true
+  tp_ds_flash_available=true
+  tp_ds_pro_available=true
+else
+  command -v codex-qwen38 >/dev/null 2>&1 && tp_qwen_available=true
+  command -v codex-ds-flash >/dev/null 2>&1 && tp_ds_flash_available=true
+  command -v codex-ds-pro >/dev/null 2>&1 && tp_ds_pro_available=true
+fi
+command -v gemma-hvm >/dev/null 2>&1 \
+  && command -v xbreed >/dev/null 2>&1 \
+  && local_available=true
+command -v sekhmet >/dev/null 2>&1 && sekhmet_available=true
+# Moonshot kimi lane rides the Kimi Code CLI (OAuth or API-key provider inside it).
+command -v kimi >/dev/null 2>&1 && moonshot_available=true
+
+catalog=$(jq -c \
+  --argjson chatgpt_stock "$chatgpt_stock_available" \
+  --argjson grok "$grok_available" \
+  --argjson local "$local_available" \
+  --argjson sekhmet "$sekhmet_available" \
+  --argjson moonshot "$moonshot_available" \
+  --argjson tp_qwen "$tp_qwen_available" \
+  --argjson tp_ds_flash "$tp_ds_flash_available" \
+  --argjson tp_ds_pro "$tp_ds_pro_available" '
+    .runtime = {
+      chatgpt: ($chatgpt_stock or $sekhmet),
+      chatgpt_stock: $chatgpt_stock,
+      grok: $grok,
+      "token-plan": ($tp_qwen or $tp_ds_flash or $tp_ds_pro),
+      token_plan_models: {
+        "qwen3.8-max": $tp_qwen,
+        "deepseek-v4-flash-0731": $tp_ds_flash,
+        "deepseek-v4-pro-0813": $tp_ds_pro
+      },
+      moonshot: $moonshot,
+      local: $local,
+      sekhmet: $sekhmet
+    }
+    | .runtime as $runtime
+    | .providers |= map(.available = $runtime[.id])
+    | .models |= map(
+        .available = (
+          if .provider == "chatgpt" then $chatgpt_stock
+          elif .provider == "token-plan" then $runtime.token_plan_models[.model_id]
+          else $runtime[.provider]
+          end
+        )
+        | if .provider == "chatgpt" then .substrate_available = {stock: $chatgpt_stock, sekhmet: $sekhmet}
+          else .substrate_available = {stock: .available}
+          end
+      )
+    | .model_count = (.models | length)
+  ' "$catalog_file")
+
+case "${1:-catalog}" in
+  catalog)
+    jq '.' <<<"$catalog"
+    ;;
+  providers)
+    jq '{schema_version, providers, runtime}' <<<"$catalog"
+    ;;
+  models)
+    jq '{schema_version, model_count, models, runtime}' <<<"$catalog"
+    ;;
+  *)
+    printf 'Usage: xask-models [catalog|providers|models]\n' >&2
+    exit 1
+    ;;
+esac

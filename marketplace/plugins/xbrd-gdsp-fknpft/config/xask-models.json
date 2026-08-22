@@ -1,0 +1,239 @@
+{
+  "schema_version": 1,
+  "exported_at": "2026-08-21T00:00:00Z",
+  "providers": [
+    {
+      "id": "chatgpt",
+      "label": "OpenAI / ChatGPT",
+      "description": "Stock Codex or the Sekhmet L3 substrate.",
+      "default_model_id": "gpt-5.6-sol",
+      "transports": ["stock", "sekhmet"],
+      "available": false
+    },
+    {
+      "id": "grok",
+      "label": "xAI Grok",
+      "description": "Grok Build one-shot transport.",
+      "default_model_id": "grok-4.6",
+      "transports": ["stock"],
+      "available": false
+    },
+    {
+      "id": "token-plan",
+      "label": "Alibaba Token Plan",
+      "description": "Qwen and DeepSeek through local Token Plan profiles.",
+      "default_model_id": "qwen3.8-max",
+      "transports": ["stock"],
+      "available": false
+    },
+    {
+      "id": "moonshot",
+      "label": "Moonshot AI (Kimi)",
+      "description": "Kimi K3 through the Kimi Code CLI over Moonshot's OpenAI-compatible API (OAuth or API-key provider).",
+      "default_model_id": "kimi-k3",
+      "transports": ["stock"],
+      "available": false
+    },
+    {
+      "id": "local",
+      "label": "Local HVM",
+      "description": "Gemma through the local Bend/HVM bridge.",
+      "default_model_id": "gemma4:26b",
+      "transports": ["stock"],
+      "available": false
+    }
+  ],
+  "models": [
+    {
+      "provider": "chatgpt",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol",
+      "display_name": "GPT-5.6-Sol",
+      "supported_efforts": ["low", "medium", "high", "xhigh", "max", "ultra"],
+      "default_effort": "low",
+      "service_tiers": ["default", "fast"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "chatgpt",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra",
+      "display_name": "GPT-5.6-Terra",
+      "supported_efforts": ["low", "medium", "high", "xhigh", "max", "ultra"],
+      "default_effort": "medium",
+      "service_tiers": ["default", "fast"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "chatgpt",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna",
+      "display_name": "GPT-5.6-Luna",
+      "supported_efforts": ["low", "medium", "high", "xhigh", "max"],
+      "default_effort": "medium",
+      "service_tiers": ["default", "fast"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "chatgpt",
+      "transport": "stock",
+      "model_id": "gpt-daybreak-blue-latest",
+      "display_name": "Daybreak Blue",
+      "supported_efforts": ["low", "medium", "high", "xhigh", "max", "ultra"],
+      "default_effort": "low",
+      "service_tiers": ["default"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "chatgpt",
+      "transport": "stock",
+      "model_id": "gpt-reserve",
+      "display_name": "GPT-Reserve",
+      "supported_efforts": ["low", "medium", "high", "xhigh", "max"],
+      "default_effort": "medium",
+      "service_tiers": ["default", "fast"],
+      "visible": false,
+      "available": false
+    },
+    {
+      "provider": "chatgpt",
+      "transport": "stock",
+      "model_id": "gpt-5.5",
+      "display_name": "GPT-5.5",
+      "supported_efforts": ["low", "medium", "high", "xhigh"],
+      "default_effort": "medium",
+      "service_tiers": ["default", "fast"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "chatgpt",
+      "transport": "stock",
+      "model_id": "gpt-5.4",
+      "display_name": "GPT-5.4",
+      "supported_efforts": ["low", "medium", "high", "xhigh"],
+      "default_effort": "medium",
+      "service_tiers": ["default", "fast"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "chatgpt",
+      "transport": "stock",
+      "model_id": "gpt-5.4-mini",
+      "display_name": "GPT-5.4-Mini",
+      "supported_efforts": ["low", "medium", "high", "xhigh"],
+      "default_effort": "medium",
+      "service_tiers": ["default"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "chatgpt",
+      "transport": "stock",
+      "model_id": "gpt-5.3-codex-spark",
+      "display_name": "GPT-5.3-Codex-Spark",
+      "supported_efforts": ["low", "medium", "high", "xhigh"],
+      "default_effort": "high",
+      "service_tiers": ["default"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "chatgpt",
+      "transport": "stock",
+      "model_id": "codex-auto-review",
+      "display_name": "Codex Auto Review",
+      "supported_efforts": ["low", "medium", "high", "xhigh", "max"],
+      "default_effort": "medium",
+      "service_tiers": ["default", "fast"],
+      "visible": false,
+      "available": false
+    },
+    {
+      "provider": "grok",
+      "transport": "stock",
+      "model_id": "grok-4.6",
+      "display_name": "Grok 4.6",
+      "supported_efforts": ["low", "medium", "high", "xhigh"],
+      "default_effort": "high",
+      "service_tiers": ["default"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "grok",
+      "transport": "stock",
+      "model_id": "grok-4.5",
+      "display_name": "Grok 4.5",
+      "supported_efforts": ["low", "medium", "high"],
+      "default_effort": "high",
+      "service_tiers": ["default"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "token-plan",
+      "transport": "stock",
+      "model_id": "qwen3.8-max",
+      "route": "qwen38",
+      "display_name": "Qwen 3.8 Max",
+      "supported_efforts": ["low", "medium", "xhigh"],
+      "default_effort": "xhigh",
+      "service_tiers": ["default"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "token-plan",
+      "transport": "stock",
+      "model_id": "deepseek-v4-flash-0731",
+      "route": "ds-flash",
+      "display_name": "DeepSeek V4 Flash",
+      "supported_efforts": ["low", "medium", "xhigh"],
+      "default_effort": "medium",
+      "service_tiers": ["default"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "token-plan",
+      "transport": "stock",
+      "model_id": "deepseek-v4-pro-0813",
+      "route": "ds-pro",
+      "display_name": "DeepSeek V4 Pro",
+      "supported_efforts": ["low", "medium", "xhigh"],
+      "default_effort": "xhigh",
+      "service_tiers": ["default"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "moonshot",
+      "transport": "stock",
+      "model_id": "kimi-k3",
+      "route": "kimi",
+      "display_name": "Kimi K3",
+      "supported_efforts": ["low", "high", "max"],
+      "default_effort": "high",
+      "service_tiers": ["default"],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "local",
+      "transport": "stock",
+      "model_id": "gemma4:26b",
+      "display_name": "Gemma 4 26B / HVM",
+      "supported_efforts": ["low", "medium", "high", "xhigh", "max", "ultra"],
+      "default_effort": "medium",
+      "service_tiers": ["default"],
+      "visible": true,
+      "available": false
+    }
+  ]
+}
