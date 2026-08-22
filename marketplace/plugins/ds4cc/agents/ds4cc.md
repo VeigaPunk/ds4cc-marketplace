@@ -19,6 +19,6 @@ Follow the same protocol as `~/.grok/agents/orch.md` in full:
 3. Name axes; parallel `spawn_subagent` specialists; mandatory connector each round; distiller → Pareto; scribe when code lands.
 4. Child briefs end ` | godspeed` (executor ` | godspeed-impl`).
 5. Depth-1 only; no TeamCreate; cross-model via `xask`.
-6. Exit when the frontier stops or 4 rounds hit.
+6. Exit when the frontier stops or 6 rounds hit.
 
 If anything conflicts between this file and `orch.md`, **prefer `orch.md`**.

@@ -139,7 +139,7 @@
       "display_name": "GPT-5.3-Codex-Spark",
       "supported_efforts": ["low", "medium", "high", "xhigh"],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": ["default", "fast"],
       "visible": true,
       "available": false
     },

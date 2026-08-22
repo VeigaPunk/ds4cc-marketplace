@@ -21,7 +21,7 @@
 #
 # codex / cdx model lanes (stock ChatGPT Codex via xbreed ask):
 #   default:       gpt-5.6-sol (reasoning=low)
-#   --spark:       gpt-5.6-luna + reasoning=low through Sekhmet L3
+#   --spark:       gpt-5.3-codex-spark + reasoning=low through Sekhmet L3 (fallback gpt-5.6-luna)
 #   --review / -R: gpt-5.6-sol (reviewer/critic/sentinel default per 2026-04-18)
 #   -R --full/-F:  gpt-5.6-sol full (the-revenger RECON escape hatch, 1.05M ctx)
 #   --gpt55:       gpt-5.6-sol (xbrd-exec bench xask-arm measurement, 2026-04-24)
@@ -251,7 +251,7 @@ if [[ -n "$PROVIDER" ]]; then
       MODEL=codex
       if [[ -z "$MODEL_ID" ]]; then
         if [[ "$SUBSTRATE" == sekhmet ]]; then
-          MODEL_ID="gpt-5.6-luna"
+          MODEL_ID="gpt-5.3-codex-spark"
         else
           MODEL_ID="gpt-5.6-sol"
         fi
@@ -356,7 +356,7 @@ fi
 case "$PROVIDER" in
   chatgpt)
     if [[ "$SUBSTRATE" == sekhmet ]]; then
-      SELECTED_MODEL_ID="${MODEL_ID:-gpt-5.6-luna}"
+      SELECTED_MODEL_ID="${MODEL_ID:-gpt-5.3-codex-spark}"
     else
       SELECTED_MODEL_ID="${MODEL_ID:-gpt-5.6-sol}"
     fi
@@ -464,8 +464,8 @@ fi
 
 case "$PROVIDER" in
   chatgpt)
-    if [[ "$SELECTED_MODEL_ID" == gpt-daybreak-blue-latest || "$SELECTED_MODEL_ID" == gpt-5.4-mini \
-      || "$SELECTED_MODEL_ID" == gpt-5.3-codex-spark ]]; then
+    # gpt-5.3-codex-spark advertises fast (Sekhmet L3 honors service_tier=fast).
+    if [[ "$SELECTED_MODEL_ID" == gpt-daybreak-blue-latest || "$SELECTED_MODEL_ID" == gpt-5.4-mini ]]; then
       [[ -z "$SERVICE_TIER" || "$SERVICE_TIER" == default ]] || {
         echo "xask: $SELECTED_MODEL_ID does not advertise the fast service tier" >&2
         exit 1
@@ -737,7 +737,7 @@ esac
 if [ "$SPARK" = true ]; then
   case "$MODEL" in
     cdx|codex)
-      SPARK_MODEL="${MODEL_ID:-${XBRD_SPARK_MODEL:-gpt-5.6-luna}}"
+      SPARK_MODEL="${MODEL_ID:-${XBRD_SPARK_MODEL:-gpt-5.3-codex-spark}}"
       case "$SPARK_MODEL" in
         gpt-5.6-sol|gpt-5.6-terra|gpt-5.6-luna|gpt-daybreak-blue-latest|gpt-reserve|\
         gpt-5.5|gpt-5.4|gpt-5.4-mini|gpt-5.3-codex-spark|codex-auto-review) ;;

@@ -115,9 +115,9 @@ Trigger: opposite verdicts on same claim, OR one teammate's move regresses anoth
 
 ## Step 5 — Keep iterating
 
-After delivering a round's results, immediately assess: did any axis improve? If yes, dispatch the next round. Do not pause to ask "what next?" or prompt cleanup. The user interrupts when they want to steer. Keep the Pareto walk moving until the frontier stops or 4 rounds hit.
+After delivering a round's results, immediately assess: did any axis improve? If yes, dispatch the next round. Do not pause to ask "what next?" or prompt cleanup. The user interrupts when they want to steer. Keep the Pareto walk moving until the frontier stops or 6 rounds hit.
 
-**Limits:** <=4 rounds, <=16 concurrent subagents globally, <=200-word proposals per teammate.
+**Limits:** <=6 rounds, <=16 concurrent subagents globally, <=200-word proposals per teammate.
 
 ## Step 6 — Hold after frontier
 

@@ -127,7 +127,7 @@ Using the distiller's synthesis, the judge **mediates**:
 5. **Populate CONFLICTS block** if cross-model divergence found (codex vs. claude contradictions on the same claim).
 6. **Repeat 2-5** until the judge is satisfied with the DRAFT quality.
 
-**Soft ceiling: 4 deliberative rounds** (aligned with judge godspeed limit). After 4 rounds with no DRAFT progress, emit a CONFLICTS-only output and halt, naming unresolved items. Judge can override but must state why.
+**Soft ceiling: 6 deliberative rounds** (aligned with judge godspeed limit). After 6 rounds with no DRAFT progress, emit a CONFLICTS-only output and halt, naming unresolved items. Judge can override but must state why.
 
 Deliberative rounds retain the inherited Godspeed directive while using sequential depth (judge challenges, teammates refine). For parallel Pareto width, use `/xgs`.
 

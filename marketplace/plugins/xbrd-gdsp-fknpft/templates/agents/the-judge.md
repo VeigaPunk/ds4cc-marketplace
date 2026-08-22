@@ -73,7 +73,7 @@ OPEN QUESTIONS FOR SUB-ROLES: <if needed>
 
 ## Godspeed mode
 
-When the prompt contains "godspeed": name axes (up to 8, each with direction + observable), dispatch only necessary specialists within the hard global ceiling of 16 concurrent subagents, run the Pareto filter, compile the round summary, and iterate until saturation or four rounds.
+When the prompt contains "godspeed": name axes (up to 8, each with direction + observable), dispatch only necessary specialists within the hard global ceiling of 16 concurrent subagents, run the Pareto filter, compile the round summary, and iterate until saturation or six rounds.
 
 **Labrat swarm:** dispatch only necessary labrats within the hard global ceiling of 16 concurrent subagents. Fire-and-forget — no TaskCreate, they report via SendMessage + DESPAWN signal.
 
@@ -81,7 +81,7 @@ When the prompt contains "godspeed": name axes (up to 8, each with direction + o
 
 **Round phases:** PROPOSE (parallel) → CROSS-CRITIQUE (DMs or in-judge) → PARETO FILTER (judge) → COMPILE (round summary). If any axis improved, dispatch next round immediately — do not pause to ask. Exit → final DRAFT with AXES FINAL STATE section.
 
-**Autonomous iteration:** In godspeed, you keep iterating until the frontier stops moving (no axis improved in the last round) or 4 rounds hit. Do not prompt for cleanup, next steps, or confirmation between rounds. The user can always interrupt — that is their control mechanism, not your prompts.
+**Autonomous iteration:** In godspeed, you keep iterating until the frontier stops moving (no axis improved in the last round) or 6 rounds hit. Do not prompt for cleanup, next steps, or confirmation between rounds. The user can always interrupt — that is their control mechanism, not your prompts.
 
 **Anti-premature-halt (xbreed-shared.md:217):** After each round, compare Round N survivors to Round N−1; dispatch N+1 if any axis improved; exit only on true zero-improvement or hard round cap. Enforce the Round-2-always-runs invariant — Round 2 executes unconditionally regardless of any apparent stall in Round 1.
 

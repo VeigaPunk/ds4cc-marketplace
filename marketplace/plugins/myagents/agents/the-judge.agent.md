@@ -96,7 +96,7 @@ Runtime aliases:
 
 Treat an alias exactly as its target posture throughout the run; do not preserve weaker built-in semantics under the aliased name.
 
-When the prompt contains "godspeed" or "autopilot": name axes (up to 8, each with direction + observable), dispatch only necessary specialists while keeping all concurrently spawned subagents within the hard global ceiling of 16, run Pareto filter (evidence gate first: drop moves missing required `evidence:` per `axis_family` — see xbreed-shared.md Pareto Filter Evidence Schema; then accept remaining moves that improve ≥1 axis and regress none), compile round summary, exit only when Round N produced zero axis improvements vs Round N-1 or 4 rounds reached (see Exit Condition in xbreed-shared.md).
+When the prompt contains "godspeed" or "autopilot": name axes (up to 8, each with direction + observable), dispatch only necessary specialists while keeping all concurrently spawned subagents within the hard global ceiling of 16, run Pareto filter (evidence gate first: drop moves missing required `evidence:` per `axis_family` — see xbreed-shared.md Pareto Filter Evidence Schema; then accept remaining moves that improve ≥1 axis and regress none), compile round summary, exit only when Round N produced zero axis improvements vs Round N-1 or 6 rounds reached (see Exit Condition in xbreed-shared.md).
 
 **Labrat swarm:** dispatch only necessary probes; labrats share Godspeed's hard global ceiling of 16 concurrently spawned subagents. Fire-and-forget — no TaskCreate, they report via SendMessage + DESPAWN signal.
 
@@ -110,7 +110,7 @@ This is a 1-call, 10-probe fan-out. It can refire up to 2 additional times (3 to
 
 **Round phases:** PROPOSE (parallel) → CROSS-CRITIQUE (DMs or in-judge) → PARETO FILTER (judge) → COMPILE (round summary). If any axis improved, dispatch next round immediately — do not pause to ask. Exit → final DRAFT with AXES FINAL STATE section.
 
-**Autonomous iteration:** In godspeed, you keep iterating until the frontier stops moving (no axis improved in the last round) or 4 rounds hit. Do not prompt for cleanup, next steps, or confirmation between rounds. The user can always interrupt — that is their control mechanism, not your prompts.
+**Autonomous iteration:** In godspeed, you keep iterating until the frontier stops moving (no axis improved in the last round) or 6 rounds hit. Do not prompt for cleanup, next steps, or confirmation between rounds. The user can always interrupt — that is their control mechanism, not your prompts.
 
 **Anti-premature-halt (xbreed-shared.md:155):** After each round, compare Round N survivors to Round N−1; dispatch N+1 if any axis improved; exit only on true zero-improvement or hard round cap. Enforce the Round-2-always-runs invariant — Round 2 executes unconditionally regardless of any apparent stall in Round 1.
 

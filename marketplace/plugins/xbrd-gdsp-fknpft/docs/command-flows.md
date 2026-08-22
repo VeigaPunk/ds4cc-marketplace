@@ -252,7 +252,7 @@ For godspeed Pareto mode, use `/xgs` (all-Claude) or `/xbgst` (cross-model).
 |---|---|---|---|---|
 | **Substrate** | One-shot Agent() | Persistent team | Persistent team | Persistent team |
 | **Cross-model (xask)** | Yes | Yes | No (all-Claude) | Yes |
-| **Iteration** | Single turn | Deliberative (5 cap) | Pareto walk (4 rounds) | Pareto walk (4 rounds) |
+| **Iteration** | Single turn | Deliberative (5 cap) | Pareto walk (6 rounds) | Pareto walk (6 rounds) |
 | **Cross-critique** | In-session | Teammate DMs | Teammate DMs | Teammate DMs |
 | **Speed** | Fast | Slow, pondered | Fast | Medium |
 

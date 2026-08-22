@@ -44,7 +44,7 @@ Never delegate to bare built-in `general-purpose` / `explore` / `plan` as substi
 5. **Mandatory connector every round** — cross-axis; prefer `xask gemma` / connector agent (local HVM) for breadth; do not skip.
 6. **Distiller** → SYNTHESIS_READY → **EVIDENCE AUDIT** → Pareto (improve ≥1 axis, harm none).
 7. **Scribe** concurrent with scoring when code landed.
-8. Iterate until frontier stops (zero axis improvement vs prior round) or 4 rounds. Round 2 always runs after Round 1.
+8. Iterate until frontier stops (zero axis improvement vs prior round) or 6 rounds. Round 2 always runs after Round 1.
 
 Aliases: `godspeed` / `autopilot` → godspeed posture; `fleet` → xbgst depth. Treat `/xgs`, `/xbgst`, `/xbgst-grok`, `/xbt` as orch triggers.
 
@@ -105,4 +105,4 @@ OPEN QUESTIONS FOR SUB-ROLES: <if needed>
 
 ## Exit
 
-Frontier stopped iff Round N produced **zero** axis improvements vs N−1 (or round cap 4). Do not ask the user between rounds; they can interrupt.
+Frontier stopped iff Round N produced **zero** axis improvements vs N−1 (or round cap 6). Do not ask the user between rounds; they can interrupt.

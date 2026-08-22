@@ -36,7 +36,7 @@ If `$ARGUMENTS` is empty, wait for the user’s next message, then orch that tas
 - Prefer `the-*` specialist names: `the-scout`, `the-reviewer`, `the-labrat`, `the-executor`, `the-connector`, `the-distiller`, `the-simplifier`, `the-revenger`, `the-sentinel`, `the-critic`, `the-mutation-tester`, `the-scribe`.
 - **Mandatory connector every round** (cross-axis).
 - Cross-model only via Bash **`xask`** (role gates in xbreed-shared).
-- Distiller → `EVIDENCE AUDIT` → Pareto (improve ≥1 axis, harm none) → next round until frontier stops (max 4). Round 2 always runs after Round 1.
+- Distiller → `EVIDENCE AUDIT` → Pareto (improve ≥1 axis, harm none) → next round until frontier stops (max 6). Round 2 always runs after Round 1.
 - Never substitute built-in `general-purpose` / `explore` / `plan` for `the-*` roles.
 
 ## Output

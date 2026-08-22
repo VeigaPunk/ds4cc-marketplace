@@ -119,7 +119,7 @@ CONFLICTS (emit only if cross-teammate contradictions exist):
 
 After each round, immediately assess and dispatch next round if frontier still moving. Do not pause. Do not ask. The user interrupts when they want to steer.
 
-**Limits:** <=4 rounds, <=16 concurrent subagents globally, <=200-word proposals.
+**Limits:** <=6 rounds, <=16 concurrent subagents globally, <=200-word proposals.
 
 ## Step 6 — Auto-cleanup after frontier
 

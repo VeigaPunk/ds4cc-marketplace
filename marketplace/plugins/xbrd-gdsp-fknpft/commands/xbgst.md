@@ -154,7 +154,7 @@ CONFLICTS (emit only if cross-model contradictions exist):
 
 Do not pause. Do not ask. User interrupts to steer. Keep iterating.
 
-Limits: <=4 rounds, <=16 concurrent subagents globally, <=200-word proposals. Exit semantics live in `xbreed-shared.md`.
+Limits: <=6 rounds, <=16 concurrent subagents globally, <=200-word proposals. Exit semantics live in `xbreed-shared.md`.
 
 ## Step 6 — Auto-cleanup after frontier
 
