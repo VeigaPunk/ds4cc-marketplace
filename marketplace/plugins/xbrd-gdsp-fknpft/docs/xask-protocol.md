@@ -8,8 +8,18 @@
 ## 1. Synopsis
 
 ```
-xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--model-id <id>] [--gs] [-e <level>] [-o <file>] [--json] <model> "<query>" ["<context>"] ["<skill>"]
+xask catalog --json
+xask providers --json
+xask models --json
+xask plan --provider <provider> [selection flags] --json -- "<query>"
+xask --provider <provider> [selection flags] -- "<query>"
+xask [legacy flags] <route> "<query>" ["<context>"] ["<skill>"]
 ```
+
+Provider mode is the normalized interface for UIs and integrations. Providers
+are `chatgpt`, `grok`, `token-plan`, and `local`; `--substrate stock|sekhmet`
+selects the ChatGPT execution substrate. Legacy route tokens remain supported.
+`plan` validates and emits shell-safe argv without executing a provider.
 
 `<model>` is one of:
 - `gemma` (alias `g`; legacy `gemini`) — local HVM bridge via `xbreed ask gemma`
@@ -17,10 +27,16 @@ xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--model-id <id>] [--g
 - `grok` — Grok Build oneshot CLI (`grok --always-approve --no-subagents --verbatim -p`)
 - `qwen38` (aliases `qwen3.8-max`, `qwen`) — Token Plan via `codex-qwen38` / `codex-token-plan`
 - `ds-flash` / `ds-pro` — Token Plan DeepSeek profiles (bare `deepseek` rejected)
+- `kimi` (aliases `kimi-k3`, `kimi-code`) — Kimi Code CLI one-shot over Moonshot's
+  OpenAI-compatible API; OAuth-first (`kimi-code/k3`), pay-as-you-go API-key provider
+  reachable via `--model-id moonshotai/kimi-k3`. Bare `moonshot` rejected as ambiguous.
+  A codex-profile router is impossible today: Moonshot has no public `/v1/responses`
+  and codex dropped `wire_api="chat"`.
 
 (`claude` dispatch was removed in R2-A5.)
 `<context>` defaults to `"No prior context."`.  
-`<skill>` defaults to `"godspeed"`.
+`<skill>` is additive; the quintessential `godspeed/directive.md` is mandatory
+and always loaded first.
 
 ---
 
@@ -32,8 +48,11 @@ xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--model-id <id>] [--g
 | `--scope` | `-scp` | Scope boundary injected into `{{SCOPE_BOUNDARY}}` in the dispatch template. | all | `"entire project"` |
 | `--rich` | `-r` | Accepted for compatibility; ignored by the local Gemma/HVM lane. | gemma aliases | `false` |
 | `--spark` | `--spk` | L3 `sekhmet run` (default `XBRD_SPARK_MODEL=gpt-5.6-luna`). Rejected with `grok`/`qwen38`/`ds-flash`/`ds-pro`. Bare `xask cdx` does **not** auto-spark. | codex, cdx | off |
+| `--provider` | — | Normalized provider: `chatgpt`, `grok`, `token-plan`, or `local`. | all | inferred from legacy route |
+| `--substrate` | — | `stock` or `sekhmet`; Sekhmet is ChatGPT-only and fixed at low effort. | chatgpt | `stock` |
 | `--model-id` | — | Select an exact Codex or local Gemma model ID. Cannot be combined with built-in lane flags. | codex + gemma aliases | unset |
-| `--effort` | `-e` | One of `low`, `medium`, `high`, `xhigh`. Codex: native `model_reasoning_effort`; Gemma aliases: advisory `thinkingBudget` prompt text. | codex + gemma aliases | unset |
+| `--effort` | `-e` | Model-aware `low`, `medium`, `high`, `xhigh`, `max`, or `ultra`. Unsupported model/tier pairs fail before dispatch. | all | catalog default in provider mode |
+| `--service-tier` | — | `default` or `fast`. `default` explicitly neutralizes ambient priority; `fast` is opt-in and accepted only by compatible ChatGPT models. Sekhmet transports the same choice. | chatgpt | `default` |
 | `--direct` | — | **Removed in R2.** No longer accepted — xask hard-fails at the flag parser (`*) echo ... exit 1`). Suppression is always-on; use `--effort` to control reasoning level. | — | — |
 
 ### `--effort` per-model mapping
@@ -41,9 +60,10 @@ xask [-d] [-scp <scope>] [-r] [--spk] [-R] [-F] [--gpt55] [--model-id <id>] [--g
 | Model | Maps to |
 |-------|---------|
 | `codex` | `-c model_reasoning_effort=<level>` (config key, not a flag) |
-| `gemma`, `g`, `gemini` | Advisory prompt text: `low=512`, `medium=4096`, `high=8192`, `xhigh=16384`, rendered by `templates/dispatch/gemma.md`. |
+| `gemma`, `g`, `gemini` | Advisory prompt text: `low=512`, `medium=4096`, `high=8192`, `xhigh=16384`, `max=32768`, `ultra=65536`, rendered by `templates/dispatch/gemma.md`. |
 
-Both xask and direct `xbreed ask` reject effort values outside `low`, `medium`, `high`, `xhigh`.
+The normalized registry is `config/xask-models.json`. `xask catalog --json`
+adds runtime provider/substrate availability without invoking a model.
 
 ---
 
@@ -68,8 +88,11 @@ These are injected by xask/xbreed regardless of user flags.
 | `-c include_permissions_instructions=false` | `build_codex_ask_with_loadout` | Suppression |
 | `-c include_apps_instructions=false` | `build_codex_ask_with_loadout` | Suppression |
 | `-c include_environment_context=false` | `build_codex_ask_with_loadout` | Suppression |
-| `-c features.fast_mode=true` | `build_codex_ask_with_loadout` (all Codex lanes) | Faster output on both the spark lane (`gpt-5.4-mini`) and non-spark lanes (`gpt-5.6-sol`) |
-| `-c model_reasoning_effort=low` | `build_codex_ask_with_loadout` (spark only) | Hard-wired to low on spark path |
+| `-c model_provider="openai"` | stock Codex | Prevents an ambient third-party provider from capturing the ChatGPT route |
+| `-c service_tier="default"` | stock Codex default | Explicitly neutralizes an ambient priority/fast preference |
+| `-c service_tier="fast"` + `features.fast_mode=true` | explicit fast on compatible stock models | Opt-in priority servicing; rejected for Daybreak, mini, and Codex Spark |
+| `-c model_reasoning_effort=<tier>` | stock Codex | Exact model-aware effort selected by xask |
+| `XBRD_SPARK_SERVICE_TIER=<default\|fast> sekhmet run --scope "$PWD"` | explicit Sekhmet substrate | Gives the isolated L3 worker a snapshot of the caller repository and preserves the selected tier |
 
 **Note (v0.120.0):** `include_skills_instructions` and `include_plugins_instructions` are not available in the current codex release — no further suppression keys exist.
 
@@ -77,8 +100,8 @@ These are injected by xask/xbreed regardless of user flags.
 
 | Behavior | Mechanism | Why |
 |----------|-----------|-----|
-| `\| godspeed` appended to prompt | xask line 71-73 | Forwards godspeed posture through text for codex-exec paths where no `--with` skill mechanism exists |
-| Loadout injection via `--with <skill>` | `xbreed ask` Rust layer | Injects skill files (e.g. `godspeed`) via model-native mechanism (see dispatch table) |
+| Quintessential `directive.md` + exactly one terminal `\| godspeed` | xask, xbreed, and Sekhmet | Every delegation transports the same canonical bytes; reduced variants and opt-out are rejected |
+| Godspeed loadout first; custom `--with <skill>` additive | `xbreed ask` Rust layer | Injects the exact sibling `directive.md` and preserves optional additional skills |
 
 ---
 
@@ -91,6 +114,7 @@ These are injected by xask/xbreed regardless of user flags.
 | `grok` | `env -u CODEX_BIN -u XBRD_SPARK_MODEL grok --always-approve --no-subagents --verbatim -p` | Grok Build CLI | Template `templates/dispatch/grok.md`; no xbreed ask |
 | `qwen38` (`qwen3.8-max`, `qwen`) | `env -u … codex-qwen38 exec …` (or `codex-token-plan qwen38`) | Alibaba Token Plan | Reuses `codex.md` template; no `service_tier=fast` |
 | `ds-flash`, `ds-pro` | `env -u … codex-ds-* exec …` | Alibaba Token Plan | Debug + live wrappers; bare `deepseek` rejected |
+| `kimi` (`kimi-k3`, `kimi-code`) | `env -u CODEX_BIN -u XBRD_SPARK_MODEL kimi -m <alias> -p` | Moonshot AI (Kimi Code CLI) | Template `templates/dispatch/kimi.md`; effort envelope-text only (low\|high\|max); always pins `-m` (CLI default is kimi-for-coding, NOT K3) |
 
 ### Gemma model
 
@@ -98,18 +122,18 @@ The `gemma`, `g`, and legacy `gemini` spellings all route to the local Gemma/HVM
 
 ### Codex / cdx model
 
-Bare `xask codex` and `xask cdx` structurally select Spark: `gpt-5.4-mini` + `model_reasoning_effort=low`. Direct bare `xbreed ask codex` retains its separate Rust-layer default.
-Review lane (`-R/--review`): `gpt-5.6-sol` + `features.fast_mode=true`.
-Full (`-R -F`): `gpt-5.6-sol` (1.05M ctx) + `features.fast_mode=true` — escape hatch.
-gpt-5.6-sol lane (`--gpt55`): `gpt-5.6-sol` + `features.fast_mode=true` — every role route uses `-e low`; only the native planner retains high effort outside this lane.
-Spark (`--spark`): `gpt-5.4-mini` + `model_reasoning_effort=low` (fast_mode enabled).
+Bare `xask codex` and `xask cdx` use stock Codex and pin `gpt-5.6-sol`; Spark is explicit only.
+Review lane (`-R/--review`): `gpt-5.6-sol`; service defaults to ordinary unless fast is explicit.
+Full (`-R -F`): `gpt-5.6-sol` (1.05M ctx) — escape hatch.
+gpt-5.6-sol lane (`--gpt55`): `gpt-5.6-sol`; every role route uses `-e low`; only the native planner retains high effort outside this lane.
+Spark (`--spark` or `--substrate sekhmet`): Sekhmet L3, default `gpt-5.6-luna`, fixed low effort, explicit default/fast tier transport, with the caller repository passed as a snapshot scope.
 
 Precedence: `--model-id` is an exclusive exact-model route; otherwise
 `--spark` > `--gpt55` > `-R -F` > `-R` > default.
 
 ### Grok / Token Plan isolation
 
-Parent shells may export `CODEX_BIN=codex-titanium`. Grok and Token Plan execs always run under `env -u CODEX_BIN -u XBRD_SPARK_MODEL`. Debug (`-d`) prints `MODEL`, `LANE`, `ARGV`, and `CODEX_BIN_SET=0` for these lanes (and for `cdx`) before the constructed prompt.
+Parent shells may export `CODEX_BIN=codex-titanium`. Grok and Token Plan execs always run under `env -u CODEX_BIN -u XBRD_SPARK_MODEL`. Debug (`-d`) prints `MODEL`, `LANE`, `ARGV`, and `CODEX_BIN_SET` before the constructed prompt.
 
 ---
 
@@ -167,7 +191,7 @@ Findings from gemini and codex probing their own CLI behavior — surfaced durin
 
 ### Codex self-report (from `xask --spark codex` + `codex exec --help` + `src/ask.rs` direct read)
 
-- **`features.fast_mode=true` confirmed** — correct key on every Codex path. Spark uses `gpt-5.4-mini`, hard-wires `model_reasoning_effort=low`, and enables fast mode.
+- **Fast is explicit.** Compatible stock routes add `features.fast_mode=true` only with `--service-tier fast`; ordinary routes pin `service_tier="default"`. Sekhmet transports the same explicit choice.
 - **Effort is a `-c` config key, not a CLI flag** — codex exec has no `--effort` flag; xbreed maps `--effort <level>` → `-c model_reasoning_effort=<level>` (confirmed `src/ask.rs:407`).
 - **Validated effort levels**: `low`, `medium`, `high`, `xhigh`. Level `none` not validated by xbreed; may fail at codex runtime.
 - **`-e` shell alias gap (now closed)** — xask previously only parsed `--effort` long form; `xbreed ask` Rust CLI already had `-e`. Shell-layer parity restored by this update.

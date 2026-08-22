@@ -593,7 +593,7 @@ if [ -f "$TEMPLATE" ]; then
   # semantics for '&'. Inserted placeholder-like text is never rescanned.
   PROMPT=$(
     XASK_QUERY="$QUERY" XASK_CONTEXT="$CONTEXT" XASK_SCOPE="$SCOPE" \
-      XASK_EFFORT="${EFFORT:-unset}" XASK_THINKING_BUDGET="$THINKING_BUDGET" \
+      XASK_EFFORT="${EFFORT:-default}" XASK_THINKING_BUDGET="$THINKING_BUDGET" \
       awk '
         BEGIN {
           token[1]="{{QUERY}}"; value[1]=ENVIRON["XASK_QUERY"]
@@ -708,8 +708,10 @@ case "$MODEL" in
     # moonshotai/kimi-k3 (`kimi provider catalog add moonshotai`).
     KIMI_ALIAS="$MODEL_ID"
     case "$KIMI_ALIAS" in
-      ""|kimi-k3) KIMI_ALIAS="kimi-code/k3" ;;
+      ""|kimi-k3|kimi-code) KIMI_ALIAS="kimi-code/k3" ;;
     esac
+    # Note: plan output surfaces the catalog id (kimi-k3) while exec passes the
+    # CLI-qualified alias (kimi-code/k3) — same model, different namespaces.
     # One-shot mode takes NO approval flag: the CLI rejects -p combined with
     # both --auto and -y/--yolo (session-mode concepts). Plain -p is the
     # supported non-interactive shape.

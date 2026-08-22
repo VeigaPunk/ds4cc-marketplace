@@ -68,6 +68,11 @@ fi
 if "$XASK" plan --provider moonshot --model-id grok-4.6 --json -- probe >/dev/null 2>&1; then
   fail 'normalized provider mode accepted a cross-provider model id (moonshot)'
 fi
+# Catalog-bound invariant: provider mode rejects non-catalog Kimi aliases;
+# arbitrary CLI aliases remain reachable through the LEGACY route only.
+if "$XASK" plan --provider moonshot --model-id kimi-for-coding --json -- probe >/dev/null 2>&1; then
+  fail 'moonshot provider mode accepted a non-catalog model id'
+fi
 
 if "$XASK" plan --provider token-plan --model-id qwen3.8-max --effort high --json -- probe >/dev/null 2>&1; then
   fail 'Token Plan accepted unsupported high effort'
