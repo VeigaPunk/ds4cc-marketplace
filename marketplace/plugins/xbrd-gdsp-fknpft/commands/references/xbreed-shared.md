@@ -45,7 +45,7 @@ Include as FIRST instruction in every teammate brief that requires cross-model d
 - **sentinel**: `"Your FIRST tool call MUST be Bash: xask --gpt55 --gs -e low codex '<exploit/vulnerability analysis question>'. No other tool before xask returns."` (gpt-5.6-sol-low, uniform codex lane)
 - **critic**: `"Your FIRST tool call MUST be Skill(skill='heuer-planning') — this is Layer 0. After the skill loads, your SECOND tool call MUST be Bash: xask --gpt55 --gs -e low codex '<design review question>'. No other tool before xask returns."` (critic runs sonnet · medium per the unified scheme 2026-04-17 — the Axis → Profile Mapping below is authoritative; Layer-0 heuer-planning load applies to all critic teammates via on_spawn_skill frontmatter. If the skill is unavailable in the environment, the critic notes it and proceeds to Layer 1.)
 - **mutation-tester**: `"Your FIRST tool call MUST be Bash, EITHER: (a) `xask --spark --gs codex '<generate mutation for this function>'` for a single targeted mutation (fast spot-check), OR (b) `xask --gpt55 --gs -e low codex '<generate N mutations of <fn>; vary angle per mutation (boundary, operator-flip, return-swap, error-path, off-by-one); return HYPOTHESIS/METHOD/RESULT per mutation>'` for systematic breadth coverage. No other tool before xask returns. Pick (a) for ≤4 mutation targets, (b) for ≥5 or for breadth discovery."`
-- **executor** (`openai/gpt-5.4-mini`, Codex Spark only): `"Your FIRST tool call MUST be Bash: xask --spark --gs codex '<task>'. No other tool before xask returns. Never switch model or effort lane and never use advisor() for implementation delegation."`
+- **executor** (`openai/gpt-5.3-codex-spark`, Codex Spark only): `"Your FIRST tool call MUST be Bash: xask --spark --gs codex '<task>'. No other tool before xask returns. Never switch model or effort lane and never use advisor() for implementation delegation."`
 - **the-planner**: `"Your FIRST tool call MUST be Skill(skill='wwkd') — this is Layer 0 (loads the What Would Karpathy Do planning posture: data-walk-first, end-to-end skeleton before capacity, overfit-one-case before generalizing, structural verification at every step). After the skill loads, proceed to Phase 0 data-walk + WWKD skeleton per the-planner.md template. NO Layer-1 xask gate — CC-native planning."` See `feedback_the_planner_wwkd.md`.
 - **simplifier/distiller/scribe**: No xask gate, no Layer 0 skill load.
 
@@ -73,7 +73,7 @@ Allowed `axis_family` values (must match frontmatter in `~/.claude/agents/*.md`)
 
 **Sonnet-medium unified scheme (2026-04-17 pivot — supersedes opus-medium; judge downgraded xhigh→high 2026-04-19):**
 All non-executor teammate dispatches run **sonnet medium** uniformly. The
-`executor` is pinned to **`openai/gpt-5.4-mini` / Codex Spark only**. Only `the-judge`
+`executor` is pinned to **`openai/gpt-5.3-codex-spark` / Codex Spark only**. Only `the-judge`
 itself stays fable-**high** (orchestrator depth required; downgraded from
 xhigh 2026-04-19 — user directive, reasoning-cycle savings without
 sacrificing arbitration depth). User directive 2026-04-17: "opus is
@@ -89,7 +89,7 @@ Codex dispatches unified on gpt-5.6-sol + `features.fast_mode=true` per 2026-04-
 pivot. Every Sol role lane uses reasoning=low: reviewer/sentinel/critic,
 the-revenger RECON, and breadth routes all use
 `xask --gpt55 --gs -e low codex`; labrat/executor/mutation-tester-single
-via `xask --spark --gs codex` (gpt-5.4-mini, reasoning=low). Supersedes
+via `xask --spark --gs codex` (gpt-5.3-codex-spark, reasoning=low). Supersedes
 the prior `--review`/`-R` and `-R -F` split now routes on the single
 codex family (`gpt-5.6-sol`) via `src/ask.rs` constants and `features.fast_mode`
 (handled by `src/ask.rs` `CODEX_55_MODEL` / `CODEX_SPARK_MODEL`).
@@ -105,7 +105,7 @@ construction. Skipping connector is a structural gap, not a speed optimization.
 | Research, prior art | `scout` | sonnet · medium | `xask --spark --gs codex` (scout applies built-in curation taste; use `xask --gpt55 --gs -e low codex` for high-ambiguity research when Spark is insufficient) | All |
 | Correctness, bugs | `reviewer` | sonnet · medium | `xask --gpt55 --gs -e low codex` (gpt-5.6-sol + fast_mode + reasoning=low, uniform codex lane per 2026-04-24) | All |
 | Empirical probes | `labrat` | sonnet · medium | `xask --spark --gs codex` | All |
-| Code execution | `executor` | `openai/gpt-5.4-mini` (Codex Spark only) | `xask --spark --gs codex` only; no model, effort, or advisor escape hatch | All |
+| Code execution | `executor` | `openai/gpt-5.3-codex-spark` (Codex Spark only) | `xask --spark --gs codex` only; no model, effort, or advisor escape hatch | All |
 | Cross-axis patterns | `connector` | sonnet · medium | via Bash tool — xask is a shell CLI on PATH, not a native tool: `xask --spark --gs codex` → **sonnet in-session** fallback | All |
 | Synthesis, dedup | `distiller` | sonnet · medium | in-session | All |
 | Deletion, YAGNI | `simplifier` | sonnet · medium | CC native | All |
@@ -155,9 +155,9 @@ Prefix signals where reasoning lives (the target model for xask delegation), not
 Any agent can spawn a labrat probe. Two paths:
 
 1. **Subagent spawn:** `Agent(subagent_type="labrat", name="cdx-labrat-<hypothesis>", model="sonnet", prompt="<probe> | godspeed")`
-2. **Bash call:** `xask --spark --gs codex "<probe hypothesis>"` — codex-5.3-spark, fire-and-forget
+2. **Bash call:** `xask --spark --gs codex "<probe hypothesis>"` — gpt-5.3-codex-spark, fire-and-forget
 
-**Codex-spark is the sole labrat channel (user directive 2026-04-18).** No gemini labrat delegation. The codex-5.3-spark lane is fast, cheap, and expendable enough to be the complete labrat surface — both for single probes and in-model fanout.
+**Codex-spark is the sole labrat channel (user directive 2026-04-18).** No gemini labrat delegation. The gpt-5.3-codex-spark lane is fast, cheap, and expendable enough to be the complete labrat surface — both for single probes and in-model fanout.
 
 **Codex labrat swarm (universal):** Any agent can fire a codex-spark swarm via `xask codex "Orchestrate 10 parallel labrat probes on: <hypothesis>. Vary angle per probe. Report HYPOTHESIS/METHOD/RESULT."` — 1 call runs 10 probes inside codex-spark's context. Up to 3 refire rounds (30 probes total) — independent of judge rounds.
 

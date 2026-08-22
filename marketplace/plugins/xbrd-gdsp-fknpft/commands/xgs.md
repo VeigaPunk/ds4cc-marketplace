@@ -59,13 +59,14 @@ Axis → profile mapping (see `~/.claude/commands/references/xbreed-shared.md` f
 - Research, prior art → `scout` (sonnet)
 - Correctness, bugs → `reviewer` (sonnet)
 - Empirical probes → `labrat` (sonnet)
-- Code execution → `executor` (`openai/gpt-5.4-mini`, Codex Spark only; no alternate model/effort lane)
+- Code execution → `executor` (`openai/gpt-5.3-codex-spark`, Codex Spark only; no alternate model/effort lane)
 - Cross-axis patterns → `connector` (sonnet)
 - Synthesis, dedup → `distiller` (sonnet)
 - Planning, Phase 0, WWKD sequencing → `the-planner` (fable · high, Layer-0 wwkd skill load)
 - Complexity reduction → `simplifier` (sonnet)
 
-Hard global ceiling: <=16 concurrently spawned subagents.
+Certified stack ceiling: <=64 concurrently spawned subagents. Effective
+availability is host-governed; this stack must not impose a smaller local cap.
 
 ### Phase 2 — Spawn all with full peer roster
 
@@ -101,7 +102,7 @@ Agent(
 
 **Re-distill each round:** For rounds 2+, send updated proposals to the distiller via SendMessage rather than re-spawning. Only re-spawn if the distiller has been shut down.
 
-**Exit check:** Frontier reached (zero survivors / duplicates / 4 rounds / user halt) -> final DRAFT with AXES FINAL STATE. Otherwise dispatch Round N+1.
+**Exit check:** Frontier reached (zero survivors / duplicates / 6 rounds / user halt) -> final DRAFT with AXES FINAL STATE. Otherwise dispatch Round N+1.
 
 ## CONFLICTS block
 
@@ -119,11 +120,11 @@ CONFLICTS (emit only if cross-teammate contradictions exist):
 
 After each round, immediately assess and dispatch next round if frontier still moving. Do not pause. Do not ask. The user interrupts when they want to steer.
 
-**Limits:** <=6 rounds, <=16 concurrent subagents globally, <=200-word proposals.
+**Limits:** <=6 rounds, <=64 concurrent subagents globally (subject only to host availability), <=200-word proposals.
 
 ## Step 6 — Auto-cleanup after frontier
 
-When the frontier stops moving (zero survivors / duplicates / 4 rounds / user halt): emit the final DRAFT, then immediately shutdown all teammates via `SendMessage shutdown_request` in parallel, wait for shutdown_approved, then `TeamDelete`. If TeamDelete fails with "active members", run `xbreed-cleanup <team-name>` via Bash. Do not ask for permission — the team has served its purpose, kill it.
+When the frontier stops moving (zero survivors / duplicates / 6 rounds / user halt): emit the final DRAFT, then immediately shutdown all teammates via `SendMessage shutdown_request` in parallel, wait for shutdown_approved, then `TeamDelete`. If TeamDelete fails with "active members", run `xbreed-cleanup <team-name>` via Bash. Do not ask for permission — the team has served its purpose, kill it.
 
 If the user wants a new axis, they invoke `/xgs` again; spawning is cheap.
 

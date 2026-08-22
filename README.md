@@ -153,7 +153,7 @@ The xbreed stack has CLI-exclusive pure-execution layers. **Codex Titanium L3 (s
    sekhmet run --direct --timeout 60 --task "Reply with SPARK_OK"
    ```
 
-Runtime resolve: `CODEX_BIN` → `codex-titanium` → skip omarchy npx `codex` stub. Crate default **`gpt-5.6-luna`** + effort **low** + `service_tier=fast` + fallback **none** (`XBRD_SPARK_MODEL` / `XBRD_SPARK_SERVICE_TIER`).
+Runtime resolve: `CODEX_BIN` → `codex-titanium` → skip omarchy npx `codex` stub. Crate default **`gpt-5.3-codex-spark`** + effort **low** + `service_tier=default` + fallback **`gpt-5.6-luna`** (host env may set `XBRD_SPARK_SERVICE_TIER=fast`; `XBRD_SPARK_MODEL` / `XBRD_SPARK_FALLBACK_MODEL` / `XBRD_SPARK_SERVICE_TIER`).
 
 ### Grok Build (xbgst exclusive + livepatch ban)
 
@@ -181,7 +181,7 @@ bash ~/.grok/installed-plugins/xbgst-stack-*/scripts/install-host.sh
 # optional skill tree: VeigaPunk/xbrd-grok
 ```
 
-Hard locks: subagents receive only short godspeed directive; judge alone runs full trilogy; Rust only; concurrency hardcap 16; connector mandatory every round. Binary ban rejects `general-purpose`/`explore` (case-insensitive); first-party full-tool paths use `agent`.
+Hard locks: subagents receive only short godspeed directive; judge alone runs full trilogy; Rust only; host-governed concurrency certified at 64; connector mandatory every round. Binary ban rejects `general-purpose`/`explore` (case-insensitive); first-party full-tool paths use `agent`.
 
 ### Shared multi-model (xbrd-gdsp-fknpft + xbrd-selector)
 
@@ -340,7 +340,7 @@ The ignored output is `artifacts/ds4cc-openai-submission.zip`. The builder accep
 | --- | --- |
 | [xbrd-spark](https://github.com/VeigaPunk/xbrd-spark) | L3 Sekhmet swarm binary (`sekhmet` / `xbrd-spark`); global cap **64** concurrent workers |
 | [sekhmet-l3](https://github.com/VeigaPunk/sekhmet-l3) | Public L3 usage + GATE evidence pack (luna + fast, j=64) |
-| [xbgst](https://github.com/VeigaPunk/xbgst) | Grok host Godspeed stack (judge concurrency 16; L3 remains 64 via Sekhmet) |
+| [xbgst](https://github.com/VeigaPunk/xbgst) | Grok host Godspeed stack (host-governed concurrency certified at 64, including Sekhmet) |
 | [xbgst-site](https://github.com/VeigaPunk/xbgst-site) | Public xbgst hub · [https://veigapunk.github.io/xbgst-site/](https://veigapunk.github.io/xbgst-site/) · [repo](https://github.com/VeigaPunk/xbgst-site) |
 | [xbrd-sol-ultra](https://github.com/VeigaPunk/xbrd-sol-ultra) | Sol Ultra root judge skill: one `sekhmet swarm -j 64` wave per round |
 | [xbrd-selector](https://github.com/VeigaPunk/xbrd-selector) | Rover CLI; also packaged here as plugin `xbrd-selector` |

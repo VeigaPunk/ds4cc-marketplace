@@ -67,12 +67,13 @@ Axis → profile mapping (see `~/.claude/commands/references/xbreed-shared.md` f
 - Research, prior art → `scout` — `xask --spark --gs codex`
 - Correctness, bugs → `reviewer` — `xask --gpt55 --gs -e low codex`
 - Empirical probes → `labrat` — `xask --spark --gs codex`
-- Code execution → `executor` (`openai/gpt-5.4-mini`, Codex Spark only) — `xask --spark --gs codex` only; no alternate model/effort lane
+- Code execution → `executor` (`openai/gpt-5.3-codex-spark`, Codex Spark only) — `xask --spark --gs codex` only; no alternate model/effort lane
 - Cross-axis patterns → `connector` — `xask --spark --gs codex`
 - Synthesis, dedup → `distiller` — in-session
 - Complexity reduction → `simplifier` — CC native
 
-Hard global ceiling: <=16 concurrently spawned subagents.
+Certified stack ceiling: <=64 concurrently spawned subagents. Effective
+availability is host-governed; this stack must not impose a smaller local cap.
 
 ### Phase 2 — Spawn all with full peer roster AND xask gate
 
@@ -154,11 +155,11 @@ CONFLICTS (emit only if cross-model contradictions exist):
 
 Do not pause. Do not ask. User interrupts to steer. Keep iterating.
 
-Limits: <=6 rounds, <=16 concurrent subagents globally, <=200-word proposals. Exit semantics live in `xbreed-shared.md`.
+Limits: <=6 rounds, <=64 concurrent subagents globally (subject only to host availability), <=200-word proposals. Exit semantics live in `xbreed-shared.md`.
 
 ## Step 6 — Auto-cleanup after frontier
 
-When the frontier stops moving (zero survivors / duplicates / 4 rounds / user halt): emit final DRAFT, then immediately shutdown all teammates in parallel via `SendMessage shutdown_request`, wait for shutdown_approved, then `TeamDelete`. If TeamDelete fails with "active members", run `xbreed-cleanup <team-name>` via Bash. Do not ask — kill it. User re-invokes `/xbgst` if they want a new axis.
+When the frontier stops moving (zero survivors / duplicates / 6 rounds / user halt): emit final DRAFT, then immediately shutdown all teammates in parallel via `SendMessage shutdown_request`, wait for shutdown_approved, then `TeamDelete`. If TeamDelete fails with "active members", run `xbreed-cleanup <team-name>` via Bash. Do not ask — kill it. User re-invokes `/xbgst` if they want a new axis.
 
 ## Step 7 — Status after init
 
