@@ -13,8 +13,14 @@ cat >"$TMP/xbreed" <<'EOF'
 printf '%s\0' "$@" >"$XASK_CAPTURE"
 EOF
 chmod +x "$TMP/xbreed"
+cat >"$TMP/sekhmet" <<'EOF'
+#!/usr/bin/env bash
+printf '%s\0' sekhmet "$@" >"$XASK_CAPTURE"
+EOF
+chmod +x "$TMP/sekhmet"
 export PATH="$TMP:/usr/bin:/bin" XASK_CAPTURE="$CAPTURE"
 export XBREED_DISPATCH_DIR="$ROOT/templates/dispatch"
+export XASK_GODSPEED_DIRECTIVE="$ROOT/skills/godspeed/directive.md"
 mkdir "$TMP/home"
 export HOME="$TMP/home"
 
@@ -29,15 +35,17 @@ run() {
 run -r --scope src --debug codex query
 run --json -o "$TMP/out file" --gpt55 -e high codex 'quoted query'
 [[ "${ARGV[*]}" == *"ask codex --with godspeed"* ]] || fail 'codex route missing'
-[[ "${ARGV[*]}" == *"--gpt55 --effort high --output-last-message $TMP/out file --json"* ]] || fail 'flag forwarding/order'
+[[ "${ARGV[*]}" == *"--gpt55 --effort high"* ]] || fail 'gpt55/effort flag forwarding'
+[[ "${ARGV[*]}" == *"--service-tier fast"* ]] || fail 'chatgpt stock lane missing service_tier=fast'
+[[ "${ARGV[*]}" == *"--output-last-message $TMP/out file --json"* ]] || fail 'output/json flag forwarding'
 
 run -scp src g 'local query'
 [[ "${ARGV[0]} ${ARGV[1]}" == 'ask gemma' ]] || fail 'g alias did not route to gemma'
 run gemini 'legacy query'
 [[ "${ARGV[0]} ${ARGV[1]}" == 'ask gemma' ]] || fail 'gemini alias did not route to gemma'
 run codex 'default query'
-[[ "${ARGV[0]} ${ARGV[1]}" == 'ask codex' ]] || fail 'default codex route missing'
-[[ " ${ARGV[*]} " == *' --spark '* ]] && fail 'bare codex must not auto-spark (L3 sekhmet is explicit --spark)'
+[[ "${ARGV[0]}" == sekhmet ]] || fail "bare codex should auto-spark sekhmet, got: ${ARGV[*]}"
+[[ " ${ARGV[*]} " == *' run '* ]] || fail 'bare codex auto-spark missing sekhmet run'
 
 # Value-taking flags fail with the exact diagnostic before dispatch, including
 # when the next token is another flag.

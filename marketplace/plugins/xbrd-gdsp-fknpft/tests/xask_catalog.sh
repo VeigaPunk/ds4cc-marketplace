@@ -97,8 +97,12 @@ jq -e '.selection.service_tier == "fast" and .selection.substrate == "sekhmet"' 
   || fail 'Sekhmet fast tier was not preserved in the normalized plan'
 
 legacy_spark_plan="$($XASK plan --spark --json codex probe)"
-jq -e '.selection.model_id == "gpt-5.6-luna" and .selection.service_tier == "default"' \
-  <<<"$legacy_spark_plan" >/dev/null || fail 'legacy Spark plan drifted from the Luna/default runtime'
+jq -e '.selection.model_id == "gpt-5.3-codex-spark" and .selection.service_tier == "fast" and .selection.substrate == "sekhmet"' \
+  <<<"$legacy_spark_plan" >/dev/null || fail 'legacy Spark plan drifted from the Codex-Spark/fast sekhmet runtime'
+
+chatgpt_default_plan="$($XASK plan --provider chatgpt --json -- ping)"
+jq -e '.selection.provider == "chatgpt" and .selection.substrate == "sekhmet" and .selection.model_id == "gpt-5.3-codex-spark" and .selection.service_tier == "fast"' \
+  <<<"$chatgpt_default_plan" >/dev/null || fail 'ChatGPT default plan must be sekhmet + spark + fast, not stock'
 
 custom_plan="$($XASK plan --provider chatgpt --model-id gpt-5.6-sol --json -- \
   probe 'shared context' reviewer)"

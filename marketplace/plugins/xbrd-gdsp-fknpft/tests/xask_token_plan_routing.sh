@@ -59,25 +59,21 @@ printf '%s\n' "$out" | grep -qi sekhmet && fail 'qwen38 must not mention sekhmet
 out=$("$XASK" -d --gs qwen ping)
 printf '%s\n' "$out" | grep -q '^MODEL: qwen38$' || fail 'qwen alias → qwen38'
 
-# --- cdx: stock ChatGPT Codex via xbreed ask ---
+# --- cdx: default ChatGPT is sekhmet / titanium / fast ---
 : >"$CAPTURE"
 out=$("$XASK" -d --gs cdx ping)
 printf '%s\n' "$out" | grep -q '^MODEL: cdx$' || fail 'cdx MODEL'
-printf '%s\n' "$out" | grep -Eq 'xbreed ask|ask codex' || fail 'cdx stock codex argv'
+printf '%s\n' "$out" | grep -q 'LANE: sekhmet' || fail 'cdx default LANE sekhmet'
+printf '%s\n' "$out" | grep -q 'sekhmet run' || fail 'cdx default argv sekhmet run'
+printf '%s\n' "$out" | grep -q 'XBRD_SPARK_SERVICE_TIER=fast' || fail 'cdx default service_tier fast'
 printf '%s\n' "$out" | grep -q 'TEMPLATE:.*codex.md' || fail 'cdx uses codex.md'
 
-# Live cdx (non-debug) hits mocked xbreed
-: >"$CAPTURE"
-"$XASK" --gs cdx 'live probe' >/dev/null
-mapfile -d '' -t ARGV <"$CAPTURE"
-[[ "${ARGV[0]} ${ARGV[1]}" == 'ask codex' ]] || fail "cdx live route got: ${ARGV[*]}"
-[[ " ${ARGV[*]} " == *' --spark '* ]] && fail 'bare cdx must not auto-spark'
-
 # --- spark on cdx → sekhmet (debug argv; L3, not Token Plan) ---
-out=$("$XASK" -d --spark --gs cdx ping)
+# Unset ambient pin so the default-slug assertion is host-env independent.
+out=$(env -u XBRD_SPARK_MODEL -u XBRD_SPARK_FALLBACK_MODEL "$XASK" -d --spark --gs cdx ping)
 printf '%s\n' "$out" | grep -q 'LANE: sekhmet' || fail 'spark LANE sekhmet'
 printf '%s\n' "$out" | grep -q 'sekhmet run' || fail 'spark argv sekhmet run'
-printf '%s\n' "$out" | grep -q 'XBRD_SPARK_MODEL=gpt-5.6-luna' || fail 'spark default luna'
+printf '%s\n' "$out" | grep -q 'XBRD_SPARK_MODEL=gpt-5.3-codex-spark' || fail 'spark default codex-spark'
 printf '%s\n' "$out" | grep -q 'gpt-5.4-mini' && fail 'spark must not be xbreed mini'
 printf '%s\n' "$out" | grep -q 'codex-qwen38' && fail 'spark must not Token Plan'
 

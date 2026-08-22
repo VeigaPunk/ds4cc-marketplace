@@ -19,13 +19,14 @@
 #      | -r (rich) | --spk (spark) | -R (review) | -F (full) | --gpt55 (gpt-5.6-sol)
 #      | --model-id (exact provider model) | --gs (explicit godspeed SKILL load) | -e (effort) | -o (output-last-message) | --json
 #
-# codex / cdx model lanes (stock ChatGPT Codex via xbreed ask):
-#   default:       gpt-5.6-sol (reasoning=low)
-#   --spark:       gpt-5.3-codex-spark + reasoning=low through Sekhmet L3 (fallback gpt-5.6-luna)
-#   --review / -R: gpt-5.6-sol (reviewer/critic/sentinel default per 2026-04-18)
-#   -R --full/-F:  gpt-5.6-sol full (the-revenger RECON escape hatch, 1.05M ctx)
-#   --gpt55:       gpt-5.6-sol (xbrd-exec bench xask-arm measurement, 2026-04-24)
-#   fast servicing is opt-in with --service-tier fast on compatible models.
+# codex / cdx model lanes:
+#   default:       sekhmet L3 + gpt-5.3-codex-spark + service_tier=fast (codex-titanium)
+#   --spark:       same sekhmet L3 lane (fallback gpt-5.6-luna)
+#   --substrate stock / --model-id / --gpt55 / -R / -F: stock ChatGPT Codex via xbreed ask
+#   --review / -R: gpt-5.6-sol stock (reviewer/critic/sentinel opt-in)
+#   -R --full/-F:  gpt-5.6-sol full stock (the-revenger RECON escape hatch, 1.05M ctx)
+#   --gpt55:       gpt-5.6-sol stock
+#   service_tier=fast is the ChatGPT default; Daybreak / gpt-5.4-mini stay default.
 #
 # Native / Token Plan lanes (no xbreed ask; env -u CODEX_BIN -u XBRD_SPARK_MODEL):
 #   grok:    grok --always-approve --no-subagents --verbatim -p
@@ -45,9 +46,10 @@
 #   xask gemini "What patterns exist?"              # LEGACY alias → gemma/HVM (cloud retired)
 #   xask --gs gemma "What patterns exist?"          # explicit godspeed load (SKILL override)
 #   xask -scp "src/ask.rs" gemma "Review this"      # scoped clean dispatch
-#   xask --spk codex "Probe this hypothesis"        # fast codex-spark, low effort
-#   xask codex "Probe this hypothesis"              # stock Codex; spark is explicit
-#   xask cdx "Probe this hypothesis"                # alias → stock xbreed ask codex
+#   xask --spk codex "Probe this hypothesis"        # sekhmet + spark + fast
+#   xask codex "Probe this hypothesis"              # same default (sekhmet/titanium/fast)
+#   xask cdx "Probe this hypothesis"                # alias → same sekhmet default
+#   xask --substrate stock cdx "Probe"              # opt-in stock xbreed ask
 #   xask --gs grok "Probe oneshot"                  # bash-exec grok CLI
 #   xask --gs qwen38 "Token Plan probe"             # bash-exec codex-qwen38
 #   xask --gs kimi "Moonshot K3 probe"              # bash-exec kimi -m kimi-code/k3 (OAuth)
@@ -171,6 +173,7 @@ MODEL_ID=""
 PROVIDER=""
 PROVIDER_EXPLICIT=false
 SUBSTRATE="stock"
+SUBSTRATE_EXPLICIT=false
 SERVICE_TIER=""
 MODEL_FLAGS=()
 OUTPUT_LAST_MESSAGE=""
@@ -200,7 +203,7 @@ while [[ "$1" == -* ]]; do
     --full   | -F)   FULL=true; shift ;;
     --gpt55) GPT55=true; shift ;;
     --provider) require_flag_value "$@"; PROVIDER="$2"; PROVIDER_EXPLICIT=true; shift 2 ;;
-    --substrate) require_flag_value "$@"; SUBSTRATE="$2"; shift 2 ;;
+    --substrate) require_flag_value "$@"; SUBSTRATE="$2"; SUBSTRATE_EXPLICIT=true; shift 2 ;;
     --model-id) require_flag_value "$@"; MODEL_ID="$2"; shift 2 ;;
     --service-tier) require_flag_value "$@"; SERVICE_TIER="$2"; shift 2 ;;
     --gs) FORCE_GS=true; shift ;;
@@ -249,6 +252,12 @@ if [[ -n "$PROVIDER" ]]; then
   case "$PROVIDER" in
     chatgpt)
       MODEL=codex
+      if [[ "$SUBSTRATE_EXPLICIT" != true && -z "$REQUESTED_MODEL_ID" \
+          && "$GPT55" != true && "$REVIEW" != true && "$FULL" != true ]]; then
+        SUBSTRATE=sekhmet
+        SPARK=true
+        SPARK_REQUESTED=true
+      fi
       if [[ -z "$MODEL_ID" ]]; then
         if [[ "$SUBSTRATE" == sekhmet ]]; then
           MODEL_ID="gpt-5.3-codex-spark"
@@ -343,6 +352,15 @@ if [[ -z "$PROVIDER" ]]; then
   esac
 fi
 
+# ChatGPT default lane is sekhmet (codex-titanium), not stock Codex.
+# Explicit --substrate, --model-id, or sol-lane flags (--gpt55/-R/-F) keep stock.
+if [[ "$PROVIDER" == chatgpt && "$SUBSTRATE_EXPLICIT" != true && -z "$MODEL_ID" \
+    && "$GPT55" != true && "$REVIEW" != true && "$FULL" != true ]]; then
+  SUBSTRATE=sekhmet
+  SPARK=true
+  SPARK_REQUESTED=true
+fi
+
 if [[ "$SUBSTRATE" == sekhmet ]]; then
   [[ "$PROVIDER" == chatgpt ]] || {
     echo "xask: sekhmet substrate is available only for the chatgpt provider" >&2
@@ -416,7 +434,12 @@ if [[ "$PROVIDER_EXPLICIT" == true && -z "$EFFORT" ]]; then
   fi
 fi
 
-if [[ "$PROVIDER_EXPLICIT" == true && -z "$SERVICE_TIER" ]]; then
+if [[ -z "$SERVICE_TIER" && "$PROVIDER" == chatgpt ]]; then
+  case "$SELECTED_MODEL_ID" in
+    gpt-daybreak-blue-latest|gpt-5.4-mini) SERVICE_TIER=default ;;
+    *) SERVICE_TIER=fast ;;
+  esac
+elif [[ "$PROVIDER_EXPLICIT" == true && -z "$SERVICE_TIER" ]]; then
   SERVICE_TIER=default
 fi
 
@@ -523,8 +546,9 @@ if [[ "$PLAN" == true ]]; then
   exit 0
 fi
 
-# Bare `xask cdx` is stock ChatGPT via xbreed (L2 consult). Explicit --spark
-# is L3 sekhmet / xbrd-spark (Titanium + XBRD_SPARK_MODEL). Do not auto-spark.
+# Bare `xask cdx` and `xask plan --provider chatgpt` default to sekhmet
+# (codex-titanium, service_tier=fast, gpt-5.3-codex-spark). Explicit
+# --substrate stock, --model-id, or --gpt55/-R/-F keep the stock xbreed lane.
 
 [ -n "$EFFORT" ] && EFFORT_FLAGS=(--effort "$EFFORT")
 [ -n "$MODEL_ID" ] && MODEL_FLAGS=(--model "$MODEL_ID")
@@ -756,7 +780,7 @@ if [ "$SPARK" = true ]; then
         echo "xask: --json/-o/--gpt55/-R/-F are dropped by --spark (sekhmet has no those flags)" >&2
         exit 1
       fi
-      SPARK_SERVICE_TIER="${SERVICE_TIER:-default}"
+      SPARK_SERVICE_TIER="${SERVICE_TIER:-${XBRD_SPARK_SERVICE_TIER:-fast}}"
       DISPATCH_ARGV=(env XBRD_SPARK_MODEL="$SPARK_MODEL" XBRD_SPARK_SERVICE_TIER="$SPARK_SERVICE_TIER"
         sekhmet run --scope "$PWD" --task "$PROMPT")
       DEBUG_ARGV=(env XBRD_SPARK_MODEL="$SPARK_MODEL" XBRD_SPARK_SERVICE_TIER="$SPARK_SERVICE_TIER"
