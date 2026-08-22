@@ -55,6 +55,8 @@ and always loaded first.
 | `--service-tier` | — | `default` or `fast`. `default` explicitly neutralizes ambient priority; `fast` is opt-in and accepted only by compatible ChatGPT models. Sekhmet transports the same choice. | chatgpt | `default` |
 | `--direct` | — | **Removed in R2.** No longer accepted — xask hard-fails at the flag parser (`*) echo ... exit 1`). Suppression is always-on; use `--effort` to control reasoning level. | — | — |
 
+**Dual spark lanes.** PATH `xask --spark` / `--spk` → L3 sekhmet, default `XBRD_SPARK_MODEL=gpt-5.3-codex-spark`, fallback `gpt-5.6-luna`. Rust `xbreed ask … --spark` → `CODEX_SPARK_MODEL=gpt-5.4-mini` in `src/ask.rs`, pinned by `tests/ask_with_loadout.rs`, unchanged by design. These are two distinct lanes.
+
 ### `--effort` per-model mapping
 
 | Model | Maps to |
@@ -172,7 +174,7 @@ Agent and teammate names use a prefix that signals where reasoning lives:
 | `ccs-` | Claude Code (Sonnet) | `ccs-simplifier-refactor` |
 | `cco-` | Claude Code (Fable 5, effort: high — LOCKED; unified 2026-04-19 — the-judge now also runs at high, downgraded from xhigh) | `cco-judge`, `cco-distiller` |
 
-The prefix identifies the execution or delegation target. The executor itself is pinned to `openai/gpt-5.4-mini` / Codex Spark; other roles may run in Claude and delegate by prefix. A `g-scout-*` agent may call `xask gemma` (or `xask g`; `xask gemini` remains legacy-compatible).
+The prefix identifies the execution or delegation target. The executor itself is pinned to `openai/gpt-5.4-mini` / Codex Spark (the executor **host-model pin**; its `xask --spark` *delegation* rides the PATH/Sekhmet lane in §2); other roles may run in Claude and delegate by prefix. A `g-scout-*` agent may call `xask gemma` (or `xask g`; `xask gemini` remains legacy-compatible).
 
 ---
 
