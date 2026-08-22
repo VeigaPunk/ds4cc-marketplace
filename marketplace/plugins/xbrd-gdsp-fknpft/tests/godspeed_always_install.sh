@@ -16,6 +16,7 @@ printf '%s\n' 'codex content' >"$HOME_DIR/.codex/AGENTS.md"
 printf '%s\n' 'default opencode content' >"$HOME_DIR/.config/opencode/AGENTS.md"
 printf '%s\n' 'opencode content' >"$XDG_DIR/opencode/AGENTS.md"
 printf '%s\n' 'shell content' >"$HOME_DIR/.bashrc"
+printf '%s\n' 'zshenv content' >"$HOME_DIR/.zshenv"
 mkdir -p "$HOME_DIR/.claude"
 cat >"$HOME_DIR/.claude/CLAUDE.md" <<'EOF'
 unrelated before
@@ -56,12 +57,17 @@ grep -Fq 'home content' "$HOME_DIR/AGENTS.md"
 grep -Fq 'codex content' "$HOME_DIR/.codex/AGENTS.md"
 grep -Fq 'default opencode content' "$HOME_DIR/.config/opencode/AGENTS.md"
 grep -Fq 'opencode content' "$XDG_DIR/opencode/AGENTS.md"
-[[ $(<"$HOME_DIR/.bashrc") == 'shell content' ]] || { printf 'installer rewrote shell prompt config\n' >&2; exit 1; }
+for rc in "$HOME_DIR/.bashrc" "$HOME_DIR/.zshenv"; do
+  grep -Fq 'export OPENCODE_ENABLE_EXA=1' "$rc" || { printf 'missing OPENCODE_ENABLE_EXA export in %s\n' "$rc" >&2; exit 1; }
+  [[ $(grep -Fc 'export OPENCODE_ENABLE_EXA=1' "$rc") -eq 1 ]] || { printf 'duplicate OPENCODE_ENABLE_EXA export in %s\n' "$rc" >&2; exit 1; }
+done
+grep -Fq 'shell content' "$HOME_DIR/.bashrc"
+grep -Fq 'zshenv content' "$HOME_DIR/.zshenv"
 
-before=$(sha256sum "${targets[@]}")
+before=$(sha256sum "${targets[@]}" "$HOME_DIR/.bashrc" "$HOME_DIR/.zshenv")
 run_default_installer >/dev/null
 run_xdg_installer >/dev/null
-after=$(sha256sum "${targets[@]}")
+after=$(sha256sum "${targets[@]}" "$HOME_DIR/.bashrc" "$HOME_DIR/.zshenv")
 [[ "$before" == "$after" ]] || { printf 'installer is not idempotent\n' >&2; exit 1; }
 
 if [[ -e "$HOME_DIR/CLAUDE.md" || -e "$FIXTURE/CLAUDE.md" ]]; then

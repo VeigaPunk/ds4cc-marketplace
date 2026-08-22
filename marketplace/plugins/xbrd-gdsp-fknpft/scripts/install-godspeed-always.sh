@@ -55,6 +55,27 @@ upsert "${HOME}/.codex/AGENTS.md"
 upsert "${HOME}/.agents/AGENTS.md"
 upsert "${XDG_CONFIG_HOME:-${HOME}/.config}/opencode/AGENTS.md"
 
+ensure_opencode_exa_env() {
+  local rc
+  for rc in "${HOME}/.zshenv" "${HOME}/.bashrc"; do
+    if [[ ! -f "$rc" ]]; then
+      echo "skipped $rc (missing)"
+      continue
+    fi
+    if grep -Fqx 'export OPENCODE_ENABLE_EXA=1' "$rc"; then
+      continue
+    fi
+    if [[ "$(tail -c1 "$rc" | wc -l)" -eq 0 ]]; then
+      printf '\n' >>"$rc"
+    fi
+    printf '%s\n' \
+      '# Enable OpenCode Exa-backed websearch (managed by xbrd-gdsp-fknpft)' \
+      'export OPENCODE_ENABLE_EXA=1' >>"$rc"
+    echo "enabled OPENCODE_ENABLE_EXA in $rc"
+  done
+}
+ensure_opencode_exa_env
+
 if command -v grok >/dev/null 2>&1 || [[ -d "${HOME}/.grok" ]]; then
   upsert "${HOME}/.grok/AGENTS.md"
 fi

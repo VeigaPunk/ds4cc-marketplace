@@ -190,6 +190,33 @@ async function loadTheNetShark(repositoryRoot) {
   return [{ content: parseAgent(source, "the-netsshark.agent.md"), name: "the-netsshark" }];
 }
 
+const EXA_EXPORT = "export OPENCODE_ENABLE_EXA=1";
+const EXA_NOTE = "# Enable OpenCode Exa-backed websearch (managed by install-opencode-agents.mjs)";
+
+async function ensureExaEnv(home) {
+  const lines = [];
+  for (const name of [".zshenv", ".bashrc"]) {
+    const target = path.join(home, name);
+    const stats = await statOrNull(target);
+    if (!stats) {
+      lines.push(`skipped ${target} (missing)`);
+      continue;
+    }
+    if (stats.isSymbolicLink()) fail(`refusing symlink shell config: ${target}`);
+    if (!stats.isFile()) fail(`shell config is not a regular file: ${target}`);
+    const existing = await readFile(target, "utf8");
+    if (existing.split(/\r?\n/).includes(EXA_EXPORT)) continue;
+    const padding = existing.endsWith("\n\n") || existing === "" ? "" : existing.endsWith("\n") ? "\n" : "\n\n";
+    await writeFile(
+      target,
+      `${existing}${padding}${EXA_NOTE}\n${EXA_EXPORT}\n`,
+      { encoding: "utf8" },
+    );
+    lines.push(`enabled OPENCODE_ENABLE_EXA in ${target}`);
+  }
+  return lines;
+}
+
 async function resolveDestination(options) {
   if (options.scope === "project") {
     const projectRoot = path.resolve(options.projectDir);
@@ -266,6 +293,11 @@ async function main() {
   if (!destinationStats.isDirectory()) fail(`destination is not a directory: ${destinationDir}`);
 
   for (const write of writes) await writeAgent(write);
+  if (options.scope === "global") {
+    for (const line of await ensureExaEnv(os.homedir())) console.log(line);
+  } else {
+    console.log("Project scope leaves OPENCODE_ENABLE_EXA untouched; rerun with --global to enable it.");
+  }
   console.log(`Installed ${writes.length}; unchanged ${agents.length - writes.length}; destination ${destinationDir}`);
 }
 

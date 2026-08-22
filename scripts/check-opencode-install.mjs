@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { mkdtemp, readFile, readdir, rm } from "node:fs/promises";
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
@@ -20,7 +20,7 @@ try {
 
   const destination = path.join(temporary, ".opencode", "agents");
   const files = (await readdir(destination)).sort();
-  if (files.length !== 17 || files.some((name) => !/^(?:orch|[a-z0-9]+(?:-[a-z0-9]+)*)\.md$/.test(name))) {
+  if (files.length !== 18 || files.some((name) => !/^(?:orch|[a-z0-9]+(?:-[a-z0-9]+)*)\.md$/.test(name))) {
     throw new Error(`unexpected generated filenames: ${files.join(", ")}`);
   }
 
@@ -54,11 +54,38 @@ try {
     }
   }
 
-  if (modeCounts.subagent !== 16 || modeCounts.primary !== 1) {
+  if (modeCounts.subagent !== 17 || modeCounts.primary !== 1) {
     throw new Error(`unexpected OpenCode modes: ${modeCounts.subagent} subagents, ${modeCounts.primary} primary`);
   }
 
-  console.log(`Validated isolated OpenCode install: ${files.length} portable files (15 the-* agents + the-netsshark = 16 subagents, plus separate orch primary mode) in ${destination}`);
+  const { XDG_CONFIG_HOME: _ignored, ...inheritedEnv } = process.env;
+  const fakeHome = path.join(temporary, "home");
+  await mkdir(fakeHome, { recursive: true });
+  await writeFile(path.join(fakeHome, ".bashrc"), "user rc line\n", "utf8");
+
+  const globalRun = () =>
+    spawnSync(
+      process.execPath,
+      [path.join(root, "scripts", "install-opencode-agents.mjs"), "--global"],
+      { encoding: "utf8", env: { ...inheritedEnv, HOME: fakeHome } },
+    );
+
+  const assertExaExport = async (expectedBytes) => {
+    const bashrc = await readFile(path.join(fakeHome, ".bashrc"), "utf8");
+    if (!bashrc.includes("user rc line")) throw new Error("global install clobbered .bashrc user content");
+    const exportCount = bashrc.split("\n").filter((line) => line === "export OPENCODE_ENABLE_EXA=1").length;
+    if (exportCount !== 1) throw new Error(`expected exactly one OPENCODE_ENABLE_EXA export in .bashrc, found ${exportCount}`);
+    return expectedBytes === undefined ? true : bashrc === expectedBytes;
+  };
+
+  if (globalRun().status !== 0) throw new Error("global installer run failed");
+  await assertExaExport();
+  const firstPass = await readFile(path.join(fakeHome, ".bashrc"), "utf8");
+  const secondRun = globalRun();
+  if (secondRun.status !== 0) throw new Error(secondRun.stderr || `installer exited ${secondRun.status}`);
+  if (!(await assertExaExport(firstPass))) throw new Error("OPENCODE_ENABLE_EXA export is not idempotent");
+
+  console.log(`Validated isolated OpenCode install: ${files.length} portable files (16 the-* agents + the-netsshark = 17 subagents, plus separate orch primary mode) and OPENCODE_ENABLE_EXA shell export in ${destination}`);
 } finally {
   await rm(temporary, { recursive: true, force: true });
 }
