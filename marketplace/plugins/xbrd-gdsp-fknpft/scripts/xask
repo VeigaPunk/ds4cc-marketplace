@@ -26,7 +26,7 @@
 #   --review / -R: gpt-5.6-sol stock (reviewer/critic/sentinel opt-in)
 #   -R --full/-F:  gpt-5.6-sol full stock (the-revenger RECON escape hatch, 1.05M ctx)
 #   --gpt55:       gpt-5.6-sol stock
-#   service_tier=fast is the ChatGPT default; Daybreak / gpt-5.4-mini stay default.
+#   service_tier=fast only when the model advertises it (xask-models.json).
 #
 # Native / Token Plan lanes (no xbreed ask; env -u CODEX_BIN -u XBRD_SPARK_MODEL):
 #   grok:    grok --always-approve --no-subagents --verbatim -p
@@ -425,11 +425,22 @@ if [[ "$PROVIDER_EXPLICIT" == true && -z "$EFFORT" ]]; then
   fi
 fi
 
-if [[ -z "$SERVICE_TIER" ]]; then
-  case "$SELECTED_MODEL_ID" in
-    gpt-daybreak-blue-latest|gpt-5.4-mini) SERVICE_TIER=default ;;
-    *) SERVICE_TIER=fast ;;
+# Catalog SSoT: config/xask-models.json service_tiers. Pin fast only when advertised.
+model_advertises_fast() {
+  case "$1" in
+    gpt-5.6-sol|gpt-5.6-terra|gpt-5.6-luna|gpt-reserve|gpt-5.5|gpt-5.4|gpt-5.3-codex-spark|codex-auto-review)
+      return 0
+      ;;
+    *) return 1 ;;
   esac
+}
+
+if [[ -z "$SERVICE_TIER" ]]; then
+  if model_advertises_fast "$SELECTED_MODEL_ID"; then
+    SERVICE_TIER=fast
+  else
+    SERVICE_TIER=default
+  fi
 fi
 
 # Pin Grok's selected default so plan output and execution cannot drift when
@@ -474,14 +485,12 @@ if [[ "$SUBSTRATE" == sekhmet && -n "$EFFORT" && "$EFFORT" != low ]]; then
   exit 1
 fi
 
-# Daybreak / gpt-5.4-mini hard-reject fast. Every other route pins fast by default
-# (ChatGPT, spark, Token Plan Codex wrappers). grok/kimi keep the selection in
-# plan JSON; those CLIs have no service_tier flag.
-if [[ "$SELECTED_MODEL_ID" == gpt-daybreak-blue-latest || "$SELECTED_MODEL_ID" == gpt-5.4-mini ]]; then
-  [[ -z "$SERVICE_TIER" || "$SERVICE_TIER" == default ]] || {
-    echo "xask: $SELECTED_MODEL_ID does not advertise the fast service tier" >&2
-    exit 1
-  }
+# Never send fast servicing to a model that does not advertise it (Token Plan
+# qwen/ds-*, grok, kimi, gemma, Daybreak, gpt-5.4-mini). Explicit --service-tier
+# fast on those ids fails closed instead of letting Codex omit `priority`.
+if [[ "$SERVICE_TIER" == fast ]] && ! model_advertises_fast "$SELECTED_MODEL_ID"; then
+  echo "xask: $SELECTED_MODEL_ID does not advertise the fast service tier" >&2
+  exit 1
 fi
 
 # Explicit --spark is ChatGPT-Codex-only; native/Token Plan lanes reject it.
@@ -680,9 +689,7 @@ case "$MODEL" in
     [ "$JSON" = true ] && TP_EXTRA+=(--json)
     [ -n "$OUTPUT_LAST_MESSAGE" ] && TP_EXTRA+=(-o "$OUTPUT_LAST_MESSAGE")
     [ -n "$EFFORT" ] && TP_EXTRA+=(-c "model_reasoning_effort=$EFFORT")
-    if [[ "$SERVICE_TIER" == fast ]]; then
-      TP_EXTRA+=(-c 'service_tier=fast')
-    fi
+    # Token Plan catalog service_tiers are default-only; do not pin -c service_tier=fast.
     TP_BIN="codex-$MODEL"
     if ! command -v "$TP_BIN" >/dev/null 2>&1; then
       DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL codex-token-plan "$MODEL" exec

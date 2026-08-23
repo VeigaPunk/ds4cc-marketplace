@@ -54,7 +54,13 @@ printf '%s\n' "$out" | grep -Eq 'codex-qwen38|codex-token-plan' || fail 'qwen38 
 printf '%s\n' "$out" | grep -q 'CODEX_BIN_SET=0' || fail 'qwen38 CODEX_BIN_SET'
 printf '%s\n' "$out" | grep -q 'xbreed ask' && fail 'qwen38 must not xbreed ask'
 printf '%s\n' "$out" | grep -qi sekhmet && fail 'qwen38 must not mention sekhmet'
-printf '%s\n' "$out" | grep -q 'service_tier=fast' || fail 'qwen38 Codex wrapper must pin -c service_tier=fast'
+printf '%s\n' "$out" | grep -q 'service_tier=fast' && fail 'qwen38 must not pin -c service_tier=fast (catalog default-only)'
+if "$XASK" -d --gs --service-tier fast qwen38 ping >/dev/null 2>&1; then
+  fail 'qwen38 accepted --service-tier fast'
+fi
+if "$XASK" -d --gs --service-tier fast ds-pro ping >/dev/null 2>&1; then
+  fail 'ds-pro accepted --service-tier fast'
+fi
 
 # Alias canonicalize
 out=$("$XASK" -d --gs qwen ping)
