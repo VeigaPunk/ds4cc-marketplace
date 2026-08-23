@@ -32,6 +32,8 @@ verify-repo:
 	@echo "verify: tests/xask_gemini_effort_transport.sh"; bash tests/xask_gemini_effort_transport.sh
 	@echo "verify: tests/xask_cross_model_divergence.sh"; bash tests/xask_cross_model_divergence.sh
 	@echo "verify: tests/xask_boundary_matrix.sh"; bash tests/xask_boundary_matrix.sh
+	@echo "verify: tests/xask_catalog.sh"; bash tests/xask_catalog.sh
+	@echo "verify: tests/xask_token_plan_routing.sh"; bash tests/xask_token_plan_routing.sh
 	@echo "verify: tests/precheck_boundaries.sh"; bash tests/precheck_boundaries.sh
 	@echo "verify: tests/executor_spark_invariant.sh"; bash tests/executor_spark_invariant.sh
 	@echo "verify: tests/sol_role_effort_invariant.sh"; bash tests/sol_role_effort_invariant.sh
@@ -44,12 +46,13 @@ verify-repo:
 	@echo "verify: tests/codex_godspeed_skill_install.sh"; bash tests/codex_godspeed_skill_install.sh
 	@echo "verify: scripts/check-godspeed-prompts.mjs"; node scripts/check-godspeed-prompts.mjs
 
-## verify-install: home-state checks (symlinks, binaries, dispatch copies, axis schema)
+## verify-install: home-state checks (symlinks, binaries, dispatch copies, catalog, axis schema)
 ## XBREED_AGENTS_DIR is derived from XBREED_HOME so fixture runs never leak to real $HOME.
 verify-install:
 	@H="$${XBREED_HOME:-$$HOME}"
 	XBREED_AGENTS_DIR="$$H/.claude/agents" bash scripts/verify-install.sh
 	XBREED_AGENTS_DIR="$$H/.claude/agents" bash tests/axis_family_schema_check.sh
+	@echo "verify: tests/verify-xask-catalog.sh"; bash tests/verify-xask-catalog.sh
 	@echo "verify: tests/xask_template_missing_fail_loud.sh"; bash tests/xask_template_missing_fail_loud.sh
 	@echo "verify: tests/xask_thinking_budget_reachable.sh"; bash tests/xask_thinking_budget_reachable.sh
 
@@ -64,8 +67,11 @@ install: build
 	mkdir -p "$$H/.local/bin"
 	cp --remove-destination target/release/xbreed "$$H/.local/bin/xbreed"
 	cp scripts/xask "$$H/.local/bin/xask"
-	chmod +x "$$H/.local/bin/xask"
+	cp scripts/xask-models "$$H/.local/bin/xask-models"
+	chmod +x "$$H/.local/bin/xask" "$$H/.local/bin/xask-models"
+	mkdir -p "$$H/.local/share/xbreed"
+	cp config/xask-models.json "$$H/.local/share/xbreed/xask-models.json"
 	mkdir -p "$$H/.local/templates/dispatch"
 	cp templates/dispatch/*.md "$$H/.local/templates/dispatch/"
-	echo "Installed xbreed + xask + dispatch templates → $$H/.local/bin/ and $$H/.local/templates/dispatch/"
+	echo "Installed xbreed + xask + normalized catalog + dispatch templates → $$H/.local/bin/"
 	$(MAKE) verify-install

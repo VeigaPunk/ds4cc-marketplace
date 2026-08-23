@@ -165,6 +165,25 @@ check_dispatch() {
   done
 }
 
+check_catalog() {
+  local repo_catalog="$REPO_ROOT/config/xask-models.json"
+  local installed_catalog="$H/.local/share/xbreed/xask-models.json"
+
+  if [[ ! -f "$repo_catalog" ]]; then
+    fail "$repo_catalog" "plugin catalog missing" "Check checkout integrity for config/xask-models.json"
+    return
+  fi
+
+  if [[ ! -f "$installed_catalog" ]]; then
+    fail "$installed_catalog" "installed catalog missing" "Copy config/xask-models.json to $installed_catalog"
+    return
+  fi
+
+  if ! cmp -s "$repo_catalog" "$installed_catalog"; then
+    fail "$installed_catalog" "PATH catalog differs from plugin source" "Copy config/xask-models.json to $installed_catalog"
+  fi
+}
+
 check_binaries() {
   local tool tool_path command_path resolved_tool resolved_command
   for tool in xbreed xask; do
@@ -203,6 +222,7 @@ check_binaries() {
 check_agents
 check_commands
 check_dispatch
+check_catalog
 check_binaries
 
 if [[ "$DRIFT" -ne 0 ]]; then

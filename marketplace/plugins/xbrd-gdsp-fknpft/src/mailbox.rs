@@ -130,13 +130,48 @@ fn mailbox_path(team_dir: &Path) -> std::path::PathBuf {
         .join("events.ndjson")
 }
 
+fn append_bytes(path: &Path, line: &[u8]) -> Result<()> {
+    let mut f = OpenOptions::new().create(true).append(true).open(path)?;
+    f.write_all(line)?;
+    Ok(())
+}
+
 fn append_event_line(path: &Path, line: &[u8]) -> Result<()> {
     if let Some(parent) = path.parent() {
         std::fs::create_dir_all(parent)?;
     }
-    let mut f = OpenOptions::new().create(true).append(true).open(path)?;
-    f.write_all(line)?;
-    Ok(())
+    append_bytes(path, line)
+}
+
+/// `$GX_TEAMS_STATE/$GX_TEAM/inboxes/$to.jsonl`. None if either env is unset/empty
+/// — never invent a team. Caller must not mkdir this path.
+fn gx_sidecar_inbox_path(from: &str) -> Option<(PathBuf, String)> {
+    let gx = std::env::var("GX_TEAMS_STATE")
+        .ok()
+        .filter(|s| !s.is_empty())?;
+    let team = std::env::var("GX_TEAM").ok().filter(|s| !s.is_empty())?;
+    let to = std::env::var("GX_TEAMMATE_NAME")
+        .ok()
+        .filter(|s| !s.is_empty())
+        .unwrap_or_else(|| from.to_string());
+    Some((
+        PathBuf::from(gx)
+            .join(team)
+            .join("inboxes")
+            .join(format!("{to}.jsonl")),
+        to,
+    ))
+}
+
+/// Fail closed: parent `inboxes/` must already exist. Never `create_dir_all`.
+fn append_gx_inbox_line(path: &Path, line: &[u8]) -> Result<()> {
+    let parent = path
+        .parent()
+        .ok_or_else(|| anyhow::anyhow!("gx inbox path has no parent: {}", path.display()))?;
+    if !parent.is_dir() {
+        anyhow::bail!("missing gx inbox dir: {}", parent.display());
+    }
+    append_bytes(path, line)
 }
 
 pub fn write_event(team_dir: &Path, from: &str, event_type: &str, payload: &str) -> Result<()> {
@@ -158,10 +193,7 @@ pub fn write_event(team_dir: &Path, from: &str, event_type: &str, payload: &str)
     // guarantee. NOT portable to NFS (see man 2 open: O_APPEND corruption
     // warning) or 9P; xbreed's mailbox assumes local ext4/tmpfs only.
     append_event_line(&path, line.as_bytes())?;
-    if let Some(gx) = std::env::var_os("GX_TEAMS_STATE") {
-        let to = std::env::var("GX_TEAMMATE_NAME").unwrap_or_else(|_| from.to_string());
-        let inbox_dir = PathBuf::from(gx).join("inboxes");
-        let inbox = inbox_dir.join(format!("{to}.jsonl"));
+    if let Some((inbox, to)) = gx_sidecar_inbox_path(from) {
         let gx_rec = serde_json::json!({
             "ts": chrono_like_rfc3339(ts),
             "id": format!("{ts}-{from}"),
@@ -172,7 +204,7 @@ pub fn write_event(team_dir: &Path, from: &str, event_type: &str, payload: &str)
         });
         let mut gx_line = serde_json::to_string(&gx_rec)?;
         gx_line.push('\n');
-        append_event_line(&inbox, gx_line.as_bytes())?;
+        append_gx_inbox_line(&inbox, gx_line.as_bytes())?;
     }
     Ok(())
 }
@@ -619,7 +651,7 @@ pub(crate) fn __poison_compact_worker() {
 mod tests {
     use super::*;
     use filetime::FileTime;
-    use std::sync::{Arc, Barrier};
+    use std::sync::{Arc, Barrier, Mutex};
     use std::thread;
     use tempfile::tempdir;
 
@@ -1401,7 +1433,8 @@ mod tests {
         assert!(
             events
                 .iter()
-                .any(|e| e.event_type == "digest" && payload_display(&e.payload).contains("compacted")),
+                .any(|e| e.event_type == "digest"
+                    && payload_display(&e.payload).contains("compacted")),
             "sidecar digest missing when live mailbox also present (line 177 regressed?)"
         );
     }
@@ -1420,16 +1453,62 @@ mod tests {
         assert_eq!(events[0].event_type, "digest");
     }
 
+    static GX_ENV_LOCK: Mutex<()> = Mutex::new(());
+
+    struct GxEnvGuard {
+        prev_state: Option<std::ffi::OsString>,
+        prev_team: Option<std::ffi::OsString>,
+        _lock: std::sync::MutexGuard<'static, ()>,
+    }
+
+    impl Drop for GxEnvGuard {
+        fn drop(&mut self) {
+            restore_env("GX_TEAMS_STATE", self.prev_state.take());
+            restore_env("GX_TEAM", self.prev_team.take());
+        }
+    }
+
+    fn restore_env(key: &str, prev: Option<std::ffi::OsString>) {
+        match prev {
+            Some(v) => std::env::set_var(key, v),
+            None => std::env::remove_var(key),
+        }
+    }
+
+    /// Hold GX_* env for the duration of `f`. Restores on drop even if `f` panics.
+    fn with_gx_env<T>(state: Option<&Path>, team: Option<&str>, f: impl FnOnce() -> T) -> T {
+        let lock = GX_ENV_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        let guard = GxEnvGuard {
+            prev_state: std::env::var_os("GX_TEAMS_STATE"),
+            prev_team: std::env::var_os("GX_TEAM"),
+            _lock: lock,
+        };
+        match state {
+            Some(p) => std::env::set_var("GX_TEAMS_STATE", p),
+            None => std::env::remove_var("GX_TEAMS_STATE"),
+        }
+        match team {
+            Some(t) => std::env::set_var("GX_TEAM", t),
+            None => std::env::remove_var("GX_TEAM"),
+        }
+        let out = f();
+        drop(guard);
+        out
+    }
+
     #[test]
     fn write_event_dual_writes_gx_teams_inbox_when_env_set() {
         let dir = tempdir().unwrap();
         let gx = tempdir().unwrap();
-        std::env::set_var("GX_TEAMS_STATE", gx.path());
-        write_event(dir.path(), "scout", "alive", "ping").unwrap();
-        std::env::remove_var("GX_TEAMS_STATE");
+        let team = "demo";
+        let inbox_dir = gx.path().join(team).join("inboxes");
+        std::fs::create_dir_all(&inbox_dir).unwrap();
+        with_gx_env(Some(gx.path()), Some(team), || {
+            write_event(dir.path(), "scout", "alive", "ping").unwrap();
+        });
         let local = std::fs::read_to_string(mailbox_path(dir.path())).unwrap();
         assert!(local.ends_with('\n'));
-        let inbox = std::fs::read_to_string(gx.path().join("inboxes").join("scout.jsonl")).unwrap();
+        let inbox = std::fs::read_to_string(inbox_dir.join("scout.jsonl")).unwrap();
         assert!(inbox.ends_with('\n'));
         assert_ne!(local, inbox);
         let ev: Event = serde_json::from_str(local.lines().next().unwrap()).unwrap();
@@ -1442,5 +1521,57 @@ mod tests {
         assert_eq!(gx_line["to"], "scout");
         assert_eq!(gx_line["type"], "alive");
         assert_eq!(gx_line["from"], "scout");
+        assert!(
+            !gx.path().join("inboxes").join("scout.jsonl").exists(),
+            "must not write $GX_TEAMS_STATE/inboxes (missing $GX_TEAM segment)"
+        );
+    }
+
+    #[test]
+    fn write_event_skips_gx_sidecar_when_gx_team_unset() {
+        let dir = tempdir().unwrap();
+        let gx = tempdir().unwrap();
+        std::fs::create_dir_all(gx.path().join("inboxes")).unwrap();
+        with_gx_env(Some(gx.path()), None, || {
+            write_event(dir.path(), "scout", "alive", "ping").unwrap();
+        });
+        let local = std::fs::read_to_string(mailbox_path(dir.path())).unwrap();
+        assert!(local.contains("scout"));
+        assert!(
+            !gx.path().join("inboxes").join("scout.jsonl").exists(),
+            "must not invent a team or write $GX_TEAMS_STATE/inboxes when GX_TEAM is unset"
+        );
+        let entries: Vec<_> = std::fs::read_dir(gx.path())
+            .unwrap()
+            .flatten()
+            .map(|e| e.file_name())
+            .collect();
+        assert_eq!(
+            entries,
+            vec![std::ffi::OsString::from("inboxes")],
+            "unset GX_TEAM must not create a team directory under GX_TEAMS_STATE"
+        );
+    }
+
+    #[test]
+    fn write_event_gx_sidecar_fails_closed_when_inbox_dir_missing() {
+        let dir = tempdir().unwrap();
+        let gx = tempdir().unwrap();
+        let team = "demo";
+        with_gx_env(Some(gx.path()), Some(team), || {
+            let err = write_event(dir.path(), "scout", "alive", "ping").unwrap_err();
+            let msg = format!("{err:#}");
+            assert!(
+                msg.contains("inboxes") || msg.contains("No such file"),
+                "fail-closed error should mention missing inbox path, got: {msg}"
+            );
+        });
+        let local = std::fs::read_to_string(mailbox_path(dir.path())).unwrap();
+        assert!(local.contains("scout"), "Event local write must still land");
+        assert!(
+            !gx.path().join(team).join("inboxes").exists(),
+            "must not create_dir_all on $GX_TEAMS_STATE/$GX_TEAM/inboxes"
+        );
+        assert!(!gx.path().join("inboxes").exists());
     }
 }
