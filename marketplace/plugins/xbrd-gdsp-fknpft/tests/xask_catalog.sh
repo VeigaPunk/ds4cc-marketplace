@@ -56,8 +56,8 @@ jq -e '
 ' <<<"$plan" >/dev/null || fail 'ChatGPT plan was not normalized'
 
 plan="$($XASK plan --provider token-plan --model-id qwen3.8-max --json -- probe)"
-jq -e '.selection.effort == "xhigh" and .selection.model_id == "qwen3.8-max"' <<<"$plan" >/dev/null \
-  || fail 'Token Plan did not receive its catalog default effort'
+jq -e '.selection.effort == "xhigh" and .selection.model_id == "qwen3.8-max" and .selection.service_tier == "fast"' <<<"$plan" >/dev/null \
+  || fail 'Token Plan did not receive its catalog default effort and fast service_tier'
 
 plan="$($XASK plan --provider moonshot --json -- probe)"
 jq -e '.selection.effort == "high" and .selection.model_id == "kimi-k3"' <<<"$plan" >/dev/null \

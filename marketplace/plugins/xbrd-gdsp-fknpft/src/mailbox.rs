@@ -85,12 +85,42 @@ fn ensure_worker(guard: &mut Option<WorkerState>) -> bool {
     false
 }
 
+/// Envelope stuffed into `Event.payload`. Not gx-teams `MailRecord` (`ts,id,from,to,type,text`).
+#[derive(Debug, Serialize, Deserialize, PartialEq, Clone)]
+pub struct MailRecord {
+    pub from: String,
+    pub kind: String,
+    pub body: String,
+}
+
 #[derive(Debug, Serialize, Deserialize, PartialEq)]
 pub struct Event {
     pub timestamp_ms: u64,
     pub from: String,
     pub event_type: String,
-    pub payload: String,
+    pub payload: serde_json::Value,
+}
+
+fn mail_record_value(from: &str, event_type: &str, body: &str) -> serde_json::Value {
+    serde_json::to_value(MailRecord {
+        from: from.to_string(),
+        kind: event_type.to_string(),
+        body: body.to_string(),
+    })
+    .unwrap_or_else(|_| serde_json::json!({ "from": from, "kind": event_type, "body": body }))
+}
+
+fn payload_display(payload: &serde_json::Value) -> String {
+    match payload {
+        serde_json::Value::String(s) => s.clone(),
+        other => {
+            if let Ok(rec) = serde_json::from_value::<MailRecord>(other.clone()) {
+                rec.body
+            } else {
+                other.to_string()
+            }
+        }
+    }
 }
 
 fn mailbox_path(team_dir: &Path) -> std::path::PathBuf {
@@ -100,15 +130,23 @@ fn mailbox_path(team_dir: &Path) -> std::path::PathBuf {
         .join("events.ndjson")
 }
 
+fn append_event_line(path: &Path, line: &[u8]) -> Result<()> {
+    if let Some(parent) = path.parent() {
+        std::fs::create_dir_all(parent)?;
+    }
+    let mut f = OpenOptions::new().create(true).append(true).open(path)?;
+    f.write_all(line)?;
+    Ok(())
+}
+
 pub fn write_event(team_dir: &Path, from: &str, event_type: &str, payload: &str) -> Result<()> {
     let path = mailbox_path(team_dir);
-    std::fs::create_dir_all(path.parent().unwrap())?;
     let ts = SystemTime::now().duration_since(UNIX_EPOCH)?.as_millis() as u64;
     let event = Event {
         timestamp_ms: ts,
         from: from.to_string(),
         event_type: event_type.to_string(),
-        payload: payload.to_string(),
+        payload: mail_record_value(from, event_type, payload),
     };
     let mut line = serde_json::to_string(&event)?;
     line.push('\n');
@@ -119,9 +157,28 @@ pub fn write_event(team_dir: &Path, from: &str, event_type: &str, payload: &str)
     // PIPE_BUF is a pipe/FIFO concept (man 7 pipe), not a regular-file
     // guarantee. NOT portable to NFS (see man 2 open: O_APPEND corruption
     // warning) or 9P; xbreed's mailbox assumes local ext4/tmpfs only.
-    let mut f = OpenOptions::new().create(true).append(true).open(&path)?;
-    f.write_all(line.as_bytes())?;
+    append_event_line(&path, line.as_bytes())?;
+    if let Some(gx) = std::env::var_os("GX_TEAMS_STATE") {
+        let to = std::env::var("GX_TEAMMATE_NAME").unwrap_or_else(|_| from.to_string());
+        let inbox_dir = PathBuf::from(gx).join("inboxes");
+        let inbox = inbox_dir.join(format!("{to}.jsonl"));
+        let gx_rec = serde_json::json!({
+            "ts": chrono_like_rfc3339(ts),
+            "id": format!("{ts}-{from}"),
+            "from": from,
+            "to": to,
+            "type": event_type,
+            "text": payload,
+        });
+        let mut gx_line = serde_json::to_string(&gx_rec)?;
+        gx_line.push('\n');
+        append_event_line(&inbox, gx_line.as_bytes())?;
+    }
     Ok(())
+}
+
+fn chrono_like_rfc3339(ts_ms: u64) -> String {
+    format!("{}.{:03}Z", ts_ms / 1000, ts_ms % 1000)
 }
 
 /// Returns the bytes-floor threshold for the M2 cadence trigger.
@@ -313,7 +370,10 @@ pub fn format_hook_injection(events: &[Event]) -> String {
             .map(|e| {
                 format!(
                     "- [{}ms] {} from={} payload={}",
-                    e.timestamp_ms, e.event_type, e.from, e.payload
+                    e.timestamp_ms,
+                    e.event_type,
+                    e.from,
+                    payload_display(&e.payload)
                 )
             })
             .collect::<Vec<_>>()
@@ -395,10 +455,14 @@ fn compact_events_sync(
             from: "xbreed-compactor".to_string(),
             event_type: "digest".to_string(),
             // heuristic attention proxy: keep_types list drives what survives verbatim
-            payload: format!(
-                "compacted {} events: {{{}}}",
-                compacted_count,
-                kind_counts.join(", ")
+            payload: mail_record_value(
+                "xbreed-compactor",
+                "digest",
+                &format!(
+                    "compacted {} events: {{{}}}",
+                    compacted_count,
+                    kind_counts.join(", ")
+                ),
             ),
         };
         compactable.clear();
@@ -567,7 +631,9 @@ mod tests {
         assert_eq!(events.len(), 1);
         assert_eq!(events[0].from, "critic");
         assert_eq!(events[0].event_type, "shutdown-ack");
-        assert_eq!(events[0].payload, "ok");
+        assert_eq!(payload_display(&events[0].payload), "ok");
+        assert_eq!(events[0].payload["kind"], "shutdown-ack");
+        assert_eq!(events[0].payload["body"], "ok");
     }
 
     #[test]
@@ -599,7 +665,7 @@ mod tests {
             timestamp_ms: 1,
             from: from.to_string(),
             event_type: event_type.to_string(),
-            payload: payload.to_string(),
+            payload: mail_record_value(from, event_type, payload),
         };
         let mut line = serde_json::to_string(&event).unwrap();
         line.push('\n');
@@ -638,7 +704,7 @@ mod tests {
         let events = drain_events(dir.path()).unwrap();
         assert_eq!(events.len(), 1);
         assert_eq!(events[0].event_type, "digest");
-        assert!(events[0].payload.contains("compacted 2 events"));
+        assert!(payload_display(&events[0].payload).contains("compacted 2 events"));
     }
 
     #[test]
@@ -648,13 +714,13 @@ mod tests {
                 timestamp_ms: 1000,
                 from: "critic".to_string(),
                 event_type: "shutdown-ack".to_string(),
-                payload: "ok".to_string(),
+                payload: serde_json::json!("ok"),
             },
             Event {
                 timestamp_ms: 2000,
                 from: "builder".to_string(),
                 event_type: "alive".to_string(),
-                payload: "working".to_string(),
+                payload: serde_json::json!("working"),
             },
         ];
         let json = format_hook_injection(&events);
@@ -817,7 +883,7 @@ mod tests {
                 timestamp_ms: 1000 + i,
                 from: format!("pre-{i}"),
                 event_type: "sidecar".to_string(),
-                payload: "x".to_string(),
+                payload: serde_json::json!("x"),
             };
             contents.push_str(&serde_json::to_string(&e).unwrap());
             contents.push('\n');
@@ -861,7 +927,7 @@ mod tests {
                 timestamp_ms: 1_000 + i as u64,
                 from: format!("sidecar-{i}"),
                 event_type: "compact".to_string(),
-                payload: "x".to_string(),
+                payload: serde_json::json!("x"),
             };
             std::fs::write(&sidecar, serde_json::to_string(&e).unwrap() + "\n").unwrap();
         }
@@ -971,7 +1037,7 @@ mod tests {
             timestamp_ms: 1,
             from: "ghost".to_string(),
             event_type: "ghost".to_string(),
-            payload: "should-not-appear".to_string(),
+            payload: serde_json::json!("should-not-appear"),
         };
         std::fs::write(&tmp_sidecar, serde_json::to_string(&e).unwrap() + "\n").unwrap();
 
@@ -981,7 +1047,7 @@ mod tests {
             timestamp_ms: 2,
             from: "real".to_string(),
             event_type: "real".to_string(),
-            payload: "should-appear".to_string(),
+            payload: serde_json::json!("should-appear"),
         };
         std::fs::write(&real_sidecar, serde_json::to_string(&e2).unwrap() + "\n").unwrap();
 
@@ -1010,7 +1076,7 @@ mod tests {
             timestamp_ms: 1337,
             from: "recycled-pid".to_string(),
             event_type: "ping".to_string(),
-            payload: "recover-me".to_string(),
+            payload: serde_json::json!("recover-me"),
         };
         std::fs::write(&orphan, serde_json::to_string(&e).unwrap() + "\n").unwrap();
         let stale = std::time::SystemTime::now() - std::time::Duration::from_secs(61);
@@ -1042,7 +1108,7 @@ mod tests {
             timestamp_ms: 1338,
             from: "fresh-recycled-pid".to_string(),
             event_type: "ping".to_string(),
-            payload: "do-not-recover".to_string(),
+            payload: serde_json::json!("do-not-recover"),
         };
         std::fs::write(&orphan, serde_json::to_string(&e).unwrap() + "\n").unwrap();
         let fresh = std::time::SystemTime::now() - std::time::Duration::from_secs(59);
@@ -1074,7 +1140,7 @@ mod tests {
             timestamp_ms: 42,
             from: "orphaned".to_string(),
             event_type: "ping".to_string(),
-            payload: "recover-me".to_string(),
+            payload: serde_json::json!("recover-me"),
         };
         std::fs::write(&orphan, serde_json::to_string(&e).unwrap() + "\n").unwrap();
 
@@ -1101,7 +1167,7 @@ mod tests {
             timestamp_ms: 1,
             from: "live-compactor".to_string(),
             event_type: "ping".to_string(),
-            payload: "do-not-race".to_string(),
+            payload: serde_json::json!("do-not-race"),
         };
         std::fs::write(&live, serde_json::to_string(&e).unwrap() + "\n").unwrap();
 
@@ -1174,7 +1240,7 @@ mod tests {
         let events = drain_events(dir.path()).unwrap();
         assert_eq!(events.len(), 1, "compact must produce a digest");
         assert_eq!(events[0].event_type, "digest");
-        assert!(events[0].payload.contains("compacted 1"));
+        assert!(payload_display(&events[0].payload).contains("compacted 1"));
     }
 
     /// M4: Worker panic must not leak COMPACT_PENDING.
@@ -1265,7 +1331,7 @@ mod tests {
             timestamp_ms: 0,
             from: "boundary-probe".to_string(),
             event_type: "boundary".to_string(),
-            payload: "at-exact-cutoff".to_string(),
+            payload: serde_json::json!("at-exact-cutoff"),
         };
         let mut line = serde_json::to_string(&event).unwrap();
         line.push('\n');
@@ -1312,7 +1378,7 @@ mod tests {
             timestamp_ms: 1_700_000_000_000,
             from: "xbreed-compactor".to_string(),
             event_type: "digest".to_string(),
-            payload: "compacted 5 events: {keepalive=5}".to_string(),
+            payload: serde_json::json!("compacted 5 events: {keepalive=5}"),
         };
         std::fs::write(&sidecar, serde_json::to_string(&digest).unwrap() + "\n").unwrap();
 
@@ -1335,7 +1401,7 @@ mod tests {
         assert!(
             events
                 .iter()
-                .any(|e| e.event_type == "digest" && e.payload.contains("compacted")),
+                .any(|e| e.event_type == "digest" && payload_display(&e.payload).contains("compacted")),
             "sidecar digest missing when live mailbox also present (line 177 regressed?)"
         );
     }
@@ -1352,5 +1418,29 @@ mod tests {
         let events = drain_events(dir.path()).unwrap();
         assert_eq!(events.len(), 1, "expected digest after worker finishes");
         assert_eq!(events[0].event_type, "digest");
+    }
+
+    #[test]
+    fn write_event_dual_writes_gx_teams_inbox_when_env_set() {
+        let dir = tempdir().unwrap();
+        let gx = tempdir().unwrap();
+        std::env::set_var("GX_TEAMS_STATE", gx.path());
+        write_event(dir.path(), "scout", "alive", "ping").unwrap();
+        std::env::remove_var("GX_TEAMS_STATE");
+        let local = std::fs::read_to_string(mailbox_path(dir.path())).unwrap();
+        assert!(local.ends_with('\n'));
+        let inbox = std::fs::read_to_string(gx.path().join("inboxes").join("scout.jsonl")).unwrap();
+        assert!(inbox.ends_with('\n'));
+        assert_ne!(local, inbox);
+        let ev: Event = serde_json::from_str(local.lines().next().unwrap()).unwrap();
+        assert_eq!(ev.payload["from"], "scout");
+        assert_eq!(ev.payload["kind"], "alive");
+        assert_eq!(ev.payload["body"], "ping");
+        let gx_line: serde_json::Value =
+            serde_json::from_str(inbox.lines().next().unwrap()).unwrap();
+        assert_eq!(gx_line["text"], "ping");
+        assert_eq!(gx_line["to"], "scout");
+        assert_eq!(gx_line["type"], "alive");
+        assert_eq!(gx_line["from"], "scout");
     }
 }

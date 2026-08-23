@@ -52,7 +52,7 @@ and always loaded first.
 | `--substrate` | — | `stock` or `sekhmet`; Sekhmet is ChatGPT-only and fixed at low effort. ChatGPT default is `stock`. | chatgpt | `stock` |
 | `--model-id` | — | Select an exact Codex or local Gemma model ID. Cannot be combined with built-in lane flags. | codex + gemma aliases | unset |
 | `--effort` | `-e` | Model-aware `low`, `medium`, `high`, `xhigh`, `max`, or `ultra`. Unsupported model/tier pairs fail before dispatch. | all | catalog default in provider mode |
-| `--service-tier` | — | `default` or `fast`. ChatGPT default is `fast` (Daybreak / gpt-5.4-mini stay `default` and reject `fast`). Sekhmet transports the same choice. | chatgpt | `fast` |
+| `--service-tier` | — | Always pin `fast` except Daybreak / `gpt-5.4-mini` (those stay `default` and reject `fast`). ChatGPT/spark: `--service-tier fast`. Token Plan: translated to Codex `-c service_tier=fast`. | all except daybreak/mini | `fast` |
 | `--direct` | — | **Removed in R2.** No longer accepted — xask hard-fails at the flag parser (`*) echo ... exit 1`). Suppression is always-on; use `--effort` to control reasoning level. | — | — |
 
 **Dual spark lanes.** PATH `xask --spark` / `--spk` → L3 sekhmet, default `XBRD_SPARK_MODEL=gpt-5.3-codex-spark`, fallback `gpt-5.6-luna`. Rust `xbreed ask … --spark` → `CODEX_SPARK_MODEL=gpt-5.4-mini` in `src/ask.rs`, pinned by `tests/ask_with_loadout.rs`, unchanged by design. These are two distinct lanes.
