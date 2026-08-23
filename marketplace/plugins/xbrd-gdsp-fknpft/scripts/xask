@@ -688,7 +688,13 @@ case "$MODEL" in
     TP_EXTRA=()
     [ "$JSON" = true ] && TP_EXTRA+=(--json)
     [ -n "$OUTPUT_LAST_MESSAGE" ] && TP_EXTRA+=(-o "$OUTPUT_LAST_MESSAGE")
-    [ -n "$EFFORT" ] && TP_EXTRA+=(-c "model_reasoning_effort=$EFFORT")
+    # Catalog default_reasoning_level is xhigh; ~/.codex/config.toml is ultra.
+    # Unpinned Token Plan consults inherit that and hang past grok's bash cap.
+    if [ -n "$EFFORT" ]; then
+      TP_EXTRA+=(-c "model_reasoning_effort=$EFFORT")
+    else
+      TP_EXTRA+=(-c "model_reasoning_effort=low")
+    fi
     # Token Plan catalog service_tiers are default-only; do not pin -c service_tier=fast.
     TP_BIN="codex-$MODEL"
     if ! command -v "$TP_BIN" >/dev/null 2>&1; then
@@ -810,6 +816,22 @@ fi
 
 t_start_s=$(date +%s.%N)
 
+# Fail-closed timeout for native / Token Plan exec so grok's 120s bash cap
+# is not the first signal. XASK_TIMEOUT_SECS=0 disables.
+xask_run() {
+  local secs="${XASK_TIMEOUT_SECS-90}" rc
+  if [[ "$secs" == "0" ]] || ! command -v timeout >/dev/null 2>&1; then
+    "$@"
+    return $?
+  fi
+  timeout --foreground --signal=TERM --kill-after=3 "$secs" "$@"
+  rc=$?
+  if [[ $rc -eq 124 ]]; then
+    echo "xask: BLOCKED: timeout after ${secs}s on ${LANE:-$MODEL} (XASK_TIMEOUT_SECS=0 disables)" >&2
+  fi
+  return "$rc"
+}
+
 # Dispatch — contamination-aware per model
 # gemma / g / gemini (legacy) → local HVM bridge (gemma-hvm). --rich is a no-op
 # for gemma (no cloud settings tree); kept accepted so old flags don't fail.
@@ -825,7 +847,7 @@ case "$MODEL" in
     "${DISPATCH_ARGV[@]}"
     ;;
   grok|qwen38|ds-flash|ds-pro|kimi)
-    "${DISPATCH_ARGV[@]}"
+    xask_run "${DISPATCH_ARGV[@]}"
     ;;
   *)
     echo "Unknown model: $MODEL. Use gemma (g), codex/cdx, grok, qwen38, ds-flash, or kimi." >&2
