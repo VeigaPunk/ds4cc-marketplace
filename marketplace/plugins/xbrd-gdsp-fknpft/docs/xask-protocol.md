@@ -28,10 +28,14 @@ selects the ChatGPT execution substrate. Legacy route tokens remain supported.
 - `qwen38` (aliases `qwen3.8-max`, `qwen`) — Token Plan via `codex-qwen38` / `codex-token-plan`
 - `ds-flash` / `ds-pro` — Token Plan DeepSeek profiles (bare `deepseek` rejected)
 - `kimi` (aliases `kimi-k3`, `kimi-code`) — Kimi Code CLI one-shot over Moonshot's
-  OpenAI-compatible API; OAuth-first (`kimi-code/k3`), pay-as-you-go API-key provider
-  reachable via `--model-id moonshotai/kimi-k3`. Bare `moonshot` rejected as ambiguous.
-  A codex-profile router is impossible today: Moonshot has no public `/v1/responses`
-  and codex dropped `wire_api="chat"`.
+  OpenAI-compatible API; OAuth-first (`kimi-code/k3`). Provider mode
+  (`--provider moonshot --model-id <id>`) catalogs reachable aliases: OAuth
+  `kimi-k3` / `kimi-k3-256k` / `kimi-for-coding` / `kimi-for-coding-highspeed`
+  and pay-as-you-go `kimi-k2.6` / `kimi-k2.7-code` / `kimi-k2.7-code-highspeed`
+  / `moonshotai/kimi-k3` (plus the matching `kimi-code/*` and `moonshotai/*`
+  CLI aliases). Retired K2 preview ids stay unlisted. Bare `moonshot` rejected
+  as a route token. A codex-profile router is impossible today: Moonshot has no
+  public `/v1/responses` and codex dropped `wire_api="chat"`.
 
 (`claude` dispatch was removed in R2-A5.)
 `<context>` defaults to `"No prior context."`.  
@@ -116,7 +120,7 @@ These are injected by xask/xbreed regardless of user flags.
 | `grok` | `env -u CODEX_BIN -u XBRD_SPARK_MODEL grok --always-approve --no-subagents --verbatim -p` | Grok Build CLI | Template `templates/dispatch/grok.md`; no xbreed ask |
 | `qwen38` (`qwen3.8-max`, `qwen`) | `env -u … codex-qwen38 exec …` (or `codex-token-plan qwen38`) | Alibaba Token Plan | Reuses `codex.md` template; no `service_tier=fast` |
 | `ds-flash`, `ds-pro` | `env -u … codex-ds-* exec …` | Alibaba Token Plan | Debug + live wrappers; bare `deepseek` rejected |
-| `kimi` (`kimi-k3`, `kimi-code`) | `env -u CODEX_BIN -u XBRD_SPARK_MODEL kimi -m <alias> -p` | Moonshot AI (Kimi Code CLI) | Template `templates/dispatch/kimi.md`; effort envelope-text only (low\|high\|max); always pins `-m` (CLI default is kimi-for-coding, NOT K3) |
+| `kimi` (`kimi-k3`, `kimi-code`) | `env -u CODEX_BIN -u XBRD_SPARK_MODEL kimi -m <cli-alias> -p` | Moonshot AI (Kimi Code CLI) | Template `templates/dispatch/kimi.md`; effort envelope-text only (low\|high\|max); catalog short ids rewrite to CLI aliases (`kimi-k2.6` → `moonshotai/kimi-k2.6`); default `-m kimi-code/k3` (CLI default_model is kimi-for-coding, NOT K3) |
 
 ### Gemma model
 

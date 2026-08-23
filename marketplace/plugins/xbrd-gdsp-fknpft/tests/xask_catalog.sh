@@ -20,7 +20,7 @@ fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 catalog="$($XASK catalog --json)"
 jq -e '
   .schema_version == 1
-  and .model_count == 17
+  and .model_count == 31
   and (.providers | length) == 5
   and (.providers | all(.available == true))
   and (.models | any(.model_id == "gpt-5.6-sol" and (.supported_efforts | index("ultra"))))
@@ -28,6 +28,10 @@ jq -e '
   and (.models | any(.model_id == "deepseek-v4-pro-0813" and .route == "ds-pro"))
   and (.models | any(.model_id == "kimi-k3" and .provider == "moonshot" and .route == "kimi"
         and (.supported_efforts == ["low", "high", "max"]) and .default_effort == "high"))
+  and (.models | any(.model_id == "kimi-k2.6" and .provider == "moonshot" and .route == "kimi"))
+  and (.models | any(.model_id == "moonshotai/kimi-k2.6" and .provider == "moonshot"))
+  and (.models | any(.model_id == "kimi-for-coding" and .provider == "moonshot"))
+  and (.models | any(.model_id == "moonshotai/kimi-k3" and .provider == "moonshot"))
 ' <<<"$catalog" >/dev/null || fail 'catalog schema or inventory mismatch'
 
 PARTIAL="$TMP/partial"
@@ -68,10 +72,19 @@ fi
 if "$XASK" plan --provider moonshot --model-id grok-4.6 --json -- probe >/dev/null 2>&1; then
   fail 'normalized provider mode accepted a cross-provider model id (moonshot)'
 fi
-# Catalog-bound invariant: provider mode rejects non-catalog Kimi aliases;
-# arbitrary CLI aliases remain reachable through the LEGACY route only.
-if "$XASK" plan --provider moonshot --model-id kimi-for-coding --json -- probe >/dev/null 2>&1; then
-  fail 'moonshot provider mode accepted a non-catalog model id'
+# Catalog-bound invariant: provider mode accepts reachable Kimi aliases
+# (OAuth usage-limit and pay-as-you-go pings) and rejects retired/404 ids.
+plan="$($XASK plan --provider moonshot --model-id kimi-for-coding --json -- probe)"
+jq -e '.selection.model_id == "kimi-for-coding" and .selection.effort == "high"' <<<"$plan" >/dev/null \
+  || fail 'moonshot provider mode rejected cataloged kimi-for-coding'
+plan="$($XASK plan --provider moonshot --model-id kimi-k2.6 --json -- probe)"
+jq -e '.selection.model_id == "kimi-k2.6" and .selection.effort == "high"' <<<"$plan" >/dev/null \
+  || fail 'moonshot provider mode rejected cataloged kimi-k2.6'
+plan="$($XASK plan --provider moonshot --model-id moonshotai/kimi-k2.6 --json -- probe)"
+jq -e '.selection.model_id == "moonshotai/kimi-k2.6"' <<<"$plan" >/dev/null \
+  || fail 'moonshot provider mode rejected cataloged moonshotai/kimi-k2.6'
+if "$XASK" plan --provider moonshot --model-id moonshotai/kimi-k2.5 --json -- probe >/dev/null 2>&1; then
+  fail 'moonshot provider mode accepted a retired/non-catalog model id'
 fi
 
 if "$XASK" plan --provider token-plan --model-id qwen3.8-max --effort high --json -- probe >/dev/null 2>&1; then

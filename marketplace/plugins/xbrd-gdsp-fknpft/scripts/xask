@@ -32,9 +32,11 @@
 #   grok:    grok --always-approve --no-subagents --verbatim -p
 #   qwen38:  codex-qwen38 exec … (aliases: qwen3.8-max, qwen)
 #   ds-flash / ds-pro: Token Plan debug + live wrappers (reject bare deepseek)
-#   kimi:    kimi -m kimi-code/k3 -p … (aliases: kimi-k3, kimi-code;
+#   kimi:    kimi -m <cli-alias> -p … (route aliases: kimi-k3, kimi-code;
 #            reject bare moonshot). Auth lives inside kimi-code (OAuth or the
-#            imported moonshotai API-key provider). Effort is envelope-text
+#            imported moonshotai API-key provider). Catalog pins short ids
+#            (kimi-k3, kimi-k2.6, kimi-for-coding, …) to CLI aliases
+#            (kimi-code/k3, moonshotai/kimi-k2.6, …). Effort is envelope-text
 #            only (gemini-style): no reasoning-effort flag exists; tiers
 #            validated as low|high|max. Always pins -m (CLI default_model is
 #            kimi-for-coding, NOT K3).
@@ -53,6 +55,7 @@
 #   xask --gs grok "Probe oneshot"                  # bash-exec grok CLI
 #   xask --gs qwen38 "Token Plan probe"             # bash-exec codex-qwen38
 #   xask --gs kimi "Moonshot K3 probe"              # bash-exec kimi -m kimi-code/k3 (OAuth)
+#   xask --provider moonshot --model-id kimi-k2.6 -- "probe"  # pay-as-you-go K2.6
 #   xask -R codex "Adversarial review of <diff>"    # review lane — gpt-5.6-sol
 #   xask -R -F codex "RECON codebase-scale"         # -R + -F escape hatch — full gpt-5.6-sol (1.05M ctx)
 #   xask --gpt55 --gs -e high codex "Deep question" # gpt-5.6-sol lane, explicit godspeed, high effort
@@ -388,6 +391,37 @@ case "$PROVIDER" in
     ;;
 esac
 
+# Moonshot catalog: OAuth (kimi-code/*) + pay-as-you-go (moonshotai/*).
+# Short ids rewrite to the kimi CLI alias at exec. Retired K2 preview ids
+# stay unlisted. A 403 usage-limit on OAuth still means the alias is live.
+is_moonshot_model() {
+  case "$1" in
+    kimi-k3|kimi-code/k3|kimi-k3-256k|kimi-code/k3-256k|\
+    kimi-for-coding|kimi-code/kimi-for-coding|\
+    kimi-for-coding-highspeed|kimi-code/kimi-for-coding-highspeed|\
+    kimi-k2.6|moonshotai/kimi-k2.6|\
+    kimi-k2.7-code|moonshotai/kimi-k2.7-code|\
+    kimi-k2.7-code-highspeed|moonshotai/kimi-k2.7-code-highspeed|\
+    moonshotai/kimi-k3)
+      return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
+kimi_cli_alias() {
+  case "$1" in
+    ""|kimi-k3|kimi-code|kimi-code/k3) printf '%s\n' 'kimi-code/k3' ;;
+    kimi-k3-256k|kimi-code/k3-256k) printf '%s\n' 'kimi-code/k3-256k' ;;
+    kimi-for-coding|kimi-code/kimi-for-coding) printf '%s\n' 'kimi-code/kimi-for-coding' ;;
+    kimi-for-coding-highspeed|kimi-code/kimi-for-coding-highspeed) printf '%s\n' 'kimi-code/kimi-for-coding-highspeed' ;;
+    kimi-k2.6|moonshotai/kimi-k2.6) printf '%s\n' 'moonshotai/kimi-k2.6' ;;
+    kimi-k2.7-code|moonshotai/kimi-k2.7-code) printf '%s\n' 'moonshotai/kimi-k2.7-code' ;;
+    kimi-k2.7-code-highspeed|moonshotai/kimi-k2.7-code-highspeed) printf '%s\n' 'moonshotai/kimi-k2.7-code-highspeed' ;;
+    moonshotai/kimi-k3) printf '%s\n' 'moonshotai/kimi-k3' ;;
+    *) printf '%s\n' "$1" ;;
+  esac
+}
+
 # The normalized provider interface is catalog-bound. Legacy route syntax
 # keeps accepting provider-native overrides, but UI/MCP callers must not be
 # able to pair (for example) a ChatGPT slug with the Grok transport.
@@ -399,10 +433,13 @@ if [[ "$PROVIDER_EXPLICIT" == true ]]; then
     chatgpt:gpt-5.4|chatgpt:gpt-5.4-mini|chatgpt:gpt-5.3-codex-spark|\
     chatgpt:codex-auto-review|grok:grok-4.6|grok:grok-4.5|\
     token-plan:qwen3.8-max|token-plan:deepseek-v4-flash-0731|\
-    token-plan:deepseek-v4-pro-0813|local:gemma4:26b|moonshot:kimi-k3)
+    token-plan:deepseek-v4-pro-0813|local:gemma4:26b)
       model_matches_provider=true
       ;;
   esac
+  if [[ "$PROVIDER" == moonshot ]] && is_moonshot_model "$SELECTED_MODEL_ID"; then
+    model_matches_provider=true
+  fi
   [[ "$model_matches_provider" == true ]] || {
     echo "xask: model '$SELECTED_MODEL_ID' is not registered for provider '$PROVIDER'" >&2
     exit 1
@@ -422,8 +459,10 @@ if [[ "$PROVIDER_EXPLICIT" == true && -z "$EFFORT" ]]; then
     qwen3.8-max) EFFORT=xhigh ;;
     deepseek-v4-flash-0731) EFFORT=low ;;
     deepseek-v4-pro-0813) EFFORT=medium ;;
-    kimi-k3) EFFORT=high ;;
     esac
+    if [[ -z "$EFFORT" ]] && is_moonshot_model "$SELECTED_MODEL_ID"; then
+      EFFORT=high
+    fi
   fi
 fi
 
@@ -467,14 +506,17 @@ if [[ -n "$EFFORT" ]]; then
     grok-4.5)
       [[ "$EFFORT" =~ ^(low|medium|high)$ ]] && supported=true
       ;;
-    kimi-k3)
-      # Moonshot K3 advertises low|high|max only; no medium tier.
-      [[ "$EFFORT" =~ ^(low|high|max)$ ]] && supported=true
-      ;;
     qwen3.8-max|deepseek-v4-flash-0731|deepseek-v4-pro-0813)
       [[ "$EFFORT" =~ ^(low|medium|xhigh)$ ]] && supported=true
       ;;
-    *) supported=true ;;
+    *)
+      if is_moonshot_model "$SELECTED_MODEL_ID"; then
+        # Moonshot advertises low|high|max only (K3 natively; others envelope-text).
+        [[ "$EFFORT" =~ ^(low|high|max)$ ]] && supported=true
+      else
+        supported=true
+      fi
+      ;;
   esac
   [[ "$supported" == true ]] || {
     echo "xask: effort '$EFFORT' is not supported by $SELECTED_MODEL_ID" >&2
@@ -731,14 +773,11 @@ case "$MODEL" in
     # no reasoning-effort flag. Always pin -m: kimi-code's ambient default_model
     # is kimi-for-coding (K2.7), which would silently violate the K3 route.
     # Default alias targets the OAuth-managed K3 (subscription metering); the
-    # pay-as-you-go API-key provider stays reachable via --model-id
-    # moonshotai/kimi-k3 (`kimi provider catalog add moonshotai`).
-    KIMI_ALIAS="$MODEL_ID"
-    case "$KIMI_ALIAS" in
-      ""|kimi-k3|kimi-code) KIMI_ALIAS="kimi-code/k3" ;;
-    esac
-    # Note: plan output surfaces the catalog id (kimi-k3) while exec passes the
-    # CLI-qualified alias (kimi-code/k3) — same model, different namespaces.
+    # pay-as-you-go API-key provider stays reachable via catalog ids such as
+    # kimi-k2.6 / moonshotai/kimi-k3 (`kimi provider catalog add moonshotai`).
+    KIMI_ALIAS="$(kimi_cli_alias "${MODEL_ID:-}")"
+    # Note: plan output surfaces the catalog id (kimi-k3, kimi-k2.6, …) while
+    # exec passes the CLI-qualified alias (kimi-code/k3, moonshotai/kimi-k2.6).
     # One-shot mode takes NO approval flag: the CLI rejects -p combined with
     # both --auto and -y/--yolo (session-mode concepts). Plain -p is the
     # supported non-interactive shape.

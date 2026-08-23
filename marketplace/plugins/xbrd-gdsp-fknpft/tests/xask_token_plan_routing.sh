@@ -119,15 +119,21 @@ printf '%s\n' "$out" | grep -q '^MODEL: kimi$' || fail 'kimi-k3 alias → kimi'
 out=$("$XASK" -d --gs kimi-code ping)
 printf '%s\n' "$out" | grep -q '^MODEL: kimi$' || fail 'kimi-code alias → kimi'
 
-# Explicit --model-id passes through verbatim as the CLI alias
+# Explicit --model-id rewrites short catalog ids to the kimi CLI alias
 out=$("$XASK" -d --gs --model-id kimi-for-coding kimi ping 2>/dev/null) \
   || fail 'kimi rejected a legal --model-id'
-printf '%s\n' "$out" | grep -q -- '-m kimi-for-coding' || fail 'kimi --model-id passthrough'
+printf '%s\n' "$out" | grep -q -- '-m kimi-code/kimi-for-coding' || fail 'kimi-for-coding rewrites to OAuth CLI alias'
+out=$("$XASK" -d --gs --model-id kimi-k2.6 kimi ping 2>/dev/null) \
+  || fail 'kimi rejected kimi-k2.6'
+printf '%s\n' "$out" | grep -q -- '-m moonshotai/kimi-k2.6' || fail 'kimi-k2.6 rewrites to pay-as-you-go CLI alias'
 
 # API-key provider alias stays reachable for pay-as-you-go (OAuth quota exhausted)
 out=$("$XASK" -d --gs --model-id moonshotai/kimi-k3 kimi ping 2>/dev/null) \
   || fail 'kimi rejected the API-key provider alias'
 printf '%s\n' "$out" | grep -q -- '-m moonshotai/kimi-k3' || fail 'kimi API-key alias passthrough'
+out=$("$XASK" -d --provider moonshot --model-id kimi-k2.6 -- ping 2>/dev/null) \
+  || fail 'provider moonshot rejected kimi-k2.6'
+printf '%s\n' "$out" | grep -q -- '-m moonshotai/kimi-k2.6' || fail 'provider moonshot kimi-k2.6 argv'
 
 # Rejects: bare vendor name is ambiguous; spark is ChatGPT-only; Codex JSONL flags unsupported
 if "$XASK" -d --gs moonshot ping >/dev/null 2>&1; then fail 'bare moonshot accepted'; fi
