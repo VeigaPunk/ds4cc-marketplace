@@ -417,9 +417,11 @@ if [[ "$PROVIDER_EXPLICIT" == true && -z "$EFFORT" ]]; then
   else
     case "$SELECTED_MODEL_ID" in
     gpt-5.6-sol|gpt-daybreak-blue-latest) EFFORT=low ;;
-    gpt-5.6-terra|gpt-5.6-luna|gpt-reserve|gpt-5.5|gpt-5.4|gpt-5.4-mini|codex-auto-review|deepseek-v4-flash-0731|gemma4:26b) EFFORT=medium ;;
+    gpt-5.6-terra|gpt-5.6-luna|gpt-reserve|gpt-5.5|gpt-5.4|gpt-5.4-mini|codex-auto-review|gemma4:26b) EFFORT=medium ;;
     gpt-5.3-codex-spark|grok-4.6|grok-4.5) EFFORT=high ;;
-    qwen3.8-max|deepseek-v4-pro-0813) EFFORT=xhigh ;;
+    qwen3.8-max) EFFORT=xhigh ;;
+    deepseek-v4-flash-0731) EFFORT=low ;;
+    deepseek-v4-pro-0813) EFFORT=medium ;;
     kimi-k3) EFFORT=high ;;
     esac
   fi
@@ -693,7 +695,12 @@ case "$MODEL" in
     if [ -n "$EFFORT" ]; then
       TP_EXTRA+=(-c "model_reasoning_effort=$EFFORT")
     else
-      TP_EXTRA+=(-c "model_reasoning_effort=low")
+      case "$MODEL" in
+        qwen38) TP_EXTRA+=(-c "model_reasoning_effort=xhigh") ;;
+        ds-flash) TP_EXTRA+=(-c "model_reasoning_effort=low") ;;
+        ds-pro) TP_EXTRA+=(-c "model_reasoning_effort=medium") ;;
+        *) TP_EXTRA+=(-c "model_reasoning_effort=low") ;;
+      esac
     fi
     # Token Plan catalog service_tiers are default-only; do not pin -c service_tier=fast.
     TP_BIN="codex-$MODEL"

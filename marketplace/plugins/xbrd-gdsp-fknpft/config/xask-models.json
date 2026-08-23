@@ -195,7 +195,7 @@
       "route": "ds-flash",
       "display_name": "DeepSeek V4 Flash",
       "supported_efforts": ["low", "medium", "xhigh"],
-      "default_effort": "medium",
+      "default_effort": "low",
       "service_tiers": ["default"],
       "visible": true,
       "available": false
@@ -207,7 +207,7 @@
       "route": "ds-pro",
       "display_name": "DeepSeek V4 Pro",
       "supported_efforts": ["low", "medium", "xhigh"],
-      "default_effort": "xhigh",
+      "default_effort": "medium",
       "service_tiers": ["default"],
       "visible": true,
       "available": false

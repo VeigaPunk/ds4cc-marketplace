@@ -54,7 +54,12 @@ printf '%s\n' "$out" | grep -Eq 'codex-qwen38|codex-token-plan' || fail 'qwen38 
 printf '%s\n' "$out" | grep -q 'CODEX_BIN_SET=0' || fail 'qwen38 CODEX_BIN_SET'
 printf '%s\n' "$out" | grep -q 'xbreed ask' && fail 'qwen38 must not xbreed ask'
 printf '%s\n' "$out" | grep -qi sekhmet && fail 'qwen38 must not mention sekhmet'
-printf '%s\n' "$out" | grep -q 'model_reasoning_effort=low' || fail 'qwen38 default effort must pin low (not inherit catalog xhigh / config ultra)'
+printf '%s\n' "$out" | grep -q 'model_reasoning_effort=xhigh' || fail 'qwen38 default effort must pin xhigh'
+out=$("$XASK" -d --gs ds-flash ping)
+printf '%s\n' "$out" | grep -q 'model_reasoning_effort=low' || fail 'ds-flash default effort must pin low'
+out=$("$XASK" -d --gs ds-pro ping)
+printf '%s\n' "$out" | grep -q 'model_reasoning_effort=medium' || fail 'ds-pro default effort must pin medium'
+out=$("$XASK" -d --gs qwen38 ping)
 printf '%s\n' "$out" | grep -q 'service_tier=fast' && fail 'qwen38 must not pin -c service_tier=fast (catalog default-only)'
 if "$XASK" -d --gs --service-tier fast qwen38 ping >/dev/null 2>&1; then
   fail 'qwen38 accepted --service-tier fast'
