@@ -860,6 +860,7 @@ case "$MODEL" in
     # supported non-interactive shape.
     DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL kimi -m "$KIMI_ALIAS" -p "$PROMPT")
     DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL kimi -m "$KIMI_ALIAS" -p "<PROMPT>")
+    KIMI_EXTRACT=1
     ;;
   cdx|codex)
     DISPATCH_ARGV=(xbreed ask codex --with "$SKILL" "${MODEL_FLAGS[@]}" "${SPARK_FLAGS[@]}"
@@ -974,15 +975,37 @@ case "$MODEL" in
   codex|cdx)
     "${DISPATCH_ARGV[@]}"
     ;;
-  grok|qwen38|ds-flash|ds-pro|kimi)
+  grok|qwen38|ds-flash|ds-pro)
     xask_run "${DISPATCH_ARGV[@]}"
+    ;;
+  kimi)
+    _kimi_out=$(mktemp)
+    _kimi_err=$(mktemp)
+    _kimi_ans=$(mktemp)
+    xask_run "${DISPATCH_ARGV[@]}" >"$_kimi_out" 2>"$_kimi_err"
+    _kimi_rc=$?
+    cat "$_kimi_err" >&2 || true
+    if [[ -f "$_XASK_DIR/xask-kimi-stdout.py" ]]; then
+      cat "$_kimi_err" "$_kimi_out" | python3 "$_XASK_DIR/xask-kimi-stdout.py" >"$_kimi_ans" 2>/dev/null || true
+      if [[ -s "$_kimi_ans" ]]; then
+        cat "$_kimi_ans"
+      else
+        cat "$_kimi_out"
+      fi
+    else
+      cat "$_kimi_out"
+    fi
+    rm -f "$_kimi_out" "$_kimi_err" "$_kimi_ans"
+    RC=$_kimi_rc
     ;;
   *)
     echo "Unknown model: $MODEL. Use gemma (g), codex/cdx, grok, qwen38, ds-flash, or kimi." >&2
     exit 1
     ;;
 esac
-RC=$?
+if [[ "$MODEL" != kimi ]]; then
+  RC=$?
+fi
 
 if [ -n "${XBREED_BENCH_LOG:-}" ]; then
   t_end_s=$(date +%s.%N)
