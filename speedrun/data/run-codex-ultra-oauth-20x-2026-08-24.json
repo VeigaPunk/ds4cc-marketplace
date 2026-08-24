@@ -7,10 +7,10 @@
   "budget_usd": null,
   "budget_note": "Paid ChatGPT Pro OAuth \u2014 not a grant. Meter is weekly used_percent (10080 min), not 100% of the month. Oneshot category.",
   "currency": "USD",
-  "status": "live",
-  "duration": "live \u00b7 session-clock MISS \u00b7 meter-clock MISS",
+  "status": "closed",
+  "duration": "1h 1m 18s",
   "venue": "tmux session 26 \u00b7 gpt-5.6-sol ultra fast",
-  "summary": "LIVE Codex ultra oneshot (paid Pro OAuth, not a grant). Category: oneshot. Meter: weekly 20x window (10080 min), NOT monthly 100%. Session start 2026-08-24T04:36:27Z; first meter 04:46Z at 0%. Sub-hour session: no; meter: no. Snapshot 2026-08-24T06:19:50.911Z: 60.0% weekly used, 0.64%/min, ~46397151 session tokens, 470 child rollouts. Spark 5h is a side window (100%), not this row. The oneshot prompt's huge prior-chat paste is hangar-only pending operator approval.",
+  "summary": "Oneshot done (not live). gpt-5.6-sol ultra. ~60% of weekly 20x in 1h 1m 18s. 1,018,795 goal tokens. Receipt: xbgst-codex.",
   "timeline": [
     {
       "t": "2026-08-24T04:36:27Z",
@@ -23,9 +23,9 @@
       "note": "0% on the weekly 10080 min window"
     },
     {
-      "t": "2026-08-24T06:19:50.911Z",
+      "t": "2026-08-24T13:19:53.318Z",
       "label": "live snapshot",
-      "note": "60.0% \u00b7 0.64%/min \u00b7 ETA +62.5 min \u00b7 sub-hour record: no"
+      "note": "60.0% \u00b7 0.117%/min \u00b7 ETA +342.53 min \u00b7 sub-hour record: no"
     }
   ],
   "metrics": {
@@ -37,27 +37,29 @@
     "tokens_total": 46397151,
     "tokens_cached_input": 45334528,
     "tokens_note": "mostly cached input; public session totals only",
-    "n_rollouts": 470,
-    "pct_per_min": 0.64,
-    "elapsed_min_from_first_meter": 93.75,
-    "eta_100_min": 62.5,
+    "n_rollouts": 471,
+    "pct_per_min": 0.117,
+    "elapsed_min_from_first_meter": 513.79,
+    "eta_100_min": 342.53,
     "record_target_min": 60,
     "subhour_ok": false,
-    "rss_gb": 2.12,
-    "approx_cores": 5.3,
+    "rss_gb": 2.14,
+    "approx_cores": 1.0,
     "tmux": "26",
     "model": "gpt-5.6-sol ultra fast",
-    "outcome": "live \u00b7 racing 20x vs 48h Kimi seed",
-    "spark_5h_pct": 100,
+    "outcome": "closed \u00b7 done \u00b7 ~60% weekly in ~1h",
+    "spark_5h_pct": 0,
     "subhour_session_ok": false,
     "subhour_meter_ok": false,
-    "elapsed_min_from_session": 103.4
+    "elapsed_min_from_session": 523.44,
+    "goal_clock": "1h 1m 18s",
+    "goal_tokens": 1018795
   },
   "pace": {
-    "elapsed_min_from_session": 103.4,
-    "elapsed_min_from_first_meter": 93.75,
-    "pct_per_min": 0.64,
-    "eta_100_min": 62.5,
+    "elapsed_min_from_session": 523.44,
+    "elapsed_min_from_first_meter": 513.79,
+    "pct_per_min": 0.117,
+    "eta_100_min": 342.53,
     "record_target_min": 60,
     "subhour_session_ok": false,
     "subhour_meter_ok": false,
@@ -67,10 +69,10 @@
   "first_meter": "2026-08-24T04:46:06.005Z",
   "curve": "data/codex-curve.json",
   "snapshot": {
-    "ts": "2026-08-24T06:19:50.911Z",
+    "ts": "2026-08-24T13:19:53.318Z",
     "used_percent": 60.0,
     "tokens_total": 46397151,
-    "n_rollouts": 470
+    "n_rollouts": 471
   },
   "links": {
     "codex": "https://chatgpt.com/",
