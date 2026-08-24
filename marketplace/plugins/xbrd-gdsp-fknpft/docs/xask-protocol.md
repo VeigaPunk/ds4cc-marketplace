@@ -17,7 +17,7 @@ xask [legacy flags] <route> "<query>" ["<context>"] ["<skill>"]
 ```
 
 Provider mode is the normalized interface for UIs and integrations. Providers
-are `chatgpt`, `grok`, `token-plan`, and `local`; `--substrate stock|sekhmet`
+are `chatgpt`, `grok`, `token-plan`, `local`, and `moonshot`; `--substrate stock|sekhmet`
 selects the ChatGPT execution substrate. Legacy route tokens remain supported.
 `plan` validates and emits shell-safe argv without executing a provider.
 
@@ -27,15 +27,19 @@ selects the ChatGPT execution substrate. Legacy route tokens remain supported.
 - `grok` — Grok Build oneshot CLI (`grok --always-approve --no-subagents --verbatim -p`)
 - `qwen38` (aliases `qwen3.8-max`, `qwen`) — Token Plan via `codex-qwen38` / `codex-token-plan`
 - `ds-flash` / `ds-pro` — Token Plan DeepSeek profiles (bare `deepseek` rejected)
-- `kimi` (aliases `kimi-k3`, `kimi-code`) — Kimi Code CLI one-shot over Moonshot's
-  OpenAI-compatible API; OAuth-first (`kimi-code/k3`). Provider mode
-  (`--provider moonshot --model-id <id>`) catalogs reachable aliases: OAuth
+- `kimi` (aliases `kimi-k3`, `kimi-code`) — native Kimi Code CLI
+  (`kimi -m <cli-alias> -p`). OAuth-first: default and first-xask (bare `cdx`)
+  pin `kimi-code/k3` (`managed:kimi-code`, `api.kimi.ai`). Pay-as-you-go
+  `moonshotai/*` stays opt-in via `--model-id`. Provider mode
+  (`--provider moonshot --model-id <id>`) catalogs OAuth
   `kimi-k3` / `kimi-k3-256k` / `kimi-for-coding` / `kimi-for-coding-highspeed`
   and pay-as-you-go `kimi-k2.6` / `kimi-k2.7-code` / `kimi-k2.7-code-highspeed`
-  / `moonshotai/kimi-k3` (plus the matching `kimi-code/*` and `moonshotai/*`
-  CLI aliases). Retired K2 preview ids stay unlisted. Bare `moonshot` rejected
-  as a route token. A codex-profile router is impossible today: Moonshot has no
-  public `/v1/responses` and codex dropped `wire_api="chat"`.
+  / `moonshotai/kimi-k3`. Bare `moonshot` rejected as a route token.
+  Default pin is `kimi-k3`. Host override: `~/.config/environment.d/92-xask-codex-fallback.conf`.
+  `XASK_CODEX_FALLBACK=` restores stock `cdx`. Do not wrap this lane in a
+  Codex `-p` profile: Moonshot has no public `/v1/responses` and Codex dropped
+  `wire_api="chat"`. `--output-format` exists on `kimi` but is not passed
+  (one-shot `-p` already prints text; `--json` on xask is Codex JSONL).
 
 (`claude` dispatch was removed in R2-A5.)
 `<context>` defaults to `"No prior context."`.  
@@ -120,7 +124,7 @@ These are injected by xask/xbreed regardless of user flags.
 | `grok` | `env -u CODEX_BIN -u XBRD_SPARK_MODEL grok --always-approve --no-subagents --verbatim -p` | Grok Build CLI | Template `templates/dispatch/grok.md`; no xbreed ask |
 | `qwen38` (`qwen3.8-max`, `qwen`) | `env -u … codex-qwen38 exec …` (or `codex-token-plan qwen38`) | Alibaba Token Plan | Reuses `codex.md` template; no `service_tier=fast` |
 | `ds-flash`, `ds-pro` | `env -u … codex-ds-* exec …` | Alibaba Token Plan | Debug + live wrappers; bare `deepseek` rejected |
-| `kimi` (`kimi-k3`, `kimi-code`) | `env -u CODEX_BIN -u XBRD_SPARK_MODEL kimi -m <cli-alias> -p` | Moonshot AI (Kimi Code CLI) | Template `templates/dispatch/kimi.md`; effort envelope-text only (low\|high\|max); catalog short ids rewrite to CLI aliases (`kimi-k2.6` → `moonshotai/kimi-k2.6`); default `-m kimi-code/k3` (CLI default_model is kimi-for-coding, NOT K3) |
+| `kimi` (`kimi-k3`, `kimi-code`) | `env -u CODEX_BIN -u XBRD_SPARK_MODEL kimi -m <cli-alias> -p` | Native Kimi Code CLI | Template `templates/dispatch/kimi.md`; OAuth default `-m kimi-code/k3`; pay-as-you-go via `moonshotai/*`; effort envelope-text only (low\|high\|max); `-p` rejects `--auto`/`-y`; `--json` is Codex JSONL not `kimi --output-format`; debug prints `KIMI_ALIAS` / `KIMI_AUTH` |
 
 ### Gemma model
 

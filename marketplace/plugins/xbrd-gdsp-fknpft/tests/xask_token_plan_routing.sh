@@ -72,14 +72,23 @@ fi
 out=$("$XASK" -d --gs qwen ping)
 printf '%s\n' "$out" | grep -q '^MODEL: qwen38$' || fail 'qwen alias → qwen38'
 
-# --- cdx: default ChatGPT is stock xbreed, not auto-spark ---
+# --- cdx: stock xbreed when the Codex-limit pin is cleared ---
 : >"$CAPTURE"
-out=$("$XASK" -d --gs cdx ping)
+out=$(XASK_CODEX_FALLBACK= "$XASK" -d --gs cdx ping)
 printf '%s\n' "$out" | grep -q '^MODEL: cdx$' || fail 'cdx MODEL'
 printf '%s\n' "$out" | grep -q 'LANE: stock-codex' || fail 'cdx default LANE stock-codex'
 printf '%s\n' "$out" | grep -q 'xbreed ask' || fail 'cdx default argv xbreed ask'
 printf '%s\n' "$out" | grep -qi sekhmet && fail 'cdx default must not sekhmet'
 printf '%s\n' "$out" | grep -q 'TEMPLATE:.*codex.md' || fail 'cdx uses codex.md'
+
+# --- first xask (unset pin) → native kimi CLI OAuth K3 ---
+out=$(env -u XASK_CODEX_FALLBACK "$XASK" -d --gs cdx ping 2>/tmp/xask-cdx-fb.err)
+printf '%s\n' "$out" | grep -q '^MODEL: kimi$' || fail 'first xask MODEL kimi'
+printf '%s\n' "$out" | grep -q 'LANE: kimi-code-cli' || fail 'first xask LANE kimi-code-cli'
+printf '%s\n' "$out" | grep -q -- '-m kimi-code/k3' || fail 'first xask pins OAuth kimi-code/k3'
+printf '%s\n' "$out" | grep -q 'KIMI_AUTH: oauth' || fail 'first xask KIMI_AUTH oauth'
+printf '%s\n' "$out" | grep -q 'xbreed ask' && fail 'first xask must not xbreed ask'
+grep -q 'native kimi CLI OAuth' /tmp/xask-cdx-fb.err || fail 'first xask stderr names native kimi OAuth'
 
 # --- spark on cdx → sekhmet (debug argv; L3, not Token Plan) ---
 # Unset ambient pin so the default-slug assertion is host-env independent.
@@ -108,6 +117,8 @@ printf '%s\n' "$out" | grep -q '^MODEL: kimi$' || fail 'kimi MODEL'
 printf '%s\n' "$out" | grep -q 'LANE: kimi-code-cli' || fail 'kimi LANE'
 printf '%s\n' "$out" | grep -q -- '-m kimi-code/k3' || fail 'kimi pins OAuth-managed K3 alias'
 printf '%s\n' "$out" | grep -q -- 'kimi -m kimi-code/k3 -p ' || fail 'kimi argv shape'
+printf '%s\n' "$out" | grep -q 'KIMI_ALIAS: kimi-code/k3' || fail 'kimi KIMI_ALIAS'
+printf '%s\n' "$out" | grep -q 'KIMI_AUTH: oauth' || fail 'kimi KIMI_AUTH oauth'
 printf '%s\n' "$out" | grep -q 'CODEX_BIN_SET=0' || fail 'kimi CODEX_BIN_SET'
 printf '%s\n' "$out" | grep -q 'TEMPLATE:.*kimi.md' || fail 'kimi uses kimi.md'
 printf '%s\n' "$out" | grep -q 'xbreed ask' && fail 'kimi must not xbreed ask'
@@ -126,6 +137,7 @@ printf '%s\n' "$out" | grep -q -- '-m kimi-code/kimi-for-coding' || fail 'kimi-f
 out=$("$XASK" -d --gs --model-id kimi-k2.6 kimi ping 2>/dev/null) \
   || fail 'kimi rejected kimi-k2.6'
 printf '%s\n' "$out" | grep -q -- '-m moonshotai/kimi-k2.6' || fail 'kimi-k2.6 rewrites to pay-as-you-go CLI alias'
+printf '%s\n' "$out" | grep -q 'KIMI_AUTH: api-key' || fail 'kimi-k2.6 KIMI_AUTH api-key'
 
 # API-key provider alias stays reachable for pay-as-you-go (OAuth quota exhausted)
 out=$("$XASK" -d --gs --model-id moonshotai/kimi-k3 kimi ping 2>/dev/null) \

@@ -1,13 +1,17 @@
-# Dispatch to Kimi (Moonshot AI) — Inter-Model Protocol v0.2
+# Dispatch to Kimi — Inter-Model Protocol v0.2
 # Minimal blocks, inline status tags, ship the artifact
-# Transport: kimi-code one-shot (`kimi -m <alias> -p`; Moonshot OpenAI-compatible API)
+# Transport: native Kimi Code CLI one-shot (`kimi -m <alias> -p`).
+# OAuth (default): kimi-code/* via managed:kimi-code. Pay-as-you-go: moonshotai/*.
+# Do not wrap this lane in a Codex -p profile (no public /v1/responses).
 
 # Goal
 {{QUERY}}
 
+# Thinking: ON
 # Effort: {{EFFORT}}
-# kimi-cli exposes no reasoning-effort flag; this tier is advisory context.
-# K3 honors low|high|max natively per its model catalog entry.
+# kimi-cli has no --effort flag. K3 uses low|high|max in this envelope.
+# K2.7 Coding Highspeed has no effort tier; thinking stays on via always_thinking
+# and kimi-code [thinking].enabled. Do not drop Thinking: ON.
 
 # Scope boundary
 {{SCOPE_BOUNDARY}}

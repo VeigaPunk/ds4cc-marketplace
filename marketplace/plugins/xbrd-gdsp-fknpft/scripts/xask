@@ -33,13 +33,14 @@
 #   qwen38:  codex-qwen38 exec … (aliases: qwen3.8-max, qwen)
 #   ds-flash / ds-pro: Token Plan debug + live wrappers (reject bare deepseek)
 #   kimi:    kimi -m <cli-alias> -p … (route aliases: kimi-k3, kimi-code;
-#            reject bare moonshot). Auth lives inside kimi-code (OAuth or the
-#            imported moonshotai API-key provider). Catalog pins short ids
-#            (kimi-k3, kimi-k2.6, kimi-for-coding, …) to CLI aliases
-#            (kimi-code/k3, moonshotai/kimi-k2.6, …). Effort is envelope-text
-#            only (gemini-style): no reasoning-effort flag exists; tiers
-#            validated as low|high|max. Always pins -m (CLI default_model is
-#            kimi-for-coding, NOT K3).
+#            reject bare moonshot). Target CLI is native `kimi` (Kimi Code).
+#            OAuth aliases are kimi-code/* (managed:kimi-code, api.kimi.ai).
+#            Pay-as-you-go aliases are moonshotai/* (API key). Default and
+#            first-xask fallback pin OAuth K3 (`kimi-code/k3`). Catalog short
+#            ids rewrite to those CLI aliases. Effort is envelope-text only:
+#            no reasoning-effort flag; K3 tiers low|high|max. Always pins -m.
+#            kimi -p rejects --auto and -y/--yolo. --json/-o are Codex JSONL,
+#            not kimi --output-format.
 #   --spark rejected with grok|qwen38|ds-flash|ds-pro|kimi
 #
 # Examples:
@@ -54,8 +55,9 @@
 #   xask --substrate sekhmet cdx "Probe"            # opt-in L3 sekhmet
 #   xask --gs grok "Probe oneshot"                  # bash-exec grok CLI
 #   xask --gs qwen38 "Token Plan probe"             # bash-exec codex-qwen38
-#   xask --gs kimi "Moonshot K3 probe"              # bash-exec kimi -m kimi-code/k3 (OAuth)
-#   xask --provider moonshot --model-id kimi-k2.6 -- "probe"  # pay-as-you-go K2.6
+#   xask --gs kimi "Moonshot K3 probe"              # native kimi -m kimi-code/k3 (OAuth)
+#   xask --gs cdx "…"                               # first xask → same OAuth K3 while Codex-limit pin is on
+#   xask --provider moonshot --model-id kimi-k2.6 -- "probe"  # pay-as-you-go K2.6 (API key)
 #   xask -R codex "Adversarial review of <diff>"    # review lane — gpt-5.6-sol
 #   xask -R -F codex "RECON codebase-scale"         # -R + -F escape hatch — full gpt-5.6-sol (1.05M ctx)
 #   xask --gpt55 --gs -e high codex "Deep question" # gpt-5.6-sol lane, explicit godspeed, high effort
@@ -356,10 +358,12 @@ case "$MODEL" in
     ;;
 esac
 
-# Temporary Codex usage_limit pin. `XASK_CODEX_FALLBACK=` restores stock cdx.
-# Spark/sekhmet and an explicit ChatGPT --model-id stay on Codex.
+# Temporary Codex usage_limit pin. First xask (bare cdx / chatgpt, no
+# --model-id / -R / --gpt55 / --spark) targets native Kimi Code OAuth K3.
+# `XASK_CODEX_FALLBACK=` restores stock cdx. Spark/sekhmet and an explicit
+# ChatGPT --model-id stay on Codex.
 if [[ ! -v XASK_CODEX_FALLBACK ]]; then
-  XASK_CODEX_FALLBACK=kimi-for-coding-highspeed
+  XASK_CODEX_FALLBACK=kimi-k3
 fi
 if [[ -n "${XASK_CODEX_FALLBACK:-}" && "$SPARK_REQUESTED" != true && "$SUBSTRATE" != sekhmet ]]; then
   _xask_codex_fb=false
@@ -374,7 +378,7 @@ if [[ -n "${XASK_CODEX_FALLBACK:-}" && "$SPARK_REQUESTED" != true && "$SUBSTRATE
     PROVIDER=moonshot
     MODEL_ID="$XASK_CODEX_FALLBACK"
     SERVICE_TIER=default
-    echo "xask: executor → $XASK_CODEX_FALLBACK (Codex limits; XASK_CODEX_FALLBACK= restores cdx)" >&2
+    echo "xask: executor → $XASK_CODEX_FALLBACK (native kimi CLI OAuth; XASK_CODEX_FALLBACK= restores cdx)" >&2
   fi
 fi
 unset _xask_codex_fb
@@ -456,6 +460,15 @@ kimi_cli_alias() {
     kimi-k2.7-code-highspeed|moonshotai/kimi-k2.7-code-highspeed) printf '%s\n' 'moonshotai/kimi-k2.7-code-highspeed' ;;
     moonshotai/kimi-k3) printf '%s\n' 'moonshotai/kimi-k3' ;;
     *) printf '%s\n' "$1" ;;
+  esac
+}
+
+# OAuth = kimi-code/* (managed:kimi-code). API key = moonshotai/*.
+kimi_auth_kind() {
+  case "$(kimi_cli_alias "$1")" in
+    kimi-code/*) printf '%s\n' 'oauth' ;;
+    moonshotai/*) printf '%s\n' 'api-key' ;;
+    *) printf '%s\n' 'unknown' ;;
   esac
 }
 
@@ -839,6 +852,7 @@ case "$MODEL" in
       EFFORT=max
     fi
     KIMI_ALIAS="$(kimi_cli_alias "${MODEL_ID:-}")"
+    KIMI_AUTH="$(kimi_auth_kind "${MODEL_ID:-}")"
     # Note: plan output surfaces the catalog id (kimi-k3, kimi-k2.6, …) while
     # exec passes the CLI-qualified alias (kimi-code/k3, moonshotai/kimi-k2.6).
     # One-shot mode takes NO approval flag: the CLI rejects -p combined with
@@ -903,6 +917,11 @@ if [ "$DEBUG" = true ]; then
       echo "LANE: $LANE"
       echo "ARGV: ${DEBUG_ARGV[*]}"
       echo "CODEX_BIN_SET=$CODEX_BIN_SET"
+      if [[ "$MODEL" == kimi ]]; then
+        echo "KIMI_ALIAS: ${KIMI_ALIAS:-<unset>}"
+        echo "KIMI_AUTH: ${KIMI_AUTH:-<unset>}"
+        echo "KIMI_CLI: kimi -m <alias> -p  (no --auto/-y with -p; no --json; effort is envelope-text)"
+      fi
       ;;
   esac
   echo "MODE: $([ "$RICH" = true ] && echo RICH || echo CLEAN)"
