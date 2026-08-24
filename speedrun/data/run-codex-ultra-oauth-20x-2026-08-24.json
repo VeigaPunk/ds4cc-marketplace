@@ -1,0 +1,87 @@
+{
+  "id": "veigapunk-codex-ultra-oauth-20x-2026-08-24",
+  "title": "Codex ultra OAuth 20x oneshot",
+  "runner": "VeigaPunk",
+  "provider": "OpenAI / Codex",
+  "product": "ChatGPT Pro \u00b7 gpt-5.6-sol ultra fast \u00b7 OAuth 20x weekly window",
+  "budget_usd": null,
+  "budget_note": "OAuth 20x weekly grant \u00b7 10080 min window \u00b7 target 100% in <60 min",
+  "currency": "USD",
+  "status": "live",
+  "duration": "live \u00b7 session-clock MISS \u00b7 meter-clock MISS",
+  "venue": "tmux session 26 \u00b7 gpt-5.6-sol ultra fast",
+  "summary": "LIVE Codex ultra OAuth 20x oneshot. Session start 2026-08-24T04:36:27Z; first meter 04:46Z at 0%. Sub-hour from session start: no. Sub-hour from first meter: no. Snapshot 2026-08-24T05:49:00.627Z: 60.0% used, 0.954%/min, ~46397151 session tokens (mostly cached), 470 child rollouts. Vs the 48h Kimi $200 seed on wall clock. Spark 5h side-window 100% (not the 20x meter).",
+  "timeline": [
+    {
+      "t": "2026-08-24T04:36:27Z",
+      "label": "session start",
+      "note": "tmux 26 \u00b7 gpt-5.6-sol ultra fast \u00b7 ChatGPT Pro"
+    },
+    {
+      "t": "2026-08-24T04:46:06Z",
+      "label": "first meter",
+      "note": "0% on the weekly 10080 min window"
+    },
+    {
+      "t": "2026-08-24T05:49:00.627Z",
+      "label": "live snapshot",
+      "note": "60.0% \u00b7 0.954%/min \u00b7 ETA +41.94 min \u00b7 sub-hour record: no"
+    }
+  ],
+  "metrics": {
+    "mode": "oneshot agent \u00b7 ultra fast",
+    "parallelization": "459 child rollouts",
+    "used_percent": 60.0,
+    "window_minutes": 10080,
+    "plan_type": "pro",
+    "tokens_total": 46397151,
+    "tokens_cached_input": 45334528,
+    "tokens_note": "mostly cached input; public session totals only",
+    "n_rollouts": 470,
+    "pct_per_min": 0.954,
+    "elapsed_min_from_first_meter": 62.91,
+    "eta_100_min": 41.94,
+    "record_target_min": 60,
+    "subhour_ok": false,
+    "rss_gb": 3.16,
+    "approx_cores": 7.5,
+    "tmux": "26",
+    "model": "gpt-5.6-sol ultra fast",
+    "outcome": "live \u00b7 racing 20x vs 48h Kimi seed",
+    "spark_5h_pct": 100,
+    "subhour_session_ok": false,
+    "subhour_meter_ok": false,
+    "elapsed_min_from_session": 72.56
+  },
+  "pace": {
+    "elapsed_min_from_session": 72.56,
+    "elapsed_min_from_first_meter": 62.91,
+    "pct_per_min": 0.954,
+    "eta_100_min": 41.94,
+    "record_target_min": 60,
+    "subhour_session_ok": false,
+    "subhour_meter_ok": false,
+    "subhour_ok": false
+  },
+  "session_start": "2026-08-24T04:36:27.174Z",
+  "first_meter": "2026-08-24T04:46:06.005Z",
+  "curve": "data/codex-curve.json",
+  "snapshot": {
+    "ts": "2026-08-24T05:49:00.627Z",
+    "used_percent": 60.0,
+    "tokens_total": 46397151,
+    "n_rollouts": 470
+  },
+  "links": {
+    "codex": "https://chatgpt.com/",
+    "board": "./"
+  },
+  "tags": [
+    "codex",
+    "oauth",
+    "20x",
+    "ultra",
+    "live",
+    "oneshot"
+  ]
+}

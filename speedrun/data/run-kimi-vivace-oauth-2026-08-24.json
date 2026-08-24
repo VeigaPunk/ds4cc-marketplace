@@ -1,0 +1,61 @@
+{
+  "id": "veigapunk-kimi-vivace-oauth-2026-08-24",
+  "title": "Kimi OAuth vivace \u2014 r14-2 ground work",
+  "runner": "VeigaPunk",
+  "provider": "Moonshot / Kimi",
+  "product": "kimi-code/k3 OAuth main + K2.7 code swarm",
+  "budget_usd": null,
+  "budget_note": "OAuth weekly/free grant \u00b7 not the $200 closed seed",
+  "currency": "USD",
+  "status": "live",
+  "duration": "live",
+  "venue": "tmux session 2 \u00b7 kimi-code pid 44796",
+  "summary": "LIVE Kimi OAuth vivace. kimi-code/k3 OAuth main plus a K2.7 code swarm. Context 24% (240k/1M). Quota: weekly 27% \u00b7 5h 100% (5h is the stall risk). r14-2 of xbgst-kimi. Cron :11/:41. Ground work for the Codex oneshot.",
+  "timeline": [
+    {
+      "t": "session",
+      "label": "tmux 2",
+      "note": "kimi-code pid 44796 \u00b7 Kimi K2.7 Code HighSpeed footer"
+    },
+    {
+      "t": "r14-2",
+      "label": "xbgst-kimi r14-2",
+      "note": "cron :11/:41 \u00b7 few prompts \u00b7 ground work for Codex oneshot"
+    },
+    {
+      "t": "meter",
+      "label": "context",
+      "note": "22% \u00b7 221k/1M"
+    }
+  ],
+  "metrics": {
+    "mode": "agent / kimi-code OAuth",
+    "parallelization": "K2.7 code swarm",
+    "context_pct": 24,
+    "context_frac": "240k/1M",
+    "turns": 3,
+    "model": "Kimi K2.7 Code HighSpeed",
+    "tmux": "2",
+    "pid": 44796,
+    "outcome": "live \u00b7 ground work for Codex oneshot",
+    "weekly_pct": 27,
+    "fiveh_pct": 100
+  },
+  "snapshot": {
+    "ts": "2026-08-24T05:49:00.627Z",
+    "alive": true,
+    "weekly_pct": 27,
+    "fiveh_pct": 100
+  },
+  "links": {
+    "kimi": "https://www.kimi.com/",
+    "board": "./"
+  },
+  "tags": [
+    "kimi",
+    "oauth",
+    "vivace",
+    "live",
+    "r14-2"
+  ]
+}

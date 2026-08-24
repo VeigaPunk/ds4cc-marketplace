@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Token Speedrun — public value board for AI subs</title>
-  <meta name="description" content="Fixed-budget agent runs with receipts. Seed: VeigaPunk burned a $200 Kimi/Moonshot sub in 48h under agent mode + heavy parallelization. Providers win by proving value, not ads." />
-  <meta name="theme-color" content="#07080a" />
+  <title>Token Speedrun — three public burns</title>
+  <meta name="description" content="Public receipts: $200 Kimi seed (48h, closed), live Kimi OAuth vivace, live Codex ultra 20x oneshot." />
+  <meta name="theme-color" content="#070d10" />
   <meta property="og:title" content="Token Speedrun" />
-  <meta property="og:description" content="$200 Kimi/Moonshot · 48h · agent mode · parallel. Empirical value board for every sub." />
+  <meta property="og:description" content="Three runs. Seed + two live OAuth burns. Receipts only." />
   <meta property="og:type" content="website" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -15,53 +15,75 @@
   <a class="skip" href="#main">Skip to content</a>
   <header class="top">
     <div class="brand">
-      <span class="mark" aria-hidden="true">⚡</span>
+      <span class="mark" aria-hidden="true">◆</span>
       <div>
         <p class="eyebrow">token speedrun</p>
         <h1>Prove the sub. Publish the burn.</h1>
       </div>
     </div>
     <nav class="nav">
-      <a href="#thesis">Why</a>
-      <a href="#run-200">$200 · 48h</a>
+      <a href="#live-codex">Live Codex</a>
+      <a href="#run-kimi">Live Kimi</a>
+      <a href="#run-200">$200 seed</a>
       <a href="#board">Board</a>
+      <a href="#thesis">Why</a>
       <a href="#subsidize">Subsidize</a>
-      <a href="#br">Brazil edge</a>
       <a href="https://ds4cc.com/" rel="noopener">ds4cc.com</a>
-      <a href="https://ds4cc.com/omegag/" rel="noopener">omegaG</a>
     </nav>
   </header>
 
   <main id="main">
     <section class="hero">
-      <p class="kicker">multi-provider · multi-CLI · multi-model · receipts only</p>
+      <p class="kicker">three runs · receipts only · plazir-15</p>
       <p class="lede">
         A public scoreboard for <strong>fixed-budget agent work</strong>.
-        Seed run: <strong>$200 Kimi / Moonshot</strong> subscription burned in
-        <strong>~48 hours</strong> with <strong>agent mode</strong> and
-        <strong>heavy parallelization</strong> (account under
-        <code>jpveigao10@gmail.com</code>). Few people got that tier — good time to start the board.
+        Featured seed stays the closed <strong>$200 Kimi / Moonshot</strong> 48h burn.
+        Two live strips sit beside it: Kimi OAuth vivace, and a Codex ultra 20x oneshot racing the weekly window.
       </p>
       <div class="hero-stats">
-        <div class="stat"><span class="n">$200</span><span class="l">Kimi sub budget</span></div>
-        <div class="stat"><span class="n">48h</span><span class="l">time to exhaust</span></div>
-        <div class="stat"><span class="n">∥</span><span class="l">heavy parallel agents</span></div>
+        <div class="stat"><span class="n" id="hero-n-runs">3</span><span class="l">runs on the board</span></div>
+        <div class="stat"><span class="n">48h</span><span class="l">closed seed clock</span></div>
+        <div class="stat"><span class="n" id="hero-live-pct">—</span><span class="l">live Codex 20x</span></div>
       </div>
     </section>
 
-    <section class="panel" id="thesis" aria-labelledby="thesis-title">
-      <p class="eyebrow">thesis</p>
-      <h2 id="thesis-title">Why providers should subsidize this</h2>
-      <ul class="rules">
-        <li><strong>Empirical claims.</strong> “Better value” and “more efficient” stop being ads — they become rows on a board with budget, wall clock, mode, and CLI stack.</li>
-        <li><strong>Aligned incentive.</strong> Each sub provider can fund fair runs so their tier can win in public. Losing is still data; silence is worse.</li>
-        <li><strong>Boundary pressure.</strong> Fixed ceilings force parallel agent stacks, multi-CLI orchestration, and model routing to get sharper. That lifts the whole ecosystem.</li>
-        <li><strong>All CLIs · all models.</strong> Grok, Codex, Kimi, OpenCode, whatever ships next — same rules: state the budget, the mode, the parallel shape, the outcome.</li>
-      </ul>
+    <section class="panel live" id="live-codex" aria-labelledby="live-title">
+      <p class="eyebrow">live strip · oauth 20x</p>
+      <h2 id="live-title">Codex ultra — loading…</h2>
+      <p class="summary" id="live-summary"></p>
+      <div class="live-grid">
+        <div class="meter">
+          <div class="pace-row"><strong id="live-pct">—</strong> of weekly 20x · window 10080 min</div>
+          <div class="meter-bar" aria-hidden="true"><div class="meter-fill" id="live-fill"></div></div>
+        </div>
+        <p class="pace-row">pace <strong id="live-pace">—</strong></p>
+        <p class="pace-row">ETA to 100% <strong id="live-eta">—</strong></p>
+        <p class="pace-row">sub-hour from session start <strong id="live-record-session">—</strong></p>
+        <p class="pace-row">sub-hour from first meter <strong id="live-record">—</strong></p>
+        <p class="pace-row">vs 48h Kimi seed <strong>orders of magnitude faster clock</strong></p>
+        <div class="curve-wrap">
+          <svg id="curve" viewBox="0 0 640 220" role="img" aria-label="Codex burn curve, percent versus minutes from first meter">
+            <text class="curve-axis" x="8" y="16">% used</text>
+            <text class="curve-axis" x="520" y="212">minutes from first meter</text>
+            <path class="curve-fill" id="curve-fill" d=""></path>
+            <path class="curve-line" id="curve-line" d=""></path>
+            <circle class="curve-dot" id="curve-dot" r="4" cx="-10" cy="-10"></circle>
+          </svg>
+        </div>
+      </div>
+      <dl class="metrics" id="live-metrics"></dl>
+    </section>
+
+    <section class="panel live" id="run-kimi" aria-labelledby="kimi-title">
+      <p class="eyebrow">live · kimi oauth vivace</p>
+      <h2 id="kimi-title">Loading…</h2>
+      <p class="summary" id="kimi-summary"></p>
+      <ol class="timeline" id="kimi-timeline"></ol>
+      <dl class="metrics" id="kimi-metrics"></dl>
     </section>
 
     <section class="panel" id="run-200" aria-labelledby="run-title">
-      <p class="eyebrow">seed run · closed</p>
+      <p class="eyebrow">seed run · closed · featured</p>
       <h2 id="run-title">Loading…</h2>
       <p class="summary" id="run-summary"></p>
       <ol class="timeline" id="run-timeline"></ol>
@@ -72,18 +94,31 @@
     <section class="panel" id="board" aria-labelledby="board-title">
       <p class="eyebrow">leaderboard</p>
       <h2 id="board-title">Runs</h2>
-      <table class="board">
-        <thead>
-          <tr>
-            <th>#</th><th>Runner</th><th>Provider</th><th>Budget</th><th>Clock</th><th>Mode</th><th>Status</th>
-          </tr>
-        </thead>
-        <tbody id="board-body"></tbody>
-      </table>
+      <div class="board-wrap">
+        <table class="board">
+          <thead>
+            <tr>
+              <th>#</th><th>Runner</th><th>Provider</th><th>Budget</th><th>Clock</th><th>Mode</th><th>Status</th>
+            </tr>
+          </thead>
+          <tbody id="board-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="thesis" aria-labelledby="thesis-title">
+      <p class="eyebrow">thesis</p>
+      <h2 id="thesis-title">Why providers should subsidize this</h2>
+      <ul class="rules">
+        <li><strong>Empirical claims.</strong> “Better value” and “more efficient” stop being ads — they become rows on a board with budget, wall clock, mode, and CLI stack.</li>
+        <li><strong>Aligned incentive.</strong> Each sub provider can fund fair runs so their tier can win in public. Losing is still data; silence is worse.</li>
+        <li><strong>Boundary pressure.</strong> Fixed ceilings force parallel agent stacks, multi-CLI orchestration, and model routing to get sharper.</li>
+        <li><strong>All CLIs · all models.</strong> Grok, Codex, Kimi, OpenCode — same rules: budget, mode, parallel shape, outcome.</li>
+      </ul>
     </section>
 
     <section class="panel" id="subsidize" aria-labelledby="sub-title">
-      <p class="eyebrow">for moonshot · kimi · everyone else</p>
+      <p class="eyebrow">for moonshot · kimi · openai · everyone else</p>
       <h2 id="sub-title">Subsidize a fair lane</h2>
       <p class="muted">
         Grant a fixed sub or API credit, publish the rules, let operators go hard
@@ -106,10 +141,9 @@
   <footer class="foot">
     <p>
       <a href="https://ds4cc.com/" rel="noopener">ds4cc.com</a> ·
-      <a href="https://ds4cc.com/speedrun/" rel="noopener">ds4cc.com/speedrun</a> ·
-      <a href="https://veigapunk.github.io/omegag-site/" rel="noopener">omegaG</a>
+      <a href="https://ds4cc.com/speedrun/" rel="noopener">ds4cc.com/speedrun</a>
     </p>
-    <p class="muted">Data: <code>data/run-200usd.json</code> · no fraudulent infinite cloud APIs</p>
+    <p class="muted">Data from <code>data/manifest.json</code> · no keys, no auth dumps</p>
   </footer>
   <script src="main.js" type="module"></script>
 </body>

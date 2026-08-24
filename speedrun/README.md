@@ -2,7 +2,9 @@
 
 Public **fixed-budget** agent runs with receipts. Providers can claim value and efficiency **empirically** — and have incentive to subsidize fair lanes.
 
-## Seed run (featured)
+**Three runs** on the board (`data/manifest.json`): one closed seed plus two live OAuth burns. A live board README lists the live rows, not only the closed seed.
+
+## Seed run (featured, closed)
 
 | Field | Value |
 |-------|--------|
@@ -16,6 +18,20 @@ Public **fixed-budget** agent runs with receipts. Providers can claim value and 
 | Status | **closed** |
 
 Data: [`data/run-200usd.json`](data/run-200usd.json)
+
+## Live Kimi OAuth vivace
+
+OAuth weekly/free grant — **not** the $200 seed. kimi-code/k3 main + K2.7 code swarm (tmux 2). Quota on the strip is **weekly % · 5h %** (5h is the stall risk). Context % is not quota.
+
+Data: [`data/run-kimi-vivace-oauth-2026-08-24.json`](data/run-kimi-vivace-oauth-2026-08-24.json)
+
+## Live Codex ultra OAuth 20x oneshot
+
+ChatGPT Pro · gpt-5.6-sol ultra fast (tmux 26). Meter is weekly `used_percent` (10080 min window), **not** Spark 5h. Dual clocks vs a 60-minute target: session start and first meter; both are scored honestly (a miss is a miss).
+
+Data: [`data/run-codex-ultra-oauth-20x-2026-08-24.json`](data/run-codex-ultra-oauth-20x-2026-08-24.json) · curve [`data/codex-curve.json`](data/codex-curve.json)
+
+Meter clocks: session start `2026-08-24T04:36:27Z` and first meter `04:46:06Z`. Spark 5h is a side window, not the 20x row.
 
 ## Thesis
 

@@ -1,6 +1,6 @@
 {
   "board_name": "Token Speedrun",
-  "thesis": "Fixed-budget public runs let operators and providers claim value and efficiency with receipts — not slogans. Every sub provider has incentive to subsidize fair runs so their tier can win on the board. The ecosystem that shows up here is forced to push boundaries across CLIs and models.",
+  "thesis": "Fixed-budget public runs let operators and providers claim value and efficiency with receipts \u2014 not slogans. Every sub provider has incentive to subsidize fair runs so their tier can win on the board. The ecosystem that shows up here is forced to push boundaries across CLIs and models.",
   "rules": {
     "score_primary": "budget_usd + wall_clock + stated mode (agent / chat / API)",
     "honest_metering": "prefer provider exports; if unavailable, document approximation",
@@ -8,5 +8,10 @@
     "infinite_mode": "local / self-host / open weights only"
   },
   "featured_run_id": "veigapunk-kimi-200-usd-48h",
-  "runs": ["data/run-200usd.json"]
+  "live_strip_run_id": "veigapunk-codex-ultra-oauth-20x-2026-08-24",
+  "runs": [
+    "data/run-200usd.json",
+    "data/run-kimi-vivace-oauth-2026-08-24.json",
+    "data/run-codex-ultra-oauth-20x-2026-08-24.json"
+  ]
 }
