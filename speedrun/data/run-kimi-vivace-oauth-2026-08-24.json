@@ -1,6 +1,6 @@
 {
   "id": "veigapunk-kimi-vivace-oauth-2026-08-24",
-  "title": "Kimi OAuth vivace \u2014 r14-2 ground work",
+  "title": "Kimi OAuth vivace \u2014 r14-2 + auto FSD cron",
   "runner": "VeigaPunk",
   "provider": "Moonshot / Kimi",
   "product": "kimi-code/k3 OAuth main + K2.7 code swarm",
@@ -10,7 +10,7 @@
   "status": "live",
   "duration": "live",
   "venue": "tmux session 2 \u00b7 kimi-code pid 44796",
-  "summary": "LIVE Kimi OAuth vivace (paid, not a grant). Autonomous orch: CreateGoal\u00d73, AgentSwarm, FRAMEWORK.md, r13 PASS, r14 self-improve, cron :11/:41. Context 24% (240k/1M). Quota: weekly 27% \u00b7 5h 100%. Golden: 5h hitting 100% at weekly ~27% means the 5h cap is roughly 20% of weekly \u2014 not in vendor tables; measured at the ceiling. OAuth 403 paused the goal; API auto-swap failed first; cron is the honest retry. Operator is not touching the CLI.",
+  "summary": "LIVE Kimi OAuth vivace (paid, not a grant). Autonomous orch: CreateGoal\u00d73, AgentSwarm, FRAMEWORK.md, r13 PASS, r14 self-improve, cron :11/:41. Context 24% (241k/1M). Quota: weekly 27% \u00b7 5h 100%. Golden: 5h hitting 100% at weekly ~27% means the 5h cap is roughly 20% of weekly \u2014 not in vendor tables; measured at the ceiling. OAuth 403 paused the goal; API auto-swap failed first; cron is the honest retry. Operator is not touching the CLI.",
   "timeline": [
     {
       "t": "session",
@@ -18,33 +18,41 @@
       "note": "kimi-code pid 44796 \u00b7 Kimi K2.7 Code HighSpeed footer"
     },
     {
-      "t": "r14-2",
-      "label": "xbgst-kimi r14-2",
-      "note": "cron :11/:41 \u00b7 few prompts \u00b7 ground work for Codex oneshot"
+      "t": "cron",
+      "label": "auto FSD cron LANDED",
+      "note": "job 01M0S354HTM81Q9NCNM36MSQAD \u00b7 11,41 * * * * \u00b7 operator was wrong to say it did not"
     },
     {
-      "t": "meter",
-      "label": "context",
-      "note": "22% \u00b7 221k/1M"
+      "t": "r14-2",
+      "label": "xbgst-kimi r14-2",
+      "note": "CreateGoal\u00d73 \u00b7 AgentSwarm \u00b7 FRAMEWORK.md \u00b7 r13 PASS \u00b7 r14 \u00b7 ground work for Codex oneshot"
+    },
+    {
+      "t": "pause",
+      "label": "OAuth 403",
+      "note": "goal paused \u00b7 5h 100% \u00b7 weekly ~27% \u00b7 first API auto-swap failed \u00b7 cron retries \u00b7 operator not touching CLI"
     }
   ],
   "metrics": {
     "mode": "agent / kimi-code OAuth",
     "parallelization": "K2.7 code swarm",
     "context_pct": 24,
-    "context_frac": "240k/1M",
+    "context_frac": "241k/1M",
     "turns": 3,
-    "model": "Kimi K2.7 Code HighSpeed",
+    "model": "K3 thinking: high  ~/Projects/xbg\u2026",
     "tmux": "2",
     "pid": 44796,
-    "outcome": "live \u00b7 ground work for Codex oneshot",
+    "outcome": "live \u00b7 cron landed \u00b7 OAuth 403 pause",
     "weekly_pct": 27,
     "fiveh_pct": 100,
     "fiveh_is_about_pct_of_weekly": 27,
-    "oauth_403": true
+    "oauth_403": true,
+    "cron_job": "01M0S354HTM81Q9NCNM36MSQAD",
+    "cron_schedule": "11,41 * * * *",
+    "cron_landed": true
   },
   "snapshot": {
-    "ts": "2026-08-24T06:08:42.533Z",
+    "ts": "2026-08-24T06:19:50.911Z",
     "alive": true,
     "weekly_pct": 27,
     "fiveh_pct": 100,
@@ -52,7 +60,8 @@
   },
   "links": {
     "kimi": "https://www.kimi.com/",
-    "board": "./"
+    "board": "./",
+    "charter": "https://veigapunk.github.io/plazir-15-site/#charter"
   },
   "tags": [
     "kimi",

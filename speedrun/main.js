@@ -8,6 +8,15 @@ async function loadJson(path) {
   return res.json();
 }
 
+async function loadJsonSoft(path) {
+  try {
+    return await loadJson(path);
+  } catch (err) {
+    console.warn("speedrun skip", path, err);
+    return null;
+  }
+}
+
 function escapeHtml(s) {
   return String(s ?? "")
     .replaceAll("&", "&amp;")
@@ -17,13 +26,13 @@ function escapeHtml(s) {
 }
 
 function budgetCell(run) {
-  if (run.budget_usd != null) return `$${run.budget_usd}`;
-  return run.budget_note ? "OAuth grant" : "—";
+  if (run.budget_usd != null) return `$${run.budget_usd} paid`;
+  return "paid · not a grant";
 }
 
 function clockCell(run) {
   if (run.status === "live" && run.metrics?.used_percent != null) {
-    return `${run.metrics.used_percent}% · ${run.duration || "live"}`;
+    return `${run.metrics.used_percent}% weekly · ${run.duration || "live"}`;
   }
   if (run.status === "live" && run.metrics?.context_frac) {
     return `${run.metrics.context_frac} ctx`;
@@ -49,7 +58,7 @@ function renderFeatured(run) {
     <dt>provider</dt><dd>${escapeHtml(run.provider)}</dd>
     <dt>product</dt><dd>${escapeHtml(run.product)}</dd>
     <dt>account</dt><dd><code>${escapeHtml(run.account_hint || "—")}</code></dd>
-    <dt>budget</dt><dd>$${m.budget_usd ?? run.budget_usd} USD</dd>
+    <dt>budget</dt><dd>$${m.budget_usd ?? run.budget_usd} USD paid — not a grant</dd>
     <dt>spent</dt><dd>$${m.spent_usd_approx ?? "?"} USD</dd>
     <dt>wall clock</dt><dd>${m.wall_clock_hours ?? "?"} hours</dd>
     <dt>mode</dt><dd>${escapeHtml(m.mode || "—")} · parallel: ${escapeHtml(m.parallelization || "—")}</dd>
@@ -75,11 +84,8 @@ function renderKimi(run) {
     <dt>model</dt><dd>${escapeHtml(m.model || run.product)}</dd>
     <dt>venue</dt><dd>${escapeHtml(run.venue)}</dd>
     <dt>context</dt><dd>${escapeHtml(m.context_pct)}% · ${escapeHtml(m.context_frac)}</dd>
-    <dt>quota</dt><dd>weekly ${escapeHtml(weekly)}% · 5h ${escapeHtml(fiveh)}%${
-      Number(fiveh) >= 99 && weekly != null
-        ? ` · 5h-full ≈ ${escapeHtml(weekly)}% of weekly (~20%)`
-        : ""
-    }</dd>
+    <dt>quota</dt><dd>weekly ${escapeHtml(weekly)}% · 5h ${escapeHtml(fiveh)}% · 5h cap ≈ 20% of weekly</dd>
+    <dt>cron</dt><dd>LANDED · ${escapeHtml(m.cron_job || "01M0S354HTM81Q9NCNM36MSQAD")} · ${escapeHtml(m.cron_schedule || "11,41 * * * *")}</dd>
     <dt>paid</dt><dd>paid OAuth — not a grant</dd>
     <dt>turns</dt><dd>${escapeHtml(m.turns)}</dd>
     <dt>mode</dt><dd>${escapeHtml(m.mode)} · ${escapeHtml(m.parallelization)}</dd>
@@ -93,6 +99,7 @@ function fmtTokens(n) {
   if (n >= 1e3) return `${(n / 1e3).toFixed(1)}k`;
   return String(n);
 }
+
 
 function renderCurve(curve) {
   const pts = curve.points || [];
@@ -140,11 +147,14 @@ function renderCodex(run, curve) {
   setRec("live-record-session", pace.subhour_session_ok ?? m.subhour_session_ok);
   el("live-metrics").innerHTML = `
     <dt>model</dt><dd>${escapeHtml(m.model)}</dd>
-    <dt>plan</dt><dd>${escapeHtml(m.plan_type)} · ${escapeHtml(m.window_minutes)} min window</dd>
+    <dt>category</dt><dd>oneshot</dd>
+    <dt>meter</dt><dd>weekly ${escapeHtml(m.window_minutes)} min · not monthly 100%</dd>
+    <dt>plan</dt><dd>${escapeHtml(m.plan_type)}</dd>
     <dt>tokens</dt><dd>${fmtTokens(m.tokens_total)} <span class="muted">cached ${fmtTokens(m.tokens_cached_input)}</span></dd>
     <dt>rollouts</dt><dd>${escapeHtml(m.n_rollouts)}</dd>
     <dt>host load</dt><dd>~${escapeHtml(m.approx_cores)} cores · ${escapeHtml(m.rss_gb)} GB RSS</dd>
     <dt>venue</dt><dd>${escapeHtml(run.venue)}</dd>
+    <dt>paid</dt><dd>paid Pro OAuth — not a grant</dd>
     <dt>snapshot</dt><dd>${escapeHtml(run.snapshot?.ts || "—")}</dd>
   `;
   if (curve) renderCurve(curve);
@@ -167,15 +177,6 @@ function renderBoard(runs) {
       </tr>`;
     })
     .join("");
-}
-
-async function loadJsonSoft(path) {
-  try {
-    return await loadJson(path);
-  } catch (err) {
-    console.warn("speedrun skip", path, err);
-    return null;
-  }
 }
 
 async function main() {

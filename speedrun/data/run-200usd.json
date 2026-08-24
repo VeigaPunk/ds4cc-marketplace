@@ -1,17 +1,17 @@
 {
   "id": "veigapunk-kimi-200-usd-48h",
-  "title": "$200 Kimi / Moonshot sub — 48h burn",
+  "title": "$200 Kimi / Moonshot sub \u2014 48h burn",
   "runner": "VeigaPunk",
   "account_hint": "jpveigao10@gmail.com",
   "provider": "Moonshot / Kimi",
-  "product": "Kimi $200 USD subscription (limited grant / early access class)",
+  "product": "Kimi $200 USD subscription (paid by the operator \u2014 not a grant)",
   "budget_usd": 200,
   "currency": "USD",
   "status": "closed",
   "duration": "48 hours",
   "duration_hours": 48,
-  "venue": "Kimi agent mode · heavy parallelization across agent CLIs",
-  "summary": "Burned a $200 USD Kimi (Moonshot) subscription in about 48 hours. Mode: agent mode, used extensively, with heavy parallelization. Very few people got this tier — a clean early data point for public value / efficiency scoreboards across providers, CLIs, and models.",
+  "venue": "Kimi agent mode \u00b7 heavy parallelization across agent CLIs",
+  "summary": "Burned a $200 USD Kimi (Moonshot) subscription the operator paid for, in about 48 hours. Not a grant. Mode: agent mode, used extensively, with heavy parallelization. Very few people got this tier \u2014 a clean early data point for public value / efficiency scoreboards.",
   "timeline": [
     {
       "t": "t0",
@@ -19,9 +19,9 @@
       "note": "$200 USD Kimi / Moonshot subscription under jpveigao10@gmail.com"
     },
     {
-      "t": "t0–48h",
+      "t": "t0\u201348h",
       "label": "Agent mode + parallel fan-out",
-      "note": "Extensive agent-mode use; heavy parallelization across agents/CLIs — max extract from the grant window"
+      "note": "Extensive agent-mode use; heavy parallelization across agents/CLIs \u2014 max extract from the grant window"
     },
     {
       "t": "t+48h",
@@ -37,10 +37,10 @@
     "tokens_note": "Provider UI metering may not export a single public token total; primary score is $200 / 48h under agent mode + parallel load.",
     "mode": "agent mode",
     "parallelization": "heavy",
-    "outcome": "full burn · closed · board seed run"
+    "outcome": "full burn \u00b7 closed \u00b7 board seed run"
   },
   "axes": {
-    "value_per_dollar": "empirical — how much real agent work landed per $",
+    "value_per_dollar": "empirical \u2014 how much real agent work landed per $",
     "efficiency": "time-to-exhaust + parallel throughput under agent mode",
     "boundary_push": "multi-CLI / multi-model agent stacks against a fixed sub ceiling"
   },
@@ -50,5 +50,15 @@
     "ds4cc": "https://ds4cc.com/",
     "omegag": "https://veigapunk.github.io/omegag-site/"
   },
-  "tags": ["kimi", "moonshot", "200usd", "48h", "agent-mode", "parallel", "seed-run"]
+  "tags": [
+    "kimi",
+    "moonshot",
+    "200usd",
+    "48h",
+    "agent-mode",
+    "parallel",
+    "seed-run"
+  ],
+  "paid": true,
+  "not_a_grant": true
 }
