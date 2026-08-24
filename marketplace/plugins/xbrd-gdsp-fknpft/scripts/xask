@@ -112,6 +112,31 @@ resolve_godspeed_directive() {
   return 1
 }
 
+resolve_named_skill() {
+  local name="$1"
+  local candidate
+  if [[ -z "$name" || "$name" == godspeed ]]; then
+    return 1
+  fi
+  if [[ ! "$name" =~ ^[A-Za-z0-9][A-Za-z0-9._-]*$ ]]; then
+    echo "xask: invalid skill name '$name'" >&2
+    return 1
+  fi
+  for candidate in \
+    "${XASK_SKILL_DIR:-}/$name/SKILL.md" \
+    "$HOME/.grok/skills/$name/SKILL.md" \
+    "$HOME/.agents/skills/$name/SKILL.md" \
+    "$HOME/.config/xbreed/skills/$name/SKILL.md" \
+    "$_XASK_DIR/../skills/$name/SKILL.md"; do
+    if [[ -n "$candidate" && -f "$candidate" ]]; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+  done
+  echo "xask: skill '$name' not found (tried ~/.grok/skills/$name/SKILL.md)" >&2
+  return 1
+}
+
 resolve_cursor_agent() {
   local candidate="${XASK_CURSOR_AGENT_BIN:-}"
   if [[ -n "$candidate" ]]; then
@@ -839,8 +864,22 @@ fi
 GODSPEED_DIRECTIVE_FILE="$(resolve_godspeed_directive)" || exit 1
 GODSPEED_DIRECTIVE="$(<"$GODSPEED_DIRECTIVE_FILE")"
 PROMPT="$(strip_trailing_godspeed_markers "$PROMPT")"
-PROMPT="$GODSPEED_DIRECTIVE
+EXTRA_SKILL_BLOCK=""
+case "$MODEL" in
+  grok|cursor|kimi|kimi-k3|kimi-code|qwen38|qwen|qwen3.8-max|ds-flash|ds-pro)
+    if [[ -n "$REQUESTED_SKILL" && "$REQUESTED_SKILL" != godspeed ]]; then
+      EXTRA_SKILL_FILE="$(resolve_named_skill "$REQUESTED_SKILL")" || exit 1
+      EXTRA_SKILL_BLOCK="
+---
+# Skill: $REQUESTED_SKILL
+$(<"$EXTRA_SKILL_FILE")
 
+"
+    fi
+    ;;
+esac
+PROMPT="$GODSPEED_DIRECTIVE
+$EXTRA_SKILL_BLOCK
 ---
 
 $PROMPT | godspeed"
