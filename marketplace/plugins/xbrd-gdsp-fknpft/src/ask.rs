@@ -3,6 +3,74 @@ use anyhow::Result;
 use std::path::Path;
 use std::process::Command;
 
+fn effective_codex_model(
+    model_override: Option<&str>,
+    spark: bool,
+    review: bool,
+    full: bool,
+    gpt55: bool,
+) -> &str {
+    if let Some(model) = model_override.filter(|model| !model.trim().is_empty()) {
+        model
+    } else if spark {
+        CODEX_SPARK_MODEL
+    } else if gpt55 {
+        CODEX_55_MODEL
+    } else if review && full {
+        CODEX_FULL_MODEL
+    } else {
+        CODEX_MINI_MODEL
+    }
+}
+
+fn codex_model_supports_fast(model: &str) -> bool {
+    !matches!(
+        model,
+        "gpt-daybreak-blue-latest" | "gpt-5.4-mini" | "gpt-5.3-codex-spark"
+    )
+}
+
+fn codex_model_supports_effort(model: &str, effort: &str) -> bool {
+    match model {
+        "gpt-5.6-sol" | "gpt-5.6-terra" | "gpt-daybreak-blue-latest" => {
+            matches!(
+                effort,
+                "low" | "medium" | "high" | "xhigh" | "max" | "ultra"
+            )
+        }
+        "gpt-5.6-luna" | "gpt-reserve" | "codex-auto-review" => {
+            matches!(effort, "low" | "medium" | "high" | "xhigh" | "max")
+        }
+        "gpt-5.5" | "gpt-5.4" | "gpt-5.4-mini" | "gpt-5.3-codex-spark" => {
+            matches!(effort, "low" | "medium" | "high" | "xhigh")
+        }
+        // Preserve forward compatibility for a future Codex model that the
+        // installed CLI knows before this static compatibility guard does.
+        _ => matches!(
+            effort,
+            "low" | "medium" | "high" | "xhigh" | "max" | "ultra"
+        ),
+    }
+}
+
+fn canonicalize_godspeed_prompt(prompt: &str) -> String {
+    const SUFFIX: &str = "| godspeed";
+    let mut body = prompt.trim_end().to_string();
+    loop {
+        let lower = body.to_ascii_lowercase();
+        if !lower.ends_with(SUFFIX) {
+            break;
+        }
+        body.truncate(body.len() - SUFFIX.len());
+        body = body.trim_end().to_string();
+    }
+    if body.is_empty() {
+        SUFFIX.to_string()
+    } else {
+        format!("{body} {SUFFIX}")
+    }
+}
+
 // Auth posture (user directives 2026-04-17 / 2026-07-21):
 // - codex: CLI owns `~/.codex/auth.json` (ChatGPT subscription).
 // - gemma (g- prefix): `gemma-hvm` → run.sh/run-hvm4.sh → Bend 0.2.38
@@ -13,8 +81,8 @@ use std::process::Command;
 /// Build a codex Command with loadout injection and clean-dispatch suppression.
 ///
 /// Five lanes select the codex model family:
-/// - `spark=true`            → [`CODEX_SPARK_MODEL`] + `model_reasoning_effort=low`
-///   (fast_mode enabled). Labrat probes, cheap/fast/expendable.
+/// - `spark=true`            → [`CODEX_SPARK_MODEL`] + `model_reasoning_effort=low`.
+///   Labrat probes, cheap/expendable; this model has no fast service tier.
 /// - `gpt55=true` (and not spark) → [`CODEX_55_MODEL`] (`gpt-5.6-sol`) +
 ///   `features.fast_mode=true`. Added 2026-04-24 for the xbrd-exec bench
 ///   (xask-arm gpt-5.6-sol measurement). Orthogonal to review/full — those are
@@ -25,8 +93,12 @@ use std::process::Command;
 ///   context window.
 /// - `review=true` (no full)  → [`CODEX_MINI_MODEL`] (`gpt-5.6-sol`, 400K ctx) +
 ///   `features.fast_mode=true`. Review lane default per 2026-04-18 directive.
-/// - otherwise                → [`CODEX_MINI_MODEL`] + `features.fast_mode=true`.
+/// - otherwise                → [`CODEX_MINI_MODEL`].
 ///   Default non-spark lane; mini handles execution/labrat/scout/etc.
+///
+/// Service tier is authoritative: ordinary/default is explicitly pinned so an
+/// ambient host preference cannot leak in, and fast mode is enabled only when
+/// the caller explicitly requests `fast`/`priority` on a compatible model.
 ///
 /// `spark` short-circuits all other lanes (labrat probes are cheaper than
 /// reviews and should beat review in the rare spark+review case). `gpt55`
@@ -74,6 +146,31 @@ pub fn build_codex_ask_with_model(
     output_last_message: Option<&Path>,
     model_override: Option<&str>,
 ) -> Command {
+    build_codex_ask_with_model_and_tier(
+        loadout,
+        spark,
+        review,
+        full,
+        gpt55,
+        json,
+        output_last_message,
+        model_override,
+        None,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn build_codex_ask_with_model_and_tier(
+    loadout: &Loadout,
+    spark: bool,
+    review: bool,
+    full: bool,
+    gpt55: bool,
+    json: bool,
+    output_last_message: Option<&Path>,
+    model_override: Option<&str>,
+    service_tier: Option<&str>,
+) -> Command {
     let mut c = Command::new("codex");
     c.arg("exec")
         .arg("--skip-git-repo-check")
@@ -90,9 +187,22 @@ pub fn build_codex_ask_with_model(
     c.arg("-c").arg("include_permissions_instructions=false");
     c.arg("-c").arg("include_apps_instructions=false");
     c.arg("-c").arg("include_environment_context=false");
-    // Codex CLI's fast service tier resolves to the priority servicing tier on
-    // the wire. Pin it per invocation rather than relying on user config.
-    c.arg("-c").arg("service_tier=\"fast\"");
+    // A ChatGPT/Codex route must not inherit an ambient third-party provider.
+    c.arg("-c").arg("model_provider=\"openai\"");
+    // Codex's `fast` tier resolves to priority servicing. Models that do not
+    // advertise it must not inherit the legacy universal fast override.
+    let selected_model = model_override.filter(|model| !model.trim().is_empty());
+    let effective_model = effective_codex_model(selected_model, spark, review, full, gpt55);
+    let supports_fast = codex_model_supports_fast(effective_model);
+    let fast_requested = matches!(service_tier, Some("fast" | "priority"));
+    if fast_requested && supports_fast {
+        c.arg("-c").arg("service_tier=\"fast\"");
+        c.arg("-c").arg("features.fast_mode=true");
+    } else {
+        // Explicitly neutralize a host-level priority/fast preference. `None`
+        // is the direct-xbreed default and must mean ordinary service.
+        c.arg("-c").arg("service_tier=\"default\"");
+    }
 
     if json {
         c.arg("--json");
@@ -102,31 +212,26 @@ pub fn build_codex_ask_with_model(
         c.arg("-o").arg(path);
     }
 
-    if let Some(model) = model_override.filter(|model| !model.trim().is_empty()) {
+    if let Some(model) = selected_model {
         c.arg("-m").arg(model);
-        c.arg("-c").arg("features.fast_mode=true");
     } else if spark {
         c.arg("-m").arg(CODEX_SPARK_MODEL);
         c.arg("-c").arg("model_reasoning_effort=low");
-        c.arg("-c").arg("features.fast_mode=true");
     } else if gpt55 {
         // Explicit gpt-5.6-sol lane — short-circuits review/full (those are
         // 5.5-family). fast_mode enabled for parity with mini/full lanes
         // so `xask --gpt55 -e <effort> codex` is the canonical xbreed
         // entry point for 5.5 xask-arm dispatches.
         c.arg("-m").arg(CODEX_55_MODEL);
-        c.arg("-c").arg("features.fast_mode=true");
     } else if review && full {
         // -R -F escape hatch: full gpt-5.6-sol (1.05M ctx) for the-revenger RECON
         // where the larger context window earns the cost. User directive 2026-04-18.
         c.arg("-m").arg(CODEX_FULL_MODEL);
-        c.arg("-c").arg("features.fast_mode=true");
     } else {
         // Default + review-default lanes both route to mini (400K ctx) + fast_mode.
         // User directive 2026-04-18 — review lane migrated to mini; escape hatch
         // via --full/-F above when RECON-class context is needed.
         c.arg("-m").arg(CODEX_MINI_MODEL);
-        c.arg("-c").arg("features.fast_mode=true");
     }
 
     if !loadout.is_empty() {
@@ -173,7 +278,7 @@ pub const CODEX_MINI_MODEL: &str = "gpt-5.6-sol";
 /// 2026-04-24 so the xbrd-exec bench can measure xask-arm latency/throughput
 /// for 5.5 and compute Δ_wrap (xask wrapper overhead) by comparison against
 /// the raw `codex exec -m gpt-5.6-sol` arm already benched. Supports all four
-/// effort levels (low/medium/high/xhigh) via the standard `-e` flag — fast_mode
+/// model-advertised effort levels via the standard `-e` flag — fast_mode
 /// enabled to mirror the mini/full lanes' default posture.
 pub const CODEX_55_MODEL: &str = "gpt-5.6-sol";
 
@@ -268,6 +373,32 @@ pub fn warn_codex_spark_effort(effort: Option<&str>) -> bool {
     false
 }
 
+/// Wall-clock timeout for dispatch. Off unless `XASK_ALLOW_TIMEOUT=1` and
+/// `XASK_TIMEOUT_SECS` is a positive integer. Unset/`0` never falls back
+/// to a hidden ceiling.
+fn xask_timeout() -> Option<std::time::Duration> {
+    if std::env::var("XASK_ALLOW_TIMEOUT").ok().as_deref() != Some("1") {
+        return None;
+    }
+    std::env::var("XASK_TIMEOUT_SECS")
+        .ok()
+        .and_then(|s| s.parse::<u64>().ok())
+        .filter(|&n| n > 0)
+        .map(std::time::Duration::from_secs)
+}
+
+fn run_cmd(
+    mut cmd: std::process::Command,
+    timeout: Option<std::time::Duration>,
+) -> Result<std::process::Output> {
+    match timeout {
+        Some(t) => execute_with_timeout(cmd, t),
+        None => cmd
+            .output()
+            .map_err(|e| anyhow::anyhow!("failed to execute command: {e}")),
+    }
+}
+
 /// Execute a `Command` with a wall-clock timeout.
 ///
 /// Returns `Err` with an `"xask-timeout:"` marker when the process does not
@@ -278,16 +409,11 @@ pub fn warn_codex_spark_effort(effort: Option<&str>) -> bool {
 ///
 /// **Bypass surface:** this timeout only applies to calls routed through
 /// `dispatch()` → `src/ask.rs`. Agents invoking `gemini` directly via shell
-/// (Bash tool, `Agent()` native) bypass it entirely. `XASK_TIMEOUT_SECS=0`
-/// is treated as invalid and falls back to the default to prevent
-/// accidental self-DoS.
+/// (Bash tool, `Agent()` native) bypass it entirely.
 ///
-/// **Default raised 2026-04-16:** 60s → 300s. User hit the 60s ceiling on
-/// high-effort codex calls (xhigh reasoning on non-trivial prompts can
-/// exceed 60s; see m7-framing-audit-2026-04-16.md which needed
-/// XASK_TIMEOUT_SECS=540 for the ACH run). 300s is a safe ceiling that
-/// still prevents runaway processes from hanging the harness indefinitely.
-/// Override via `XASK_TIMEOUT_SECS=<seconds>` env var.
+/// **Default (2026-08-23):** no timeout. `XASK_TIMEOUT_SECS` unset or `0`
+/// runs unbounded. A positive integer is opt-in only (tests / explicit
+/// kill-on-hang). Never treat `0` as a fallback ceiling.
 pub fn execute_with_timeout(
     mut cmd: std::process::Command,
     timeout: std::time::Duration,
@@ -368,29 +494,55 @@ pub fn dispatch(
     json: bool,
     output_last_message: Option<&Path>,
 ) -> Result<String> {
-    let timeout_secs = std::env::var("XASK_TIMEOUT_SECS")
-        .ok()
-        .and_then(|s| s.parse::<u64>().ok())
-        .filter(|&n| n > 0)
-        .unwrap_or(300);
-    let timeout = std::time::Duration::from_secs(timeout_secs);
+    dispatch_with_service_tier(
+        cli,
+        prompt,
+        loadout,
+        effort,
+        model_override,
+        spark,
+        review,
+        full,
+        gpt55,
+        json,
+        output_last_message,
+        None,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn dispatch_with_service_tier(
+    cli: &str,
+    prompt: &str,
+    loadout: &Loadout,
+    effort: Option<&str>,
+    model_override: Option<&str>,
+    spark: bool,
+    review: bool,
+    full: bool,
+    gpt55: bool,
+    json: bool,
+    output_last_message: Option<&Path>,
+    service_tier: Option<&str>,
+) -> Result<String> {
+    let timeout = xask_timeout();
+
+    if (cli == "codex" || is_gemma_cli(cli)) && !loadout.contains("godspeed") {
+        anyhow::bail!(
+            "every xbreed ask dispatch requires the canonical Godspeed loadout; use --with godspeed"
+        );
+    }
+    let final_prompt = canonicalize_godspeed_prompt(prompt);
 
     if is_gemma_cli(cli) {
         // Local Gemma via HVM. Effort is advisory in the xask dispatch template
         // only (no Ollama/HVM effort flag). Longer default timeout: 26B local.
         let _ = effort;
-        let gemma_timeout = std::env::var("XASK_TIMEOUT_SECS")
-            .ok()
-            .and_then(|s| s.parse::<u64>().ok())
-            .filter(|&n| n > 0)
-            .map(std::time::Duration::from_secs)
-            .unwrap_or(std::time::Duration::from_secs(600));
-        let mut cmd = build_gemma(prompt, loadout);
+        let mut cmd = build_gemma(&final_prompt, loadout);
         if let Some(model) = model_override.filter(|model| !model.trim().is_empty()) {
             cmd.env("HVM_GEMMA_MODEL", model);
         }
-        let output =
-            execute_with_timeout(cmd, gemma_timeout).map_err(|e| anyhow::anyhow!("gemma: {e}"))?;
+        let output = run_cmd(cmd, timeout).map_err(|e| anyhow::anyhow!("gemma: {e}"))?;
         if output.status.success() {
             return Ok(strip_hvm_stats(&String::from_utf8_lossy(&output.stdout)));
         }
@@ -404,9 +556,35 @@ pub fn dispatch(
         );
     }
 
+    if is_gemma_cli(cli) && service_tier.is_some() {
+        anyhow::bail!("service tier is only supported for codex dispatch");
+    }
+
+    if cli == "codex" {
+        let selected_model = effective_codex_model(model_override, spark, review, full, gpt55);
+        if !matches!(service_tier, None | Some("default" | "fast" | "priority")) {
+            anyhow::bail!(
+                "unknown codex service tier: {}",
+                service_tier.unwrap_or_default()
+            );
+        }
+        if matches!(service_tier, Some("fast" | "priority"))
+            && !codex_model_supports_fast(selected_model)
+        {
+            anyhow::bail!("codex model {selected_model} does not advertise the fast service tier");
+        }
+        if let Some(requested_effort) = effort {
+            if !codex_model_supports_effort(selected_model, requested_effort) {
+                anyhow::bail!(
+                    "codex model {selected_model} does not advertise effort {requested_effort}"
+                );
+            }
+        }
+    }
+
     let cmd = match cli {
         "codex" => {
-            let mut c = build_codex_ask_with_model(
+            let mut c = build_codex_ask_with_model_and_tier(
                 loadout,
                 spark,
                 review,
@@ -415,6 +593,7 @@ pub fn dispatch(
                 json,
                 output_last_message,
                 model_override,
+                service_tier,
             );
             if spark {
                 warn_codex_spark_effort(effort);
@@ -426,28 +605,14 @@ pub fn dispatch(
                 // effort; planner is CC-native and does not enter this path.
                 c.arg("-c").arg("model_reasoning_effort=low");
             }
-            // User directive: codex ALWAYS inherits the godspeed posture
-            // through xask in its purest form. Structural guarantee at the
-            // Rust dispatch layer — append "| godspeed" to the prompt if
-            // the caller (scripts/xask or direct xbreed ask) hasn't already.
-            // Idempotent: scripts/xask appends when SKILL=godspeed (default);
-            // the check below avoids "| godspeed | godspeed" duplication.
-            // Belt + suspenders: --with godspeed also injects the skill text
-            // as -c developer_instructions, so codex sees the directive via
-            // both channels.
-            let final_prompt = if prompt.trim_end().ends_with("| godspeed") {
-                prompt.to_string()
-            } else {
-                format!("{prompt} | godspeed")
-            };
             // Prompt MUST be the last positional arg for codex exec —
             // all -c flags must come before it.
-            c.arg(&final_prompt);
+            c.arg(final_prompt);
             c
         }
         other => anyhow::bail!("unknown cli: {other} (expected codex|gemma|g)"),
     };
-    let output = execute_with_timeout(cmd, timeout)
+    let output = run_cmd(cmd, timeout)
         .map_err(|e| anyhow::anyhow!("failed to execute {cli}: {e} (is it on PATH?)"))?;
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
@@ -492,9 +657,25 @@ mod tests {
         l
     }
 
+    fn godspeed_loadout() -> Loadout {
+        use std::fs;
+        let tmp = tempfile::tempdir().unwrap();
+        let root = tmp.path().join("skills");
+        let skill_dir = root.join("godspeed");
+        fs::create_dir_all(&skill_dir).unwrap();
+        fs::write(skill_dir.join("SKILL.md"), "Read directive.md exactly.").unwrap();
+        fs::write(
+            skill_dir.join("directive.md"),
+            crate::loadout::GODSPEED_DIRECTIVE,
+        )
+        .unwrap();
+        Loadout::resolve_with_paths(&["godspeed".to_string()], &[root]).unwrap()
+    }
+
     #[test]
     fn codex_ask_default_lane_uses_mini_model() {
-        // Default lane (spark=false, review=false, full=false) = gpt-5.6-sol + fast_mode.
+        // Default lane (spark=false, review=false, full=false) = gpt-5.6-sol
+        // with ordinary service. Fast is opt-in through --service-tier.
         // User directive 2026-04-17 — mini is the standing default; 2026-04-18
         // extended mini to the review lane default, with -R -F as escape hatch
         // to full 5.4 for the-revenger RECON.
@@ -516,8 +697,10 @@ mod tests {
         assert!(args.contains(&"include_permissions_instructions=false".to_string()));
         assert!(args.contains(&"include_apps_instructions=false".to_string()));
         assert!(args.contains(&"include_environment_context=false".to_string()));
-        assert!(args.contains(&"service_tier=\"fast\"".to_string()));
-        assert!(args.contains(&"features.fast_mode=true".to_string()));
+        assert!(args.contains(&"model_provider=\"openai\"".to_string()));
+        assert!(args.contains(&"service_tier=\"default\"".to_string()));
+        assert!(!args.contains(&"service_tier=\"fast\"".to_string()));
+        assert!(!args.contains(&"features.fast_mode=true".to_string()));
         assert!(args.contains(&"--ephemeral".to_string()));
         // --color never: codex's TTY-color autodetection misfires in headless
         // dispatch (emits ANSI escapes that poison downstream parsers). Always-on.
@@ -536,6 +719,82 @@ mod tests {
     }
 
     #[test]
+    fn daybreak_override_does_not_receive_unadvertised_fast_tier() {
+        let mut c = build_codex_ask_with_model_and_tier(
+            &Loadout::empty(),
+            false,
+            false,
+            false,
+            false,
+            false,
+            None,
+            Some("gpt-daybreak-blue-latest"),
+            None,
+        );
+        c.arg("probe");
+        let args = cmd_args(&c);
+        assert!(args.contains(&"gpt-daybreak-blue-latest".to_string()));
+        assert!(args.contains(&"service_tier=\"default\"".to_string()));
+        assert!(!args.contains(&"service_tier=\"fast\"".to_string()));
+        assert!(!args.contains(&"features.fast_mode=true".to_string()));
+    }
+
+    #[test]
+    fn explicit_fast_is_not_added_to_an_unsupported_model() {
+        let c = build_codex_ask_with_model_and_tier(
+            &Loadout::empty(),
+            false,
+            false,
+            false,
+            false,
+            false,
+            None,
+            Some("gpt-daybreak-blue-latest"),
+            Some("fast"),
+        );
+        let args = cmd_args(&c);
+        assert!(!args.contains(&"service_tier=\"fast\"".to_string()));
+    }
+
+    #[test]
+    fn explicit_default_service_tier_neutralizes_host_override() {
+        let c = build_codex_ask_with_model_and_tier(
+            &Loadout::empty(),
+            false,
+            false,
+            false,
+            false,
+            false,
+            None,
+            Some("gpt-5.6-sol"),
+            Some("default"),
+        );
+        let args = cmd_args(&c);
+        assert!(args.contains(&"service_tier=\"default\"".to_string()));
+        assert!(!args.contains(&"service_tier=\"fast\"".to_string()));
+        assert!(!args.contains(&"features.fast_mode=true".to_string()));
+    }
+
+    #[test]
+    fn explicit_fast_service_tier_is_opt_in_and_coherent() {
+        let c = build_codex_ask_with_model_and_tier(
+            &Loadout::empty(),
+            false,
+            false,
+            false,
+            false,
+            false,
+            None,
+            Some("gpt-5.6-sol"),
+            Some("fast"),
+        );
+        let args = cmd_args(&c);
+        assert!(args.contains(&"service_tier=\"fast\"".to_string()));
+        assert!(args.contains(&"features.fast_mode=true".to_string()));
+        assert!(!args.contains(&"service_tier=\"default\"".to_string()));
+    }
+
+    #[test]
     fn codex_ask_review_default_uses_mini_model() {
         // Review lane default (review=true, full=false) routes to gpt-5.6-sol
         // per user directive 2026-04-18 (migrated from prior full-review defaults).
@@ -545,7 +804,7 @@ mod tests {
         let args = cmd_args(&c);
         assert!(args.contains(&"-m".to_string()));
         assert!(args.contains(&CODEX_MINI_MODEL.to_string()));
-        assert!(args.contains(&"features.fast_mode=true".to_string()));
+        assert!(!args.contains(&"features.fast_mode=true".to_string()));
     }
 
     #[test]
@@ -562,7 +821,7 @@ mod tests {
             "-R -F must pin -m gpt-5.6-sol (full) for the-revenger RECON: {args:?}"
         );
         assert_eq!(args.iter().filter(|arg| *arg == "-m").count(), 1);
-        assert!(args.contains(&"features.fast_mode=true".to_string()));
+        assert!(!args.contains(&"features.fast_mode=true".to_string()));
     }
 
     #[test]
@@ -578,8 +837,8 @@ mod tests {
     }
 
     #[test]
-    fn codex_ask_gpt55_lane_uses_55_model_with_fast_mode() {
-        // --gpt55 routes to gpt-5.6-sol with fast_mode enabled. Effort is applied
+    fn codex_ask_gpt55_lane_uses_55_model_with_default_tier() {
+        // --gpt55 routes to gpt-5.6-sol. Effort is applied
         // by dispatch() via -c model_reasoning_effort=<e> (not this function).
         // Added 2026-04-24 for xbrd-exec bench xask-arm measurement.
         let mut c =
@@ -592,7 +851,8 @@ mod tests {
             "--gpt55 must pin -m gpt-5.6-sol: {args:?}"
         );
         assert_eq!(args.iter().filter(|arg| *arg == "-m").count(), 1);
-        assert!(args.contains(&"features.fast_mode=true".to_string()));
+        assert!(args.contains(&"service_tier=\"default\"".to_string()));
+        assert!(!args.contains(&"features.fast_mode=true".to_string()));
         assert_eq!(*args.last().unwrap(), "probe-55");
     }
 
@@ -632,9 +892,10 @@ mod tests {
         assert!(args.contains(&"-m".to_string()));
         assert!(args.contains(&CODEX_SPARK_MODEL.to_string()));
         assert!(args.contains(&"model_reasoning_effort=low".to_string()));
-        // fast_mode is enabled on every Codex lane, including spark.
-        assert!(args.contains(&"features.fast_mode=true".to_string()));
-        assert!(args.contains(&"service_tier=\"fast\"".to_string()));
+        // The current Spark model advertises neither fast_mode nor priority.
+        assert!(!args.contains(&"features.fast_mode=true".to_string()));
+        assert!(!args.contains(&"service_tier=\"fast\"".to_string()));
+        assert!(args.contains(&"service_tier=\"default\"".to_string()));
         // Spark uses the same workspace boundary as every other Codex lane.
         assert!(args.contains(&"--sandbox".to_string()));
         assert!(args.contains(&"workspace-write".to_string()));
@@ -679,6 +940,60 @@ mod tests {
         )
         .unwrap_err();
         assert!(err.to_string().contains("unknown cli"));
+    }
+
+    #[test]
+    fn dispatch_rejects_missing_godspeed_loadout_before_spawn() {
+        let err = dispatch_with_service_tier(
+            "codex",
+            "hello",
+            &Loadout::empty(),
+            Some("low"),
+            Some("gpt-5.6-sol"),
+            false,
+            false,
+            false,
+            false,
+            false,
+            None,
+            Some("default"),
+        )
+        .unwrap_err();
+        assert!(err
+            .to_string()
+            .contains("requires the canonical Godspeed loadout"));
+    }
+
+    #[test]
+    fn canonical_godspeed_suffix_is_exactly_once() {
+        assert_eq!(
+            super::canonicalize_godspeed_prompt("probe | GODSPEED | godspeed  \n"),
+            "probe | godspeed"
+        );
+        assert_eq!(
+            super::canonicalize_godspeed_prompt("probe"),
+            "probe | godspeed"
+        );
+    }
+
+    #[test]
+    fn dispatch_rejects_known_model_effort_mismatch_before_spawn() {
+        let err = dispatch_with_service_tier(
+            "codex",
+            "hello",
+            &godspeed_loadout(),
+            Some("ultra"),
+            Some("gpt-5.5"),
+            false,
+            false,
+            false,
+            false,
+            false,
+            None,
+            Some("default"),
+        )
+        .unwrap_err();
+        assert!(err.to_string().contains("does not advertise effort ultra"));
     }
 
     #[test]
@@ -744,6 +1059,16 @@ mod tests {
         assert!(super::warn_codex_spark_effort(Some("medium")));
         assert!(!super::warn_codex_spark_effort(Some("low")));
         assert!(!super::warn_codex_spark_effort(None));
+    }
+
+    #[test]
+    fn effort_compatibility_matches_current_catalog_boundaries() {
+        assert!(super::codex_model_supports_effort("gpt-5.6-sol", "ultra"));
+        assert!(super::codex_model_supports_effort("gpt-5.6-luna", "max"));
+        assert!(!super::codex_model_supports_effort("gpt-5.6-luna", "ultra"));
+        assert!(super::codex_model_supports_effort("gpt-5.5", "xhigh"));
+        assert!(!super::codex_model_supports_effort("gpt-5.5", "max"));
+        assert!(!super::codex_model_supports_effort("gpt-5.4", "ultra"));
     }
 
     #[test]
@@ -822,12 +1147,13 @@ mod tests {
 
         let orig_path = std::env::var("PATH").unwrap_or_default();
         std::env::set_var("PATH", format!("{}:{}", tmp.path().display(), orig_path));
+        std::env::set_var("XASK_ALLOW_TIMEOUT", "1");
         std::env::set_var("XASK_TIMEOUT_SECS", "1");
 
         let result = super::dispatch(
             "codex",
             "test prompt",
-            &super::Loadout::empty(),
+            &godspeed_loadout(),
             None,
             None,
             false,
@@ -840,6 +1166,7 @@ mod tests {
 
         std::env::set_var("PATH", &orig_path);
         std::env::remove_var("XASK_TIMEOUT_SECS");
+        std::env::remove_var("XASK_ALLOW_TIMEOUT");
 
         let err = result.unwrap_err();
         assert!(

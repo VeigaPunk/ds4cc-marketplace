@@ -68,6 +68,12 @@ case ":$PATH:" in *":$_XASK_DIR:"*) ;; *) PATH="$_XASK_DIR:$PATH" ;; esac
 case ":$PATH:" in *":$HOME/.local/bin:"*) ;; *) PATH="$PATH:$HOME/.local/bin" ;; esac
 export PATH
 
+# Production xask never times out. Discard inherited XASK_TIMEOUT_SECS
+# (old host default was 180). Opt-in kill-on-hang: XASK_ALLOW_TIMEOUT=1.
+if [[ "${XASK_ALLOW_TIMEOUT:-}" != "1" ]]; then
+  export XASK_TIMEOUT_SECS=0
+fi
+
 GEMINI_SETTINGS_FILE="$HOME/.gemini/settings.json"
 
 resolve_models_exporter() {
@@ -321,7 +327,7 @@ QUERY="$(strip_trailing_godspeed_markers "$QUERY")"
 # qwen38 (+aliases) / ds-flash / ds-pro → Token Plan; kimi (+aliases) → Kimi
 # Code CLI over Moonshot API. Reject bare deepseek and bare moonshot.
 case "$MODEL" in
-  gemma|g|gemini|codex|cdx|grok|qwen38|qwen3.8-max|qwen|ds-flash|ds-pro|kimi|kimi-k3|kimi-code) ;;
+  gemma|g|gemini|codex|cdx|grok|qwen38|qwen3.8-max|qwen|ds-flash|ds-pro|kimi|kimi-k3|kimi-code|kimi-for-coding-highspeed|kimi-code/kimi-for-coding-highspeed|kimi-for-coding) ;;
   deepseek)
     echo "xask: unknown model 'deepseek' (use ds-flash or ds-pro)." >&2
     exit 1
@@ -340,7 +346,38 @@ esac
 case "$MODEL" in
   qwen3.8-max|qwen) MODEL=qwen38 ;;
   kimi-k3|kimi-code) MODEL=kimi ;;
+  kimi-for-coding-highspeed|kimi-code/kimi-for-coding-highspeed)
+    MODEL=kimi
+    MODEL_ID="${MODEL_ID:-kimi-for-coding-highspeed}"
+    ;;
+  kimi-for-coding|kimi-code/kimi-for-coding)
+    MODEL=kimi
+    MODEL_ID="${MODEL_ID:-kimi-for-coding}"
+    ;;
 esac
+
+# Temporary Codex usage_limit pin. `XASK_CODEX_FALLBACK=` restores stock cdx.
+# Spark/sekhmet and an explicit ChatGPT --model-id stay on Codex.
+if [[ ! -v XASK_CODEX_FALLBACK ]]; then
+  XASK_CODEX_FALLBACK=kimi-for-coding-highspeed
+fi
+if [[ -n "${XASK_CODEX_FALLBACK:-}" && "$SPARK_REQUESTED" != true && "$SUBSTRATE" != sekhmet ]]; then
+  _xask_codex_fb=false
+  if [[ -z "$REQUESTED_MODEL_ID" && "$GPT55" != true && "$REVIEW" != true && "$FULL" != true ]]; then
+    case "$MODEL" in cdx|codex) _xask_codex_fb=true ;; esac
+    if [[ "$PROVIDER" == chatgpt ]]; then
+      _xask_codex_fb=true
+    fi
+  fi
+  if [[ "$_xask_codex_fb" == true ]]; then
+    MODEL=kimi
+    PROVIDER=moonshot
+    MODEL_ID="$XASK_CODEX_FALLBACK"
+    SERVICE_TIER=default
+    echo "xask: executor → $XASK_CODEX_FALLBACK (Codex limits; XASK_CODEX_FALLBACK= restores cdx)" >&2
+  fi
+fi
+unset _xask_codex_fb
 
 if [[ -z "$PROVIDER" ]]; then
   case "$MODEL" in
@@ -422,6 +459,16 @@ kimi_cli_alias() {
   esac
 }
 
+# K3 family has low|high|max. K2.7 Coding Highspeed has no effort tier;
+# thinking is always-on (kimi-code always_thinking + [thinking].enabled).
+kimi_supports_effort() {
+  case "$1" in
+    kimi-k3|kimi-code/k3|kimi-k3-256k|kimi-code/k3-256k|moonshotai/kimi-k3)
+      return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
 # The normalized provider interface is catalog-bound. Legacy route syntax
 # keeps accepting provider-native overrides, but UI/MCP callers must not be
 # able to pair (for example) a ChatGPT slug with the Grok transport.
@@ -460,9 +507,22 @@ if [[ "$PROVIDER_EXPLICIT" == true && -z "$EFFORT" ]]; then
     deepseek-v4-flash-0731) EFFORT=low ;;
     deepseek-v4-pro-0813) EFFORT=medium ;;
     esac
-    if [[ -z "$EFFORT" ]] && is_moonshot_model "$SELECTED_MODEL_ID"; then
-      EFFORT=high
+    if [[ -z "$EFFORT" ]] && is_moonshot_model "$SELECTED_MODEL_ID" && kimi_supports_effort "$SELECTED_MODEL_ID"; then
+      EFFORT=max
     fi
+  fi
+fi
+
+# Kimi: thinking ON every call. K3 gets effort max when omitted.
+# K2.7 Coding Highspeed has no effort tier — drop -e rather than fail closed.
+if [[ "$MODEL" == kimi ]] || is_moonshot_model "${SELECTED_MODEL_ID:-}"; then
+  if ! kimi_supports_effort "${SELECTED_MODEL_ID:-${MODEL_ID:-}}"; then
+    if [[ -n "$EFFORT" ]]; then
+      echo "xask: $SELECTED_MODEL_ID has no effort tier; thinking stays on, ignoring --effort $EFFORT" >&2
+      EFFORT=""
+    fi
+  elif [[ -z "$EFFORT" ]]; then
+    EFFORT=max
   fi
 fi
 
@@ -570,7 +630,7 @@ if [[ "$PLAN" == true ]]; then
     plan_argv_json=$(jq -cn --args '$ARGS.positional' -- "${plan_argv[@]}")
     jq -n \
       --arg provider "$PROVIDER" --arg substrate "$SUBSTRATE" \
-      --arg model_id "$SELECTED_MODEL_ID" --arg effort "${EFFORT:-default}" \
+      --arg model_id "$SELECTED_MODEL_ID" --arg effort "${EFFORT:-n/a}" \
       --arg service_tier "${SERVICE_TIER:-default}" --arg command "$plan_command" \
       --argjson argv "$plan_argv_json" \
       '{schema_version:1,selection:{provider:$provider,substrate:$substrate,model_id:$model_id,effort:$effort,service_tier:$service_tier},argv:$argv,command:$command,executes:false}'
@@ -650,7 +710,7 @@ if [ -f "$TEMPLATE" ]; then
   # semantics for '&'. Inserted placeholder-like text is never rescanned.
   PROMPT=$(
     XASK_QUERY="$QUERY" XASK_CONTEXT="$CONTEXT" XASK_SCOPE="$SCOPE" \
-      XASK_EFFORT="${EFFORT:-default}" XASK_THINKING_BUDGET="$THINKING_BUDGET" \
+      XASK_EFFORT="${EFFORT:-n/a}" XASK_THINKING_BUDGET="$THINKING_BUDGET" \
       awk '
         BEGIN {
           token[1]="{{QUERY}}"; value[1]=ENVIRON["XASK_QUERY"]
@@ -775,6 +835,9 @@ case "$MODEL" in
     # Default alias targets the OAuth-managed K3 (subscription metering); the
     # pay-as-you-go API-key provider stays reachable via catalog ids such as
     # kimi-k2.6 / moonshotai/kimi-k3 (`kimi provider catalog add moonshotai`).
+    if kimi_supports_effort "${SELECTED_MODEL_ID:-${MODEL_ID:-}}" && [[ -z "$EFFORT" ]]; then
+      EFFORT=max
+    fi
     KIMI_ALIAS="$(kimi_cli_alias "${MODEL_ID:-}")"
     # Note: plan output surfaces the catalog id (kimi-k3, kimi-k2.6, …) while
     # exec passes the CLI-qualified alias (kimi-code/k3, moonshotai/kimi-k2.6).
@@ -862,18 +925,18 @@ fi
 
 t_start_s=$(date +%s.%N)
 
-# Fail-closed timeout for native / Token Plan exec so grok's 120s bash cap
-# is not the first signal. XASK_TIMEOUT_SECS=0 disables.
+# No default timeout. Native / Token Plan lanes run unbounded.
+# XASK_TIMEOUT_SECS=<positive> is opt-in only; unset or 0 disables.
 xask_run() {
-  local secs="${XASK_TIMEOUT_SECS-90}" rc
-  if [[ "$secs" == "0" ]] || ! command -v timeout >/dev/null 2>&1; then
+  local secs="${XASK_TIMEOUT_SECS-}" rc
+  if [[ -z "$secs" || "$secs" == "0" ]] || ! command -v timeout >/dev/null 2>&1; then
     "$@"
     return $?
   fi
   timeout --foreground --signal=TERM --kill-after=3 "$secs" "$@"
   rc=$?
   if [[ $rc -eq 124 ]]; then
-    echo "xask: BLOCKED: timeout after ${secs}s on ${LANE:-$MODEL} (XASK_TIMEOUT_SECS=0 disables)" >&2
+    echo "xask: BLOCKED: timeout after ${secs}s on ${LANE:-$MODEL} (unset XASK_TIMEOUT_SECS or set 0 to disable)" >&2
   fi
   return "$rc"
 }
