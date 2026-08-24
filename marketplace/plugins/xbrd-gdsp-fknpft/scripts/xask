@@ -59,7 +59,11 @@
 #   xask --gs kimi "Moonshot K3 probe"              # native kimi -m kimi-code/k3 (OAuth)
 #   xask --gs cdx "…"                               # first xask → same OAuth K3 while Codex-limit pin is on
 #   xask --provider moonshot --model-id kimi-k2.6 -- "probe"  # pay-as-you-go K2.6 (API key)
-#   xask --provider cursor --model-id composer-2.5 -- "cheap probe"  # Cursor Ultra lane
+#   xask --provider cursor --model-id composer-2.5 -- "cheap probe"  # Cursor Ultra consult
+#            inner argv: cursor-agent -p --mode ask --trust --output-format text
+#            --model <cli-id> --workspace $XASK_CURSOR_WORKSPACE|$PWD -- <envelope>
+#            --mode ask = read-only Q&A. --trust skips Workspace Trust Required.
+#            Never --yolo/-f. Full-agent execution is xbgst-cursor-agent-surface, not this lane.
 #   xask -R codex "Adversarial review of <diff>"    # review lane — gpt-5.6-sol
 #   xask -R -F codex "RECON codebase-scale"         # -R + -F escape hatch — full gpt-5.6-sol (1.05M ctx)
 #   xask --gpt55 --gs -e high codex "Deep question" # gpt-5.6-sol lane, explicit godspeed, high effort
@@ -1005,9 +1009,11 @@ case "$MODEL" in
       exit 1
     fi
     CURSOR_WORKSPACE="${XASK_CURSOR_WORKSPACE:-$PWD}"
-    DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$CURSOR_BIN" -p --output-format text
+    # Consult lane: --mode ask (read-only) + --trust (skip Workspace Trust Required).
+    # Never --yolo / -f. Full-agent -p lives on xbgst-cursor-agent-surface.
+    DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$CURSOR_BIN" -p --mode ask --trust --output-format text
       --model "$CURSOR_PIN" --workspace "$CURSOR_WORKSPACE" -- "$PROMPT")
-    DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$CURSOR_BIN" -p --output-format text
+    DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$CURSOR_BIN" -p --mode ask --trust --output-format text
       --model "$CURSOR_PIN" --workspace "$CURSOR_WORKSPACE" -- "<PROMPT>")
     ;;
   cdx|codex)
@@ -1074,7 +1080,7 @@ if [ "$DEBUG" = true ]; then
       if [[ "$MODEL" == cursor ]]; then
         echo "CURSOR_PIN: ${CURSOR_PIN:-<unset>}"
         echo "CURSOR_WORKSPACE: ${CURSOR_WORKSPACE:-<unset>}"
-        echo "CURSOR_CLI: cursor-agent -p --output-format text --model <cli-id> (never auto; never argv0 agent)"
+        echo "CURSOR_CLI: cursor-agent -p --mode ask --trust --output-format text --model <cli-id> (never auto; never argv0 agent; never --yolo/-f)"
       fi
       ;;
   esac
