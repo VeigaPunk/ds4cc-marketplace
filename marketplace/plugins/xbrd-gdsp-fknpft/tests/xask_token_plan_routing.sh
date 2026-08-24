@@ -3,10 +3,14 @@
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+HANGAR="$(cd "$ROOT/../../../.." && pwd)"
+FIX="$HANGAR/.xbgst/fixtures/grok-route"
 TMP=$(mktemp -d)
 trap 'rm -rf "$TMP"' EXIT
 CAPTURE="$TMP/argv"
 XASK="$ROOT/scripts/xask"
+export GROK_ROUTE_STATE="$TMP/grok-route.json"
+unset GROK_ROUTE_STATUS GROK_ROUTE_NOW GROK_OAUTH_EXHAUST_PCT || true
 
 cat >"$TMP/xbreed" <<'EOF'
 #!/usr/bin/env bash
@@ -36,6 +40,16 @@ printf '%s\n' "$out" | grep -q 'CODEX_BIN_SET=0' || fail 'grok CODEX_BIN_SET'
 printf '%s\n' "$out" | grep -q 'grok --always-approve' || fail 'grok always-approve'
 printf '%s\n' "$out" | grep -q -- '-p ' || fail 'grok -p'
 printf '%s\n' "$out" | grep -q 'xbreed ask' && fail 'grok must not xbreed ask'
+printf '%s\n' "$out" | grep -q 'GROK_ROUTE=oauth' || fail 'grok GROK_ROUTE=oauth'
+printf '%s\n' "$out" | grep -q 'GROK_HOME=' && fail 'grok oauth must not set GROK_HOME'
+[[ -f "$FIX/exhausted.json" ]] || fail "missing $FIX/exhausted.json"
+out=$(GROK_ROUTE_STATUS="$FIX/exhausted.json" GROK_ROUTE_NOW=2026-08-24T15:00:00Z \
+  GROK_ROUTE_STATE="$TMP/grok-route-api.json" \
+  "$XASK" -d --gs grok ping)
+printf '%s\n' "$out" | grep -q 'GROK_ROUTE=api' || fail 'grok exhausted GROK_ROUTE=api'
+printf '%s\n' "$out" | grep -q 'GROK_HOME=' || fail 'grok exhausted GROK_HOME'
+printf '%s\n' "$out" | grep -q 'grok --always-approve' || fail 'grok api always-approve'
+printf '%s\n' "$out" | grep -q 'env -u CODEX_BIN -u XBRD_SPARK_MODEL' || fail 'grok api unsets CODEX_BIN'
 out=$("$XASK" -d --gs -e low grok ping)
 printf '%s\n' "$out" | grep -q -- '--reasoning-effort low' || fail 'grok -e → --reasoning-effort'
 if "$XASK" -d --json --gs grok ping >/dev/null 2>&1; then fail 'grok --json must fail-loud'; fi

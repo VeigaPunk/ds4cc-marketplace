@@ -1,0 +1,243 @@
+#!/usr/bin/env python3
+"""Grok OAuth-primary router. API only at used_pct>=EXHAUST via isolated GROK_HOME."""
+from __future__ import annotations
+
+import json
+import os
+import shutil
+import sys
+import tempfile
+from datetime import datetime, timezone
+from pathlib import Path
+
+FORBIDDEN = ("auth.json", "sessions", "mcp_credentials.json")
+OP_ENV = Path.home() / ".config" / "the-janitor" / "op.env"
+
+
+def status_path() -> Path:
+    return Path(os.environ.get("GROK_ROUTE_STATUS") or (Path.home() / ".cache/ai-usage/status.json"))
+
+
+def state_path() -> Path:
+    return Path(os.environ.get("GROK_ROUTE_STATE") or (Path.home() / ".cache/ai-usage/grok-route.json"))
+
+
+def exhaust_pct() -> int:
+    return int(os.environ.get("GROK_OAUTH_EXHAUST_PCT") or "100")
+
+
+def parse_rfc3339(s: str) -> datetime:
+    raw = s.strip()
+    if raw.endswith("Z"):
+        raw = raw[:-1] + "+00:00"
+    dt = datetime.fromisoformat(raw)
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return dt.astimezone(timezone.utc)
+
+
+def now_utc() -> datetime:
+    override = os.environ.get("GROK_ROUTE_NOW")
+    if override:
+        return parse_rfc3339(override)
+    return datetime.now(timezone.utc)
+
+
+def rfc3339(dt: datetime) -> str:
+    return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+
+def scratch_home() -> Path:
+    uid = os.getuid()
+    xdg = os.environ.get("XDG_RUNTIME_DIR")
+    if xdg:
+        p = Path(xdg) / f"grok-api-{uid}"
+        try:
+            p.mkdir(parents=True, exist_ok=True)
+            return p
+        except OSError:
+            pass
+    p = Path(f"/tmp/xbgst-grok-api-{uid}")
+    p.mkdir(parents=True, exist_ok=True)
+    return p
+
+
+def load_json(path: Path):
+    try:
+        data = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError, UnicodeError):
+        return None
+    return data if isinstance(data, dict) else None
+
+
+def weekly_window(data: dict):
+    if isinstance(data.get("providers"), dict):
+        grok = data["providers"].get("grok")
+        if isinstance(grok, dict):
+            data = grok
+    windows = data.get("windows")
+    if not isinstance(windows, list):
+        return None
+    weekly = [w for w in windows if isinstance(w, dict) and w.get("kind") == "weekly"]
+    if weekly:
+        return weekly[0]
+    for w in windows:
+        if isinstance(w, dict) and "used_pct" in w:
+            return w
+    return None
+
+
+def meter(data: dict):
+    win = weekly_window(data)
+    if not win:
+        return None
+    try:
+        used = int(win["used_pct"])
+    except (KeyError, TypeError, ValueError):
+        return None
+    return used, 100 - used, win.get("resets_at")
+
+
+def _cmp_reset(now: datetime, resets_at):
+    if not resets_at:
+        return None
+    try:
+        return now >= parse_rfc3339(str(resets_at))
+    except (ValueError, TypeError):
+        return None
+
+
+def decide() -> dict:
+    status = load_json(status_path())
+    m = meter(status) if status else None
+    used, remaining, resets_at = m if m else (0, 100, None)
+    now = now_utc()
+    latch = load_json(state_path()) or {}
+    latch_mode = latch.get("mode") if isinstance(latch, dict) else None
+    due = _cmp_reset(now, resets_at)
+    if due is True:
+        mode, reason = "oauth", "reset"
+    elif used >= exhaust_pct():
+        mode, reason = "api", "exhausted"
+    elif latch_mode == "api" and due is False:
+        mode, reason = "api", "latched"
+    else:
+        mode, reason = "oauth", "primary"
+    out = {
+        "mode": mode,
+        "remaining_pct": int(remaining),
+        "used_pct": int(used),
+        "resets_at": resets_at,
+        "reason": reason,
+    }
+    if mode == "api":
+        out["grok_home"] = str(scratch_home())
+    persist(out)
+    return out
+
+
+def persist(decision: dict) -> None:
+    path = state_path()
+    payload = {
+        "version": 1,
+        "mode": decision["mode"],
+        "remaining_pct": decision["remaining_pct"],
+        "used_pct": decision["used_pct"],
+        "resets_at": decision.get("resets_at"),
+        "reason": decision["reason"],
+        "updated_at": rfc3339(now_utc()),
+    }
+    text = json.dumps(payload, separators=(",", ":")) + "\n"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fd, tmp = tempfile.mkstemp(prefix=".grok-route.", dir=str(path.parent))
+    try:
+        os.fchmod(fd, 0o600)
+        with os.fdopen(fd, "w") as fh:
+            fh.write(text)
+            fh.flush()
+            os.fsync(fh.fileno())
+        os.replace(tmp, path)
+        os.chmod(path, 0o600)
+    except Exception:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+
+
+def isolate(home: Path) -> None:
+    home.mkdir(parents=True, exist_ok=True)
+    for name in FORBIDDEN:
+        p = home / name
+        try:
+            if p.is_symlink() or p.is_file():
+                p.unlink()
+            elif p.is_dir():
+                shutil.rmtree(p)
+        except OSError:
+            pass
+    src = Path.home() / ".grok" / "config.toml"
+    dst = home / "config.toml"
+    if not src.is_file():
+        return
+    try:
+        if dst.is_symlink() or dst.exists():
+            dst.unlink()
+    except OSError:
+        pass
+    try:
+        dst.symlink_to(src)
+    except OSError:
+        pass
+
+
+def wrap(argv: list[str]) -> None:
+    if not argv:
+        print("grok-oauth-route: wrap requires a command", file=sys.stderr)
+        raise SystemExit(2)
+    d = decide()
+    env = os.environ.copy()
+    env["GROK_ROUTE"] = d["mode"]
+    if d["mode"] == "api":
+        home = Path(d["grok_home"])
+        isolate(home)
+        env["GROK_HOME"] = str(home)
+        if not env.get("XAI_API_KEY"):
+            if OP_ENV.is_file() and shutil.which("op"):
+                os.execvpe(
+                    "op",
+                    ["op", "run", "--env-file", str(OP_ENV), "--", sys.argv[0], "wrap", "--", *argv],
+                    env,
+                )
+            print(
+                "grok-oauth-route: api mode needs XAI_API_KEY via op run / the-janitor run",
+                file=sys.stderr,
+            )
+            raise SystemExit(2)
+    else:
+        env.pop("GROK_HOME", None)
+    os.execvpe(argv[0], argv, env)
+
+
+def main() -> None:
+    args = sys.argv[1:]
+    if not args or args[0] in ("-h", "--help"):
+        print("usage: grok-oauth-route decide | wrap -- <argv>")
+        raise SystemExit(0 if args else 2)
+    cmd, rest = args[0], args[1:]
+    if rest[:1] == ["--"]:
+        rest = rest[1:]
+    if cmd == "decide":
+        json.dump(decide(), sys.stdout, separators=(",", ":"))
+        sys.stdout.write("\n")
+        return
+    if cmd == "wrap":
+        wrap(rest)
+        return
+    print("grok-oauth-route: unknown command (use decide|wrap)", file=sys.stderr)
+    raise SystemExit(2)
+
+
+if __name__ == "__main__":
+    main()

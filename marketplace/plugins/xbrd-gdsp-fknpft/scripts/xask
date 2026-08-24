@@ -29,7 +29,8 @@
 #   service_tier=fast only when the model advertises it (xask-models.json).
 #
 # Native / Token Plan lanes (no xbreed ask; env -u CODEX_BIN -u XBRD_SPARK_MODEL):
-#   grok:    grok --always-approve --no-subagents --verbatim -p
+#   grok:    grok-oauth-route wrap -- grok --always-approve --no-subagents --verbatim -p
+#            OAuth primary; API only at used_pct>=100 via isolated GROK_HOME
 #   qwen38:  codex-qwen38 exec … (aliases: qwen3.8-max, qwen)
 #   ds-flash / ds-pro: Token Plan debug + live wrappers (reject bare deepseek)
 #   kimi:    kimi -m <cli-alias> -p … (route aliases: kimi-k3, kimi-code;
@@ -793,8 +794,33 @@ case "$MODEL" in
     GROK_EXTRA=()
     [ -n "$EFFORT" ] && GROK_EXTRA+=(--reasoning-effort "$EFFORT")
     [ -n "$MODEL_ID" ] && GROK_EXTRA+=(-m "$MODEL_ID")
-    DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL grok --always-approve --no-subagents --verbatim "${GROK_EXTRA[@]}" -p "$PROMPT")
-    DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL grok --always-approve --no-subagents --verbatim "${GROK_EXTRA[@]}" -p "<PROMPT>")
+    GROK_ROUTE_BIN=""
+    for _grok_route_cand in "$_XASK_DIR/grok-oauth-route" "$(command -v grok-oauth-route 2>/dev/null || true)"; do
+      if [[ -n "$_grok_route_cand" && -x "$_grok_route_cand" ]]; then
+        GROK_ROUTE_BIN="$_grok_route_cand"
+        break
+      fi
+    done
+    unset _grok_route_cand
+    GROK_ROUTE_MODE=oauth
+    GROK_ROUTE_HOME=""
+    if [[ -n "$GROK_ROUTE_BIN" ]]; then
+      GROK_ROUTE_JSON="$("$GROK_ROUTE_BIN" decide)" || {
+        echo "xask: grok-oauth-route decide failed" >&2
+        exit 1
+      }
+      GROK_ROUTE_MODE="$(printf '%s' "$GROK_ROUTE_JSON" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("mode") or "oauth")')"
+      GROK_ROUTE_HOME="$(printf '%s' "$GROK_ROUTE_JSON" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("grok_home") or "")')"
+    fi
+    GROK_DISPATCH=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "GROK_ROUTE=$GROK_ROUTE_MODE")
+    if [[ "$GROK_ROUTE_MODE" == api && -n "$GROK_ROUTE_HOME" ]]; then
+      GROK_DISPATCH+=("GROK_HOME=$GROK_ROUTE_HOME")
+    fi
+    if [[ -n "$GROK_ROUTE_BIN" ]]; then
+      GROK_DISPATCH+=("$GROK_ROUTE_BIN" wrap --)
+    fi
+    DISPATCH_ARGV=("${GROK_DISPATCH[@]}" grok --always-approve --no-subagents --verbatim "${GROK_EXTRA[@]}" -p "$PROMPT")
+    DEBUG_ARGV=("${GROK_DISPATCH[@]}" grok --always-approve --no-subagents --verbatim "${GROK_EXTRA[@]}" -p "<PROMPT>")
     ;;
   qwen38|ds-flash|ds-pro)
     CODEX_BIN_SET=0
