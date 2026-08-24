@@ -19,15 +19,23 @@ Public **fixed-budget** agent runs with receipts. Providers can claim value and 
 
 Data: [`data/run-200usd.json`](data/run-200usd.json)
 
+**Paid, not a grant.** ChatGPT Pro and Kimi/Moonshot OAuth on these live rows were paid by the operator.
+
 ## Live Kimi OAuth vivace
 
-OAuth weekly/free grant — **not** the $200 seed. kimi-code/k3 main + K2.7 code swarm (tmux 2). Quota on the strip is **weekly % · 5h %** (5h is the stall risk). Context % is not quota.
+Paid Kimi/Moonshot OAuth — **not** the $200 seed, **not a grant**. kimi-code/k3 main + K2.7 swarm (tmux 2). Autonomous orch (CreateGoal ×3, AgentSwarm, FRAMEWORK.md, r13 PASS, r14, cron :11/:41). Operator served a few prompts including jokes; load-bearing asks are the three goals. **Prompt verbatim + REDACTED twins are held for operator approval** (epistemology: a 125k `write-goal` wrapper is not the typed ask).
+
+Frontier meter: **5h window at 100% while weekly ~25–27% ⇒ 5h cap ≈ 20% of weekly.** Not a vendor table. OAuth 403 paused; API auto-swap failed first; cron retries; operator is not touching the CLI.
 
 Data: [`data/run-kimi-vivace-oauth-2026-08-24.json`](data/run-kimi-vivace-oauth-2026-08-24.json)
 
 ## Live Codex ultra OAuth 20x oneshot
 
-ChatGPT Pro · gpt-5.6-sol ultra fast (tmux 26). Meter is weekly `used_percent` (10080 min window), **not** Spark 5h. Dual clocks vs a 60-minute target: session start and first meter; both are scored honestly (a miss is a miss).
+**Oneshot** category. Paid ChatGPT Pro · gpt-5.6-sol ultra fast (tmux 26). Meter is **weekly** `used_percent` (10080 min), **not** 100% of the month, **not** Spark 5h. Dual clocks vs 60 minutes: both a miss.
+
+The oneshot wire message was 116 058 bytes because a prior Kimi chat (35/39 turns) was concatenated after a 178-character intent sentence. **The full paste is hangar-only.** Verbatim intent + REDACTED topic map wait for operator approval before any prompt git-push.
+
+Data: [`data/run-codex-ultra-oauth-20x-2026-08-24.json`](data/run-codex-ultra-oauth-20x-2026-08-24.json) · curve [`data/codex-curve.json`](data/codex-curve.json)
 
 Data: [`data/run-codex-ultra-oauth-20x-2026-08-24.json`](data/run-codex-ultra-oauth-20x-2026-08-24.json) · curve [`data/codex-curve.json`](data/codex-curve.json)
 

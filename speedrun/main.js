@@ -75,7 +75,12 @@ function renderKimi(run) {
     <dt>model</dt><dd>${escapeHtml(m.model || run.product)}</dd>
     <dt>venue</dt><dd>${escapeHtml(run.venue)}</dd>
     <dt>context</dt><dd>${escapeHtml(m.context_pct)}% · ${escapeHtml(m.context_frac)}</dd>
-    <dt>quota</dt><dd>weekly ${escapeHtml(weekly)}% · 5h ${escapeHtml(fiveh)}%</dd>
+    <dt>quota</dt><dd>weekly ${escapeHtml(weekly)}% · 5h ${escapeHtml(fiveh)}%${
+      Number(fiveh) >= 99 && weekly != null
+        ? ` · 5h-full ≈ ${escapeHtml(weekly)}% of weekly (~20%)`
+        : ""
+    }</dd>
+    <dt>paid</dt><dd>paid OAuth — not a grant</dd>
     <dt>turns</dt><dd>${escapeHtml(m.turns)}</dd>
     <dt>mode</dt><dd>${escapeHtml(m.mode)} · ${escapeHtml(m.parallelization)}</dd>
     <dt>snapshot</dt><dd>${escapeHtml(snap.ts || "—")}</dd>

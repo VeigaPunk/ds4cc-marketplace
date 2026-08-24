@@ -5,12 +5,12 @@
   "provider": "OpenAI / Codex",
   "product": "ChatGPT Pro \u00b7 gpt-5.6-sol ultra fast \u00b7 OAuth 20x weekly window",
   "budget_usd": null,
-  "budget_note": "OAuth 20x weekly grant \u00b7 10080 min window \u00b7 target 100% in <60 min",
+  "budget_note": "Paid ChatGPT Pro OAuth \u2014 not a grant. Meter is weekly used_percent (10080 min), not 100% of the month. Oneshot category. Prompt paste held.",
   "currency": "USD",
   "status": "live",
   "duration": "live \u00b7 session-clock MISS \u00b7 meter-clock MISS",
   "venue": "tmux session 26 \u00b7 gpt-5.6-sol ultra fast",
-  "summary": "LIVE Codex ultra OAuth 20x oneshot. Session start 2026-08-24T04:36:27Z; first meter 04:46Z at 0%. Sub-hour from session start: no. Sub-hour from first meter: no. Snapshot 2026-08-24T05:49:00.627Z: 60.0% used, 0.954%/min, ~46397151 session tokens (mostly cached), 470 child rollouts. Vs the 48h Kimi $200 seed on wall clock. Spark 5h side-window 100% (not the 20x meter).",
+  "summary": "LIVE Codex ultra oneshot (paid Pro OAuth, not a grant). Category: oneshot. Meter: weekly 20x window (10080 min), NOT monthly 100%. Session start 2026-08-24T04:36:27Z; first meter 04:46Z at 0%. Sub-hour session: no; meter: no. Snapshot 2026-08-24T06:08:42.533Z: 60.0% weekly used, 0.726%/min, ~46397151 session tokens, 470 child rollouts. Spark 5h is a side window (100%), not this row. The oneshot prompt's huge prior-chat paste is hangar-only pending operator approval.",
   "timeline": [
     {
       "t": "2026-08-24T04:36:27Z",
@@ -23,9 +23,9 @@
       "note": "0% on the weekly 10080 min window"
     },
     {
-      "t": "2026-08-24T05:49:00.627Z",
+      "t": "2026-08-24T06:08:42.533Z",
       "label": "live snapshot",
-      "note": "60.0% \u00b7 0.954%/min \u00b7 ETA +41.94 min \u00b7 sub-hour record: no"
+      "note": "60.0% \u00b7 0.726%/min \u00b7 ETA +55.07 min \u00b7 sub-hour record: no"
     }
   ],
   "metrics": {
@@ -38,26 +38,26 @@
     "tokens_cached_input": 45334528,
     "tokens_note": "mostly cached input; public session totals only",
     "n_rollouts": 470,
-    "pct_per_min": 0.954,
-    "elapsed_min_from_first_meter": 62.91,
-    "eta_100_min": 41.94,
+    "pct_per_min": 0.726,
+    "elapsed_min_from_first_meter": 82.61,
+    "eta_100_min": 55.07,
     "record_target_min": 60,
     "subhour_ok": false,
-    "rss_gb": 3.16,
-    "approx_cores": 7.5,
+    "rss_gb": 3.18,
+    "approx_cores": 5.9,
     "tmux": "26",
     "model": "gpt-5.6-sol ultra fast",
     "outcome": "live \u00b7 racing 20x vs 48h Kimi seed",
     "spark_5h_pct": 100,
     "subhour_session_ok": false,
     "subhour_meter_ok": false,
-    "elapsed_min_from_session": 72.56
+    "elapsed_min_from_session": 92.26
   },
   "pace": {
-    "elapsed_min_from_session": 72.56,
-    "elapsed_min_from_first_meter": 62.91,
-    "pct_per_min": 0.954,
-    "eta_100_min": 41.94,
+    "elapsed_min_from_session": 92.26,
+    "elapsed_min_from_first_meter": 82.61,
+    "pct_per_min": 0.726,
+    "eta_100_min": 55.07,
     "record_target_min": 60,
     "subhour_session_ok": false,
     "subhour_meter_ok": false,
@@ -67,7 +67,7 @@
   "first_meter": "2026-08-24T04:46:06.005Z",
   "curve": "data/codex-curve.json",
   "snapshot": {
-    "ts": "2026-08-24T05:49:00.627Z",
+    "ts": "2026-08-24T06:08:42.533Z",
     "used_percent": 60.0,
     "tokens_total": 46397151,
     "n_rollouts": 470

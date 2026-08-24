@@ -5,12 +5,12 @@
   "provider": "Moonshot / Kimi",
   "product": "kimi-code/k3 OAuth main + K2.7 code swarm",
   "budget_usd": null,
-  "budget_note": "OAuth weekly/free grant \u00b7 not the $200 closed seed",
+  "budget_note": "Paid Kimi/Moonshot OAuth \u2014 not a grant. Not the $200 closed seed. Frontier meter: 5h window at 100% while weekly sat ~25\u201327% \u21d2 5h cap \u2248 20% of weekly.",
   "currency": "USD",
   "status": "live",
   "duration": "live",
   "venue": "tmux session 2 \u00b7 kimi-code pid 44796",
-  "summary": "LIVE Kimi OAuth vivace. kimi-code/k3 OAuth main plus a K2.7 code swarm. Context 24% (240k/1M). Quota: weekly 27% \u00b7 5h 100% (5h is the stall risk). r14-2 of xbgst-kimi. Cron :11/:41. Ground work for the Codex oneshot.",
+  "summary": "LIVE Kimi OAuth vivace (paid, not a grant). Autonomous orch: CreateGoal\u00d73, AgentSwarm, FRAMEWORK.md, r13 PASS, r14 self-improve, cron :11/:41. Context 24% (240k/1M). Quota: weekly 27% \u00b7 5h 100%. Golden: 5h hitting 100% at weekly ~27% means the 5h cap is roughly 20% of weekly \u2014 not in vendor tables; measured at the ceiling. OAuth 403 paused the goal; API auto-swap failed first; cron is the honest retry. Operator is not touching the CLI.",
   "timeline": [
     {
       "t": "session",
@@ -39,13 +39,16 @@
     "pid": 44796,
     "outcome": "live \u00b7 ground work for Codex oneshot",
     "weekly_pct": 27,
-    "fiveh_pct": 100
+    "fiveh_pct": 100,
+    "fiveh_is_about_pct_of_weekly": 27,
+    "oauth_403": true
   },
   "snapshot": {
-    "ts": "2026-08-24T05:49:00.627Z",
+    "ts": "2026-08-24T06:08:42.533Z",
     "alive": true,
     "weekly_pct": 27,
-    "fiveh_pct": 100
+    "fiveh_pct": 100,
+    "fiveh_is_about_pct_of_weekly": 27
   },
   "links": {
     "kimi": "https://www.kimi.com/",
@@ -57,5 +60,7 @@
     "vivace",
     "live",
     "r14-2"
-  ]
+  ],
+  "paid": true,
+  "not_a_grant": true
 }
