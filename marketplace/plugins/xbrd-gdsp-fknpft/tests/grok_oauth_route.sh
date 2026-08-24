@@ -20,6 +20,9 @@ fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 export HOME="$TMP/home"
 mkdir -p "$HOME/.grok"
 printf '# test grok config\n' >"$HOME/.grok/config.toml"
+printf '{"https://auth.x.ai::test":{"auth_mode":"oidc"}}\n' >"$HOME/.grok/auth.json"
+chmod 600 "$HOME/.grok/auth.json"
+AUTH_MARK=$(stat -c '%Y %i' "$HOME/.grok/auth.json")
 export GROK_ROUTE_STATE="$TMP/state.json"
 export XDG_RUNTIME_DIR="$TMP/run"
 mkdir -p "$XDG_RUNTIME_DIR"
@@ -137,10 +140,33 @@ XAI_API_KEY=test-key "$ROUTE" wrap -- sh -c '
   test ! -e "$GROK_HOME/auth.json" || exit 1
   test ! -e "$GROK_HOME/sessions" || exit 1
   test ! -e "$GROK_HOME/mcp_credentials.json" || exit 1
-  test -L "$GROK_HOME/config.toml" || exit 1
+  test -f "$GROK_HOME/config.toml" || exit 1
+  test ! -L "$GROK_HOME/config.toml" || exit 1
   test "$GROK_ROUTE" = api || exit 1
   echo WRAP_API_OK
 '
+
+# Sentinel: aliased scratch home must not unlink live auth.json.
+uid=$(id -u)
+rm -rf "$XDG_RUNTIME_DIR/grok-api-$uid"
+ln -s "$HOME/.grok" "$XDG_RUNTIME_DIR/grok-api-$uid"
+export GROK_ROUTE_STATUS="$FIX/exhausted.json"
+export GROK_ROUTE_NOW=2026-08-24T15:00:00Z
+if XAI_API_KEY=test-key "$ROUTE" wrap -- true >/tmp/xbgst-alias-wrap.err 2>&1; then
+  # May succeed via /tmp fallback; live auth must still exist either way.
+  :
+fi
+[[ "$(stat -c '%Y %i' "$HOME/.grok/auth.json")" == "$AUTH_MARK" ]] || fail "aliased scratch mutated auth.json"
+[[ -f "$HOME/.grok/auth.json" ]] || fail "aliased scratch deleted auth.json"
+echo ALIAS_OK
+
+# Sentinel: GROK_ROUTE_STATE must not overwrite auth.json.
+if GROK_ROUTE_STATE="$HOME/.grok/auth.json" GROK_ROUTE_STATUS="$FIX/remaining-7.json" \
+  "$ROUTE" decide >/dev/null 2>&1; then
+  fail "GROK_ROUTE_STATE=auth.json must refuse"
+fi
+[[ "$(stat -c '%Y %i' "$HOME/.grok/auth.json")" == "$AUTH_MARK" ]] || fail "state path overwrote auth.json"
+echo STATE_REFUSE_OK
 
 # xask debug ARGV (fresh latch so wrap-api hysteresis cannot leak)
 export PATH="$ROOT/scripts:$PATH"

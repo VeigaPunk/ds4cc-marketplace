@@ -14,12 +14,32 @@ FORBIDDEN = ("auth.json", "sessions", "mcp_credentials.json")
 OP_ENV = Path.home() / ".config" / "the-janitor" / "op.env"
 
 
+def die(msg: str) -> None:
+    print(f"grok-oauth-route: {msg}", file=sys.stderr)
+    raise SystemExit(2)
+
+
+def live_grok_home() -> Path:
+    return (Path.home() / ".grok").resolve()
+
+
 def status_path() -> Path:
     return Path(os.environ.get("GROK_ROUTE_STATUS") or (Path.home() / ".cache/ai-usage/status.json"))
 
 
 def state_path() -> Path:
-    return Path(os.environ.get("GROK_ROUTE_STATE") or (Path.home() / ".cache/ai-usage/grok-route.json"))
+    path = Path(os.environ.get("GROK_ROUTE_STATE") or (Path.home() / ".cache/ai-usage/grok-route.json"))
+    if path.name == "auth.json":
+        die("GROK_ROUTE_STATE refuses auth.json")
+    try:
+        resolved = path.expanduser().resolve()
+        resolved.relative_to(live_grok_home())
+        die("GROK_ROUTE_STATE refuses ~/.grok")
+    except ValueError:
+        pass
+    except OSError:
+        pass
+    return path
 
 
 def exhaust_pct() -> int:
@@ -47,19 +67,40 @@ def rfc3339(dt: datetime) -> str:
     return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def is_aliased_scratch(home: Path) -> bool:
+    if home.is_symlink():
+        return True
+    try:
+        return home.exists() and home.resolve() == live_grok_home()
+    except OSError:
+        return True
+
+
+def assert_scratch(home: Path) -> None:
+    if is_aliased_scratch(home):
+        die("scratch GROK_HOME must not alias ~/.grok")
+
+
 def scratch_home() -> Path:
     uid = os.getuid()
     xdg = os.environ.get("XDG_RUNTIME_DIR")
+    candidates = []
     if xdg:
-        p = Path(xdg) / f"grok-api-{uid}"
+        candidates.append(Path(xdg) / f"grok-api-{uid}")
+    candidates.append(Path(f"/tmp/xbgst-grok-api-{uid}"))
+    last = None
+    for p in candidates:
+        last = p
+        if is_aliased_scratch(p):
+            continue
         try:
             p.mkdir(parents=True, exist_ok=True)
-            return p
         except OSError:
-            pass
-    p = Path(f"/tmp/xbgst-grok-api-{uid}")
-    p.mkdir(parents=True, exist_ok=True)
-    return p
+            continue
+        if is_aliased_scratch(p):
+            continue
+        return p
+    die(f"cannot create scratch GROK_HOME ({last})")
 
 
 def load_json(path: Path):
@@ -169,7 +210,9 @@ def persist(decision: dict) -> None:
 
 
 def isolate(home: Path) -> None:
+    assert_scratch(home)
     home.mkdir(parents=True, exist_ok=True)
+    assert_scratch(home)
     for name in FORBIDDEN:
         p = home / name
         try:
@@ -181,29 +224,27 @@ def isolate(home: Path) -> None:
             pass
     src = Path.home() / ".grok" / "config.toml"
     dst = home / "config.toml"
-    if not src.is_file():
-        return
     try:
         if dst.is_symlink() or dst.exists():
             dst.unlink()
     except OSError:
         pass
-    try:
-        dst.symlink_to(src)
-    except OSError:
-        pass
+    if src.is_file():
+        shutil.copy2(src, dst)
+        os.chmod(dst, 0o600)
+    else:
+        dst.write_text("# grok-oauth-route api child\n", encoding="utf-8")
 
 
 def wrap(argv: list[str]) -> None:
     if not argv:
-        print("grok-oauth-route: wrap requires a command", file=sys.stderr)
-        raise SystemExit(2)
+        die("wrap requires a command")
     d = decide()
     env = os.environ.copy()
     env["GROK_ROUTE"] = d["mode"]
     if d["mode"] == "api":
         home = Path(d["grok_home"])
-        isolate(home)
+        assert_scratch(home)
         env["GROK_HOME"] = str(home)
         if not env.get("XAI_API_KEY"):
             if OP_ENV.is_file() and shutil.which("op"):
@@ -212,11 +253,8 @@ def wrap(argv: list[str]) -> None:
                     ["op", "run", "--env-file", str(OP_ENV), "--", sys.argv[0], "wrap", "--", *argv],
                     env,
                 )
-            print(
-                "grok-oauth-route: api mode needs XAI_API_KEY via op run / the-janitor run",
-                file=sys.stderr,
-            )
-            raise SystemExit(2)
+            die("api mode needs XAI_API_KEY via op run / the-janitor run")
+        isolate(home)
     else:
         env.pop("GROK_HOME", None)
     os.execvpe(argv[0], argv, env)
