@@ -42,10 +42,12 @@ def extract(raw: str) -> str:
         if COT_RE.match(s):
             continue
         leftovers.append(s)
+    # Prefer leftover body (post-CoT answer / IMCP blocks). Last bullet is the
+    # overfit DIRECT_P_OK path when there is no leftover. Never invent.
+    if leftovers:
+        return "\n".join(leftovers)
     if bullets:
         return bullets[-1]
-    if leftovers:
-        return leftovers[-1]
     return ""
 
 

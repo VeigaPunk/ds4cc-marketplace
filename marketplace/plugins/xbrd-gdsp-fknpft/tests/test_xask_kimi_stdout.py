@@ -60,6 +60,16 @@ def main() -> None:
     if got != "":
         raise SystemExit(f"FAIL mutant-only-cot: expected empty, got {got!r}")
     print("OK mutant-only-cot")
+    # Connector miss: CoT bullets then a leftover verdict line — keep leftovers.
+    assert_ok(
+        "mutant-leftover-verdict",
+        "kimi version 0.38.0\n"
+        "• The user asks to reply with exactly: DIRECT_P_OK. Do so.\n"
+        "• thinking about fork flags\n"
+        "YES — single L1 judge, children return evidence\n"
+        "To resume this session: kimi -r session_x\n",
+        "YES — single L1 judge, children return evidence",
+    )
     print("PASS: xask-kimi-stdout extract")
 
 
