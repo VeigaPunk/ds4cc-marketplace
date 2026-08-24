@@ -115,11 +115,13 @@ def decide() -> dict:
     latch = load_json(state_path()) or {}
     latch_mode = latch.get("mode") if isinstance(latch, dict) else None
     due = _cmp_reset(now, resets_at)
+    limit = exhaust_pct()
     if due is True:
         mode, reason = "oauth", "reset"
-    elif used >= exhaust_pct():
+    elif used >= limit:
         mode, reason = "api", "exhausted"
-    elif latch_mode == "api" and due is False:
+    elif latch_mode == "api" and due is False and used >= max(0, limit - 1):
+        # Hold api only across 99↔100 jitter, never with weekly remaining.
         mode, reason = "api", "latched"
     else:
         mode, reason = "oauth", "primary"

@@ -108,6 +108,20 @@ assert d["mode"] == "oauth" and d.get("reason") == "reset", d
 print("M06_OK reason=reset mode=oauth")
 PY
 
+# Dirty api latch must not pin API while OAuth remaining > 0 (used_pct=93).
+export GROK_ROUTE_STATUS="$FIX/exhausted.json"
+export GROK_ROUTE_NOW=2026-08-24T15:00:00Z
+"$ROUTE" decide >/dev/null
+export GROK_ROUTE_STATUS="$FIX/remaining-7.json"
+out=$("$ROUTE" decide)
+python3 - "$out" <<'PY'
+import json, sys
+d = json.loads(sys.argv[1])
+assert d["mode"] == "oauth" and int(d["remaining_pct"]) == 7, d
+assert d.get("reason") == "primary", d
+print("M06b_OK dirty_latch_unpins remaining_pct=7")
+PY
+
 # wrap oauth is pass-through; wrap api isolates GROK_HOME (symlink config.toml only)
 export GROK_ROUTE_STATUS="$FIX/remaining-7.json"
 unset GROK_ROUTE_NOW || true
