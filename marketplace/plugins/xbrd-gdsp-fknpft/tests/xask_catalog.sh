@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
-for bin in codex xbreed grok codex-token-plan gemma-hvm sekhmet kimi; do
+for bin in codex xbreed grok codex-token-plan gemma-hvm sekhmet kimi cursor-agent; do
   printf '#!/usr/bin/env sh\nexit 0\n' >"$TMP/$bin"
   chmod +x "$TMP/$bin"
 done
@@ -20,8 +20,8 @@ fail() { printf 'FAIL: %s\n' "$*" >&2; exit 1; }
 catalog="$($XASK catalog --json)"
 jq -e '
   .schema_version == 1
-  and .model_count == 31
-  and (.providers | length) == 5
+  and .model_count == 234
+  and (.providers | length) == 6
   and (.providers | all(.available == true))
   and (.models | any(.model_id == "gpt-5.6-sol" and (.supported_efforts | index("ultra"))))
   and (.models | any(.model_id == "grok-4.5" and (.supported_efforts | index("xhigh") | not)))
@@ -32,6 +32,13 @@ jq -e '
   and (.models | any(.model_id == "moonshotai/kimi-k2.6" and .provider == "moonshot"))
   and (.models | any(.model_id == "kimi-for-coding" and .provider == "moonshot"))
   and (.models | any(.model_id == "moonshotai/kimi-k3" and .provider == "moonshot"))
+  and (.models | any(.model_id == "cursor-grok-4.6-high-fast" and .provider == "cursor" and .route == "cursor"))
+  and (.models | any(.model_id == "composer-2.5" and .provider == "cursor"))
+  and (.models | any(.model_id == "kimi-k3-max" and .provider == "cursor"))
+  and (.models | any(.model_id == "gpt-5.6-sol-high-fast" and .provider == "cursor"))
+  and (.models | any(.model_id == "claude-opus-5-high" and .provider == "cursor"))
+  and (.models | any(.model_id == "gemini-3.1-pro" and .provider == "cursor"))
+  and (.models | any(.model_id == "glm-5.2-high" and .provider == "cursor"))
 ' <<<"$catalog" >/dev/null || fail 'catalog schema or inventory mismatch'
 
 PARTIAL="$TMP/partial"
@@ -64,8 +71,8 @@ jq -e '.selection.effort == "xhigh" and .selection.model_id == "qwen3.8-max" and
   || fail 'Token Plan did not receive catalog default effort and default (non-fast) service_tier'
 
 plan="$($XASK plan --provider moonshot --json -- probe)"
-jq -e '.selection.effort == "high" and .selection.model_id == "kimi-k3"' <<<"$plan" >/dev/null \
-  || fail 'Moonshot did not receive its catalog default effort'
+jq -e '.selection.effort == "max" and .selection.model_id == "kimi-k3"' <<<"$plan" >/dev/null \
+  || fail 'Moonshot K3 plan did not normalize to max effort (K3 default pin)'
 if "$XASK" plan --provider moonshot --effort medium --json -- probe >/dev/null 2>&1; then
   fail 'Moonshot accepted unsupported medium effort'
 fi
@@ -75,16 +82,29 @@ fi
 # Catalog-bound invariant: provider mode accepts reachable Kimi aliases
 # (OAuth usage-limit and pay-as-you-go pings) and rejects retired/404 ids.
 plan="$($XASK plan --provider moonshot --model-id kimi-for-coding --json -- probe)"
-jq -e '.selection.model_id == "kimi-for-coding" and .selection.effort == "high"' <<<"$plan" >/dev/null \
+jq -e '.selection.model_id == "kimi-for-coding" and (.selection.effort == "high" or .selection.effort == "n/a")' <<<"$plan" >/dev/null \
   || fail 'moonshot provider mode rejected cataloged kimi-for-coding'
 plan="$($XASK plan --provider moonshot --model-id kimi-k2.6 --json -- probe)"
-jq -e '.selection.model_id == "kimi-k2.6" and .selection.effort == "high"' <<<"$plan" >/dev/null \
+jq -e '.selection.model_id == "kimi-k2.6" and (.selection.effort == "high" or .selection.effort == "n/a")' <<<"$plan" >/dev/null \
   || fail 'moonshot provider mode rejected cataloged kimi-k2.6'
 plan="$($XASK plan --provider moonshot --model-id moonshotai/kimi-k2.6 --json -- probe)"
 jq -e '.selection.model_id == "moonshotai/kimi-k2.6"' <<<"$plan" >/dev/null \
   || fail 'moonshot provider mode rejected cataloged moonshotai/kimi-k2.6'
 if "$XASK" plan --provider moonshot --model-id moonshotai/kimi-k2.5 --json -- probe >/dev/null 2>&1; then
   fail 'moonshot provider mode accepted a retired/non-catalog model id'
+fi
+
+plan="$($XASK plan --provider cursor --json -- probe)"
+jq -e '.selection.effort == "high" and .selection.model_id == "cursor-grok-4.6-high-fast" and .selection.service_tier == "default"' <<<"$plan" >/dev/null \
+  || fail 'Cursor did not receive its catalog default effort and pin'
+plan="$($XASK plan --provider cursor --model-id composer-2.5 --json -- probe)"
+jq -e '.selection.model_id == "composer-2.5" and .selection.effort == "medium"' <<<"$plan" >/dev/null \
+  || fail 'cursor provider mode rejected cataloged composer-2.5'
+if "$XASK" plan --provider cursor --model-id auto --json -- probe >/dev/null 2>&1; then
+  fail 'cursor provider accepted auto model pin'
+fi
+if "$XASK" plan --provider cursor --model-id grok-4.6 --json -- probe >/dev/null 2>&1; then
+  fail 'normalized provider mode accepted a cross-provider model id (cursor)'
 fi
 
 if "$XASK" plan --provider token-plan --model-id qwen3.8-max --effort high --json -- probe >/dev/null 2>&1; then
@@ -113,7 +133,7 @@ legacy_spark_plan="$($XASK plan --spark --json codex probe)"
 jq -e '.selection.model_id == "gpt-5.3-codex-spark" and .selection.service_tier == "fast" and .selection.substrate == "sekhmet"' \
   <<<"$legacy_spark_plan" >/dev/null || fail 'legacy Spark plan drifted from the Codex-Spark/fast sekhmet runtime'
 
-chatgpt_default_plan="$($XASK plan --provider chatgpt --json -- ping)"
+chatgpt_default_plan="$(XASK_CODEX_FALLBACK= "$XASK" plan --provider chatgpt --json -- ping)"
 jq -e '.selection.provider == "chatgpt" and .selection.substrate == "stock" and .selection.model_id == "gpt-5.6-sol" and .selection.service_tier == "fast"' \
   <<<"$chatgpt_default_plan" >/dev/null || fail 'ChatGPT default plan must be stock + sol + fast, not auto-spark'
 

@@ -30,7 +30,7 @@
 #
 # Native / Token Plan lanes (no xbreed ask; env -u CODEX_BIN -u XBRD_SPARK_MODEL):
 #   grok:    grok-oauth-route wrap -- grok --always-approve --no-subagents --verbatim -p
-#            OAuth primary; API only at used_pct>=100 via isolated GROK_HOME
+#            OAuth primary; API only at used_pct>=100 via env_key on ~/.grok
 #   qwen38:  codex-qwen38 exec … (aliases: qwen3.8-max, qwen)
 #   ds-flash / ds-pro: Token Plan debug + live wrappers (reject bare deepseek)
 #   kimi:    kimi -m <cli-alias> -p … (route aliases: kimi-k3, kimi-code;
@@ -42,7 +42,7 @@
 #            no reasoning-effort flag; K3 tiers low|high|max. Always pins -m.
 #            kimi -p rejects --auto and -y/--yolo. --json/-o are Codex JSONL,
 #            not kimi --output-format.
-#   --spark rejected with grok|qwen38|ds-flash|ds-pro|kimi
+#   --spark rejected with grok|qwen38|ds-flash|ds-pro|kimi|cursor
 #
 # Examples:
 #   xask gemma "What patterns exist?"               # local Gemma via HVM (g- prefix)
@@ -59,6 +59,7 @@
 #   xask --gs kimi "Moonshot K3 probe"              # native kimi -m kimi-code/k3 (OAuth)
 #   xask --gs cdx "…"                               # first xask → same OAuth K3 while Codex-limit pin is on
 #   xask --provider moonshot --model-id kimi-k2.6 -- "probe"  # pay-as-you-go K2.6 (API key)
+#   xask --provider cursor --model-id composer-2.5 -- "cheap probe"  # Cursor Ultra lane
 #   xask -R codex "Adversarial review of <diff>"    # review lane — gpt-5.6-sol
 #   xask -R -F codex "RECON codebase-scale"         # -R + -F escape hatch — full gpt-5.6-sol (1.05M ctx)
 #   xask --gpt55 --gs -e high codex "Deep question" # gpt-5.6-sol lane, explicit godspeed, high effort
@@ -111,6 +112,29 @@ resolve_godspeed_directive() {
   return 1
 }
 
+resolve_cursor_agent() {
+  local candidate="${XASK_CURSOR_AGENT_BIN:-}"
+  if [[ -n "$candidate" ]]; then
+    if [[ "$(basename -- "$candidate")" == agent ]]; then
+      echo "xask: refusing argv0=agent for cursor lane (use cursor-agent)" >&2
+      return 1
+    fi
+    if [[ -x "$candidate" ]]; then
+      printf '%s\n' "$candidate"
+      return 0
+    fi
+    echo "xask: XASK_CURSOR_AGENT_BIN is not executable: $candidate" >&2
+    return 1
+  fi
+  candidate="$(command -v cursor-agent 2>/dev/null || true)"
+  if [[ -n "$candidate" && -x "$candidate" ]]; then
+    printf '%s\n' "$candidate"
+    return 0
+  fi
+  echo "xask: cursor-agent not found on PATH (install Cursor Agent CLI)" >&2
+  return 1
+}
+
 trim_trailing_space() {
   local value="$1"
   while [[ "$value" == *[[:space:]] ]]; do value="${value%?}"; done
@@ -152,13 +176,13 @@ Preview without execution:
   xask plan --provider chatgpt --model-id gpt-5.6-sol --effort high --json -- "task"
 
 Dispatch:
-  xask --provider chatgpt|grok|token-plan|local|moonshot \
+  xask --provider chatgpt|grok|token-plan|local|moonshot|cursor \
        [--substrate stock|sekhmet] [--model-id ID] \
        [--effort low|medium|high|xhigh|max|ultra] \
        [--service-tier default|fast] [--gs] -- "task"
 
 Legacy route tokens remain supported: codex|cdx, grok, qwen38, ds-flash,
-ds-pro, gemma|g|gemini, kimi|kimi-k3.
+ds-pro, gemma|g|gemini, kimi|kimi-k3, cursor (provider mode only).
 EOF
     exit 0
     ;;
@@ -258,8 +282,8 @@ REQUESTED_MODEL_ID="$MODEL_ID"
 if [[ -n "$PROVIDER" ]]; then
   case "$PROVIDER" in
     openai|codex) PROVIDER=chatgpt ;;
-    chatgpt|grok|token-plan|local|moonshot) ;;
-    *) echo "xask: invalid provider '$PROVIDER' (use chatgpt|grok|token-plan|local|moonshot)" >&2; exit 1 ;;
+    chatgpt|grok|token-plan|local|moonshot|cursor) ;;
+    *) echo "xask: invalid provider '$PROVIDER' (use chatgpt|grok|token-plan|local|moonshot|cursor)" >&2; exit 1 ;;
   esac
   QUERY="${1:-}"
   CONTEXT="${2:-No prior context.}"
@@ -297,6 +321,10 @@ if [[ -n "$PROVIDER" ]]; then
       MODEL=kimi
       # MODEL_ID stays user-owned (like grok): empty → dispatch pins the K3 alias.
       ;;
+    cursor)
+      MODEL=cursor
+      MODEL_ID="${MODEL_ID:-cursor-grok-4.6-high-fast}"
+      ;;
   esac
 else
   MODEL="${1:-}"
@@ -330,7 +358,7 @@ QUERY="$(strip_trailing_godspeed_markers "$QUERY")"
 # qwen38 (+aliases) / ds-flash / ds-pro → Token Plan; kimi (+aliases) → Kimi
 # Code CLI over Moonshot API. Reject bare deepseek and bare moonshot.
 case "$MODEL" in
-  gemma|g|gemini|codex|cdx|grok|qwen38|qwen3.8-max|qwen|ds-flash|ds-pro|kimi|kimi-k3|kimi-code|kimi-for-coding-highspeed|kimi-code/kimi-for-coding-highspeed|kimi-for-coding) ;;
+  gemma|g|gemini|codex|cdx|grok|qwen38|qwen3.8-max|qwen|ds-flash|ds-pro|kimi|kimi-k3|kimi-code|kimi-for-coding-highspeed|kimi-code/kimi-for-coding-highspeed|kimi-for-coding|cursor) ;;
   deepseek)
     echo "xask: unknown model 'deepseek' (use ds-flash or ds-pro)." >&2
     exit 1
@@ -391,6 +419,7 @@ if [[ -z "$PROVIDER" ]]; then
     qwen38|ds-flash|ds-pro) PROVIDER=token-plan ;;
     kimi) PROVIDER=moonshot ;;
     gemma|g|gemini) PROVIDER=local ;;
+    cursor) PROVIDER=cursor ;;
   esac
 fi
 
@@ -430,6 +459,9 @@ case "$PROVIDER" in
     ;;
   moonshot)
     SELECTED_MODEL_ID="${MODEL_ID:-kimi-k3}"
+    ;;
+  cursor)
+    SELECTED_MODEL_ID="${MODEL_ID:-cursor-grok-4.6-high-fast}"
     ;;
 esac
 
@@ -483,6 +515,14 @@ kimi_supports_effort() {
   esac
 }
 
+is_cursor_model() {
+  case "$1" in
+claude-4.5-opus-high|claude-4.5-opus-high-thinking|claude-4.5-sonnet|claude-4.5-sonnet-thinking|claude-4.6-opus-high|claude-4.6-opus-high-thinking|claude-4.6-opus-max|claude-4.6-opus-max-thinking|claude-4.6-sonnet-medium|claude-4.6-sonnet-medium-thinking|claude-4-sonnet|claude-4-sonnet-thinking|claude-fable-5-high|claude-fable-5-low|claude-fable-5-max|claude-fable-5-medium|claude-fable-5-thinking-high|claude-fable-5-thinking-low|claude-fable-5-thinking-max|claude-fable-5-thinking-medium|claude-fable-5-thinking-xhigh|claude-fable-5-xhigh|claude-opus-4-7-high|claude-opus-4-7-high-fast|claude-opus-4-7-low|claude-opus-4-7-low-fast|claude-opus-4-7-max|claude-opus-4-7-max-fast|claude-opus-4-7-medium|claude-opus-4-7-medium-fast|claude-opus-4-7-thinking-high|claude-opus-4-7-thinking-high-fast|claude-opus-4-7-thinking-low|claude-opus-4-7-thinking-low-fast|claude-opus-4-7-thinking-max|claude-opus-4-7-thinking-max-fast|claude-opus-4-7-thinking-medium|claude-opus-4-7-thinking-medium-fast|claude-opus-4-7-thinking-xhigh|claude-opus-4-7-thinking-xhigh-fast|claude-opus-4-7-xhigh|claude-opus-4-7-xhigh-fast|claude-opus-4-8-high|claude-opus-4-8-high-fast|claude-opus-4-8-low|claude-opus-4-8-low-fast|claude-opus-4-8-max|claude-opus-4-8-max-fast|claude-opus-4-8-medium|claude-opus-4-8-medium-fast|claude-opus-4-8-thinking-high|claude-opus-4-8-thinking-high-fast|claude-opus-4-8-thinking-low|claude-opus-4-8-thinking-low-fast|claude-opus-4-8-thinking-max|claude-opus-4-8-thinking-max-fast|claude-opus-4-8-thinking-medium|claude-opus-4-8-thinking-medium-fast|claude-opus-4-8-thinking-xhigh|claude-opus-4-8-thinking-xhigh-fast|claude-opus-4-8-xhigh|claude-opus-4-8-xhigh-fast|claude-opus-5-high|claude-opus-5-high-fast|claude-opus-5-low|claude-opus-5-low-fast|claude-opus-5-medium|claude-opus-5-medium-fast|claude-opus-5-thinking-high|claude-opus-5-thinking-high-fast|claude-opus-5-thinking-low|claude-opus-5-thinking-low-fast|claude-opus-5-thinking-max|claude-opus-5-thinking-max-fast|claude-opus-5-thinking-medium|claude-opus-5-thinking-medium-fast|claude-opus-5-thinking-xhigh|claude-opus-5-thinking-xhigh-fast|claude-sonnet-5-high|claude-sonnet-5-low|claude-sonnet-5-max|claude-sonnet-5-medium|claude-sonnet-5-thinking-high|claude-sonnet-5-thinking-low|claude-sonnet-5-thinking-max|claude-sonnet-5-thinking-medium|claude-sonnet-5-thinking-xhigh|claude-sonnet-5-xhigh|composer-2.5|composer-2.5-fast|cursor-grok-4.5-high|cursor-grok-4.5-high-fast|cursor-grok-4.5-low|cursor-grok-4.5-low-fast|cursor-grok-4.5-medium|cursor-grok-4.5-medium-fast|cursor-grok-4.6-high|cursor-grok-4.6-high-fast|cursor-grok-4.6-low|cursor-grok-4.6-low-fast|cursor-grok-4.6-medium|cursor-grok-4.6-medium-fast|cursor-grok-4.6-xhigh|cursor-grok-4.6-xhigh-fast|gemini-3.1-pro|gemini-3.5-flash|gemini-3.6-flash-high|gemini-3.6-flash-low|gemini-3.6-flash-medium|gemini-3.6-flash-minimal|gemini-3.7-flash-high|gemini-3.7-flash-low|gemini-3.7-flash-medium|gemini-3-flash|glm-5.2-high|glm-5.2-max|gpt-5.1|gpt-5.1-high|gpt-5.1-low|gpt-5.2|gpt-5.2-fast|gpt-5.2-high|gpt-5.2-high-fast|gpt-5.2-low|gpt-5.2-low-fast|gpt-5.2-xhigh|gpt-5.2-xhigh-fast|gpt-5.3-codex|gpt-5.3-codex-fast|gpt-5.3-codex-high|gpt-5.3-codex-high-fast|gpt-5.3-codex-low|gpt-5.3-codex-low-fast|gpt-5.3-codex-xhigh|gpt-5.3-codex-xhigh-fast|gpt-5.4-high|gpt-5.4-high-fast|gpt-5.4-low|gpt-5.4-medium|gpt-5.4-medium-fast|gpt-5.4-mini-high|gpt-5.4-mini-low|gpt-5.4-mini-medium|gpt-5.4-mini-none|gpt-5.4-mini-xhigh|gpt-5.4-nano-high|gpt-5.4-nano-low|gpt-5.4-nano-medium|gpt-5.4-nano-none|gpt-5.4-nano-xhigh|gpt-5.4-xhigh|gpt-5.4-xhigh-fast|gpt-5.5-extra-high|gpt-5.5-extra-high-fast|gpt-5.5-high|gpt-5.5-high-fast|gpt-5.5-low|gpt-5.5-low-fast|gpt-5.5-medium|gpt-5.5-medium-fast|gpt-5.5-none|gpt-5.5-none-fast|gpt-5.6-luna-high|gpt-5.6-luna-high-fast|gpt-5.6-luna-low|gpt-5.6-luna-low-fast|gpt-5.6-luna-max|gpt-5.6-luna-max-fast|gpt-5.6-luna-medium|gpt-5.6-luna-medium-fast|gpt-5.6-luna-none|gpt-5.6-luna-none-fast|gpt-5.6-luna-xhigh|gpt-5.6-luna-xhigh-fast|gpt-5.6-sol-high|gpt-5.6-sol-high-fast|gpt-5.6-sol-low|gpt-5.6-sol-low-fast|gpt-5.6-sol-max|gpt-5.6-sol-max-fast|gpt-5.6-sol-medium|gpt-5.6-sol-medium-fast|gpt-5.6-sol-none|gpt-5.6-sol-none-fast|gpt-5.6-sol-xhigh|gpt-5.6-sol-xhigh-fast|gpt-5.6-terra-high|gpt-5.6-terra-high-fast|gpt-5.6-terra-low|gpt-5.6-terra-low-fast|gpt-5.6-terra-max|gpt-5.6-terra-max-fast|gpt-5.6-terra-medium|gpt-5.6-terra-medium-fast|gpt-5.6-terra-none|gpt-5.6-terra-none-fast|gpt-5.6-terra-xhigh|gpt-5.6-terra-xhigh-fast|gpt-5-mini|kimi-k2.7-code|kimi-k3-high|kimi-k3-low|kimi-k3-max)
+      return 0 ;;
+    *) return 1 ;;
+  esac
+}
+
 # The normalized provider interface is catalog-bound. Legacy route syntax
 # keeps accepting provider-native overrides, but UI/MCP callers must not be
 # able to pair (for example) a ChatGPT slug with the Grok transport.
@@ -499,6 +539,9 @@ if [[ "$PROVIDER_EXPLICIT" == true ]]; then
       ;;
   esac
   if [[ "$PROVIDER" == moonshot ]] && is_moonshot_model "$SELECTED_MODEL_ID"; then
+    model_matches_provider=true
+  fi
+  if [[ "$PROVIDER" == cursor ]] && is_cursor_model "$SELECTED_MODEL_ID"; then
     model_matches_provider=true
   fi
   [[ "$model_matches_provider" == true ]] || {
@@ -520,6 +563,10 @@ if [[ "$PROVIDER_EXPLICIT" == true && -z "$EFFORT" ]]; then
     qwen3.8-max) EFFORT=xhigh ;;
     deepseek-v4-flash-0731) EFFORT=low ;;
     deepseek-v4-pro-0813) EFFORT=medium ;;
+    cursor-grok-4.6-high-fast|cursor-grok-4.6-high) EFFORT=high ;;
+    composer-2.5|composer-2.5-fast) EFFORT=medium ;;
+    kimi-k3-max|kimi-k2.7-code) EFFORT=high ;;
+    gpt-5.6-sol-high-fast) EFFORT=low ;;
     esac
     if [[ -z "$EFFORT" ]] && is_moonshot_model "$SELECTED_MODEL_ID" && kimi_supports_effort "$SELECTED_MODEL_ID"; then
       EFFORT=max
@@ -564,6 +611,15 @@ if [[ "$PROVIDER" == grok && -z "$MODEL_ID" ]]; then
   MODEL_ID="$SELECTED_MODEL_ID"
 fi
 
+# Pin cursor selected default so plan output and execution cannot drift.
+if [[ "$PROVIDER" == cursor && -z "$MODEL_ID" ]]; then
+  MODEL_ID="$SELECTED_MODEL_ID"
+fi
+if [[ "$PROVIDER" == cursor && "$SELECTED_MODEL_ID" == auto ]]; then
+  echo "xask: cursor provider refuses model pin auto" >&2
+  exit 1
+fi
+
 # Validate effort against the selected model rather than a global four-tier enum.
 if [[ -n "$EFFORT" ]]; then
   supported=false
@@ -582,6 +638,18 @@ if [[ -n "$EFFORT" ]]; then
       ;;
     qwen3.8-max|deepseek-v4-flash-0731|deepseek-v4-pro-0813)
       [[ "$EFFORT" =~ ^(low|medium|xhigh)$ ]] && supported=true
+      ;;
+    cursor-grok-4.6-high-fast|cursor-grok-4.6-high)
+      [[ "$EFFORT" =~ ^(low|medium|high|xhigh)$ ]] && supported=true
+      ;;
+    composer-2.5|composer-2.5-fast)
+      [[ "$EFFORT" =~ ^(low|medium|high)$ ]] && supported=true
+      ;;
+    kimi-k3-max|kimi-k2.7-code)
+      [[ "$EFFORT" =~ ^(low|high|max)$ ]] && supported=true
+      ;;
+    gpt-5.6-sol-high-fast)
+      [[ "$EFFORT" =~ ^(low|medium|high|xhigh|max|ultra)$ ]] && supported=true
       ;;
     *)
       if is_moonshot_model "$SELECTED_MODEL_ID"; then
@@ -614,7 +682,7 @@ fi
 # Explicit --spark is ChatGPT-Codex-only; native/Token Plan lanes reject it.
 if [ "$SPARK_REQUESTED" = true ]; then
   case "$MODEL" in
-    grok|qwen38|ds-flash|ds-pro|kimi|gemma|g|gemini)
+    grok|qwen38|ds-flash|ds-pro|kimi|cursor|gemma|g|gemini)
       echo "xask: --spark cannot be combined with $MODEL" >&2
       exit 1
       ;;
@@ -684,6 +752,7 @@ case "$MODEL" in
   ds-flash) LANE="token-plan-ds-flash" ;;
   ds-pro) LANE="token-plan-ds-pro" ;;
   kimi) LANE="kimi-code-cli" ;;
+  cursor) LANE="cursor-agent-cli" ;;
   cdx) LANE="stock-codex" ;;
   codex) LANE="stock-codex" ;;
   gemma|g|gemini) LANE="gemma-hvm" ;;
@@ -803,19 +872,14 @@ case "$MODEL" in
     done
     unset _grok_route_cand
     GROK_ROUTE_MODE=oauth
-    GROK_ROUTE_HOME=""
     if [[ -n "$GROK_ROUTE_BIN" ]]; then
       GROK_ROUTE_JSON="$("$GROK_ROUTE_BIN" decide)" || {
         echo "xask: grok-oauth-route decide failed" >&2
         exit 1
       }
       GROK_ROUTE_MODE="$(printf '%s' "$GROK_ROUTE_JSON" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("mode") or "oauth")')"
-      GROK_ROUTE_HOME="$(printf '%s' "$GROK_ROUTE_JSON" | python3 -c 'import json,sys; print(json.load(sys.stdin).get("grok_home") or "")')"
     fi
-    GROK_DISPATCH=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "GROK_ROUTE=$GROK_ROUTE_MODE")
-    if [[ "$GROK_ROUTE_MODE" == api && -n "$GROK_ROUTE_HOME" ]]; then
-      GROK_DISPATCH+=("GROK_HOME=$GROK_ROUTE_HOME")
-    fi
+    GROK_DISPATCH=(env -u CODEX_BIN -u XBRD_SPARK_MODEL -u GROK_HOME "GROK_ROUTE=$GROK_ROUTE_MODE")
     if [[ -n "$GROK_ROUTE_BIN" ]]; then
       GROK_DISPATCH+=("$GROK_ROUTE_BIN" wrap --)
     fi
@@ -888,6 +952,25 @@ case "$MODEL" in
     DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL kimi -m "$KIMI_ALIAS" -p "<PROMPT>")
     KIMI_EXTRACT=1
     ;;
+  cursor)
+    CODEX_BIN_SET=0
+    if [ "$JSON" = true ] || [ -n "$OUTPUT_LAST_MESSAGE" ] || [ "$GPT55" = true ] \
+      || [ "$REVIEW" = true ] || [ "$FULL" = true ]; then
+      echo "xask: --json/-o/--gpt55/-R/-F are not cursor-agent flags (use -e; effort is envelope-text)" >&2
+      exit 1
+    fi
+    CURSOR_BIN="$(resolve_cursor_agent)" || exit 1
+    CURSOR_PIN="${SELECTED_MODEL_ID:-${MODEL_ID:-cursor-grok-4.6-high-fast}}"
+    if [[ "$CURSOR_PIN" == auto ]]; then
+      echo "xask: cursor provider refuses model pin auto" >&2
+      exit 1
+    fi
+    CURSOR_WORKSPACE="${XASK_CURSOR_WORKSPACE:-$PWD}"
+    DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$CURSOR_BIN" -p --output-format text
+      --model "$CURSOR_PIN" --workspace "$CURSOR_WORKSPACE" -- "$PROMPT")
+    DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$CURSOR_BIN" -p --output-format text
+      --model "$CURSOR_PIN" --workspace "$CURSOR_WORKSPACE" -- "<PROMPT>")
+    ;;
   cdx|codex)
     DISPATCH_ARGV=(xbreed ask codex --with "$SKILL" "${MODEL_FLAGS[@]}" "${SPARK_FLAGS[@]}"
       "${REVIEW_FLAGS[@]}" "${FULL_FLAGS[@]}" "${GPT55_FLAGS[@]}" "${EFFORT_FLAGS[@]}"
@@ -940,7 +1023,7 @@ if [ "$DEBUG" = true ]; then
   echo "=== XASK DEBUG ==="
   echo "MODEL: $MODEL"
   case "$MODEL" in
-    grok|qwen38|ds-flash|ds-pro|kimi|cdx|codex)
+    grok|qwen38|ds-flash|ds-pro|kimi|cursor|cdx|codex)
       echo "LANE: $LANE"
       echo "ARGV: ${DEBUG_ARGV[*]}"
       echo "CODEX_BIN_SET=$CODEX_BIN_SET"
@@ -948,6 +1031,11 @@ if [ "$DEBUG" = true ]; then
         echo "KIMI_ALIAS: ${KIMI_ALIAS:-<unset>}"
         echo "KIMI_AUTH: ${KIMI_AUTH:-<unset>}"
         echo "KIMI_CLI: kimi -m <alias> -p  (no --auto/-y with -p; no --json; effort is envelope-text)"
+      fi
+      if [[ "$MODEL" == cursor ]]; then
+        echo "CURSOR_PIN: ${CURSOR_PIN:-<unset>}"
+        echo "CURSOR_WORKSPACE: ${CURSOR_WORKSPACE:-<unset>}"
+        echo "CURSOR_CLI: cursor-agent -p --output-format text --model <cli-id> (never auto; never argv0 agent)"
       fi
       ;;
   esac
@@ -1001,7 +1089,7 @@ case "$MODEL" in
   codex|cdx)
     "${DISPATCH_ARGV[@]}"
     ;;
-  grok|qwen38|ds-flash|ds-pro)
+  grok|qwen38|ds-flash|ds-pro|cursor)
     xask_run "${DISPATCH_ARGV[@]}"
     ;;
   kimi)
@@ -1025,7 +1113,7 @@ case "$MODEL" in
     RC=$_kimi_rc
     ;;
   *)
-    echo "Unknown model: $MODEL. Use gemma (g), codex/cdx, grok, qwen38, ds-flash, or kimi." >&2
+    echo "Unknown model: $MODEL. Use gemma (g), codex/cdx, grok, qwen38, ds-flash, kimi, cursor, or ds-pro." >&2
     exit 1
     ;;
 esac

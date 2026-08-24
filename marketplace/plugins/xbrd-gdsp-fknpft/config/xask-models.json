@@ -7,7 +7,10 @@
       "label": "OpenAI / ChatGPT",
       "description": "Stock Codex or the Sekhmet L3 substrate.",
       "default_model_id": "gpt-5.6-sol",
-      "transports": ["stock", "sekhmet"],
+      "transports": [
+        "stock",
+        "sekhmet"
+      ],
       "available": false
     },
     {
@@ -15,7 +18,9 @@
       "label": "xAI Grok",
       "description": "Grok Build one-shot transport.",
       "default_model_id": "grok-4.6",
-      "transports": ["stock"],
+      "transports": [
+        "stock"
+      ],
       "available": false
     },
     {
@@ -23,7 +28,9 @@
       "label": "Alibaba Token Plan",
       "description": "Qwen and DeepSeek through local Token Plan profiles.",
       "default_model_id": "qwen3.8-max",
-      "transports": ["stock"],
+      "transports": [
+        "stock"
+      ],
       "available": false
     },
     {
@@ -31,7 +38,9 @@
       "label": "Moonshot AI (Kimi)",
       "description": "Kimi models through the Kimi Code CLI over Moonshot's OpenAI-compatible API (OAuth kimi-code/* and pay-as-you-go moonshotai/*).",
       "default_model_id": "kimi-k3",
-      "transports": ["stock"],
+      "transports": [
+        "stock"
+      ],
       "available": false
     },
     {
@@ -39,7 +48,19 @@
       "label": "Local HVM",
       "description": "Gemma through the local Bend/HVM bridge.",
       "default_model_id": "gemma4:26b",
-      "transports": ["stock"],
+      "transports": [
+        "stock"
+      ],
+      "available": false
+    },
+    {
+      "id": "cursor",
+      "label": "Cursor Ultra (cursor-agent)",
+      "description": "Cursor Models pool and selected Other Models via cursor-agent -p (Ultra subscription metering).",
+      "default_model_id": "cursor-grok-4.6-high-fast",
+      "transports": [
+        "stock"
+      ],
       "available": false
     }
   ],
@@ -49,9 +70,19 @@
       "transport": "stock",
       "model_id": "gpt-5.6-sol",
       "display_name": "GPT-5.6-Sol",
-      "supported_efforts": ["low", "medium", "high", "xhigh", "max", "ultra"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
       "default_effort": "low",
-      "service_tiers": ["default", "fast"],
+      "service_tiers": [
+        "default",
+        "fast"
+      ],
       "visible": true,
       "available": false
     },
@@ -60,9 +91,19 @@
       "transport": "stock",
       "model_id": "gpt-5.6-terra",
       "display_name": "GPT-5.6-Terra",
-      "supported_efforts": ["low", "medium", "high", "xhigh", "max", "ultra"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
       "default_effort": "medium",
-      "service_tiers": ["default", "fast"],
+      "service_tiers": [
+        "default",
+        "fast"
+      ],
       "visible": true,
       "available": false
     },
@@ -71,9 +112,18 @@
       "transport": "stock",
       "model_id": "gpt-5.6-luna",
       "display_name": "GPT-5.6-Luna",
-      "supported_efforts": ["low", "medium", "high", "xhigh", "max"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
       "default_effort": "medium",
-      "service_tiers": ["default", "fast"],
+      "service_tiers": [
+        "default",
+        "fast"
+      ],
       "visible": true,
       "available": false
     },
@@ -82,9 +132,18 @@
       "transport": "stock",
       "model_id": "gpt-daybreak-blue-latest",
       "display_name": "Daybreak Blue",
-      "supported_efforts": ["low", "medium", "high", "xhigh", "max", "ultra"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
       "default_effort": "low",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -93,9 +152,18 @@
       "transport": "stock",
       "model_id": "gpt-reserve",
       "display_name": "GPT-Reserve",
-      "supported_efforts": ["low", "medium", "high", "xhigh", "max"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
       "default_effort": "medium",
-      "service_tiers": ["default", "fast"],
+      "service_tiers": [
+        "default",
+        "fast"
+      ],
       "visible": false,
       "available": false
     },
@@ -104,9 +172,17 @@
       "transport": "stock",
       "model_id": "gpt-5.5",
       "display_name": "GPT-5.5",
-      "supported_efforts": ["low", "medium", "high", "xhigh"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
       "default_effort": "medium",
-      "service_tiers": ["default", "fast"],
+      "service_tiers": [
+        "default",
+        "fast"
+      ],
       "visible": true,
       "available": false
     },
@@ -115,9 +191,17 @@
       "transport": "stock",
       "model_id": "gpt-5.4",
       "display_name": "GPT-5.4",
-      "supported_efforts": ["low", "medium", "high", "xhigh"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
       "default_effort": "medium",
-      "service_tiers": ["default", "fast"],
+      "service_tiers": [
+        "default",
+        "fast"
+      ],
       "visible": true,
       "available": false
     },
@@ -126,9 +210,16 @@
       "transport": "stock",
       "model_id": "gpt-5.4-mini",
       "display_name": "GPT-5.4-Mini",
-      "supported_efforts": ["low", "medium", "high", "xhigh"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
       "default_effort": "medium",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -137,9 +228,17 @@
       "transport": "stock",
       "model_id": "gpt-5.3-codex-spark",
       "display_name": "GPT-5.3-Codex-Spark",
-      "supported_efforts": ["low", "medium", "high", "xhigh"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default", "fast"],
+      "service_tiers": [
+        "default",
+        "fast"
+      ],
       "visible": true,
       "available": false
     },
@@ -148,9 +247,18 @@
       "transport": "stock",
       "model_id": "codex-auto-review",
       "display_name": "Codex Auto Review",
-      "supported_efforts": ["low", "medium", "high", "xhigh", "max"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
       "default_effort": "medium",
-      "service_tiers": ["default", "fast"],
+      "service_tiers": [
+        "default",
+        "fast"
+      ],
       "visible": false,
       "available": false
     },
@@ -159,9 +267,16 @@
       "transport": "stock",
       "model_id": "grok-4.6",
       "display_name": "Grok 4.6",
-      "supported_efforts": ["low", "medium", "high", "xhigh"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -170,9 +285,15 @@
       "transport": "stock",
       "model_id": "grok-4.5",
       "display_name": "Grok 4.5",
-      "supported_efforts": ["low", "medium", "high"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -182,9 +303,15 @@
       "model_id": "qwen3.8-max",
       "route": "qwen38",
       "display_name": "Qwen 3.8 Max",
-      "supported_efforts": ["low", "medium", "xhigh"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "xhigh"
+      ],
       "default_effort": "xhigh",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -194,9 +321,15 @@
       "model_id": "deepseek-v4-flash-0731",
       "route": "ds-flash",
       "display_name": "DeepSeek V4 Flash",
-      "supported_efforts": ["low", "medium", "xhigh"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "xhigh"
+      ],
       "default_effort": "low",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -206,9 +339,15 @@
       "model_id": "deepseek-v4-pro-0813",
       "route": "ds-pro",
       "display_name": "DeepSeek V4 Pro",
-      "supported_efforts": ["low", "medium", "xhigh"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "xhigh"
+      ],
       "default_effort": "medium",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -218,9 +357,15 @@
       "model_id": "kimi-k3",
       "route": "kimi",
       "display_name": "Kimi K3",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -230,9 +375,15 @@
       "model_id": "kimi-code/k3",
       "route": "kimi",
       "display_name": "Kimi K3",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -242,9 +393,15 @@
       "model_id": "kimi-k3-256k",
       "route": "kimi",
       "display_name": "Kimi K3 256k",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -254,9 +411,15 @@
       "model_id": "kimi-code/k3-256k",
       "route": "kimi",
       "display_name": "Kimi K3 256k",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -266,9 +429,15 @@
       "model_id": "kimi-for-coding",
       "route": "kimi",
       "display_name": "K2.7 Coding",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -278,9 +447,15 @@
       "model_id": "kimi-code/kimi-for-coding",
       "route": "kimi",
       "display_name": "K2.7 Coding",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -290,9 +465,10 @@
       "model_id": "kimi-for-coding-highspeed",
       "route": "kimi",
       "display_name": "K2.7 Coding Highspeed",
-      "supported_efforts": ["low", "high", "max"],
-      "default_effort": "high",
-      "service_tiers": ["default"],
+      "supported_efforts": [],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -302,9 +478,10 @@
       "model_id": "kimi-code/kimi-for-coding-highspeed",
       "route": "kimi",
       "display_name": "K2.7 Coding Highspeed",
-      "supported_efforts": ["low", "high", "max"],
-      "default_effort": "high",
-      "service_tiers": ["default"],
+      "supported_efforts": [],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -314,9 +491,15 @@
       "model_id": "kimi-k2.6",
       "route": "kimi",
       "display_name": "Kimi K2.6",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -326,9 +509,15 @@
       "model_id": "moonshotai/kimi-k2.6",
       "route": "kimi",
       "display_name": "Kimi K2.6",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -338,9 +527,15 @@
       "model_id": "kimi-k2.7-code",
       "route": "kimi",
       "display_name": "Kimi K2.7 Code",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -350,9 +545,15 @@
       "model_id": "moonshotai/kimi-k2.7-code",
       "route": "kimi",
       "display_name": "Kimi K2.7 Code",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -362,9 +563,15 @@
       "model_id": "kimi-k2.7-code-highspeed",
       "route": "kimi",
       "display_name": "Kimi K2.7 Code HighSpeed",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -374,9 +581,15 @@
       "model_id": "moonshotai/kimi-k2.7-code-highspeed",
       "route": "kimi",
       "display_name": "Kimi K2.7 Code HighSpeed",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -386,9 +599,15 @@
       "model_id": "moonshotai/kimi-k3",
       "route": "kimi",
       "display_name": "Kimi K3 (Moonshot API)",
-      "supported_efforts": ["low", "high", "max"],
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
       "default_effort": "high",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     },
@@ -397,9 +616,3988 @@
       "transport": "stock",
       "model_id": "gemma4:26b",
       "display_name": "Gemma 4 26B / HVM",
-      "supported_efforts": ["low", "medium", "high", "xhigh", "max", "ultra"],
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
       "default_effort": "medium",
-      "service_tiers": ["default"],
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-4.5-opus-high",
+      "route": "cursor",
+      "display_name": "Claude 4.5 Opus High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-4.5-opus-high-thinking",
+      "route": "cursor",
+      "display_name": "Claude 4.5 Opus High Thinking (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-4.5-sonnet",
+      "route": "cursor",
+      "display_name": "Claude 4.5 Sonnet (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-4.5-sonnet-thinking",
+      "route": "cursor",
+      "display_name": "Claude 4.5 Sonnet Thinking (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-4.6-opus-high",
+      "route": "cursor",
+      "display_name": "Claude 4.6 Opus High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-4.6-opus-high-thinking",
+      "route": "cursor",
+      "display_name": "Claude 4.6 Opus High Thinking (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-4.6-opus-max",
+      "route": "cursor",
+      "display_name": "Claude 4.6 Opus Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-4.6-opus-max-thinking",
+      "route": "cursor",
+      "display_name": "Claude 4.6 Opus Max Thinking (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-4.6-sonnet-medium",
+      "route": "cursor",
+      "display_name": "Claude 4.6 Sonnet Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-4.6-sonnet-medium-thinking",
+      "route": "cursor",
+      "display_name": "Claude 4.6 Sonnet Medium Thinking (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-4-sonnet",
+      "route": "cursor",
+      "display_name": "Claude 4 Sonnet (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-4-sonnet-thinking",
+      "route": "cursor",
+      "display_name": "Claude 4 Sonnet Thinking (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-fable-5-high",
+      "route": "cursor",
+      "display_name": "Claude Fable 5 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-fable-5-low",
+      "route": "cursor",
+      "display_name": "Claude Fable 5 Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-fable-5-max",
+      "route": "cursor",
+      "display_name": "Claude Fable 5 Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-fable-5-medium",
+      "route": "cursor",
+      "display_name": "Claude Fable 5 Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-fable-5-thinking-high",
+      "route": "cursor",
+      "display_name": "Claude Fable 5 Thinking High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-fable-5-thinking-low",
+      "route": "cursor",
+      "display_name": "Claude Fable 5 Thinking Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-fable-5-thinking-max",
+      "route": "cursor",
+      "display_name": "Claude Fable 5 Thinking Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-fable-5-thinking-medium",
+      "route": "cursor",
+      "display_name": "Claude Fable 5 Thinking Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-fable-5-thinking-xhigh",
+      "route": "cursor",
+      "display_name": "Claude Fable 5 Thinking Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-fable-5-xhigh",
+      "route": "cursor",
+      "display_name": "Claude Fable 5 Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-high",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-high-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-low",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-low-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-max",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-max-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Max Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-medium",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-medium-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-thinking-high",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Thinking High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-thinking-high-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Thinking High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-thinking-low",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Thinking Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-thinking-low-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Thinking Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-thinking-max",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Thinking Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-thinking-max-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Thinking Max Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-thinking-medium",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Thinking Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-thinking-medium-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Thinking Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-thinking-xhigh",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Thinking Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-thinking-xhigh-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Thinking Xhigh Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-xhigh",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-7-xhigh-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 7 Xhigh Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-high",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-high-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-low",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-low-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-max",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-max-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Max Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-medium",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-medium-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-thinking-high",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Thinking High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-thinking-high-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Thinking High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-thinking-low",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Thinking Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-thinking-low-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Thinking Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-thinking-max",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Thinking Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-thinking-max-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Thinking Max Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-thinking-medium",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Thinking Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-thinking-medium-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Thinking Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-thinking-xhigh",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Thinking Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-thinking-xhigh-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Thinking Xhigh Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-xhigh",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-4-8-xhigh-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 4 8 Xhigh Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-high",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-high-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-low",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-low-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-medium",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-medium-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-thinking-high",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Thinking High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-thinking-high-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Thinking High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-thinking-low",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Thinking Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-thinking-low-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Thinking Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-thinking-max",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Thinking Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-thinking-max-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Thinking Max Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-thinking-medium",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Thinking Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-thinking-medium-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Thinking Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-thinking-xhigh",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Thinking Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-opus-5-thinking-xhigh-fast",
+      "route": "cursor",
+      "display_name": "Claude Opus 5 Thinking Xhigh Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-sonnet-5-high",
+      "route": "cursor",
+      "display_name": "Claude Sonnet 5 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-sonnet-5-low",
+      "route": "cursor",
+      "display_name": "Claude Sonnet 5 Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-sonnet-5-max",
+      "route": "cursor",
+      "display_name": "Claude Sonnet 5 Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-sonnet-5-medium",
+      "route": "cursor",
+      "display_name": "Claude Sonnet 5 Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-sonnet-5-thinking-high",
+      "route": "cursor",
+      "display_name": "Claude Sonnet 5 Thinking High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-sonnet-5-thinking-low",
+      "route": "cursor",
+      "display_name": "Claude Sonnet 5 Thinking Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-sonnet-5-thinking-max",
+      "route": "cursor",
+      "display_name": "Claude Sonnet 5 Thinking Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-sonnet-5-thinking-medium",
+      "route": "cursor",
+      "display_name": "Claude Sonnet 5 Thinking Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-sonnet-5-thinking-xhigh",
+      "route": "cursor",
+      "display_name": "Claude Sonnet 5 Thinking Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "claude-sonnet-5-xhigh",
+      "route": "cursor",
+      "display_name": "Claude Sonnet 5 Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "composer-2.5",
+      "route": "cursor",
+      "display_name": "Composer 2.5 (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "composer-2.5-fast",
+      "route": "cursor",
+      "display_name": "Composer 2.5 Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.5-high",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.5 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.5-high-fast",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.5 High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.5-low",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.5 Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.5-low-fast",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.5 Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.5-medium",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.5 Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.5-medium-fast",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.5 Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.6-high",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.6 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.6-high-fast",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.6 High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.6-low",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.6 Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.6-low-fast",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.6 Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.6-medium",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.6 Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.6-medium-fast",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.6 Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.6-xhigh",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.6 Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "cursor-grok-4.6-xhigh-fast",
+      "route": "cursor",
+      "display_name": "Cursor Grok 4.6 Xhigh Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gemini-3.1-pro",
+      "route": "cursor",
+      "display_name": "Gemini 3.1 Pro (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gemini-3.5-flash",
+      "route": "cursor",
+      "display_name": "Gemini 3.5 Flash (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gemini-3.6-flash-high",
+      "route": "cursor",
+      "display_name": "Gemini 3.6 Flash High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gemini-3.6-flash-low",
+      "route": "cursor",
+      "display_name": "Gemini 3.6 Flash Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gemini-3.6-flash-medium",
+      "route": "cursor",
+      "display_name": "Gemini 3.6 Flash Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gemini-3.6-flash-minimal",
+      "route": "cursor",
+      "display_name": "Gemini 3.6 Flash Minimal (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gemini-3.7-flash-high",
+      "route": "cursor",
+      "display_name": "Gemini 3.7 Flash High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gemini-3.7-flash-low",
+      "route": "cursor",
+      "display_name": "Gemini 3.7 Flash Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gemini-3.7-flash-medium",
+      "route": "cursor",
+      "display_name": "Gemini 3.7 Flash Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gemini-3-flash",
+      "route": "cursor",
+      "display_name": "Gemini 3 Flash (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "glm-5.2-high",
+      "route": "cursor",
+      "display_name": "Glm 5.2 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "glm-5.2-max",
+      "route": "cursor",
+      "display_name": "Glm 5.2 Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.1",
+      "route": "cursor",
+      "display_name": "Gpt 5.1 (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.1-high",
+      "route": "cursor",
+      "display_name": "Gpt 5.1 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.1-low",
+      "route": "cursor",
+      "display_name": "Gpt 5.1 Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.2",
+      "route": "cursor",
+      "display_name": "Gpt 5.2 (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.2-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.2 Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.2-high",
+      "route": "cursor",
+      "display_name": "Gpt 5.2 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.2-high-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.2 High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.2-low",
+      "route": "cursor",
+      "display_name": "Gpt 5.2 Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.2-low-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.2 Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.2-xhigh",
+      "route": "cursor",
+      "display_name": "Gpt 5.2 Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.2-xhigh-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.2 Xhigh Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.3-codex",
+      "route": "cursor",
+      "display_name": "Gpt 5.3 Codex (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.3-codex-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.3 Codex Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.3-codex-high",
+      "route": "cursor",
+      "display_name": "Gpt 5.3 Codex High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.3-codex-high-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.3 Codex High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.3-codex-low",
+      "route": "cursor",
+      "display_name": "Gpt 5.3 Codex Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.3-codex-low-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.3 Codex Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.3-codex-xhigh",
+      "route": "cursor",
+      "display_name": "Gpt 5.3 Codex Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.3-codex-xhigh-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.3 Codex Xhigh Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-high",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-high-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-low",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-medium",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-medium-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-mini-high",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Mini High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-mini-low",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Mini Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-mini-medium",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Mini Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-mini-none",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Mini None (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-mini-xhigh",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Mini Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-nano-high",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Nano High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-nano-low",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Nano Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-nano-medium",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Nano Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-nano-none",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Nano None (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-nano-xhigh",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Nano Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-xhigh",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.4-xhigh-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.4 Xhigh Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.5-extra-high",
+      "route": "cursor",
+      "display_name": "Gpt 5.5 Extra High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.5-extra-high-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.5 Extra High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.5-high",
+      "route": "cursor",
+      "display_name": "Gpt 5.5 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.5-high-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.5 High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.5-low",
+      "route": "cursor",
+      "display_name": "Gpt 5.5 Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.5-low-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.5 Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.5-medium",
+      "route": "cursor",
+      "display_name": "Gpt 5.5 Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.5-medium-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.5 Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.5-none",
+      "route": "cursor",
+      "display_name": "Gpt 5.5 None (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.5-none-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.5 None Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna-high",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Luna High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna-high-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Luna High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna-low",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Luna Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna-low-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Luna Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna-max",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Luna Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna-max-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Luna Max Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna-medium",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Luna Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna-medium-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Luna Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna-none",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Luna None (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna-none-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Luna None Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna-xhigh",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Luna Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-luna-xhigh-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Luna Xhigh Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol-high",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Sol High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "default_effort": "low",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol-high-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Sol High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "default_effort": "low",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol-low",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Sol Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "default_effort": "low",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol-low-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Sol Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "default_effort": "low",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol-max",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Sol Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "default_effort": "low",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol-max-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Sol Max Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "default_effort": "low",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol-medium",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Sol Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "default_effort": "low",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol-medium-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Sol Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "default_effort": "low",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol-none",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Sol None (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "default_effort": "low",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol-none-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Sol None Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "default_effort": "low",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol-xhigh",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Sol Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "default_effort": "low",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-sol-xhigh-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Sol Xhigh Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "default_effort": "low",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra-high",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Terra High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra-high-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Terra High Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra-low",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Terra Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra-low-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Terra Low Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra-max",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Terra Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra-max-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Terra Max Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra-medium",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Terra Medium (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra-medium-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Terra Medium Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra-none",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Terra None (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra-none-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Terra None Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra-xhigh",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Terra Xhigh (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5.6-terra-xhigh-fast",
+      "route": "cursor",
+      "display_name": "Gpt 5.6 Terra Xhigh Fast (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "gpt-5-mini",
+      "route": "cursor",
+      "display_name": "Gpt 5 Mini (Cursor)",
+      "supported_efforts": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "default_effort": "medium",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "kimi-k2.7-code",
+      "route": "cursor",
+      "display_name": "Kimi K2.7 Code (Cursor)",
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "kimi-k3-high",
+      "route": "cursor",
+      "display_name": "Kimi K3 High (Cursor)",
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "kimi-k3-low",
+      "route": "cursor",
+      "display_name": "Kimi K3 Low (Cursor)",
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
+      "visible": true,
+      "available": false
+    },
+    {
+      "provider": "cursor",
+      "transport": "stock",
+      "model_id": "kimi-k3-max",
+      "route": "cursor",
+      "display_name": "Kimi K3 Max (Cursor)",
+      "supported_efforts": [
+        "low",
+        "high",
+        "max"
+      ],
+      "default_effort": "high",
+      "service_tiers": [
+        "default"
+      ],
       "visible": true,
       "available": false
     }

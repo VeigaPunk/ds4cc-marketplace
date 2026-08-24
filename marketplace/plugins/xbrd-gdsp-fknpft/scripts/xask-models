@@ -30,6 +30,7 @@ grok_available=false
 local_available=false
 sekhmet_available=false
 moonshot_available=false
+cursor_available=false
 tp_qwen_available=false
 tp_ds_flash_available=false
 tp_ds_pro_available=false
@@ -52,6 +53,7 @@ command -v gemma-hvm >/dev/null 2>&1 \
 command -v sekhmet >/dev/null 2>&1 && sekhmet_available=true
 # Moonshot kimi lane rides the Kimi Code CLI (OAuth or API-key provider inside it).
 command -v kimi >/dev/null 2>&1 && moonshot_available=true
+command -v cursor-agent >/dev/null 2>&1 && cursor_available=true
 
 catalog=$(jq -c \
   --argjson chatgpt_stock "$chatgpt_stock_available" \
@@ -59,6 +61,7 @@ catalog=$(jq -c \
   --argjson local "$local_available" \
   --argjson sekhmet "$sekhmet_available" \
   --argjson moonshot "$moonshot_available" \
+  --argjson cursor "$cursor_available" \
   --argjson tp_qwen "$tp_qwen_available" \
   --argjson tp_ds_flash "$tp_ds_flash_available" \
   --argjson tp_ds_pro "$tp_ds_pro_available" '
@@ -73,6 +76,7 @@ catalog=$(jq -c \
         "deepseek-v4-pro-0813": $tp_ds_pro
       },
       moonshot: $moonshot,
+      cursor: $cursor,
       local: $local,
       sekhmet: $sekhmet
     }
