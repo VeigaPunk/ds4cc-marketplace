@@ -3,15 +3,23 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>DS4CC — 18 plugins for four supported agent CLIs</title>
-<meta name="description" content="DS4CC Marketplace: 18 curated Rust-validated plugins with host-specific guidance for Grok Build, Codex, Kimi Code CLI and OpenCode." />
-<meta property="og:title" content="DS4CC Marketplace — four supported agent CLIs" />
-<meta property="og:description" content="18 curated plugins with host-specific install guidance for Grok, Codex, Kimi and OpenCode." />
+<title>DS4CC — ship-ready agent software, distributed plainly</title>
+<meta name="description" content="DS4CC is the distribution and reading home for refined agent software: raw local installs first, curated marketplace packages, visual tools, and operator notes." />
+<meta property="og:title" content="DS4CC — ship-ready agent software" />
+<meta property="og:description" content="Raw local installs first. Curated marketplace packages, visual tools, and operator notes when they are ready to ship." />
 <meta property="og:url" content="https://ds4cc.com/" />
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary" />
 <meta name="theme-color" content="#050605" />
-<script>document.documentElement.classList.add('js');</script>
+<link rel="icon" type="image/svg+xml" href="burnerchrome/favicon.svg" />
+<script>
+document.documentElement.classList.add('js');
+try {
+  if (localStorage.getItem('ds4cc-rinnegan') === '1') {
+    document.documentElement.classList.add('rinnegan');
+  }
+} catch (_) {}
+</script>
 <style>
 @font-face {
   font-family: "JetBrainsMonoNL";
@@ -73,6 +81,12 @@ a { color: var(--green); text-decoration: none; }
 a:hover { text-decoration: underline; }
 code { color: var(--code); }
 :focus-visible { outline: 2px solid var(--green); outline-offset: 2px; }
+.skip {
+  position: fixed; top: 8px; left: 8px; z-index: 100;
+  transform: translateY(-160%); padding: 8px 12px;
+  background: var(--green); color: #000; border-radius: 4px;
+}
+.skip:focus { transform: none; }
 
 .page { max-width: 1120px; margin: 0 auto; padding: 0 16px 90px; }
 
@@ -99,6 +113,27 @@ nav {
   padding: 5px 10px; font-size: 0.78rem; border-radius: 4px;
 }
 .nav-cta:hover { background: #51ff0022; text-decoration: none; }
+.rinnegan-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: #000; color: var(--muted); border: 1px solid var(--border2);
+  padding: 5px 10px; font-family: inherit; font-size: 0.74rem;
+  letter-spacing: 0.04em; border-radius: 4px; cursor: pointer;
+}
+.rinnegan-btn:hover { color: #c9a0ff; border-color: #7b4dff; text-decoration: none; }
+.rinnegan-btn .eye {
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 1.5px solid currentColor; position: relative; flex: none;
+  box-shadow: inset 0 0 0 2px transparent;
+  background:
+    radial-gradient(circle at 50% 50%, currentColor 0 1.4px, transparent 1.5px),
+    radial-gradient(circle at 50% 50%, transparent 3px, currentColor 3.2px 3.8px, transparent 4px),
+    radial-gradient(circle at 50% 50%, transparent 5.2px, currentColor 5.4px 6px, transparent 6.2px);
+}
+html.rinnegan .rinnegan-btn {
+  color: #e8d6ff; border-color: #9b6dff;
+  box-shadow: 0 0 14px rgba(123, 77, 255, 0.28);
+}
+html.rinnegan .rinnegan-btn .eye { color: #c9a0ff; }
 .nav-toggle {
   display: none; margin-left: auto;
   background: #000; color: var(--muted); border: 1px solid var(--border2);
@@ -283,12 +318,13 @@ header.hero { padding: 34px 0 8px; }
   background: var(--green); color: #000; border-color: var(--green); font-weight: 700;
   box-shadow: 0 0 10px rgba(81,255,0,0.25);
 }
-.plugins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-@media (max-width: 940px) { .plugins { grid-template-columns: repeat(2, 1fr); } }
+.plugins { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 940px) { .plugins { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 620px) { .plugins { grid-template-columns: 1fr; } }
 .plug {
   background: var(--panel); border: 1px solid var(--border); border-left: 3px solid var(--border2);
   border-radius: 6px; padding: 12px 14px; display: flex; flex-direction: column; gap: 8px;
+  min-width: 0;
   transition: border-color 160ms linear, transform 160ms linear, box-shadow 160ms linear;
 }
 .plug:hover {
@@ -316,10 +352,10 @@ header.hero { padding: 34px 0 8px; }
 .plug-src:hover { color: var(--green); }
 
 /* ---------- install panels ---------- */
-.hosts { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.hosts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 860px) { .hosts { grid-template-columns: 1fr; } }
 .host {
-  background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px;
+  min-width: 0; background: var(--panel); border: 1px solid var(--border); border-radius: 8px; padding: 14px 16px;
 }
 .host h3 {
   margin: 0 0 4px; font-size: 0.95rem; color: var(--fg);
@@ -330,6 +366,7 @@ header.hero { padding: 34px 0 8px; }
   padding: 1px 6px; border-radius: 3px; letter-spacing: 0.06em;
 }
 .host .note { font-size: 0.78rem; color: var(--muted); margin: 6px 0 0; line-height: 1.55; }
+.host .note code { overflow-wrap: anywhere; word-break: break-word; }
 .host pre { position: relative; }
 .host .copy-btn {
   position: absolute; top: 8px; right: 8px; padding: 4px 10px;
@@ -337,10 +374,11 @@ header.hero { padding: 34px 0 8px; }
 }
 
 /* ---------- app / validator ---------- */
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.grid-2 > * { min-width: 0; }
 @media (max-width: 860px) {
-  .grid-2 { grid-template-columns: 1fr; }
-  .grid-2[style*="1fr 1fr 1fr"] { grid-template-columns: 1fr !important; }
+  .grid-2 { grid-template-columns: minmax(0, 1fr); }
+  .grid-2[style*="1fr 1fr 1fr"] { grid-template-columns: minmax(0, 1fr) !important; }
 }
 .kv { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
 .ok-chip {
@@ -364,6 +402,78 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 /* ---------- reveal ---------- */
 .js .reveal { opacity: 0; transform: translateY(12px); transition: opacity 420ms ease, transform 420ms ease; }
 .js .reveal.in { opacity: 1; transform: none; }
+/* ---------- rinnegan reading mode ---------- */
+html.rinnegan {
+  --bg: #0b0910;
+  --panel: #14111a;
+  --panel2: #1a1622;
+  --fg: #f2eef8;
+  --body: #d8d0e4;
+  --muted: #9a90ab;
+  --green: #c9a0ff;
+  --green-dim: #9b6dff;
+  --cyan: #b8a0ff;
+  --border: #2a2436;
+  --border2: #3a3148;
+  --rule: #221c2c;
+  --code: #e4d0ff;
+}
+html.rinnegan body {
+  background:
+    radial-gradient(circle at 82% 12%, rgba(155, 109, 255, 0.14), transparent 28%),
+    radial-gradient(circle at 18% 78%, rgba(90, 40, 180, 0.12), transparent 34%),
+    var(--bg);
+}
+html.rinnegan .page {
+  max-width: 44rem;
+  padding-bottom: 120px;
+}
+html.rinnegan p,
+html.rinnegan li,
+html.rinnegan .sub,
+html.rinnegan .note {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: var(--body);
+}
+html.rinnegan h2 {
+  letter-spacing: 0.01em;
+  text-shadow: none;
+  margin-bottom: 10px;
+}
+html.rinnegan .brand b,
+html.rinnegan .badge,
+html.rinnegan .btn.solid {
+  text-shadow: none;
+  box-shadow: none;
+}
+html.rinnegan .ascii,
+html.rinnegan .hero-chips,
+html.rinnegan #demo,
+html.rinnegan .term-wrap {
+  display: none !important;
+}
+html.rinnegan header.hero {
+  padding-top: 28px;
+}
+html.rinnegan .badge {
+  background: #000;
+  color: #c9a0ff;
+  border: 1px solid #7b4dff;
+}
+html.rinnegan .badge.dark,
+html.rinnegan .badge.cyan {
+  color: #e8d6ff;
+  border-color: #9b6dff;
+}
+html.rinnegan nav {
+  border-bottom-color: rgba(155, 109, 255, 0.25);
+}
+html.rinnegan ::selection {
+  background: #9b6dff;
+  color: #fff;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .js .reveal { opacity: 1; transform: none; transition: none; }
   html { scroll-behavior: auto; }
@@ -372,16 +482,18 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 </style>
 </head>
 <body>
+<a class="skip" href="#top">Skip to content</a>
 <nav>
   <div class="nav-inner">
     <a class="brand" href="#top"><b>DS4CC</b> <span>// marketplace</span></a>
     <button type="button" class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">menu</button>
     <div class="nav-links" id="navLinks">
+      <a href="./xbgst.html">xbgst</a>
       <a href="#demo">demo</a>
       <a href="#plugins">plugins</a>
       <a href="#agent-pip">agent-pip</a>
       <a href="#install">install</a>
-      <a href="#app">chatgpt app</a>
+      <a href="#app">optional app</a>
       <a href="#validator">validator</a>
       <a href="#curation">curation</a>
       <a href="#modelstudio">model studio</a>
@@ -392,6 +504,10 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
       <a href="./omegag/">omegaG</a>
       <a href="./burnerchrome/">burnerchrome</a>
       <a href="#lanes">lanes</a>
+      <button type="button" class="rinnegan-btn" id="rinneganBtn" aria-pressed="false" title="Toggle reading mode">
+        <span class="eye" aria-hidden="true"></span>
+        <span class="rinnegan-label">rinnegan [off]</span>
+      </button>
       <a class="nav-cta" href="https://github.com/VeigaPunk/ds4cc-marketplace" target="_blank" rel="noopener">GITHUB ↗</a>
     </div>
   </div>
@@ -401,6 +517,7 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 
   <header class="hero">
     <div>
+      <span class="badge">ship-ready distribution</span>
       <span class="badge">18 plugins</span>
       <span class="badge dark">4 agent CLIs</span>
       <span class="badge dark">rust-validated</span>
@@ -414,12 +531,13 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
 ██████╔╝ ███████║      ██║ ╚██████╗ ╚██████╗
 ╚═════╝  ╚══════╝      ╚═╝  ╚═════╝  ╚═════╝
 </pre>
-    <h1>One marketplace. <em>Four supported agent CLIs.</em></h1>
+    <h1>Ship-ready artifacts. <em>One distribution home.</em></h1>
     <p class="tagline">
-      Static plugin payloads for <strong>Grok Build</strong>, <strong>Codex</strong>, <strong>Kimi Code CLI</strong>,
-      and a dependency-free bootstrap for <strong>OpenCode</strong>. Register one repo, install what you need, ship.
+      When an agent tool is refined enough to ship, it lands on DS4CC to install, inspect, or read.
+      Raw local paths come first; marketplace packages support <strong>Grok Build</strong>, <strong>Codex</strong>,
+      <strong>Kimi Code CLI</strong>, and <strong>OpenCode</strong> without turning the stack into a bridge zoo.
     </p>
-    <div class="hero-row">
+    <div class="hero-row hero-chips">
       <span class="chip"><span class="dot"></span> all 18 plugins available</span>
       <span class="chip amber"><span class="dot"></span> curation-gated</span>
       <span class="chip"><span class="dot"></span> Titanium L3 substrate</span>
@@ -427,13 +545,39 @@ footer b { color: var(--body); display: block; margin-bottom: 4px; font-size: 0.
     </div>
     <div class="hero-row">
       <div class="oneliner">
-        <code><span class="p">$</span> grok plugin marketplace add VeigaPunk/ds4cc-marketplace</code>
-        <button type="button" class="copy-btn" data-copy="grok plugin marketplace add VeigaPunk/ds4cc-marketplace">COPY</button>
+        <code><span class="p">$</span> curl -fsSL https://raw.githubusercontent.com/VeigaPunk/grok-marketplace/main/scripts/install-xbgst-codex.sh | bash</code>
+        <button type="button" class="copy-btn" data-copy="curl -fsSL https://raw.githubusercontent.com/VeigaPunk/grok-marketplace/main/scripts/install-xbgst-codex.sh | bash">COPY</button>
       </div>
-      <a class="btn solid" href="#plugins">BROWSE PLUGINS</a>
+      <a class="btn solid" href="./xbgst.html">INSTALL XBGST FOR CODEX →</a>
+      <a class="btn" href="#plugins">BROWSE PLUGINS</a>
       <a class="btn" href="https://github.com/VeigaPunk/ds4cc-marketplace/blob/main/GROK_PASTE.md" target="_blank" rel="noopener">NON-CLI GROK CHAT FALLBACK ↗</a>
     </div>
   </header>
+
+  <section id="ship-ready" class="reveal">
+    <h2><span class="idx">00</span>New release · XBGST for Codex</h2>
+    <p class="sub">The Grok-proven orchestration stack is now packaged for a raw local Codex install. WWKD and the shared XBGST contract remain the core; native Codex delegation does the work.</p>
+    <div class="grid-2">
+      <div class="panel" style="padding:14px 16px;border-color:var(--green)">
+        <div class="kv" style="margin-top:0">
+          <span class="ok-chip">local first</span>
+          <span class="ok-chip">one paste</span>
+          <span class="ok-chip">anti-bloat</span>
+        </div>
+        <h3 style="margin-top:8px;font-size:0.95rem">The complete, inspectable path</h3>
+        <p>Install the Codex marketplace package locally, use <code>xask</code> as a CLI protocol when cross-provider consultation is useful, and keep implementation in native Codex agents. No MCP bridge is required.</p>
+        <p style="margin-bottom:0"><a class="btn solid" href="./xbgst.html">READ + INSTALL XBGST →</a></p>
+      </div>
+      <div class="panel" style="padding:14px 16px">
+        <h3 style="margin-top:0;font-size:0.95rem">Visual delegation, without a hidden hop</h3>
+        <p>The standalone Burnerchrome-style planner exports provider, model, substrate, effort, and tier into a shell-safe <code>xask plan</code> command, with canonical Godspeed fixed as an invariant. It does not invoke your CLI or send the task anywhere.</p>
+        <p style="margin-bottom:0"><a class="btn" href="./burnerchrome/delegate.html">OPEN DELEGATION PLANNER →</a></p>
+      </div>
+    </div>
+    <div class="callout amber">
+      <strong>Optional means optional:</strong> the MCP / ChatGPT companion is a secondary adapter for people who deliberately enable it. It is not the install path, not a runtime dependency, and not a claim of publication in the public ChatGPT app directory.
+    </div>
+  </section>
 
   <section id="demo" class="reveal">
     <h2><span class="idx">01</span>Pick your host — watch it install</h2>
@@ -580,8 +724,8 @@ done</pre>
   </section>
 
   <section id="app" class="reveal">
-    <h2><span class="idx">05</span>ChatGPT app — app.ds4cc.com</h2>
-    <p class="sub">A read-only Apps SDK wrapper exposes a reviewed subset of the catalog through a production MCP endpoint with an embedded catalog widget.</p>
+    <h2><span class="idx">05</span>Optional ChatGPT companion — app.ds4cc.com</h2>
+    <p class="sub">A secondary, opt-in Apps SDK wrapper exposes a reviewed read-only subset of the catalog. Raw local installs remain the primary DS4CC path; this bridge is never required for XBGST.</p>
     <div class="grid-2">
       <div class="panel" style="padding:14px 16px">
         <h3 style="margin-top:0;font-size:0.95rem">MCP endpoint</h3>
@@ -589,7 +733,7 @@ done</pre>
           <code><span class="p">›</span> https://app.ds4cc.com/mcp</code>
           <button type="button" class="copy-btn" data-copy="https://app.ds4cc.com/mcp">COPY</button>
         </div>
-        <p>Scoped to an explicitly reviewed, read-only tool surface with required annotations and widget CSP/domain metadata. It is <em>not</em> the public 18-plugin marketplace.</p>
+        <p>Scoped to an explicitly reviewed, read-only tool surface with required annotations and widget CSP/domain metadata. It is <em>not</em> the public 18-plugin marketplace, and this page makes no claim that it is published in the public ChatGPT app directory.</p>
         <div class="kv">
           <span class="ok-chip">read-only</span>
           <span class="ok-chip">reviewed subset</span>
@@ -811,18 +955,18 @@ the-scribe           sonnet · medium
 the-netsshark        host extension</pre>
     <h3>Execution gates</h3>
 <pre>planner              wwkd · native
-scout / labrat / executor xask --spark --gs codex → gpt-5.4-mini
-reviewer             xask --gpt55 --gs -e low codex → gpt-5.6-sol (+ fast_mode)
+scout / labrat / executor xask --spark --gs codex → gpt-5.3-codex-spark
+reviewer             xask --gpt55 --gs -e low codex → gpt-5.6-sol (default tier)
 critic               Layer-0: heuer-planning → xask --gpt55 --gs -e low codex → gpt-5.6-sol
 revenger RECON       xask --gpt55 --gs -e high codex → gpt-5.6-sol
 sentinel             xask --gpt55 --gs -e low codex → gpt-5.6-sol
-connector            xask --spark codex · no --gs
+connector            xask --spark --gs codex → gpt-5.3-codex-spark
 mutation: single / <=4 xask --spark --gs codex
 mutation: >=5 / breadth xask --effort high --gs codex
 distiller / simplifier / scribe native</pre>
-    <p class="note">Codex Sol lanes use <code>features.fast_mode=true</code> + reasoning=low. Spark lanes resolve to <code>gpt-5.4-mini</code>. Teammate prefixes: <code>ccs-</code> sonnet, <code>cco-</code> fable 5 (judge), <code>cdx-</code> codex, <code>g-</code> local Gemma/HVM.</p>
+    <p class="note">Codex Sol lanes use explicit reasoning and the neutral default service tier; fast is opt-in. Spark lanes resolve through Sekhmet to <code>gpt-5.3-codex-spark</code> (fallback <code>gpt-5.6-luna</code>). Teammate prefixes: <code>ccs-</code> sonnet, <code>cco-</code> fable 5 (judge), <code>cdx-</code> codex, <code>g-</code> local Gemma/HVM.</p>
     <h3>Local lane — Gemma 4 over HVM4</h3>
-    <p><code>xask gemma</code> (aliases <code>g</code>, legacy <code>gemini</code>) dispatches through <code>xbreed ask gemma</code> → <code>gemma-hvm</code> → <code>run.sh/run-hvm4.sh</code> → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama. Default model <code>gemma4:26b</code> via <code>HVM_GEMMA_MODEL</code>. Cloud Gemini CLI is retired — do not call the <code>gemini</code> binary. Any <code>g-*</code> teammate (and connector when routing local breadth) MUST use this lane — not the retired cloud Gemini path.</p>
+    <p><code>xask --gs gemma</code> (aliases <code>g</code>, legacy <code>gemini</code>) dispatches through <code>xbreed ask gemma</code> → <code>gemma-hvm</code> → <code>run.sh/run-hvm4.sh</code> → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama. Default model <code>gemma4:26b</code> via <code>HVM_GEMMA_MODEL</code>. Cloud Gemini CLI is retired — do not call the <code>gemini</code> binary. Any <code>g-*</code> teammate (and connector when routing local breadth) MUST use this lane — not the retired cloud Gemini path.</p>
     <p class="note">Ollama/Gemma 4 is the serving substrate. HVM4 controls routing only; tensor inference is not claimed to run in HVM4.</p>
   </section>
 
@@ -852,7 +996,9 @@ distiller / simplifier / scribe native</pre>
         <a href="https://github.com/VeigaPunk/xbrd-selector" target="_blank" rel="noopener">xbrd-selector</a>
       </div>
       <div>
-        <b>app & site</b>
+        <b>distribution & optional app</b>
+        <a href="./xbgst.html">XBGST for Codex</a> · local-first install<br/>
+        <a href="./burnerchrome/delegate.html">delegation planner</a> · copy-only<br/>
         <a href="https://app.ds4cc.com/mcp" target="_blank" rel="noopener">app.ds4cc.com/mcp</a><br/>
         <a href="https://app.ds4cc.com/privacy" target="_blank" rel="noopener">privacy</a> ·
         <a href="https://app.ds4cc.com/terms" target="_blank" rel="noopener">terms</a> ·
@@ -864,7 +1010,7 @@ distiller / simplifier / scribe native</pre>
     <p class="note">Disclosure: <a href="https://www.kimi.com/activities/invite/share?scenario=invite&amp;from=share_poster&amp;invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">the Kimi invite link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
     <p class="note">Disclosure: <a href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">the OpenCode link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
     <p class="note">Disclosure: <a href="https://www.alibabacloud.com/campaign/benefits?referral_code=A927SY" target="_blank" rel="sponsored nofollow noopener">the Alibaba Cloud benefits campaign link</a> (Model Studio / intl benefits, code <code>A927SY</code>) is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
-    <div>DS4CC · VeigaPunk · MIT License · shipped 2026-07-29 · updated 2026-08-14</div>
+    <div>DS4CC · VeigaPunk · MIT License · shipped 2026-07-29 · updated 2026-08-21</div>
     <div>Design language: <a href="https://veigapunk.github.io/horizon-halo-comma-design/" target="_blank" rel="noopener">Horizon Halo</a> — green console, JetBrainsMonoNL Nerd Font.</div>
   </footer>
 </div>
@@ -891,9 +1037,28 @@ distiller / simplifier / scribe native</pre>
     });
   }
 
+  // rinnegan reading mode
+  const rinneganBtn = document.getElementById("rinneganBtn");
+  const rinneganLabel = rinneganBtn && rinneganBtn.querySelector(".rinnegan-label");
+  function syncRinnegan() {
+    const on = document.documentElement.classList.contains("rinnegan");
+    if (rinneganBtn) {
+      rinneganBtn.setAttribute("aria-pressed", on ? "true" : "false");
+      if (rinneganLabel) rinneganLabel.textContent = on ? "rinnegan [on]" : "rinnegan [off]";
+    }
+  }
+  syncRinnegan();
+  if (rinneganBtn) {
+    rinneganBtn.addEventListener("click", () => {
+      const on = document.documentElement.classList.toggle("rinnegan");
+      try { localStorage.setItem("ds4cc-rinnegan", on ? "1" : "0"); } catch (_) {}
+      syncRinnegan();
+    });
+  }
+
   const REPO = "https://github.com/VeigaPunk/ds4cc-marketplace";
   const PLUGINS = [
-    { n: "aaronplug", v: "0.3.0", cat: "research", d: "Academic paper retrieval across arXiv, Semantic Scholar and Sci-Hub.", c: 'npx @veigapunk/aaron papers search "..."' },
+    { n: "aaronplug", v: "0.4.0", cat: "research", d: "Academic paper retrieval across arXiv, Semantic Scholar and Sci-Hub.", c: 'npx @veigapunk/aaron papers search "..."' },
     { n: "ds4cc", v: "0.3.0", cat: "meta", d: "Marketplace meta-plugin — discover/install plugins and run ds4cc/orch mode.", c: "codex plugin marketplace add VeigaPunk/ds4cc-marketplace" },
     { n: "godspeed-codex-command", v: "0.2.0", cat: "commands", d: "Command-mode bootstrap & Codex posture controls.", c: "bash ./scripts/install-commands.sh" },
     { n: "godspeed-core", v: "0.2.0", cat: "orchestration", d: "Adaptive execution doctrine & Pareto walk policy for long tasks.", c: 'codex "godspeed: <task>"' },
@@ -903,9 +1068,9 @@ distiller / simplifier / scribe native</pre>
     { n: "mycommands", v: "0.2.0", cat: "commands", d: "Reusable command packs & shell routines, ready to exec.", c: 'codex "Use the installed command pack for this task"' },
     { n: "myskills", v: "0.2.0", cat: "skills", d: "Curated skill inventory & workflow helpers, discoverable in-session.", c: "Open the Codex TUI and use /skills" },
     { n: "spoderman", v: "0.2.0", cat: "security", d: "Attack harness & hook safety research for agent runtimes.", c: "bash ./spoderman validate --hooks" },
-    { n: "the-almanacker", v: "0.2.1", cat: "adapters", d: "Gemini Notebook / NotebookLM adapter (deep-dive audio, sources, studio).", c: "almanack create "…" && almanack studio audio deep-dive --length long "…"" },
+    { n: "the-almanacker", v: "0.2.1", cat: "adapters", d: "Gemini Notebook / NotebookLM adapter (deep-dive audio, sources, studio).", c: 'almanack create "…" && almanack studio audio deep-dive --length long "…"' },
     { n: "the-kimiraikoner", v: "0.1.0", cat: "adapters", d: "Kimi web UI adapter (agent-browser / CDP).", c: "agent-browser session --host kimi" },
-    { n: "the-musketeer", v: "0.3.1", cat: "adapters", d: "Grok web UI adapter — Expert/Fast/Heavy, Imagine, Automations (CDP).", c: "grok-web "…"  # GROK_MODE=Expert" },
+    { n: "the-musketeer", v: "0.3.1", cat: "adapters", d: "Grok web UI adapter — Expert/Fast/Heavy, Imagine, Automations (CDP).", c: 'grok-web "…"  # GROK_MODE=Expert' },
     { n: "the-netsshark", v: "0.2.0", cat: "network", d: "Empirical DNS, routing, proxy, firewall, MTU, and connectivity audits.", c: 'codex "Use the-netsshark skill"' },
     { n: "the-puppeteer", v: "0.2.1", cat: "adapters", d: "ChatGPT web UI bridge — Pro, Chat/Work, tools, fire-and-forget (CDP).", c: 'chitchat --new-chat "..."' },
     { n: "sekhmet", v: "0.1.1", cat: "swarm", d: "Always-available Codex Titanium swarm (xbreed L3). Up to 64 concurrent runners.", c: "sekhmet swarm --direct -j 64 --tasks-file tasks.txt" },
