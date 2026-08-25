@@ -1092,11 +1092,20 @@ distiller / simplifier / scribe native</pre>
 
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 
+  const RINNEGAN_HIDE = new Set([
+    "spoderman",       // attack-harness research — not a ship-ready install path
+    "xbrd-selector",   // docs-only husk; no binary in the package
+    "infinizoom",      // viz toy / QA demo, thinnest skill surface
+    "myskills",        // thin meta stub over external skill packs
+    "mycommands",      // thin meta stub over external command packs
+    "godspeed-codex-command", // bootstrap stub only (~0.5KB skill)
+  ]);
+
   function filtered() {
     const q = (filter.value || "").trim().toLowerCase();
     const rinneganOn = document.documentElement.classList.contains("rinnegan");
     return PLUGINS.filter(p => {
-      if (rinneganOn && p.n === "spoderman") return false;
+      if (rinneganOn && RINNEGAN_HIDE.has(p.n)) return false;
       const catOk = activeCat === "all" || (p.cat || "tools") === activeCat;
       if (!catOk) return false;
       if (!q) return true;
