@@ -1,0 +1,28 @@
+{
+  "id": "cursor-ultra-kimi-k3-max-usage-limit-1515-probe-2026-08-25",
+  "ts": "2026-08-25T22:54:51Z",
+  "source": "monitor live probe \u00b7 cursor-agent --model kimi-k3-max -p",
+  "model": "Kimi K3 Max",
+  "mode": "Run Everything",
+  "prompt": "hello kimi my love",
+  "error": "You've hit your usage limit",
+  "ultra_api_savings_usd_this_month": 1515,
+  "chat_message": "You've saved $1515 on API model usage this month with Ultra. Switch to a different model or set a Spend Limit to continue with this model. Your usage limits will reset when your monthly cycle ends on 9/18/2026.",
+  "spendLimitHit": false,
+  "spendLimits": [
+    50,
+    100,
+    200
+  ],
+  "fallbackModel": null,
+  "monthly_cycle_reset": "2026-09-18",
+  "plan_price_usd": 200,
+  "api_credit_multiple_vs_plan": 7.58,
+  "operator_note": "Paid Cursor Ultra (gravy train) OAuth \u2014 not a grant. Fail-as-data: how much a $200 Ultra is worth in API credits on this doom-loop oneshot. SuperGrok Heavy remains grant (incl. for free).",
+  "product": "Cursor Ultra OAuth",
+  "paid": true,
+  "not_a_grant": true,
+  "gravy_train": true,
+  "probe_exit": 0,
+  "probe_error_class": "ActionRequiredError"
+}
