@@ -118,6 +118,7 @@ nav {
   background: #000; color: var(--muted); border: 1px solid var(--border2);
   padding: 5px 10px; font-family: inherit; font-size: 0.74rem;
   letter-spacing: 0.04em; border-radius: 4px; cursor: pointer;
+  margin-left: 4px; flex: none;
 }
 .rinnegan-btn:hover { color: #c9a0ff; border-color: #7b4dff; text-decoration: none; }
 .rinnegan-btn .eye {
@@ -134,6 +135,10 @@ html.rinnegan .rinnegan-btn {
   box-shadow: 0 0 14px rgba(123, 77, 255, 0.28);
 }
 html.rinnegan .rinnegan-btn .eye { color: #c9a0ff; }
+@media (max-width: 720px) {
+  .rinnegan-btn { margin-left: auto; }
+  .nav-toggle { margin-left: 8px; }
+}
 .nav-toggle {
   display: none; margin-left: auto;
   background: #000; color: var(--muted); border: 1px solid var(--border2);
@@ -1053,6 +1058,7 @@ distiller / simplifier / scribe native</pre>
       const on = document.documentElement.classList.toggle("rinnegan");
       try { localStorage.setItem("ds4cc-rinnegan", on ? "1" : "0"); } catch (_) {}
       syncRinnegan();
+      if (typeof render === "function" && typeof filtered === "function") render(filtered());
     });
   }
 
