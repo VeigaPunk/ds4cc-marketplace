@@ -1,6 +1,6 @@
 {
   "id": "veigapunk-kimi-vivace-oauth-2026-08-24",
-  "title": "Kimi OAuth vivace \u2014 r14-2 + auto FSD cron",
+  "title": "Kimi OAuth \u2014 r14-5 walking (tmux 1)",
   "runner": "VeigaPunk",
   "provider": "Moonshot / Kimi",
   "product": "kimi-code/k3 OAuth main + K2.7 code swarm",
@@ -8,55 +8,58 @@
   "budget_note": "Paid Kimi/Moonshot OAuth \u2014 not a grant. Not the $200 closed seed. Frontier meter: 5h window at 100% while weekly sat ~25\u201327% \u21d2 5h cap \u2248 20% of weekly.",
   "currency": "USD",
   "status": "live",
-  "duration": "live",
-  "venue": "tmux session 2 \u00b7 kimi-code pid 44796",
-  "summary": "LIVE Kimi OAuth vivace (paid, not a grant). Autonomous orch: CreateGoal\u00d73, AgentSwarm, FRAMEWORK.md, r13 PASS, r14 self-improve, cron :11/:41. Context 24% (241k/1M). Quota: weekly 27% \u00b7 5h 100%. Golden: 5h hitting 100% at weekly ~27% means the 5h cap is roughly 20% of weekly \u2014 not in vendor tables; measured at the ceiling. OAuth 403 paused the goal; API auto-swap failed first; cron is the honest retry. Operator is not touching the CLI.",
+  "duration": "live \u00b7 0 operator turns",
+  "venue": "tmux 1:1.1 \u00b7 cwd xbgst-kimi",
+  "summary": "Paid Kimi OAuth, not a grant. Autonomous walk in tmux 1. r14-3 shipped (14 accepted). r14-4 shipped (16 accepted groups, origin main). r14-5 PROPOSE AgentSwarm 4 re-auditors , walking. Goal active, 0 operator turns, ~1h47m, context ~19% (185k/1M), K3 thinking max. Convergence not yet.",
   "timeline": [
     {
-      "t": "session",
-      "label": "tmux 2",
-      "note": "kimi-code pid 44796 \u00b7 Kimi K2.7 Code HighSpeed footer"
+      "t": "r14-3",
+      "label": "r14-3 shipped",
+      "note": "14 accepted moves \u00b7 private repo \u00b7 convergence not yet"
     },
     {
-      "t": "cron",
-      "label": "auto FSD cron LANDED",
-      "note": "job 01M0S354HTM81Q9NCNM36MSQAD \u00b7 11,41 * * * * \u00b7 operator was wrong to say it did not"
+      "t": "r14-4",
+      "label": "r14-4 shipped",
+      "note": "16 accepted move groups \u00b7 origin main \u00b7 convergence not yet"
     },
     {
-      "t": "r14-2",
-      "label": "xbgst-kimi r14-2",
-      "note": "CreateGoal\u00d73 \u00b7 AgentSwarm \u00b7 FRAMEWORK.md \u00b7 r13 PASS \u00b7 r14 \u00b7 ground work for Codex oneshot"
+      "t": "r14-5",
+      "label": "r14-5 walking",
+      "note": "PROPOSE AgentSwarm 4 re-auditors \u00b7 tmux 1:1.1 \u00b7 0 operator turns"
     },
     {
-      "t": "pause",
-      "label": "OAuth 403",
-      "note": "goal paused \u00b7 5h 100% \u00b7 weekly ~27% \u00b7 first API auto-swap failed \u00b7 cron retries \u00b7 operator not touching CLI"
+      "t": "meter",
+      "label": "goal chrome",
+      "note": "active \u00b7 ~1h47m \u00b7 context ~19% (185k/1M) \u00b7 K3 thinking max"
     }
   ],
   "metrics": {
     "mode": "agent / kimi-code OAuth",
     "parallelization": "K2.7 code swarm",
-    "context_pct": 24,
-    "context_frac": "241k/1M",
-    "turns": 3,
-    "model": "K3 thinking: high  ~/Projects/xbg\u2026",
-    "tmux": "2",
-    "pid": 44796,
-    "outcome": "live \u00b7 cron landed \u00b7 OAuth 403 pause",
-    "weekly_pct": 27,
-    "fiveh_pct": 100,
-    "fiveh_is_about_pct_of_weekly": 27,
-    "oauth_403": true,
+    "context_pct": 19,
+    "context_frac": "185k/1M",
+    "turns": 0,
+    "model": "K3 thinking max \u00b7 cwd xbgst-kimi",
+    "tmux": "1",
+    "pid": null,
+    "outcome": "live \u00b7 r14-5 walking \u00b7 0 operator turns",
+    "weekly_pct": 30,
+    "fiveh_pct": 17,
+    "fiveh_is_about_pct_of_weekly": null,
+    "oauth_403": false,
     "cron_job": "01M0S354HTM81Q9NCNM36MSQAD",
     "cron_schedule": "11,41 * * * *",
-    "cron_landed": true
+    "cron_landed": true,
+    "round": "r14-5",
+    "head": "d21779d"
   },
   "snapshot": {
-    "ts": "2026-08-24T06:19:50.911Z",
+    "ts": "2026-08-24T15:29:24Z",
     "alive": true,
-    "weekly_pct": 27,
-    "fiveh_pct": 100,
-    "fiveh_is_about_pct_of_weekly": 27
+    "tmux": "1:1.1",
+    "round": "r14-5",
+    "head": "d21779d",
+    "operator_turns": 0
   },
   "links": {
     "kimi": "https://www.kimi.com/",
@@ -66,10 +69,11 @@
   "tags": [
     "kimi",
     "oauth",
-    "vivace",
     "live",
-    "r14-2"
+    "r14-5",
+    "autonomous"
   ],
   "paid": true,
-  "not_a_grant": true
+  "not_a_grant": true,
+  "display_venue": "tmux 1:1.1 \u00b7 cwd xbgst-kimi"
 }

@@ -10,13 +10,13 @@
   "currency": "USD",
   "status": "live",
   "duration": "live \u00b7 44.7% included \u00b7 swarm 11 run / 9 fin / 8 err \u00b7 wall 304.65 min",
-  "venue": "cursor.com/agents \u00b7 bc-cc5260a9-3185-4d91-964d-0ec8ee323df4 \u00b7 prompt_group 96a3e089-bd83-4cb2-a618-284b71661283 \u00b7 repo jo-o-veiga/ufo-fsd-alpha (Cursor Origin)",
+  "venue": "cursor.com/agents \u00b7 ufo-fsd-alpha (Cursor Origin)",
   "summary": "UFO-FSD oneshot on Cursor Ultra cloud with no prior orch config \u2014 28 concurrent doom-loop. Linked BC composer-2.5 finished /goal (claims cursor/ufo-core-runtime-3df4 on ufo-fsd-alpha). 27 peers forked tmp-* and burned overlapping churn. Fail-as-data: Kimi K3 Max hard-stop with $1497\u2013$1515 Ultra API-savings (~7.5\u00d7 a $200 plan). Closeout armed at \u226597% included (pretend 100%).",
   "timeline": [
     {
       "t": "2026-08-25T18:05:18Z",
       "label": "swarm mint",
-      "note": "prompt_group 96a3e089\u2026 \u00b7 Core runtime orchestration \u00b7 website source \u00b7 multi-model parallel BCs"
+      "note": "Core runtime orchestration \u00b7 website source \u00b7 multi-model parallel cloud agents"
     },
     {
       "t": "monitor_start",
@@ -25,8 +25,8 @@
     },
     {
       "t": "linked_bc",
-      "label": "bc-cc5260a9\u2026 FINISHED",
-      "note": "composer-2.5 maxMode \u00b7 UpdateGoal complete \u00b7 46m 28s \u00b7 cursor/ufo-core-runtime-3df4 \u00b7 child audit bc-b1c7c91e\u2026"
+      "label": "linked agent finished",
+      "note": "composer-2.5 maxMode \u00b7 UpdateGoal complete \u00b7 46m 28s \u00b7 branch cursor/ufo-core-runtime-3df4 \u00b7 child audit spawned"
     },
     {
       "t": "2026-08-25T19:47:00Z",
@@ -235,5 +235,6 @@
     "subhour_session_ok": false,
     "subhour_meter_ok": false,
     "subhour_ok": false
-  }
+  },
+  "display_venue": "cursor.com/agents \u00b7 ufo-fsd-alpha (Cursor Origin)"
 }

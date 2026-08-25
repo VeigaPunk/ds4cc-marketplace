@@ -25,6 +25,27 @@ function escapeHtml(s) {
     .replaceAll('"', "&quot;");
 }
 
+/** Strip bc-/UUID/git-sha/cron-id noise from human-facing copy. */
+function scrubIds(s) {
+  return String(s ?? "")
+    .replace(/\bbc-[a-f0-9-]{8,}\b/gi, "")
+    .replace(/\bprompt[_\s-]?group\s*[a-f0-9-]{8,}\b/gi, "")
+    .replace(/\b01[A-Z0-9]{20,}\b/g, "")
+    .replace(/\btmp-[a-f0-9]+\b/gi, "tmp repo")
+    .replace(/\b[0-9a-f]{7,40}\b/gi, "")
+    .replace(/\s*[·•|]\s*(?=[·•|])/g, "")
+    .replace(/\s{2,}/g, " ")
+    .replace(/\s*[·•]\s*$/g, "")
+    .replace(/^\s*[·•]\s*/g, "")
+    .replace(/\s+,/g, ",")
+    .trim()
+    .replace(/^[\s·•|-]+|[\s·•|-]+$/g, "");
+}
+
+function humanVenue(run) {
+  return scrubIds(run.display_venue || run.venue) || "—";
+}
+
 function budgetCell(run) {
   if (run.budget_usd != null) return `$${run.budget_usd} paid`;
   return "paid · not a grant";
@@ -45,7 +66,9 @@ function renderTimeline(node, steps) {
   node.innerHTML = "";
   for (const step of steps || []) {
     const li = document.createElement("li");
-    li.innerHTML = `<strong>${escapeHtml(step.label)}</strong> — ${escapeHtml(step.note)}`;
+    const label = scrubIds(step.label);
+    const note = scrubIds(step.note);
+    li.innerHTML = `<strong>${escapeHtml(label)}</strong>${note ? ` — ${escapeHtml(note)}` : ""}`;
     node.appendChild(li);
   }
 }
@@ -53,7 +76,7 @@ function renderTimeline(node, steps) {
 function renderFeatured(run) {
   const m = run.metrics || {};
   el("run-title").textContent = `${run.runner} — $${run.budget_usd} · ${run.duration} · ${run.provider}`;
-  el("run-summary").textContent = run.summary;
+  el("run-summary").textContent = scrubIds(run.summary);
   renderTimeline(el("run-timeline"), run.timeline);
   el("run-metrics").innerHTML = `
     <dt>provider</dt><dd>${escapeHtml(run.provider)}</dd>
@@ -78,15 +101,15 @@ function renderKimi(run) {
   const weekly = m.weekly_pct ?? snap.weekly_pct;
   const fiveh = m.fiveh_pct ?? snap.fiveh_pct;
   el("kimi-title").textContent = `${run.runner} — ${run.title}`;
-  el("kimi-summary").textContent = run.summary;
+  el("kimi-summary").textContent = scrubIds(run.summary);
   renderTimeline(el("kimi-timeline"), run.timeline);
   el("kimi-metrics").innerHTML = `
     <dt>status</dt><dd class="status-live">${escapeHtml(run.status)}</dd>
     <dt>model</dt><dd>${escapeHtml(m.model || run.product)}</dd>
-    <dt>venue</dt><dd>${escapeHtml(run.venue)}</dd>
+    <dt>venue</dt><dd>${escapeHtml(humanVenue(run))}</dd>
     <dt>context</dt><dd>${escapeHtml(m.context_pct)}% · ${escapeHtml(m.context_frac)}</dd>
     <dt>quota</dt><dd>weekly ${escapeHtml(weekly)}% · 5h ${escapeHtml(fiveh)}% · 5h cap ≈ 20% of weekly</dd>
-    <dt>cron</dt><dd>LANDED · ${escapeHtml(m.cron_job || "01M0S354HTM81Q9NCNM36MSQAD")} · ${escapeHtml(m.cron_schedule || "11,41 * * * *")}</dd>
+    <dt>cron</dt><dd>LANDED · ${escapeHtml(m.cron_schedule || "11,41 * * * *")}</dd>
     <dt>paid</dt><dd>paid OAuth — not a grant</dd>
     <dt>turns</dt><dd>${escapeHtml(m.turns)}</dd>
     <dt>mode</dt><dd>${escapeHtml(m.mode)} · ${escapeHtml(m.parallelization)}</dd>
@@ -134,7 +157,7 @@ function renderLiveStrip(run, curve) {
   const pct = m.used_percent ?? curve?.points?.at(-1)?.pct ?? 0;
   const isCursor = run.id?.includes("cursor-ultra") || run.meter === "cursor_ultra_included_usage";
   el("live-title").textContent = `${run.runner} — ${run.title}`;
-  el("live-summary").textContent = run.summary;
+  el("live-summary").textContent = scrubIds(run.summary);
   el("live-pct").textContent = `${Number(pct).toFixed(1)}%`;
   el("hero-live-pct").textContent = `${Math.round(Number(pct))}%`;
   el("live-fill").style.width = `${Math.min(100, Number(pct) || 0)}%`;
@@ -175,7 +198,7 @@ function renderLiveStrip(run, curve) {
       <dt>model</dt><dd>${escapeHtml(m.model || m.linked_bc_model)}</dd>
       <dt>category</dt><dd>oneshot · /goal + mid-run steer · self-clone forking</dd>
       <dt>repo</dt><dd>${escapeHtml(m.repo || run.repository?.full_name || "—")}</dd>
-      <dt>venue</dt><dd>${escapeHtml(run.venue)}</dd>
+      <dt>venue</dt><dd>${escapeHtml(humanVenue(run))}</dd>
       <dt>paid</dt><dd>paid Cursor Ultra (gravy train) OAuth — SuperGrok Heavy grant (incl. for free)</dd>
       <dt>snapshot</dt><dd>${escapeHtml(snap.ts || "—")}</dd>
     `;
@@ -202,7 +225,7 @@ function renderLiveStrip(run, curve) {
       <dt>tokens</dt><dd>${fmtTokens(m.tokens_total)} <span class="muted">cached ${fmtTokens(m.tokens_cached_input)}</span></dd>
       <dt>rollouts</dt><dd>${escapeHtml(m.n_rollouts)}</dd>
       <dt>host load</dt><dd>~${escapeHtml(m.approx_cores)} cores · ${escapeHtml(m.rss_gb)} GB RSS</dd>
-      <dt>venue</dt><dd>${escapeHtml(run.venue)}</dd>
+      <dt>venue</dt><dd>${escapeHtml(humanVenue(run))}</dd>
       <dt>paid</dt><dd>paid Pro OAuth — not a grant</dd>
       <dt>snapshot</dt><dd>${escapeHtml(run.snapshot?.ts || "—")}</dd>
     `;

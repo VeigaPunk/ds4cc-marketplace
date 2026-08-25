@@ -92,5 +92,6 @@
   "not_a_grant": true,
   "category": "oneshot",
   "meter": "weekly_10080",
-  "last_message": "data/codex-last-message.json"
+  "last_message": "data/codex-last-message.json",
+  "display_venue": "tmux session 26 \u00b7 gpt-5.6-sol ultra fast"
 }

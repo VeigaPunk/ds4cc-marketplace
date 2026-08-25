@@ -60,5 +60,6 @@
     "seed-run"
   ],
   "paid": true,
-  "not_a_grant": true
+  "not_a_grant": true,
+  "display_venue": "Kimi agent mode \u00b7 heavy parallelization across agent CLIs"
 }
