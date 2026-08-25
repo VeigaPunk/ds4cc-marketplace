@@ -10,7 +10,7 @@
   "status": "live",
   "duration": "live \u00b7 0 operator turns",
   "venue": "tmux 1:1.1 \u00b7 cwd xbgst-kimi",
-  "summary": "Paid Kimi OAuth, not a grant. Autonomous walk in tmux 1. r14-3 shipped (14 accepted). r14-4 shipped (16 accepted groups, origin main). r14-5 PROPOSE AgentSwarm 4 re-auditors , walking. Goal active, 0 operator turns, ~1h47m, context ~19% (185k/1M), K3 thinking max. Convergence not yet.",
+  "summary": "Paid Kimi OAuth, not a grant. Autonomous walk in tmux 1. r14-3 shipped (14 accepted). r14-4 shipped (16 accepted groups, origin main). r14-5 PROPOSE AgentSwarm 4 re-auditors, walking. Goal active, 0 operator turns, ~1h47m, context ~19% (185k/1M), K3 thinking max. Convergence not yet.",
   "timeline": [
     {
       "t": "r14-3",
