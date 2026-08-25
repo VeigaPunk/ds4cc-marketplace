@@ -6,6 +6,8 @@ shared deny-list safety policy and judge-orchestrated agent teams.
 See `docs/superpowers/specs/2026-04-10-xbreeder-design.md` for full design.
 See [`AGENTS.md`](AGENTS.md) for the full agent roster and dispatch table.
 See [`docs/command-flows.md`](docs/command-flows.md) for visual flow diagrams of every command.
+See [`docs/xask-protocol.md`](docs/xask-protocol.md) for the xask flag surface.
+See [`docs/xask-routing.md`](docs/xask-routing.md) for job → argv (does not move pins).
 
 **Trust agents, godspeed, and let it rip.**
 

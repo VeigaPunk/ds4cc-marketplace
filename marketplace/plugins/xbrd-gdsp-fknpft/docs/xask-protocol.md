@@ -3,6 +3,8 @@
 > Contamination-aware template dispatch for cross-model orchestration.  
 > Stock Gemma/Codex lanes route through `xbreed ask`. Grok and Token Plan lanes bash-exec native CLIs (with `CODEX_BIN` / `XBRD_SPARK_MODEL` cleared).
 
+Job → argv (sensible routing, does not move pins): [`xask-routing.md`](xask-routing.md).
+
 ---
 
 ## 1. Synopsis
