@@ -48,8 +48,8 @@ enabled = [
 ]
 
 [models]
-default = "grok-4.5"
-default_reasoning_effort = "low"
+default = "grok-4.6"
+default_reasoning_effort = "medium"
 
 [subagents]
 enabled = true
@@ -61,3 +61,37 @@ max_depth = 1
 # Defense in depth: CLI livepatch already hard-rejects these at spawn.
 explore = false
 general-purpose = false
+
+[subagents.models]
+connector = "grok-4.5-low"
+critic = "grok-4.5-low"
+distiller = "grok-4.5-low"
+executor = "grok-4.5-low"
+labrat = "grok-4.5-low"
+mutation-tester = "grok-4.5-low"
+reviewer = "grok-4.5-low"
+scout = "grok-4.5-low"
+scribe = "grok-4.5-low"
+sentinel = "grok-4.5-low"
+simplifier = "grok-4.5-low"
+the-bootstrapper = "grok-4.5-low"
+the-janitor = "grok-4.5-low"
+the-musketeer = "grok-4.5-low"
+the-planner = "grok-4.5-low"
+the-revenger = "grok-4.5-low"
+"xbgst-stack:connector" = "grok-4.5-low"
+"xbgst-stack:critic" = "grok-4.5-low"
+"xbgst-stack:distiller" = "grok-4.5-low"
+"xbgst-stack:executor" = "grok-4.5-low"
+"xbgst-stack:labrat" = "grok-4.5-low"
+"xbgst-stack:mutation-tester" = "grok-4.5-low"
+"xbgst-stack:reviewer" = "grok-4.5-low"
+"xbgst-stack:scout" = "grok-4.5-low"
+"xbgst-stack:scribe" = "grok-4.5-low"
+"xbgst-stack:sentinel" = "grok-4.5-low"
+"xbgst-stack:simplifier" = "grok-4.5-low"
+"xbgst-stack:the-bootstrapper" = "grok-4.5-low"
+"xbgst-stack:the-janitor" = "grok-4.5-low"
+"xbgst-stack:the-musketeer" = "grok-4.5-low"
+"xbgst-stack:the-planner" = "grok-4.5-low"
+"xbgst-stack:the-revenger" = "grok-4.5-low"
