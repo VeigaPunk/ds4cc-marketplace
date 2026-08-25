@@ -895,6 +895,38 @@
       "swarm_wall_min": 228.09,
       "linked_files": 5864,
       "linked_lines": 741077
+    },
+    {
+      "ts": "2026-08-25T21:55:42Z",
+      "pct": 39.365,
+      "auto_pct": 17.656,
+      "api_pct": 100.0,
+      "total_spend_cents": 137778,
+      "included_spend_cents": 40000,
+      "bonus_spend_cents": 97778,
+      "swarm_running": 11,
+      "swarm_finished": 9,
+      "swarm_error": 8,
+      "swarm_n": 28,
+      "swarm_wall_min": 230.26,
+      "linked_files": 5864,
+      "linked_lines": 741077
+    },
+    {
+      "ts": "2026-08-25T21:58:28Z",
+      "pct": 39.539,
+      "auto_pct": 17.739,
+      "api_pct": 100.0,
+      "total_spend_cents": 138388,
+      "included_spend_cents": 40000,
+      "bonus_spend_cents": 98388,
+      "swarm_running": 11,
+      "swarm_finished": 9,
+      "swarm_error": 8,
+      "swarm_n": 28,
+      "swarm_wall_min": 232.11,
+      "linked_files": 5864,
+      "linked_lines": 741077
     }
   ]
 }
