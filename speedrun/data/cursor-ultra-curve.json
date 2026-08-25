@@ -1295,6 +1295,54 @@
       "swarm_wall_min": 289.95,
       "linked_files": 5864,
       "linked_lines": 741077
+    },
+    {
+      "ts": "2026-08-25T22:56:13Z",
+      "pct": 43.729,
+      "auto_pct": 19.879,
+      "api_pct": 100.0,
+      "total_spend_cents": 153052,
+      "included_spend_cents": 40000,
+      "bonus_spend_cents": 113052,
+      "swarm_running": 11,
+      "swarm_finished": 9,
+      "swarm_error": 8,
+      "swarm_n": 28,
+      "swarm_wall_min": 290.82,
+      "linked_files": 5864,
+      "linked_lines": 741077
+    },
+    {
+      "ts": "2026-08-25T22:59:14Z",
+      "pct": 43.866,
+      "auto_pct": 19.947,
+      "api_pct": 100.0,
+      "total_spend_cents": 153530,
+      "included_spend_cents": 40000,
+      "bonus_spend_cents": 113530,
+      "swarm_running": 10,
+      "swarm_finished": 10,
+      "swarm_error": 8,
+      "swarm_n": 28,
+      "swarm_wall_min": 293.07,
+      "linked_files": 5864,
+      "linked_lines": 741077
+    },
+    {
+      "ts": "2026-08-25T23:00:21Z",
+      "pct": 43.938,
+      "auto_pct": 19.999,
+      "api_pct": 100.0,
+      "total_spend_cents": 153784,
+      "included_spend_cents": 40000,
+      "bonus_spend_cents": 113784,
+      "swarm_running": 11,
+      "swarm_finished": 9,
+      "swarm_error": 8,
+      "swarm_n": 28,
+      "swarm_wall_min": 294.73,
+      "linked_files": 5864,
+      "linked_lines": 741077
     }
   ]
 }
