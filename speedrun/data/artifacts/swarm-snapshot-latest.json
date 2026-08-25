@@ -1,5 +1,5 @@
 {
-  "ts": "2026-08-25T20:27:02Z",
+  "ts": "2026-08-25T20:32:06Z",
   "prompt_group_id": "96a3e089-bd83-4cb2-a618-284b71661283",
   "swarm_n": 28,
   "by_status": {
@@ -27,14 +27,14 @@
   "linked_bc_files": 5864,
   "linked_bc_lines": 741077,
   "all_terminal": false,
-  "used_percent": 32.234,
-  "auto_percent_used": 13.836,
+  "used_percent": 32.629,
+  "auto_percent_used": 14.081,
   "api_percent_used": 100.0,
-  "total_spend_cents": 112819,
+  "total_spend_cents": 114200,
   "included_spend_cents": 40000,
-  "bonus_spend_cents": 72819,
+  "bonus_spend_cents": 74200,
   "included_limit_cents": 40000,
   "display_message": "You've hit your usage limit",
-  "auto_msg": "You've used 32% of your included total usage",
+  "auto_msg": "You've used 33% of your included total usage",
   "named_msg": "You've used 100% of your included API usage"
 }
