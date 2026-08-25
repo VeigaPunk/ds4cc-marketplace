@@ -501,6 +501,7 @@ html.rinnegan ::selection {
       <a href="#demo">demo</a>
       <a href="#plugins">plugins</a>
       <a href="#agent-pip">agent-pip</a>
+      <a href="#os-tuning">os tuning</a>
       <a href="#install">install</a>
       <a href="#app">optional app</a>
       <a href="#validator">validator</a>
@@ -511,6 +512,7 @@ html.rinnegan ::selection {
       <a href="./bloat.html">bloat</a>
       <a href="./speedrun/">speedrun</a>
       <a href="./omegag/">omegaG</a>
+      <a href="./omarchy-usage/">omarchy usage</a>
       <a href="./burnerchrome/">burnerchrome</a>
       <a href="#lanes">lanes</a>
       <a class="nav-cta" href="https://github.com/VeigaPunk/ds4cc-marketplace" target="_blank" rel="noopener">GITHUB ↗</a>
@@ -607,7 +609,7 @@ html.rinnegan ::selection {
 
   <section id="plugins" class="reveal">
     <h2><span class="idx">02</span>The catalog — 18 curated plugins</h2>
-    <p class="sub">Every plugin ships an actionable <code>SKILL.md</code> (fenced commands, no boilerplate) and passes the Rust validator. Filter by name, category chips, or capability.</p>
+    <p class="sub">Every plugin ships an actionable <code>SKILL.md</code> (fenced commands, no boilerplate) and passes the Rust validator. Filter by name, category chips, or capability. Companion OS tools appear under <strong>os tuning</strong>.</p>
     <div class="grid-tools">
       <input class="filter" id="plugFilter" type="search" placeholder="filter plugins… (try: agents, grok, papers, godspeed)" aria-label="filter plugins" />
       <span class="count" id="plugCount">18 / 18</span>
@@ -625,6 +627,7 @@ html.rinnegan ::selection {
       <button type="button" class="cat-chip" data-cat="security">security</button>
       <button type="button" class="cat-chip" data-cat="viz">viz</button>
       <button type="button" class="cat-chip" data-cat="meta">meta</button>
+      <button type="button" class="cat-chip" data-cat="os-tuning">os tuning</button>
     </div>
     <div class="plugins" id="plugGrid"></div>
   </section>
@@ -660,6 +663,25 @@ html.rinnegan ::selection {
         </div>
         <p>Use the standalone TUI or feed Pango JSON into Waybar. The renderer keeps the existing 130px bar height, JetBrains Mono metrics, and native polling setup. Source: companion crate (not catalogued under marketplace/plugins).</p>
       </div>
+    </div>
+  </section>
+
+  <section id="os-tuning" class="reveal">
+    <h2><span class="idx">03b</span>OS tuning — Omarchy usage limits</h2>
+    <p class="sub">Waybar chip for live AI usage windows on Omarchy. Companion product under the <strong>os tuning</strong> catalog filter — not a marketplace plugin package.</p>
+    <div class="panel" style="padding:14px 16px">
+      <h3 style="margin-top:0;font-size:0.95rem">omarchy-usage-tray</h3>
+      <p style="color:var(--muted);font-size:0.9rem;line-height:1.5;margin:0 0 12px">
+        Cycles Codex, Grok, Kimi, Cursor, and Alibaba Token Plan meters on the bar.
+        Left-click / scroll = next provider; right-click = identity swap when supported.
+        Installs into <code>~/.config/waybar/</code> only.
+      </p>
+      <div class="oneliner" style="margin:8px 0 12px">
+        <code><span class="p">$</span> curl -fsSL https://raw.githubusercontent.com/VeigaPunk/omarchy-usage-tray/main/install.sh | bash</code>
+        <button type="button" class="copy-btn" data-copy="curl -fsSL https://raw.githubusercontent.com/VeigaPunk/omarchy-usage-tray/main/install.sh | bash">COPY</button>
+      </div>
+      <a class="btn solid" href="./omarchy-usage/">OPEN PAGE →</a>
+      <a class="btn" href="https://github.com/VeigaPunk/omarchy-usage-tray" target="_blank" rel="noopener">github ↗</a>
     </div>
   </section>
 
@@ -998,6 +1020,7 @@ distiller / simplifier / scribe native</pre>
         <a href="https://github.com/VeigaPunk/xbgst" target="_blank" rel="noopener">xbgst</a> · Grok Godspeed stack<br/>
         <a href="https://veigapunk.github.io/xbgst-site/" target="_blank" rel="noopener">xbgst-site</a> · public hub<br/>
         <a href="./omegag/">omegaG</a> · controller product<br/>
+        <a href="./omarchy-usage/">omarchy usage</a> · OS tuning / Waybar limits<br/>
         <a href="https://github.com/VeigaPunk/xbrd-selector" target="_blank" rel="noopener">xbrd-selector</a>
       </div>
       <div>
@@ -1082,6 +1105,7 @@ distiller / simplifier / scribe native</pre>
     { n: "sekhmet", v: "0.1.1", cat: "swarm", d: "Always-available Codex Titanium swarm (xbreed L3). Up to 64 concurrent runners.", c: "sekhmet swarm --direct -j 64 --tasks-file tasks.txt" },
     { n: "xbrd-gdsp-fknpft", v: "8.16.137", cat: "orchestration", d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
     { n: "xbrd-selector", v: "0.1.1", cat: "orchestration", d: "Model/agent selector helpers for xbreed stacks.", c: 'codex \"Use xbrd-selector\"' },
+    { n: "omarchy-usage-tray", v: "main", cat: "os-tuning", kind: "page", d: "Omarchy Waybar chip for Codex, Grok, Kimi, Cursor, and Token Plan usage limits.", c: "curl -fsSL https://raw.githubusercontent.com/VeigaPunk/omarchy-usage-tray/main/install.sh | bash", href: "./omarchy-usage/", src: "https://github.com/VeigaPunk/omarchy-usage-tray" },
   ];
 
   const grid = document.getElementById("plugGrid");
@@ -1114,21 +1138,30 @@ distiller / simplifier / scribe native</pre>
   }
 
   function render(list) {
-    grid.innerHTML = list.map(p => `
+    grid.innerHTML = list.map(p => {
+      const isPage = p.kind === "page";
+      const srcHref = isPage ? (p.src || p.href || "#") : `${REPO}/tree/main/marketplace/plugins/${encodeURIComponent(p.n)}`;
+      const actions = isPage
+        ? `<a class="btn small" href="${esc(p.href || "#")}">OPEN PAGE</a>
+           <button class="btn small" data-copy="${esc(p.c)}">COPY INSTALL</button>`
+        : `<button class="btn small" data-copy="codex plugin add ${esc(p.n)}@ds4cc">COPY INSTALL</button>`;
+      return `
       <div class="plug">
         <div class="plug-head">
           <span class="plug-name">${esc(p.n)}</span>
-          <span class="plug-ver">v${esc(p.v)}</span>
+          <span class="plug-ver">${isPage ? esc(p.v) : "v" + esc(p.v)}</span>
           <span class="plug-cat">${esc(p.cat || "tools")}</span>
         </div>
         <p class="plug-desc">${esc(p.d)}</p>
         <div class="plug-cmd" title="key command">${esc(p.c)}</div>
         <div class="plug-foot">
-          <button class="btn small" data-copy="codex plugin add ${esc(p.n)}@ds4cc">COPY INSTALL</button>
-          <a class="plug-src" href="${REPO}/tree/main/marketplace/plugins/${encodeURIComponent(p.n)}" target="_blank" rel="noopener">source ↗</a>
+          ${actions}
+          <a class="plug-src" href="${esc(srcHref)}" target="_blank" rel="noopener">source ↗</a>
         </div>
-      </div>`).join("");
-    count.textContent = list.length + " / " + PLUGINS.length;
+      </div>`;
+    }).join("");
+    const pluginTotal = PLUGINS.filter(p => p.kind !== "page").length;
+    count.textContent = list.length + " / " + pluginTotal;
   }
   render(filtered());
 

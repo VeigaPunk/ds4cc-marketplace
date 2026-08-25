@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Omarchy Usage Tray — Waybar AI limits</title>
+  <meta name="description" content="OS tuning for Omarchy: Waybar chip that cycles Codex, Grok, Kimi, Cursor, and Alibaba Token Plan usage limits. Left-click providers, right-click identities." />
+  <meta name="theme-color" content="#050605" />
+  <meta property="og:title" content="Omarchy Usage Tray" />
+  <meta property="og:description" content="Waybar AI usage limits for Omarchy — Codex, Grok, Kimi, Cursor, Token Plan." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ds4cc.com/omarchy-usage/" />
+  <link rel="canonical" href="https://ds4cc.com/omarchy-usage/" />
+  <link rel="icon" type="image/svg+xml" href="../burnerchrome/favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <a class="brand" href="https://ds4cc.com/"><b>DS4CC</b> <span>// os tuning</span></a>
+    <nav class="nav">
+      <a href="#install">install</a>
+      <a href="#clicks">clicks</a>
+      <a href="#providers">providers</a>
+      <a href="https://github.com/VeigaPunk/omarchy-usage-tray" rel="noopener">github ↗</a>
+      <a href="https://ds4cc.com/">marketplace</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <p class="eyebrow">os tuning · omarchy · waybar</p>
+      <h1>Omarchy Usage Tray</h1>
+      <p class="lede">
+        One Waybar chip for live AI usage windows —
+        <strong>Codex</strong>, <strong>Grok</strong>, <strong>Kimi</strong>,
+        <strong>Cursor</strong>, and <strong>Alibaba Token Plan</strong>.
+        Cycle providers on the bar; swap identities when a provider has more than one live store.
+        Touches <code>~/.config/waybar/</code> only — never <code>~/.local/share/omarchy/</code>.
+      </p>
+      <div class="chip-demo" aria-label="example waybar chip">
+        <span class="chip-logo">C</span>
+        <span class="chip-name">codex</span>
+        <span class="chip-bar" aria-hidden="true"><i style="width:62%"></i></span>
+        <span class="chip-pct">62%</span>
+        <span class="chip-meta">5h · weekly</span>
+      </div>
+      <div class="cta-row">
+        <a class="btn solid" href="#install">Install</a>
+        <a class="btn" href="https://github.com/VeigaPunk/omarchy-usage-tray" rel="noopener">Source ↗</a>
+        <a class="btn" href="https://ds4cc.com/#plugins">Marketplace catalog</a>
+      </div>
+    </section>
+
+    <section class="panel" id="install">
+      <p class="eyebrow">one-liner</p>
+      <h2>Install on Omarchy</h2>
+      <p class="summary">Writes Waybar config (backup first), symlinks <code>~/.local/bin/ai-usage</code>, enables a 5-minute user timer, floats the TUI on Hyprland like other Omarchy TUIs.</p>
+      <div class="oneliner">
+        <code id="installCmd">curl -fsSL https://raw.githubusercontent.com/VeigaPunk/omarchy-usage-tray/main/install.sh | bash</code>
+        <button type="button" class="copy" data-copy="curl -fsSL https://raw.githubusercontent.com/VeigaPunk/omarchy-usage-tray/main/install.sh | bash">COPY</button>
+      </div>
+      <p class="note">Re-run the same line to update. Local clone: <code>git clone https://github.com/VeigaPunk/omarchy-usage-tray.git && cd omarchy-usage-tray && ./install.sh</code></p>
+    </section>
+
+    <section class="panel" id="clicks">
+      <p class="eyebrow">gestures</p>
+      <h2>Bar clicks</h2>
+      <table class="gestures">
+        <thead><tr><th>Gesture</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>Left-click</td><td>Next provider</td></tr>
+          <tr><td>Scroll</td><td>Cycle providers</td></tr>
+          <tr><td>Right-click</td><td>Next identity (Token Plan: <code>team</code> / <code>gmail</code>)</td></tr>
+        </tbody>
+      </table>
+      <p class="summary">
+        Token Plan right-click runs <code>token-plan-swap toggle</code> — flips
+        <code>~/.config/alibaba-token-plan/active</code> and rewrites
+        <code>~/.bailian/config.json</code> from the matching local key file.
+        OAuth multi-account is a no-op until a provider has two live stores.
+      </p>
+    </section>
+
+    <section class="panel" id="providers">
+      <p class="eyebrow">meters</p>
+      <h2>Providers</h2>
+      <ul class="providers">
+        <li><strong>Codex</strong> — ChatGPT OAuth usage windows</li>
+        <li><strong>Grok</strong> — xAI OIDC usage</li>
+        <li><strong>Kimi</strong> — Moonshot / Kimi Code quotas</li>
+        <li><strong>Cursor</strong> — Ultra / included usage (OAuth)</li>
+        <li><strong>Token Plan</strong> — Alibaba Bailian slot + identity swap</li>
+      </ul>
+      <p class="summary">Cache-only Waybar render path: the bar reads a local cache; probes refresh on a systemd timer. Identity docs: <a href="https://github.com/VeigaPunk/omarchy-usage-tray/blob/main/docs/identity-swap.md" rel="noopener">docs/identity-swap.md</a>.</p>
+    </section>
+
+    <section class="panel muted-panel">
+      <p class="eyebrow">catalog</p>
+      <h2>On DS4CC</h2>
+      <p class="summary">
+        Listed under the marketplace <strong>OS tuning</strong> category.
+        Companion product — not a Codex/Grok plugin package. Source of truth stays
+        <a href="https://github.com/VeigaPunk/omarchy-usage-tray" rel="noopener">VeigaPunk/omarchy-usage-tray</a>;
+        this page is the ds4cc.com path mirror.
+      </p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="https://ds4cc.com/">ds4cc.com</a>
+    ·
+    <a href="https://github.com/VeigaPunk/omarchy-usage-tray" rel="noopener">omarchy-usage-tray</a>
+    · MIT
+  </footer>
+
+  <script>
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-copy]");
+      if (!btn) return;
+      const text = btn.getAttribute("data-copy") || "";
+      const done = () => {
+        const old = btn.textContent;
+        btn.textContent = "COPIED";
+        setTimeout(() => { btn.textContent = old; }, 1200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => {
+          const ta = document.createElement("textarea");
+          ta.value = text; document.body.appendChild(ta); ta.select();
+          try { document.execCommand("copy"); } catch (_) {}
+          ta.remove(); done();
+        });
+      }
+    });
+  </script>
+</body>
+</html>

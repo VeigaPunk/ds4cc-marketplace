@@ -19,7 +19,7 @@ Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, 
 - Paste-into-Grok-chat block: [`GROK_PASTE.md`](GROK_PASTE.md)
 - **MCP operator stance (Exa only paid rent):** [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md)
 - Titanium host resolve: [`docs/TITANIUM-HOST.md`](docs/TITANIUM-HOST.md)
-- Site: [ds4cc.com](https://ds4cc.com) · MCP: [app.ds4cc.com/mcp](https://app.ds4cc.com/mcp) · omegaG: [ds4cc.com/omegag](https://ds4cc.com/omegag/)
+- Site: [ds4cc.com](https://ds4cc.com) · MCP: [app.ds4cc.com/mcp](https://app.ds4cc.com/mcp) · omegaG: [ds4cc.com/omegag](https://ds4cc.com/omegag/) · Omarchy usage: [ds4cc.com/omarchy-usage](https://ds4cc.com/omarchy-usage/)
 
 ### Exa (product praise) · Titanium = **no MCP**
 
