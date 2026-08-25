@@ -56,8 +56,8 @@
     {
       "id": "cursor",
       "label": "Cursor Ultra (cursor-agent)",
-      "description": "Cursor Models pool and selected Other Models via cursor-agent -p (Ultra subscription metering).",
-      "default_model_id": "cursor-grok-4.6-high-fast",
+      "description": "Cursor Models pool and selected Other Models via cursor-agent -p agentic (Ultra subscription metering). Default pin kimi-k3-max.",
+      "default_model_id": "kimi-k3-max",
       "transports": [
         "stock"
       ],

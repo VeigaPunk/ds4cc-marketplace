@@ -95,8 +95,13 @@ if "$XASK" plan --provider moonshot --model-id moonshotai/kimi-k2.5 --json -- pr
 fi
 
 plan="$($XASK plan --provider cursor --json -- probe)"
-jq -e '.selection.effort == "high" and .selection.model_id == "cursor-grok-4.6-high-fast" and .selection.service_tier == "default"' <<<"$plan" >/dev/null \
-  || fail 'Cursor did not receive its catalog default effort and pin'
+jq -e '.selection.effort == "high" and .selection.model_id == "kimi-k3-max" and .selection.service_tier == "default"' <<<"$plan" >/dev/null \
+  || fail 'Cursor did not receive its catalog default effort and pin (kimi-k3-max)'
+cursor_dbg="$($XASK -d --provider cursor -- probe 2>&1 || true)"
+cursor_head="$(printf '%s\n' "$cursor_dbg" | sed '/^CONSTRUCTED PROMPT/,$d')"
+printf '%s\n' "$cursor_head" | grep -E -q -- 'ARGV:.*--trust' || fail 'Cursor debug ARGV missing --trust'
+printf '%s\n' "$cursor_head" | grep -E -q -- 'ARGV:.* -p ' || fail 'Cursor debug ARGV missing -p'
+printf '%s\n' "$cursor_head" | grep -E -q -- 'ARGV:.*--mode ask|ARGV:.*--mode=ask' && fail 'Cursor debug ARGV must not include --mode ask'
 plan="$($XASK plan --provider cursor --model-id composer-2.5 --json -- probe)"
 jq -e '.selection.model_id == "composer-2.5" and .selection.effort == "medium"' <<<"$plan" >/dev/null \
   || fail 'cursor provider mode rejected cataloged composer-2.5'

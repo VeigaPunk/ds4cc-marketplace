@@ -59,11 +59,11 @@
 #   xask --gs kimi "Moonshot K3 probe"              # native kimi -m kimi-code/k3 (OAuth)
 #   xask --gs cdx "…"                               # first xask → same OAuth K3 while Codex-limit pin is on
 #   xask --provider moonshot --model-id kimi-k2.6 -- "probe"  # pay-as-you-go K2.6 (API key)
-#   xask --provider cursor --model-id composer-2.5 -- "cheap probe"  # Cursor Ultra consult
-#            inner argv: cursor-agent -p --mode ask --trust --output-format text
+#   xask --provider cursor --model-id kimi-k3-max -- "probe"  # Cursor Ultra agentic burn
+#            inner argv: cursor-agent -p --trust --output-format text
 #            --model <cli-id> --workspace $XASK_CURSOR_WORKSPACE|$PWD -- <envelope>
-#            --mode ask = read-only Q&A. --trust skips Workspace Trust Required.
-#            Never --yolo/-f. Full-agent execution is xbgst-cursor-agent-surface, not this lane.
+#            -p with no --mode = agent (write+shell). --trust skips Workspace Trust Required.
+#            Default pin: kimi-k3-max. Never --mode ask. Never --yolo/-f. Never auto. Never argv0=agent.
 #   xask -R codex "Adversarial review of <diff>"    # review lane — gpt-5.6-sol
 #   xask -R -F codex "RECON codebase-scale"         # -R + -F escape hatch — full gpt-5.6-sol (1.05M ctx)
 #   xask --gpt55 --gs -e high codex "Deep question" # gpt-5.6-sol lane, explicit godspeed, high effort
@@ -352,7 +352,7 @@ if [[ -n "$PROVIDER" ]]; then
       ;;
     cursor)
       MODEL=cursor
-      MODEL_ID="${MODEL_ID:-cursor-grok-4.6-high-fast}"
+      MODEL_ID="${MODEL_ID:-kimi-k3-max}"
       ;;
   esac
 else
@@ -490,7 +490,7 @@ case "$PROVIDER" in
     SELECTED_MODEL_ID="${MODEL_ID:-kimi-k3}"
     ;;
   cursor)
-    SELECTED_MODEL_ID="${MODEL_ID:-cursor-grok-4.6-high-fast}"
+    SELECTED_MODEL_ID="${MODEL_ID:-kimi-k3-max}"
     ;;
 esac
 
@@ -1003,17 +1003,17 @@ case "$MODEL" in
       exit 1
     fi
     CURSOR_BIN="$(resolve_cursor_agent)" || exit 1
-    CURSOR_PIN="${SELECTED_MODEL_ID:-${MODEL_ID:-cursor-grok-4.6-high-fast}}"
+    CURSOR_PIN="${SELECTED_MODEL_ID:-${MODEL_ID:-kimi-k3-max}}"
     if [[ "$CURSOR_PIN" == auto ]]; then
       echo "xask: cursor provider refuses model pin auto" >&2
       exit 1
     fi
     CURSOR_WORKSPACE="${XASK_CURSOR_WORKSPACE:-$PWD}"
-    # Consult lane: --mode ask (read-only) + --trust (skip Workspace Trust Required).
-    # Never --yolo / -f. Full-agent -p lives on xbgst-cursor-agent-surface.
-    DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$CURSOR_BIN" -p --mode ask --trust --output-format text
+    # Agentic burn: -p (write+shell) + --trust (skip Workspace Trust Required).
+    # Never --mode ask. Never --yolo / -f. Never argv0=agent. Never auto.
+    DISPATCH_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$CURSOR_BIN" -p --trust --output-format text
       --model "$CURSOR_PIN" --workspace "$CURSOR_WORKSPACE" -- "$PROMPT")
-    DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$CURSOR_BIN" -p --mode ask --trust --output-format text
+    DEBUG_ARGV=(env -u CODEX_BIN -u XBRD_SPARK_MODEL "$CURSOR_BIN" -p --trust --output-format text
       --model "$CURSOR_PIN" --workspace "$CURSOR_WORKSPACE" -- "<PROMPT>")
     ;;
   cdx|codex)
@@ -1080,7 +1080,7 @@ if [ "$DEBUG" = true ]; then
       if [[ "$MODEL" == cursor ]]; then
         echo "CURSOR_PIN: ${CURSOR_PIN:-<unset>}"
         echo "CURSOR_WORKSPACE: ${CURSOR_WORKSPACE:-<unset>}"
-        echo "CURSOR_CLI: cursor-agent -p --mode ask --trust --output-format text --model <cli-id> (never auto; never argv0 agent; never --yolo/-f)"
+        echo "CURSOR_CLI: cursor-agent -p --trust --output-format text --model <cli-id> (agentic; never --mode ask; never auto; never argv0 agent; never --yolo/-f)"
       fi
       ;;
   esac
