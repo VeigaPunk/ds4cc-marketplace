@@ -41,9 +41,9 @@ Meter clocks: session start `2026-08-24T04:36:27Z` and first meter `04:46:06Z`. 
 
 **Oneshot** category (`/goal` + short mid-run steer; self-clone forking). Paid Cursor Ultra (**gravy train**) OAuth — SuperGrok Heavy grant (**incl. for free**). Repo **jo-o-veiga/ufo-fsd-alpha** (Cursor Origin). Linked BC `bc-cc5260a9…` finished (composer-2.5, 46m 28s goal). Prompt-group swarm still walking.
 
-**Live strip** (Codex-shaped): polls `GetCurrentPeriodUsage` every 3m → `used_percent` bar + pace/ETA + curve [`data/cursor-ultra-curve.json`](data/cursor-ultra-curve.json). Ultra meter also: Kimi K3 Max hit included API usage; UI reported **$947 saved on API model usage this month**. Cycle reset **2026-09-18**. Charter site not auto-edited from the monitor.
+**Live strip** (Codex-shaped): polls `GetCurrentPeriodUsage` every 3m → `used_percent` bar + pace/ETA + curve [`data/cursor-ultra-curve.json`](data/cursor-ultra-curve.json). Ultra meter also: Kimi K3 Max hit included API usage; UI reported **$1497** saved (operator) / **$1515** (live probe) ≈ **7.5×** a $200 Ultra plan. Closeout armed at **≥97%** included (pretend 100%) with doom-loop effective-changes audit. Cycle reset **2026-09-18**. Charter site not auto-edited from the monitor.
 
-Data: [`data/run-cursor-ultra-ufo-core-2026-08-25.json`](data/run-cursor-ultra-ufo-core-2026-08-25.json) · prompt [`data/artifacts/prompt-cursor-ultra-ufo-core-2026-08-25.md`](data/artifacts/prompt-cursor-ultra-ufo-core-2026-08-25.md) · meter [`data/artifacts/meter-cursor-ultra-kimi-k3-max-947-saved-2026-08-25.json`](data/artifacts/meter-cursor-ultra-kimi-k3-max-947-saved-2026-08-25.json)
+Data: [`data/run-cursor-ultra-ufo-core-2026-08-25.json`](data/run-cursor-ultra-ufo-core-2026-08-25.json) · prompt [`data/artifacts/prompt-cursor-ultra-ufo-core-2026-08-25.md`](data/artifacts/prompt-cursor-ultra-ufo-core-2026-08-25.md) · meter [`data/artifacts/meter-cursor-ultra-kimi-k3-max-1497-saved-2026-08-25.json`](data/artifacts/meter-cursor-ultra-kimi-k3-max-1497-saved-2026-08-25.json) · probe [`data/artifacts/meter-cursor-ultra-kimi-k3-max-1515-probe-2026-08-25.json`](data/artifacts/meter-cursor-ultra-kimi-k3-max-1515-probe-2026-08-25.json) · audit [`data/artifacts/audit-swarm-effective-changes-2026-08-25.md`](data/artifacts/audit-swarm-effective-changes-2026-08-25.md)
 
 ## Thesis
 

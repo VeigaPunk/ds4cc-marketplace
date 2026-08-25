@@ -170,7 +170,7 @@ function renderLiveStrip(run, curve) {
       <dt>plan</dt><dd>Ultra ${escapeHtml(m.plan_price || "$200/mo")} · included $${((m.included_limit_cents || 40000) / 100).toFixed(0)}</dd>
       <dt>meter</dt><dd>included total ${escapeHtml(Number(pct).toFixed(1))}% · auto ${escapeHtml(m.auto_percent_used ?? "—")}% · API ${escapeHtml(m.api_percent_used ?? "—")}%</dd>
       <dt>spend</dt><dd>total $${((m.total_spend_cents || 0) / 100).toFixed(2)} · included $${((m.included_spend_cents || 0) / 100).toFixed(2)} · bonus $${((m.bonus_spend_cents || 0) / 100).toFixed(2)}</dd>
-      <dt>API savings</dt><dd>$${escapeHtml(m.ultra_api_savings_usd_this_month ?? 947)} saved this month (Ultra UI)</dd>
+      <dt>API savings</dt><dd>$${escapeHtml(m.ultra_api_savings_usd_this_month ?? 1515)} saved this month (Ultra UI)</dd>
       <dt>swarm</dt><dd>${escapeHtml(m.swarm_running)} run · ${escapeHtml(m.swarm_finished)} fin · ${escapeHtml(m.swarm_error)} err · n=${escapeHtml(m.swarm_n)}</dd>
       <dt>model</dt><dd>${escapeHtml(m.model || m.linked_bc_model)}</dd>
       <dt>category</dt><dd>oneshot · /goal + mid-run steer · self-clone forking</dd>
