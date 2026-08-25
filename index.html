@@ -1094,7 +1094,9 @@ distiller / simplifier / scribe native</pre>
 
   function filtered() {
     const q = (filter.value || "").trim().toLowerCase();
+    const rinneganOn = document.documentElement.classList.contains("rinnegan");
     return PLUGINS.filter(p => {
+      if (rinneganOn && p.n === "spoderman") return false;
       const catOk = activeCat === "all" || (p.cat || "tools") === activeCat;
       if (!catOk) return false;
       if (!q) return true;
