@@ -32,7 +32,8 @@ function budgetCell(run) {
 
 function clockCell(run) {
   if (run.status === "live" && run.metrics?.used_percent != null) {
-    return `${run.metrics.used_percent}% weekly · ${run.duration || "live"}`;
+    const unit = run.meter === "cursor_ultra_included_usage" ? "included" : "weekly";
+    return `${run.metrics.used_percent}% ${unit} · ${run.duration || "live"}`;
   }
   if (run.status === "live" && run.metrics?.context_frac) {
     return `${run.metrics.context_frac} ctx`;
@@ -126,15 +127,33 @@ function renderCurve(curve) {
   el("curve-dot").setAttribute("cy", lastY.toFixed(1));
 }
 
-function renderCodex(run, curve) {
+function renderLiveStrip(run, curve) {
   const m = run.metrics || {};
   const pace = run.pace || {};
+  const snap = run.snapshot || {};
   const pct = m.used_percent ?? curve?.points?.at(-1)?.pct ?? 0;
+  const isCursor = run.id?.includes("cursor-ultra") || run.meter === "cursor_ultra_included_usage";
   el("live-title").textContent = `${run.runner} — ${run.title}`;
   el("live-summary").textContent = run.summary;
-  el("live-pct").textContent = `${pct}%`;
-  el("hero-live-pct").textContent = `${pct}%`;
+  el("live-pct").textContent = `${Number(pct).toFixed(1)}%`;
+  el("hero-live-pct").textContent = `${Math.round(Number(pct))}%`;
   el("live-fill").style.width = `${Math.min(100, Number(pct) || 0)}%`;
+  const eyebrow = el("live-eyebrow");
+  if (eyebrow) {
+    eyebrow.textContent = isCursor
+      ? `${run.status} · cursor ultra included usage`
+      : `${run.status} · oauth 20x oneshot`;
+  }
+  const meterLabel = el("live-meter-label");
+  if (meterLabel) {
+    meterLabel.textContent = isCursor
+      ? "of Ultra included total usage · monthly cycle"
+      : "of weekly 20x · window 10080 min";
+  }
+  const heroLiveLabel = el("hero-live-label");
+  if (heroLiveLabel) {
+    heroLiveLabel.textContent = isCursor ? "Cursor Ultra included" : "Codex 20x closed";
+  }
   el("live-pace").textContent = `${pace.pct_per_min ?? m.pct_per_min ?? "—"}%/min · ${pace.elapsed_min_from_first_meter ?? "—"} min from first meter · ${pace.elapsed_min_from_session ?? m.elapsed_min_from_session ?? "—"} min from session`;
   el("live-eta").textContent = `${pace.eta_100_min ?? m.eta_100_min ?? "—"} min remaining`;
   const setRec = (id, ok) => {
@@ -145,18 +164,40 @@ function renderCodex(run, curve) {
   };
   setRec("live-record", pace.subhour_meter_ok ?? pace.subhour_ok ?? m.subhour_ok);
   setRec("live-record-session", pace.subhour_session_ok ?? m.subhour_session_ok);
-  el("live-metrics").innerHTML = `
-    <dt>model</dt><dd>${escapeHtml(m.model)}</dd>
-    <dt>category</dt><dd>oneshot</dd>
-    <dt>meter</dt><dd>weekly ${escapeHtml(m.window_minutes)} min · not monthly 100%</dd>
-    <dt>plan</dt><dd>${escapeHtml(m.plan_type)}</dd>
-    <dt>tokens</dt><dd>${fmtTokens(m.tokens_total)} <span class="muted">cached ${fmtTokens(m.tokens_cached_input)}</span></dd>
-    <dt>rollouts</dt><dd>${escapeHtml(m.n_rollouts)}</dd>
-    <dt>host load</dt><dd>~${escapeHtml(m.approx_cores)} cores · ${escapeHtml(m.rss_gb)} GB RSS</dd>
-    <dt>venue</dt><dd>${escapeHtml(run.venue)}</dd>
-    <dt>paid</dt><dd>paid Pro OAuth — not a grant</dd>
-    <dt>snapshot</dt><dd>${escapeHtml(run.snapshot?.ts || "—")}</dd>
-  `;
+  if (isCursor) {
+    el("live-metrics").innerHTML = `
+      <dt>status</dt><dd class="${run.status === "live" ? "status-live" : "status-closed"}">${escapeHtml(run.status)}</dd>
+      <dt>plan</dt><dd>Ultra ${escapeHtml(m.plan_price || "$200/mo")} · included $${((m.included_limit_cents || 40000) / 100).toFixed(0)}</dd>
+      <dt>meter</dt><dd>included total ${escapeHtml(Number(pct).toFixed(1))}% · auto ${escapeHtml(m.auto_percent_used ?? "—")}% · API ${escapeHtml(m.api_percent_used ?? "—")}%</dd>
+      <dt>spend</dt><dd>total $${((m.total_spend_cents || 0) / 100).toFixed(2)} · included $${((m.included_spend_cents || 0) / 100).toFixed(2)} · bonus $${((m.bonus_spend_cents || 0) / 100).toFixed(2)}</dd>
+      <dt>API savings</dt><dd>$${escapeHtml(m.ultra_api_savings_usd_this_month ?? 947)} saved this month (Ultra UI)</dd>
+      <dt>swarm</dt><dd>${escapeHtml(m.swarm_running)} run · ${escapeHtml(m.swarm_finished)} fin · ${escapeHtml(m.swarm_error)} err · n=${escapeHtml(m.swarm_n)}</dd>
+      <dt>model</dt><dd>${escapeHtml(m.model || m.linked_bc_model)}</dd>
+      <dt>category</dt><dd>oneshot · /goal + mid-run steer · self-clone forking</dd>
+      <dt>repo</dt><dd>${escapeHtml(m.repo || run.repository?.full_name || "—")}</dd>
+      <dt>venue</dt><dd>${escapeHtml(run.venue)}</dd>
+      <dt>paid</dt><dd>paid Ultra OAuth — not a grant</dd>
+      <dt>snapshot</dt><dd>${escapeHtml(snap.ts || "—")}</dd>
+    `;
+    const repoOut = el("codex-repo-out");
+    if (repoOut) {
+      repoOut.href = run.links?.origin_repo || run.links?.agent || "#";
+      repoOut.textContent = "ufo-fsd-alpha · live agent";
+    }
+  } else {
+    el("live-metrics").innerHTML = `
+      <dt>model</dt><dd>${escapeHtml(m.model)}</dd>
+      <dt>category</dt><dd>oneshot</dd>
+      <dt>meter</dt><dd>weekly ${escapeHtml(m.window_minutes)} min · not monthly 100%</dd>
+      <dt>plan</dt><dd>${escapeHtml(m.plan_type)}</dd>
+      <dt>tokens</dt><dd>${fmtTokens(m.tokens_total)} <span class="muted">cached ${fmtTokens(m.tokens_cached_input)}</span></dd>
+      <dt>rollouts</dt><dd>${escapeHtml(m.n_rollouts)}</dd>
+      <dt>host load</dt><dd>~${escapeHtml(m.approx_cores)} cores · ${escapeHtml(m.rss_gb)} GB RSS</dd>
+      <dt>venue</dt><dd>${escapeHtml(run.venue)}</dd>
+      <dt>paid</dt><dd>paid Pro OAuth — not a grant</dd>
+      <dt>snapshot</dt><dd>${escapeHtml(run.snapshot?.ts || "—")}</dd>
+    `;
+  }
   if (curve) renderCurve(curve);
 }
 
@@ -194,10 +235,15 @@ async function main() {
   const kimi = byId["veigapunk-kimi-vivace-oauth-2026-08-24"];
   if (kimi) renderKimi(kimi);
 
-  const liveId = manifest.live_strip_run_id || "veigapunk-codex-ultra-oauth-20x-2026-08-24";
-  const codex = byId[liveId];
-  const curve = await loadJsonSoft(codex?.curve || "data/codex-curve.json");
-  if (codex) renderCodex(codex, curve);
+  const liveId = manifest.live_strip_run_id || "veigapunk-cursor-ultra-ufo-core-2026-08-25";
+  const liveRun = byId[liveId];
+  const curve = await loadJsonSoft(
+    liveRun?.curve ||
+      (liveId.includes("cursor-ultra")
+        ? "data/cursor-ultra-curve.json"
+        : "data/codex-curve.json")
+  );
+  if (liveRun) renderLiveStrip(liveRun, curve);
 }
 
 main().catch((err) => {

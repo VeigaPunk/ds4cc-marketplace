@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Token Speedrun — three public burns</title>
-  <meta name="description" content="Public receipts: $200 Kimi seed (48h, closed), live Kimi OAuth vivace, closed Codex ultra oneshot." />
+  <title>Token Speedrun — public burns</title>
+  <meta name="description" content="Public receipts: $200 Kimi seed, Kimi OAuth vivace, Codex ultra oneshot, live Cursor Ultra UFO-core." />
   <meta name="theme-color" content="#070d10" />
   <meta property="og:title" content="Token Speedrun" />
   <meta property="og:description" content="Three runs. Live Kimi. Closed Codex oneshot. Receipts only." />
@@ -22,8 +22,8 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="#live-codex">Codex</a>
-      <a href="#codex-wrap">Wrap-up</a>
+      <a href="#live-codex">Live Ultra</a>
+      <a href="#codex-wrap">Repo</a>
       <a href="#run-kimi">Live Kimi</a>
       <a href="#limits">5h ≈ 20%</a>
       <a href="#crown">Crown</a>
@@ -37,36 +37,36 @@
 
   <main id="main">
     <section class="hero">
-      <p class="kicker">three runs · paid oauth · not a grant · plazir charter</p>
+      <p class="kicker">four runs · paid oauth · not a grant · plazir charter</p>
       <p class="lede">
         A public scoreboard for <strong>fixed-budget agent work</strong>.
         Featured seed stays the closed <strong>$200 Kimi / Moonshot</strong> 48h burn
         <strong>the operator paid for</strong> — same as these live rows:
         <strong>not a grant</strong>.
-        Kimi OAuth vivace walked autonomously (praise it).
+        Live strip is <strong>Cursor Ultra</strong> UFO-core (included usage meter).
         Codex ultra oneshot is <strong>closed / done</strong>.
         Grok still holds the L1 / ufo-fsd crown, weakly.
       </p>
       <div class="hero-stats">
-        <div class="stat"><span class="n" id="hero-n-runs">3</span><span class="l">runs on the board</span></div>
+        <div class="stat"><span class="n" id="hero-n-runs">4</span><span class="l">runs on the board</span></div>
         <div class="stat"><span class="n">48h</span><span class="l">closed seed clock</span></div>
-        <div class="stat"><span class="n" id="hero-live-pct">—</span><span class="l">Codex 20x closed</span></div>
+        <div class="stat"><span class="n" id="hero-live-pct">—</span><span class="l" id="hero-live-label">Cursor Ultra included</span></div>
       </div>
     </section>
 
-    <section class="panel" id="live-codex" aria-labelledby="live-title">
-      <p class="eyebrow">closed · oauth 20x oneshot</p>
-      <h2 id="live-title">Codex ultra — loading…</h2>
+    <section class="panel live" id="live-codex" aria-labelledby="live-title">
+      <p class="eyebrow" id="live-eyebrow">live · cursor ultra included usage</p>
+      <h2 id="live-title">Cursor Ultra — loading…</h2>
       <p class="summary" id="live-summary"></p>
       <div class="chips" aria-label="run tags">
-        <span class="chip">closed</span>
+        <span class="chip">live</span>
         <span class="chip chip-paid">paid</span>
         <span class="chip">oneshot</span>
-        <span class="chip">done</span>
+        <span class="chip">ufo-fsd</span>
       </div>
       <div class="live-grid">
         <div class="meter">
-          <div class="pace-row"><strong id="live-pct">—</strong> of weekly 20x · window 10080 min</div>
+          <div class="pace-row"><strong id="live-pct">—</strong> <span id="live-meter-label">of Ultra included total usage · monthly cycle</span></div>
           <div class="meter-bar" aria-hidden="true"><div class="meter-fill" id="live-fill"></div></div>
         </div>
         <p class="pace-row">pace <strong id="live-pace">—</strong></p>
@@ -75,7 +75,7 @@
         <p class="pace-row">sub-hour from first meter <strong id="live-record">—</strong></p>
         <p class="pace-row">vs 48h Kimi seed <strong>orders of magnitude faster clock</strong></p>
         <div class="curve-wrap">
-          <svg id="curve" viewBox="0 0 640 220" role="img" aria-label="Codex burn curve, percent versus minutes from first meter">
+          <svg id="curve" viewBox="0 0 640 220" role="img" aria-label="Cursor Ultra burn curve, included percent versus minutes from first meter">
             <text class="curve-axis" x="8" y="16">% used</text>
             <text class="curve-axis" x="520" y="212">minutes from first meter</text>
             <path class="curve-fill" id="curve-fill" d=""></path>
@@ -86,8 +86,8 @@
       </div>
       <dl class="metrics" id="live-metrics"></dl>
       <p class="repo-out" id="codex-wrap">
-        <a class="repo-btn" id="codex-repo-out" href="https://github.com/VeigaPunk/xbgst-codex" rel="noopener">xbgst-codex wrap-up</a>
-        <span class="muted">outbound repo · last wrap-up is the link, not a dump</span>
+        <a class="repo-btn" id="codex-repo-out" href="https://cursor.com/codebase/jo-o-veiga/ufo-fsd-alpha" rel="noopener">ufo-fsd-alpha · live agent</a>
+        <span class="muted">Cursor Origin · poll updates curve every 3m</span>
       </p>
     </section>
 

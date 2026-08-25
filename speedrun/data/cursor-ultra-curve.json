@@ -1,0 +1,36 @@
+{
+  "t0": "2026-08-25T19:47:00Z",
+  "session_start": "2026-08-25T18:05:16.539Z",
+  "plan_type": "ultra",
+  "plan_price": "$200/mo",
+  "included_amount_cents": 40000,
+  "meter": "included_total_usage",
+  "billing_cycle_end": "2026-09-18",
+  "points": [
+    {
+      "ts": "2026-08-25T19:47:00Z",
+      "pct": 26.0,
+      "source": "operator_monitor_start",
+      "swarm_running": 12,
+      "swarm_finished": 8,
+      "swarm_error": 8,
+      "swarm_n": 28
+    },
+    {
+      "ts": "2026-08-25T19:54:57Z",
+      "pct": 28.97,
+      "auto_pct": 11.72,
+      "api_pct": 100.0,
+      "total_spend_cents": 101394,
+      "included_spend_cents": 40000,
+      "bonus_spend_cents": 61394,
+      "swarm_running": 13,
+      "swarm_finished": 7,
+      "swarm_error": 8,
+      "swarm_n": 28,
+      "swarm_wall_min": 109.63,
+      "linked_files": 5864,
+      "linked_lines": 741077
+    }
+  ]
+}

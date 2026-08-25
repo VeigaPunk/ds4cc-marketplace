@@ -1,0 +1,28 @@
+{
+  "ts": "2026-08-25T19:50:53Z",
+  "fullName": "jo-o-veiga/ufo-fsd-alpha",
+  "id": "r_01m0x1j4c1f1raz2wr8bpa24rq",
+  "defaultBranch": "main",
+  "createdAt": "2026-08-25T18:05:16.539Z",
+  "pushedAt": "2026-08-25T19:49:24.333Z",
+  "cloneUrl": "https://origin.cursor.com/jo-o-veiga/ufo-fsd-alpha.git",
+  "branch_count": 25,
+  "cursor_branch_count": 24,
+  "head_sha": "838e6d20c9f41e1f60590c1be373b9a0793daab0",
+  "head_message": "Bridge orch memory SSoT and integrate ufo-core SPEC orphans.",
+  "head_date": "2026-08-25T19:49:24+00:00",
+  "sample_cursor_branches": [
+    "cursor/ci-pack-clean-temp-7e0c",
+    "cursor/e1-e5-verify-e8c0",
+    "cursor/exec-e1-e5-d417",
+    "cursor/exec-e6-e7-d417",
+    "cursor/handoff-kit-wip-84eb",
+    "cursor/handoff-redispatch-kit-84eb",
+    "cursor/implementation-antipattern-gates-7f9e",
+    "cursor/judge-probe-b-d417",
+    "cursor/judge-round-2-d417",
+    "cursor/judge-round-parent-task-d417",
+    "cursor/live-fanout-lkg-substrates-2812",
+    "cursor/merge-live-fanout-into-main-9827"
+  ]
+}

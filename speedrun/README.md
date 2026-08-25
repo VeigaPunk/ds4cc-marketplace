@@ -2,7 +2,7 @@
 
 Public **fixed-budget** agent runs with receipts. Providers can claim value and efficiency **empirically** — and have incentive to subsidize fair lanes.
 
-**Three runs** on the board (`data/manifest.json`): one closed seed plus two live paid OAuth burns.
+**Four runs** on the board (`data/manifest.json`): one closed seed, two prior OAuth burns, plus live Cursor Ultra UFO-core cloud swarm.
 
 ## Seed run (featured, closed)
 
@@ -36,6 +36,14 @@ Receipt: [https://github.com/VeigaPunk/xbgst-codex](https://github.com/VeigaPunk
 Data: [`data/run-codex-ultra-oauth-20x-2026-08-24.json`](data/run-codex-ultra-oauth-20x-2026-08-24.json) · curve [`data/codex-curve.json`](data/codex-curve.json)
 
 Meter clocks: session start `2026-08-24T04:36:27Z` and first meter `04:46:06Z`. Spark 5h is a side window, not the 20x row.
+
+## Live Cursor Ultra OAuth — UFO core runtime
+
+**Oneshot** category (`/goal` + short mid-run steer; self-clone forking). Paid Cursor Ultra OAuth — **not a grant**. Repo **jo-o-veiga/ufo-fsd-alpha** (Cursor Origin). Linked BC `bc-cc5260a9…` finished (composer-2.5, 46m 28s goal). Prompt-group swarm still walking.
+
+**Live strip** (Codex-shaped): polls `GetCurrentPeriodUsage` every 3m → `used_percent` bar + pace/ETA + curve [`data/cursor-ultra-curve.json`](data/cursor-ultra-curve.json). Ultra meter also: Kimi K3 Max hit included API usage; UI reported **$947 saved on API model usage this month**. Cycle reset **2026-09-18**. Charter site not auto-edited from the monitor.
+
+Data: [`data/run-cursor-ultra-ufo-core-2026-08-25.json`](data/run-cursor-ultra-ufo-core-2026-08-25.json) · prompt [`data/artifacts/prompt-cursor-ultra-ufo-core-2026-08-25.md`](data/artifacts/prompt-cursor-ultra-ufo-core-2026-08-25.md) · meter [`data/artifacts/meter-cursor-ultra-kimi-k3-max-947-saved-2026-08-25.json`](data/artifacts/meter-cursor-ultra-kimi-k3-max-947-saved-2026-08-25.json)
 
 ## Thesis
 
