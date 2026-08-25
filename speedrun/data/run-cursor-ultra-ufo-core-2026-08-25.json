@@ -9,7 +9,7 @@
   "budget_note": "Paid Cursor Ultra (gravy train) OAuth \u2014 SuperGrok Heavy grant (incl. for free). Operator frame: ~$400 Ultra context / $200 plan price. Fail-as-data: Kimi K3 Max usage-limit receipts show $1497 (operator) / $1515 (live probe) API savings this month (~7.5\u00d7 the $200 plan). spendLimitHit false; cycle reset 2026-09-18. At \u226597% included usage, closeout pretends 100% and freezes the doom-loop audit.",
   "currency": "USD",
   "status": "live",
-  "duration": "live \u00b7 44.6% included \u00b7 swarm 11 run / 9 fin / 8 err \u00b7 wall 304.65 min",
+  "duration": "live \u00b7 44.7% included \u00b7 swarm 11 run / 9 fin / 8 err \u00b7 wall 304.65 min",
   "venue": "cursor.com/agents \u00b7 bc-cc5260a9-3185-4d91-964d-0ec8ee323df4 \u00b7 prompt_group 96a3e089-bd83-4cb2-a618-284b71661283 \u00b7 repo jo-o-veiga/ufo-fsd-alpha (Cursor Origin)",
   "summary": "UFO-FSD oneshot on Cursor Ultra cloud with no prior orch config \u2014 28 concurrent doom-loop. Linked BC composer-2.5 finished /goal (claims cursor/ufo-core-runtime-3df4 on ufo-fsd-alpha). 27 peers forked tmp-* and burned overlapping churn. Fail-as-data: Kimi K3 Max hard-stop with $1497\u2013$1515 Ultra API-savings (~7.5\u00d7 a $200 plan). Closeout armed at \u226597% included (pretend 100%).",
   "timeline": [
@@ -57,6 +57,11 @@
       "t": "2026-08-25T22:54:51Z",
       "label": "swarm effective-changes audit",
       "note": "28 peers \u00b7 1\u00d7 ufo-fsd-alpha + 27\u00d7 tmp-* \u00b7 all branchName=main \u00b7 doom-loop churn inventory \u00b7 closeout armed @97%"
+    },
+    {
+      "t": "2026-08-25T23:11:00Z",
+      "label": "oneshot prompt + steer button",
+      "note": "verbatim /goal + mid-run steer folded as oneshot \u00b7 operator lunching at fav Chinese rest when dispatching"
     }
   ],
   "metrics": {
@@ -98,25 +103,25 @@
     "gemini_peer_note": "one finished gemini-3.7-flash-high peer in same prompt_group; linked orchestrator BC was composer-2.5 not gemini",
     "repo": "jo-o-veiga/ufo-fsd-alpha",
     "starting_commit": "f43c757c871232f8992bac4c2d858d52ec9fe29e",
-    "outcome": "live \u00b7 44.6% included \u00b7 swarm walking \u00b7 Ultra API savings receipt on board",
+    "outcome": "live \u00b7 44.7% included \u00b7 swarm walking \u00b7 Ultra API savings receipt on board",
     "ufo_fsd_in_action": true,
     "repo_host": "origin.cursor.com",
     "repo_branch_count": 25,
     "repo_cursor_branch_count": 24,
     "repo_head_sha": "838e6d20c9f41e1f60590c1be373b9a0793daab0",
-    "used_percent": 44.613,
-    "auto_percent_used": 20.363,
+    "used_percent": 44.747,
+    "auto_percent_used": 20.448,
     "api_percent_used": 100.0,
-    "total_spend_cents": 156146,
+    "total_spend_cents": 156616,
     "included_spend_cents": 40000,
-    "bonus_spend_cents": 116146,
+    "bonus_spend_cents": 116616,
     "included_limit_cents": 40000,
     "plan_type": "ultra",
     "plan_price": "$200/mo",
-    "pct_per_min": 0.0915,
-    "eta_100_min": 605.55,
-    "elapsed_min_from_session": 305.22,
-    "elapsed_min_from_first_meter": 203.5,
+    "pct_per_min": 0.0917,
+    "eta_100_min": 602.36,
+    "elapsed_min_from_session": 306.11,
+    "elapsed_min_from_first_meter": 204.38,
     "model": "composer-2.5 \u00b7 multi-model swarm",
     "n_rollouts": 28,
     "window_minutes": null,
@@ -127,7 +132,7 @@
     "pretend_100_at_97": true
   },
   "snapshot": {
-    "ts": "2026-08-25T23:10:30Z",
+    "ts": "2026-08-25T23:11:23Z",
     "prompt_group_id": "96a3e089-bd83-4cb2-a618-284b71661283",
     "swarm_n": 28,
     "by_status": {
@@ -155,12 +160,12 @@
     "linked_bc_files": 5864,
     "linked_bc_lines": 741077,
     "all_terminal": false,
-    "used_percent": 44.613,
-    "auto_percent_used": 20.363,
+    "used_percent": 44.747,
+    "auto_percent_used": 20.448,
     "api_percent_used": 100.0,
-    "total_spend_cents": 156146,
+    "total_spend_cents": 156616,
     "included_spend_cents": 40000,
-    "bonus_spend_cents": 116146,
+    "bonus_spend_cents": 116616,
     "included_limit_cents": 40000,
     "display_message": "You've hit your usage limit",
     "auto_msg": "You've used 45% of your included total usage",
@@ -173,7 +178,8 @@
     "ultra_meter_probe": "data/artifacts/meter-cursor-ultra-kimi-k3-max-1515-probe-2026-08-25.json",
     "audit_effective": "data/artifacts/audit-swarm-effective-changes-2026-08-25.json",
     "audit_effective_md": "data/artifacts/audit-swarm-effective-changes-2026-08-25.md",
-    "ultra_meter_latest": "data/artifacts/meter-cursor-ultra-kimi-k3-max-1515-probe-2026-08-25.json"
+    "ultra_meter_latest": "data/artifacts/meter-cursor-ultra-kimi-k3-max-1515-probe-2026-08-25.json",
+    "oneshot_prompt_html": "data/artifacts/oneshot-prompt-cursor-ultra-ufo-core-2026-08-25.html"
   },
   "links": {
     "agent": "https://cursor.com/agents/bc-cc5260a9-3185-4d91-964d-0ec8ee323df4?selectedBcId=bc-cc5260a9-3185-4d91-964d-0ec8ee323df4&app=subscriptions",
@@ -181,7 +187,8 @@
     "board": "./",
     "dashboard_settings": "https://www.cursor.com/dashboard?tab=settings",
     "origin_repo": "https://cursor.com/codebase/jo-o-veiga/ufo-fsd-alpha",
-    "origin_git": "https://origin.cursor.com/git/jo-o-veiga/ufo-fsd-alpha.git"
+    "origin_git": "https://origin.cursor.com/git/jo-o-veiga/ufo-fsd-alpha.git",
+    "oneshot_prompt": "data/artifacts/oneshot-prompt-cursor-ultra-ufo-core-2026-08-25.html"
   },
   "tags": [
     "cursor",
@@ -220,10 +227,10 @@
   "session_start": "2026-08-25T18:05:16.539Z",
   "first_meter": "2026-08-25T19:47:00Z",
   "pace": {
-    "elapsed_min_from_session": 305.22,
-    "elapsed_min_from_first_meter": 203.5,
-    "pct_per_min": 0.0915,
-    "eta_100_min": 605.55,
+    "elapsed_min_from_session": 306.11,
+    "elapsed_min_from_first_meter": 204.38,
+    "pct_per_min": 0.0917,
+    "eta_100_min": 602.36,
     "record_target_min": 60,
     "subhour_session_ok": false,
     "subhour_meter_ok": false,

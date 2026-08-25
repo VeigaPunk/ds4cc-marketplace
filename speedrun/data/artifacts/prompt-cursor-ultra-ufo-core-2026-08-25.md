@@ -31,9 +31,13 @@ Linked BC turn summary (FINISHED): goal marked complete via UpdateGoal; branch c
 
 ## category.oneshot
 Primary launch was a single `/goal` human message. Treat as oneshot category for board scoring.
+Public button page folds the steer in as if it rode on the oneshot:
+`data/artifacts/oneshot-prompt-cursor-ultra-ufo-core-2026-08-25.html`
 
 ## category.steer_mid_run
-Short mid-run steer (could have been folded into oneshot):
+Short mid-run steer — **pretended on the oneshot** for category scoring.
+Operator context: was lunching at their favourite Chinese restaurant; dispatched
+while eating (sorry). Bytes:
 
 ```
 self handoff and while doing the iteration, auto fork your own work, when justified, so we can also adapt deliverables to other substrates listed. [make sure to highlight this is ufo-fsd in action.]

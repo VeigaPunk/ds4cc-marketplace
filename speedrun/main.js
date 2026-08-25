@@ -184,6 +184,15 @@ function renderLiveStrip(run, curve) {
       repoOut.href = run.links?.origin_repo || run.links?.agent || "#";
       repoOut.textContent = "ufo-fsd-alpha · live agent";
     }
+    const promptBtn = el("oneshot-prompt-btn");
+    if (promptBtn) {
+      const href =
+        run.links?.oneshot_prompt ||
+        run.artifacts?.oneshot_prompt_html ||
+        "data/artifacts/oneshot-prompt-cursor-ultra-ufo-core-2026-08-25.html";
+      promptBtn.href = href;
+      promptBtn.textContent = "oneshot prompt + steer";
+    }
   } else {
     el("live-metrics").innerHTML = `
       <dt>model</dt><dd>${escapeHtml(m.model)}</dd>
