@@ -176,7 +176,7 @@ function renderLiveStrip(run, curve) {
       <dt>category</dt><dd>oneshot · /goal + mid-run steer · self-clone forking</dd>
       <dt>repo</dt><dd>${escapeHtml(m.repo || run.repository?.full_name || "—")}</dd>
       <dt>venue</dt><dd>${escapeHtml(run.venue)}</dd>
-      <dt>paid</dt><dd>paid Ultra OAuth — not a grant</dd>
+      <dt>paid</dt><dd>paid Cursor Ultra (gravy train) OAuth — SuperGrok Heavy grant (incl. for free)</dd>
       <dt>snapshot</dt><dd>${escapeHtml(snap.ts || "—")}</dd>
     `;
     const repoOut = el("codex-repo-out");

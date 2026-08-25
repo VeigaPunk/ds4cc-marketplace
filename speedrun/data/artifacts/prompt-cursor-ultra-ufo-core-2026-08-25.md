@@ -5,7 +5,7 @@
 # prompt_group: 96a3e089-bd83-4cb2-a618-284b71661283
 # venue: cursor.com/agents (cloud / website source)
 # account: jpveigao10@gmail.com
-# product: Cursor Ultra OAuth (minted sub · paid · not a grant)
+# product: Cursor Ultra OAuth (minted sub · paid gravy train) · SuperGrok Heavy grant (incl. for free)
 # captured_at: 2026-08-25T19:47:00Z
 # repo: jo-o-veiga/ufo-fsd-alpha (Cursor Origin)
 # charter_framework: https://veigapunk.github.io/charter-ufo-fsd

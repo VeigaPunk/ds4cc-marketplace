@@ -39,7 +39,7 @@ Meter clocks: session start `2026-08-24T04:36:27Z` and first meter `04:46:06Z`. 
 
 ## Live Cursor Ultra OAuth — UFO core runtime
 
-**Oneshot** category (`/goal` + short mid-run steer; self-clone forking). Paid Cursor Ultra OAuth — **not a grant**. Repo **jo-o-veiga/ufo-fsd-alpha** (Cursor Origin). Linked BC `bc-cc5260a9…` finished (composer-2.5, 46m 28s goal). Prompt-group swarm still walking.
+**Oneshot** category (`/goal` + short mid-run steer; self-clone forking). Paid Cursor Ultra (**gravy train**) OAuth — SuperGrok Heavy grant (**incl. for free**). Repo **jo-o-veiga/ufo-fsd-alpha** (Cursor Origin). Linked BC `bc-cc5260a9…` finished (composer-2.5, 46m 28s goal). Prompt-group swarm still walking.
 
 **Live strip** (Codex-shaped): polls `GetCurrentPeriodUsage` every 3m → `used_percent` bar + pace/ETA + curve [`data/cursor-ultra-curve.json`](data/cursor-ultra-curve.json). Ultra meter also: Kimi K3 Max hit included API usage; UI reported **$947 saved on API model usage this month**. Cycle reset **2026-09-18**. Charter site not auto-edited from the monitor.
 
