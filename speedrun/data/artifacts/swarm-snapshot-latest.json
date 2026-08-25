@@ -1,5 +1,5 @@
 {
-  "ts": "2026-08-25T23:51:01Z",
+  "ts": "2026-08-25T23:56:05Z",
   "prompt_group_id": "96a3e089-bd83-4cb2-a618-284b71661283",
   "swarm_n": 28,
   "by_status": {
@@ -11,7 +11,7 @@
   "swarm_finished": 10,
   "swarm_error": 8,
   "swarm_other": 0,
-  "swarm_wall_min": 345.65,
+  "swarm_wall_min": 350.68,
   "by_model": {
     "composer-2.5": 4,
     "cursor-grok-4.5-high": 4,
@@ -27,14 +27,14 @@
   "linked_bc_files": 5864,
   "linked_bc_lines": 741077,
   "all_terminal": false,
-  "used_percent": 47.419,
-  "auto_percent_used": 21.91,
+  "used_percent": 47.782,
+  "auto_percent_used": 22.03,
   "api_percent_used": 100.0,
-  "total_spend_cents": 165967,
+  "total_spend_cents": 167237,
   "included_spend_cents": 40000,
-  "bonus_spend_cents": 125967,
+  "bonus_spend_cents": 127237,
   "included_limit_cents": 40000,
   "display_message": "You've hit your usage limit",
-  "auto_msg": "You've used 47% of your included total usage",
+  "auto_msg": "You've used 48% of your included total usage",
   "named_msg": "You've used 100% of your included API usage"
 }
