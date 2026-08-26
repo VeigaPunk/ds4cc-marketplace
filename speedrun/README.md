@@ -39,7 +39,7 @@ Meter clocks: session start `2026-08-24T04:36:27Z` and first meter `04:46:06Z`. 
 
 ## Live Cursor Ultra OAuth — UFO core runtime
 
-**Oneshot** category (`/goal` + short mid-run steer; self-clone forking). **$99** Cursor Ultra mint (**gravy train**) · another Ultra **$300** paid but not minted properly yet · SuperGrok Heavy alone ~**$300** (grant / incl. for free) · Grok bot **free** · X Premium+ (giver). Repo **jo-o-veiga/ufo-fsd-alpha** (Cursor Origin). Linked BC `bc-cc5260a9…` finished (composer-2.5, 46m 28s goal). Prompt-group swarm still walking. Public button: [`oneshot prompt + steer`](data/artifacts/oneshot-prompt-cursor-ultra-ufo-core-2026-08-25.html) (steer pretended on the oneshot — operator was lunching).
+**Oneshot** category (`/goal` + short mid-run steer; self-clone forking). **$99** Ultra mint (**gravy train**) · **$199** Cursor Ultra · SuperGrok Heavy alone ~**$300** (grant / incl. for free) · Grok bot **free** · X Premium+ (giver). Repo **jo-o-veiga/ufo-fsd-alpha** (Cursor Origin). Linked BC `bc-cc5260a9…` finished (composer-2.5, 46m 28s goal). Prompt-group swarm still walking. Public button: [`oneshot prompt + steer`](data/artifacts/oneshot-prompt-cursor-ultra-ufo-core-2026-08-25.html) (steer pretended on the oneshot — operator was lunching).
 
 **Live strip** (Codex-shaped): polls `GetCurrentPeriodUsage` every 3m → `used_percent` bar + pace/ETA + curve [`data/cursor-ultra-curve.json`](data/cursor-ultra-curve.json). Ultra meter also: Kimi K3 Max hit included API usage; UI reported **$1497** saved (operator) / **$1515** (live probe) ≈ **15×** the **$99** mint. Closeout armed at **≥97%** included (pretend 100%) with doom-loop effective-changes audit. Cycle reset **2026-09-18**. Charter site not auto-edited from the monitor.
 

@@ -5889,18 +5889,18 @@
       "linked_lines": 1306365
     },
     {
-      "ts": "2026-08-26T11:20:13Z",
-      "pct": 71.382,
-      "auto_pct": 33.835,
+      "ts": "2026-08-26T11:20:58Z",
+      "pct": 71.39,
+      "auto_pct": 33.845,
       "api_pct": 100.0,
-      "total_spend_cents": 249836,
+      "total_spend_cents": 249866,
       "included_spend_cents": 40000,
-      "bonus_spend_cents": 209836,
+      "bonus_spend_cents": 209866,
       "swarm_running": 3,
       "swarm_finished": 11,
       "swarm_error": 14,
       "swarm_n": 28,
-      "swarm_wall_min": 1034.89,
+      "swarm_wall_min": 1035.05,
       "linked_files": 16011,
       "linked_lines": 1306365
     }
@@ -5908,7 +5908,8 @@
   "plan_price_note": "Cursor included pool meter is still $400; operator paid $99 for this Ultra mint",
   "stack": {
     "ultra_this_mint_usd": 99,
-    "ultra_pending_mint_usd": 300,
+    "ultra_pending_mint_usd": 199,
+    "ultra_pending_label": "$199 Cursor Ultra",
     "supergrok_heavy_list_usd": 300,
     "supergrok_heavy": "grant (incl. for free)",
     "grok_bot": "free",

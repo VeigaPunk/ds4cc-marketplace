@@ -13,7 +13,7 @@
 
 `spendLimitHit: false` · spendLimits `[50,100,200]` · cycle reset **2026-09-18**.
 
-**Stack:** $99 live Ultra · $300 Ultra paid but not minted properly yet · SuperGrok Heavy alone ~$300 (grant / incl. for free) · Grok bot free · X Premium+ (giver).
+**Stack:** $99 Ultra mint (gravy train) · $199 Cursor Ultra · SuperGrok Heavy alone ~$300 (grant / incl. for free) · Grok bot free · X Premium+ (giver).
 
 ## Swarm inventory
 

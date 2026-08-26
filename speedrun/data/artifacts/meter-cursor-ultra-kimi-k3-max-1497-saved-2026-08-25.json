@@ -18,17 +18,18 @@
   "monthly_cycle_reset": "2026-09-18",
   "plan_price_usd": 99,
   "api_credit_multiple_vs_plan": 15.12,
-  "operator_note": "Paid this mint $99 Cursor Ultra (gravy train) OAuth. Another Ultra $300 not minted properly yet. SuperGrok Heavy ~$300 list — grant (incl. for free). Grok bot free. X Premium+ (giver). Fail-as-data: $1497 API savings ≈ 15.12× the $99 mint.",
+  "operator_note": "Paid this mint $99 Cursor Ultra (gravy train) OAuth. Second Ultra: $199 Cursor Ultra. SuperGrok Heavy ~$300 list — grant (incl. for free). Grok bot free. X Premium+ (giver). Fail-as-data: $1497 API savings ≈ 15.12× the $99 mint.",
   "product": "Cursor Ultra OAuth",
   "paid": true,
   "not_a_grant": true,
   "gravy_train": true,
   "stack": {
     "ultra_this_mint_usd": 99,
-    "ultra_pending_mint_usd": 300,
+    "ultra_pending_mint_usd": 199,
     "supergrok_heavy_list_usd": 300,
     "supergrok_heavy": "grant (incl. for free)",
     "grok_bot": "free",
-    "x_premium_plus": "giver"
+    "x_premium_plus": "giver",
+    "ultra_pending_label": "$199 Cursor Ultra"
   }
 }
