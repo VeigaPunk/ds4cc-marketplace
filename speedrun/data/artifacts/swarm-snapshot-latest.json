@@ -1,5 +1,5 @@
 {
-  "ts": "2026-08-26T08:48:24Z",
+  "ts": "2026-08-26T08:54:28Z",
   "prompt_group_id": "96a3e089-bd83-4cb2-a618-284b71661283",
   "swarm_n": 28,
   "by_status": {
@@ -11,7 +11,7 @@
   "swarm_finished": 10,
   "swarm_error": 14,
   "swarm_other": 0,
-  "swarm_wall_min": 882.77,
+  "swarm_wall_min": 889.15,
   "by_model": {
     "composer-2.5": 3,
     "cursor-grok-4.5-high": 4,
@@ -28,12 +28,12 @@
   "linked_bc_files": 15905,
   "linked_bc_lines": 1294578,
   "all_terminal": false,
-  "used_percent": 69.145,
-  "auto_percent_used": 32.929,
+  "used_percent": 69.216,
+  "auto_percent_used": 32.991,
   "api_percent_used": 100.0,
-  "total_spend_cents": 242009,
+  "total_spend_cents": 242255,
   "included_spend_cents": 40000,
-  "bonus_spend_cents": 202009,
+  "bonus_spend_cents": 202255,
   "included_limit_cents": 40000,
   "display_message": "You've hit your usage limit",
   "auto_msg": "You've used 69% of your included total usage",
