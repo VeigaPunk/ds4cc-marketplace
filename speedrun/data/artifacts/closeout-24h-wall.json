@@ -1,0 +1,21 @@
+{
+  "ts": "2026-08-26T18:05:37Z",
+  "kind": "closeout_wall_cap_24h",
+  "wall_min": 1440.29,
+  "wall_cap_min": 1440,
+  "included_pct": 76.983,
+  "api_pct": 100.0,
+  "swarm": {
+    "running": 11,
+    "finished": 10,
+    "error": 7,
+    "n": 28
+  },
+  "reason": "24h wall cap on ufo-fsd-alpha \u00b7 harvest NEXT from run \u00b7 models too cheap for further thrash",
+  "required_next_artifact": "NEXT.md or handoff.json on Origin jo-o-veiga/ufo-fsd-alpha",
+  "harvest_bcs": [
+    "bc-d6ef0199-765b-427a-a308-122148f46a51",
+    "bc-cc5260a9-3185-4d91-964d-0ec8ee323df4"
+  ],
+  "policy_artifact": "data/artifacts/closeout-policy-24h-wall.json"
+}
