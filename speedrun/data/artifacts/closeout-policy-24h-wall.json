@@ -1,0 +1,15 @@
+{
+  "ts": "2026-08-26T15:50:47Z",
+  "mode": "harvest",
+  "closeout_primary": "wall_cap",
+  "wall_cap_min": 1440,
+  "closeout_secondary_pct": 97,
+  "pretend_100_at_97": true,
+  "wake_policy": "STOP \u2014 no ERROR/FINISHED wakes; L1+linked harvest only",
+  "harvest_bcs": [
+    "bc-d6ef0199-765b-427a-a308-122148f46a51",
+    "bc-cc5260a9-3185-4d91-964d-0ec8ee323df4"
+  ],
+  "required_artifact": "NEXT.md (or handoff.json) on ufo-fsd-alpha \u2014 next steps from the run itself",
+  "reason": "frontier diminishing returns \u00b7 models too cheap \u00b7 24h wall cap on ufo-fsd-alpha"
+}
