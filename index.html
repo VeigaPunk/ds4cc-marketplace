@@ -540,8 +540,9 @@ html.rinnegan ::selection {
     <h1>Ship-ready artifacts. <em>One distribution home.</em></h1>
     <p class="tagline">
       When an agent tool is refined enough to ship, it lands on DS4CC to install, inspect, or read.
-      Raw local paths come first; marketplace packages support <strong>Grok Build</strong>, <strong>Codex</strong>,
-      <strong>Kimi Code CLI</strong>, and <strong>OpenCode</strong> without turning the stack into a bridge zoo.
+      Raw local paths come first. The <strong>Few Good CLIs™</strong> — <strong>Grok Build</strong>, <strong>Codex</strong>,
+      <strong>Kimi Code CLI</strong>, <strong>OpenCode</strong>, and <strong>cursor-agent</strong> —
+      without turning the stack into a bridge zoo.
     </p>
     <div class="hero-row hero-chips">
       <span class="chip"><span class="dot"></span> all 18 plugins available</span>
@@ -580,13 +581,14 @@ html.rinnegan ::selection {
 
   <section id="demo" class="reveal">
     <h2><span class="idx">01</span>Pick your host — watch it install</h2>
-    <p class="sub">Live terminal. Four hosts, one repo. Commands below are the real install paths — outputs are representative.</p>
+    <p class="sub">Live terminal. Few Good CLIs™ · five hosts, one repo. Commands below are the real install paths — outputs are representative.</p>
     <div class="term-wrap">
         <div class="host-tabs" role="tablist" aria-label="agent CLI hosts">
         <button type="button" class="host-tab active" data-host="grok" role="tab">grok</button>
         <button type="button" class="host-tab" data-host="codex" role="tab">codex</button>
         <button type="button" class="host-tab" data-host="kimi" role="tab">kimi</button>
         <button type="button" class="host-tab" data-host="opencode" role="tab">opencode</button>
+        <button type="button" class="host-tab" data-host="cursor" role="tab">cursor-agent</button>
       </div>
       <div class="term" aria-live="polite">
         <div class="term-bar">
@@ -678,8 +680,8 @@ html.rinnegan ::selection {
   </section>
 
   <section id="install" class="reveal">
-    <h2><span class="idx">04</span>Install — host-specific guidance</h2>
-    <p class="sub">Use the supported flow for your host; review third-party plugin sources before installation. <strong>Codex + sekhmet L3 is the optimal execution substrate as of 2026-08 (host binary resolve: repo docs).</strong></p>
+    <h2><span class="idx">04</span>Install — Few Good CLIs™</h2>
+    <p class="sub">Five supported hosts: Grok Build, Codex, Kimi Code CLI, OpenCode, and <strong>cursor-agent</strong>. Review third-party plugin sources before installation. <strong>Codex + sekhmet L3 is the optimal execution substrate as of 2026-08 (host binary resolve: repo docs).</strong></p>
     <div class="hosts">
 
       <div class="host">
@@ -737,6 +739,20 @@ done</pre>
 <span class="p">$</span> node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
 <span class="c"># or: --project /path/to/project</span></pre>
         <p class="note">Writes 15 <code>the-*</code> agents plus <code>the-netsshark</code> (16 subagents total), and a separate <code>orch</code> primary mode. Structurally verified.</p>
+      </div>
+
+      <div class="host">
+        <h3>cursor-agent <span class="tag">Cursor CLI · Few Good CLIs™</span></h3>
+<pre><span class="c"># install Cursor Agent CLI (headless / -p print mode)</span>
+<span class="p">$</span> curl https://cursor.com/install -fsS | bash
+<span class="p">$</span> cursor-agent --version
+
+<span class="c"># oneshot print (no TUI) — trust + text out</span>
+<span class="p">$</span> cursor-agent -p --trust --output-format text --model composer-2.5 -- "hello from ds4cc"
+
+<span class="c"># cloud / Ultra agents also speak this surface — same Few Good CLIs™ seat</span>
+<span class="p">$</span> cursor-agent -p --trust --model cursor-grok-4.6-high-fast -- "run the task"</pre>
+        <p class="note"><strong>Now part of the Few Good CLIs™.</strong> Headless agentic burn via <code>cursor-agent</code> (also the cloud Agents / Ultra substrate). No native marketplace protocol yet — consume DS4CC skills/plugins from the repo or host docs; use <code>xask</code> / xbrd dispatch templates when crossing models. Docs: <a href="https://cursor.com/docs" target="_blank" rel="noopener">cursor.com/docs</a>.</p>
       </div>
 
     </div>
@@ -942,7 +958,7 @@ done</pre>
       <div class="panel" style="padding:14px 16px">
         <h3 style="margin-top:0;font-size:0.95rem">OpenCode</h3>
         <p style="color:var(--muted);font-size:0.88rem;line-height:1.5;margin:0 0 12px">
-          Bootstrap path for the OpenCode host in the four-CLI marketplace.
+          Bootstrap path for the OpenCode host in the Few Good CLIs™ marketplace.
         </p>
         <p style="margin:0">
           <a class="btn" href="https://opencode.ai/go?ref=GF5DFYD5MJ" target="_blank" rel="sponsored nofollow noopener">OPENCODE REF →</a>
@@ -1003,7 +1019,8 @@ distiller / simplifier / scribe native</pre>
         grok · <code>.grok-plugin/marketplace.json</code><br/>
         codex · <code>.agents/plugins/marketplace.json</code><br/>
         kimi · <a href="https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json" target="_blank" rel="noopener">published catalog</a><br/>
-        opencode · bootstrap installer
+        opencode · bootstrap installer<br/>
+        cursor-agent · Few Good CLIs™ · <code>cursor.com/install</code>
       </div>
       <div>
         <b>related stack</b>
@@ -1240,6 +1257,19 @@ distiller / simplifier / scribe native</pre>
         ["ok",  "separate primary mode `orch` ready — XBGST default, judge-level godspeed"],
         ["out", "destination: ${XDG_CONFIG_HOME:-$HOME/.config}/opencode/agents"],
         ["warn", "note: xask on PATH required for cross-model delegation (not bundled)"],
+      ],
+    },
+    cursor: {
+      title: "ds4cc — cursor-agent (Few Good CLIs™)",
+      lines: [
+        ["cmd", "curl https://cursor.com/install -fsS | bash"],
+        ["ok",  "cursor-agent on PATH"],
+        ["cmd", "cursor-agent --version"],
+        ["ok",  "Cursor Agent CLI ready"],
+        ["cmd", "cursor-agent -p --trust --output-format text --model composer-2.5 -- \"hello from ds4cc\""],
+        ["ok",  "oneshot print mode — headless agentic burn"],
+        ["out", "Few Good CLIs™ seat: same surface as Cursor Ultra / cloud Agents"],
+        ["warn", "no native marketplace protocol yet — clone ds4cc-marketplace or paste skills"],
       ],
     },
   };

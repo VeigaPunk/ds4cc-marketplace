@@ -1,8 +1,8 @@
 # DS4CC Marketplace
 
-**[ds4cc.com](https://ds4cc.com)** — one marketplace, and the few good CLIs.
+**[ds4cc.com](https://ds4cc.com)** — one marketplace, and the **Few Good CLIs™**.
 
-Static plugin payloads for **Grok Build**, **Codex**, **Kimi Code CLI**, and **OpenCode**. OpenCode agents ship through a dependency-free bootstrap script (OpenCode has no marketplace protocol).
+Static plugin payloads for **Grok Build**, **Codex**, **Kimi Code CLI**, and **OpenCode**, plus **cursor-agent** (Cursor CLI / cloud Agents) as a Few Good CLIs™ host. OpenCode agents ship through a dependency-free bootstrap script (OpenCode has no marketplace protocol).
 
 Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, install what you need, ship.
 
@@ -123,6 +123,18 @@ node ds4cc-marketplace/scripts/install-opencode-agents.mjs --project /path/to/pr
 The commands are alternatives, not sequential steps. The installer writes native agent files to `${XDG_CONFIG_HOME:-~/.config}/opencode/agents` or `<project>/.opencode/agents`. It installs 16 `the-*` subagents plus `the-netsshark` (17 subagents total), and a separate `orch` primary mode aligned to `the-judge`. `orch` runs XBGST by default, loads all three Godspeed sources at the judge level, and injects the core directive into every delegation. The installer refuses differing existing files unless `--force` is supplied and does not edit `opencode.json`. A `--global` install also appends an idempotent `export OPENCODE_ENABLE_EXA=1` to existing `~/.zshenv` / `~/.bashrc` files so OpenCode's Exa-backed `websearch` tool is always enabled; `--project` leaves the shell untouched.
 
 Profiles use `xask --spark --gs codex` for cross-model delegation. `xask` is an external prerequisite, is not bundled by `myagents`, and must be installed separately on `PATH`; profiles that do not invoke cross-model delegation remain usable without it.
+
+## cursor-agent (Few Good CLIs™)
+
+**cursor-agent** is now one of the Few Good CLIs™ — the Cursor headless / print-mode CLI and the same surface Cloud Agents / Ultra use.
+
+```bash
+curl https://cursor.com/install -fsS | bash
+cursor-agent --version
+cursor-agent -p --trust --output-format text --model composer-2.5 -- "hello from ds4cc"
+```
+
+No native marketplace protocol yet. Clone this repo or paste skills; cross-model dispatch can go through `xask` / xbrd templates (`templates/dispatch/cursor.md`).
 
 ## Exclusive xbrd substrates (per CLI)
 
@@ -346,7 +358,7 @@ The ignored output is `artifacts/ds4cc-openai-submission.zip`. The builder accep
 | [xbrd-selector](https://github.com/VeigaPunk/xbrd-selector) | Rover CLI; also packaged here as plugin `xbrd-selector` |
 | Site | [ds4cc.com](https://ds4cc.com) · MCP [app.ds4cc.com/mcp](https://app.ds4cc.com/mcp) |
 
-**Hosts (4):** Grok Build, Codex, Kimi Code CLI, OpenCode (bootstrap script; no native marketplace protocol).
+**Hosts (5) — Few Good CLIs™:** Grok Build, Codex, Kimi Code CLI, OpenCode (bootstrap script; no native marketplace protocol), **cursor-agent** (`curl https://cursor.com/install -fsS | bash`).
 
 ## Licensing
 
