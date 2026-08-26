@@ -46,6 +46,4 @@ self handoff and while doing the iteration, auto fork your own work, when justif
 *this is the way*
 ```
 
-Charter beat 13 (effort economy): long gravy-stack paste is the anti-pattern; `/ufo-fsd` is the short path. Motto stamps the oneshot receipt.
-
 Monitor session also owns: poll swarm → aggregate → ds4cc.com/speedrun entry (charter beat 13 already shipped separately).
