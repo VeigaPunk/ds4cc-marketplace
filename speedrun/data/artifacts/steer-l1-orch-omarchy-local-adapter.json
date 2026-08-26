@@ -1,0 +1,8 @@
+{
+  "id": "steer-l1-orch-omarchy-local-adapter-2026-08-26",
+  "ts": "2026-08-26T16:25:24Z",
+  "bcId": "bc-d6ef0199-765b-427a-a308-122148f46a51",
+  "task": "Record Arch Linux + Omarchy 3.8.4 as local-only run adapter; do not test on Ubuntu cloud",
+  "runId": "run-f1b90c68-7c21-41e8-9a07-9f906e57482f",
+  "url": "https://cursor.com/agents/bc-d6ef0199-765b-427a-a308-122148f46a51?selectedBcId=bc-d6ef0199-765b-427a-a308-122148f46a51&app=subscriptions"
+}
