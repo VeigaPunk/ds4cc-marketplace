@@ -1775,6 +1775,38 @@
       "swarm_wall_min": 354.71,
       "linked_files": 5864,
       "linked_lines": 741077
+    },
+    {
+      "ts": "2026-08-26T00:02:48Z",
+      "pct": 48.203,
+      "auto_pct": 22.148,
+      "api_pct": 100.0,
+      "total_spend_cents": 168710,
+      "included_spend_cents": 40000,
+      "bonus_spend_cents": 128710,
+      "swarm_running": 9,
+      "swarm_finished": 11,
+      "swarm_error": 8,
+      "swarm_n": 28,
+      "swarm_wall_min": 357.46,
+      "linked_files": 5864,
+      "linked_lines": 741077
+    },
+    {
+      "ts": "2026-08-26T00:06:12Z",
+      "pct": 48.458,
+      "auto_pct": 22.181,
+      "api_pct": 100.0,
+      "total_spend_cents": 169602,
+      "included_spend_cents": 40000,
+      "bonus_spend_cents": 129602,
+      "swarm_running": 10,
+      "swarm_finished": 10,
+      "swarm_error": 8,
+      "swarm_n": 28,
+      "swarm_wall_min": 359.79,
+      "linked_files": 5864,
+      "linked_lines": 741077
     }
   ],
   "plan_price_note": "Cursor included pool meter is still $400; operator paid $99 for this Ultra mint",
@@ -1785,5 +1817,6 @@
     "supergrok_heavy": "grant (incl. for free)",
     "grok_bot": "free",
     "x_premium_plus": "giver"
-  }
+  },
+  "plan_price_cursor_api": "$200/mo"
 }
