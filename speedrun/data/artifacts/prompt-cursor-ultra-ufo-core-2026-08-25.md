@@ -43,4 +43,14 @@ while eating (sorry). Bytes:
 self handoff and while doing the iteration, auto fork your own work, when justified, so we can also adapt deliverables to other substrates listed. [make sure to highlight this is ufo-fsd in action.]
 ```
 
+### steer · model-reroute (mid-run · UFO-FSD) — 2026-08-26
+Operator paste (verbatim intent) + recovery recipe that worked on prompt_group `96a3e089-…` when gpt-5.6-* lanes parked ERROR on usage limits. Folded as oneshot steer for board scoring. L1 orch seat tasked: `bc-d6ef0199-765b-427a-a308-122148f46a51` (`run-b79f60b9-…`).
+
+```
+also, this rerouting we just did is actually something we should implement; task it to understand the blockage and do just like we did, the L1 swarm orch reroutes models to next best option, given available options (ufo-fsd conceptual framework) [we have done it manually, i had to check that models were usage limited and task you to re awake them using the other models bucket | ideally, this can be done naturally within the environment, with no required input outsourcing to the operator]
+```
+
+**Allowed recovery bucket:** `cursor-grok-4.6-high-fast` · `cursor-grok-4.5-high-fast` · `composer-2.5`.  
+**Mechanism:** detect ERROR → Wake → AddAsyncFollowup with `modelDetails.modelName` = next-best (keep if already allowed). Reroute bcIds; do not mint new agents. Ship as native L1 orch loop (charter-ufo-fsd).
+
 Monitor session also owns: poll swarm → aggregate → ds4cc.com/speedrun entry (charter beat 13 already shipped separately).

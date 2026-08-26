@@ -67,6 +67,17 @@ Also, if possible orchestrate a self iterating loop that does it all e2e and tes
       <pre>self handoff and while doing the iteration, auto fork your own work, when justified, so we can also adapt deliverables to other substrates listed. [make sure to highlight this is ufo-fsd in action.]</pre>
     </section>
 
+    <section class="block" aria-labelledby="steer2-h">
+      <h2 id="steer2-h">steer · model-reroute (mid-run · UFO-FSD)</h2>
+      <pre>also, this rerouting we just did is actually something we should implement; task it to understand the blockage and do just like we did, the L1 swarm orch reroutes models to next best option, given available options (ufo-fsd conceptual framework) [we have done it manually, i had to check that models were usage limited and task you to re awake them using the other models bucket | ideally, this can be done naturally within the environment, with no required input outsourcing to the operator]
+
+Manual recovery that worked (encode as orch capability):
+- Detect ERROR / rate-limit park on swarm lanes (prompt_group peers).
+- Allowed recovery bucket: Cursor Grok 4.6 fast (cursor-grok-4.6-high-fast) | Cursor Grok 4.5 fast (cursor-grok-4.5-high-fast) | Composer 2.5 (composer-2.5).
+- Wake + AddAsyncFollowup with modelDetails.modelName = next-best from bucket (keep if already allowed; else round-robin). Reroute existing bcIds — do not mint new doom-loop agents.
+- L1 swarm orch owns this loop natively (charter-ufo-fsd): no operator paste required once shipped.</pre>
+    </section>
+
     <p class="note">
       UFO-core cloud oneshot · prompt-group swarm · submit_as: oneshot ·
       $99 Ultra mint (gravy train) · $199 Cursor Ultra · SuperGrok Heavy ~$300 grant · Grok bot free · X Premium+
