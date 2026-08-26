@@ -227,6 +227,15 @@ fn test_is_skill_actionable_with_code_block() {
     );
 }
 
+#[test]
+fn test_is_skill_actionable_directive_pointer() {
+    let content = "---\nname: godspeed\n---\n\n# Godspeed\n\nRead `directive.md` in this skill directory and apply its contents verbatim.\n";
+    assert!(
+        is_skill_actionable(content),
+        "Expected true for an explicit executable directive pointer"
+    );
+}
+
 // ─── Test 6: is_skill_actionable boilerplate → false ─────────────────────────
 
 #[test]
@@ -627,7 +636,7 @@ fn test_fnm_node_isolation() {
 // ─── Test 13: Canonical .agents/plugins/marketplace.json validates ────────────
 // Validates the Codex-native layout at <repo-root>/.agents/plugins/marketplace.json
 // using validate_marketplace_dir(), which resolves plugin paths relative to the
-// repo root (not the json file's parent). All 18 plugins must pass with no errors.
+// repo root (not the json file's parent). All 19 plugins must pass with no errors.
 
 #[test]
 fn test_canonical_agents_layout_validates() {
@@ -722,7 +731,7 @@ fn test_codex_plugin_list_ds4cc_complete() {
 fn test_website_supported_hosts_and_guidance() {
     let html =
         fs::read_to_string(repo_root().join("index.html")).expect("failed to read index.html");
-    let expected = ["grok", "codex", "kimi", "opencode"];
+    let expected = ["grok", "codex", "kimi", "opencode", "cursor"];
 
     let mut tab_hosts: Vec<&str> = html
         .split("data-host=\"")
