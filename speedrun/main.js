@@ -52,9 +52,11 @@ function budgetCell(run) {
 }
 
 function clockCell(run) {
+  if (run.metrics?.used_percent != null && run.meter === "cursor_ultra_included_usage") {
+    return `${run.metrics.used_percent}% included · ${run.duration || run.status}`;
+  }
   if (run.status === "live" && run.metrics?.used_percent != null) {
-    const unit = run.meter === "cursor_ultra_included_usage" ? "included" : "weekly";
-    return `${run.metrics.used_percent}% ${unit} · ${run.duration || "live"}`;
+    return `${run.metrics.used_percent}% weekly · ${run.duration || "live"}`;
   }
   if (run.status === "live" && run.metrics?.context_frac) {
     return `${run.metrics.context_frac} ctx`;
@@ -177,8 +179,11 @@ function renderLiveStrip(run, curve) {
   if (heroLiveLabel) {
     heroLiveLabel.textContent = isCursor ? "Cursor Ultra included" : "Codex 20x closed";
   }
+  const closed = run.status !== "live";
   el("live-pace").textContent = `${pace.pct_per_min ?? m.pct_per_min ?? "—"}%/min · ${pace.elapsed_min_from_first_meter ?? "—"} min from first meter · ${pace.elapsed_min_from_session ?? m.elapsed_min_from_session ?? "—"} min from session`;
-  el("live-eta").textContent = `${pace.eta_100_min ?? m.eta_100_min ?? "—"} min remaining`;
+  el("live-eta").textContent = closed
+    ? "n/a · run closed (24h wall)"
+    : `${pace.eta_100_min ?? m.eta_100_min ?? "—"} min remaining`;
   const setRec = (id, ok) => {
     const rec = el(id);
     if (!rec) return;
@@ -195,6 +200,8 @@ function renderLiveStrip(run, curve) {
       <dt>spend</dt><dd>total $${((m.total_spend_cents || 0) / 100).toFixed(2)} · included $${((m.included_spend_cents || 0) / 100).toFixed(2)} · bonus $${((m.bonus_spend_cents || 0) / 100).toFixed(2)}</dd>
       <dt>API savings</dt><dd>$${escapeHtml(m.ultra_api_savings_usd_this_month ?? 1515)} saved this month (Ultra UI)</dd>
       <dt>swarm</dt><dd>${escapeHtml(m.swarm_running)} run · ${escapeHtml(m.swarm_finished)} fin · ${escapeHtml(m.swarm_error)} err · n=${escapeHtml(m.swarm_n)}</dd>
+      <dt>churn</dt><dd>${escapeHtml(m.swarm_sum_lines_added ?? "—")} lines · ${escapeHtml(m.swarm_sum_files_changed ?? "—")} files (sum peers)</dd>
+      <dt>wall</dt><dd>freeze ≥1440 min · close ${escapeHtml(m.elapsed_min_from_session ?? "—")} min</dd>
       <dt>model</dt><dd>${escapeHtml(m.model || m.linked_bc_model)}</dd>
       <dt>category</dt><dd>oneshot · /goal + mid-run steer · self-clone forking</dd>
       <dt>repo</dt><dd>${escapeHtml(m.repo || run.repository?.full_name || "—")}</dd>
@@ -205,7 +212,7 @@ function renderLiveStrip(run, curve) {
     const repoOut = el("codex-repo-out");
     if (repoOut) {
       repoOut.href = run.links?.origin_repo || run.links?.agent || "#";
-      repoOut.textContent = "ufo-fsd-alpha · live agent";
+      repoOut.textContent = closed ? "ufo-fsd-alpha · closed run" : "ufo-fsd-alpha · live agent";
     }
     const promptBtn = el("oneshot-prompt-btn");
     if (promptBtn) {

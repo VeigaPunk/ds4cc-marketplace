@@ -8,10 +8,10 @@
   "budget_usd": 99,
   "budget_note": "Paid this mint: $99 Cursor Ultra OAuth (gravy train). Second Ultra: $199 Cursor Ultra. SuperGrok Heavy alone ~$300 list \u2014 grant (incl. for free). Grok bot totally free. X Premium+ (giver). Fail-as-data: Kimi K3 Max usage-limit receipts $1497 / $1515 API savings. Closeout PRIMARY: wall_cap \u22651440m (24h) on ufo-fsd-alpha; secondary \u226597% included pretend-100. Harvest mode: no idle wakes; L1+linked emit NEXT handoff.",
   "currency": "USD",
-  "status": "frozen",
-  "duration": "frozen \u00b7 24h wall \u00b7 78.2% included \u00b7 end-run lock \u00b7 swarm 1 run / 20 fin / 7 err",
+  "status": "closed",
+  "duration": "closed \u00b7 24h wall \u00b7 79.0% included final \u00b7 swarm 21 fin / 7 err \u00b7 0 running",
   "venue": "cursor.com/agents \u00b7 ufo-fsd-alpha (Cursor Origin)",
-  "summary": "UFO-FSD oneshot on Cursor Ultra cloud \u2014 28-peer doom-loop. Wall freeze \u22651440m (~77% included). Harvest seated: NEXT.md + handoff.json on writable Origin tmp-d1cb8c062407c7a9 (alpha 403 fail-as-data). Charter next-run + Sol machine essence published. Operator end-run lock: PauseBackgroundComposer on thrash peers; L1 orch follow-up run-8e67770f for end-run-lock artifact. Parent /goal still OPEN. Offline/MCP/dry green \u2260 done.",
+  "summary": "CLOSED. Cursor Ultra OAuth UFO-FSD oneshot /goal swarm (28 peers). Wall freeze \u22651440m at ~77% included; final meter 79.0% included / API 100%. Swarm terminal: 21 finished / 7 error / 0 running. Harvest: NEXT.md + handoff.json + charter next-run. Parent /goal OPEN. Offline/MCP/dry green \u2260 done. Fail-as-data: Kimi K3 Max Ultra API-savings $1497\u2013$1515 (~15\u00d7 $99 mint).",
   "timeline": [
     {
       "t": "2026-08-25T18:05:18Z",
@@ -77,6 +77,11 @@
       "t": "2026-08-26T19:14:58Z",
       "label": "end-run lock (operator)",
       "note": "Paused thrashing RUNNING peers \u00b7 L1 follow-up run-8e67770f \u00b7 only L1 left RUNNING \u00b7 charter next-run.md live"
+    },
+    {
+      "t": "2026-08-26T20:10:39Z",
+      "label": "final board close",
+      "note": "swarm terminal 21/7/0 \u00b7 included 79.0% \u00b7 auto 42.0% \u00b7 API 100% \u00b7 wall 1565m \u00b7 L1+linked FINISHED \u00b7 final-telemetry artifact"
     }
   ],
   "metrics": {
@@ -100,8 +105,8 @@
     "linked_bc_branch": "cursor/ufo-core-runtime-3df4",
     "prompt_group_id": "96a3e089-bd83-4cb2-a618-284b71661283",
     "swarm_n": 28,
-    "swarm_running": 1,
-    "swarm_finished": 20,
+    "swarm_running": 0,
+    "swarm_finished": 21,
     "swarm_error": 7,
     "swarm_wall_min": 1441.16,
     "included_usage_pct_at_monitor_start": 26,
@@ -119,25 +124,25 @@
     "gemini_peer_note": "one finished gemini-3.7-flash-high peer in same prompt_group; linked orchestrator BC was composer-2.5 not gemini",
     "repo": "jo-o-veiga/ufo-fsd-alpha",
     "starting_commit": "f43c757c871232f8992bac4c2d858d52ec9fe29e",
-    "outcome": "frozen \u00b7 harvest seated \u00b7 end-run lock \u00b7 parent goal OPEN",
+    "outcome": "closed \u00b7 harvest seated \u00b7 parent goal OPEN",
     "ufo_fsd_in_action": true,
     "repo_host": "origin.cursor.com",
     "repo_branch_count": 25,
     "repo_cursor_branch_count": 24,
     "repo_head_sha": "838e6d20c9f41e1f60590c1be373b9a0793daab0",
-    "used_percent": 78.213,
-    "auto_percent_used": 41.033,
+    "used_percent": 79.001,
+    "auto_percent_used": 41.953,
     "api_percent_used": 100.0,
-    "total_spend_cents": 269631,
+    "total_spend_cents": 276503,
     "included_spend_cents": 40000,
-    "bonus_spend_cents": 229631,
+    "bonus_spend_cents": 236503,
     "included_limit_cents": 40000,
     "plan_type": "ultra",
     "plan_price": "$99 paid (this mint)",
     "pct_per_min": 0.0381,
-    "eta_100_min": 602.78,
-    "elapsed_min_from_session": 1441.47,
-    "elapsed_min_from_first_meter": 1339.75,
+    "eta_100_min": null,
+    "elapsed_min_from_session": 1565.39,
+    "elapsed_min_from_first_meter": 1463.66,
     "model": "composer-2.5 \u00b7 multi-model swarm",
     "n_rollouts": 28,
     "window_minutes": null,
@@ -169,48 +174,55 @@
     "wake_policy": "stopped \u00b7 thrash peers paused",
     "end_run_lock": true,
     "end_run_lock_ts": "2026-08-26T19:14:58Z",
-    "end_run_lock_l1_run_id": "run-8e67770f-ef18-451d-b53b-9302a5bf9ff1"
+    "end_run_lock_l1_run_id": "run-8e67770f-ef18-451d-b53b-9302a5bf9ff1",
+    "all_terminal": true,
+    "swarm_sum_lines_added": 37289961,
+    "swarm_sum_files_changed": 417992,
+    "closed_ts": "2026-08-26T20:10:39Z",
+    "final_telemetry": "data/artifacts/final-telemetry-2026-08-26.json"
   },
   "snapshot": {
-    "ts": "2026-08-26T19:14:58Z",
+    "ts": "2026-08-26T20:10:39Z",
     "prompt_group_id": "96a3e089-bd83-4cb2-a618-284b71661283",
     "swarm_n": 28,
     "by_status": {
-      "BACKGROUND_COMPOSER_STATUS_RUNNING": 1,
-      "BACKGROUND_COMPOSER_STATUS_FINISHED": 20,
+      "BACKGROUND_COMPOSER_STATUS_FINISHED": 21,
       "BACKGROUND_COMPOSER_STATUS_ERROR": 7
     },
-    "swarm_running": 1,
-    "swarm_finished": 20,
-    "swarm_error": 7,
-    "swarm_other": 0,
-    "swarm_wall_min": 1441.16,
     "by_model": {
       "cursor-grok-4.6-high-fast": 11,
-      "cursor-grok-4.5-high-fast": 9,
-      "composer-2.5": 8
+      "composer-2.5": 8,
+      "cursor-grok-4.5-high-fast": 9
     },
+    "swarm_running": 0,
+    "swarm_finished": 21,
+    "swarm_error": 7,
+    "swarm_other": 0,
+    "swarm_wall_min": 1565.39,
+    "swarm_sum_lines_added": 37289961,
+    "swarm_sum_files_changed": 417992,
     "linked_bc_id": "bc-cc5260a9-3185-4d91-964d-0ec8ee323df4",
     "linked_bc_status": "BACKGROUND_COMPOSER_STATUS_FINISHED",
-    "linked_bc_files": 16614,
-    "linked_bc_lines": 1451344,
+    "l1_orch_bc_id": "bc-d6ef0199-765b-427a-a308-122148f46a51",
+    "l1_orch_status": "BACKGROUND_COMPOSER_STATUS_FINISHED",
     "all_terminal": true,
-    "used_percent": 78.213,
-    "auto_percent_used": 41.033,
+    "used_percent": 79.001,
+    "auto_percent_used": 41.953,
     "api_percent_used": 100.0,
-    "total_spend_cents": 269631,
+    "total_spend_cents": 276503,
     "included_spend_cents": 40000,
-    "bonus_spend_cents": 229631,
+    "bonus_spend_cents": 236503,
     "included_limit_cents": 40000,
     "display_message": "You've hit your usage limit",
-    "auto_msg": "You've used 77% of your included total usage",
+    "auto_msg": "You've used 79% of your included total usage",
     "named_msg": "You've used 100% of your included API usage",
     "wall_cap_min": 1440,
     "closeout_primary": "wall_cap",
     "harvest_mode": true,
     "wall_cap_reached": true,
-    "freeze_reason": "wall_cap_24h + operator_end_run_lock",
-    "end_run_lock": true
+    "freeze_reason": "wall_cap_24h",
+    "end_run_lock": true,
+    "board_status": "closed"
   },
   "artifacts": {
     "prompt": "data/artifacts/prompt-cursor-ultra-ufo-core-2026-08-25.md",
@@ -224,7 +236,9 @@
     "closeout_policy_24h": "data/artifacts/closeout-policy-24h-wall.json",
     "closeout_24h": "data/artifacts/closeout-24h-wall.json",
     "end_run_lock": "data/artifacts/end-run-lock-2026-08-26.json",
-    "steer_end_run": "data/artifacts/steer-l1-orch-end-run-lock.json"
+    "steer_end_run": "data/artifacts/steer-l1-orch-end-run-lock.json",
+    "final_telemetry": "data/artifacts/final-telemetry-2026-08-26.json",
+    "swarm_peers_final": "data/artifacts/swarm-peers-final.json"
   },
   "links": {
     "agent": "https://cursor.com/agents/bc-cc5260a9-3185-4d91-964d-0ec8ee323df4?selectedBcId=bc-cc5260a9-3185-4d91-964d-0ec8ee323df4&app=subscriptions",
@@ -236,18 +250,19 @@
     "oneshot_prompt": "data/artifacts/oneshot-prompt-cursor-ultra-ufo-core-2026-08-25.html"
   },
   "tags": [
+    "api-savings",
+    "closed",
     "cursor",
-    "ultra",
+    "end-run-lock",
+    "final-telemetry",
+    "goal",
+    "harvest",
+    "kimi-k3-max",
     "oauth",
     "oneshot",
-    "goal",
     "self-clone-forking",
     "ufo-fsd",
-    "kimi-k3-max",
-    "api-savings",
-    "frozen",
-    "harvest",
-    "end-run-lock"
+    "ultra"
   ],
   "paid": true,
   "not_a_grant": true,
@@ -274,14 +289,15 @@
   "session_start": "2026-08-25T18:05:16.539Z",
   "first_meter": "2026-08-25T19:47:00Z",
   "pace": {
-    "elapsed_min_from_session": 1441.47,
-    "elapsed_min_from_first_meter": 1339.75,
+    "elapsed_min_from_session": 1565.39,
+    "elapsed_min_from_first_meter": 1463.66,
     "pct_per_min": 0.0381,
-    "eta_100_min": 602.78,
+    "eta_100_min": null,
     "record_target_min": 60,
     "subhour_session_ok": false,
     "subhour_meter_ok": false,
-    "subhour_ok": false
+    "subhour_ok": false,
+    "closed": true
   },
   "display_venue": "cursor.com/agents \u00b7 ufo-fsd-alpha (Cursor Origin)",
   "closeout": {
@@ -291,6 +307,15 @@
     "artifact": "data/artifacts/closeout-24h-wall.json",
     "included_pct_at_freeze": 76.983,
     "end_run_lock_ts": "2026-08-26T19:14:58Z",
-    "operator_paused_thrash": true
+    "operator_paused_thrash": true,
+    "board_closed_ts": "2026-08-26T20:10:39Z",
+    "final_included_pct": 79.001,
+    "final_swarm": {
+      "running": 0,
+      "finished": 21,
+      "error": 7
+    },
+    "all_terminal": true,
+    "final_telemetry": "data/artifacts/final-telemetry-2026-08-26.json"
   }
 }

@@ -1,18 +1,27 @@
 {
-  "ts": "2026-08-26T19:14:58Z",
+  "ts": "2026-08-26T20:10:39Z",
   "prompt_group_id": "96a3e089-bd83-4cb2-a618-284b71661283",
   "swarm_n": 28,
   "by_status": {
-    "BACKGROUND_COMPOSER_STATUS_RUNNING": 1,
-    "BACKGROUND_COMPOSER_STATUS_FINISHED": 20,
+    "BACKGROUND_COMPOSER_STATUS_FINISHED": 21,
     "BACKGROUND_COMPOSER_STATUS_ERROR": 7
   },
-  "swarm_running": 1,
-  "swarm_finished": 20,
+  "by_model": {
+    "cursor-grok-4.6-high-fast": 11,
+    "composer-2.5": 8,
+    "cursor-grok-4.5-high-fast": 9
+  },
+  "swarm_running": 0,
+  "swarm_finished": 21,
   "swarm_error": 7,
-  "used_percent": 78.213,
+  "used_percent": 79.001,
+  "auto_percent_used": 41.953,
+  "api_percent_used": 100.0,
+  "all_terminal": true,
+  "board_status": "closed",
   "closeout_primary": "wall_cap",
   "harvest_mode": true,
   "end_run_lock": true,
-  "wake_policy": "stopped"
+  "wake_policy": "stopped",
+  "final_telemetry": "data/artifacts/final-telemetry-2026-08-26.json"
 }

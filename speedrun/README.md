@@ -2,7 +2,7 @@
 
 Public **fixed-budget** agent runs with receipts. Providers can claim value and efficiency **empirically** — and have incentive to subsidize fair lanes.
 
-**Four runs** on the board (`data/manifest.json`): one closed seed, two prior OAuth burns, plus live Cursor Ultra UFO-core cloud swarm.
+**Four runs** on the board (`data/manifest.json`): one closed seed, two prior OAuth burns, plus **closed** Cursor Ultra UFO-core cloud swarm (24h wall · final telemetry).
 
 ## Seed run (featured, closed)
 
