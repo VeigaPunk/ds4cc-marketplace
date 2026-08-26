@@ -1,17 +1,17 @@
 {
-  "ts": "2026-08-26T13:31:57Z",
+  "ts": "2026-08-26T13:37:01Z",
   "prompt_group_id": "96a3e089-bd83-4cb2-a618-284b71661283",
   "swarm_n": 28,
   "by_status": {
-    "BACKGROUND_COMPOSER_STATUS_RUNNING": 11,
-    "BACKGROUND_COMPOSER_STATUS_ERROR": 6,
-    "BACKGROUND_COMPOSER_STATUS_FINISHED": 11
+    "BACKGROUND_COMPOSER_STATUS_FINISHED": 12,
+    "BACKGROUND_COMPOSER_STATUS_RUNNING": 10,
+    "BACKGROUND_COMPOSER_STATUS_ERROR": 6
   },
-  "swarm_running": 11,
-  "swarm_finished": 11,
+  "swarm_running": 10,
+  "swarm_finished": 12,
   "swarm_error": 6,
   "swarm_other": 0,
-  "swarm_wall_min": 1166.63,
+  "swarm_wall_min": 1171.69,
   "by_model": {
     "composer-2.5": 7,
     "cursor-grok-4.6-high-fast": 9,
@@ -25,14 +25,14 @@
   "linked_bc_files": 16063,
   "linked_bc_lines": 1321438,
   "all_terminal": false,
-  "used_percent": 73.439,
-  "auto_percent_used": 35.464,
+  "used_percent": 73.507,
+  "auto_percent_used": 35.544,
   "api_percent_used": 100.0,
-  "total_spend_cents": 257036,
+  "total_spend_cents": 257276,
   "included_spend_cents": 40000,
-  "bonus_spend_cents": 217036,
+  "bonus_spend_cents": 217276,
   "included_limit_cents": 40000,
   "display_message": "You've hit your usage limit",
-  "auto_msg": "You've used 73% of your included total usage",
+  "auto_msg": "You've used 74% of your included total usage",
   "named_msg": "You've used 100% of your included API usage"
 }
