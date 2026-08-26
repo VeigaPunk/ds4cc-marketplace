@@ -1,7 +1,7 @@
 {
   "id": "cursor-ultra-kimi-k3-max-usage-limit-1497-2026-08-25",
   "ts": "2026-08-25T22:54:51Z",
-  "source": "operator paste \u00b7 Cursor Agent v2026.08.11-e8db854 \u00b7 Run Everything \u00b7 Kimi K3 Max",
+  "source": "operator paste · Cursor Agent v2026.08.11-e8db854 · Run Everything · Kimi K3 Max",
   "model": "Kimi K3 Max",
   "mode": "Run Everything",
   "prompt": "hello kimi my love",
@@ -16,11 +16,19 @@
   ],
   "fallbackModel": null,
   "monthly_cycle_reset": "2026-09-18",
-  "plan_price_usd": 200,
-  "api_credit_multiple_vs_plan": 7.49,
-  "operator_note": "Paid Cursor Ultra (gravy train) OAuth \u2014 not a grant. Fail-as-data: how much a $200 Ultra is worth in API credits on this doom-loop oneshot. SuperGrok Heavy remains grant (incl. for free).",
+  "plan_price_usd": 99,
+  "api_credit_multiple_vs_plan": 15.12,
+  "operator_note": "Paid this mint $99 Cursor Ultra (gravy train) OAuth. Another Ultra $300 not minted properly yet. SuperGrok Heavy ~$300 list — grant (incl. for free). Grok bot free. X Premium+ (giver). Fail-as-data: $1497 API savings ≈ 15.12× the $99 mint.",
   "product": "Cursor Ultra OAuth",
   "paid": true,
   "not_a_grant": true,
-  "gravy_train": true
+  "gravy_train": true,
+  "stack": {
+    "ultra_this_mint_usd": 99,
+    "ultra_pending_mint_usd": 300,
+    "supergrok_heavy_list_usd": 300,
+    "supergrok_heavy": "grant (incl. for free)",
+    "grok_bot": "free",
+    "x_premium_plus": "giver"
+  }
 }

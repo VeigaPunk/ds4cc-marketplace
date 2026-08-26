@@ -2,7 +2,7 @@
   "ts": "2026-08-25T22:54:51Z",
   "kind": "swarm_effective_changes_audit",
   "closeout_policy": "At included usage >=97%, treat as 100% for fail-as-data closeout (API already 100%). Re-run this audit + freeze meters.",
-  "frame": "unconfigured prior hand \u00b7 literally oneshot dispatch on cloud env \u00b7 first request \u00b7 28 concurrent \u00b7 doom loop / round-and-round \u00b7 no prior orch config",
+  "frame": "unconfigured prior hand · literally oneshot dispatch on cloud env · first request · 28 concurrent · doom loop / round-and-round · no prior orch config",
   "prompt_group_id": "96a3e089-bd83-4cb2-a618-284b71661283",
   "linked_bc_id": "bc-cc5260a9-3185-4d91-964d-0ec8ee323df4",
   "included_usage_pct_now": 43.465714285714284,
@@ -74,18 +74,22 @@
     "what_was_actually_accomplished": [
       "Linked BC composer-2.5 finished /goal and reported UFO core runtime on cursor/ufo-core-runtime-3df4 (ufo-fsd-alpha).",
       "27/28 peers forked into tmp-d1cb8c062407c7a9 (startedAsNewProject) and burned enormous file/line churn without distinct reviewable autoBranch landings in the API fields.",
-      "8 ERROR peers still show ~4k filesChanged each \u2014 fail-with-churn, not clean aborts.",
-      "Included API usage already 100%; Kimi K3 Max blocked with Ultra API-savings receipt ($1497 operator / $1515 live probe) \u2248 7.5\u20137.6\u00d7 a $200 plan.",
-      "No prior orch config \u2192 swarm could not converge; optimal data is the fail receipt + churn inventory, not a clean merge set."
+      "8 ERROR peers still show ~4k filesChanged each — fail-with-churn, not clean aborts.",
+      "Included API usage already 100%; Kimi K3 Max blocked with Ultra API-savings receipt ($1497 operator / $1515 live probe) ≈ 7.5–7.6× a $200 plan.",
+      "No prior orch config → swarm could not converge; optimal data is the fail receipt + churn inventory, not a clean merge set."
     ]
   },
   "value_of_200_usd_ultra": {
-    "plan_price_usd": 200,
+    "plan_price_usd": 99,
     "operator_paste_api_savings_usd": 1497,
     "live_probe_api_savings_usd": 1515,
-    "ratio_operator": 7.49,
-    "ratio_live_probe": 7.58,
-    "headline": "$200 Ultra OAuth bought ~$1497\u2013$1515 of raw API-equivalent Kimi burn this cycle (UI savings) before the model hard-stopped \u2014 fail is the scoreboard."
+    "ratio_operator": 15.12,
+    "ratio_live_probe": 15.3,
+    "headline": "$99 Ultra mint bought ~$1497–$1515 of raw API-equivalent Kimi burn this cycle (UI savings) before the model hard-stopped — fail is the scoreboard. Stack also: $300 Ultra pending mint · SuperGrok Heavy ~$300 grant · Grok bot free · X Premium+.",
+    "pending_ultra_usd": 300,
+    "supergrok_heavy_list_usd": 300,
+    "grok_bot": "free",
+    "x_premium_plus": "giver"
   },
   "agents": [
     {
@@ -480,5 +484,17 @@
       "startedAsNewProject": true,
       "agent_url": "https://cursor.com/agents/bc-9d8f0cc9-42ef-407f-ae26-c35cb603d61f?selectedBcId=bc-9d8f0cc9-42ef-407f-ae26-c35cb603d61f&app=subscriptions"
     }
-  ]
+  ],
+  "value_of_99_usd_ultra": {
+    "plan_price_usd": 99,
+    "operator_paste_api_savings_usd": 1497,
+    "live_probe_api_savings_usd": 1515,
+    "ratio_operator": 15.12,
+    "ratio_live_probe": 15.3,
+    "headline": "$99 Ultra mint bought ~$1497–$1515 of raw API-equivalent Kimi burn this cycle (UI savings) before the model hard-stopped — fail is the scoreboard. Stack also: $300 Ultra pending mint · SuperGrok Heavy ~$300 grant · Grok bot free · X Premium+.",
+    "pending_ultra_usd": 300,
+    "supergrok_heavy_list_usd": 300,
+    "grok_bot": "free",
+    "x_premium_plus": "giver"
+  }
 }

@@ -199,7 +199,7 @@ function renderLiveStrip(run, curve) {
       <dt>category</dt><dd>oneshot · /goal + mid-run steer · self-clone forking</dd>
       <dt>repo</dt><dd>${escapeHtml(m.repo || run.repository?.full_name || "—")}</dd>
       <dt>venue</dt><dd>${escapeHtml(humanVenue(run))}</dd>
-      <dt>paid</dt><dd>paid Cursor Ultra (gravy train) OAuth — SuperGrok Heavy grant (incl. for free)</dd>
+      <dt>paid</dt><dd>$99 Ultra mint (gravy train) · $300 Ultra pending · SuperGrok Heavy ~$300 grant · Grok bot free · X Premium+</dd>
       <dt>snapshot</dt><dd>${escapeHtml(snap.ts || "—")}</dd>
     `;
     const repoOut = el("codex-repo-out");

@@ -2,7 +2,7 @@
   "t0": "2026-08-25T19:47:00Z",
   "session_start": "2026-08-25T18:05:16.539Z",
   "plan_type": "ultra",
-  "plan_price": "$200/mo",
+  "plan_price": "$99 paid (this mint)",
   "included_amount_cents": 40000,
   "meter": "included_total_usage",
   "billing_cycle_end": "2026-09-18",
@@ -1776,5 +1776,14 @@
       "linked_files": 5864,
       "linked_lines": 741077
     }
-  ]
+  ],
+  "plan_price_note": "Cursor included pool meter is still $400; operator paid $99 for this Ultra mint",
+  "stack": {
+    "ultra_this_mint_usd": 99,
+    "ultra_pending_mint_usd": 300,
+    "supergrok_heavy_list_usd": 300,
+    "supergrok_heavy": "grant (incl. for free)",
+    "grok_bot": "free",
+    "x_premium_plus": "giver"
+  }
 }

@@ -1,7 +1,7 @@
 {
   "id": "cursor-ultra-kimi-k3-max-usage-limit-2026-08-25",
   "ts": "2026-08-25T19:47:00Z",
-  "source": "operator paste \u00b7 Cursor Ultra Run Everything \u00b7 Kimi K3 Max",
+  "source": "operator paste · Cursor Ultra Run Everything · Kimi K3 Max",
   "model": "Kimi K3 Max",
   "mode": "Run Everything",
   "error": "You've hit your usage limit",
@@ -15,10 +15,11 @@
   ],
   "fallbackModel": null,
   "monthly_cycle_reset": "2026-09-18",
-  "operator_note": "400USD on Cursor Ultra running Kimi \u2014 Ultra credit-savings receipt vs raw API. Included usage was ~26% at monitor start on minted OAuth Ultra sub.",
+  "operator_note": "$99 Ultra mint running Kimi — early API-savings receipt ($947). Later receipts hit $1497/$1515. Stack: $300 Ultra pending mint · SuperGrok Heavy ~$300 grant · Grok bot free · X Premium+.",
   "included_usage_pct_at_monitor_start": 26,
-  "budget_context_usd": 400,
+  "budget_context_usd": 99,
   "product": "Cursor Ultra OAuth",
   "paid": true,
-  "not_a_grant": true
+  "not_a_grant": true,
+  "plan_price_usd": 99
 }
