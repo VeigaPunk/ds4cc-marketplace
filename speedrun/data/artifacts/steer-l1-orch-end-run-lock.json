@@ -1,0 +1,10 @@
+{
+  "id": "steer-l1-orch-end-run-lock-2026-08-26",
+  "ts": "2026-08-26T19:14:58Z",
+  "bcId": "bc-d6ef0199-765b-427a-a308-122148f46a51",
+  "name": "L1-orch \u00b7 swarm dispatcher seat",
+  "surface": "AddAsyncFollowupBackgroundComposer",
+  "runId": "run-8e67770f-ef18-451d-b53b-9302a5bf9ff1",
+  "task": "END-RUN LOCK \u2014 freeze wakes, seat NEXT/handoff, emit end-run-lock.json, STOP",
+  "url": "https://cursor.com/agents/bc-d6ef0199-765b-427a-a308-122148f46a51?selectedBcId=bc-d6ef0199-765b-427a-a308-122148f46a51&app=subscriptions"
+}

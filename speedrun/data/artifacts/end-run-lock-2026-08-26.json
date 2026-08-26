@@ -1,0 +1,30 @@
+{
+  "ts": "2026-08-26T19:14:58Z",
+  "kind": "end_run_lock",
+  "operator": "cursor-ide-dispatcher",
+  "prompt_group_id": "96a3e089-bd83-4cb2-a618-284b71661283",
+  "l1_bc_id": "bc-d6ef0199-765b-427a-a308-122148f46a51",
+  "l1_followup_run_id": "run-8e67770f-ef18-451d-b53b-9302a5bf9ff1",
+  "actions": [
+    "PauseBackgroundComposer on all RUNNING peers except L1",
+    "AddAsyncFollowupBackgroundComposer END-RUN LOCK to L1",
+    "Charter next-run.md already live from prior L1 harvest steers",
+    "Speedrun status \u2192 frozen"
+  ],
+  "swarm_after": {
+    "running": 1,
+    "finished": 20,
+    "error": 7,
+    "n": 28
+  },
+  "established_result": {
+    "NEXT.md": true,
+    "handoff.json": true,
+    "charter_next_run": "https://veigapunk.github.io/charter-ufo-fsd/ \u00b7 next-run.md",
+    "closeout_24h": "data/artifacts/closeout-24h-wall.json",
+    "parent_goal": "OPEN",
+    "honest_bar": "offline/MCP/dry green on writable Origin; churn \u2260 done"
+  },
+  "included_usage_pct": 78.213,
+  "wall_cap_min": 1440
+}
