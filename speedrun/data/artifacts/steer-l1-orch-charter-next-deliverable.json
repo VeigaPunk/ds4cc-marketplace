@@ -1,0 +1,14 @@
+{
+  "id": "steer-l1-orch-charter-next-deliverable-2026-08-26",
+  "ts": "2026-08-26T16:09:24Z",
+  "bcId": "bc-d6ef0199-765b-427a-a308-122148f46a51",
+  "name": "L1-orch \u00b7 swarm dispatcher seat",
+  "surface": "cursor.com/agents webgui + AddAsyncFollowupBackgroundComposer",
+  "runId": "run-b738b360-e163-4079-ac2c-394641254eca",
+  "status_after": {
+    "status": "BACKGROUND_COMPOSER_STATUS_RUNNING",
+    "isUnread": true
+  },
+  "task": "Update next-run deliverable on charter-ufo-fsd steps (self-work)",
+  "url": "https://cursor.com/agents/bc-d6ef0199-765b-427a-a308-122148f46a51?selectedBcId=bc-d6ef0199-765b-427a-a308-122148f46a51&app=subscriptions"
+}
