@@ -42,7 +42,7 @@ while eating (sorry). Bytes:
 ```
 self handoff and while doing the iteration, auto fork your own work, when justified, so we can also adapt deliverables to other substrates listed. [make sure to highlight this is ufo-fsd in action.]
 
-tools adapt to us
+<tools adapt to us>
 *this is the way*
 ```
 
