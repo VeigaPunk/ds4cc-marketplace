@@ -15,12 +15,6 @@ capability patching):
 An entry must have:
 
 1. A clear, useful capability with a reproducible demonstration.
-2. Source provenance and an identifiable maintainer or publisher.
-3. Current documentation, installation steps, and supported-platform scope.
-4. Compatible licensing and required notices.
-5. A reviewed security and privacy posture appropriate to its permissions.
-6. Automated structural checks plus a manual end-to-end capability check.
-7. Claims limited to what the evidence demonstrates.
 
 Entries can be removed or demoted when they become unmaintained, unsafe,
 misleading, legally unclear, or dominated by a demonstrably stronger option.
