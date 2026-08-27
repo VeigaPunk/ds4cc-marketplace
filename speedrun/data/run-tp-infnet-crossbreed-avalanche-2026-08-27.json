@@ -1,0 +1,56 @@
+{
+    "id": "veigapunk-tp-infnet-crossbreed-avalanche-2026-08-27",
+    "title": "Token Plan infnet — offpeak crossbreed avalanche (qwen3.8-max ×8 L1 × ds-pro L2)",
+    "runner": "VeigaPunk",
+    "provider": "Alibaba Cloud Model Studio / Token Plan (ap-southeast-1)",
+    "product": "qwen3.8-max xhigh ×8 L1 orchestrators (codex-titanium-qwen38) × deepseek-v4-pro L2 runners (codex-titanium-ds-pro) — crossbreed of two offpeak TP models; L3 luna-low-fast on OpenAI OAuth; L0 = kimi-code k3-max (dispatch tax only)",
+    "budget_usd": null,
+    "budget_note": "Freshly minted Token Plan pro (third key, slot=infnet; gmail + team slots exhausted earlier same day). No usage limit 5h; run limited to the ~2h offpeak window (2026-08-27T22:56Z → ~00:56Z). TP lanes are low-TPS — L2 fan-out capped at small batches.",
+    "currency": "USD",
+    "status": "live",
+    "duration": "live · ~2h offpeak window",
+    "venue": "tmux ufo-l1..ufo-l8 + ufo-l-wall · cwd Projects/origin-work/ufo-fsd-alpha",
+    "summary": "Offpeak crossbreed avalanche on ufo-fsd-alpha after a same-day tooling rebase (64 one-off spawn scripts consolidated into parameterized dispatchers; godspeed byte-injection fixed tree-wide, coherence 17/17; Kimi 15-min token TTL fixed via local auth proxy 127.0.0.1:8791). 8 L1 seats on qwen3.8-max xhigh orchestrate ds-pro L2 workers in small batches. Every L1/L2 dispatch disclosed with sequential # and dispatch id in .ufo/local-dispatch/run-ledger-avalanche-20260827.jsonl. L0 orchestration from a native kimi-code k3-max session (Kimi preserved to dispatch tax).",
+    "timeline": [
+        {
+            "t": "2026-08-27T21:09Z",
+            "label": "kimi fleet 401 storm root-caused",
+            "note": "15-min router TTL vs launch-time KIMI_API_KEY capture; fixed with per-request Bearer refresh proxy; fleet nuked to zero Kimi burn"
+        },
+        {
+            "t": "2026-08-27T21:20Z",
+            "label": "tooling rebase P1–P5 landed",
+            "note": "spawn-surface consolidation + routing SSoT + godspeed dedupe + dangling-refs sweep + sol-review fixes; all on Codex OAuth (luna/sol), zero Kimi burn"
+        },
+        {
+            "t": "2026-08-27T21:56Z",
+            "label": "third TP key wired",
+            "note": "1Password 'Alibaba Cloud Token Plan (infnet)' sha256 8c88cb2d… == local keys/infnet; active slot swapped; ds-pro + qwen38-flash smokes OK"
+        },
+        {
+            "t": "2026-08-27T22:56Z",
+            "label": "avalanche dispatched (gen 27)",
+            "note": "8× L1 qwen3.8-max xhigh alive on TP infnet; dispatch id l1-dispatch-20260827T225632Z; ledger seq 1–8"
+        }
+    ],
+    "metrics": {
+        "mode": "agent / codex-titanium harness on Token Plan compatible-mode",
+        "parallelization": "8 L1 orchestrators × small-batch ds-pro L2 (≤3 concurrent per seat, stagger ≥45s)",
+        "l1_model": "qwen3.8-max xhigh (983k ctx)",
+        "l2_model": "deepseek-v4-pro-0813 (983k ctx)",
+        "l3_model": "gpt-5.6-luna low (OpenAI OAuth)",
+        "l0_model": "kimi-code k3-max (orchestration only)",
+        "seats": 8,
+        "recovery_generation": 27,
+        "dispatch_ledger": ".ufo/local-dispatch/run-ledger-avalanche-20260827.jsonl",
+        "first_dispatch_id": "l1-dispatch-20260827T225632Z",
+        "turns": 0,
+        "outcome": "live · seats working first missions"
+    },
+    "snapshot": {
+        "ts": "2026-08-27T23:00:00Z",
+        "alive": true,
+        "tmux": "ufo-l1..ufo-l8 + ufo-l-wall",
+        "round": "gen-27 wave-1"
+    }
+}
