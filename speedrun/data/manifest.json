@@ -11,7 +11,6 @@
     "live_strip_run_id": "veigapunk-tp-infnet-crossbreed-avalanche-2026-08-27",
     "runs": [
         "data/run-200usd.json",
-        "data/run-kimi-vivace-oauth-2026-08-24.json",
         "data/run-codex-ultra-oauth-20x-2026-08-24.json",
         "data/run-cursor-ultra-ufo-core-2026-08-25.json",
         "data/run-tp-infnet-crossbreed-avalanche-2026-08-27.json"
