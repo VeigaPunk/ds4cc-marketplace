@@ -7,10 +7,10 @@
     "budget_usd": null,
     "budget_note": "Freshly minted Token Plan pro (third key, slot=infnet; gmail + team slots exhausted earlier same day). No usage limit 5h; run limited to the ~2h offpeak window (2026-08-27T22:56Z \u2192 ~00:56Z). TP lanes are low-TPS \u2014 L2 fan-out capped at small batches.",
     "currency": "USD",
-    "status": "live",
-    "duration": "live \u00b7 ~2h offpeak window",
+    "status": "closed",
+    "duration": "closed \u00b7 ~2h offpeak window (2026-08-27T22:56Z \u2192 00:56Z)",
     "venue": "tmux ufo-l1..ufo-l8 + ufo-l-wall \u00b7 cwd Projects/origin-work/ufo-fsd-alpha",
-    "summary": "Offpeak crossbreed avalanche on ufo-fsd-alpha after a same-day tooling rebase (64 one-off spawn scripts consolidated into parameterized dispatchers; godspeed byte-injection fixed tree-wide, coherence 17/17; Kimi 15-min token TTL fixed via local auth proxy 127.0.0.1:8791). 8 L1 seats on qwen3.8-max xhigh orchestrate ds-pro L2 workers in small batches. Every L1/L2 dispatch disclosed with sequential # and dispatch id in .ufo/local-dispatch/run-ledger-avalanche-20260827.jsonl. L0 orchestration from a native kimi-code k3-max session (Kimi preserved to dispatch tax). Wave W (23:55Z): 8 web-layer L1 seats ufo-w1..w8 dispatched onto the ds4cc web repos, same gen 27.",
+    "summary": "Offpeak crossbreed avalanche on ufo-fsd-alpha after a same-day tooling rebase (64 one-off spawn scripts consolidated into parameterized dispatchers; godspeed byte-injection fixed tree-wide, coherence 17/17; Kimi 15-min token TTL fixed via local auth proxy 127.0.0.1:8791). 8 L1 seats on qwen3.8-max xhigh orchestrate ds-pro L2 workers in small batches. Every L1/L2 dispatch disclosed with sequential # and dispatch id in .ufo/local-dispatch/run-ledger-avalanche-20260827.jsonl. L0 orchestration from a native kimi-code k3-max session (Kimi preserved to dispatch tax). Wave W (23:55Z): 8 web-layer L1 seats ufo-w1..w8 dispatched onto the ds4cc web repos, same gen 27. CLOSED at window end: 126 disclosed dispatches (16 L1 spawns across core+web waves, 46 L2 ds-pro on TP, 61 L2 luna/sol review, 1 L3), final TP infnet weekly 31.4%.",
     "timeline": [
         {
             "t": "2026-08-27T21:09Z",
@@ -41,6 +41,11 @@
             "t": "2026-08-27T23:55Z",
             "label": "web wave dispatched (wave W)",
             "note": "8\u00d7 L1 ufo-w1..w8 qwen3.8-max xhigh on the ds4cc web layer; ledger seq 109\u2013116, wave=web, gen 27"
+        },
+        {
+            "t": "2026-08-28T00:56Z",
+            "label": "window closed \u2014 wind-down",
+            "note": "16 seats nuked; gates-record converged green (431 PASS, evidence re-recorded); final gates.sh verify in flight; commit+push next"
         }
     ],
     "metrics": {
@@ -55,10 +60,10 @@
         "dispatch_ledger": ".ufo/local-dispatch/run-ledger-avalanche-20260827.jsonl",
         "first_dispatch_id": "l1-dispatch-20260827T225632Z",
         "turns": 0,
-        "outcome": "live - wave W (web) fan-out, gates-record converging",
-        "dispatches_disclosed": 120,
+        "outcome": "closed \u00b7 window consumed \u00b7 rebase converged green",
+        "dispatches_disclosed": 126,
         "ledger": "run-ledger-avalanche-20260827.jsonl \u00b7 120 disclosed rows \u00b7 seq 1\u2013116 (seq 41\u201344 dual-disclosed by seat l7)",
-        "tp_weekly_pct": 16.0,
+        "tp_weekly_pct": 31.4,
         "tp_meter": "waybar ai-usage chip, identity infnet, reset 2026-09-03T22:31Z",
         "l1_waves": "wave 1 ufo-l1..l8 core (22:56Z) \u00b7 wave W ufo-w1..w8 web (23:55Z)",
         "l2_mix": "deepseek-v4-pro-0813 \u00d741 (TP infnet) \u00b7 gpt-5.6-luna \u00d733 (OAuth) \u00b7 gpt-5.6-sol review-only \u00d727 (OAuth) \u00b7 qwen3.8-max \u00d72 (TP) \u00b7 L3 luna-low \u00d71",
@@ -66,15 +71,13 @@
         "wave": "W (web)",
         "window_close": "~2026-08-28T00:56Z",
         "disclosure_note": "data/artifacts/ledger-disclosure-convention-2026-08-27.md",
-        "used_percent": 30.8529
+        "used_percent": 31.4
     },
     "snapshot": {
-        "ts": "2026-08-28T00:05:01Z",
-        "alive": true,
-        "tmux": "ufo-l1..l8 + ufo-w1..w8 + ufo-l-wall",
-        "round": "gen-27 wave-W",
-        "ledger_rows": 120,
-        "ledger_seq_max": 116
+        "ts": "2026-08-28T00:56:00Z",
+        "alive": false,
+        "tmux": "nuked",
+        "round": "gen-27 final"
     },
     "display_venue": "tmux ufo-l1..l8 + ufo-w1..w8 + ufo-l-wall \u00b7 cwd Projects/origin-work/ufo-fsd-alpha",
     "category": "avalanche",
