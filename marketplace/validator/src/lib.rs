@@ -458,12 +458,24 @@ fn is_valid_semver(version: &str) -> bool {
 /// - A fenced code block (```)
 /// - A line starting with $
 /// - A specific command pattern: codex , grok , cargo , node , bash , ./, npx
+/// - An explicit instruction to load and apply a sibling `directive.md`
 pub fn is_skill_actionable(skill_content: &str) -> bool {
     // Strip frontmatter if present
     let body = strip_frontmatter(skill_content);
 
     // Check for fenced code block
     if body.contains("```") {
+        return true;
+    }
+
+    // Instruction-only posture skills can be executable without invoking a
+    // process. Keep this narrow: the skill must name the sibling directive and
+    // explicitly tell the agent to read/apply it, not merely mention docs.
+    let references_directive = body.contains("`directive.md`");
+    let applies_directive = body.contains("Read `directive.md`")
+        || body.contains("**Read `directive.md`")
+        || body.contains("apply its contents verbatim");
+    if references_directive && applies_directive {
         return true;
     }
 

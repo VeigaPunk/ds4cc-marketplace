@@ -47,7 +47,7 @@ out=$(GROK_ROUTE_STATUS="$FIX/exhausted.json" GROK_ROUTE_NOW=2026-08-24T15:00:00
   GROK_ROUTE_STATE="$TMP/grok-route-api.json" \
   "$XASK" -d --gs grok ping)
 printf '%s\n' "$out" | grep -q 'GROK_ROUTE=api' || fail 'grok exhausted GROK_ROUTE=api'
-printf '%s\n' "$out" | grep -q 'GROK_HOME=' || fail 'grok exhausted GROK_HOME'
+printf '%s\n' "$out" | grep -q 'GROK_HOME=' && fail 'grok exhausted must not set GROK_HOME'
 printf '%s\n' "$out" | grep -q 'grok --always-approve' || fail 'grok api always-approve'
 printf '%s\n' "$out" | grep -q 'env -u CODEX_BIN -u XBRD_SPARK_MODEL' || fail 'grok api unsets CODEX_BIN'
 out=$("$XASK" -d --gs -e low grok ping)

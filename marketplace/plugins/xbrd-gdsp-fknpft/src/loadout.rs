@@ -1,6 +1,10 @@
 use anyhow::{anyhow, Context, Result};
 use std::path::{Component, Path, PathBuf};
 
+/// Quintessential Godspeed dispatch form, compiled from the package-owned
+/// `directive.md` so a loadout cannot silently substitute another variant.
+pub const GODSPEED_DIRECTIVE: &str = include_str!("../skills/godspeed/directive.md");
+
 /// A resolved loadout of one or more skills, ready to be injected into a target CLI.
 #[derive(Debug, Default, Clone)]
 pub struct Loadout {
@@ -44,8 +48,7 @@ impl Loadout {
                     .join("\n");
                 anyhow!("skill not found: {name}\nsearched:\n{attempted}")
             })?;
-            let body = std::fs::read_to_string(&path)
-                .with_context(|| format!("failed to read skill {}: {}", name, path.display()))?;
+            let body = read_skill_body(name, &path)?;
             entries.push((name.clone(), body));
         }
         Ok(Self { entries })
@@ -53,6 +56,12 @@ impl Loadout {
 
     pub fn is_empty(&self) -> bool {
         self.entries.is_empty()
+    }
+
+    pub fn contains(&self, name: &str) -> bool {
+        self.entries
+            .iter()
+            .any(|(entry_name, _)| entry_name == name)
     }
 
     /// Render the full concat string. Empty loadout renders as an empty string.
@@ -73,6 +82,52 @@ impl Loadout {
         }
         out
     }
+}
+
+/// Resolve the exact payload injected for a skill loadout.
+///
+/// Godspeed is intentionally special: `--with godspeed` transports the
+/// quintessential sibling `directive.md`, not a shortened SKILL.md wrapper
+/// that merely tells an interactive host to open another file. The companion
+/// must be a real file inside the resolved skill directory so a higher-priority
+/// user skill cannot escape its search root through a symlink.
+fn read_skill_body(name: &str, skill_path: &Path) -> Result<String> {
+    let payload_path = if name == "godspeed" {
+        let skill_dir = skill_path
+            .parent()
+            .ok_or_else(|| anyhow!("godspeed skill has no containing directory"))?;
+        let candidate = skill_dir.join("directive.md");
+        let resolved = std::fs::canonicalize(&candidate).with_context(|| {
+            format!(
+                "godspeed requires canonical directive.md beside SKILL.md: {}",
+                candidate.display()
+            )
+        })?;
+        if !resolved.starts_with(skill_dir) || !resolved.is_file() {
+            return Err(anyhow!(
+                "godspeed directive must be a regular file inside {}",
+                skill_dir.display()
+            ));
+        }
+        resolved
+    } else {
+        skill_path.to_path_buf()
+    };
+
+    let body = std::fs::read_to_string(&payload_path).with_context(|| {
+        format!(
+            "failed to read skill payload {}: {}",
+            name,
+            payload_path.display()
+        )
+    })?;
+    if name == "godspeed" && body != GODSPEED_DIRECTIVE {
+        return Err(anyhow!(
+            "godspeed directive does not match the package-owned quintessential directive.md: {}",
+            payload_path.display()
+        ));
+    }
+    Ok(body)
 }
 
 fn find_skill(name: &str, search_dirs: &[PathBuf]) -> Option<PathBuf> {
@@ -134,17 +189,17 @@ mod tests {
         let tmp = tempdir().unwrap();
         let dir_a = tmp.path().join("a");
         fs::create_dir_all(&dir_a).unwrap();
-        write_skill(&dir_a, "godspeed", "GO FAST");
+        write_skill(&dir_a, "runner", "GO FAST");
 
         let l = Loadout::resolve_with_paths(
-            &["godspeed".to_string()],
+            &["runner".to_string()],
             &[dir_a.clone(), tmp.path().join("b")],
         )
         .unwrap();
 
         let c = l.to_concat();
-        assert!(c.contains("# xbreed loadout: godspeed"));
-        assert!(c.contains("## godspeed"));
+        assert!(c.contains("# xbreed loadout: runner"));
+        assert!(c.contains("## runner"));
         assert!(c.contains("GO FAST"));
     }
 
@@ -196,17 +251,95 @@ mod tests {
     }
 
     #[test]
+    fn concat_appends_newline_when_skill_body_has_none() {
+        let tmp = tempdir().unwrap();
+        let dir = tmp.path().join("skills");
+        write_skill(&dir, "runner", "GO FAST");
+
+        let l = Loadout::resolve_with_paths(&["runner".to_string()], &[dir]).unwrap();
+
+        assert_eq!(
+            l.to_concat(),
+            "# xbreed loadout: runner\n\n## runner\n\nGO FAST\n"
+        );
+    }
+
+    #[test]
     fn first_dir_wins_over_second() {
         let tmp = tempdir().unwrap();
         let dir_a = tmp.path().join("a");
         let dir_b = tmp.path().join("b");
-        write_skill(&dir_a, "godspeed", "FROM A");
-        write_skill(&dir_b, "godspeed", "FROM B");
+        write_skill(&dir_a, "runner", "FROM A");
+        write_skill(&dir_b, "runner", "FROM B");
 
-        let l = Loadout::resolve_with_paths(&["godspeed".to_string()], &[dir_a, dir_b]).unwrap();
+        let l = Loadout::resolve_with_paths(&["runner".to_string()], &[dir_a, dir_b]).unwrap();
         let c = l.to_concat();
         assert!(c.contains("FROM A"));
         assert!(!c.contains("FROM B"));
+    }
+
+    #[test]
+    fn godspeed_loadout_injects_full_directive_instead_of_pointer_wrapper() {
+        let tmp = tempdir().unwrap();
+        let root = tmp.path().join("skills");
+        let skill = write_skill(
+            &root,
+            "godspeed",
+            "POINTER WRAPPER: read directive.md before acting",
+        );
+        fs::write(
+            skill.parent().unwrap().join("directive.md"),
+            GODSPEED_DIRECTIVE,
+        )
+        .unwrap();
+
+        let loadout = Loadout::resolve_with_paths(&["godspeed".to_string()], &[root]).unwrap();
+        let rendered = loadout.to_concat();
+        assert!(rendered.contains("You are a Godspeed-enabled subagent."));
+        assert!(rendered.contains("Don't aim — let the frontier walk itself."));
+        assert!(rendered.contains("## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS."));
+        assert!(!rendered.contains("POINTER WRAPPER"));
+    }
+
+    #[test]
+    fn godspeed_rejects_a_noncanonical_directive_variant() {
+        let tmp = tempdir().unwrap();
+        let root = tmp.path().join("skills");
+        let skill = write_skill(&root, "godspeed", "pointer");
+        fs::write(
+            skill.parent().unwrap().join("directive.md"),
+            "You are a reduced Godspeed variant.\n",
+        )
+        .unwrap();
+
+        let err = Loadout::resolve_with_paths(&["godspeed".to_string()], &[root]).unwrap_err();
+        assert!(format!("{err:#}").contains("quintessential directive.md"));
+    }
+
+    #[test]
+    fn godspeed_without_directive_fails_closed() {
+        let tmp = tempdir().unwrap();
+        let root = tmp.path().join("skills");
+        write_skill(&root, "godspeed", "pointer only");
+
+        let err = Loadout::resolve_with_paths(&["godspeed".to_string()], &[root]).unwrap_err();
+        assert!(format!("{err:#}").contains("requires canonical directive.md"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn rejects_godspeed_directive_symlink_escape() {
+        use std::os::unix::fs::symlink;
+
+        let tmp = tempdir().unwrap();
+        let root = tmp.path().join("skills");
+        let skill = write_skill(&root, "godspeed", "pointer");
+        let outside = tmp.path().join("directive.md");
+        fs::write(&outside, "outside directive").unwrap();
+        symlink(&outside, skill.parent().unwrap().join("directive.md")).unwrap();
+
+        let err = Loadout::resolve_with_paths(&["godspeed".to_string()], &[root]).unwrap_err();
+        assert!(format!("{err:#}").contains("must be a regular file inside"));
     }
 
     #[test]

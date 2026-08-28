@@ -4,11 +4,18 @@ use std::os::unix::fs::PermissionsExt;
 use std::process::Command;
 use tempfile::tempdir;
 
+const GODSPEED_DIRECTIVE: &str = include_str!("../skills/godspeed/directive.md");
+
 /// Write a skill file into a fake ~/.agents/skills dir under `home`.
 fn write_skill(home: &std::path::Path, name: &str, body: &str) {
     let dir = home.join(".agents").join("skills").join(name);
     fs::create_dir_all(&dir).unwrap();
-    fs::write(dir.join("SKILL.md"), body).unwrap();
+    if name == "godspeed" {
+        fs::write(dir.join("SKILL.md"), "Read directive.md exactly.").unwrap();
+        fs::write(dir.join("directive.md"), body).unwrap();
+    } else {
+        fs::write(dir.join("SKILL.md"), body).unwrap();
+    }
 }
 
 /// Write a shell stub at `bin_dir/name` that logs its argv to `log_path` and exits 0.
@@ -49,6 +56,14 @@ fn run_xbreed_ask_in_dir(
     bin_dir: &std::path::Path,
     args: &[&str],
 ) -> std::process::Output {
+    let directive = home
+        .join(".agents")
+        .join("skills")
+        .join("godspeed")
+        .join("directive.md");
+    if !directive.exists() {
+        write_skill(home, "godspeed", GODSPEED_DIRECTIVE);
+    }
     let path = format!(
         "{}:{}",
         bin_dir.display(),
@@ -70,7 +85,7 @@ fn ask_codex_with_loadout_injects_developer_instructions_override() {
     let bin_dir = home.join("bin");
     let log = home.join("codex.log");
 
-    write_skill(home, "godspeed", "GO FAST NOW");
+    write_skill(home, "godspeed", GODSPEED_DIRECTIVE);
     write_stub(&bin_dir, "codex", &log);
 
     let out = run_xbreed_ask(
@@ -93,7 +108,7 @@ fn ask_codex_with_loadout_injects_developer_instructions_override() {
         .iter()
         .find(|a| a.starts_with("developer_instructions="))
         .expect("developer_instructions flag missing");
-    assert!(dev_instr.contains("GO FAST NOW"));
+    assert!(dev_instr.contains("You are a Godspeed-enabled subagent."));
     // M11: codex prompt always ends in "| godspeed" (user directive, structural
     // guarantee in ask.rs::dispatch).
     assert_eq!(*argv.last().unwrap(), "say hi | godspeed");
@@ -106,7 +121,7 @@ fn ask_gemini_with_loadout_prepends_to_prompt() {
     let bin_dir = home.join("bin");
     let log = home.join("gemma-hvm.log");
 
-    write_skill(home, "godspeed", "GO FAST NOW");
+    write_skill(home, "godspeed", GODSPEED_DIRECTIVE);
     write_stub(&bin_dir, "gemma-hvm", &log);
 
     let out = run_xbreed_ask_in_dir(
@@ -119,14 +134,14 @@ fn ask_gemini_with_loadout_prepends_to_prompt() {
 
     let argv = read_log(&log);
     let combined = &argv[0];
-    assert!(combined.contains("GO FAST NOW"));
+    assert!(combined.contains("You are a Godspeed-enabled subagent."));
     assert!(combined.contains("## godspeed"));
-    assert!(combined.ends_with("say hi"));
+    assert!(combined.ends_with("say hi | godspeed"));
     assert!(combined.contains("\n---\n"));
 }
 
 #[test]
-fn ask_without_with_flag_dispatches_cleanly() {
+fn ask_without_with_flag_still_injects_canonical_godspeed() {
     let tmp = tempdir().unwrap();
     let home = tmp.path();
     let bin_dir = home.join("bin");
@@ -139,11 +154,13 @@ fn ask_without_with_flag_dispatches_cleanly() {
 
     let argv = read_log(&log);
     assert_eq!(argv[0], "exec");
-    // M11: godspeed suffix guarantee holds even without --with.
+    // Godspeed is mandatory and additive even without an explicit --with.
     assert_eq!(*argv.last().unwrap(), "say hi | godspeed");
-    assert!(!argv
+    let dev_instr = argv
         .iter()
-        .any(|a| a.starts_with("developer_instructions=")));
+        .find(|a| a.starts_with("developer_instructions="))
+        .expect("canonical Godspeed developer instructions missing");
+    assert!(dev_instr.contains("You are a Godspeed-enabled subagent."));
 }
 
 #[test]
@@ -225,18 +242,14 @@ fn ask_codex_route_preserves_workspace_boundary() {
         "prompt must be the final argv element with godspeed suffix: {argv:?}"
     );
 
-    // M7 (mutation sentinels): --ephemeral and features.fast_mode=true must
-    // survive any refactor. Ephemeral ensures no session bleed across headless
-    // dispatches. fast_mode=true is the non-spark performance path for gpt-5.6-sol
-    // family. Mutation-r1 confirmed both are live kill-switch targets.
+    // --ephemeral prevents session bleed. Ordinary servicing is explicit so
+    // an ambient host priority/fast preference cannot contaminate this route.
     assert!(
         argv.iter().any(|a| a == "--ephemeral"),
         "missing --ephemeral in argv: {argv:?}"
     );
-    assert!(
-        argv.contains(&"features.fast_mode=true".to_string()),
-        "missing features.fast_mode=true in argv: {argv:?}"
-    );
+    assert!(argv.contains(&"service_tier=\"default\"".to_string()));
+    assert!(!argv.contains(&"features.fast_mode=true".to_string()));
 
     // M10 (explicit codex default model pin): the default (non-spark, non-review)
     // dispatch lane must include -m gpt-5.6-sol so a codex version bump that
@@ -293,7 +306,7 @@ fn ask_with_multiple_skills_comma_separated() {
     let bin_dir = home.join("bin");
     let log = home.join("codex.log");
 
-    write_skill(home, "godspeed", "GO FAST");
+    write_skill(home, "godspeed", GODSPEED_DIRECTIVE);
     write_skill(home, "curator", "CURATE");
     write_stub(&bin_dir, "codex", &log);
 
@@ -309,9 +322,11 @@ fn ask_with_multiple_skills_comma_separated() {
         .iter()
         .find(|a| a.starts_with("developer_instructions="))
         .expect("developer_instructions missing");
-    assert!(dev_instr.contains("GO FAST"));
+    assert!(dev_instr.contains("You are a Godspeed-enabled subagent."));
     assert!(dev_instr.contains("CURATE"));
-    let go_idx = dev_instr.find("GO FAST").unwrap();
+    let go_idx = dev_instr
+        .find("You are a Godspeed-enabled subagent.")
+        .unwrap();
     let cur_idx = dev_instr.find("CURATE").unwrap();
     assert!(go_idx < cur_idx, "godspeed should come before curator");
 }
@@ -604,10 +619,8 @@ fn ask_codex_spark_wins_over_review_and_full() {
         argv.contains(&"model_reasoning_effort=low".to_string()),
         "model_reasoning_effort=low must be present on spark lane: {argv:?}"
     );
-    assert!(
-        argv.contains(&"features.fast_mode=true".to_string()),
-        "features.fast_mode=true must be present on spark lane: {argv:?}"
-    );
+    assert!(argv.contains(&"service_tier=\"default\"".to_string()));
+    assert!(!argv.contains(&"features.fast_mode=true".to_string()));
 }
 
 /// M11 (godspeed inheritance guarantee) — user directive: codex ALWAYS inherits

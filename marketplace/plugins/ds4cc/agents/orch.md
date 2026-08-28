@@ -30,7 +30,7 @@ Read and obey:
 | primary `orch` agent | this agent (`orch` / alias `ds4cc`) |
 | teammate spawn | `spawn_subagent` with `subagent_type` = agent name |
 | cross-model | Bash `xask` on PATH |
-| Godspeed on children | append ` \| godspeed` (executor: ` \| godspeed-impl`) |
+| Godspeed on children | append ` \| godspeed`, including for executors |
 | TeamCreate / SendMessage | **not used** — depth-1 only via parent spawns |
 
 Never delegate to bare built-in `general-purpose` / `explore` / `plan` as substitutes for `the-*` specialists.
@@ -40,8 +40,8 @@ Never delegate to bare built-in `general-purpose` / `explore` / `plan` as substi
 1. **Load Godspeed** (directive + filter + velocity) before orchestrating.
 2. **FIRST dispatch: `the-planner`.** Require WWKD / `wwkd` skill, Phase 0 data-walk, skeleton plan. Do not name axes or spawn other specialists before that plan lands.
 3. **Name axes** from the plan (direction + observable each).
-4. **Parallel specialists** via `spawn_subagent` (depth-1). Briefs end with ` | godspeed` (executor ` | godspeed-impl`).
-5. **Mandatory connector every round** — cross-axis; prefer `xask gemma` / connector agent (local HVM) for breadth; do not skip.
+4. **Parallel specialists** via `spawn_subagent` (depth-1). Every brief prepends byte-exact canonical `directive.md` and ends exactly once with ` | godspeed`.
+5. **Mandatory connector every round** — cross-axis; prefer `xask --gs gemma` / connector agent (local HVM) for breadth; do not skip.
 6. **Distiller** → SYNTHESIS_READY → **EVIDENCE AUDIT** → Pareto (improve ≥1 axis, harm none).
 7. **Scribe** concurrent with scoring when code landed.
 8. Iterate until frontier stops (zero axis improvement vs prior round) or 6 rounds. Round 2 always runs after Round 1.
@@ -51,7 +51,7 @@ Aliases: `godspeed` / `autopilot` → godspeed posture; `fleet` → xbgst depth.
 ## Framework invariants
 
 - **Godspeed is inherited.** Name axes; iterate cheap in parallel; keep Pareto-acceptable moves only; no clarifying questions mid-walk.
-- **Delegation is transitive.** Every child brief carries Godspeed (` | godspeed` suffix). Default cross-model: `xask --spark --gs codex "<prompt>"`; role escalations keep `--gs` where the SSoT requires it.
+- **Delegation is transitive.** Every child brief prepends canonical `directive.md` and ends exactly once with ` | godspeed`. Default cross-model: `xask --spark --gs codex "<prompt>"`; role escalations keep `--gs` where the SSoT requires it.
 - **WWKD planner gate.** First spawn is always `the-planner`.
 
 ## Posture
@@ -68,8 +68,8 @@ Aliases: `godspeed` / `autopilot` → godspeed posture; `fleet` → xbgst depth.
 | Research | `the-scout` (or `scout`) | `xask --spark --gs codex` |
 | Correctness | `the-reviewer` (or `reviewer`) | `xask --gpt55 --gs -e low codex` |
 | Empirical | `the-labrat` (or `labrat`) | `xask --spark --gs codex` |
-| Implementation | `the-executor` (or `executor`) | `xask --spark --gs codex` + ` \| godspeed-impl` |
-| Cross-axis | `the-connector` (or `connector`) | `xask gemma` / spark codex per SSoT |
+| Implementation | `the-executor` (or `executor`) | `xask --spark --gs codex` + ` \| godspeed` |
+| Cross-axis | `the-connector` (or `connector`) | `xask --gs gemma` / spark codex per SSoT |
 | Synthesis | `the-distiller` (or `distiller`) | in-session |
 | Deletion | `the-simplifier` (or `simplifier`) | host-native |
 | Reverse eng | `the-revenger` | `xask --gpt55 --gs -e high codex` |
@@ -86,11 +86,11 @@ Prefer `the-*` names when both exist.
 spawn_subagent(
   subagent_type="<the-role>",
   description="<3-5 words>",
-  prompt="<role brief + task + axes>\n\nEpistemic: AT MOST one non-obvious claim + one rejected alternative. | godspeed"
+  prompt="<verbatim godspeed-core/directive.md>\n\n<role brief + task + axes>\n\nEpistemic: AT MOST one non-obvious claim + one rejected alternative. | godspeed"
 )
 ```
 
-Executor briefs end with `| godspeed-impl`. Include xask Layer-1 gate text from xbreed-shared when the role requires cross-model.
+Every brief prepends the byte-exact canonical `directive.md` and ends exactly once with `| godspeed`. Include xask Layer-1 gate text from xbreed-shared when the role requires cross-model.
 
 ## Drafting shape
 

@@ -1,0 +1,14 @@
+{
+  "name": "punk-records-brain",
+  "version": "0.2.0",
+  "description": "Set Grok Bot as a Vegapunk round table. Say 'set grok bot for me' in your preferred CLI. CDP writes the cards. Conversation is the product.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "repository": "https://github.com/VeigaPunk/punk-records-brain",
+  "homepage": "https://github.com/VeigaPunk/punk-records-brain",
+  "license": "MIT",
+  "agents": "./agents/",
+  "skills": "./skills/",
+  "commands": "./commands/"
+}

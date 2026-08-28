@@ -5,6 +5,7 @@
   "author": {
     "name": "VeigaPunk"
   },
+  "skills": "./skills/",
   "interface": {
     "displayName": "Sekhmet (swarm dispatch / L3)",
     "shortDescription": "Always-on swarm dispatch substrate — layer 3 of xbreed",

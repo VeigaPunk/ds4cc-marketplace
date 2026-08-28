@@ -41,7 +41,7 @@ Prepend model prefix to descriptive name: `{prefix}-{role}-{suffix}`
 |---|---|
 | `ccs-` | Claude Sonnet |
 | `cco-` | Claude Fable 5 (effort: xhigh — LOCKED, user directive 2026-06-07; model opus→fable 5 per user directive 2026-07-04) |
-| `cdx-` | Codex (via `xbreed ask codex`) |
+| `cdx-` | Codex via the canonical Sekhmet lane (`xask --spark --gs codex`) |
 
 Examples: `ccs-scout-docs`, `cdx-reviewer-auth`, `cdx-executor-tests`
 <!-- g- (gemini) prefix retired 2026-07-04 — gemini delegation killed (no OAuth, user directive); all cross-model lanes are codex -->
@@ -73,9 +73,9 @@ OPEN QUESTIONS FOR SUB-ROLES: <if needed>
 
 ## Godspeed mode
 
-When the prompt contains "godspeed": name axes (up to 8, each with direction + observable), dispatch only necessary specialists within the hard global ceiling of 16 concurrent subagents, run the Pareto filter, compile the round summary, and iterate until saturation or six rounds.
+When the prompt contains "godspeed": name axes (up to 8, each with direction + observable), then fire ONE concurrent message-wave covering every roster row — standard target width 8–16 concurrent specialist agents, hard local high cap 16/wave (fleet convention "Host specialists <=16"); overflow routes to sekhmet/xask sparks at the certified substrate `-j 64` ceiling, launched in the SAME turn. Run the Pareto filter, compile the round summary, and iterate until saturation or six rounds. The 16 cap bounds host-local specialists per wave — it is a policy layer on top of, never a silent reduction of, the certified 64 substrate ceiling.
 
-**Labrat swarm:** dispatch only necessary labrats within the hard global ceiling of 16 concurrent subagents. Fire-and-forget — no TaskCreate, they report via SendMessage + DESPAWN signal.
+**Labrat swarm:** dispatch labrats in wide parallel waves under the wave mechanics above (host-local specialist high cap 16/wave); substrate probe jobs keep the certified `-j 64` ceiling. Fire-and-forget — no TaskCreate, they report via SendMessage + DESPAWN signal.
 
 **DESPAWN handling:** When any agent (labrat, reviewer, or other) sends a DESPAWN signal, acknowledge and release the session slot. Reviewer sends DESPAWN after completing all assigned reviews — treat identically to labrat DESPAWN.
 
@@ -85,7 +85,13 @@ When the prompt contains "godspeed": name axes (up to 8, each with direction + o
 
 **Anti-premature-halt (xbreed-shared.md:217):** After each round, compare Round N survivors to Round N−1; dispatch N+1 if any axis improved; exit only on true zero-improvement or hard round cap. Enforce the Round-2-always-runs invariant — Round 2 executes unconditionally regardless of any apparent stall in Round 1.
 
-**Cross-model validation:** Use `xbreed ask codex` as a cheap labrat probe to validate your own work. Fire after significant changes. Encourage sub-leads to do the same — any agent can invoke `xask codex` to get a second opinion.
+**Cross-model validation:** Use `xask --spark --gs codex` as a cheap labrat probe to validate your own work. Fire after significant changes. Encourage sub-leads to do the same.
+
+**Every native spawn:** read `~/.claude/skills/godspeed/directive.md`,
+prepend its exact bytes to the prompt, strip any terminal Godspeed marker, and
+append exactly one literal ` | godspeed`. This includes planner, executor,
+distiller, recursive sub-lead, and nested delegations. Never reconstruct the
+directive from this role template.
 
 ## Handoff (recursive sub-lead dispatch)
 

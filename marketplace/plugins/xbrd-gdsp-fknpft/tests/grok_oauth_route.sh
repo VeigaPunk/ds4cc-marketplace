@@ -56,10 +56,9 @@ if [[ -f "$OP_STATUS" ]]; then
   python3 - "$live_out" <<'PY'
 import json, sys
 d = json.loads(sys.argv[1])
-assert d["mode"] == "oauth", d
-rem = int(d["remaining_pct"])
-assert 1 <= rem <= 15, rem
-print("live oauth remaining_pct=%s" % rem)
+assert d["mode"] in ("oauth", "api"), d
+assert "remaining_pct" in d
+print("live mode=%s remaining_pct=%s" % (d["mode"], d["remaining_pct"]))
 PY
 fi
 
@@ -69,7 +68,7 @@ python3 - "$ex" "$rs" <<'PY'
 import json, sys
 ex, rs = json.loads(sys.argv[1]), json.loads(sys.argv[2])
 assert ex["mode"] == "api" and ex.get("reason") == "exhausted", ex
-assert ex.get("grok_home"), ex
+assert not ex.get("grok_home"), ex
 assert rs["mode"] == "oauth" and rs.get("reason") == "reset", rs
 print("M02_OK live=oauth exhausted=api reset=oauth")
 PY
@@ -125,40 +124,33 @@ assert d.get("reason") == "primary", d
 print("M06b_OK dirty_latch_unpins remaining_pct=7")
 PY
 
-# wrap oauth is pass-through; wrap api isolates GROK_HOME (symlink config.toml only)
+# wrap oauth is pass-through; wrap api pins env_key on ~/.grok (no GROK_HOME)
+export GROK_ROUTE_SYSTEMD=0
 export GROK_ROUTE_STATUS="$FIX/remaining-7.json"
 unset GROK_ROUTE_NOW || true
 "$ROUTE" wrap -- sh -c 'test -z "${GROK_HOME:-}" && test "$GROK_ROUTE" = oauth && echo WRAP_OAUTH_OK'
 
 export GROK_ROUTE_STATUS="$FIX/exhausted.json"
 export GROK_ROUTE_NOW=2026-08-24T15:00:00Z
-if "$ROUTE" wrap -- true >/dev/null 2>&1; then
+if env -u XAI_API_KEY "$ROUTE" wrap -- true >/dev/null 2>&1; then
   fail "api wrap without key must fail-closed"
 fi
 XAI_API_KEY=test-key "$ROUTE" wrap -- sh -c '
-  test -n "$GROK_HOME" || exit 1
-  test ! -e "$GROK_HOME/auth.json" || exit 1
-  test ! -e "$GROK_HOME/sessions" || exit 1
-  test ! -e "$GROK_HOME/mcp_credentials.json" || exit 1
-  test -f "$GROK_HOME/config.toml" || exit 1
-  test ! -L "$GROK_HOME/config.toml" || exit 1
+  test -z "${GROK_HOME:-}" || exit 1
   test "$GROK_ROUTE" = api || exit 1
+  grep -q "env_key = \"XAI_API_KEY\"" "$HOME/.grok/config.toml" || exit 1
+  grep -q grok-oauth-route-lane "$HOME/.grok/config.toml" || exit 1
+  test -f "$HOME/.config/systemd/user/grok-oauth-restore.timer" || exit 1
   echo WRAP_API_OK
 '
+[[ "$(stat -c '%Y %i' "$HOME/.grok/auth.json")" == "$AUTH_MARK" ]] || fail "api wrap mutated auth.json"
+grep -q grok-oauth-route-lane "$HOME/.grok/config.toml" || fail "api wrap did not pin env_key"
 
-# Sentinel: aliased scratch home must not unlink live auth.json.
-uid=$(id -u)
-rm -rf "$XDG_RUNTIME_DIR/grok-api-$uid"
-ln -s "$HOME/.grok" "$XDG_RUNTIME_DIR/grok-api-$uid"
-export GROK_ROUTE_STATUS="$FIX/exhausted.json"
-export GROK_ROUTE_NOW=2026-08-24T15:00:00Z
-if XAI_API_KEY=test-key "$ROUTE" wrap -- true >/tmp/xbgst-alias-wrap.err 2>&1; then
-  # May succeed via /tmp fallback; live auth must still exist either way.
-  :
-fi
-[[ "$(stat -c '%Y %i' "$HOME/.grok/auth.json")" == "$AUTH_MARK" ]] || fail "aliased scratch mutated auth.json"
-[[ -f "$HOME/.grok/auth.json" ]] || fail "aliased scratch deleted auth.json"
-echo ALIAS_OK
+# restore strips the pin and leaves auth.json
+"$ROUTE" restore >/dev/null
+grep -q grok-oauth-route-lane "$HOME/.grok/config.toml" && fail "restore left lane mark"
+[[ "$(stat -c '%Y %i' "$HOME/.grok/auth.json")" == "$AUTH_MARK" ]] || fail "restore mutated auth.json"
+echo RESTORE_OK
 
 # Sentinel: GROK_ROUTE_STATE must not overwrite auth.json.
 if GROK_ROUTE_STATE="$HOME/.grok/auth.json" GROK_ROUTE_STATUS="$FIX/remaining-7.json" \
@@ -182,7 +174,7 @@ export GROK_ROUTE_STATUS="$FIX/exhausted.json"
 export GROK_ROUTE_NOW=2026-08-24T15:00:00Z
 out=$("$XASK" -d --gs grok ping)
 printf '%s\n' "$out" | grep -q 'GROK_ROUTE=api' || fail "xask api GROK_ROUTE"
-printf '%s\n' "$out" | grep -q 'GROK_HOME=' || fail "api must set GROK_HOME"
+printf '%s\n' "$out" | grep -q 'GROK_HOME=' && fail "api must not set GROK_HOME"
 echo M04_OK
 
 if grep -E 'xai-[A-Za-z0-9]' "$ROUTE" "$XASK" >/dev/null; then

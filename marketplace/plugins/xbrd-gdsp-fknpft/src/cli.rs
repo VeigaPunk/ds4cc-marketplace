@@ -41,8 +41,9 @@ pub enum Commands {
         cli: String,
         /// Prompt to send
         prompt: String,
-        /// Skill/directive names to load (comma-separated, repeatable).
-        /// Searched in ~/.agents/skills, ~/.claude/skills, ~/.config/xbreed/skills
+        /// Additive skill/directive names to load (comma-separated, repeatable).
+        /// Godspeed is always loaded first. Searched in ~/.agents/skills,
+        /// ~/.claude/skills, ~/.config/xbreed/skills.
         #[arg(short = 'w', long = "with", value_delimiter = ',')]
         with: Vec<String>,
         /// Effort/reasoning level to pass to the target CLI.
@@ -50,12 +51,16 @@ pub enum Commands {
         #[arg(
             short = 'e',
             long = "effort",
-            value_parser = ["low", "medium", "high", "xhigh"]
+            value_parser = ["low", "medium", "high", "xhigh", "max", "ultra"]
         )]
         effort: Option<String>,
         /// Exact provider model ID. Overrides xbreed lane defaults.
         #[arg(long, conflicts_with_all = ["spark", "review", "full", "gpt55"])]
         model: Option<String>,
+        /// Codex request servicing tier. `default` explicitly neutralizes an
+        /// ambient host override; `fast` maps to priority servicing on the wire.
+        #[arg(long, value_parser = ["default", "fast", "priority"])]
+        service_tier: Option<String>,
         /// Use the fast codex-spark model with low effort (codex only).
         /// Equivalent to: -m gpt-5.4-mini + model_reasoning_effort=low
         #[arg(long)]
@@ -73,7 +78,8 @@ pub enum Commands {
         #[arg(long, short = 'F')]
         full: bool,
         /// Route to gpt-5.6-sol (codex only) with fast_mode enabled. Supports all
-        /// effort levels (low/medium/high/xhigh via -e). Added 2026-04-24 for
+        /// effort levels advertised by the selected model (including max/ultra
+        /// on current Sol-family models). Added 2026-04-24 for
         /// xbrd-exec bench — enables xask-arm measurement of gpt-5.6-sol so the
         /// comparison of 5.6 via raw codex exec vs via xbreed wrapper becomes
         /// expressible. Mutually exclusive with --spark (spark wins); orthogonal
@@ -103,7 +109,7 @@ pub enum Commands {
 
 #[derive(Subcommand, Debug)]
 pub enum PrecheckAction {
-    /// Check whether the requested team size is at most 16.
+    /// Check whether the requested team size is within the certified 64-slot contract.
     /// Retains the pane-cap command name for CLI compatibility; does not query tmux.
     PaneCap {
         /// Number of teammates about to be spawned

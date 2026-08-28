@@ -1,12 +1,12 @@
 ---
-description: Godspeed Pareto + cross-model delegation — combines /xgs speed with /xbt depth. Teammates invoke xask codex at godspeed pace.
+description: Godspeed Pareto + cross-model delegation — combines /xgs speed with /xbt depth through the canonical Sekhmet consultation lane.
 argument-hint: <prompt for the judge>
 allowed-tools: [Agent, Bash, Read, Write, Edit, Glob, Grep, TaskCreate, TaskGet, TaskList, TaskUpdate, TaskOutput, SendMessage, TeamCreate, TeamDelete, WebFetch, WebSearch, LSP, Monitor]
 ---
 
 # /xbgst — Godspeed Pareto + Cross-Model Delegation
 
-The full crossbreed: godspeed Pareto walk (parallel proposals, axis-scored, round-capped) with cross-model delegation (teammates invoke `xask codex`). Combines the speed of `/xgs` with the external perspectives of `/xbt`.
+The full crossbreed: godspeed Pareto walk (parallel proposals, axis-scored, round-capped) with cross-model delegation (teammates invoke `xask --spark --gs codex`). Combines the speed of `/xgs` with the external perspectives of `/xbt`.
 
 Use when you want fast Pareto convergence AND cross-model views. For all-Claude speed without cross-model, use `/xgs`. For slower deliberative mediation with cross-model, use `/xbt`.
 
@@ -49,7 +49,7 @@ Agent(
   subagent_type="the-planner",
   team_name="<team>",
   name="cco-planner-r0",
-  prompt="WWKD Phase 0 data walk + skeleton plan for: <full user prompt>. Your FIRST tool call MUST be Skill(skill='wwkd') — Layer 0. Deliver plan artifact to team-lead when done. | godspeed"
+  prompt="<verbatim directive.md>\n\nWWKD Phase 0 data walk + skeleton plan for: <full user prompt>. Your FIRST tool call MUST be Skill(skill='wwkd') — Layer 0. Deliver plan artifact to team-lead when done. | godspeed"
 )
 ```
 
@@ -80,7 +80,7 @@ availability is host-governed; this stack must not impose a smaller local cap.
 Each brief includes:
 1. Full peer roster (all names from Phase 1)
 2. Axis assignment
-3. **Godspeed inheritance:** prepend the canonical Godspeed block, including the hard global ceiling of 16 concurrent subagents, and append ` | godspeed` (literal, with leading space) as its transport marker.
+3. **Godspeed inheritance:** read `~/.claude/skills/godspeed/directive.md`, prepend its exact bytes, and append exactly one ` | godspeed` (literal, with leading space). Never reconstruct the directive. Enforce the separate certified 64-slot stack contract.
 4. **Structural xask gate — verbatim Layer-1 string per role (MANDATORY inline, NOT via pointer).** Paste the exact per-role gate string into the teammate brief. Indirection ("Read shared.md and apply") is lossy — teammates skip the gate when the string is not physically present. The table below is the source-of-truth; mirror from `xbreed-shared.md §xask Gate (4 layers)` if either drifts.
 
 | Role | Verbatim Layer-1 string to include in brief |
@@ -103,7 +103,11 @@ Also include Layers 2–4 verbatim in each brief (raw-quote gate, fallback, conf
 6. After proposing, DM each peer with one-line critique
 7. Mark task completed
 
-**Executor lane — ` | godspeed-impl` suffix variant:** when spawning `executor` teammates, prepend the same canonical Godspeed block and append ` | godspeed-impl` instead of ` | godspeed`. The suffix adds red-before-green evidence discipline; it does not replace the inherited directive. Non-executable axes are not eligible for the executor lane (by role, not by directive).
+**Executor lane:** executor prompts use the same canonical `directive.md` bytes
+and the same single ` | godspeed` suffix as every other delegation.
+Red-before-green evidence discipline belongs to the executor role and task
+brief; it is not encoded in a suffix variant. Non-executable axes are not
+eligible for the executor lane (by role, not by directive).
 
 #### Pre-dispatch self-check (MANDATORY)
 
@@ -125,7 +129,7 @@ Agent(
   team_name="<team>",
   name="ccs-distiller",
   model="sonnet",
-  prompt="You are the distiller. Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag cross-model contradictions (codex vs claude), assign confidence. DO NOT rewrite, summarize, or absorb any line beginning with `evidence:` — copy it verbatim, byte-for-byte, into the corresponding move in your synthesis output. This is a structural requirement, not guidance; the Pareto filter reads the field post-synthesis. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
+  prompt="<verbatim directive.md>\n\nYou are the distiller. Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag cross-model contradictions (codex vs claude), assign confidence. DO NOT rewrite, summarize, or absorb any line beginning with `evidence:` — copy it verbatim, byte-for-byte, into the corresponding move in your synthesis output. This is a structural requirement, not guidance; the Pareto filter reads the field post-synthesis. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
 )
 ```
 

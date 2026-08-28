@@ -1,17 +1,25 @@
 #!/usr/bin/env python3
-"""Grok OAuth-primary router. API only at used_pct>=EXHAUST via isolated GROK_HOME."""
+"""Grok OAuth-primary router. API pins env_key on ~/.grok; restore at resets_at."""
 from __future__ import annotations
 
 import json
 import os
+import pwd
+import re
 import shutil
+import subprocess
 import sys
 import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 
-FORBIDDEN = ("auth.json", "sessions", "mcp_credentials.json")
 OP_ENV = Path.home() / ".config" / "the-janitor" / "op.env"
+LANE_MARK = "grok-oauth-route-lane"
+ENV_KEY_LINE = 'env_key = "XAI_API_KEY"'
+MODEL_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,63}$")
+DEFAULT_MODEL = "grok-4.6"
+TIMER_UNIT = "grok-oauth-restore.timer"
+SERVICE_UNIT = "grok-oauth-restore.service"
 
 
 def die(msg: str) -> None:
@@ -19,8 +27,20 @@ def die(msg: str) -> None:
     raise SystemExit(2)
 
 
+def login_home() -> Path:
+    return Path(pwd.getpwuid(os.getuid()).pw_dir)
+
+
 def live_grok_home() -> Path:
     return (Path.home() / ".grok").resolve()
+
+
+def config_path() -> Path:
+    return Path.home() / ".grok" / "config.toml"
+
+
+def lane_state_path() -> Path:
+    return Path.home() / ".cache" / "ai-usage" / "grok-lane.json"
 
 
 def status_path() -> Path:
@@ -65,42 +85,6 @@ def now_utc() -> datetime:
 
 def rfc3339(dt: datetime) -> str:
     return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-
-
-def is_aliased_scratch(home: Path) -> bool:
-    if home.is_symlink():
-        return True
-    try:
-        return home.exists() and home.resolve() == live_grok_home()
-    except OSError:
-        return True
-
-
-def assert_scratch(home: Path) -> None:
-    if is_aliased_scratch(home):
-        die("scratch GROK_HOME must not alias ~/.grok")
-
-
-def scratch_home() -> Path:
-    uid = os.getuid()
-    xdg = os.environ.get("XDG_RUNTIME_DIR")
-    candidates = []
-    if xdg:
-        candidates.append(Path(xdg) / f"grok-api-{uid}")
-    candidates.append(Path(f"/tmp/xbgst-grok-api-{uid}"))
-    last = None
-    for p in candidates:
-        last = p
-        if is_aliased_scratch(p):
-            continue
-        try:
-            p.mkdir(parents=True, exist_ok=True)
-        except OSError:
-            continue
-        if is_aliased_scratch(p):
-            continue
-        return p
-    die(f"cannot create scratch GROK_HOME ({last})")
 
 
 def load_json(path: Path):
@@ -162,7 +146,6 @@ def decide() -> dict:
     elif used >= limit:
         mode, reason = "api", "exhausted"
     elif latch_mode == "api" and due is False and used >= max(0, limit - 1):
-        # Hold api only across 99↔100 jitter, never with weekly remaining.
         mode, reason = "api", "latched"
     else:
         mode, reason = "oauth", "primary"
@@ -173,8 +156,6 @@ def decide() -> dict:
         "resets_at": resets_at,
         "reason": reason,
     }
-    if mode == "api":
-        out["grok_home"] = str(scratch_home())
     persist(out)
     return out
 
@@ -190,17 +171,20 @@ def persist(decision: dict) -> None:
         "reason": decision["reason"],
         "updated_at": rfc3339(now_utc()),
     }
-    text = json.dumps(payload, separators=(",", ":")) + "\n"
+    atomic_write(path, json.dumps(payload, separators=(",", ":")) + "\n", 0o600)
+
+
+def atomic_write(path: Path, text: str, mode: int) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(prefix=".grok-route.", dir=str(path.parent))
     try:
-        os.fchmod(fd, 0o600)
+        os.fchmod(fd, mode)
         with os.fdopen(fd, "w") as fh:
             fh.write(text)
             fh.flush()
             os.fsync(fh.fileno())
         os.replace(tmp, path)
-        os.chmod(path, 0o600)
+        os.chmod(path, mode)
     except Exception:
         try:
             os.unlink(tmp)
@@ -209,31 +193,196 @@ def persist(decision: dict) -> None:
         raise
 
 
-def isolate(home: Path) -> None:
-    assert_scratch(home)
-    home.mkdir(parents=True, exist_ok=True)
-    assert_scratch(home)
-    for name in FORBIDDEN:
-        p = home / name
+def write_lane_state(payload: dict) -> None:
+    atomic_write(lane_state_path(), json.dumps(payload, separators=(",", ":")) + "\n", 0o600)
+
+
+def configured_models(text: str) -> list[str]:
+    found: list[str] = []
+    for key in ("default", "fork_secondary_model"):
+        m = re.search(rf'(?m)^{re.escape(key)}\s*=\s*"([^"]+)"\s*$', text)
+        if m and MODEL_RE.match(m.group(1)) and m.group(1) not in found:
+            found.append(m.group(1))
+    return found or [DEFAULT_MODEL]
+
+
+def _table_span(text: str, header: str) -> tuple[int, int] | None:
+    start = text.find(header)
+    if start < 0:
+        return None
+    line_start = text.rfind("\n", 0, start) + 1
+    nxt = re.search(r"(?m)^\[", text[start + len(header) :])
+    end = len(text) if nxt is None else start + len(header) + nxt.start()
+    return line_start, end
+
+
+def _table_has_key(body: str, key: str) -> bool:
+    return re.search(rf"(?m)^{re.escape(key)}\s*=", body) is not None
+
+
+def pin_config() -> dict:
+    path = config_path()
+    path.parent.mkdir(parents=True, exist_ok=True)
+    text = path.read_text(encoding="utf-8") if path.is_file() else ""
+    models = configured_models(text)
+    created: list[str] = []
+    added: list[str] = []
+    for model in models:
+        header = f"[model.{model}]"
+        span = _table_span(text, header)
+        if span is None:
+            if text and not text.endswith("\n"):
+                text += "\n"
+            text += f"\n{header}\n{ENV_KEY_LINE}  # {LANE_MARK}\n"
+            created.append(model)
+            added.append(model)
+            continue
+        _, end = span
+        body = text[span[0] : end]
+        if LANE_MARK in body and ENV_KEY_LINE in body:
+            added.append(model)
+            continue
+        if _table_has_key(body, "api_key") or _table_has_key(body, "env_key"):
+            continue
+        insert_at = span[0] + len(header)
+        if insert_at < len(text) and text[insert_at] != "\n":
+            prefix = "\n"
+        else:
+            prefix = ""
+        text = text[:insert_at] + f"{prefix}\n{ENV_KEY_LINE}  # {LANE_MARK}" + text[insert_at:]
+        added.append(model)
+    if added or created:
+        atomic_write(path, text if text.endswith("\n") else text + "\n", 0o600)
+    payload = {
+        "version": 1,
+        "pinned": True,
+        "models": models,
+        "added": added,
+        "created_tables": created,
+        "updated_at": rfc3339(now_utc()),
+    }
+    write_lane_state(payload)
+    return payload
+
+
+def restore_config() -> dict:
+    path = config_path()
+    if path.is_file():
+        text = re.sub(
+            rf"(?m)^{re.escape(ENV_KEY_LINE)}\s*#\s*{re.escape(LANE_MARK)}\s*\n",
+            "",
+            path.read_text(encoding="utf-8"),
+        )
+        for header in re.findall(r"(?m)^\[model\.[^\]]+\]", text):
+            span = _table_span(text, header)
+            if span is None:
+                continue
+            leftover = re.sub(r"(?m)^\[model\.[^\]]+\]\s*$", "", text[span[0] : span[1]])
+            leftover = re.sub(r"(?m)^\s*#.*$", "", leftover)
+            if leftover.strip():
+                continue
+            text = text[: span[0]] + text[span[1] :]
+        text = re.sub(r"\n{3,}", "\n\n", text)
+        atomic_write(path, text if text.endswith("\n") else text + "\n", 0o600)
+    payload = {
+        "version": 1,
+        "pinned": False,
+        "models": [],
+        "added": [],
+        "created_tables": [],
+        "updated_at": rfc3339(now_utc()),
+    }
+    write_lane_state(payload)
+    return payload
+
+
+def unit_dir() -> Path:
+    return Path.home() / ".config" / "systemd" / "user"
+
+
+def route_bin() -> str:
+    return str(Path(sys.argv[0]).resolve())
+
+
+def systemd_live() -> bool:
+    if os.environ.get("GROK_ROUTE_SYSTEMD") == "0":
+        return False
+    if Path.home().resolve() != login_home().resolve():
+        return False
+    return shutil.which("systemctl") is not None
+
+
+def write_restore_units(resets_at: str) -> Path:
+    when = parse_rfc3339(str(resets_at))
+    calendar = when.strftime("%Y-%m-%d %H:%M:%S UTC")
+    d = unit_dir()
+    d.mkdir(parents=True, exist_ok=True)
+    service = (
+        "[Unit]\n"
+        "Description=Restore Grok OAuth lane after SuperGrok weekly reset\n"
+        "\n"
+        "[Service]\n"
+        "Type=oneshot\n"
+        f"ExecStart={route_bin()} restore\n"
+    )
+    timer = (
+        "[Unit]\n"
+        "Description=One-shot restore Grok OAuth lane at weekly reset\n"
+        "\n"
+        "[Timer]\n"
+        f"OnCalendar={calendar}\n"
+        "Persistent=true\n"
+        "AccuracySec=30\n"
+        f"Unit={SERVICE_UNIT}\n"
+        "\n"
+        "[Install]\n"
+        "WantedBy=timers.target\n"
+    )
+    (d / SERVICE_UNIT).write_text(service, encoding="utf-8")
+    timer_path = d / TIMER_UNIT
+    timer_path.write_text(timer, encoding="utf-8")
+    return timer_path
+
+
+def systemctl(args: list[str]) -> None:
+    if not systemd_live():
+        return
+    subprocess.run(["systemctl", "--user", *args], check=False, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+def schedule_restore(resets_at) -> None:
+    if not resets_at:
+        return
+    try:
+        when = parse_rfc3339(str(resets_at))
+    except (ValueError, TypeError):
+        return
+    if when <= now_utc():
+        return
+    write_restore_units(str(resets_at))
+    systemctl(["daemon-reload"])
+    systemctl(["enable", "--now", TIMER_UNIT])
+
+
+def unschedule_restore() -> None:
+    systemctl(["disable", "--now", TIMER_UNIT])
+    d = unit_dir()
+    for name in (TIMER_UNIT, SERVICE_UNIT):
         try:
-            if p.is_symlink() or p.is_file():
-                p.unlink()
-            elif p.is_dir():
-                shutil.rmtree(p)
+            (d / name).unlink()
         except OSError:
             pass
-    src = Path.home() / ".grok" / "config.toml"
-    dst = home / "config.toml"
-    try:
-        if dst.is_symlink() or dst.exists():
-            dst.unlink()
-    except OSError:
-        pass
-    if src.is_file():
-        shutil.copy2(src, dst)
-        os.chmod(dst, 0o600)
-    else:
-        dst.write_text("# grok-oauth-route api child\n", encoding="utf-8")
+    systemctl(["daemon-reload"])
+
+
+def apply_api_lane(decision: dict) -> None:
+    pin_config()
+    schedule_restore(decision.get("resets_at"))
+
+
+def apply_oauth_lane() -> None:
+    restore_config()
+    unschedule_restore()
 
 
 def wrap(argv: list[str]) -> None:
@@ -242,10 +391,8 @@ def wrap(argv: list[str]) -> None:
     d = decide()
     env = os.environ.copy()
     env["GROK_ROUTE"] = d["mode"]
+    env.pop("GROK_HOME", None)
     if d["mode"] == "api":
-        home = Path(d["grok_home"])
-        assert_scratch(home)
-        env["GROK_HOME"] = str(home)
         if not env.get("XAI_API_KEY"):
             if OP_ENV.is_file() and shutil.which("op"):
                 os.execvpe(
@@ -254,16 +401,16 @@ def wrap(argv: list[str]) -> None:
                     env,
                 )
             die("api mode needs XAI_API_KEY via op run / the-janitor run")
-        isolate(home)
+        apply_api_lane(d)
     else:
-        env.pop("GROK_HOME", None)
+        apply_oauth_lane()
     os.execvpe(argv[0], argv, env)
 
 
 def main() -> None:
     args = sys.argv[1:]
     if not args or args[0] in ("-h", "--help"):
-        print("usage: grok-oauth-route decide | wrap -- <argv>")
+        print("usage: grok-oauth-route decide | pin | restore | schedule | wrap -- <argv>")
         raise SystemExit(0 if args else 2)
     cmd, rest = args[0], args[1:]
     if rest[:1] == ["--"]:
@@ -272,10 +419,33 @@ def main() -> None:
         json.dump(decide(), sys.stdout, separators=(",", ":"))
         sys.stdout.write("\n")
         return
+    if cmd == "pin":
+        d = decide()
+        if d["mode"] != "api":
+            apply_oauth_lane()
+            json.dump({"ok": True, "mode": d["mode"], "pinned": False}, sys.stdout, separators=(",", ":"))
+            sys.stdout.write("\n")
+            return
+        apply_api_lane(d)
+        json.dump({"ok": True, "mode": "api", "pinned": True, "resets_at": d.get("resets_at")}, sys.stdout, separators=(",", ":"))
+        sys.stdout.write("\n")
+        return
+    if cmd == "restore":
+        apply_oauth_lane()
+        json.dump({"ok": True, "pinned": False}, sys.stdout, separators=(",", ":"))
+        sys.stdout.write("\n")
+        return
+    if cmd == "schedule":
+        d = decide()
+        if d["mode"] == "api":
+            schedule_restore(d.get("resets_at"))
+        json.dump({"ok": True, "mode": d["mode"], "resets_at": d.get("resets_at")}, sys.stdout, separators=(",", ":"))
+        sys.stdout.write("\n")
+        return
     if cmd == "wrap":
         wrap(rest)
         return
-    print("grok-oauth-route: unknown command (use decide|wrap)", file=sys.stderr)
+    print("grok-oauth-route: unknown command (use decide|pin|restore|schedule|wrap)", file=sys.stderr)
     raise SystemExit(2)
 
 

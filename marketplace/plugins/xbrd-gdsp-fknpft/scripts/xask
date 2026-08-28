@@ -59,11 +59,11 @@
 #   xask --gs kimi "Moonshot K3 probe"              # native kimi -m kimi-code/k3 (OAuth)
 #   xask --gs cdx "…"                               # first xask → same OAuth K3 while Codex-limit pin is on
 #   xask --provider moonshot --model-id kimi-k2.6 -- "probe"  # pay-as-you-go K2.6 (API key)
-#   xask --provider cursor --model-id kimi-k3-max -- "probe"  # Cursor Ultra agentic burn
+#   xask --provider cursor --model-id composer-2.5-fast -- "probe"  # Cursor Ultra agentic burn
 #            inner argv: cursor-agent -p --trust --output-format text
 #            --model <cli-id> --workspace $XASK_CURSOR_WORKSPACE|$PWD -- <envelope>
 #            -p with no --mode = agent (write+shell). --trust skips Workspace Trust Required.
-#            Default pin: kimi-k3-max. Never --mode ask. Never --yolo/-f. Never auto. Never argv0=agent.
+#            Default pin: composer-2.5-fast. Never --mode ask. Never --yolo/-f. Never auto. Never argv0=agent.
 #   xask -R codex "Adversarial review of <diff>"    # review lane — gpt-5.6-sol
 #   xask -R -F codex "RECON codebase-scale"         # -R + -F escape hatch — full gpt-5.6-sol (1.05M ctx)
 #   xask --gpt55 --gs -e high codex "Deep question" # gpt-5.6-sol lane, explicit godspeed, high effort
@@ -352,7 +352,7 @@ if [[ -n "$PROVIDER" ]]; then
       ;;
     cursor)
       MODEL=cursor
-      MODEL_ID="${MODEL_ID:-kimi-k3-max}"
+      MODEL_ID="${MODEL_ID:-composer-2.5-fast}"
       ;;
   esac
 else
@@ -490,7 +490,7 @@ case "$PROVIDER" in
     SELECTED_MODEL_ID="${MODEL_ID:-kimi-k3}"
     ;;
   cursor)
-    SELECTED_MODEL_ID="${MODEL_ID:-kimi-k3-max}"
+    SELECTED_MODEL_ID="${MODEL_ID:-composer-2.5-fast}"
     ;;
 esac
 
@@ -1003,7 +1003,7 @@ case "$MODEL" in
       exit 1
     fi
     CURSOR_BIN="$(resolve_cursor_agent)" || exit 1
-    CURSOR_PIN="${SELECTED_MODEL_ID:-${MODEL_ID:-kimi-k3-max}}"
+    CURSOR_PIN="${SELECTED_MODEL_ID:-${MODEL_ID:-composer-2.5-fast}}"
     if [[ "$CURSOR_PIN" == auto ]]; then
       echo "xask: cursor provider refuses model pin auto" >&2
       exit 1

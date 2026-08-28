@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>XBGST for Codex — local-first distribution | DS4CC</title>
+  <meta name="description" content="Install the ship-ready XBGST orchestration stack for Codex locally, inspect its WWKD and shared contracts, and use the standalone xask delegation planner." />
+  <meta property="og:title" content="XBGST for Codex — local first" />
+  <meta property="og:description" content="One-paste local install, WWKD planning, shared XBGST invariants, xask routing, and an optional visual planner." />
+  <meta property="og:url" content="https://ds4cc.com/xbgst.html" />
+  <meta property="og:type" content="website" />
+  <meta name="twitter:card" content="summary" />
+  <meta name="theme-color" content="#050605" />
+  <link rel="canonical" href="https://ds4cc.com/xbgst.html" />
+  <link rel="icon" type="image/svg+xml" href="burnerchrome/favicon.svg" />
+  <style>
+    @font-face {
+      font-family: "JetBrainsMonoNL";
+      src: url("assets/fonts/JetBrainsMonoNLNerdFontMono-Regular.woff2") format("woff2");
+      font-weight: 400; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "JetBrainsMonoNL";
+      src: url("assets/fonts/JetBrainsMonoNLNerdFontMono-SemiBold.woff2") format("woff2");
+      font-weight: 600; font-style: normal; font-display: swap;
+    }
+    @font-face {
+      font-family: "JetBrainsMonoNL";
+      src: url("assets/fonts/JetBrainsMonoNLNerdFontMono-Bold.woff2") format("woff2");
+      font-weight: 700; font-style: normal; font-display: swap;
+    }
+
+    :root {
+      --bg: #050605;
+      --panel: #0d100d;
+      --panel-2: #121612;
+      --fg: #e8f0e6;
+      --body: #c5d0c3;
+      --muted: #7a8a78;
+      --green: #51ff00;
+      --amber: #ffb020;
+      --cyan: #3de0ff;
+      --border: #1e281e;
+      --border-2: #2a332a;
+      --code: #b8f5a0;
+      --font: "JetBrainsMonoNL", "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        linear-gradient(rgba(81, 255, 0, .025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(81, 255, 0, .02) 1px, transparent 1px),
+        var(--bg);
+      background-size: 48px 48px;
+      color: var(--fg);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+    }
+    ::selection { background: var(--green); color: #000; }
+    a { color: var(--green); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    code { color: var(--code); font-family: inherit; }
+    :focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+    .skip {
+      position: fixed; top: 8px; left: 8px; z-index: 100;
+      transform: translateY(-160%); padding: 8px 12px;
+      background: var(--green); color: #000; border-radius: 4px;
+    }
+    .skip:focus { transform: none; }
+
+    nav {
+      position: sticky; top: 0; z-index: 20;
+      border-bottom: 1px solid var(--border);
+      background: rgba(5, 6, 5, .94);
+      backdrop-filter: blur(12px);
+    }
+    .nav-inner {
+      width: min(1120px, calc(100% - 32px)); margin: 0 auto;
+      display: flex; align-items: center; gap: 20px; padding: 11px 0;
+    }
+    .brand { color: var(--fg); font-weight: 700; letter-spacing: .06em; }
+    .brand:hover { text-decoration: none; }
+    .brand b { color: var(--green); text-shadow: 0 0 12px rgba(81,255,0,.35); }
+    .brand span { color: var(--muted); font-weight: 400; }
+    .nav-links { margin-left: auto; display: flex; align-items: center; gap: 16px; }
+    .nav-links a { color: var(--muted); font-size: .78rem; }
+    .nav-links a:hover { color: var(--green); text-decoration: none; }
+    .nav-links .back { color: var(--green); border: 1px solid var(--green); border-radius: 4px; padding: 5px 9px; }
+
+    main, footer { width: min(1120px, calc(100% - 32px)); margin: 0 auto; }
+    .hero { padding: 58px 0 32px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 18px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 7px;
+      border: 1px solid var(--border-2); background: #000;
+      color: var(--muted); padding: 4px 8px; font-size: .68rem;
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .badge.primary { color: #000; background: var(--green); border-color: var(--green); font-weight: 700; }
+    .badge.optional { color: var(--amber); border-color: var(--amber); }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--green); box-shadow: 0 0 8px var(--green); }
+    h1 {
+      max-width: 940px; margin: 0 0 15px;
+      font-size: clamp(2rem, 7vw, 4.8rem); line-height: .98;
+      letter-spacing: -.055em; font-weight: 600;
+    }
+    h1 em { color: var(--green); font-style: normal; text-shadow: 0 0 32px rgba(81,255,0,.2); }
+    .lede { max-width: 850px; color: var(--body); font-size: clamp(.95rem, 2vw, 1.08rem); line-height: 1.7; }
+    .install-box {
+      margin-top: 28px; border: 1px solid var(--border-2); border-left: 3px solid var(--green);
+      background: rgba(8, 10, 8, .96); border-radius: 7px; overflow: hidden;
+    }
+    .install-label {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 8px 12px; border-bottom: 1px solid var(--border);
+      color: var(--muted); font-size: .7rem; text-transform: uppercase; letter-spacing: .07em;
+    }
+    .install-row { display: flex; align-items: stretch; }
+    .install-row pre {
+      flex: 1; margin: 0; padding: 15px; overflow-x: auto;
+      color: var(--code); font: .82rem/1.55 var(--font); white-space: pre;
+    }
+    .prompt { color: var(--cyan); }
+    .copy {
+      min-width: 92px; border: 0; border-left: 1px solid var(--border);
+      background: #000; color: var(--green); font: 700 .74rem var(--font);
+      letter-spacing: .05em; cursor: pointer;
+    }
+    .copy:hover { background: rgba(81,255,0,.1); }
+    .copy.done { background: var(--green); color: #000; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+    .btn {
+      display: inline-block; border: 1px solid var(--green); border-radius: 4px;
+      background: #000; color: var(--green); padding: 9px 14px;
+      font-size: .79rem; letter-spacing: .03em;
+    }
+    .btn:hover { background: rgba(81,255,0,.1); text-decoration: none; }
+    .btn.primary { background: var(--green); color: #000; font-weight: 700; }
+
+    section { padding: 28px 0; border-top: 1px solid var(--border); scroll-margin-top: 60px; }
+    .section-head { display: grid; grid-template-columns: 48px 1fr; gap: 10px; margin-bottom: 17px; }
+    .idx { color: var(--muted); font-size: .8rem; padding-top: 4px; }
+    h2 { margin: 0; color: var(--green); font-size: clamp(1.15rem, 3vw, 1.55rem); letter-spacing: -.02em; }
+    .sub { color: var(--muted); line-height: 1.6; margin: 6px 0 0; font-size: .88rem; max-width: 820px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+    .grid.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .card {
+      background: rgba(13, 16, 13, .96); border: 1px solid var(--border); border-radius: 7px;
+      padding: 16px; min-width: 0;
+    }
+    .card.feature { border-color: var(--green); box-shadow: 0 0 28px rgba(81,255,0,.04); }
+    .card h3 { margin: 0 0 8px; color: var(--fg); font-size: .93rem; }
+    .card p, .card li { color: var(--body); font-size: .83rem; line-height: 1.6; }
+    .card p:last-child { margin-bottom: 0; }
+    .card ul { padding-left: 18px; margin-bottom: 0; }
+    .kicker { color: var(--green); font-size: .67rem; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 10px; }
+    .callout {
+      margin-top: 14px; padding: 13px 15px; border-left: 3px solid var(--amber);
+      background: #14100a; color: var(--body); font-size: .84rem; line-height: 1.6;
+    }
+    .callout strong { color: var(--amber); }
+    .terminal {
+      background: #080a08; border: 1px solid var(--border-2); border-radius: 8px; overflow: hidden;
+    }
+    .terminal-bar {
+      padding: 8px 12px; background: var(--panel-2); border-bottom: 1px solid var(--border);
+      color: var(--muted); font-size: .7rem;
+    }
+    .terminal pre {
+      margin: 0; padding: 16px; overflow-x: auto; color: var(--body);
+      font: .81rem/1.7 var(--font);
+    }
+    .ok { color: var(--green); }
+    .muted { color: var(--muted); }
+    .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 7px; }
+    table { width: 100%; min-width: 720px; border-collapse: collapse; background: rgba(13,16,13,.96); font-size: .8rem; }
+    th, td { padding: 11px 12px; text-align: left; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { color: var(--muted); font-weight: 400; text-transform: uppercase; letter-spacing: .06em; font-size: .68rem; }
+    td { color: var(--body); line-height: 1.5; }
+    tr:last-child td { border-bottom: 0; }
+    .status { color: var(--green); }
+    .status.opt { color: var(--amber); }
+
+    footer { margin-top: 24px; border-top: 1px solid var(--border); padding: 22px 0 64px; color: var(--muted); font-size: .76rem; line-height: 1.8; }
+    footer .footer-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+    footer a { margin-right: 12px; }
+
+    @media (max-width: 860px) {
+      .grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 680px) {
+      .nav-links a:not(.back) { display: none; }
+      .grid, .grid.four { grid-template-columns: 1fr; }
+      .install-row { flex-direction: column; }
+      .copy { min-height: 42px; border-left: 0; border-top: 1px solid var(--border); }
+      h1 { letter-spacing: -.04em; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <nav aria-label="Primary navigation">
+    <div class="nav-inner">
+      <a class="brand" href="./"><b>DS4CC</b> <span>// xbgst</span></a>
+      <div class="nav-links">
+        <a href="#install">install</a>
+        <a href="#stack">stack</a>
+        <a href="#planner">planner</a>
+        <a href="#distribution">distribution</a>
+        <a class="back" href="./">marketplace →</a>
+      </div>
+    </div>
+  </nav>
+
+  <main id="content">
+    <header class="hero">
+      <div class="badges">
+        <span class="badge primary"><span class="dot" aria-hidden="true"></span>ship-ready</span>
+        <span class="badge">raw local install</span>
+        <span class="badge">Codex package</span>
+        <span class="badge optional">MCP opt-in only</span>
+      </div>
+      <h1>The XBGST stack, <em>refined for Codex.</em></h1>
+      <p class="lede">DS4CC is the distribution shelf: once an artifact survives review and is ready to ship, it lands here to install, inspect, or read. XBGST stays local-first—native Codex orchestration, WWKD planning, a shared execution contract, and <code>xask</code> at the shell boundary.</p>
+
+      <div class="install-box" id="install">
+        <div class="install-label">
+          <span>one paste · raw local Codex install</span>
+          <span>reviewable source</span>
+        </div>
+        <div class="install-row">
+          <pre><span class="prompt">$</span> curl -fsSL https://raw.githubusercontent.com/VeigaPunk/grok-marketplace/main/scripts/install-xbgst-codex.sh | bash</pre>
+          <button class="copy" type="button" data-copy aria-label="Copy the XBGST for Codex install command">COPY</button>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="./burnerchrome/delegate.html">OPEN DELEGATION PLANNER →</a>
+        <a class="btn" href="https://github.com/VeigaPunk/grok-marketplace/blob/main/scripts/install-xbgst-codex.sh" target="_blank" rel="noopener">REVIEW INSTALLER ↗</a>
+        <a class="btn" href="https://github.com/VeigaPunk/grok-marketplace/tree/main/plugins/xbgst-codex" target="_blank" rel="noopener">INSPECT PACKAGE ↗</a>
+      </div>
+      <div class="callout">
+        <strong>Boundary:</strong> this is a local Codex marketplace package. It does not require an MCP bridge, and it is not a claim that XBGST has been published in the public ChatGPT app directory.
+      </div>
+    </header>
+
+    <section aria-labelledby="contract-heading">
+      <div class="section-head">
+        <span class="idx">01</span>
+        <div>
+          <h2 id="contract-heading">The DS4CC distribution contract</h2>
+          <p class="sub">A marketplace is useful when it is a release surface, not a junk drawer. DS4CC carries artifacts only after the install path, scope, and claims are coherent.</p>
+        </div>
+      </div>
+      <div class="grid four">
+        <article class="card feature">
+          <div class="kicker">primary</div>
+          <h3>Install locally</h3>
+          <p>The shortest supported path is a plain script plus native host commands. You keep the package and its behavior inspectable on your machine.</p>
+        </article>
+        <article class="card">
+          <div class="kicker">gate</div>
+          <h3>Ship only when ready</h3>
+          <p>Refine in the source repo, validate the package, then promote it to DS4CC for stable installation and discovery.</p>
+        </article>
+        <article class="card">
+          <div class="kicker">read</div>
+          <h3>Serve the thinking</h3>
+          <p>Operator notes, architecture takes, compatibility boundaries, and anti-patterns live beside the install instead of disappearing into chat history.</p>
+        </article>
+        <article class="card">
+          <div class="kicker">anti-bloat</div>
+          <h3>Adapters earn their place</h3>
+          <p>Optional bridges stay named, bounded, and off the critical path. A local workflow must not depend on an integration merely because one exists.</p>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="install-heading">
+      <div class="section-head">
+        <span class="idx">02</span>
+        <div>
+          <h2 id="install-heading">What the one-paste path does</h2>
+          <p class="sub">The installer uses Codex's marketplace commands, verifies the result, and leaves your auth, model, effort, and concurrency choices alone.</p>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="terminal" aria-label="Representative local install flow">
+          <div class="terminal-bar">xbgst-codex · local package install</div>
+          <pre><span class="prompt">$</span> install-xbgst-codex.sh
+<span class="muted">→</span> register or refresh VeigaPunk/grok-marketplace
+<span class="muted">→</span> install xbgst-codex from that marketplace
+<span class="muted">→</span> verify the package is installed and enabled
+<span class="ok">✓</span> start a new Codex task to load the skills</pre>
+        </div>
+        <article class="card">
+          <h3>It deliberately does not</h3>
+          <ul>
+            <li>directly rewrite <code>~/.codex/config.toml</code> or host concurrency;</li>
+            <li>touch authentication or API keys;</li>
+            <li>silently choose your default model or reasoning effort;</li>
+            <li>require the optional MCP companion.</li>
+          </ul>
+          <p>Prerequisites are Codex CLI with plugin marketplace support, Git, Cargo/Rust, and <code>jq</code>; Node.js is needed only for the explicit MCP opt-in. Review the linked script before piping it into a shell if that is your policy.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="stack" aria-labelledby="stack-heading">
+      <div class="section-head">
+        <span class="idx">03</span>
+        <div>
+          <h2 id="stack-heading">Two key figures, one local protocol</h2>
+          <p class="sub"><code>wwkd</code> decides the shape of the work. <code>xbgst-shared</code> holds the invariants. The host adaptation preserves that center instead of copying Grok-only wiring.</p>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card feature">
+          <div class="kicker">planning kernel</div>
+          <h3>WWKD</h3>
+          <p>The canonical directive runs before fan-out: clarify the objective, expose uncertainty, choose the smallest useful team, and define how the result will be judged.</p>
+        </article>
+        <article class="card feature">
+          <div class="kicker">shared contract</div>
+          <h3>xbgst-shared</h3>
+          <p>The Codex-adapted shared reference carries round structure, connector coverage, bounded proposal loops, flat delegation, and judge/integrator/shipper responsibilities.</p>
+        </article>
+        <article class="card">
+          <div class="kicker">routing protocol</div>
+          <h3>xask CLI</h3>
+          <p>Provider, model, substrate, effort, service tier, and Godspeed become an explicit shell plan. Cross-provider work is consultation; native Codex agents own source changes.</p>
+        </article>
+        <article class="card">
+          <div class="kicker">execution host</div>
+          <h3>Native Codex delegation</h3>
+          <p>Codex runs the implementation team with its own permissions and user authorization. Host safety rules remain stronger than any imported orchestration convention.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="planner" aria-labelledby="planner-heading">
+      <div class="section-head">
+        <span class="idx">04</span>
+        <div>
+          <h2 id="planner-heading">Visual delegation is a planner, not a bridge</h2>
+          <p class="sub">The Burnerchrome-style artifact makes the model catalog legible without moving execution into the browser.</p>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card feature">
+          <div class="kicker">standalone · copy only</div>
+          <h3>Choose the mind. Set the burn.</h3>
+          <p>Toggle provider, model, stock or Sekhmet substrate, compatible effort, and service tier. Canonical Godspeed is an invariant: every delegated task ends exactly once with <code>| godspeed</code>. The result is a shell-safe <code>xask plan</code> command to copy and inspect.</p>
+          <p><a class="btn primary" href="./burnerchrome/delegate.html">OPEN THE PLANNER →</a></p>
+        </article>
+        <article class="card">
+          <h3>Browser boundary</h3>
+          <ul>
+            <li>does not invoke your local CLI;</li>
+            <li>does not dispatch the task;</li>
+            <li>does not transmit provider credentials;</li>
+            <li>reads the normalized model catalog served with DS4CC.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section aria-labelledby="paths-heading">
+      <div class="section-head">
+        <span class="idx">05</span>
+        <div>
+          <h2 id="paths-heading">Path priority is explicit</h2>
+          <p class="sub">The stack stays understandable because each surface has one job and optional layers cannot impersonate the default.</p>
+        </div>
+      </div>
+      <div class="table-wrap" tabindex="0" aria-label="Scrollable XBGST distribution path comparison">
+        <table>
+          <thead>
+            <tr><th scope="col">Surface</th><th scope="col">Posture</th><th scope="col">Job</th><th scope="col">Boundary</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Codex package</td><td class="status">Primary</td><td>Install WWKD, XBGST orchestration, and shared references locally.</td><td>Native Codex plugin commands.</td></tr>
+            <tr><td>xask CLI</td><td class="status">Primary when routing</td><td>Resolve and dispatch explicit provider/model/effort choices.</td><td>Local shell; provider access remains yours.</td></tr>
+            <tr><td>Visual planner</td><td class="status">Primary UI</td><td>Compose a dry, copyable plan from the exported catalog.</td><td>Static browser surface; no dispatch.</td></tr>
+            <tr><td>MCP companion</td><td class="status opt">Optional</td><td>Expose a bounded adapter where an MCP-aware host is intentionally desired.</td><td>Separate opt-in; never a local install dependency.</td></tr>
+            <tr><td>Public ChatGPT directory</td><td class="muted">Not claimed</td><td>Would require deployed HTTPS infrastructure, publisher verification, review, and publication.</td><td>External release gate, not part of this local package.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="distribution" aria-labelledby="distribution-heading">
+      <div class="section-head">
+        <span class="idx">06</span>
+        <div>
+          <h2 id="distribution-heading">From refined artifact to DS4CC</h2>
+          <p class="sub">This site is the final distribution step and the durable reading surface—not the lab where half-formed integrations become defaults.</p>
+        </div>
+      </div>
+      <div class="terminal" aria-label="DS4CC release lifecycle">
+        <div class="terminal-bar">release lifecycle · simple on purpose</div>
+        <pre><span class="muted">source repo</span>  →  refine + validate  →  <span class="ok">ship-ready</span>  →  publish on ds4cc.com
+     │                                             │
+     └── implementation history                    ├── one-paste install
+                                                   ├── source + boundaries
+                                                   ├── visual artifacts
+                                                   └── operator takes</pre>
+      </div>
+      <div class="callout">
+        <strong>Anti-bloat release rule:</strong> serving an optional adapter does not make it part of the default stack. Its opt-in status must stay visible in the installer, docs, and site copy.
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-row">
+      <div>
+        <strong style="color:var(--body)">DS4CC · XBGST distribution</strong><br />
+        Raw local installs first. Optional bridges stay optional.
+      </div>
+      <div>
+        <a href="./">marketplace</a>
+        <a href="./burnerchrome/delegate.html">planner</a>
+        <a href="./docs/MCP-STANCE.md">MCP stance</a>
+        <a href="https://github.com/VeigaPunk/grok-marketplace" target="_blank" rel="noopener">source ↗</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      "use strict";
+      const command = "curl -fsSL https://raw.githubusercontent.com/VeigaPunk/grok-marketplace/main/scripts/install-xbgst-codex.sh | bash";
+      const button = document.querySelector("[data-copy]");
+      if (!button) return;
+      button.addEventListener("click", async function () {
+        try {
+          await navigator.clipboard.writeText(command);
+          button.textContent = "COPIED";
+          button.classList.add("done");
+          window.setTimeout(function () {
+            button.textContent = "COPY";
+            button.classList.remove("done");
+          }, 1800);
+        } catch (_) {
+          button.textContent = "SELECT";
+          const range = document.createRange();
+          range.selectNodeContents(document.querySelector(".install-row pre"));
+          const selection = window.getSelection();
+          selection.removeAllRanges();
+          selection.addRange(range);
+        }
+      });
+    }());
+  </script>
+</body>
+</html>

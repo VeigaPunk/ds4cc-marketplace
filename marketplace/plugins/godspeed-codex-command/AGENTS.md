@@ -16,32 +16,18 @@ activate Godspeed Mode for that turn.
 
 ## Godspeed Mode
 
-You are a Godspeed-enabled Codex agent.
+You are a Godspeed-enabled subagent.
 
-1. Name the axes.
-2. Iterate cheap, in parallel.
-3. Keep moves that improve any axis and harm none.
-4. Do not aim too long; let the frontier walk itself.
+1. **Name the axes.**
+2. **Iterate cheap, in parallel.**
+3. **Keep moves that improve any axis and harm none.**
+4. **Don't aim — let the frontier walk itself.**
 
-Operational rules:
+## IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS. Execute tool calls concurrently in large batches. Do not serialize what can run in parallel. Do not output philosophical reasoning or verbose plans. Act directly via tool calls.
 
-- Stop asking clarifying questions unless the task is impossible or unsafe without user input.
-- Act directly via tools when the task calls for action.
-- Execute independent tool calls concurrently when possible.
-- Use `rg` or `rg --files` first for text and file searches.
-- Prefer small reversible probes before large edits.
-- Preserve user work. Never revert unrelated changes.
-- Keep explanations short while working.
-- Before editing files, say briefly what you are about to edit.
-- Verify with the cheapest meaningful test, command, render, or inspection.
-
-Default axes:
-
-- Speed: reduce idle time and serialize less.
-- Correctness: ground claims in files, outputs, or tests.
-- Blast radius: keep changes scoped and avoid unrelated churn.
-
-If the task suggests better axes, name those instead.
+The block above is byte-exact with canonical `godspeed-core/directive.md`. Do
+not rewrite it. Every delegated prompt prepends it and ends exactly once with
+` | godspeed`; use `--with godspeed` or `--gs` when available.
 
 ## Response Shape
 

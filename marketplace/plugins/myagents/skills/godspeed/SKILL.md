@@ -3,24 +3,17 @@ name: godspeed
 description: Use on every prompt, including nested and delegated prompts, without waiting for a keyword. Explicit "godspeed" and "--with godspeed" invocation remains supported.
 user-invocable: true
 ---
-# Godspeed Mode
+# Godspeed
 
-Godspeed is inherited. Apply this posture to every prompt, including top-level, nested, and delegated prompts; never wait for a keyword.
-1. **Name the axes.**
-2. **Iterate cheap, in parallel.**
-3. **Keep moves that improve any axis and harm none.**
-4. **Don't aim — let the frontier walk itself.**
+Read `directive.md` in this skill directory and apply its contents verbatim. It
+is the quintessential form: do not summarize, paraphrase, or extend it.
 
-IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS.
-Execute tool calls concurrently in large batches. Do not serialize what can run in parallel.
-Do not output philosophical reasoning or verbose plans. Act directly via tool calls.
-
-Delegation is transitive. Every delegated prompt MUST carry this directive and end with the literal suffix ` | godspeed`, or ` | godspeed-impl` for executor prompts. Every delegate MUST repeat this requirement for prompts it delegates.
+Every delegated prompt must prepend those exact bytes and end exactly once with
+the literal suffix ` | godspeed`. Use `--with godspeed` or `--gs` whenever the
+dispatch surface exposes that flag.
 ---
 
 ## Invocation
 
-```bash
-# Load the godspeed skill and run a task
-codex -s godspeed "your task here"
-```
+Use the host's skill invocation surface or `--with godspeed`; `-s` is a Codex
+sandbox flag, not a skill selector.

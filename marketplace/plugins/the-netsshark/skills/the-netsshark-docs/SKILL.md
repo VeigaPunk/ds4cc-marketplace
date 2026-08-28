@@ -5,9 +5,9 @@ description: Audit connectivity, DNS, routing, proxies, firewalls, MTU, privacy,
 
 # the-netsshark docs
 
-Godspeed is inherited. Every delegated prompt must carry the canonical
-directive, require transitive repetition, and end with ` | godspeed` or
-` | godspeed-impl` for executors. Never exceed 16 concurrently spawned
+Godspeed is inherited. Every delegated prompt, including executor prompts,
+must carry the canonical directive, require transitive repetition, and end
+with ` | godspeed`. Honor the host-governed ceiling, certified at 64 concurrently spawned
 subagents.
 
 Invoke the `the-netsshark` agent for network audits and connectivity

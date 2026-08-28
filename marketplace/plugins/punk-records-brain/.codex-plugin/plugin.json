@@ -1,0 +1,32 @@
+{
+  "name": "punk-records-brain",
+  "version": "0.2.0",
+  "description": "Set Grok Bot as a Vegapunk round table. Say 'set grok bot for me' in your preferred CLI.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "skills": "./skills/",
+  "commands": "./commands/",
+  "interface": {
+    "displayName": "Punk Records Brain",
+    "shortDescription": "Set Grok Bot for me — Vegapunk round table via CDP",
+    "longDescription": "Automation surface for Grok Bot. Preferred CLIs run set-grok-bot: nudge the surface, seed Punk Records, write Stella + six satellites through CDP. The table is the product. Not an execution swarm.",
+    "developerName": "VeigaPunk",
+    "category": "Developer",
+    "capabilities": [
+      "Grok Bot Auto-Setup",
+      "Multi-Personality Council",
+      "Tone-Matched Routing",
+      "Shared Memory Protocol",
+      "Compiled Synthesis"
+    ],
+    "defaultPrompt": [
+      "set grok bot for me",
+      "Run this through Punk Records. Dark humour, technical, do not go too deep.",
+      "Egghead this decision. Preserve disagreement, then compile a path."
+    ]
+  },
+  "homepage": "https://github.com/VeigaPunk/punk-records-brain",
+  "repository": "https://github.com/VeigaPunk/punk-records-brain",
+  "license": "MIT"
+}

@@ -136,7 +136,7 @@ node ds4cc-marketplace/scripts/install-opencode-agents.mjs --project /path/to/pr
 
 The installer writes 15 `the-*` subagents plus `the-netsshark` (16 subagents total), and a separate `orch` primary mode aligned to `the-judge`.
 
-## Plugin catalog (developer marketplace — 18 on disk)
+## Plugin catalog (developer marketplace — 19 on disk)
 
 SSoT: `ls marketplace/plugins` (do not invent ids).
 
@@ -151,6 +151,7 @@ SSoT: `ls marketplace/plugins` (do not invent ids).
 | `myagents` | Curated agent profiles |
 | `mycommands` | Reusable command packs |
 | `myskills` | Skill inventory helpers |
+| `punk-records-brain` | Vegapunk multi-personality round table |
 | `sekhmet` | Host/orchestration docs |
 | `spoderman` | Hook / injection research harness |
 | `the-almanacker` | NotebookLM adapter |

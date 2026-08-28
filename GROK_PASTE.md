@@ -72,9 +72,9 @@ done
 grok plugin list
 ```
 
-## Full catalog (18 plugins on disk under `marketplace/plugins/`)
+## Full catalog (19 plugins on disk under `marketplace/plugins/`)
 
-`aaronplug`, `ds4cc`, `godspeed-codex-command`, `godspeed-core`, `heuer-planning`, `infinizoom`, `myagents`, `mycommands`, `myskills`, `sekhmet`, `spoderman`, `the-almanacker`, `the-kimiraikoner`, `the-musketeer`, `the-netsshark`, `the-puppeteer`, `xbrd-gdsp-fknpft`, `xbrd-selector`
+`aaronplug`, `ds4cc`, `godspeed-codex-command`, `godspeed-core`, `heuer-planning`, `infinizoom`, `myagents`, `mycommands`, `myskills`, `punk-records-brain`, `sekhmet`, `spoderman`, `the-almanacker`, `the-kimiraikoner`, `the-musketeer`, `the-netsshark`, `the-puppeteer`, `xbrd-gdsp-fknpft`, `xbrd-selector`
 
 Notes:
 

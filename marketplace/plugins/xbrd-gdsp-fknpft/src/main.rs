@@ -46,6 +46,7 @@ fn main() -> anyhow::Result<()> {
             with,
             effort,
             model,
+            service_tier,
             spark,
             review,
             full,
@@ -53,12 +54,12 @@ fn main() -> anyhow::Result<()> {
             json,
             output_last_message,
         } => {
-            let loadout = if with.is_empty() {
-                xbreed::loadout::Loadout::empty()
-            } else {
-                xbreed::loadout::Loadout::resolve(&with)?
-            };
-            let out = xbreed::ask::dispatch(
+            // Godspeed is part of every dispatch contract. Keep it first and
+            // make any caller-supplied skills additive; there is no opt-out.
+            let mut loadout_names = vec!["godspeed".to_string()];
+            loadout_names.extend(with.into_iter().filter(|name| name != "godspeed"));
+            let loadout = xbreed::loadout::Loadout::resolve(&loadout_names)?;
+            let out = xbreed::ask::dispatch_with_service_tier(
                 &cli,
                 &prompt,
                 &loadout,
@@ -70,6 +71,7 @@ fn main() -> anyhow::Result<()> {
                 gpt55,
                 json,
                 output_last_message.as_deref(),
+                service_tier.as_deref(),
             )?;
             print!("{out}");
             Ok(())

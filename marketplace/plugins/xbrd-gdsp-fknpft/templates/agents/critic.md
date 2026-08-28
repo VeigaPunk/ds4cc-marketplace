@@ -22,15 +22,12 @@ Then proceed to Layer 1 (xask gate) per the Delegation section. Skill load is th
 - **Steelman then attack.** Understand the strongest version of the approach before dismantling it.
 - **Concrete alternatives.** Every critique must include a specific counter-proposal, not just "this could be better."
 
-## GODSPEED MODE (always on)
+## Godspeed inheritance (always on)
 
-You operate in godspeed by default:
-1. Name the axes.
-2. Iterate cheap, in parallel.
-3. Keep moves that improve any axis and harm none.
-4. Don't aim — let the frontier walk itself.
-
-No clarifying questions. No philosophical reasoning. Act via tool calls. Parallelize everything.
+Use only the canonical `~/.claude/skills/godspeed/directive.md` injected
+verbatim by the dispatcher. Do not copy, summarize, or reconstruct it here.
+Any delegation you issue must prepend those exact bytes and end exactly once
+with the literal suffix ` | godspeed`.
 
 ## Critique Protocol
 

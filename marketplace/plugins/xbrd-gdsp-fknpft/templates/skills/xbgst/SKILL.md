@@ -1,12 +1,12 @@
 ---
 name: xbgst
-description: Godspeed Pareto orchestrator with cross-model delegation — combines /xgs speed (axis-scored Pareto rounds) with /xbt depth (xask codex). Teammates bring external model perspectives at godspeed pace. Triggered by /xbgst.
+description: Godspeed Pareto orchestrator with cross-model delegation — combines /xgs speed (axis-scored Pareto rounds) with /xbt depth (xask --gs codex). Teammates bring external model perspectives at godspeed pace. Triggered by /xbgst.
 user-invocable: true
 ---
 
 # /xbgst — Godspeed Pareto + Cross-Model Delegation
 
-The full crossbreed: godspeed Pareto walk (parallel proposals, axis-scored, round-capped) with cross-model delegation (teammates invoke `xask codex`). Combines the speed of `/xgs` with the external perspectives of `/xbt`.
+The full crossbreed: godspeed Pareto walk (parallel proposals, axis-scored, round-capped) with cross-model delegation (teammates invoke `xask --gs codex`). Combines the speed of `/xgs` with the external perspectives of `/xbt`.
 
 Use when you want fast Pareto convergence AND cross-model views. For all-Claude speed without cross-model, use `/xgs`. For slower deliberative mediation with cross-model, use `/xbt`.
 
@@ -53,14 +53,20 @@ Axis -> profile mapping (from the-judge.md dispatch table):
 - Findings synthesis, dedup -> `distiller` (sonnet) — in-session text synthesis (no xask)
 - Complexity reduction, YAGNI -> `simplifier` (sonnet) — uses CC native tools
 
-Hard global ceiling: <=16 concurrently spawned subagents.
+Certified stack ceiling: <=64 concurrently spawned subagents. Effective
+availability is host-governed. Local specialist policy layer: waves fire from a
+frozen roster in ONE turn, standard target width 8–16, hard cap **16 concurrent
+host-local specialists per wave** (fleet convention "Host specialists <=16");
+overflow routes to xask/spark substrates at `-j 64` in the same turn. The 16 cap
+bounds local specialists per wave — it is a policy layer on top of, never a
+silent reduction of, the certified 64 substrate ceiling.
 
 ### Phase 2 — Spawn all with full peer roster AND xask gate
 
 Each brief includes:
 1. Full peer roster (all names from Phase 1)
 2. Axis assignment (name + direction + observable)
-3. **Godspeed mode:** every Agent prompt ends exactly ` | godspeed`; executor prompts end exactly ` | godspeed-impl`. Delegates repeat this requirement for every nested delegation.
+3. **Godspeed mode:** read `~/.claude/skills/godspeed/directive.md`; every Agent prompt prepends those exact bytes and ends exactly once with ` | godspeed`, including executor prompts. Delegates repeat this requirement for every nested delegation. Never handwrite the directive.
 4. **Structural xask gate** (mandatory for roles that delegate)
 5. Task: propose ONE move on their axis (<=200 words)
 6. After proposing, DM each peer by name with a one-line critique
@@ -114,13 +120,13 @@ Agent(
   subagent_type="distiller",
   name="ccs-distiller",
   model="sonnet",
-  prompt="You are the distiller. Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag cross-model (codex) vs in-session (claude) contradictions, assign confidence. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
+  prompt="<verbatim directive.md>\n\nYou are the distiller. Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag cross-model (codex) vs in-session (claude) contradictions, assign confidence. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
 )
 ```
 
 **Pareto filter (on distiller output):** Build the moves x axes matrix. Accept moves improving >=1 axis with zero regressions. Reject moves with regressions. Compile survivors into ROUND N summary.
 
-**Re-distill each round:** For rounds 2+, send updated proposals to the distiller via SendMessage. Only re-spawn if shut down.
+**Re-distill each round:** For rounds 2+, send updated proposals to the distiller via SendMessage with verbatim `directive.md` prepended and exactly one final ` | godspeed`. Only re-spawn if shut down.
 
 **CONFLICTS block** uses **model labels** (not teammate labels) since cross-model delegation is active:
 ```
@@ -138,13 +144,13 @@ Trigger: opposite verdicts on same claim — cross-model (codex) vs in-session (
 
 **Judge weighting rule:** Weight xask quotes that contradict the agent's own conclusion more heavily than quotes that confirm it — contradicting quotes are higher-signal finds.
 
-**Exit check:** Frontier reached (zero survivors / duplicates / 4 rounds / user halt) -> final DRAFT with AXES FINAL STATE. Otherwise dispatch Round N+1 using current frontier as baseline.
+**Exit check:** Frontier reached (zero survivors / duplicates / 6 rounds / user halt) -> final DRAFT with AXES FINAL STATE. Otherwise dispatch Round N+1 using current frontier as baseline.
 
 ## Step 5 — Keep iterating
 
 After each round, immediately assess and dispatch next round if frontier still moving. Do not pause. Do not ask. The user interrupts when they want to steer.
 
-**Limits:** <=6 rounds, <=16 concurrent subagents globally, <=200-word proposals.
+**Limits:** <=6 rounds, <=64 concurrent subagents globally (subject only to host availability), <=200-word proposals.
 
 ## Step 6 — Hold after frontier
 

@@ -33,4 +33,4 @@ Auto-approve the first shutdown_request. Die clean.
 
 ## Swarm mode
 
-Never exceed the hard global ceiling of 16 concurrent subagents. Each labrat gets a unique hypothesis. No TaskCreate — fire-and-forget. Reports go to team-lead. Lead batch-shutdowns as DESPAWN signals arrive.
+Never exceed the certified stack ceiling of 64 concurrent subagents, subject only to host availability; do not introduce a smaller local cap. Each labrat gets a unique hypothesis. No TaskCreate — fire-and-forget. Reports go to team-lead. Lead batch-shutdowns as DESPAWN signals arrive.

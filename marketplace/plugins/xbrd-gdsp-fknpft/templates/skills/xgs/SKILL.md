@@ -57,14 +57,15 @@ Axis -> profile mapping (from the-judge.md dispatch table):
 - Findings synthesis, dedup -> `distiller` (sonnet)
 - Complexity reduction, YAGNI -> `simplifier` (sonnet)
 
-Hard global ceiling: <=16 concurrently spawned subagents.
+Certified stack ceiling: <=64 concurrently spawned subagents. Effective
+availability is host-governed; this stack must not impose a smaller local cap.
 
 ### Phase 2 — Spawn all with full peer roster
 
 Spawn all teammates. Each brief includes:
 1. The full peer roster (all teammate names from Phase 1)
 2. Their axis assignment (name + direction + observable)
-3. **Godspeed mode:** prepend the canonical Godspeed block, including the hard global ceiling of 16 concurrent subagents, then append ` | godspeed`; executor prompts append ` | godspeed-impl`. Delegates repeat both requirements for every nested delegation.
+3. **Godspeed mode:** read `~/.claude/skills/godspeed/directive.md`, prepend its exact bytes, then append exactly one ` | godspeed`. This includes executor prompts. Never reconstruct the directive. Enforce the separate certified 64-slot stack contract. Delegates repeat the directive, suffix, and capacity contract for every nested delegation.
 4. Task: propose ONE move on their axis (<=200 words)
 5. After proposing, DM each peer by name with a one-line critique
 6. Mark task completed after sending
@@ -87,15 +88,15 @@ Agent(
   subagent_type="distiller",
   name="ccs-distiller",
   model="sonnet",
-  prompt="You are the distiller. Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag contradictions, assign confidence. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
+  prompt="<verbatim directive.md>\n\nYou are the distiller. Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag contradictions, assign confidence. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
 )
 ```
 
 **Pareto filter (on distiller output):** Build the moves x axes matrix. Accept any move that improves >=1 axis and regresses none. Reject moves with regressions. Compile surviving set into a brief ROUND N summary (plain text, not a full DRAFT).
 
-**Re-distill each round:** For rounds 2+, send updated proposals to the distiller via SendMessage rather than re-spawning. Only re-spawn if the distiller has been shut down.
+**Re-distill each round:** For rounds 2+, send updated proposals to the distiller via SendMessage with verbatim `directive.md` prepended and exactly one final ` | godspeed`, rather than re-spawning. Only re-spawn if the distiller has been shut down.
 
-**Exit check:** If frontier reached (zero survivors / duplicates / 4 rounds / user halt), emit the final DRAFT per the-judge.md drafting protocol with an added `AXES FINAL STATE` section.
+**Exit check:** If frontier reached (zero survivors / duplicates / 6 rounds / user halt), emit the final DRAFT per the-judge.md drafting protocol with an added `AXES FINAL STATE` section.
 
 If frontier not reached, dispatch Round N+1 using current frontier as baseline.
 
@@ -117,7 +118,7 @@ Trigger: opposite verdicts on same claim, OR one teammate's move regresses anoth
 
 After delivering a round's results, immediately assess: did any axis improve? If yes, dispatch the next round. Do not pause to ask "what next?" or prompt cleanup. The user interrupts when they want to steer. Keep the Pareto walk moving until the frontier stops or 6 rounds hit.
 
-**Limits:** <=6 rounds, <=16 concurrent subagents globally, <=200-word proposals per teammate.
+**Limits:** <=6 rounds, <=64 concurrent subagents globally (subject only to host availability), <=200-word proposals per teammate.
 
 ## Step 6 — Hold after frontier
 

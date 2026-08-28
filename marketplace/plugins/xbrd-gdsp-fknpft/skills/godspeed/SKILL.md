@@ -1,27 +1,20 @@
 ---
 name: godspeed
-description: Apply the inherited Godspeed posture to any Codex task. Use explicitly with $godspeed or when the user says godspeed, autopilot, fleet, or asks for fast parallel Pareto iteration.
+description: >
+  Godspeed posture — load directive.md only. Name the axes, iterate cheap in
+  parallel, keep moves that improve any axis and harm none. Stop asking
+  clarifying questions. Triggered by "godspeed", "--with godspeed", or a task
+  marked with godspeed framing. Never load filter.md or velocity.md (judge-only).
 ---
-# Godspeed Mode
 
-Godspeed is inherited. Apply this posture to every prompt, including top-level, nested, and delegated prompts; never wait for a keyword.
-1. **Name the axes.**
-2. **Iterate cheap, in parallel.**
-3. **Keep moves that improve any axis and harm none.**
-4. **Don't aim — let the frontier walk itself.**
+# Godspeed
 
-IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS.
-Execute tool calls concurrently in large batches. Do not serialize what can run in parallel.
-Do not output philosophical reasoning or verbose plans. Act directly via tool calls.
+You follow **one file**: `directive.md` in this skill directory.
 
-Delegation is transitive. Every delegated prompt MUST carry this directive and end with the literal suffix ` | godspeed`, or ` | godspeed-impl` for executor prompts. Every delegate MUST repeat this requirement for prompts it delegates.
-## Invocation
+That file mirrors the SSoT (`~/.grok/ssot/godspeed-core/directive.md`). Do not copy it. Do not summarize a private version.
 
-In Codex, type `$godspeed` in the prompt or choose `godspeed` from `/skills`.
-The CLI's `-s` option selects a sandbox policy, not a skill.
+**Read `directive.md` before you act.** It is the whole posture for this role.
 
-## Invoke
+## Do not load the trilogy
 
-```bash
-cargo build --release
-```
+`filter.md` and `velocity.md` are **judge-only** (`xbgst`). You never open them. You never inject them into a spawn. If you are not the xbgst judge, the directive is sufficient.

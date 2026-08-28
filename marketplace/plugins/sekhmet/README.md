@@ -29,7 +29,7 @@ cargo install --git https://github.com/VeigaPunk/xbrd-spark --locked
 
 **Runtime:** Codex Titanium host binary (not a plugin twin). Resolve: `CODEX_BIN` → `codex-titanium` → non-stub `codex` (omarchy npx stub skipped). **Never** symlink titanium as `codex`. PATH **`xask`** is the L2 protocol shim (ds4cc plugin), **not** the sekhmet shim. The L3 shim is **`xask-l3`** (`xbrd-spark/scripts/xask`) = thin `sekhmet run --direct` wrapper.
 
-Details: repo root [`docs/TITANIUM-HOST.md`](../../../../docs/TITANIUM-HOST.md).  
+Details: repo root [`docs/TITANIUM-HOST.md`](../../../docs/TITANIUM-HOST.md).  
 **Crate / L3 pin:** `gpt-5.3-codex-spark` · effort `low` · `service_tier=fast` · fallback **`gpt-5.6-luna`** · `-j 64`  
 (`XBRD_SPARK_MODEL`, `XBRD_SPARK_FALLBACK_MODEL`, `XBRD_SPARK_SERVICE_TIER`, `XBRD_SPARK_JOBS`; optional `~/.xbgst/env.l3-sekhmet.sh`).  
 `--dry-run` needs neither titanium nor xask.

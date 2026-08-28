@@ -1,0 +1,31 @@
+{
+  "name": "punk-records-brain",
+  "description": "Grok Bot auto-setup: Vegapunk round table. Say set grok bot for me.",
+  "owner": {
+    "name": "VeigaPunk"
+  },
+  "plugins": [
+    {
+      "name": "punk-records-brain",
+      "version": "0.2.0",
+      "description": "Set Grok Bot as a Vegapunk round table via CDP. Conversation is the product.",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "."
+      },
+      "homepage": "https://github.com/VeigaPunk/punk-records-brain",
+      "keywords": [
+        "punk-records-brain",
+        "grok-bot",
+        "set-grok-bot",
+        "vegapunk",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    }
+  ]
+}

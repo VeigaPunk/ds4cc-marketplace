@@ -1,0 +1,58 @@
+{
+  "name": "punk-records-brain",
+  "kind": "grok-bot-pack",
+  "version": "0.1.0",
+  "example_of": "How this operator configs Grok Bot: a Vegapunk round table. Copy this pack and change bots[] to adapt.",
+  "surface": {
+    "id": "xbgst-surface",
+    "nudge": true
+  },
+  "group": {
+    "name": "EGGHEAD // PUNK RECORDS"
+  },
+  "records": "punk-records",
+  "bots": [
+    {
+      "id": "stella",
+      "name": "STELLA",
+      "title": "Unified Vegapunk",
+      "file": "agents/stella.agent.md"
+    },
+    {
+      "id": "shaka",
+      "name": "PUNK-01 SHAKA",
+      "title": "正 — Correctness",
+      "file": "agents/shaka.agent.md"
+    },
+    {
+      "id": "lilith",
+      "name": "PUNK-02 LILITH",
+      "title": "悪 — Adversary",
+      "file": "agents/lilith.agent.md"
+    },
+    {
+      "id": "edison",
+      "name": "PUNK-03 EDISON",
+      "title": "想 — Invention",
+      "file": "agents/edison.agent.md"
+    },
+    {
+      "id": "pythagoras",
+      "name": "PUNK-04 PYTHAGORAS",
+      "title": "知 — Evidence",
+      "file": "agents/pythagoras.agent.md"
+    },
+    {
+      "id": "atlas",
+      "name": "PUNK-05 ATLAS",
+      "title": "暴 — Force",
+      "file": "agents/atlas.agent.md"
+    },
+    {
+      "id": "york",
+      "name": "PUNK-06 YORK",
+      "title": "欲 — Desire",
+      "file": "agents/york.agent.md"
+    }
+  ]
+}

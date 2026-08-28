@@ -5,7 +5,7 @@
   "author": {
     "name": "VeigaPunk"
   },
-  "homepage": "https://github.com/VeigaPunk/the-kimiraikoner",
+  "homepage": "https://github.com/VeigaPunk/the-kimiraikkoner",
   "license": "MIT",
   "skills": "./skills/",
   "interface": {
@@ -13,6 +13,6 @@
     "shortDescription": "Kimi web UI automation through agent-browser",
     "longDescription": "Uses agent-browser with a dedicated authenticated Chrome CDP profile to fire prompts into the Kimi web UI (fire-and-forget).",
     "developerName": "VeigaPunk",
-    "websiteURL": "https://github.com/VeigaPunk/the-kimiraikoner"
+    "websiteURL": "https://github.com/VeigaPunk/the-kimiraikkoner"
   }
 }

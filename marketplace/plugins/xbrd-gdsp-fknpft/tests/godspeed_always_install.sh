@@ -51,6 +51,12 @@ for target in "${targets[@]}"; do
   [[ -f "$target" ]] || { printf 'missing target: %s\n' "$target" >&2; exit 1; }
   grep -Fq 'Godspeed is inherited.' "$target"
   grep -Fq 'Delegation is transitive.' "$target"
+  grep -Fq "canonical posture lives only in the installed" "$target"
+  grep -Fq "one literal suffix \` | godspeed\`" "$target"
+  if grep -Fq 'godspeed-impl' "$target" || grep -Fq 'Name the axes.' "$target"; then
+    printf 'installed standing rule contains an obsolete Godspeed variant: %s\n' "$target" >&2
+    exit 1
+  fi
   [[ $(grep -Fc '<!-- xbrd-godspeed-always:begin -->' "$target") -eq 1 ]]
 done
 grep -Fq 'home content' "$HOME_DIR/AGENTS.md"

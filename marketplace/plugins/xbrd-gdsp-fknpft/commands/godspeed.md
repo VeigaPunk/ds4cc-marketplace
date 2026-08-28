@@ -1,5 +1,5 @@
 ---
-description: /godspeed — alias for /xbgst. Godspeed Pareto + cross-model delegation (all-Claude speed of /xgs plus xask codex depth of /xbt).
+description: /godspeed — alias for /xbgst. Godspeed Pareto + cross-model delegation (all-Claude speed of /xgs plus xask --gs codex depth of /xbt).
 argument-hint: <prompt for the judge>
 allowed-tools: [Agent, Bash, Read, Write, Edit, Glob, Grep, TaskCreate, TaskGet, TaskList, TaskUpdate, TaskOutput, SendMessage, TeamCreate, TeamDelete, WebFetch, WebSearch, LSP, Monitor]
 ---

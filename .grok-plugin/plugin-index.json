@@ -2,7 +2,7 @@
   "version": 1,
   "plugins": {
     "aaronplug": {
-      "version": "0.3.0",
+      "version": "0.4.0",
       "components": {
         "skills": [
           {
@@ -170,6 +170,57 @@
         ]
       }
     },
+    "punk-records-brain": {
+      "version": "0.2.0",
+      "components": {
+        "skills": [
+          {
+            "name": "punk-records-brain",
+            "description": "Set Grok Bot for me. Vegapunk shared-mind round table: Stella routes satellites, conversation is the deliverable."
+          }
+        ],
+        "commands": [
+          {
+            "name": "set-grok-bot",
+            "description": "Set Grok Bot from this pack. Trigger on set grok bot for me."
+          },
+          {
+            "name": "bootstrap-grok-bot",
+            "description": "Nudge xbgst-surface and mint the Punk Records Grok Bot pack from the preferred CLI."
+          }
+        ],
+        "agents": [
+          {
+            "name": "atlas",
+            "description": "Implementation pressure. Turns talk into a prototype sketch and a test."
+          },
+          {
+            "name": "edison",
+            "description": "Divergent inventor. Quantity and novelty before evaluation."
+          },
+          {
+            "name": "lilith",
+            "description": "Adversarial strategist. Loopholes, leverage, and impolite moves."
+          },
+          {
+            "name": "pythagoras",
+            "description": "Evidence satellite. Fact, inference, assumption, unknown."
+          },
+          {
+            "name": "shaka",
+            "description": "Executive conscience. Should we, not can we."
+          },
+          {
+            "name": "stella",
+            "description": "Unified Vegapunk identity. Routes, preserves dissent, compiles."
+          },
+          {
+            "name": "york",
+            "description": "Desire and incentives. Selfishness constrained, not deleted."
+          }
+        ]
+      }
+    },
     "sekhmet": {
       "version": "0.1.1",
       "components": {
@@ -193,7 +244,7 @@
       }
     },
     "the-almanacker": {
-      "version": "0.2.0",
+      "version": "0.2.1",
       "components": {
         "skills": [
           {
@@ -215,7 +266,7 @@
       }
     },
     "the-musketeer": {
-      "version": "0.3.0",
+      "version": "0.3.1",
       "components": {
         "skills": [
           {
@@ -243,7 +294,7 @@
       }
     },
     "the-puppeteer": {
-      "version": "0.2.0",
+      "version": "0.2.1",
       "components": {
         "skills": [
           {

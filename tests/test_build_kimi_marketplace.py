@@ -26,7 +26,7 @@ class KimiMarketplaceTests(unittest.TestCase):
             check=True,
         )
 
-    def test_builds_18_exact_deterministic_archives_and_catalog(self):
+    def test_builds_19_exact_deterministic_archives_and_catalog(self):
         with tempfile.TemporaryDirectory() as first_tmp, tempfile.TemporaryDirectory() as second_tmp:
             first = Path(first_tmp)
             second = Path(second_tmp)
@@ -34,13 +34,13 @@ class KimiMarketplaceTests(unittest.TestCase):
             self.build(second)
             catalog = json.loads((first / "marketplace.json").read_text())
             self.assertEqual(catalog["version"], "1")
-            self.assertEqual(len(catalog["plugins"]), 18)
+            self.assertEqual(len(catalog["plugins"]), 19)
             self.assertEqual(
                 [entry["id"] for entry in catalog["plugins"]],
                 sorted(entry["id"] for entry in catalog["plugins"]),
             )
             artifacts = sorted((first / "artifacts").glob("*.zip"))
-            self.assertEqual(len(artifacts), 18)
+            self.assertEqual(len(artifacts), 19)
 
             for entry in catalog["plugins"]:
                 artifact = first / entry["source"][2:]
@@ -136,7 +136,7 @@ class KimiMarketplaceTests(unittest.TestCase):
             capture_output=True,
         )
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn("validated 18", result.stdout)
+        self.assertIn("validated 19", result.stdout)
         with tempfile.TemporaryDirectory() as temporary:
             output = Path(temporary)
             (output / "marketplace.json").write_bytes(

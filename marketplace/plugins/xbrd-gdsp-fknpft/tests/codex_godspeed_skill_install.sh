@@ -87,11 +87,15 @@ first_out="$(run_installer --force)"
 
 cmp -s "$PLUGIN_ROOT/skills/godspeed/SKILL.md" "$TARGET_DIR/SKILL.md"
 cmp -s "$PLUGIN_ROOT/skills/godspeed/directive.md" "$TARGET_DIR/directive.md"
-grep -Fq 'Godspeed is inherited.' "$TARGET_DIR/SKILL.md"
-grep -Fq 'Delegation is transitive.' "$TARGET_DIR/SKILL.md"
+grep -Fq 'You follow **one file**: `directive.md`' "$TARGET_DIR/SKILL.md"
+grep -Fq '**Read `directive.md` before you act.**' "$TARGET_DIR/SKILL.md"
 grep -Fq 'You are a Godspeed-enabled subagent.' "$TARGET_DIR/directive.md"
-grep -Fq 'Every delegated prompt MUST carry this directive' "$TARGET_DIR/SKILL.md"
-grep -Fq 'type `$godspeed`' "$TARGET_DIR/SKILL.md"
+[[ "$(sha256sum "$TARGET_DIR/directive.md" | awk '{print $1}')" == \
+  'db88963cbdf5a0db22b460b284bf6f1d1f4abac9eaadb28bdb5e9bffe27be3bb' ]]
+if grep -Fq '## After the directive' "$TARGET_DIR/SKILL.md"; then
+  printf 'skill duplicates the canonical directive instead of pointing to directive.md\n' >&2
+  exit 1
+fi
 if grep -Fq 'codex -s godspeed' "$TARGET_DIR/SKILL.md"; then
   printf 'skill documents sandbox flag as a skill selector\n' >&2
   exit 1

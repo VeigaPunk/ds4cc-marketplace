@@ -104,6 +104,25 @@
       "source": "./artifacts/myskills-0.2.0.zip"
     },
     {
+      "id": "punk-records-brain",
+      "displayName": "Punk Records Brain",
+      "version": "0.2.0",
+      "description": "Set Grok Bot as a Vegapunk round table. Say 'set grok bot for me' in your preferred CLI.",
+      "homepage": "https://github.com/VeigaPunk/punk-records-brain",
+      "keywords": [
+        "vegapunk",
+        "punk-records",
+        "grok-bot",
+        "round-table",
+        "set-grok-bot",
+        "personalities",
+        "council",
+        "stella",
+        "kimi-code"
+      ],
+      "source": "./artifacts/punk-records-brain-0.2.0.zip"
+    },
+    {
       "id": "sekhmet",
       "displayName": "Sekhmet (swarm dispatch / L3)",
       "version": "0.1.1",
@@ -132,7 +151,7 @@
       "displayName": "The KimiRaikoner (VeigaPunk)",
       "version": "0.1.0",
       "description": "Drive Kimi web UI chat through agent-browser and an authenticated CDP profile.",
-      "homepage": "https://github.com/VeigaPunk/the-kimiraikoner",
+      "homepage": "https://github.com/VeigaPunk/the-kimiraikkoner",
       "source": "./artifacts/the-kimiraikoner-0.1.0.zip"
     },
     {

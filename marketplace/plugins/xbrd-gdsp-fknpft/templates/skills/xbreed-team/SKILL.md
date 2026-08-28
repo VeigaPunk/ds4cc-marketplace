@@ -6,7 +6,7 @@ user-invocable: true
 
 # /xbreed-team — Judge-Orchestrated Team Mode (Deliberative)
 
-This command initializes a **persistent native agent team** with YOUR current session as the team lead. You adopt the-judge persona and orchestrate specialist sub-roles (scout, reviewer, labrat) as **real teammates** with **cross-model delegation** — teammates invoke `xask codex` to bring external model perspectives into the draft.
+This command initializes a **persistent native agent team** with YOUR current session as the team lead. You adopt the-judge persona and orchestrate specialist sub-roles (scout, reviewer, labrat) as **real teammates** with **cross-model delegation** — teammates invoke `xask --gs codex` to bring external model perspectives into the draft.
 
 Unlike `/xbreed` (solo one-shot subagents) or `/xgs` (godspeed Pareto all-Claude), `/xbreed-team` is the **deliberative** mode: slower, pondered, with the judge mediating cross-model views across multiple rounds.
 
@@ -44,7 +44,7 @@ Agent(
   subagent_type="scout" | "reviewer" | "labrat",
   name="<unique teammate name>",
   model="sonnet" | "haiku",
-  prompt="<task brief with mandatory xask gate and peer roster> | godspeed"
+  prompt="<verbatim directive.md>\n\n<task brief with mandatory xask gate and peer roster> | godspeed"
 )
 ```
 
@@ -58,13 +58,17 @@ These are **real teammates** — they persist as background agents, can be steer
 
 Every teammate brief MUST include:
 1. **Full peer roster** — all teammate names committed in this dispatch (so they can DM each other)
-2. **Cross-critique instruction:** `"After completing your research/analysis, DM each peer by name with a one-line critique or reinforcement of their likely findings based on what you discovered. Use SendMessage({to: '<peer-name>', message: '<critique>'})."`
+2. **Cross-critique instruction:** `"After completing your research/analysis, DM each peer by name with a one-line critique or reinforcement. Use SendMessage({to: '<peer-name>', message: '<verbatim directive.md>\n\n<critique> | godspeed'})."`
 
 This enables lateral information flow between teammates before the distiller aggregates.
 
 ### Godspeed inheritance
 
-Godspeed applies unconditionally. Every Agent prompt ends exactly ` | godspeed`; executor prompts end exactly ` | godspeed-impl`. Delegates repeat this requirement for every nested delegation.
+Godspeed applies unconditionally. Read
+`~/.claude/skills/godspeed/directive.md`; every Agent prompt prepends those
+exact bytes and ends exactly once with ` | godspeed`, including executor
+prompts. Delegates repeat this requirement for every nested delegation. Never
+handwrite the directive.
 
 ### Sub-role pick guide with xask gate
 
@@ -116,7 +120,7 @@ Agent(
   subagent_type="distiller",
   name="ccs-distiller",
   model="sonnet",
-  prompt="You are the distiller. Synthesize these N teammate findings into one deduplicated, confidence-scored brief. <paste all teammate reports + any peer DM critiques>. Return format: State block with deduplicated claims, Unknowns block with contradictions, duplicate count. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
+  prompt="<verbatim directive.md>\n\nYou are the distiller. Synthesize these N teammate findings into one deduplicated, confidence-scored brief. <paste all teammate reports + any peer DM critiques>. Return format: State block with deduplicated claims, Unknowns block with contradictions, duplicate count. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
 )
 ```
 
@@ -131,9 +135,9 @@ The distiller:
 Using the distiller's synthesis, the judge **mediates**:
 
 1. **Draft** initial DRAFT from distiller output.
-2. **Challenge** specific findings via targeted SendMessage follow-ups to individual teammates. Push back on weak claims, probe gaps, ask for deeper investigation.
+2. **Challenge** specific findings via targeted SendMessage follow-ups to individual teammates. Each message prepends verbatim `directive.md` and ends exactly once with ` | godspeed`.
 3. **Teammates refine** and re-report. Peer DMs flow again.
-4. **Re-distill** if findings changed substantially (send updated reports to distiller via SendMessage). For minor refinements, judge aggregates directly.
+4. **Re-distill** if findings changed substantially (send updated reports to distiller via SendMessage using the same canonical directive + suffix wrapper). For minor refinements, judge aggregates directly.
 5. **Populate CONFLICTS block** if cross-model divergence found (cross-model (codex) vs. in-session (claude) contradictions on the same claim).
 6. **Repeat 2-5** until the judge is satisfied with the DRAFT quality.
 

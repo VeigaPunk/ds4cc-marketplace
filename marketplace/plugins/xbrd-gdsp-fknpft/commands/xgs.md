@@ -42,7 +42,7 @@ If empty, wait for user direction. Otherwise, proceed to four-phase godspeed.
 
 ```
 Agent(subagent_type="the-planner", team_name="<team>", name="cco-planner-r0",
-      prompt="WWKD Phase 0 data walk + skeleton for: <full user prompt>. FIRST tool call MUST be Skill(skill='wwkd'). Deliver plan artifact to team-lead. | godspeed")
+      prompt="<verbatim directive.md>\n\nWWKD Phase 0 data walk + skeleton for: <full user prompt>. FIRST tool call MUST be Skill(skill='wwkd'). Deliver plan artifact to team-lead. | godspeed")
 ```
 
 Wait for the plan artifact. It becomes the Phase 0 baseline against which axis naming (Phase 1) and specialist dispatch (Phase 2) check for drift.
@@ -73,7 +73,7 @@ availability is host-governed; this stack must not impose a smaller local cap.
 Each brief includes:
 1. Full peer roster (all names from Phase 1)
 2. Axis assignment
-3. **Godspeed mode:** prepend the canonical Godspeed block, including the hard global ceiling of 16 concurrent subagents, then append ` | godspeed`; executor prompts append ` | godspeed-impl`. Delegates repeat both requirements for every nested delegation.
+3. **Godspeed mode:** read `~/.claude/skills/godspeed/directive.md`, prepend its exact bytes, then append exactly one ` | godspeed`. This includes executor prompts. Never reconstruct the directive. Enforce the separate certified 64-slot stack contract. Delegates repeat the directive, suffix, and capacity contract for every nested delegation.
 4. Task: propose ONE move (<=200 words)
 5. After proposing, DM each peer by name with one-line critique
 6. Mark task completed
@@ -94,13 +94,13 @@ Agent(
   team_name="<team>",
   name="ccs-distiller",
   model="sonnet",
-  prompt="You are the distiller. Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag contradictions, assign confidence. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
+  prompt="<verbatim directive.md>\n\nYou are the distiller. Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag contradictions, assign confidence. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
 )
 ```
 
 **Pareto filter (on distiller output):** Accept moves improving >=1 axis with zero regressions. Reject moves with regressions. Compile survivors into ROUND N summary.
 
-**Re-distill each round:** For rounds 2+, send updated proposals to the distiller via SendMessage rather than re-spawning. Only re-spawn if the distiller has been shut down.
+**Re-distill each round:** For rounds 2+, send updated proposals to the distiller via SendMessage with verbatim `directive.md` prepended and exactly one final ` | godspeed`, rather than re-spawning. Only re-spawn if the distiller has been shut down.
 
 **Exit check:** Frontier reached (zero survivors / duplicates / 6 rounds / user halt) -> final DRAFT with AXES FINAL STATE. Otherwise dispatch Round N+1.
 

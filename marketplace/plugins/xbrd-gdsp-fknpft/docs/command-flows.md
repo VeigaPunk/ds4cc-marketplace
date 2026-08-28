@@ -456,16 +456,18 @@ when the tier pivoted; every teammate prefix now maps to medium in the
 DEBUG trap.
 
 **Godspeed inheritance:** every teammate dispatch prepends the canonical
-Godspeed block, including the hard global ceiling of 16 concurrent subagents, and appends
-` | godspeed` (or ` | godspeed-impl` for the executor lane) as its transport
-marker. The suffix does not replace the inherited directive.
+Godspeed directive verbatim and appends exactly one ` | godspeed` for every
+lane, including executors. The suffix does not replace the
+inherited directive. Capacity is a separate certified stack contract: up to 64
+concurrently spawned subagents, subject only to host availability, with no
+smaller local cap introduced by xbreed.
 
 **Codex dispatch lanes** (`src/ask.rs` `build_codex_ask_with_loadout`):
 
-- `--spark` → `gpt-5.4-mini` + `model_reasoning_effort=low` (fast_mode enabled) — labrat/executor/mutation-tester-single
-- `--gpt55` → `gpt-5.6-sol` + `features.fast_mode=true` — every role route uses `-e low`, including reviewer/sentinel/critic/the-revenger and breadth roles
-- `-R -F` / `--review --full` → `gpt-5.6-sol` (full, 1.05M ctx) + `features.fast_mode=true` — escape hatch, reserved for large-context RECON where extra headroom is needed
-- `-R` / `--review` → `gpt-5.6-sol` + `features.fast_mode=true` — legacy review lane; superseded by `--gpt55 -e low` in xbreed dispatch
+- `--spark` → Sekhmet with `gpt-5.3-codex-spark` (fallback `gpt-5.6-luna`), low effort, and explicit `default` tier unless `fast` is selected — labrat/executor/mutation-tester-single
+- `--gpt55` → `gpt-5.6-sol` — role routes select effort explicitly; service tier remains `default` unless `fast` is explicitly requested
+- `-R -F` / `--review --full` → `gpt-5.6-sol` (full, 1.05M ctx) — escape hatch, reserved for large-context RECON where extra headroom is needed
+- `-R` / `--review` → `gpt-5.6-sol` — legacy review lane; superseded by `--gpt55 -e low` in xbreed dispatch
 - default → `gpt-5.6-sol` + `features.fast_mode=true` + `model_reasoning_effort=low`
 
 **Profile vs dispatch-default:** `~/.codex/config.toml` `[profiles.xbreed]` now

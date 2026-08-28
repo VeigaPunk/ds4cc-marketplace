@@ -209,7 +209,7 @@ Tool modes are mutually exclusive. They toggle via the composer's `+` menu (`com
 
 From a Claude Code session (e.g. `claude` CLI), invoke:
 ```
-Agent(subagent_type="the-puppeteer", prompt="Fire a Deep Research run: 'Survey of active-inference agent memory architectures, 2022-2026'")
+Agent(subagent_type="the-puppeteer", prompt="<verbatim godspeed-core/directive.md>\n\nFire a Deep Research run: 'Survey of active-inference agent memory architectures, 2022-2026' | godspeed")
 ```
 
 The agent shells out to `chitchat`, reports "prompt fired", and returns. You read the Deep Research result in Chrome hours later (Deep Research is the flagship long-run mode; it's exactly why `chitchat` is fire-and-forget).

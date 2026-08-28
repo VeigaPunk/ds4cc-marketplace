@@ -27,7 +27,7 @@ Treat this as the problem to judge/draft. If it names multiple proposals, score 
 
 ```
 Agent(subagent_type="the-planner", name="cco-planner-r0",
-      prompt="WWKD Phase 0 data walk + skeleton for: <full user prompt>. FIRST tool call MUST be Skill(skill='wwkd'). Return plan artifact. | godspeed")
+      prompt="<verbatim directive.md>\n\nWWKD Phase 0 data walk + skeleton for: <full user prompt>. FIRST tool call MUST be Skill(skill='wwkd'). Return plan artifact. | godspeed")
 ```
 
 Wait for the plan artifact, then proceed with sub-role dispatch. Specialists check their proposals against the plan baseline.
@@ -42,14 +42,14 @@ You may dispatch specialist sub-roles: **scout** (research), **reviewer** (surgi
 
 Dispatch rule:
 
-1. **Preferred path — team spawn.** If you are already running inside a team (check `~/.claude/teams/` for active team config), use `Agent(subagent_type="scout" | "reviewer" | "labrat", team_name=<current team>, name="<role>-N", prompt="<task> | godspeed")`.
+1. **Preferred path — team spawn.** If you are already running inside a team (check `~/.claude/teams/` for active team config), read `~/.claude/skills/godspeed/directive.md` and use `Agent(subagent_type="scout" | "reviewer" | "labrat", team_name=<current team>, name="<role>-N", prompt="<verbatim directive.md>\n\n<task> | godspeed")`.
 
 2. **Fallback path — inlined persona.** If not on a team (solo CC session), spawn via `general-purpose` and inline the persona body:
 
    ```
    Agent(
      subagent_type="general-purpose",
-      prompt="You are <scout|reviewer|labrat>. Your persona:\n\n<paste full contents of ~/.claude/agents/{role}.md here>\n\nTask: <the concrete question> | godspeed"
+      prompt="<verbatim directive.md>\n\nYou are <scout|reviewer|labrat>. Your persona:\n\n<paste full contents of ~/.claude/agents/{role}.md here>\n\nTask: <the concrete question> | godspeed"
    )
    ```
 
@@ -57,11 +57,13 @@ Dispatch rule:
 
 Read `~/.claude/commands/references/xbreed-shared.md` for the full xask gate (4 layers), epistemic constraints, axis→profile mapping, and naming convention. Apply them to every sub-role dispatch.
 
-Every Agent prompt ends exactly ` | godspeed`; executor prompts end exactly ` | godspeed-impl`. Delegates repeat this requirement for every nested delegation.
+Every Agent prompt prepends the exact installed `directive.md` bytes and ends
+exactly once with ` | godspeed`, including executor prompts. Delegates repeat
+this requirement for every nested delegation. Never handwrite the directive.
 
 ### Budget
 
-Max 12 total sub-role dispatches unless the prompt lowers the cap.
+Per round: ONE frozen-roster wave, up to 16 concurrent specialist dispatches (never trickle-dispatch 1–2 when more roster rows exist). Across the run: max 6 rounds (godspeed exit cap). The 16/wave concurrency cap replaces the former 12-total budget; it bounds width per wave, not lifetime dispatches.
 
 ## Step 4 — Output
 

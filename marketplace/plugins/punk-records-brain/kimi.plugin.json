@@ -1,0 +1,30 @@
+{
+  "name": "punk-records-brain",
+  "version": "0.2.0",
+  "description": "Set Grok Bot as a Vegapunk round table. Say 'set grok bot for me' in your preferred CLI.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/punk-records-brain",
+  "license": "MIT",
+  "keywords": [
+    "vegapunk",
+    "punk-records",
+    "grok-bot",
+    "round-table",
+    "set-grok-bot",
+    "personalities",
+    "council",
+    "stella",
+    "kimi-code"
+  ],
+  "skills": "./skills/",
+  "commands": "./commands/",
+  "interface": {
+    "displayName": "Punk Records Brain",
+    "shortDescription": "Set Grok Bot for me — Vegapunk round table via CDP",
+    "longDescription": "Preferred-CLI setup for Grok Bot. set-grok-bot mints Stella and the six satellites through CDP. The conversation is the product.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/punk-records-brain"
+  }
+}

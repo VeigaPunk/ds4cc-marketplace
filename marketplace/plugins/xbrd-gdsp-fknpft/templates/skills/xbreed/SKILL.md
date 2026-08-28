@@ -32,14 +32,14 @@ You may dispatch specialist sub-roles: **scout** (research), **reviewer** (surgi
 
 Dispatch rule:
 
-1. **Preferred path — direct spawn.** Use `Agent(subagent_type="scout" | "reviewer" | "labrat", name="<role>-N", prompt="<task> | godspeed")` and wait for their `SendMessage` reply. Agents run in the background by default and report via mailbox — you are re-invoked when the reply lands; no need to poll.
+1. **Preferred path — direct spawn.** Read `~/.claude/skills/godspeed/directive.md` and use `Agent(subagent_type="scout" | "reviewer" | "labrat", name="<role>-N", prompt="<verbatim directive.md>\n\n<task> | godspeed")`. Wait for their `SendMessage` reply. Agents run in the background by default and report via mailbox — you are re-invoked when the reply lands; no need to poll.
 
 2. **Fallback path — inlined persona.** If user-scope `subagent_type` resolution fails, spawn via built-in `general-purpose` and inline the persona body:
 
    ```
    Agent(
      subagent_type="general-purpose",
-     prompt="You are <scout|reviewer|labrat>. Your persona:\n\n<paste full contents of ~/.claude/agents/{role}.md here>\n\nTask: <the concrete question> | godspeed"
+     prompt="<verbatim directive.md>\n\nYou are <scout|reviewer|labrat>. Your persona:\n\n<paste full contents of ~/.claude/agents/{role}.md here>\n\nTask: <the concrete question> | godspeed"
    )
    ```
 
@@ -63,11 +63,13 @@ Divergence mandate: `"If your finding contradicts a peer's, flag: CONFLICT: [cla
 
 Judge weighting: weight xask quotes that contradict the agent's conclusion more heavily than confirming quotes.
 
-Every Agent prompt ends exactly ` | godspeed`; executor prompts end exactly ` | godspeed-impl`. Delegates repeat this requirement for every nested delegation.
+Every Agent prompt prepends the exact installed `directive.md` bytes and ends
+exactly once with ` | godspeed`, including executor prompts. Delegates repeat
+this requirement for every nested delegation. Never handwrite the directive.
 
 ### Budget
 
-Max 3 total sub-role dispatches per `/xbreed` invocation unless the prompt explicitly lifts the cap. If you finish with zero, that is fine and cheap.
+ONE frozen-roster wave of up to 16 concurrent specialist dispatches per `/xbreed` invocation — roster-gated, never trickle-dispatched 1–2 when more roster rows exist (fleet convention "Host specialists <=16"). If the roster holds fewer than 4 evidence-bearing work items, a smaller wave is fine and cheap; say why in the output.
 
 ## Step 4 — Output
 

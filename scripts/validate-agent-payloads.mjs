@@ -25,9 +25,9 @@ const EXPECTED_AGENTS = [
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const errors = [];
-const GODSPEED_INVARIANT = "**Godspeed is inherited.**";
+const GODSPEED_INVARIANT = "**Canonical Godspeed.**";
 const DELEGATION_INVARIANT = "**Delegation is transitive.**";
-const CONCURRENCY_CEILING = "- **Concurrency ceiling.** Never have more than 16 concurrently spawned subagents.";
+const CONCURRENCY_CEILING = "- **Concurrency ceiling.** Honor the host-governed concurrency ceiling; this stack is certified at 64 concurrent subagents.";
 const PROHIBITED_PROFILE_TEXT = [
   "gpt55",
   "gpt-5.6-sol",
@@ -96,7 +96,7 @@ for (const filename of files) {
   }
   check(source.includes(GODSPEED_INVARIANT), `${filename}: missing Godspeed inheritance invariant`);
   check(source.includes(DELEGATION_INVARIANT), `${filename}: missing transitive delegation invariant`);
-  check(source.includes(CONCURRENCY_CEILING), `${filename}: missing 16-subagent concurrency ceiling`);
+  check(source.includes(CONCURRENCY_CEILING), `${filename}: missing host-governed 64-subagent concurrency contract`);
   for (const prohibited of PROHIBITED_PROFILE_TEXT) {
     check(!source.includes(prohibited), `${filename}: prohibited stale delegation text: ${prohibited}`);
   }

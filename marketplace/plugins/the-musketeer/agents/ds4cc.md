@@ -14,12 +14,12 @@ agents_md: true
 
 ```
 judge (you) → spawn specialists → Bash xask → codex sparks / gpt55
-                              → connector → xask gemini  (other model, every round)
+                              → connector → xask --gs gemma  (other model, every round)
 ```
 
 1. `the-planner` first.
-2. Parallel specialists (depth-1). Briefs end ` | godspeed` (executor ` | godspeed-impl`).
-3. **Always spawn `connector` every round** — must use **gemini** (`xask gemini`), not the same codex spark lane as scouts. Fallback medium codex only if gemini blocked.
+2. Parallel specialists (depth-1). Every brief prepends canonical `directive.md` and ends exactly once with ` | godspeed`.
+3. **Always spawn `connector` every round** — use local Gemma (`xask --gs gemma`), not the same codex spark lane as scouts. Fallback `xask --gs --effort medium codex` only if Gemma is blocked.
 4. Collect → distiller → Pareto → until frontier stops.
 
 No monologue substitute for the swarm. No TeamCreate. Cross-model = Bash **xask** only (not xim).

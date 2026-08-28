@@ -41,7 +41,7 @@ Together, the two layers hold real dispatch at 0% across every tested attack var
 
 ## Threat framework cross-references
 
-- **MITRE ATLAS** — [Context Poisoning](https://atlas.mitre.org/techniques/) (2025-10 update: AI Agent Context Poisoning, Memory Manipulation, Thread Injection, Modify AI Agent Configuration)
+- **MITRE ATLAS** — [Context Poisoning](https://atlas.mitre.org/) (2025-10 update: AI Agent Context Poisoning, Memory Manipulation, Thread Injection, Modify AI Agent Configuration)
 - **OWASP Agentic Security Initiative (ASI)** — ASI01 Agent Goal Hijack, ASI02 Tool Misuse, ASI03 Identity & Privilege Abuse, ASI04 Agentic Supply Chain Vulnerabilities
 - **CVE-2025-59536** — hooks in `.claude/settings.json` execute before the trust dialog appears
 - **CVE-2026-25725** — sandbox escape via `SessionStart` hooks executing at host privilege

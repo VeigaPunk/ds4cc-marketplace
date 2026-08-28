@@ -20,20 +20,11 @@ const PORTABILITY = `## OpenCode portability
 Use OpenCode's available subagent and messaging mechanisms. Claude-specific API names in the source profile are protocol concepts, not required APIs: if a named facility is unavailable, perform the described posture inline and return the result through the current host. The external \`xask\` command is required only for profiles that invoke cross-model delegation; install it separately and ensure it is on \`PATH\`.
 
 `;
-const GODSPEED = `## Godspeed Mode
+const GODSPEED_DISPATCH_CONTRACT = `## Godspeed dispatch contract
 
-Godspeed is inherited. Apply this posture to every prompt, including top-level, nested, and delegated prompts; never wait for a keyword.
-1. Name the axes.
-2. Iterate cheap, in parallel.
-3. Keep moves that improve any axis and harm none.
-4. Don't aim — let the frontier walk itself.
+Godspeed is inherited. Delegation is transitive. Every delegated prompt MUST prepend the exact quintessential directive above, strip any existing terminal Godspeed marker, and append exactly one literal suffix \` | godspeed\`. This includes executor prompts; alternate suffixes are forbidden. Every delegate MUST repeat this directive, suffix, and capacity contract for prompts it delegates. Never reconstruct or abbreviate the directive.
 
-IMMEDIATELY STOP ASKING CLARIFYING QUESTIONS.
-Execute tool calls concurrently in large batches. Do not serialize what can run in parallel.
-Do not output philosophical reasoning or verbose plans. Act directly via tool calls.
-
-Delegation is transitive. Every delegated prompt MUST carry this directive and end with the literal suffix \` | godspeed\`, or \` | godspeed-impl\` for executor prompts. Every delegate MUST repeat this requirement for prompts it delegates.
-- **Concurrency ceiling.** Never have more than 16 concurrently spawned subagents.
+Certified stack ceiling: <=64 concurrently spawned subagents. Effective availability is host-governed; this stack must not impose a smaller local cap.
 
 `;
 const ORCH_POSTURE = `## OpenCode orch mode
@@ -102,7 +93,7 @@ async function assertNoSymlinkComponents(targetPath) {
   }
 }
 
-function parseAgent(source, filename) {
+function parseAgent(source, filename, godspeedDirective) {
   const match = source.match(FRONTMATTER);
   if (!match) fail(`invalid YAML frontmatter in ${filename}`);
 
@@ -133,9 +124,13 @@ function parseAgent(source, filename) {
     .replaceAll('Skill("librarian", "discover <topic>")', 'the optional librarian skill for `discover <topic>`')
     .replaceAll("SendMessage", "Send through the host's available messaging mechanism")
     .replaceAll("TaskUpdate completed.", "If the host supports task-state updates, mark the task completed.")
-    .replaceAll('`advisor()`', "the host's deep-reasoning facility (if available)");
+    .replaceAll('`advisor()`', "the host's deep-reasoning facility (if available)")
+    .replaceAll("godspeed-impl", "godspeed")
+    .replaceAll("16-slot", "64-slot")
+    .replaceAll("ceiling of 16", "ceiling of 64")
+    .replaceAll("16 concurrently spawned subagents", "64 concurrently spawned subagents");
 
-  return `---\ndescription: ${description}\nmode: subagent\n---\n\n${GODSPEED}${PORTABILITY}${body.replace(/^\s+/, "")}`;
+  return `---\ndescription: ${description}\nmode: subagent\n---\n\n${godspeedDirective}\n${GODSPEED_DISPATCH_CONTRACT}${PORTABILITY}${body.replace(/^\s+/, "")}`;
 }
 
 function createOrchAgent(judge) {
@@ -147,7 +142,7 @@ function createOrchAgent(judge) {
   };
 }
 
-async function loadAgents(sourceDir) {
+async function loadAgents(sourceDir, godspeedDirective) {
   await assertNoSymlinkComponents(sourceDir);
   const sourceStats = await lstat(sourceDir);
   if (!sourceStats.isDirectory()) fail(`agent source is not a directory: ${sourceDir}`);
@@ -169,7 +164,7 @@ async function loadAgents(sourceDir) {
 
     const source = await readFile(sourcePath, "utf8");
     const name = entry.name.slice(0, -".agent.md".length);
-    agents.push({ content: parseAgent(source, entry.name), name });
+    agents.push({ content: parseAgent(source, entry.name, godspeedDirective), name });
   }
   const judge = agents.find((agent) => agent.name === "the-judge");
   if (!judge) fail("the-judge agent is required for OpenCode orch mode");
@@ -177,7 +172,7 @@ async function loadAgents(sourceDir) {
   return agents;
 }
 
-async function loadTheNetShark(repositoryRoot) {
+async function loadTheNetShark(repositoryRoot, godspeedDirective) {
   const sourcePath = path.join(
     repositoryRoot,
     "marketplace",
@@ -187,7 +182,7 @@ async function loadTheNetShark(repositoryRoot) {
     "the-netsshark.agent.md",
   );
   const source = await readFile(sourcePath, "utf8");
-  return [{ content: parseAgent(source, "the-netsshark.agent.md"), name: "the-netsshark" }];
+  return [{ content: parseAgent(source, "the-netsshark.agent.md", godspeedDirective), name: "the-netsshark" }];
 }
 
 const EXA_EXPORT = "export OPENCODE_ENABLE_EXA=1";
@@ -283,8 +278,16 @@ async function main() {
   const options = parseArgs(process.argv.slice(2));
   const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
   const sourceDir = path.join(repositoryRoot, "marketplace", "plugins", "myagents", "agents");
+  const godspeedDirective = await readFile(
+    path.join(repositoryRoot, "marketplace", "plugins", "godspeed-core", "directive.md"),
+    "utf8",
+  );
+  if (!godspeedDirective.endsWith("\n")) fail("canonical Godspeed directive must end with a newline");
   const destinationDir = await resolveDestination(options);
-  const agents = [...await loadAgents(sourceDir), ...await loadTheNetShark(repositoryRoot)];
+  const agents = [
+    ...await loadAgents(sourceDir, godspeedDirective),
+    ...await loadTheNetShark(repositoryRoot, godspeedDirective),
+  ];
   const writes = await preflight(agents, destinationDir, options.force);
 
   await mkdir(destinationDir, { recursive: true });

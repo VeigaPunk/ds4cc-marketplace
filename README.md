@@ -4,7 +4,7 @@
 
 Static plugin payloads for **Grok Build**, **Codex**, **Kimi Code CLI**, and **OpenCode**, plus **cursor-agent** (Cursor CLI / cloud Agents) as a Few Good CLIs™ host. OpenCode agents ship through a dependency-free bootstrap script (OpenCode has no marketplace protocol).
 
-Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, install what you need, ship.
+Nineteen curated plugins, Rust-validated and curation-gated. Register one repo, install what you need, ship.
 
 | Host | Catalog |
 | --- | --- |
@@ -28,7 +28,7 @@ Eighteen curated plugins, Rust-validated and curation-gated. Register one repo, 
 
 - Praise: [ds4cc.com/exa.html](https://ds4cc.com/exa.html)
 - Bloat kills (Honcho, Hermes, mise, …): [ds4cc.com/bloat.html](https://ds4cc.com/bloat.html)
-- Token speedrun board (featured **$200** run): [`~/Projects/token-speedrun`](../token-speedrun) — deploy on **Cloudflare Pages** for BR edge latency
+- Speedrun board: [ds4cc.com/speedrun](https://ds4cc.com/speedrun/) — live run records with disclosure ledger (GitHub Pages)
 - SSoT: [`docs/MCP-STANCE.md`](docs/MCP-STANCE.md) · [`docs/ANTI-PATTERNS.md`](docs/ANTI-PATTERNS.md)
 
 ## Titanium host resolve
@@ -214,12 +214,14 @@ Requires `xask` on `PATH` for cross-model. See plugin README for full setup gate
 
 ### Kimi Code CLI & OpenCode
 
-No dedicated exclusive binary yet. Consume the shared xbrd plugins + sekhmet (where Titanium is available) through their bootstrap paths. OpenCode installer injects Godspeed + orch (XBGST posture) automatically. Kimi uses the minimal packages; custom `the-*` profiles are not installed.
+Kimi Code CLI is the fleet's L0 substrate. Its dedicated plugin is **xbgst-kimi** (fleet-internal repository, not published on GitHub): it ships the godspeed-core trilogy (`directive.md`, `filter.md`, `velocity.md`), the xbgst orchestration skill, the agent roster, and the `xbgst` / `xbrd` / `sekhmet` commands. Inside the fleet it is installed with `/plugins install <xbgst-kimi repo>` + `/reload`.
+
+OpenCode installer injects Godspeed + orch (XBGST posture) automatically. DS4CC's minimal Kimi packages install skills and commands only; custom `the-*` profiles are not installed through them.
 
 
 ## OpenAI Apps SDK
 
-The read-only Apps SDK wrapper in `apps-sdk/` exposes only an explicitly reviewed subset through a production MCP endpoint and embedded catalog widget. It is not the public 18-plugin marketplace. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
+The read-only Apps SDK wrapper in `apps-sdk/` exposes only an explicitly reviewed subset through a production MCP endpoint and embedded catalog widget. It is not the public 19-plugin marketplace. It is configured for `https://app.ds4cc.com/mcp`, includes required tool annotations and widget CSP/domain metadata, and provides public privacy, terms, support, health, and domain-verification routes.
 
 ```bash
 cd apps-sdk
@@ -230,9 +232,9 @@ npm test
 
 Deploy with the root `render.yaml` blueprint or `apps-sdk/Dockerfile`, attach `app.ds4cc.com`, and follow `apps-sdk/SUBMISSION.md` for the OpenAI plugin portal fields and tests.
 
-## Plugins (18)
+## Plugins (19)
 
-SSoT: `marketplace/plugins/<name>/` and `marketplace/marketplace.json` (18 entries). Drafts under `drafts/` are **not** catalog plugins.
+SSoT: `marketplace/plugins/<name>/` and `marketplace/marketplace.json` (19 entries). Drafts under `drafts/` are **not** catalog plugins.
 
 | Plugin | Category | Description |
 |---|---|---|
@@ -245,6 +247,7 @@ SSoT: `marketplace/plugins/<name>/` and `marketplace/marketplace.json` (18 entri
 | `myagents` | Developer | Curated agent workflow launchpad |
 | `mycommands` | Developer | Reusable command packs & shell routines |
 | `myskills` | Developer | Curated skill inventory & workflow helpers |
+| `punk-records-brain` | Developer | Vegapunk multi-personality round table (Stella + six satellites; conversation is the product) |
 | `sekhmet` | Developer | Always-available swarm substrate (xbreed L3; Rust `xbrd-spark`, up to 64 runners) |
 | `spoderman` | Developer | Attack harness & hook safety research |
 | `the-almanacker` | Developer | Gemini Notebook / NotebookLM adapter (0.2.1) |
@@ -338,7 +341,7 @@ A `SKILL.md` is **actionable** if its body (after frontmatter) contains at least
 
 ## Official OpenAI submission bundle
 
-The OpenAI submission is the isolated source tree at `official/ds4cc/`, not the public plugin at `marketplace/plugins/ds4cc/` and not the public 18-plugin marketplace. Its skill uses only the read-only `browse_ds4cc_marketplace` MCP tool and reviewed results. Build the deterministic, path-safe archive locally:
+The OpenAI submission is the isolated source tree at `official/ds4cc/`, not the public plugin at `marketplace/plugins/ds4cc/` and not the public 19-plugin marketplace. Its skill uses only the read-only `browse_ds4cc_marketplace` MCP tool and reviewed results. Build the deterministic, path-safe archive locally:
 
 ```bash
 python3 scripts/build-ds4cc-submission.py
@@ -352,7 +355,7 @@ The ignored output is `artifacts/ds4cc-openai-submission.zip`. The builder accep
 | --- | --- |
 | [xbrd-spark](https://github.com/VeigaPunk/xbrd-spark) | L3 Sekhmet swarm binary (`sekhmet` / `xbrd-spark`); global cap **64** concurrent workers |
 | [sekhmet-l3](https://github.com/VeigaPunk/sekhmet-l3) | Public L3 usage + GATE evidence pack (luna + fast, j=64) |
-| [xbgst](https://github.com/VeigaPunk/xbgst) | Grok host Godspeed stack (host-governed concurrency certified at 64, including Sekhmet) |
+| [grok-marketplace](https://github.com/VeigaPunk/grok-marketplace) | Grok Build marketplace shipping the Godspeed stack (`xbgst-stack` for Grok, `xbgst-codex` for Codex) |
 | [xbgst-site](https://github.com/VeigaPunk/xbgst-site) | Public xbgst hub · [https://veigapunk.github.io/xbgst-site/](https://veigapunk.github.io/xbgst-site/) · [repo](https://github.com/VeigaPunk/xbgst-site) |
 | [xbrd-sol-ultra](https://github.com/VeigaPunk/xbrd-sol-ultra) | Sol Ultra root judge skill: one `sekhmet swarm -j 64` wave per round |
 | [xbrd-selector](https://github.com/VeigaPunk/xbrd-selector) | Rover CLI; also packaged here as plugin `xbrd-selector` |

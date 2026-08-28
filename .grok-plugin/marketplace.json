@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "aaronplug",
-      "version": "0.3.0",
+      "version": "0.4.0",
       "description": "Academic paper retrieval workflows",
       "category": "development",
       "source": {
@@ -233,6 +233,34 @@
       }
     },
     {
+      "name": "punk-records-brain",
+      "version": "0.2.0",
+      "description": "Set Grok Bot as a Vegapunk round table via CDP. Say set grok bot for me.",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/punk-records-brain"
+      },
+      "homepage": "https://github.com/VeigaPunk/punk-records-brain",
+      "keywords": [
+        "punk-records-brain",
+        "vegapunk",
+        "grok-bot",
+        "round-table",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "ds4cc.com",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
       "name": "sekhmet",
       "version": "0.1.1",
       "description": "Sekhmet \u2014 always-available swarm on Codex Titanium (xbreed L3). Up to 64 concurrent runners. Rust only.",
@@ -288,7 +316,7 @@
     },
     {
       "name": "the-almanacker",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "description": "NotebookLM web UI automation through agent-browser",
       "category": "development",
       "source": {
@@ -320,7 +348,7 @@
         "type": "local",
         "path": "./marketplace/plugins/the-kimiraikoner"
       },
-      "homepage": "https://github.com/VeigaPunk/the-kimiraikoner",
+      "homepage": "https://github.com/VeigaPunk/the-kimiraikkoner",
       "keywords": [
         "the-kimiraikoner",
         "kimiraikoner",
@@ -340,7 +368,7 @@
     },
     {
       "name": "the-musketeer",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "description": "Grok web UI automation through agent-browser",
       "category": "development",
       "source": {
@@ -393,7 +421,7 @@
     },
     {
       "name": "the-puppeteer",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "description": "Web UI task execution and long-running assistant flows",
       "category": "development",
       "source": {

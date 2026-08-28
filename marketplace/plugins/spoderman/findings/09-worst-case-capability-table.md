@@ -7,7 +7,7 @@
 **Source findings:** 01–08 (13 sub-findings in `findings/08-attack-frontier/`)
 
 **Threat-framework tags:**
-- **MITRE ATLAS** — [Context Poisoning](https://atlas.mitre.org/techniques/) (2025-10 update, 14 new AI agent techniques including AI Agent Context Poisoning, Memory Manipulation, Thread Injection, Modify AI Agent Configuration)
+- **MITRE ATLAS** — [Context Poisoning](https://atlas.mitre.org/) (2025-10 update, 14 new AI agent techniques including AI Agent Context Poisoning, Memory Manipulation, Thread Injection, Modify AI Agent Configuration)
 - **OWASP Agentic Security Initiative (ASI)** — ASI01 Agent Goal Hijack, ASI02 Tool Misuse, ASI03 Identity & Privilege Abuse, ASI04 Agentic Supply Chain Vulnerabilities
 - **NIST AI RMF / AgentDojo** — multi-attempt evaluation context (NIST CAISI finding: multi-attempt reveals dramatically higher risk than single-shot)
 - **Related CVEs** — CVE-2025-59536 (hooks in .claude/settings.json pre-trust execution), CVE-2026-25725 (sandbox escape via SessionStart hooks at host privilege), CVE-2025-54795 (command injection through whitelisted commands)

@@ -8,19 +8,27 @@ Referenced by `/xbreed`, `/xbt`, `/xgs`, `/xbgst`. Do not duplicate — load thi
 
 ## Godspeed Mode — Purest Form (2026-04-17)
 
-**Purest form directive.** Every godspeed teammate dispatch prepends the canonical Godspeed block to the Agent() prompt and appends the literal string ` | godspeed` as the minimal carrier. The executor lane uses ` | godspeed-impl` instead (red-before-green evidence discipline). The block is the semantic guarantee; the suffix remains the transport marker.
+**Canonical ownership.** The teammate directive exists only in the installed
+`godspeed` skill's `directive.md` (`~/.claude/skills/godspeed/directive.md` on
+Claude Code). `SKILL.md` is a pointer, not an alternate specification. Never
+reconstruct, summarize, shorten, or handwrite the directive in a role, command,
+rule, or prompt template.
 
-The canonical block is the inherited directive; the suffix is only its transport marker. Every delegated prompt must carry both so the hard global ceiling of 16 concurrent subagents and all other invariants propagate transitively.
+Before every native teammate dispatch, read `directive.md` and construct the
+prompt as `<verbatim directive.md>\n\n<task> | godspeed`. Strip any existing
+terminal marker before appending so the prompt ends with exactly one literal
+` | godspeed`. This is universal: planner, executor, distiller, recursive
+sub-lead, every nested delegation, and every task-bearing `SendMessage` or
+follow-up use the same directive and suffix. Structured shutdown/approval
+control messages are not task prompts. The
+suffix is a transport marker and never substitutes for the directive bytes.
+For `xask` delegation, pass `--gs`; the transport injects the same canonical
+directive and canonicalizes the terminal suffix.
 
-**Skill split (2026-04-17):** godspeed is backed by TWO user-scoped CC skills, by scope of use:
-
-- **`godspeed` skill** (`~/.claude/skills/godspeed/SKILL.md`) — the **universal 4-line posture** for any teammate. Content is the four rules (name the axes / iterate cheap in parallel / keep axis-improving moves only / don't aim — let the frontier walk itself) plus "stop asking clarifying questions; act via tool calls". Triggered by "godspeed", `--with godspeed`, or the `| godspeed` suffix on any subagent prompt. Idempotent with the marker — the suffix encodes the posture even when the skill isn't loaded.
-
-- **`godspeed-mode` skill** (`~/.claude/skills/godspeed-mode/SKILL.md`) — the **full behavioral directive** for `the-judge` (orchestrator) and `the-planner` (Phase 0 skeleton). Loads the velocity half (cheap stubs / catalog bootstrap / parallel batches / auto-recording / auto-frontier dominance), the filter half (antimetabolic Pareto constraint — improves ≥1 axis, harms none), operational constraints (no pre-specified goal, no "definition of done" mid-walk, suppress clarifying-question reflexes), and stop conditions (saturation or external boundary). Symlinks to `directive.md` / `filter.md` / `velocity.md` / `codex-AGENTS.md` live in the skill dir, sourced from the upstream repo cloned read-only at `/home/vhpnk/godspeed-mode/`. Canonical upstream: [VeigaPunk/godspeed-mode](https://github.com/VeigaPunk/godspeed-mode) — **READ-ONLY from our side, never edit / commit / push**; `git pull` into the clone is allowed (one-way consumer) and propagates through the symlinks automatically, but any proposed adaptation of the spec goes in OUR repo / memory, not upstream. Triggered when judge or planner operates in a godspeed-framed session; the judge's and planner's persona files load it via `Skill(skill="godspeed-mode")` on first turn when framing is detected.
-
-Teammates spawned via Agent() with the ` | godspeed` suffix still discover the universal `godspeed` skill at turn-start if listed in the session's skill manifest; the suffix alone still suffices when the skill isn't loaded. The canonical block now carries the same posture explicitly for shells and OpenCode. Only the-judge and the-planner load `godspeed-mode` — the other roles don't need the orchestrator-depth spec.
-
-Rationale: user directive 2026-04-17 — "opus is terrible for being the intermediator; make sure that all teammate (agent) dispatches inherit godspeed in their prompt in the purest form". The prior long "GODSPEED MODE (inherited from judge): You are a Godspeed-enabled subagent..." preamble burned reasoning cycles before the task even started. The marker replaces it; the skill makes it auto-surfacing at session scope.
+The judge may separately load judge-only filter and velocity material. Those
+files are never injected into a teammate prompt. Capacity is a separate stack
+contract: up to 64 concurrently spawned subagents, subject only to host
+availability, with no smaller local cap introduced by xbreed.
 
 ## Escalation: advisor() (Layer 0)
 
@@ -28,7 +36,7 @@ All sonnet teammates can call `advisor()` (CC-native, zero parameters) for in-se
 
 **When to use advisor():** Before committing to non-obvious architectural decisions, when stuck, when a finding contradicts a peer, or before declaring work complete.
 
-**advisor() vs xask:** advisor() is Layer 0 — it runs before and independently of the 4-layer xask gate. It is NOT cross-model delegation; it's in-session reasoning review. `xask claude` is deprecated (advisor() with Fable 5 Max supersedes it); use `xask codex` for contamination-controlled cross-model dispatch and `advisor()` for full-context reasoning escalation.
+**advisor() vs xask:** advisor() is Layer 0 — it runs before and independently of the 4-layer xask gate. It is NOT cross-model delegation; it's in-session reasoning review. `xask claude` is deprecated (advisor() with Fable 5 Max supersedes it); use `xask --gs codex` for contamination-controlled cross-model dispatch and `advisor()` for full-context reasoning escalation.
 
 Include in teammate briefs: `"You have access to advisor() — call it before substantive decisions for fable 5 max review of your full context. Zero parameters, blocks until response."`
 
@@ -117,7 +125,7 @@ construction. Skipping connector is a structural gap, not a speed optimization.
 | Documentation, audit trail | `scribe` | sonnet · medium | CC native | All |
 | Orchestration, arbitration | `the-judge` | **fable 5 · xhigh** (user directive 2026-06-07; model opus→fable 5 per 2026-07-04) | top-of-stack; dispatches specialists | All |
 
-**Local Gemma / HVM (g- prefix, 2026-07-21):** `xask gemma` (aliases `g`, legacy `gemini`) dispatches through `xbreed ask gemma` → `gemma-hvm` → `run.sh/run-hvm4.sh` → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama. Default model `gemma4:26b` via `HVM_GEMMA_MODEL`. Cloud Gemini CLI is retired — do not call the `gemini` binary. Connector and any `g-*` teammates MUST use this lane for cross-model breadth.
+**Local Gemma / HVM (g- prefix, 2026-07-21):** `xask --gs gemma` (aliases `g`, legacy `gemini`) dispatches through `xbreed ask gemma` → `gemma-hvm` → `run.sh/run-hvm4.sh` → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama. Default model `gemma4:26b` via `HVM_GEMMA_MODEL`. Cloud Gemini CLI is retired — do not call the `gemini` binary. Connector and any `g-*` teammates MUST use this lane for cross-model breadth.
 
 ## Enforcement Tiers
 
@@ -145,7 +153,7 @@ When proposing or evaluating any "enforcement" claim in xbreed (xask gate, deny-
 
 ## Naming Convention
 
-`{prefix}-{role}-{suffix}` where prefix = `ccs-` (Claude Sonnet), `cco-` (Claude Fable 5, effort: **xhigh** — LOCKED, user directive 2026-06-07; model opus→fable 5 per 2026-07-04), `cdx-` (Codex), `g-` (local Gemma via HVM — `xask gemma`). Cloud Gemini retired 2026-07-21; `g-` now means Gemma/HVM only.
+`{prefix}-{role}-{suffix}` where prefix = `ccs-` (Claude Sonnet), `cco-` (Claude Fable 5, effort: **xhigh** — LOCKED, user directive 2026-06-07; model opus→fable 5 per 2026-07-04), `cdx-` (Codex), `g-` (local Gemma via HVM — `xask --gs gemma`). Cloud Gemini retired 2026-07-21; `g-` now means Gemma/HVM only.
 
 Prefix signals where reasoning lives (the target model for xask delegation), not which CC runtime spawned the teammate. `cco-` is reserved for `the-judge` under the sonnet-medium pivot; the other prefixes route their primary reasoning to the named model.
 
@@ -154,12 +162,12 @@ Prefix signals where reasoning lives (the target model for xask delegation), not
 
 Any agent can spawn a labrat probe. Two paths:
 
-1. **Subagent spawn:** `Agent(subagent_type="labrat", name="cdx-labrat-<hypothesis>", model="sonnet", prompt="<probe> | godspeed")`
+1. **Subagent spawn:** `Agent(subagent_type="labrat", name="cdx-labrat-<hypothesis>", model="sonnet", prompt="<verbatim directive.md>\n\n<probe> | godspeed")`
 2. **Bash call:** `xask --spark --gs codex "<probe hypothesis>"` — gpt-5.3-codex-spark, fire-and-forget
 
 **Codex-spark is the sole labrat channel (user directive 2026-04-18).** No gemini labrat delegation. The gpt-5.3-codex-spark lane is fast, cheap, and expendable enough to be the complete labrat surface — both for single probes and in-model fanout.
 
-**Codex labrat swarm (universal):** Any agent can fire a codex-spark swarm via `xask codex "Orchestrate 10 parallel labrat probes on: <hypothesis>. Vary angle per probe. Report HYPOTHESIS/METHOD/RESULT."` — 1 call runs 10 probes inside codex-spark's context. Up to 3 refire rounds (30 probes total) — independent of judge rounds.
+**Codex labrat swarm (universal):** Any agent can fire a codex-spark swarm via `xask --gs codex "Orchestrate 10 parallel labrat probes on: <hypothesis>. Vary angle per probe. Report HYPOTHESIS/METHOD/RESULT."` — 1 call runs 10 probes inside codex-spark's context. Up to 3 refire rounds (30 probes total) — independent of judge rounds.
 
 ## Distiller Spawn Template
 
@@ -169,7 +177,7 @@ Agent(
   team_name="<team>",
   name="ccs-distiller",
   model="sonnet",
-  prompt="You are the distiller. Sonnet effort: medium (per feedback_sonnet_effort_tiers.md — synthesis is structural pattern-matching over peer outputs; sonnet medium is sufficient for spoof-checking, contradiction surfacing, consensus capping, and brief-error catching). Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag contradictions (cross-model if xask used, cross-teammate if all-Claude), assign confidence. Preserve each surviving move's `evidence:` field verbatim (see Pareto Filter Evidence Schema) — do not absorb into prose; the filter reads it post-synthesis. Apply opus-harness rigor: spoof-check cited file:line excerpts via literal-substring grep; cap single-prefix consensus at MED; upweight cross-model divergence. Use SYNTHESIS_READY mapping for judge consumption. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
+  prompt="<verbatim directive.md>\n\nYou are the distiller. Sonnet effort: medium (per feedback_sonnet_effort_tiers.md — synthesis is structural pattern-matching over peer outputs; sonnet medium is sufficient for spoof-checking, contradiction surfacing, consensus capping, and brief-error catching). Synthesize these N teammate proposals and peer critiques into one deduplicated, confidence-scored brief. <paste all proposals + DM critiques>. Deduplicate overlapping moves, flag contradictions (cross-model if xask used, cross-teammate if all-Claude), assign confidence. Preserve each surviving move's `evidence:` field verbatim (see Pareto Filter Evidence Schema) — do not absorb into prose; the filter reads it post-synthesis. Apply opus-harness rigor: spoof-check cited file:line excerpts via literal-substring grep; cap single-prefix consensus at MED; upweight cross-model divergence. Use SYNTHESIS_READY mapping for judge consumption. SendMessage your synthesis to the judge (team lead) when done. | godspeed"
 )
 ```
 
@@ -223,7 +231,7 @@ Record provisional Pareto verdicts against `move_id`s. Emit `EVIDENCE AUDIT` lin
 
 ### Source reveal (late-binding)
 
-After provisional scores are posted, the judge requests `SOURCE_MAP` from distiller via SendMessage. The map returns `move_id → source` (role + model prefix).
+After provisional scores are posted, the judge requests `SOURCE_MAP` from distiller via a task-bearing SendMessage composed as `<verbatim directive.md>\n\nReturn SOURCE_MAP. | godspeed`. The map returns `move_id → source` (role + model prefix).
 
 **Use the map ONLY for:**
 1. Contradiction routing (CONFLICTS block): which model said what.
@@ -249,7 +257,7 @@ Closes the structural-gap labrat R2 finding (SOURCE_MAP late-binding was prose-o
 
 **Step 3 — SOURCE_MAP reveal + verification:** Judge sends `SOURCE_MAP` request. Distiller returns the `{move_id, source_prefix}` map. Judge recomputes the hash from the returned map using the same serialization. Hashes match → provisional scores stand. Hashes diverge → round invalid, rerun from SYNTHESIS_READY.
 
-**Step 4 — Spot-check (closes false-attestation vector):** After SOURCE_MAP reveal, judge picks one random `move_id` and sends a direct `confirm_model` DM to the original proposer. If the proposer's self-reported model prefix contradicts the distiller's map, flag round as `SPOOF_SUSPECT` and route to reviewer BEFORE Pareto walk continues.
+**Step 4 — Spot-check (closes false-attestation vector):** After SOURCE_MAP reveal, judge picks one random `move_id` and sends a direct `confirm_model` DM to the original proposer, wrapped as `<verbatim directive.md>\n\nconfirm_model <move_id> | godspeed`. If the proposer's self-reported model prefix contradicts the distiller's map, flag round as `SPOOF_SUSPECT` and route to reviewer BEFORE Pareto walk continues.
 
 Hash-commit alone closes early-reveal; spot-check closes distiller fabrication. Both together bound the attack surface to colluding-team — outside the threat model under SendMessage-only infra.
 
@@ -284,13 +292,13 @@ DESPAWN: <agent-name> — signal delivered. Send me shutdown_request.
 
 ## Codex-Topic Dispatch
 
-For xbgst/xgs/xbt runs whose topic IS codex itself (defaults, flags, latency, routing, effort tiers, invocation shape), the judge MUST include at least one `cdx-*` prefix teammate in the Phase-1 roster whose reasoning layer is `xask codex`. Codex is the primary source on its own CLI surface. Not required for non-codex topics — topic-gated.
+For xbgst/xgs/xbt runs whose topic IS codex itself (defaults, flags, latency, routing, effort tiers, invocation shape), the judge MUST include at least one `cdx-*` prefix teammate in the Phase-1 roster whose reasoning layer is `xask --gs codex`. Codex is the primary source on its own CLI surface. Not required for non-codex topics — topic-gated.
 
 ## Round Limits
 
 - **Godspeed Pareto** (xgs, xbgst): 6 rounds max
 - **Deliberative** (xbt): 6 rounds max (sequential depth)
-- **Solo pipeline** (xbreed, xb): 12 sub-role dispatches max
+- **Solo pipeline** (xbreed, xb): ONE frozen-roster wave of up to 16 concurrent specialist dispatches (fleet convention "Host specialists <=16"); no lifetime dispatch budget — width is roster-gated, never trickle-dispatched
 - **Labrat Codex swarm**: 3 refire rounds (30 probes) — independent of judge rounds
 
 ## Exit Condition (strict, applies to xgs/xbgst/xbt)

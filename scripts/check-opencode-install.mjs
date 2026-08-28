@@ -8,7 +8,11 @@ import { fileURLToPath } from "node:url";
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const temporary = await mkdtemp(path.join(os.tmpdir(), "ds4cc-opencode-"));
-const CONCURRENCY_CEILING = "- **Concurrency ceiling.** Never have more than 16 concurrently spawned subagents.";
+const godspeedDirective = await readFile(
+  path.join(root, "marketplace", "plugins", "godspeed-core", "directive.md"),
+  "utf8",
+);
+const DISPATCH_CONTRACT = "Certified stack ceiling: <=64 concurrently spawned subagents. Effective availability is host-governed; this stack must not impose a smaller local cap.";
 
 try {
   const result = spawnSync(
@@ -36,10 +40,21 @@ try {
       throw new Error(`${filename}: invalid OpenCode frontmatter`);
     }
     modeCounts[actualMode] += 1;
+    const body = content.slice(frontmatter[0].length);
+    if (!body.startsWith(`\n${godspeedDirective}`)) {
+      throw new Error(`${filename}: quintessential Godspeed directive is not injected verbatim`);
+    }
     if (!content.includes("## OpenCode portability")) throw new Error(`${filename}: portability directive missing`);
     if (!content.includes("Godspeed is inherited.")) throw new Error(`${filename}: inherited Godspeed directive missing`);
     if (!content.includes("Delegation is transitive.")) throw new Error(`${filename}: transitive delegation directive missing`);
-    if (!content.includes(CONCURRENCY_CEILING)) throw new Error(`${filename}: 16-subagent concurrency ceiling missing`);
+    if (!content.includes(DISPATCH_CONTRACT)) throw new Error(`${filename}: certified 64-slot contract missing`);
+    if (content.includes("godspeed-impl")) throw new Error(`${filename}: obsolete Godspeed suffix variant present`);
+    if (/\b16(?:-slot| concurrently spawned subagents)|ceiling of 16\b/.test(content)) {
+      throw new Error(`${filename}: stale 16-slot ceiling present`);
+    }
+    if (!content.includes("append exactly one literal suffix ` | godspeed`")) {
+      throw new Error(`${filename}: terminal Godspeed suffix contract missing`);
+    }
     if (filename === "orch.md" && !content.includes("## OpenCode orch mode")) {
       throw new Error("orch.md: orchestration directive missing");
     }
@@ -63,11 +78,11 @@ try {
   await mkdir(fakeHome, { recursive: true });
   await writeFile(path.join(fakeHome, ".bashrc"), "user rc line\n", "utf8");
 
-  const globalRun = () =>
+  const globalRun = (extra = {}) =>
     spawnSync(
       process.execPath,
       [path.join(root, "scripts", "install-opencode-agents.mjs"), "--global"],
-      { encoding: "utf8", env: { ...inheritedEnv, HOME: fakeHome } },
+      { encoding: "utf8", env: { ...inheritedEnv, HOME: fakeHome }, ...extra },
     );
 
   const assertExaExport = async (expectedBytes) => {
@@ -75,7 +90,7 @@ try {
     if (!bashrc.includes("user rc line")) throw new Error("global install clobbered .bashrc user content");
     const exportCount = bashrc.split("\n").filter((line) => line === "export OPENCODE_ENABLE_EXA=1").length;
     if (exportCount !== 1) throw new Error(`expected exactly one OPENCODE_ENABLE_EXA export in .bashrc, found ${exportCount}`);
-    return expectedBytes === undefined ? true : bashrc === expectedBytes;
+    return expectedBytes === undefined ? bashrc : bashrc === expectedBytes;
   };
 
   if (globalRun().status !== 0) throw new Error("global installer run failed");

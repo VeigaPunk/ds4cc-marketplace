@@ -37,7 +37,7 @@ fn seed_old_events(team_dir: &std::path::Path, count: usize) {
             timestamp_ms: 1,
             from: format!("seed-old-{i}"),
             event_type: "seeded".to_string(),
-            payload: "payload".to_string(),
+            payload: serde_json::json!({"from": format!("seed-old-{i}"), "kind": "seeded", "body": "payload"}),
         };
         let mut line = serde_json::to_string(&event).unwrap();
         line.push('\n');

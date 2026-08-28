@@ -23,7 +23,7 @@ def canonical_plugin_versions(root: Path = ROOT) -> dict[str, str]:
     for path in sorted((root / "marketplace" / "plugins").glob("*/plugin.json")):
         manifest = json.loads(path.read_text(encoding="utf-8"))
         catalog[path.parent.name] = manifest["version"]
-    assert len(catalog) == 18
+    assert len(catalog) == 19
     return catalog
 
 
@@ -51,8 +51,15 @@ def read_index_plugins(path: Path = ROOT / "index.html") -> dict[str, str]:
     match = re.search(r"const\s+PLUGINS\s*=\s*\[(.*?)\];", text, re.S)
     assert match, "missing PLUGINS array"
     block = match.group(1)
-    entries = re.findall(r'{\s*n:\s*"([^"]+)"\s*,\s*v:\s*"([^"]+)"', block)
-    return {name: version for name, version in entries}
+    catalog = {}
+    for chunk in re.findall(r"\{[^{}]+\}", block):
+        if re.search(r'kind:\s*"page"', chunk):
+            continue
+        name = re.search(r'n:\s*"([^"]+)"', chunk)
+        version = re.search(r'v:\s*"([^"]+)"', chunk)
+        if name and version:
+            catalog[name.group(1)] = version.group(1)
+    return catalog
 
 
 class MarketplaceCatalogDriftTests(unittest.TestCase):
@@ -164,7 +171,7 @@ class MarketplaceCatalogDriftTests(unittest.TestCase):
         compact_ssot = compact(ssot_text)
 
         self.assertIn(compact("planner wwkd · native"), compact(" ".join(gate_lines)))
-        self.assertIn(compact("scout / labrat / executor xask --spark --gs codex → gpt-5.4-mini"), compact(" ".join(gate_lines)))
+        self.assertIn(compact("scout / labrat / executor xask --spark --gs codex → gpt-5.3-codex-spark"), compact(" ".join(gate_lines)))
         normalized_gates = compact(" ".join(gate_lines))
         critic_route = compact("critic Layer-0: heuer-planning → xask --gpt55 --gs -e low codex → gpt-5.6-sol")
         self.assertIn(critic_route, normalized_gates)
@@ -173,14 +180,14 @@ class MarketplaceCatalogDriftTests(unittest.TestCase):
             normalized_gates.index("xask --gpt55 --gs -e low codex", normalized_gates.index("critic")),
         )
         self.assertIn(compact("revenger RECON xask --gpt55 --gs -e high codex → gpt-5.6-sol"), compact(" ".join(gate_lines)))
-        self.assertIn(compact("connector xask --spark codex · no --gs"), compact(" ".join(gate_lines)))
+        self.assertIn(compact("connector xask --spark --gs codex → gpt-5.3-codex-spark"), compact(" ".join(gate_lines)))
         self.assertIn(compact("mutation: single / <=4 xask --spark --gs codex"), compact(" ".join(gate_lines)))
         self.assertIn(compact("mutation: >=5 / breadth xask --effort high --gs codex"), compact(" ".join(gate_lines)))
         self.assertIn(compact("distiller / simplifier / scribe native"), compact(" ".join(gate_lines)))
 
         compact_lanes = compact(lanes.replace("<code>", " ").replace("</code>", " "))
         required_hvm4_route_markers = (
-            "xask gemma",
+            "xask --gs gemma",
             "xbreed ask gemma",
             "gemma-hvm",
             "run.sh/run-hvm4.sh",

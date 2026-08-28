@@ -16,3 +16,5 @@ __pycache__/
 /artifacts/
 
 # Reproducible Kimi plugin packages are tracked so GitHub Pages serves installable ZIPs.
+.vercel
+.env*

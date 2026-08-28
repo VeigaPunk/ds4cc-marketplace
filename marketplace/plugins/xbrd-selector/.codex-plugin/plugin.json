@@ -5,6 +5,7 @@
   "author": {
     "name": "VeigaPunk"
   },
+  "skills": "./skills/",
   "interface": {
     "displayName": "Xbrd Selector (VeigaPunk)",
     "shortDescription": "Model selection and dispatch helper workflows",

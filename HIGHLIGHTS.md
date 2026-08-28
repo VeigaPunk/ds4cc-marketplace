@@ -6,14 +6,14 @@
 
 ## What changed
 
-### From docs-only to actionable — all 18 plugins
+### From docs-only to actionable — all 19 plugins
 
 Every plugin under `marketplace/plugins/` ships a `SKILL.md` with real, copy-pasteable commands. Validation _rejects_ boilerplate ("Read the README…") and only accepts files that contain:
 
 - A fenced code block (` ``` `), or
 - A line starting with `$`, `codex`, `cargo`, `node`, `bash`, `./`, or `npx`
 
-**SSoT catalog (18 plugin directories):**
+**SSoT catalog (19 plugin directories):**
 
 | Plugin | Role (short) |
 |---|---|
@@ -26,6 +26,7 @@ Every plugin under `marketplace/plugins/` ships a `SKILL.md` with real, copy-pas
 | `myagents` | Browse/copy user agent templates |
 | `mycommands` | Reusable shell command packs |
 | `myskills` | Discoverable skill workflows |
+| `punk-records-brain` | Vegapunk multi-personality round table |
 | `sekhmet` | Host/orchestration docs (Titanium-adjacent) |
 | `spoderman` | Hook / injection research harness |
 | `the-almanacker` | NotebookLM adapter |
@@ -55,6 +56,7 @@ Every plugin under `marketplace/plugins/` ships a `SKILL.md` with real, copy-pas
 | `myagents` | `codex "Use the executor profile to implement the failing test"` |
 | `mycommands` | `codex "Use the installed command pack for this task"` |
 | `myskills` | Open the Codex TUI and use `/skills` |
+| `punk-records-brain` | `Skill(skill="punk-records-brain")` |
 | `ds4cc` | `codex plugin marketplace add VeigaPunk/ds4cc-marketplace` |
 
 ---
@@ -178,18 +180,18 @@ ds4cc-validator .               # canonical: reads .agents/plugins/marketplace.j
 
 The validator's `validate_marketplace_dir(root)` auto-detects which layout is present (legacy first, then canonical) and resolves all plugin paths relative to `root`.
 
-### Real probes (install all 18)
+### Real probes (install all 19)
 
 ```bash
 # Register the ds4cc marketplace
 codex plugin marketplace add .
 # → Added marketplace `ds4cc` from the local clone.
 
-# Install all 18 plugins (names match marketplace/plugins/*)
+# Install all 19 plugins (names match marketplace/plugins/*)
 for plugin in aaronplug ds4cc godspeed-codex-command godspeed-core \
               heuer-planning infinizoom myagents mycommands myskills \
-              sekhmet spoderman the-almanacker the-kimiraikoner \
-              the-musketeer the-netsshark the-puppeteer \
+              punk-records-brain sekhmet spoderman the-almanacker \
+              the-kimiraikoner the-musketeer the-netsshark the-puppeteer \
               xbrd-gdsp-fknpft xbrd-selector; do
   codex plugin add "${plugin}@ds4cc"
 done
@@ -197,7 +199,7 @@ done
 
 # Confirm
 codex plugin list | grep "@ds4cc"
-# All 18 show: installed and enabled at their manifest versions
+# All 19 show: installed and enabled at their manifest versions
 ```
 
 Do **not** `codex plugin add agent-wall@ds4cc` or `agent-pip@ds4cc` — those are not catalog plugins.
@@ -211,8 +213,8 @@ ds4cc-marketplace/
 ├── .agents/plugins/
 │   └── marketplace.json          ← canonical Codex layout (name: "ds4cc", paths: ./marketplace/plugins/<name>)
 ├── marketplace/
-│   ├── marketplace.json          ← web/CI layout (18 plugins, paths: ./plugins/<name>)
-│   ├── plugins/<name>/           ← 18 plugin directories (SSoT)
+│   ├── marketplace.json          ← web/CI layout (19 plugins, paths: ./plugins/<name>)
+│   ├── plugins/<name>/           ← 19 plugin directories (SSoT)
 │   │   ├── .codex-plugin/
 │   │   │   └── plugin.json       ← manifest: name, version, interface, capabilities
 │   │   ├── skills/<name>/
@@ -257,7 +259,7 @@ codex plugin add sekhmet@ds4cc
 
 ## Apps SDK vs full marketplace
 
-- **Public Git marketplace:** 18 plugins under `marketplace/plugins/`.
+- **Public Git marketplace:** 19 plugins under `marketplace/plugins/`.
 - **OpenAI Apps SDK app (`apps-sdk/`, `app.ds4cc.com`):** reviewed **five-plugin** allowlist only — not the full catalog.
 
 ---
@@ -271,7 +273,7 @@ codex plugin add sekhmet@ds4cc
 | `marketplace/validator/src/lib.rs` | Dual-path convention support |
 | `marketplace/validator/src/main.rs` | `validate_marketplace_dir()` auto-detect |
 | `marketplace/validator/tests/integration_test.rs` | Layout + CLI + FNM gates |
-| `HIGHLIGHTS.md` | Catalog accuracy (18 plugins; no agent-wall install loop) |
+| `HIGHLIGHTS.md` | Catalog accuracy (19 plugins; no agent-wall install loop) |
 
 ## Adapter release 2026-08-06
 
