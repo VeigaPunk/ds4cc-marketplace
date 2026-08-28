@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>xask delegate — XBGST</title>
+  <meta name="description" content="Compose a provider-aware xask delegation plan across ChatGPT, Grok, Token Plan, and local HVM models." />
+  <meta name="theme-color" content="#0c0c0b" />
+  <link rel="canonical" href="https://ds4cc.com/burnerchrome/delegate.html" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="preload" href="fonts/JetBrainsMonoNLNerdFontMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/JetBrainsMonoNLNerdFontMono-Medium.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="assets/styles.css" />
+  <link rel="stylesheet" href="assets/delegate.css" />
+</head>
+<body>
+  <a class="skip" href="#content">Skip to delegation controls</a>
+  <header class="top">
+    <div class="navwrap">
+      <a class="brand" href="index.html">
+        <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true">
+          <path d="M6 26 L26 6"/><path d="M10 6 L22 26"/><path d="M26 18 L6 14"/><path d="M16 4 L16 28"/>
+        </svg>
+        <span>XBGST</span>
+      </a>
+      <nav class="desk" aria-label="Primary navigation">
+        <a href="https://ds4cc.com/">ds4cc.com</a>
+        <a class="on" href="delegate.html">Delegate</a>
+        <a href="family.html">Family</a>
+        <a href="install.html">Install</a>
+        <a href="marketplace.html">DS4CC</a>
+      </nav>
+      <button class="burger" type="button" data-burger aria-expanded="false" aria-label="Open menu">☰</button>
+    </div>
+    <div class="mob" data-mob>
+      <a href="https://ds4cc.com/">ds4cc.com</a>
+      <a href="delegate.html">Delegate</a>
+      <a href="family.html">Family</a>
+      <a href="install.html">Install</a>
+      <a href="marketplace.html">DS4CC</a>
+    </div>
+  </header>
+
+  <main id="content">
+    <section class="band delegate-hero">
+      <div class="wrap">
+        <div class="delegate-heading">
+          <div>
+            <p class="eyebrow">XBGST · XASK ROUTER</p>
+            <h1 class="hero">Choose the mind. Set the burn.</h1>
+            <p class="lede">Resolve provider, model, substrate, effort, and service tier into one shell-safe xask plan. Canonical Godspeed is always attached; the catalog stays the source of truth.</p>
+          </div>
+          <div class="delegate-mode" aria-label="Artifact mode">
+            <span class="status-light" aria-hidden="true"></span>
+            <span>Standalone planner</span>
+            <strong>copy only</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band">
+      <form class="wrap delegate-form" id="delegate-form" novalidate>
+        <fieldset class="plain-fieldset provider-fieldset">
+          <legend>
+            <span class="step-index">01</span>
+            <span>Provider</span>
+          </legend>
+          <div class="provider-grid" data-provider-options aria-describedby="catalog-meta">
+            <p class="card muted" data-catalog-loading>Loading the xask model catalog…</p>
+          </div>
+          <p class="field-note" id="catalog-meta" data-catalog-meta aria-live="polite">Reading the normalized catalog.</p>
+        </fieldset>
+
+        <div class="delegate-layout">
+          <div class="delegate-controls">
+            <section class="card control-card" aria-labelledby="model-heading">
+              <div class="control-heading">
+                <span class="step-index">02</span>
+                <div>
+                  <h2 class="md" id="model-heading">Model</h2>
+                  <p class="sm muted">Filtered by the active provider.</p>
+                </div>
+              </div>
+              <label class="select-label" for="model-select">Model catalog entry</label>
+              <div class="select-shell">
+                <select id="model-select" name="model" disabled>
+                  <option>Waiting for catalog</option>
+                </select>
+                <span aria-hidden="true">⌄</span>
+              </div>
+              <p class="field-note" data-model-note>Model availability comes from the most recent local export.</p>
+            </section>
+
+            <section class="card control-card" aria-labelledby="substrate-heading">
+              <div class="control-heading">
+                <span class="step-index">03</span>
+                <div>
+                  <h2 class="md" id="substrate-heading">Substrate</h2>
+                  <p class="sm muted">Stock lane or isolated Sekhmet L3.</p>
+                </div>
+              </div>
+              <fieldset class="plain-fieldset segment-fieldset">
+                <legend class="visually-hidden">Execution substrate</legend>
+                <div class="segment-grid segment-grid-2">
+                  <label class="segment-option">
+                    <input type="radio" name="substrate" value="stock" checked />
+                    <span><strong>Stock</strong><small>direct provider lane</small></span>
+                  </label>
+                  <label class="segment-option">
+                    <input type="radio" name="substrate" value="sekhmet" />
+                    <span><strong>Sekhmet</strong><small>L3 isolated worker</small></span>
+                  </label>
+                </div>
+              </fieldset>
+              <p class="field-note" data-substrate-note>Stock uses the provider's native xask route.</p>
+            </section>
+
+            <section class="card control-card" aria-labelledby="effort-heading">
+              <div class="control-heading">
+                <span class="step-index">04</span>
+                <div>
+                  <h2 class="md" id="effort-heading">Effort</h2>
+                  <p class="sm muted">Only levels advertised by the model.</p>
+                </div>
+              </div>
+              <fieldset class="plain-fieldset segment-fieldset">
+                <legend class="visually-hidden">Reasoning effort</legend>
+                <div class="effort-grid" data-effort-options></div>
+              </fieldset>
+              <p class="field-note" data-effort-note>Choose a model to resolve compatible effort levels.</p>
+            </section>
+
+            <section class="card control-card" aria-labelledby="tier-heading">
+              <div class="control-heading">
+                <span class="step-index">05</span>
+                <div>
+                  <h2 class="md" id="tier-heading">Tier + protocol</h2>
+                  <p class="sm muted">Request tier stays model-compatible.</p>
+                </div>
+              </div>
+              <fieldset class="plain-fieldset segment-fieldset tier-fieldset">
+                <legend class="visually-hidden">Service tier</legend>
+                <div class="segment-grid segment-grid-2">
+                  <label class="segment-option">
+                    <input type="radio" name="service-tier" value="default" checked />
+                    <span><strong>Default</strong><small>standard service</small></span>
+                  </label>
+                  <label class="segment-option">
+                    <input type="radio" name="service-tier" value="fast" />
+                    <span><strong>Fast</strong><small>priority service</small></span>
+                  </label>
+                </div>
+              </fieldset>
+              <p class="field-note" data-tier-note>Fast tier support depends on the selected model.</p>
+              <div class="toggle-row invariant-row" role="note">
+                <span>
+                  <strong>Canonical Godspeed invariant</strong>
+                  <small>Load <code>directive.md</code>; end the delegated task once with <code>| godspeed</code>.</small>
+                </span>
+                <span class="invariant-pill">required</span>
+              </div>
+            </section>
+
+            <section class="card control-card task-card" aria-labelledby="task-heading">
+              <div class="control-heading">
+                <span class="step-index">06</span>
+                <div>
+                  <h2 class="md" id="task-heading">Delegation</h2>
+                  <p class="sm muted">Describe the bounded question or job.</p>
+                </div>
+              </div>
+              <label class="select-label" for="task-input">Task</label>
+              <textarea id="task-input" name="task" rows="6" spellcheck="true">Review the current workspace and return the highest-leverage next step.</textarea>
+              <p class="field-note"><span data-task-count>71</span> characters · preserved as one shell argument.</p>
+            </section>
+          </div>
+
+          <aside class="route-panel" aria-labelledby="resolved-heading">
+            <div class="chrome route-chrome">
+              <div class="dots">
+                <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+                <span class="xs subtle">xask · dry plan</span>
+              </div>
+              <div class="route-pane">
+                <div class="route-title-row">
+                  <div>
+                    <p class="eyebrow">Resolved route</p>
+                    <h2 class="md" id="resolved-heading" data-route-heading>Waiting for catalog</h2>
+                  </div>
+                  <span class="badge warn" data-route-status>loading</span>
+                </div>
+                <dl class="route-details">
+                  <div><dt>provider</dt><dd data-route-provider>—</dd></div>
+                  <div><dt>model</dt><dd data-route-model>—</dd></div>
+                  <div><dt>substrate</dt><dd data-route-substrate>—</dd></div>
+                  <div><dt>effort</dt><dd data-route-effort>—</dd></div>
+                  <div><dt>tier</dt><dd data-route-tier>—</dd></div>
+                  <div><dt>protocol</dt><dd data-route-protocol>standard</dd></div>
+                </dl>
+                <div class="route-message" role="status" aria-live="polite" data-route-message>
+                  Loading compatibility data.
+                </div>
+              </div>
+            </div>
+
+            <div class="copy command-copy">
+              <div class="copyhead">
+                <span>shell-safe plan · does not execute</span>
+                <button type="button" data-copy-plan disabled>Copy plan</button>
+              </div>
+              <pre><code id="delegate-command" data-command>xask plan …</code></pre>
+            </div>
+            <p class="plan-boundary"><strong>Browser boundary.</strong> This page never invokes your local CLI or sends the task anywhere. It only composes an <code>xask plan</code> command for you to copy and inspect.</p>
+          </aside>
+        </div>
+      </form>
+    </section>
+
+    <section class="band compatibility-band" aria-labelledby="compatibility-heading">
+      <div class="wrap">
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">Catalog matrix</p>
+            <h2 class="sec" id="compatibility-heading">Model compatibility</h2>
+          </div>
+          <p class="sm muted">Reserved entries stay visible here even when excluded from the picker.</p>
+        </div>
+        <div class="tablewrap compatibility-table" tabindex="0" aria-label="Scrollable model compatibility table">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Provider</th>
+                <th scope="col">Model</th>
+                <th scope="col">Route</th>
+                <th scope="col">Effort</th>
+                <th scope="col">Tier</th>
+                <th scope="col">Substrate</th>
+                <th scope="col">Export</th>
+              </tr>
+            </thead>
+            <tbody data-compatibility-body>
+              <tr><td colspan="7" class="muted">Loading catalog…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bot">
+    <div class="foot">
+      <div>
+        <h2>Plan here. Dispatch deliberately.</h2>
+        <p>Provider-aware routing from the normalized xask catalog. WWKD chooses the shape; XBGST carries the work.</p>
+      </div>
+      <div class="flinks">
+        <a href="install.html">Install</a>
+        <a href="marketplace.html">Marketplace</a>
+        <a href="https://github.com/VeigaPunk/ds4cc-marketplace">source</a>
+      </div>
+    </div>
+  </footer>
+
+  <noscript><p class="noscript">JavaScript is required to read the xask catalog and compose a plan.</p></noscript>
+  <script src="assets/app.js"></script>
+  <script src="assets/delegate.js"></script>
+</body>
+</html>

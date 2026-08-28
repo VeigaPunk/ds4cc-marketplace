@@ -52,9 +52,9 @@
           <span class="badge ok">Blocks until Copy capture</span>
         </div>
       </div>
-      <p class="lede">xAI&#x27;s API meters credits. SuperGrok already pays for an unmetered web-UI entitlement — Expert, Heavy, Imagine, Automations — that no official CLI fully exposes.</p>
-      <p class="muted" style="margin-top:1rem;max-width:36rem">Attaches to the family Chrome, finds or opens a grok.com tab, types the prompt, waits for streaming to finish, then captures Grok&#x27;s own Copy button via navigator.clipboard.writeText. Returns verbatim formatting, not a scraped DOM dump.</p>
-      <p class="sm subtle" style="margin-top:1rem;max-width:36rem">If the official Grok Build CLI already owns the grok command, use grok-web. The installer still ships a grok symlink when that name is free.</p>
+      <p class="lede">xAI&#x27;s API meters credits. SuperGrok already pays for an unmetered web-UI entitlement — Expert and Heavy included — that no official CLI fully exposes.</p>
+      <p class="muted" style="margin-top:1rem;max-width:36rem">Attaches to the family Chrome, opens a fresh grok.com tab by default (--follow-up attaches to an existing chat tab), types the prompt, waits for streaming to finish, then captures Grok&#x27;s own Copy button via navigator.clipboard.writeText. Returns verbatim formatting, not a scraped DOM dump.</p>
+      <p class="sm subtle" style="margin-top:1rem;max-width:36rem">The installer symlinks the bridge as grok. When the official Grok Build CLI owns the grok command, run the bridge as grok-web — same script, alias name.</p>
       <p style="margin-top:2rem"><a class="u sm" href="https://github.com/VeigaPunk/the-musketeer">VeigaPunk/the-musketeer ↗</a></p>
       <section style="margin-top:3rem">
         <h2 class="sec">Commands</h2>
@@ -64,16 +64,19 @@
 </div></div><div style="margin-top:1rem"><div class="copy">
   <div class="copyhead"><span>Expert mode, long wait</span><button type="button" data-copy="musketeer-c1">Copy</button></div>
   <pre><code id="musketeer-c1">GROK_MODE=Expert GROK_WAIT_CEILING_S=240 grok-web &quot;architecture review of this design&quot;</code></pre>
+</div></div><div style="margin-top:1rem"><div class="copy">
+  <div class="copyhead"><span>Continue an existing chat</span><button type="button" data-copy="musketeer-c2">Copy</button></div>
+  <pre><code id="musketeer-c2">grok-web --follow-up &quot;now stress-test assumption two&quot;</code></pre>
 </div></div>
       </section>
       <section class="grid2" style="margin-top:3rem">
         <div>
           <h2 class="sec">Limits</h2>
-          <ul class="sm muted" style="margin-top:1rem"><li>Reuses the open grok.com tab — pin a dedicated tab if you want isolation from manual chats.</li><li>Default wait ceiling is 90s. Raise GROK_WAIT_CEILING_S for Expert or Heavy.</li><li>Selectors are Grok-UI-specific and will need updates after a redesign.</li><li>Do not retry on timeout from an orchestrator — SuperGrok rate limits punish re-submits.</li></ul>
+          <ul class="sm muted" style="margin-top:1rem"><li>Default opens a fresh chat tab per call, isolated from manual chats. --follow-up continues an existing grok.com/c/ tab, preferring the active one.</li><li>Default wait ceiling is 90s. Raise GROK_WAIT_CEILING_S for Expert or Heavy.</li><li>Selectors are Grok-UI-specific and will need updates after a redesign.</li><li>Do not retry on timeout from an orchestrator — SuperGrok rate limits punish re-submits.</li></ul>
         </div>
         <div>
           <h2 class="sec">Flags and env</h2>
-          <ul style="list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:0.5rem"><li class="card xs" style="padding:0.5rem 0.75rem">GROK_MODE=Auto|Fast|Expert|Heavy</li><li class="card xs" style="padding:0.5rem 0.75rem">GROK_WAIT_CEILING_S</li></ul>
+          <ul style="list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:0.5rem"><li class="card xs" style="padding:0.5rem 0.75rem">GROK_MODE=Auto|Fast|Expert|Heavy</li><li class="card xs" style="padding:0.5rem 0.75rem">GROK_WAIT_CEILING_S</li><li class="card xs" style="padding:0.5rem 0.75rem">--follow-up (-f)</li></ul>
         </div>
       </section>
       <nav class="row" style="margin-top:3.5rem;border-top:1px solid var(--border);padding-top:2rem"><a class="btn ghost" href="puppeteer.html">The Puppeteer</a><a class="btn ghost" href="kimiraikkoner.html">The Kimi Räikkönen</a><a class="btn ghost" href="almanacker.html">The Almanacker</a></nav>

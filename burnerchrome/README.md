@@ -22,7 +22,7 @@ Typeface is **JetBrainsMonoNL Nerd Font Mono** (no ligatures) for every surface.
 
 Playwright is a **CI test runner**. It is not a standing agent browser. Headless Chromium fails Turnstile. `storageState.json` is cookie export. Daily-profile attach is how you lose the whole session. Each step ships 50–100k tokens of DOM into the model. You do not need a Node fixture farm for SuperGrok / ChatGPT Pro / NotebookLM Studio when **one burner Chrome** already has the OAuth.
 
-**Use instead:** `musketeer-chrome` (isolated `--user-data-dir`, CDP `127.0.0.1:9222`) + **`agent-browser --cdp 9222`** (~2k-token a11y snapshots) + the four family CLIs.
+**Use instead:** `musketeer-chrome` (isolated `--user-data-dir`, profile `Profile 1`, CDP `127.0.0.1:9222`) + **`agent-browser --cdp 9222`** (~2k-token a11y snapshots) + the four family CLIs.
 
 Keep Playwright in the test job. Do not put it on the agent.
 

@@ -42,7 +42,7 @@
       <a class="sm muted u" href="../family.html">← Family</a>
       <div style="margin-top:1.5rem;display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem">
         <div>
-          <p class="eyebrow">notebook.google.com</p>
+          <p class="eyebrow">notebooklm.google.com</p>
           <h1 class="hero">The Almanacker</h1>
           <p class="muted" style="margin-top:0.5rem">NotebookLM studio</p>
         </div>
@@ -70,16 +70,19 @@
 </div></div><div style="margin-top:1rem"><div class="copy">
   <div class="copyhead"><span>Report</span><button type="button" data-copy="almanacker-c3">Copy</button></div>
   <pre><code id="almanacker-c3">almanack studio report study-guide &quot;condense the sources into a briefing&quot;</code></pre>
+</div></div><div style="margin-top:1rem"><div class="copy">
+  <div class="copyhead"><span>Notebook chat</span><button type="button" data-copy="almanacker-c4">Copy</button></div>
+  <pre><code id="almanacker-c4">almanack chat &quot;summarize the sources so far&quot;</code></pre>
 </div></div>
       </section>
       <section class="grid2" style="margin-top:3rem">
         <div>
           <h2 class="sec">Limits</h2>
-          <ul class="sm muted" style="margin-top:1rem"><li>No response retrieval — chat replies and studio artifacts stay in the web UI.</li><li>When several notebook tabs are open, the active tab wins. There is no --notebook flag yet.</li><li>Uploads bypass the native picker via a click hook; a File System Access API change would break that path.</li><li>Studio matching is locale-bound.</li></ul>
+          <ul class="sm muted" style="margin-top:1rem"><li>No response retrieval — chat replies and studio artifacts stay in the web UI.</li><li>Exactly one notebook tab must be open — zero or multiple matches fail explicitly. The driver-reported active field never breaks ties.</li><li>Uploads bypass the native picker via a click hook; a File System Access API change would break that path.</li><li>Studio matching is locale-bound.</li></ul>
         </div>
         <div>
           <h2 class="sec">Flags and env</h2>
-          <ul style="list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:0.5rem"><li class="card xs" style="padding:0.5rem 0.75rem">studio audio &lt;deep-dive|brief|critique|debate&gt;</li><li class="card xs" style="padding:0.5rem 0.75rem">studio report &lt;from-scratch|summary|study-guide|blog&gt;</li><li class="card xs" style="padding:0.5rem 0.75rem">ALMANACK_LOCALE=pt-BR</li></ul>
+          <ul style="list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:0.5rem"><li class="card xs" style="padding:0.5rem 0.75rem">studio audio &lt;deep-dive|brief|critique|debate&gt;</li><li class="card xs" style="padding:0.5rem 0.75rem">studio report &lt;from-scratch|summary|study-guide|blog&gt;</li><li class="card xs" style="padding:0.5rem 0.75rem">ALMANACK_LOCALE=pt-BR</li><li class="card xs" style="padding:0.5rem 0.75rem">studio infographic [--style …]</li></ul>
         </div>
       </section>
       <nav class="row" style="margin-top:3.5rem;border-top:1px solid var(--border);padding-top:2rem"><a class="btn ghost" href="musketeer.html">The Musketeer</a><a class="btn ghost" href="puppeteer.html">The Puppeteer</a><a class="btn ghost" href="kimiraikkoner.html">The Kimi Räikkönen</a></nav>

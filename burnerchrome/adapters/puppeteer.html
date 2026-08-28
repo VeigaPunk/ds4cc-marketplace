@@ -54,7 +54,7 @@
       </div>
       <p class="lede">GPT-5.4-Pro extended thinking and Deep Research live only on the authenticated chatgpt.com surface. Codex CLI cannot target them.</p>
       <p class="muted" style="margin-top:1rem;max-width:36rem">Drops a prompt into your signed-in ChatGPT tab and exits. Does not poll or scrape the reply — Pro Extended and Deep Research run for minutes to hours. You read the answer in the tab.</p>
-      <p class="sm subtle" style="margin-top:1rem;max-width:36rem">chitchat needs node on PATH (fnm is the documented host). Prompts over --stdin keep payload out of process arguments.</p>
+      <p class="sm subtle" style="margin-top:1rem;max-width:36rem">chitchat needs agent-browser on PATH (fnm is the documented host). It types the prompt into #prompt-textarea, presses Enter, verifies the user-turn count incremented, and exits.</p>
       <p style="margin-top:2rem"><a class="u sm" href="https://github.com/VeigaPunk/the-puppeteer">VeigaPunk/the-puppeteer ↗</a></p>
       <section style="margin-top:3rem">
         <h2 class="sec">Commands</h2>
@@ -65,8 +65,8 @@
   <div class="copyhead"><span>Deep Research</span><button type="button" data-copy="puppeteer-c1">Copy</button></div>
   <pre><code id="puppeteer-c1">chitchat --model pro --deep-research &quot;Survey post-quantum crypto 2026&quot;</code></pre>
 </div></div><div style="margin-top:1rem"><div class="copy">
-  <div class="copyhead"><span>Stdin, no argv leak</span><button type="button" data-copy="puppeteer-c2">Copy</button></div>
-  <pre><code id="puppeteer-c2">printf &#x27;%s&#x27; &quot;Research-grade prompt&quot; | chitchat --stdin --model pro</code></pre>
+  <div class="copyhead"><span>Web search mode</span><button type="button" data-copy="puppeteer-c2">Copy</button></div>
+  <pre><code id="puppeteer-c2">chitchat --web-search &quot;Current Chrome Dev version&quot;</code></pre>
 </div></div>
       </section>
       <section class="grid2" style="margin-top:3rem">
@@ -76,7 +76,7 @@
         </div>
         <div>
           <h2 class="sec">Flags and env</h2>
-          <ul style="list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:0.5rem"><li class="card xs" style="padding:0.5rem 0.75rem">--model pro|thinking|instant</li><li class="card xs" style="padding:0.5rem 0.75rem">--deep-research</li><li class="card xs" style="padding:0.5rem 0.75rem">--web-search</li><li class="card xs" style="padding:0.5rem 0.75rem">--image</li><li class="card xs" style="padding:0.5rem 0.75rem">--stdin</li></ul>
+          <ul style="list-style:none;padding:0;margin:1rem 0 0;display:grid;gap:0.5rem"><li class="card xs" style="padding:0.5rem 0.75rem">--model pro|thinking|instant</li><li class="card xs" style="padding:0.5rem 0.75rem">--deep-research</li><li class="card xs" style="padding:0.5rem 0.75rem">--web-search</li><li class="card xs" style="padding:0.5rem 0.75rem">--image</li></ul>
         </div>
       </section>
       <nav class="row" style="margin-top:3.5rem;border-top:1px solid var(--border);padding-top:2rem"><a class="btn ghost" href="musketeer.html">The Musketeer</a><a class="btn ghost" href="kimiraikkoner.html">The Kimi Räikkönen</a><a class="btn ghost" href="almanacker.html">The Almanacker</a></nav>
