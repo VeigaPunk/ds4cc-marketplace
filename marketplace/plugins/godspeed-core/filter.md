@@ -15,6 +15,7 @@ A directive that names two competing axes and instructs the executor to optimize
 **Antimetabole** — the specific case where the *same words* get repeated in reversed positions. The repetition makes the symmetry explicit.
 
 Canonical examples:
+
 - "Ask not what your country can do for you; ask what you can do for your country." (JFK)
 - "We do not stop playing because we grow old; we grow old because we stop playing." (Shaw)
 
