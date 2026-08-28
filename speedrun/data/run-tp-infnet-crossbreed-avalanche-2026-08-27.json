@@ -65,7 +65,8 @@
         "review_model": "gpt-5.6-sol (OpenAI OAuth, review-only via --codex)",
         "wave": "W (web)",
         "window_close": "~2026-08-28T00:56Z",
-        "disclosure_note": "data/artifacts/ledger-disclosure-convention-2026-08-27.md"
+        "disclosure_note": "data/artifacts/ledger-disclosure-convention-2026-08-27.md",
+        "used_percent": 30.8529
     },
     "snapshot": {
         "ts": "2026-08-28T00:05:01Z",
