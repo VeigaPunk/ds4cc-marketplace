@@ -253,7 +253,7 @@ function renderLiveStrip(run, curve) {
     const mintRow = el("live-mint-burn")?.closest(".pace-row");
     if (mintRow) mintRow.innerHTML = `offpeak window <strong>~2h</strong> <span class="muted">2026-08-27 22:56Z → ~00:56Z · Token Plan low-TPS lanes</span>`;
     const savedRow = el("live-total-saved")?.closest(".pace-row");
-    if (savedRow) savedRow.innerHTML = `budget <strong>Token Plan pro (paid)</strong> <span class="muted">fresh third key · no usage-limit 5h · L0 kimi dispatch tax only</span>`;
+    if (savedRow) savedRow.innerHTML = `budget <strong><a href="https://www.alibabacloud.com/campaign/benefits?referral_code=A927SY" target="_blank" rel="sponsored nofollow noopener">Token Plan pro (paid)</a></strong> <span class="muted">fresh third key · no usage-limit 5h · L0 kimi dispatch tax only · benefits link is a referral (A927SY, disclosed)</span>`;
   }
   if (isCursor) {
     el("live-metrics").innerHTML = `
