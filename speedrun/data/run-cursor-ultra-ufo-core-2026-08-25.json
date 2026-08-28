@@ -6,12 +6,13 @@
   "provider": "Cursor / Anysphere",
   "product": "Cursor Ultra OAuth \u00b7 $99 minted sub \u00b7 cloud agents (website)",
   "budget_usd": 99,
-  "budget_note": "Paid this mint: $99 Cursor Ultra OAuth (gravy train). Second Ultra: $199 Cursor Ultra. SuperGrok Heavy alone ~$300 list \u2014 grant (incl. for free). Grok bot totally free. X Premium+ (giver). Fail-as-data: Kimi K3 Max usage-limit receipts $1497 / $1515 API savings. Closeout PRIMARY: wall_cap \u22651440m (24h) on ufo-fsd-alpha; secondary \u226597% included pretend-100. Harvest mode: no idle wakes; L1+linked emit NEXT handoff.",
+  "budget_note": "Paid this mint: $99 Cursor Ultra OAuth (gravy train). Second Ultra: $199 Cursor Ultra. SuperGrok Heavy alone ~$300 list \u2014 grant (incl. for free). Grok bot totally free. X Premium+ (giver). Fail-as-data: Kimi K3 Max usage-limit receipts $1497 / $1515 / $3570 API savings. Closeout PRIMARY: wall_cap \u22651440m (24h) on ufo-fsd-alpha; secondary \u226597% included pretend-100. Harvest mode: no idle wakes; L1+linked emit NEXT handoff.",
   "currency": "USD",
   "status": "closed",
-  "duration": "closed \u00b7 24h wall \u00b7 79.0% included final \u00b7 swarm 21 fin / 7 err \u00b7 0 running",
+  "duration": "complete burn · 48h mint→monthly included · closed @ 79% / 26h wall",
+  "duration_hours_complete_burn": 48,
   "venue": "cursor.com/agents \u00b7 ufo-fsd-alpha (Cursor Origin)",
-  "summary": "CLOSED. Cursor Ultra OAuth UFO-FSD oneshot /goal swarm (28 peers). Wall freeze \u22651440m at ~77% included; final meter 79.0% included / API 100%. Swarm terminal: 21 finished / 7 error / 0 running. Harvest: NEXT.md + handoff.json + charter next-run. Parent /goal OPEN. Offline/MCP/dry green \u2260 done. Fail-as-data: Kimi K3 Max Ultra API-savings $1497\u2013$1515 (~15\u00d7 $99 mint).",
+  "summary": "CLOSED. Cursor Ultra OAuth UFO-FSD oneshot /goal swarm (28 peers). Complete burn clock: 48h mint\u2192100% included monthly (operator; linear extrap 33h). Total saved: $4519 API projected @ complete burn (45.7\u00d7 $99); $3570 latest Kimi probe (36.1\u00d7). Run harvested on 24h wall at 79% / ~26h elapsed. Swarm terminal: 21 finished / 7 error / 0 running. API pool 100% @ ~1.8h from mint. Harvest: NEXT.md + handoff.json. Parent /goal OPEN.",
   "timeline": [
     {
       "t": "2026-08-25T18:05:18Z",
@@ -82,6 +83,16 @@
       "t": "2026-08-26T20:10:39Z",
       "label": "final board close",
       "note": "swarm terminal 21/7/0 \u00b7 included 79.0% \u00b7 auto 42.0% \u00b7 API 100% \u00b7 wall 1565m \u00b7 L1+linked FINISHED \u00b7 final-telemetry artifact"
+    },
+    {
+      "t": "2026-08-27T18:05:16.539Z",
+      "label": "complete burn (projected)",
+      "note": "48h mint\u2192100% included monthly total usage \u00b7 operator SSOT \u00b7 linear extrap from 79% @ 26.1h \u2248 33h \u00b7 total saved $4519 projected (45.7\u00d7 $99) \u00b7 run closed before reaching full burn"
+    },
+    {
+      "t": "2026-08-27T03:10:00Z",
+      "label": "live kimi-k3-max probe $3570",
+      "note": "cursor-agent --model kimi-k3-max \u00b7 ActionRequiredError usage limit \u00b7 ~36.1\u00d7 $99 \u00b7 speedrun full-burn board update"
     }
   ],
   "metrics": {
@@ -110,7 +121,8 @@
     "swarm_error": 7,
     "swarm_wall_min": 1441.16,
     "included_usage_pct_at_monitor_start": 26,
-    "ultra_api_savings_usd_this_month": 1515,
+    "ultra_api_savings_usd_this_month": 3570,
+    "ultra_api_savings_usd_at_run_close": 1515,
     "kimi_k3_max_usage_limit_hit": true,
     "spendLimitHit": false,
     "spendLimits": [
@@ -159,7 +171,7 @@
     "supergrok_heavy": "grant (incl. for free)",
     "grok_bot": "free",
     "x_premium_plus": "giver",
-    "api_credit_multiple_vs_99": 15.3,
+    "api_credit_multiple_vs_99": 36.1,
     "plan_price_cursor_api": "$200/mo",
     "l1_orch_bc_id": "bc-d6ef0199-765b-427a-a308-122148f46a51",
     "model_reroute_allowed": [
@@ -231,7 +243,7 @@
     "ultra_meter_probe": "data/artifacts/meter-cursor-ultra-kimi-k3-max-1515-probe-2026-08-25.json",
     "audit_effective": "data/artifacts/audit-swarm-effective-changes-2026-08-25.json",
     "audit_effective_md": "data/artifacts/audit-swarm-effective-changes-2026-08-25.md",
-    "ultra_meter_latest": "data/artifacts/meter-cursor-ultra-kimi-k3-max-1515-probe-2026-08-25.json",
+    "ultra_meter_latest": "data/artifacts/meter-cursor-ultra-kimi-k3-max-3570-probe-2026-08-27.json",
     "oneshot_prompt_html": "data/artifacts/oneshot-prompt-cursor-ultra-ufo-core-2026-08-25.html",
     "closeout_policy_24h": "data/artifacts/closeout-policy-24h-wall.json",
     "closeout_24h": "data/artifacts/closeout-24h-wall.json",
@@ -288,6 +300,45 @@
   "curve": "data/cursor-ultra-curve.json",
   "session_start": "2026-08-25T18:05:16.539Z",
   "first_meter": "2026-08-25T19:47:00Z",
+  "burn_clock": {
+    "mint_ts": "2026-08-25T18:05:16.539Z",
+    "first_proper_use_ts": "2026-08-25T18:05:20.203Z",
+    "mint_to_first_use_sec": 3.7,
+    "close_ts": "2026-08-26T20:10:39Z",
+    "elapsed_hours_at_close": 26.09,
+    "included_pct_at_close": 79.0,
+    "api_pct_at_close": 100.0,
+    "api_100_ts": "2026-08-25T19:54:57Z",
+    "mint_to_api_100_hours": 1.83,
+    "complete_burn_hours": 48,
+    "complete_burn_ts": "2026-08-27T18:05:16.539Z",
+    "complete_burn_hours_linear": 33.02,
+    "complete_burn_ts_linear": "2026-08-27T03:06:45.730Z",
+    "complete_burn_basis": "operator",
+    "monthly_included_burn_hours_operator": 48,
+    "monthly_included_burn_hours_linear": 33.02,
+    "monthly_included_burn_hours_display": 48,
+    "display_note": "Complete burn: 48h from mint to 100% included monthly total usage (operator). Measured close: 26.1h @ 79%. Linear extrap \u224833h. Run closed on 24h harvest wall before full burn.",
+    "meter_label": "included total usage (Ultra monthly cycle)"
+  },
+  "total_saved": {
+    "source": "Cursor Ultra UI \u00b7 API model usage savings this month",
+    "api_savings_usd_at_close": 1515,
+    "api_savings_usd_latest": 3570,
+    "api_savings_usd_operator_paste": 1497,
+    "api_savings_usd_complete_burn": 4519,
+    "api_savings_usd_complete_burn_basis": "linear extrap from $3570 latest probe @ 79% included run close \u2192 100%",
+    "multiple_vs_99_mint_at_close": 15.3,
+    "multiple_vs_99_mint_latest": 36.1,
+    "multiple_vs_99_mint_complete_burn": 45.7,
+    "probe_ts": "2026-08-27T03:10:00Z",
+    "probe_ts_at_close": "2026-08-25T22:54:51Z",
+    "bonus_spend_usd_at_close": 2365.03,
+    "bonus_spend_usd_complete_burn": 2994.0,
+    "mint_price_usd": 99,
+    "display_usd": 4519,
+    "display_note": "Latest Kimi probe $3570 (36.1\u00d7 $99 mint); projected $4519 (45.7\u00d7) @ 48h complete burn."
+  },
   "pace": {
     "elapsed_min_from_session": 1565.39,
     "elapsed_min_from_first_meter": 1463.66,

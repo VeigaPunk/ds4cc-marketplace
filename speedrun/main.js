@@ -51,9 +51,50 @@ function budgetCell(run) {
   return "paid · not a grant";
 }
 
+function fmtHours(h) {
+  if (h == null || Number.isNaN(Number(h))) return "—";
+  const n = Number(h);
+  if (n >= 48 && n % 24 < 0.5) return `~${Math.round(n / 24)}d`;
+  return n < 10 ? `~${n.toFixed(1)}h` : `~${Math.round(n)}h`;
+}
+
+function fmtUsd(n) {
+  if (n == null || Number.isNaN(Number(n))) return "—";
+  return `$${Math.round(Number(n)).toLocaleString("en-US")}`;
+}
+
+function totalSavedDisplay(run) {
+  const ts = run.total_saved || {};
+  return ts.display_usd ?? ts.api_savings_usd_complete_burn ?? run.metrics?.ultra_api_savings_usd_this_month;
+}
+
+function totalSavedLatest(run) {
+  const ts = run.total_saved || {};
+  return ts.api_savings_usd_latest ?? ts.api_savings_usd_at_close ?? run.metrics?.ultra_api_savings_usd_this_month;
+}
+
+function totalSavedLatestMult(run) {
+  const ts = run.total_saved || {};
+  return ts.multiple_vs_99_mint_latest ?? ts.multiple_vs_99_mint_at_close ?? run.metrics?.api_credit_multiple_vs_99;
+}
+
+function completeBurnHours(run) {
+  const bc = run.burn_clock || {};
+  return bc.complete_burn_hours ?? bc.monthly_included_burn_hours_display ?? bc.monthly_included_burn_hours_operator;
+}
+
+function mintToBurnLabel(run) {
+  const h = completeBurnHours(run);
+  return h != null ? `${fmtHours(h)} complete burn` : null;
+}
+
 function clockCell(run) {
   if (run.metrics?.used_percent != null && run.meter === "cursor_ultra_included_usage") {
-    return `${run.metrics.used_percent}% included · ${run.duration || run.status}`;
+    const burn = mintToBurnLabel(run);
+    const saved = totalSavedDisplay(run);
+    const pct = `${run.metrics.used_percent}% included`;
+    const savedLbl = saved ? `${fmtUsd(saved)} saved` : null;
+    return [burn, savedLbl, pct].filter(Boolean).join(" · ");
   }
   if (run.status === "live" && run.metrics?.used_percent != null) {
     return `${run.metrics.used_percent}% weekly · ${run.duration || "live"}`;
@@ -97,28 +138,6 @@ function renderFeatured(run) {
     .join(" · ");
 }
 
-function renderKimi(run) {
-  const m = run.metrics || {};
-  const snap = run.snapshot || {};
-  const weekly = m.weekly_pct ?? snap.weekly_pct;
-  const fiveh = m.fiveh_pct ?? snap.fiveh_pct;
-  el("kimi-title").textContent = `${run.runner} — ${run.title}`;
-  el("kimi-summary").textContent = scrubIds(run.summary);
-  renderTimeline(el("kimi-timeline"), run.timeline);
-  el("kimi-metrics").innerHTML = `
-    <dt>status</dt><dd class="status-live">${escapeHtml(run.status)}</dd>
-    <dt>model</dt><dd>${escapeHtml(m.model || run.product)}</dd>
-    <dt>venue</dt><dd>${escapeHtml(humanVenue(run))}</dd>
-    <dt>context</dt><dd>${escapeHtml(m.context_pct)}% · ${escapeHtml(m.context_frac)}</dd>
-    <dt>quota</dt><dd>weekly ${escapeHtml(weekly)}% · 5h ${escapeHtml(fiveh)}% · 5h cap ≈ 20% of weekly</dd>
-    <dt>cron</dt><dd>LANDED · ${escapeHtml(m.cron_schedule || "11,41 * * * *")}</dd>
-    <dt>paid</dt><dd>paid OAuth — not a grant</dd>
-    <dt>turns</dt><dd>${escapeHtml(m.turns)}</dd>
-    <dt>mode</dt><dd>${escapeHtml(m.mode)} · ${escapeHtml(m.parallelization)}</dd>
-    <dt>snapshot</dt><dd>${escapeHtml(snap.ts || "—")}</dd>
-  `;
-}
-
 function fmtTokens(n) {
   if (n == null) return "—";
   if (n >= 1e6) return `${(n / 1e6).toFixed(1)}M`;
@@ -156,34 +175,68 @@ function renderLiveStrip(run, curve) {
   const m = run.metrics || {};
   const pace = run.pace || {};
   const snap = run.snapshot || {};
-  const pct = m.used_percent ?? curve?.points?.at(-1)?.pct ?? 0;
+  const pct = m.used_percent ?? m.tp_weekly_pct ?? curve?.points?.at(-1)?.pct ?? 0;
+  const bc = run.burn_clock || {};
+  const completeH = completeBurnHours(run);
+  const mintBurnH = completeH;
   const isCursor = run.id?.includes("cursor-ultra") || run.meter === "cursor_ultra_included_usage";
+  const isTp = run.meter === "token_plan_weekly";
   el("live-title").textContent = `${run.runner} — ${run.title}`;
   el("live-summary").textContent = scrubIds(run.summary);
   el("live-pct").textContent = `${Number(pct).toFixed(1)}%`;
   el("hero-live-pct").textContent = `${Math.round(Number(pct))}%`;
   el("live-fill").style.width = `${Math.min(100, Number(pct) || 0)}%`;
+  const mintBurnEl = el("live-mint-burn");
+  if (mintBurnEl && mintBurnH != null) mintBurnEl.textContent = `${fmtHours(mintBurnH)} complete burn`;
+  const savedEl = el("live-total-saved");
+  if (savedEl) {
+    const savedComplete = totalSavedDisplay(run);
+    const savedLatest = totalSavedLatest(run);
+    const mult = run.total_saved?.multiple_vs_99_mint_complete_burn;
+    const multLatest = totalSavedLatestMult(run);
+    savedEl.textContent = savedComplete
+      ? `${fmtUsd(savedComplete)} @ complete burn${mult ? ` (${mult}× $99)` : ""} · ${fmtUsd(savedLatest)} latest probe${multLatest ? ` (${multLatest}× $99)` : ""}`
+      : fmtUsd(savedLatest);
+  }
   const eyebrow = el("live-eyebrow");
   if (eyebrow) {
     eyebrow.textContent = isCursor
       ? `${run.status} · cursor ultra included usage`
-      : `${run.status} · oauth 20x oneshot`;
+      : isTp
+        ? `${run.status} · token plan infnet weekly`
+        : `${run.status} · oauth 20x oneshot`;
   }
   const meterLabel = el("live-meter-label");
   if (meterLabel) {
     meterLabel.textContent = isCursor
       ? "of Ultra included total usage · monthly cycle"
-      : "of weekly 20x · window 10080 min";
+      : isTp ? "of Token Plan weekly quota · waybar chip (identity infnet)" : "of weekly 20x · window 10080 min";
   }
   const heroLiveLabel = el("hero-live-label");
   if (heroLiveLabel) {
-    heroLiveLabel.textContent = isCursor ? "Cursor Ultra included" : "Codex 20x closed";
+    heroLiveLabel.textContent = isCursor ? "Cursor Ultra included" : isTp ? "TP infnet weekly" : "Codex 20x closed";
   }
   const closed = run.status !== "live";
-  el("live-pace").textContent = `${pace.pct_per_min ?? m.pct_per_min ?? "—"}%/min · ${pace.elapsed_min_from_first_meter ?? "—"} min from first meter · ${pace.elapsed_min_from_session ?? m.elapsed_min_from_session ?? "—"} min from session`;
+  const pacePct = pace.pct_per_min ?? m.pct_per_min;
+  const paceParts = [
+    completeH != null ? `${fmtHours(completeH)} complete burn (mint→100% included monthly)` : null,
+    bc.elapsed_hours_at_close != null
+      ? `${fmtHours(bc.elapsed_hours_at_close)} measured at close (${bc.included_pct_at_close ?? pct}% included · 24h wall harvest)`
+      : null,
+    bc.complete_burn_hours_linear != null ? `${fmtHours(bc.complete_burn_hours_linear)} linear extrap` : null,
+    pacePct != null ? `${pacePct}%/min` : null,
+    isTp ? `${m.dispatches_disclosed ?? "—"} dispatches disclosed · ${m.seats ?? "—"} seats` : null,
+  ].filter(Boolean);
+  el("live-pace").textContent = paceParts.length ? paceParts.join(" · ") : "—";
   el("live-eta").textContent = closed
-    ? "n/a · run closed (24h wall)"
-    : `${pace.eta_100_min ?? m.eta_100_min ?? "—"} min remaining`;
+    ? completeH != null && bc.complete_burn_ts
+      ? `complete burn ${fmtHours(completeH)} · projected ${bc.complete_burn_ts.replace("T", " ").replace("Z", " UTC")} · closed early @ ${bc.included_pct_at_close ?? pct}%`
+      : "n/a · run closed (24h wall)"
+    : (pace.eta_100_min ?? m.eta_100_min) != null
+      ? `${pace.eta_100_min ?? m.eta_100_min} min remaining`
+      : isTp
+        ? `offpeak window ~2h · closes ${m.window_close ?? "~00:56Z"}`
+        : "—";
   const setRec = (id, ok) => {
     const rec = el(id);
     if (!rec) return;
@@ -192,15 +245,29 @@ function renderLiveStrip(run, curve) {
   };
   setRec("live-record", pace.subhour_meter_ok ?? pace.subhour_ok ?? m.subhour_ok);
   setRec("live-record-session", pace.subhour_session_ok ?? m.subhour_session_ok);
+  if (isTp) {
+    for (const recId of ["live-record", "live-record-session"]) {
+      const recEl = el(recId);
+      if (recEl) { recEl.textContent = "n/a"; recEl.className = ""; }
+    }
+    const mintRow = el("live-mint-burn")?.closest(".pace-row");
+    if (mintRow) mintRow.innerHTML = `offpeak window <strong>~2h</strong> <span class="muted">2026-08-27 22:56Z → ~00:56Z · TP infnet low-TPS lanes</span>`;
+    const savedRow = el("live-total-saved")?.closest(".pace-row");
+    if (savedRow) savedRow.innerHTML = `budget <strong>Token Plan pro (paid)</strong> <span class="muted">fresh third key · no usage-limit 5h · L0 kimi dispatch tax only</span>`;
+  }
   if (isCursor) {
     el("live-metrics").innerHTML = `
       <dt>status</dt><dd class="${run.status === "live" ? "status-live" : "status-closed"}">${escapeHtml(run.status)}</dd>
       <dt>plan</dt><dd>Ultra ${escapeHtml(m.plan_price || "$200/mo")} · included $${((m.included_limit_cents || 40000) / 100).toFixed(0)}</dd>
       <dt>meter</dt><dd>included total ${escapeHtml(Number(pct).toFixed(1))}% · auto ${escapeHtml(m.auto_percent_used ?? "—")}% · API ${escapeHtml(m.api_percent_used ?? "—")}%</dd>
       <dt>spend</dt><dd>total $${((m.total_spend_cents || 0) / 100).toFixed(2)} · included $${((m.included_spend_cents || 0) / 100).toFixed(2)} · bonus $${((m.bonus_spend_cents || 0) / 100).toFixed(2)}</dd>
-      <dt>API savings</dt><dd>$${escapeHtml(m.ultra_api_savings_usd_this_month ?? 1515)} saved this month (Ultra UI)</dd>
+      <dt>total saved</dt><dd>${escapeHtml(fmtUsd(totalSavedDisplay(run)))} projected @ complete burn (${escapeHtml(run.total_saved?.multiple_vs_99_mint_complete_burn ?? "—")}× $99) · ${escapeHtml(fmtUsd(totalSavedLatest(run)))} latest probe (${escapeHtml(totalSavedLatestMult(run) ?? "—")}× $99 · ${escapeHtml(run.total_saved?.probe_ts ?? "—")})</dd>
       <dt>swarm</dt><dd>${escapeHtml(m.swarm_running)} run · ${escapeHtml(m.swarm_finished)} fin · ${escapeHtml(m.swarm_error)} err · n=${escapeHtml(m.swarm_n)}</dd>
       <dt>churn</dt><dd>${escapeHtml(m.swarm_sum_lines_added ?? "—")} lines · ${escapeHtml(m.swarm_sum_files_changed ?? "—")} files (sum peers)</dd>
+      <dt>mint</dt><dd>${escapeHtml(bc.mint_ts ?? run.session_start ?? "—")}</dd>
+      <dt>complete burn</dt><dd>${escapeHtml(fmtHours(completeH))} mint→100% included monthly · projected ${escapeHtml(bc.complete_burn_ts ?? "—")} · linear ${escapeHtml(fmtHours(bc.complete_burn_hours_linear))}</dd>
+      <dt>measured close</dt><dd>${escapeHtml(fmtHours(bc.elapsed_hours_at_close))} @ ${escapeHtml(bc.included_pct_at_close ?? "—")}% included (24h wall harvest)</dd>
+      <dt>API pool</dt><dd>100% @ ${escapeHtml(fmtHours(bc.mint_to_api_100_hours))} from mint (${escapeHtml(bc.api_100_ts ?? "—")})</dd>
       <dt>wall</dt><dd>freeze ≥1440 min · close ${escapeHtml(m.elapsed_min_from_session ?? "—")} min</dd>
       <dt>model</dt><dd>${escapeHtml(m.model || m.linked_bc_model)}</dd>
       <dt>category</dt><dd>oneshot · /goal + mid-run steer · self-clone forking</dd>
@@ -223,6 +290,19 @@ function renderLiveStrip(run, curve) {
       promptBtn.href = href;
       promptBtn.textContent = "oneshot prompt + steer";
     }
+  } else if (isTp) {
+    el("live-metrics").innerHTML = `
+      <dt>status</dt><dd class="status-live">${escapeHtml(run.status)}</dd>
+      <dt>mode</dt><dd>${escapeHtml(m.mode || "—")}</dd>
+      <dt>parallel</dt><dd>${escapeHtml(m.parallelization || "—")}</dd>
+      <dt>L1</dt><dd>${escapeHtml(m.l1_model)} · ${escapeHtml(m.seats)} seats · ${escapeHtml(m.l1_waves || "—")}</dd>
+      <dt>L2</dt><dd>${escapeHtml(m.l2_mix || m.l2_model || "—")}</dd>
+      <dt>meter</dt><dd>Token Plan weekly ${escapeHtml(Number(m.tp_weekly_pct ?? pct).toFixed(1))}% · ${escapeHtml(m.tp_meter || "—")}</dd>
+      <dt>ledger</dt><dd>${escapeHtml(m.dispatches_disclosed ?? "—")} disclosed · ${escapeHtml(m.ledger || m.dispatch_ledger || "—")}</dd>
+      <dt>venue</dt><dd>${escapeHtml(humanVenue(run))}</dd>
+      <dt>paid</dt><dd>paid Token Plan — not a grant</dd>
+      <dt>snapshot</dt><dd>${escapeHtml(snap.ts || "—")}</dd>
+    `;
   } else {
     el("live-metrics").innerHTML = `
       <dt>model</dt><dd>${escapeHtml(m.model)}</dd>
@@ -271,18 +351,35 @@ async function main() {
   const featured = byId[manifest.featured_run_id] || runs[0];
   if (featured) renderFeatured(featured);
 
-  const kimi = byId["veigapunk-kimi-vivace-oauth-2026-08-24"];
-  if (kimi) renderKimi(kimi);
 
   const liveId = manifest.live_strip_run_id || "veigapunk-cursor-ultra-ufo-core-2026-08-25";
   const liveRun = byId[liveId];
-  const curve = await loadJsonSoft(
+  const curvePath =
     liveRun?.curve ||
-      (liveId.includes("cursor-ultra")
-        ? "data/cursor-ultra-curve.json"
-        : "data/codex-curve.json")
-  );
-  if (liveRun) renderLiveStrip(liveRun, curve);
+    (liveId.includes("cursor-ultra")
+      ? "data/cursor-ultra-curve.json"
+      : liveId.includes("codex-ultra")
+        ? "data/codex-curve.json"
+        : null);
+  const curve = curvePath ? await loadJsonSoft(curvePath) : null;
+  if (liveRun) {
+    renderLiveStrip(liveRun, curve);
+    const bc = liveRun.burn_clock;
+    const heroMintBurn = el("hero-mint-burn");
+    if (heroMintBurn && bc) {
+      const h = bc.complete_burn_hours ?? bc.monthly_included_burn_hours_display;
+      heroMintBurn.textContent = h != null ? String(Math.round(Number(h))) : "—";
+    }
+    const heroCompleteLabel = el("hero-complete-burn-label");
+    if (heroCompleteLabel) heroCompleteLabel.textContent = "Ultra complete burn (h)";
+    const heroSaved = el("hero-total-saved");
+    if (heroSaved) heroSaved.textContent = fmtUsd(totalSavedDisplay(liveRun)).replace("$", "");
+    const heroSavedLabel = el("hero-total-saved-label");
+    if (heroSavedLabel) {
+      const mult = liveRun.total_saved?.multiple_vs_99_mint_complete_burn;
+      heroSavedLabel.textContent = mult ? `total saved @ complete burn (${mult}× $99)` : "total saved @ complete burn";
+    }
+  }
 }
 
 main().catch((err) => {

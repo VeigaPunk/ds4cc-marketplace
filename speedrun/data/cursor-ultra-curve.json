@@ -1,6 +1,11 @@
 {
   "t0": "2026-08-25T19:47:00Z",
   "session_start": "2026-08-25T18:05:16.539Z",
+  "complete_burn_hours": 48,
+  "complete_burn_ts": "2026-08-27T18:05:16.539Z",
+  "total_saved_usd_at_close": 1515,
+  "total_saved_usd_latest": 3570,
+  "total_saved_usd_complete_burn": 4519,
   "plan_type": "ultra",
   "plan_price": "$99 paid (this mint)",
   "included_amount_cents": 40000,

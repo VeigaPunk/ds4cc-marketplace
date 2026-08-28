@@ -1,97 +1,97 @@
 {
-  "id": "veigapunk-codex-ultra-oauth-20x-2026-08-24",
-  "title": "Codex ultra OAuth 20x oneshot",
-  "runner": "VeigaPunk",
-  "provider": "OpenAI / Codex",
-  "product": "ChatGPT Pro \u00b7 gpt-5.6-sol ultra fast \u00b7 OAuth 20x weekly window",
-  "budget_usd": null,
-  "budget_note": "Paid ChatGPT Pro OAuth \u2014 not a grant. Meter is weekly used_percent (10080 min), not 100% of the month. Oneshot category.",
-  "currency": "USD",
-  "status": "closed",
-  "duration": "1h 1m 18s",
-  "venue": "tmux session 26 \u00b7 gpt-5.6-sol ultra fast",
-  "summary": "Oneshot done (not live). gpt-5.6-sol ultra. ~60% of weekly 20x in 1h 1m 18s. 1,018,795 goal tokens. Receipt: xbgst-codex.",
-  "timeline": [
-    {
-      "t": "2026-08-24T04:36:27Z",
-      "label": "session start",
-      "note": "tmux 26 \u00b7 gpt-5.6-sol ultra fast \u00b7 ChatGPT Pro"
+    "id": "veigapunk-codex-ultra-oauth-20x-2026-08-24",
+    "title": "Codex ultra OAuth 20x oneshot",
+    "runner": "VeigaPunk",
+    "provider": "OpenAI / Codex",
+    "product": "ChatGPT Pro \u00b7 gpt-5.6-sol ultra fast \u00b7 OAuth 20x weekly window",
+    "budget_usd": null,
+    "budget_note": "Paid ChatGPT Pro OAuth \u2014 not a grant. Meter is weekly used_percent (10080 min), not 100% of the month. Oneshot category.",
+    "currency": "USD",
+    "status": "closed",
+    "duration": "1h 1m 18s",
+    "venue": "tmux session 26 \u00b7 gpt-5.6-sol ultra fast",
+    "summary": "Oneshot done (not live). gpt-5.6-sol ultra. ~60% of weekly 20x in 1h 1m 18s. 1,018,795 goal tokens. Receipt: xbgst-codex.",
+    "timeline": [
+        {
+            "t": "2026-08-24T04:36:27Z",
+            "label": "session start",
+            "note": "tmux 26 \u00b7 gpt-5.6-sol ultra fast \u00b7 ChatGPT Pro"
+        },
+        {
+            "t": "2026-08-24T04:46:06Z",
+            "label": "first meter",
+            "note": "0% on the weekly 10080 min window"
+        },
+        {
+            "t": "2026-08-24T13:19:53.318Z",
+            "label": "live snapshot",
+            "note": "60.0% \u00b7 0.117%/min \u00b7 ETA +342.53 min \u00b7 sub-hour record: no"
+        }
+    ],
+    "metrics": {
+        "mode": "oneshot agent \u00b7 ultra fast",
+        "parallelization": "459 child rollouts",
+        "used_percent": 60.0,
+        "window_minutes": 10080,
+        "plan_type": "pro",
+        "tokens_total": 46397151,
+        "tokens_cached_input": 45334528,
+        "tokens_note": "mostly cached input; public session totals only",
+        "n_rollouts": 471,
+        "pct_per_min": 0.117,
+        "elapsed_min_from_first_meter": 513.79,
+        "eta_100_min": 342.53,
+        "record_target_min": 60,
+        "subhour_ok": false,
+        "rss_gb": 2.14,
+        "approx_cores": 1.0,
+        "tmux": "26",
+        "model": "gpt-5.6-sol ultra fast",
+        "outcome": "closed \u00b7 done \u00b7 ~60% weekly in ~1h",
+        "spark_5h_pct": 0,
+        "subhour_session_ok": false,
+        "subhour_meter_ok": false,
+        "elapsed_min_from_session": 523.44,
+        "goal_clock": "1h 1m 18s",
+        "goal_tokens": 1018795
     },
-    {
-      "t": "2026-08-24T04:46:06Z",
-      "label": "first meter",
-      "note": "0% on the weekly 10080 min window"
+    "pace": {
+        "elapsed_min_from_session": 523.44,
+        "elapsed_min_from_first_meter": 513.79,
+        "pct_per_min": 0.117,
+        "eta_100_min": 342.53,
+        "record_target_min": 60,
+        "subhour_session_ok": false,
+        "subhour_meter_ok": false,
+        "subhour_ok": false
     },
-    {
-      "t": "2026-08-24T13:19:53.318Z",
-      "label": "live snapshot",
-      "note": "60.0% \u00b7 0.117%/min \u00b7 ETA +342.53 min \u00b7 sub-hour record: no"
-    }
-  ],
-  "metrics": {
-    "mode": "oneshot agent \u00b7 ultra fast",
-    "parallelization": "459 child rollouts",
-    "used_percent": 60.0,
-    "window_minutes": 10080,
-    "plan_type": "pro",
-    "tokens_total": 46397151,
-    "tokens_cached_input": 45334528,
-    "tokens_note": "mostly cached input; public session totals only",
-    "n_rollouts": 471,
-    "pct_per_min": 0.117,
-    "elapsed_min_from_first_meter": 513.79,
-    "eta_100_min": 342.53,
-    "record_target_min": 60,
-    "subhour_ok": false,
-    "rss_gb": 2.14,
-    "approx_cores": 1.0,
-    "tmux": "26",
-    "model": "gpt-5.6-sol ultra fast",
-    "outcome": "closed \u00b7 done \u00b7 ~60% weekly in ~1h",
-    "spark_5h_pct": 0,
-    "subhour_session_ok": false,
-    "subhour_meter_ok": false,
-    "elapsed_min_from_session": 523.44,
-    "goal_clock": "1h 1m 18s",
-    "goal_tokens": 1018795
-  },
-  "pace": {
-    "elapsed_min_from_session": 523.44,
-    "elapsed_min_from_first_meter": 513.79,
-    "pct_per_min": 0.117,
-    "eta_100_min": 342.53,
-    "record_target_min": 60,
-    "subhour_session_ok": false,
-    "subhour_meter_ok": false,
-    "subhour_ok": false
-  },
-  "session_start": "2026-08-24T04:36:27.174Z",
-  "first_meter": "2026-08-24T04:46:06.005Z",
-  "curve": "data/codex-curve.json",
-  "snapshot": {
-    "ts": "2026-08-24T13:19:53.318Z",
-    "used_percent": 60.0,
-    "tokens_total": 46397151,
-    "n_rollouts": 471
-  },
-  "links": {
-    "codex": "https://chatgpt.com/",
-    "board": "./",
-    "xbgst_codex": "https://github.com/VeigaPunk/xbgst-codex",
-    "hangar_readme": "/home/vgpnk/Projects/xbgst/xbgst-codex/README.md"
-  },
-  "tags": [
-    "codex",
-    "oauth",
-    "20x",
-    "ultra",
-    "live",
-    "oneshot"
-  ],
-  "paid": true,
-  "not_a_grant": true,
-  "category": "oneshot",
-  "meter": "weekly_10080",
-  "last_message": "data/codex-last-message.json",
-  "display_venue": "tmux session 26 \u00b7 gpt-5.6-sol ultra fast"
+    "session_start": "2026-08-24T04:36:27.174Z",
+    "first_meter": "2026-08-24T04:46:06.005Z",
+    "curve": "data/codex-curve.json",
+    "snapshot": {
+        "ts": "2026-08-24T13:19:53.318Z",
+        "used_percent": 60.0,
+        "tokens_total": 46397151,
+        "n_rollouts": 471
+    },
+    "links": {
+        "codex": "https://chatgpt.com/",
+        "board": "./",
+        "xbgst_codex": "https://github.com/VeigaPunk/xbgst-codex",
+        "hangar_readme": "/home/vgpnk/Projects/xbgst/xbgst-codex/README.md"
+    },
+    "tags": [
+        "codex",
+        "oauth",
+        "20x",
+        "ultra",
+        "oneshot",
+        "closed"
+    ],
+    "paid": true,
+    "not_a_grant": true,
+    "category": "oneshot",
+    "meter": "weekly_10080",
+    "last_message": "data/codex-last-message.json",
+    "display_venue": "tmux session 26 \u00b7 gpt-5.6-sol ultra fast"
 }

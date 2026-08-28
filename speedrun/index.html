@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Token Speedrun — public burns</title>
-  <meta name="description" content="Public receipts: $200 Kimi seed, Kimi OAuth vivace, Codex ultra oneshot, closed Cursor Ultra UFO-core." />
+  <meta name="description" content="Public receipts: $200 Kimi seed, Codex ultra oneshot, closed Cursor Ultra UFO-core, live Token Plan infnet crossbreed avalanche." />
   <meta name="theme-color" content="#070d10" />
   <meta property="og:title" content="Token Speedrun" />
-  <meta property="og:description" content="Four runs. Live Kimi. Closed Codex + Cursor Ultra UFO-core. Receipts only." />
+  <meta property="og:description" content="Four runs. Live Token Plan avalanche. Closed Codex + Cursor Ultra UFO-core. Receipts only." />
   <meta property="og:type" content="website" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -22,9 +22,8 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="#live-codex">Ultra (closed)</a>
+      <a href="#live-codex">Live avalanche</a>
       <a href="#codex-wrap">Repo</a>
-      <a href="#run-kimi">Live Kimi</a>
       <a href="#limits">5h ≈ 20%</a>
       <a href="#crown">Crown</a>
       <a href="#run-200">$200 seed</a>
@@ -43,13 +42,17 @@
         Featured seed stays the closed <strong>$200 Kimi / Moonshot</strong> 48h burn
         <strong>the operator paid for</strong> — same as these rows:
         <strong>not a grant</strong>.
-        Cursor Ultra UFO-core strip is <strong>closed</strong> (24h wall · harvest · final telemetry).
+        Cursor Ultra UFO-core: <strong>complete burn 48h</strong> mint→100% included monthly
+        (measured close 26.1h @ 79% on 24h wall · linear extrap 33h).
+        Total saved: <strong>$4,519</strong> API @ complete burn (45.7× $99 mint) · <strong>$3,570</strong> latest Kimi probe.
         Codex ultra oneshot is <strong>closed / done</strong>.
         Grok still holds the L1 / ufo-fsd crown, weakly.
       </p>
       <div class="hero-stats">
         <div class="stat"><span class="n" id="hero-n-runs">4</span><span class="l">runs on the board</span></div>
         <div class="stat"><span class="n">48h</span><span class="l">closed seed clock</span></div>
+        <div class="stat"><span class="n" id="hero-mint-burn">48</span><span class="l" id="hero-complete-burn-label">Ultra complete burn (h)</span></div>
+        <div class="stat"><span class="n" id="hero-total-saved">4519</span><span class="l" id="hero-total-saved-label">total saved @ complete burn (45.7× $99)</span></div>
         <div class="stat"><span class="n" id="hero-live-pct">—</span><span class="l" id="hero-live-label">Cursor Ultra included</span></div>
       </div>
     </section>
@@ -59,10 +62,9 @@
       <h2 id="live-title">Cursor Ultra — loading…</h2>
       <p class="summary" id="live-summary"></p>
       <div class="chips" aria-label="run tags">
-        <span class="chip">closed</span>
         <span class="chip chip-paid">paid</span>
-        <span class="chip">oneshot</span>
-        <span class="chip">ufo-fsd</span>
+        <span class="chip">not a grant</span>
+        <span class="chip">receipts only</span>
       </div>
       <div class="live-grid">
         <div class="meter">
@@ -73,7 +75,9 @@
         <p class="pace-row">ETA to 100% <strong id="live-eta">—</strong></p>
         <p class="pace-row">sub-hour from session start <strong id="live-record-session">—</strong></p>
         <p class="pace-row">sub-hour from first meter <strong id="live-record">—</strong></p>
-        <p class="pace-row">vs 48h Kimi seed <strong>orders of magnitude faster clock</strong></p>
+        <p class="pace-row">complete burn <strong id="live-mint-burn">48h</strong> <span class="muted">mint→100% included monthly · projected 2026-08-27 18:05 UTC · closed @ 79%</span></p>
+        <p class="pace-row">total saved <strong id="live-total-saved">$4,519 @ complete burn · $3,570 latest probe</strong> <span class="muted">Ultra UI API savings · 45.7× / 36.1× $99 mint</span></p>
+        <p class="pace-row">vs 48h Kimi seed <strong>comparable monthly clock</strong></p>
         <div class="curve-wrap">
           <svg id="curve" viewBox="0 0 640 220" role="img" aria-label="Cursor Ultra burn curve, included percent versus minutes from first meter">
             <text class="curve-axis" x="8" y="16">% used</text>
@@ -92,22 +96,6 @@
       </p>
     </section>
 
-    <section class="panel live" id="run-kimi" aria-labelledby="kimi-title">
-      <p class="eyebrow">live · kimi oauth vivace</p>
-      <h2 id="kimi-title">Loading…</h2>
-      <p class="summary" id="kimi-summary"></p>
-      <ol class="timeline" id="kimi-timeline"></ol>
-      <dl class="metrics" id="kimi-metrics"></dl>
-      <div class="kimi-orch">
-        <p class="eyebrow">autonomous orch · praise this lane</p>
-        <h3>Kimi walked. The work is the receipt.</h3>
-        <ul class="rules">
-          <li><strong>Efficacy.</strong> Native xbgst on Kimi Code: CreateGoal ×3, AgentSwarm, r13 L1 PASS (fleet marketplace), r14 self-improve (FRAMEWORK.md golden map, F10–F12), cron <code>:11/:41</code> for unattended continuation. That is orch, not a chat log.</li>
-          <li><strong>Outputs.</strong> <code>xbgst-kimi/docs/FRAMEWORK.md</code>, r13/r14 reports, green gates/smoke, HANDOFF.md. Creation ability is the repo, not a screenshot of CoT.</li>
-          <li><strong>Cron DID land.</strong> Kimi set up the auto FSD continuation cron on schedule <code>11,41 * * * *</code>. Operator wrongly said it did not. Goal is paused on OAuth 403; 5h window 100%; weekly ~27%. Cron is the honest retry. First API auto-swap failed. Operator is not touching the CLI.</li>
-        </ul>
-      </div>
-    </section>
 
     <section class="panel live" id="limits" aria-labelledby="limits-title">
       <p class="eyebrow">frontier meter · not a vendor table</p>
@@ -126,8 +114,7 @@
       <p class="eyebrow">ufo-fsd · weakly held</p>
       <h2 id="crown-title">Grok still holds L1</h2>
       <p class="summary">
-        Kimi’s vivace walk deserves the praise — native agentic orch on the fleet,
-        not a coding-SKU demo. Grok remains the L1 beast: xbgst judge, patched
+        Grok remains the L1 beast: xbgst judge, patched
         dispatcher, one-activation FSD. The ufo-fsd crown is
         <strong>weakly held</strong> and named: Grok / xbgst until the operator
         recrowns. Chartermap: Plazir-15 — build the dome, free the people, keep
