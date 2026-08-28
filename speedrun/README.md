@@ -2,7 +2,7 @@
 
 Public **fixed-budget** agent runs with receipts. Providers can claim value and efficiency **empirically** — and have incentive to subsidize fair lanes.
 
-**Four runs** on the board (`data/manifest.json`): one closed seed ($200 Kimi), one closed Codex OAuth burn (20x oneshot), the **closed** Cursor Ultra UFO-core cloud swarm (24h wall · final telemetry), and the **live** Token Plan infnet crossbreed avalanche (2026-08-27).
+**Four runs** on the board (`data/manifest.json`): one closed seed ($200 Kimi), one closed Codex OAuth burn (20x oneshot), the **closed** Cursor Ultra UFO-core cloud swarm (24h wall · final telemetry), and the **live** Token Plan crossbreed avalanche (2026-08-27).
 
 ## Seed run (featured, closed)
 
@@ -37,9 +37,9 @@ Meter clocks: session start `2026-08-24T04:36:27Z` and first meter `04:46:06Z`. 
 
 Data: [`data/run-cursor-ultra-ufo-core-2026-08-25.json`](data/run-cursor-ultra-ufo-core-2026-08-25.json) · prompt [`data/artifacts/prompt-cursor-ultra-ufo-core-2026-08-25.md`](data/artifacts/prompt-cursor-ultra-ufo-core-2026-08-25.md) · meter [`data/artifacts/meter-cursor-ultra-kimi-k3-max-1497-saved-2026-08-25.json`](data/artifacts/meter-cursor-ultra-kimi-k3-max-1497-saved-2026-08-25.json) · probe [`data/artifacts/meter-cursor-ultra-kimi-k3-max-3570-probe-2026-08-27.json`](data/artifacts/meter-cursor-ultra-kimi-k3-max-3570-probe-2026-08-27.json) · audit [`data/artifacts/audit-swarm-effective-changes-2026-08-25.md`](data/artifacts/audit-swarm-effective-changes-2026-08-25.md)
 
-## Live — Token Plan infnet crossbreed avalanche (2026-08-27)
+## Live — Token Plan crossbreed avalanche (2026-08-27)
 
-Offpeak crossbreed avalanche on `ufo-fsd-alpha` after the same-day tooling rebase. **16 L1 seats** — wave 1 `ufo-l1..l8` core (22:56Z) + wave W `ufo-w1..w8` web (23:55Z), all qwen3.8-max xhigh on Token Plan infnet — orchestrate small-batch L2 workers (ds-pro on TP; luna + sol review on OpenAI OAuth). Every dispatch is disclosed sequentially in `.ufo/local-dispatch/run-ledger-avalanche-20260827.jsonl` in the ufo-fsd-alpha checkout — see the [ledger disclosure convention](data/artifacts/ledger-disclosure-convention-2026-08-27.md).
+Offpeak crossbreed avalanche on `ufo-fsd-alpha` after the same-day tooling rebase. **16 L1 seats** — wave 1 `ufo-l1..l8` core (22:56Z) + wave W `ufo-w1..w8` web (23:55Z), all qwen3.8-max xhigh on Token Plan — orchestrate small-batch L2 workers (ds-pro on TP; luna + sol review on OpenAI OAuth). Every dispatch is disclosed sequentially in `.ufo/local-dispatch/run-ledger-avalanche-20260827.jsonl` in the ufo-fsd-alpha checkout — see the [ledger disclosure convention](data/artifacts/ledger-disclosure-convention-2026-08-27.md).
 
 Data: [`data/run-tp-infnet-crossbreed-avalanche-2026-08-27.json`](data/run-tp-infnet-crossbreed-avalanche-2026-08-27.json)
 

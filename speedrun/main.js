@@ -203,18 +203,18 @@ function renderLiveStrip(run, curve) {
     eyebrow.textContent = isCursor
       ? `${run.status} · cursor ultra included usage`
       : isTp
-        ? `${run.status} · token plan infnet weekly`
+        ? `${run.status} · token plan weekly`
         : `${run.status} · oauth 20x oneshot`;
   }
   const meterLabel = el("live-meter-label");
   if (meterLabel) {
     meterLabel.textContent = isCursor
       ? "of Ultra included total usage · monthly cycle"
-      : isTp ? "of Token Plan weekly quota · waybar chip (identity infnet)" : "of weekly 20x · window 10080 min";
+      : isTp ? "of Token Plan weekly quota · waybar chip" : "of weekly 20x · window 10080 min";
   }
   const heroLiveLabel = el("hero-live-label");
   if (heroLiveLabel) {
-    heroLiveLabel.textContent = isCursor ? "Cursor Ultra included" : isTp ? "TP infnet weekly" : "Codex 20x closed";
+    heroLiveLabel.textContent = isCursor ? "Cursor Ultra included" : isTp ? "Token Plan weekly" : "Codex 20x closed";
   }
   const closed = run.status !== "live";
   const pacePct = pace.pct_per_min ?? m.pct_per_min;
@@ -251,7 +251,7 @@ function renderLiveStrip(run, curve) {
       if (recEl) { recEl.textContent = "n/a"; recEl.className = ""; }
     }
     const mintRow = el("live-mint-burn")?.closest(".pace-row");
-    if (mintRow) mintRow.innerHTML = `offpeak window <strong>~2h</strong> <span class="muted">2026-08-27 22:56Z → ~00:56Z · TP infnet low-TPS lanes</span>`;
+    if (mintRow) mintRow.innerHTML = `offpeak window <strong>~2h</strong> <span class="muted">2026-08-27 22:56Z → ~00:56Z · Token Plan low-TPS lanes</span>`;
     const savedRow = el("live-total-saved")?.closest(".pace-row");
     if (savedRow) savedRow.innerHTML = `budget <strong>Token Plan pro (paid)</strong> <span class="muted">fresh third key · no usage-limit 5h · L0 kimi dispatch tax only</span>`;
   }

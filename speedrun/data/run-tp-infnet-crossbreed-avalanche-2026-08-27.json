@@ -1,16 +1,16 @@
 {
     "id": "veigapunk-tp-infnet-crossbreed-avalanche-2026-08-27",
-    "title": "Token Plan infnet \u2014 offpeak crossbreed avalanche (qwen3.8-max \u00d78 L1 \u00d7 ds-pro L2)",
+    "title": "Token Plan \u2014 offpeak crossbreed avalanche (qwen3.8-max \u00d78 L1 \u00d7 ds-pro L2)",
     "runner": "VeigaPunk",
     "provider": "Alibaba Cloud Model Studio / Token Plan (ap-southeast-1)",
     "product": "qwen3.8-max xhigh \u00d78 L1 orchestrators (codex-titanium-qwen38) \u00d7 deepseek-v4-pro L2 runners (codex-titanium-ds-pro) \u2014 crossbreed of two offpeak TP models; L3 luna-low-fast on OpenAI OAuth; L0 = kimi-code k3-max (dispatch tax only)",
     "budget_usd": null,
-    "budget_note": "Freshly minted Token Plan pro (third key, slot=infnet; gmail + team slots exhausted earlier same day). No usage limit 5h; run limited to the ~2h offpeak window (2026-08-27T22:56Z \u2192 ~00:56Z). TP lanes are low-TPS \u2014 L2 fan-out capped at small batches.",
+    "budget_note": "Freshly minted Token Plan pro (third key; gmail + team slots exhausted earlier same day). No usage limit 5h; run limited to the ~2h offpeak window (2026-08-27T22:56Z \u2192 ~00:56Z). TP lanes are low-TPS \u2014 L2 fan-out capped at small batches.",
     "currency": "USD",
     "status": "closed",
     "duration": "closed \u00b7 ~2h offpeak window (2026-08-27T22:56Z \u2192 00:56Z)",
     "venue": "tmux ufo-l1..ufo-l8 + ufo-l-wall \u00b7 cwd Projects/origin-work/ufo-fsd-alpha",
-    "summary": "Offpeak crossbreed avalanche on ufo-fsd-alpha after a same-day tooling rebase (64 one-off spawn scripts consolidated into parameterized dispatchers; godspeed byte-injection fixed tree-wide, coherence 17/17; Kimi 15-min token TTL fixed via local auth proxy 127.0.0.1:8791). 8 L1 seats on qwen3.8-max xhigh orchestrate ds-pro L2 workers in small batches. Every L1/L2 dispatch disclosed with sequential # and dispatch id in .ufo/local-dispatch/run-ledger-avalanche-20260827.jsonl. L0 orchestration from a native kimi-code k3-max session (Kimi preserved to dispatch tax). Wave W (23:55Z): 8 web-layer L1 seats ufo-w1..w8 dispatched onto the ds4cc web repos, same gen 27. CLOSED at window end: 126 disclosed dispatches (16 L1 spawns across core+web waves, 46 L2 ds-pro on TP, 61 L2 luna/sol review, 1 L3), final TP infnet weekly 31.4%.",
+    "summary": "Offpeak crossbreed avalanche on ufo-fsd-alpha after a same-day tooling rebase (64 one-off spawn scripts consolidated into parameterized dispatchers; godspeed byte-injection fixed tree-wide, coherence 17/17; Kimi 15-min token TTL fixed via local auth proxy 127.0.0.1:8791). 8 L1 seats on qwen3.8-max xhigh orchestrate ds-pro L2 workers in small batches. Every L1/L2 dispatch disclosed with sequential # and dispatch id in .ufo/local-dispatch/run-ledger-avalanche-20260827.jsonl. L0 orchestration from a native kimi-code k3-max session (Kimi preserved to dispatch tax). Wave W (23:55Z): 8 web-layer L1 seats ufo-w1..w8 dispatched onto the ds4cc web repos, same gen 27. CLOSED at window end: 126 disclosed dispatches (16 L1 spawns across core+web waves, 46 L2 ds-pro on TP, 61 L2 luna/sol review, 1 L3), final Token Plan weekly 31.4%.",
     "timeline": [
         {
             "t": "2026-08-27T21:09Z",
@@ -25,17 +25,17 @@
         {
             "t": "2026-08-27T21:56Z",
             "label": "third TP key wired",
-            "note": "1Password 'Alibaba Cloud Token Plan (infnet)' sha256 8c88cb2d\u2026 == local keys/infnet; active slot swapped; ds-pro + qwen38-flash smokes OK"
+            "note": "1Password 'Alibaba Cloud Token Plan' sha256 8c88cb2d\u2026 == local key; active slot swapped; ds-pro + qwen38-flash smokes OK"
         },
         {
             "t": "2026-08-27T22:56Z",
             "label": "avalanche dispatched (gen 27)",
-            "note": "8\u00d7 L1 qwen3.8-max xhigh alive on TP infnet; dispatch id l1-dispatch-20260827T225632Z; ledger seq 1\u20138"
+            "note": "8\u00d7 L1 qwen3.8-max xhigh alive on Token Plan; dispatch id l1-dispatch-20260827T225632Z; ledger seq 1\u20138"
         },
         {
             "t": "2026-08-27T23:45Z",
             "label": "ds-pro full offload + meter live",
-            "note": "all 16 L2 roles on ds-pro (TP infnet), review-only sol; waybar token-plan chip meters infnet weekly 15.8%; substrate doctor loops killed fleet-wide"
+            "note": "all 16 L2 roles on ds-pro (Token Plan), review-only sol; waybar token-plan chip meters Token Plan weekly 15.8%; substrate doctor loops killed fleet-wide"
         },
         {
             "t": "2026-08-27T23:55Z",
@@ -49,7 +49,7 @@
         }
     ],
     "metrics": {
-        "mode": "agent / codex-titanium harness on Token Plan compatible-mode",
+        "mode": "agent / codex-titanium substrate on Token Plan compatible-mode",
         "parallelization": "16 L1 orchestrators in two waves \u00d7 small-batch L2 (\u22643 concurrent per seat, stagger \u226545s)",
         "l1_model": "qwen3.8-max xhigh (983k ctx)",
         "l2_model": "deepseek-v4-pro-0813 (983k ctx)",
@@ -64,9 +64,9 @@
         "dispatches_disclosed": 126,
         "ledger": "run-ledger-avalanche-20260827.jsonl \u00b7 120 disclosed rows \u00b7 seq 1\u2013116 (seq 41\u201344 dual-disclosed by seat l7)",
         "tp_weekly_pct": 31.4,
-        "tp_meter": "waybar ai-usage chip, identity infnet, reset 2026-09-03T22:31Z",
+        "tp_meter": "waybar ai-usage chip, reset 2026-09-03T22:31Z",
         "l1_waves": "wave 1 ufo-l1..l8 core (22:56Z) \u00b7 wave W ufo-w1..w8 web (23:55Z)",
-        "l2_mix": "deepseek-v4-pro-0813 \u00d741 (TP infnet) \u00b7 gpt-5.6-luna \u00d733 (OAuth) \u00b7 gpt-5.6-sol review-only \u00d727 (OAuth) \u00b7 qwen3.8-max \u00d72 (TP) \u00b7 L3 luna-low \u00d71",
+        "l2_mix": "deepseek-v4-pro-0813 \u00d741 (Token Plan) \u00b7 gpt-5.6-luna \u00d733 (OAuth) \u00b7 gpt-5.6-sol review-only \u00d727 (OAuth) \u00b7 qwen3.8-max \u00d72 (TP) \u00b7 L3 luna-low \u00d71",
         "review_model": "gpt-5.6-sol (OpenAI OAuth, review-only via --codex)",
         "wave": "W (web)",
         "window_close": "~2026-08-28T00:56Z",
@@ -84,7 +84,6 @@
     "meter": "token_plan_weekly",
     "tags": [
         "token-plan",
-        "infnet",
         "crossbreed",
         "avalanche",
         "fleet",
