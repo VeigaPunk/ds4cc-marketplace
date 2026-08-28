@@ -155,6 +155,17 @@ main { padding: 2rem clamp(1rem, 4vw, 3rem) 4rem; max-width: 960px; }
 .curve-fill { fill: color-mix(in oklab, var(--leaf) 18%, transparent); }
 .curve-dot { fill: var(--leaf); }
 
+.receipt {
+  margin: 0 0 1rem;
+  background: var(--bg-deep);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.7rem 0.85rem;
+}
+.receipt-caption { font-size: 0.88rem; color: var(--muted); margin-bottom: 0.6rem; }
+.receipt-caption strong { color: var(--text); }
+.receipt img { display: block; width: 100%; height: auto; border-radius: 6px; }
+
 .timeline { margin: 0 0 1.25rem 1.1rem; color: var(--muted); }
 .timeline li { margin: 0.45rem 0; }
 .timeline strong { color: var(--text); }
