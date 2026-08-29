@@ -1051,6 +1051,8 @@ distiller / simplifier / scribe native</pre>
   </footer>
 </div>
 
+<script src="./rinnegan/catalog.js"></script>
+<script src="./rinnegan/policy.js"></script>
 <script>
 (function () {
   "use strict";
@@ -1095,24 +1097,24 @@ distiller / simplifier / scribe native</pre>
 
   const REPO = "https://github.com/VeigaPunk/ds4cc-marketplace";
   const PLUGINS = [
-    { n: "aaronplug", v: "0.4.0", cat: "research", d: "Academic paper retrieval across arXiv, Semantic Scholar and Sci-Hub.", c: 'npx @veigapunk/aaron papers search "..."' },
-    { n: "ds4cc", v: "0.3.0", cat: "meta", d: "Marketplace meta-plugin — discover/install plugins and run ds4cc/orch mode.", c: "codex plugin marketplace add VeigaPunk/ds4cc-marketplace" },
+    { n: "aaronplug", v: "0.4.0", cat: "research", rinnegan: true, d: "Academic paper retrieval across arXiv, Semantic Scholar and Sci-Hub.", c: 'npx @veigapunk/aaron papers search "..."' },
+    { n: "ds4cc", v: "0.3.0", cat: "meta", rinnegan: true, d: "Marketplace meta-plugin — discover/install plugins and run ds4cc/orch mode.", c: "codex plugin marketplace add VeigaPunk/ds4cc-marketplace" },
     { n: "godspeed-codex-command", v: "0.2.0", cat: "commands", d: "Command-mode bootstrap & Codex posture controls.", c: "bash ./scripts/install-commands.sh" },
-    { n: "godspeed-core", v: "0.2.0", cat: "orchestration", d: "Adaptive execution doctrine & Pareto walk policy for long tasks.", c: 'codex "godspeed: <task>"' },
-    { n: "heuer-planning", v: "0.1.0", cat: "skills", d: "Standalone Heuer-style structured planning skill (ACH, assumptions, devil's advocate).", c: 'Skill(skill=\"heuer-planning\")' },
+    { n: "godspeed-core", v: "0.2.0", cat: "orchestration", rinnegan: true, d: "Adaptive execution doctrine & Pareto walk policy for long tasks.", c: 'codex "godspeed: <task>"' },
+    { n: "heuer-planning", v: "0.1.0", cat: "skills", rinnegan: true, d: "Standalone Heuer-style structured planning skill (ACH, assumptions, devil's advocate).", c: 'Skill(skill=\"heuer-planning\")' },
     { n: "infinizoom", v: "0.2.0", cat: "viz", d: "Fractal-zoom visualization QA & server.", c: "node qa-zoom.mjs" },
-    { n: "myagents", v: "0.2.0", cat: "agents", d: "Curated agent profiles for development, review, research, and orchestration.", c: 'codex "Use the executor agent profile for this task"' },
+    { n: "myagents", v: "0.2.0", cat: "agents", rinnegan: true, d: "Curated agent profiles for development, review, research, and orchestration.", c: 'codex "Use the executor agent profile for this task"' },
     { n: "mycommands", v: "0.2.0", cat: "commands", d: "Reusable command packs & shell routines, ready to exec.", c: 'codex "Use the installed command pack for this task"' },
     { n: "myskills", v: "0.2.0", cat: "skills", d: "Curated skill inventory & workflow helpers, discoverable in-session.", c: "Open the Codex TUI and use /skills" },
-    { n: "punk-records-brain", v: "0.2.0", cat: "agents", d: "Vegapunk-style multi-personality round table: Stella routes satellites, the conversation is the deliverable.", c: 'Skill(skill=\"punk-records-brain\")' },
+    { n: "punk-records-brain", v: "0.2.0", cat: "agents", rinnegan: true, d: "Vegapunk-style multi-personality round table: Stella routes satellites, the conversation is the deliverable.", c: 'Skill(skill=\"punk-records-brain\")' },
     { n: "spoderman", v: "0.2.0", cat: "security", d: "Attack harness & hook safety research for agent runtimes.", c: "bash ./spoderman validate --hooks" },
-    { n: "the-almanacker", v: "0.2.1", cat: "adapters", d: "Gemini Notebook / NotebookLM adapter (deep-dive audio, sources, studio).", c: 'almanack create "…" && almanack studio audio deep-dive --length long "…"' },
-    { n: "the-kimiraikoner", v: "0.1.0", cat: "adapters", d: "Kimi web UI adapter (agent-browser / CDP).", c: "agent-browser session --host kimi" },
-    { n: "the-musketeer", v: "0.3.1", cat: "adapters", d: "Grok web UI adapter — Expert/Fast/Heavy, Imagine, Automations (CDP).", c: 'grok-web "…"  # GROK_MODE=Expert' },
-    { n: "the-netsshark", v: "0.2.0", cat: "network", d: "Empirical DNS, routing, proxy, firewall, MTU, and connectivity audits.", c: 'codex "Use the-netsshark skill"' },
-    { n: "the-puppeteer", v: "0.2.1", cat: "adapters", d: "ChatGPT web UI bridge — Pro, Chat/Work, tools, fire-and-forget (CDP).", c: 'chitchat --new-chat "..."' },
-    { n: "sekhmet", v: "0.1.1", cat: "swarm", d: "Always-available Codex Titanium swarm (xbreed L3). Up to 64 concurrent runners.", c: "sekhmet swarm --direct -j 64 --tasks-file tasks.txt" },
-    { n: "xbrd-gdsp-fknpft", v: "8.16.137", cat: "orchestration", d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
+    { n: "the-almanacker", v: "0.2.1", cat: "adapters", rinnegan: true, d: "Gemini Notebook / NotebookLM adapter (deep-dive audio, sources, studio).", c: 'almanack create "…" && almanack studio audio deep-dive --length long "…"' },
+    { n: "the-kimiraikoner", v: "0.1.0", cat: "adapters", rinnegan: true, d: "Kimi web UI adapter (agent-browser / CDP).", c: "agent-browser session --host kimi" },
+    { n: "the-musketeer", v: "0.3.1", cat: "adapters", rinnegan: true, d: "Grok web UI adapter — Expert/Fast/Heavy, Imagine, Automations (CDP).", c: 'grok-web "…"  # GROK_MODE=Expert' },
+    { n: "the-netsshark", v: "0.2.0", cat: "network", rinnegan: true, d: "Empirical DNS, routing, proxy, firewall, MTU, and connectivity audits.", c: 'codex "Use the-netsshark skill"' },
+    { n: "the-puppeteer", v: "0.2.1", cat: "adapters", rinnegan: true, d: "ChatGPT web UI bridge — Pro, Chat/Work, tools, fire-and-forget (CDP).", c: 'chitchat --new-chat "..."' },
+    { n: "sekhmet", v: "0.1.1", cat: "swarm", rinnegan: true, d: "Always-available Codex Titanium swarm (xbreed L3). Up to 64 concurrent runners.", c: "sekhmet swarm --direct -j 64 --tasks-file tasks.txt" },
+    { n: "xbrd-gdsp-fknpft", v: "8.16.137", cat: "orchestration", rinnegan: true, d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
     { n: "xbrd-selector", v: "0.1.1", cat: "orchestration", d: "Model/agent selector helpers for xbreed stacks.", c: 'codex \"Use xbrd-selector\"' },
     { n: "omarchy-usage-tray", v: "main", cat: "os-tuning", kind: "page", d: "Omarchy Waybar chip for Codex, Grok, Kimi, Cursor, and Token Plan usage limits.", c: "curl -fsSL https://raw.githubusercontent.com/VeigaPunk/omarchy-usage-tray/main/install.sh | bash", href: "./omarchy-usage/", src: "https://github.com/VeigaPunk/omarchy-usage-tray" },
   ];
@@ -1125,20 +1127,21 @@ distiller / simplifier / scribe native</pre>
 
   function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;"); }
 
-  const RINNEGAN_HIDE = new Set([
-    "spoderman",       // attack-harness research — not a ship-ready install path
-    "xbrd-selector",   // docs-only husk; no binary in the package
-    "infinizoom",      // viz toy / QA demo, thinnest skill surface
-    "myskills",        // thin meta stub over external skill packs
-    "mycommands",      // thin meta stub over external command packs
-    "godspeed-codex-command", // bootstrap stub only (~0.5KB skill)
-  ]);
+  const RINNEGAN_STANDALONE = (
+    Array.isArray(globalThis.DS4CC_RINNEGAN_CATALOG) &&
+    typeof globalThis.DS4CC_RINNEGAN_ADMIT === "function"
+      ? globalThis.DS4CC_RINNEGAN_CATALOG.filter(globalThis.DS4CC_RINNEGAN_ADMIT)
+      : []
+  );
+
+  function catalogForMode() {
+    if (!document.documentElement.classList.contains("rinnegan")) return PLUGINS;
+    return [...PLUGINS.filter(record => record.kind !== "page" && record.rinnegan === true), ...RINNEGAN_STANDALONE];
+  }
 
   function filtered() {
     const q = (filter.value || "").trim().toLowerCase();
-    const rinneganOn = document.documentElement.classList.contains("rinnegan");
-    return PLUGINS.filter(p => {
-      if (rinneganOn && RINNEGAN_HIDE.has(p.n)) return false;
+    return catalogForMode().filter(p => {
       const catOk = activeCat === "all" || (p.cat || "tools") === activeCat;
       if (!catOk) return false;
       if (!q) return true;
@@ -1147,30 +1150,38 @@ distiller / simplifier / scribe native</pre>
   }
 
   function render(list) {
+    const rinneganOn = document.documentElement.classList.contains("rinnegan");
     grid.innerHTML = list.map(p => {
       const isPage = p.kind === "page";
+      const isStandalone = RINNEGAN_STANDALONE.includes(p);
       const srcHref = isPage ? (p.src || p.href || "#") : `${REPO}/tree/main/marketplace/plugins/${encodeURIComponent(p.n)}`;
-      const actions = isPage
-        ? `<a class="btn small" href="${esc(p.href || "#")}">OPEN PAGE</a>
-           <button class="btn small" data-copy="${esc(p.c)}">COPY INSTALL</button>`
-        : `<button class="btn small" data-copy="codex plugin add ${esc(p.n)}@ds4cc">COPY INSTALL</button>`;
+      const actions = isStandalone
+        ? `<button class="btn small" data-copy="${esc(p.c)}">${esc(p.action)}</button>`
+        : isPage
+          ? `<a class="btn small" href="${esc(p.href || "#")}">OPEN PAGE</a>
+             <button class="btn small" data-copy="${esc(p.c)}">COPY INSTALL</button>`
+          : `<button class="btn small" data-copy="codex plugin add ${esc(p.n)}@ds4cc">COPY INSTALL</button>`;
+      const provenance = isStandalone
+        ? `<span class="plug-src">${esc(p.provenance)} · standalone authority</span>`
+        : `<a class="plug-src" href="${esc(srcHref)}" target="_blank" rel="noopener">source ↗</a>`;
       return `
       <div class="plug">
         <div class="plug-head">
           <span class="plug-name">${esc(p.n)}</span>
-          <span class="plug-ver">${isPage ? esc(p.v) : "v" + esc(p.v)}</span>
+          <span class="plug-ver">${isPage || isStandalone ? esc(p.v) : "v" + esc(p.v)}</span>
           <span class="plug-cat">${esc(p.cat || "tools")}</span>
         </div>
         <p class="plug-desc">${esc(p.d)}</p>
         <div class="plug-cmd" title="key command">${esc(p.c)}</div>
         <div class="plug-foot">
           ${actions}
-          <a class="plug-src" href="${esc(srcHref)}" target="_blank" rel="noopener">source ↗</a>
+          ${provenance}
         </div>
       </div>`;
     }).join("");
-    const pluginTotal = PLUGINS.filter(p => p.kind !== "page").length;
-    count.textContent = list.length + " / " + pluginTotal;
+    const total = rinneganOn ? catalogForMode().length : PLUGINS.filter(p => p.kind !== "page").length;
+    const visible = rinneganOn ? list.length : list.filter(p => p.kind !== "page").length;
+    count.textContent = visible + " / " + total;
   }
   render(filtered());
 

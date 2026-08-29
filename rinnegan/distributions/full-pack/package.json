@@ -1,0 +1,21 @@
+{
+  "name": "@veigapunk/myagents",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Canonical local authority for the myagents role cards and one-shot Rinnegan launcher.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "bin": {
+    "myagents": "bin/myagents.mjs",
+    "b00mr-install": "bin/b00mr-install.mjs",
+    "z00mr-install": "bin/z00mr-install.mjs"
+  },
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "sync": "node scripts/sync.mjs",
+    "test": "node --test tests/*.test.mjs"
+  }
+}

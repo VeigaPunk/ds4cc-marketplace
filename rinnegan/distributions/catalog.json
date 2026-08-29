@@ -1,0 +1,256 @@
+{
+  "schema": "ds4cc.myagents-distributions.v1",
+  "authority": "https://github.com/VeigaPunk/myagents",
+  "fullPack": {
+    "source": "./full-pack",
+    "installerCommands": [
+      {
+        "name": "b00mr-install",
+        "kind": "interactive-installer",
+        "command": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+      },
+      {
+        "name": "z00mr-install",
+        "kind": "aio-installer",
+        "command": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/z00mr-install.mjs\"'"
+      }
+    ],
+    "leanbuilder": {
+      "discoverableAsAgent": false,
+      "launcher": "bin/myagents.mjs",
+      "admission": "rinnegan/admission.json"
+    },
+    "files": [
+      {
+        "path": "bin/b00mr-install.mjs",
+        "sha256": "bbc16bcc97dc60af97a4374193b8a3c59b7f63ea52354414b7af3b2e8294beb6"
+      },
+      {
+        "path": "bin/myagents.mjs",
+        "sha256": "2658de8e59cc8029a990811132340bb3a170ae0ef89583b18b520d1daba9559a"
+      },
+      {
+        "path": "bin/z00mr-install.mjs",
+        "sha256": "443f64455badb133af61b3bdfffb8961430866197d2b14a6d091fa8e3b8f77d6"
+      },
+      {
+        "path": "lib/install-engine.mjs",
+        "sha256": "6167bbc34039c25e827ad72c9914fe99d35aad668edfc9e15c4b6ce5fd1c832a"
+      },
+      {
+        "path": "lib/refusal-prank.mjs",
+        "sha256": "61f174e6f8e35a6b989e690837c67d4fbe9b62ea052dc2e9b460a7a69f561d0e"
+      },
+      {
+        "path": "lib/rinnegan-catalog.mjs",
+        "sha256": "e6b3082bcade8b8cb0896e9b895de34e04792122567e28f2493dca066ecbcd8c"
+      },
+      {
+        "path": "package.json",
+        "sha256": "bd1874c6e99477d4100193464440712d4e8b3da6824922afe0f09d7f8518c942"
+      },
+      {
+        "path": "reconciliation.json",
+        "sha256": "c866f70a4ad51df79f66adb760be115b41e3d73a483fec54550e246ac1b7a3f8"
+      },
+      {
+        "path": "rinnegan/admission.json",
+        "sha256": "4b24146a7839f33efb461513e974301828b6b2bb76673ce0f53abf3b34bf0421"
+      },
+      {
+        "path": "rinnegan/installers.json",
+        "sha256": "eb07ddc0087fa499fef2fcfdf6942bee10c8e05af4b1104b1a354614c6352053"
+      },
+      {
+        "path": "rinnegan/the-leanbuilder.md",
+        "sha256": "7379541e4ccf7b5ae073fbe03683b1cce3fdffba5374b07da3155b1ada326f1c"
+      },
+      {
+        "path": "scripts/sync.mjs",
+        "sha256": "a7adae2fa29bf1ffe94174912c7eed80dd176d5e033ee5676fc0750e741da899"
+      },
+      {
+        "path": "scripts/validate.mjs",
+        "sha256": "8517a3d9ce47ddf7ad0837160e8a97409876d6773c080d564d91ec9c48e24bc6"
+      },
+      {
+        "path": "the-architect.md",
+        "sha256": "533b0d249c39db773f751e10d46c4d01fb6e7053025f05a015d9d0e0707ab3d4"
+      },
+      {
+        "path": "the-bootstrapper.md",
+        "sha256": "28026c249274da69b9dacdced5921accb0e8a099a51df0cdc39d48420a322e31"
+      },
+      {
+        "path": "the-connector.md",
+        "sha256": "dd1e641fbd2a448bf07f5912e95d4983ebed07b90a729f7064e339e66df3c5fe"
+      },
+      {
+        "path": "the-critic.md",
+        "sha256": "96327d5dce6e77d218149dc2eacce40046adfc4af49b6144f39beedab40310e9"
+      },
+      {
+        "path": "the-distiller.md",
+        "sha256": "4771ac2702e8ad507c8dc535e6159a2aa96dc47313beee9cb090ae17d2394e3a"
+      },
+      {
+        "path": "the-executor.md",
+        "sha256": "1e8a657513c05ee4c1fbec43e41420f7dc9ac9b6b694ca88d17ddc7ae6ed819a"
+      },
+      {
+        "path": "the-judge.md",
+        "sha256": "564eb594d3f10ebe922abc549fc302fdcc67d7fb21144ebd969c445856fc920d"
+      },
+      {
+        "path": "the-labrat.md",
+        "sha256": "ba88d1cf2fb62ec640fc068ac5321e98e5f1fcf5664a4e1b36f9971aa56957ac"
+      },
+      {
+        "path": "the-mutation-tester.md",
+        "sha256": "21e34d1accc0c52ec5e14ea5817c557d9c9c57b3f89ce8b7a91e43cc0986f98e"
+      },
+      {
+        "path": "the-planner.md",
+        "sha256": "5e7965c863b26a8de2e1f04eb48f778335f0566e13356239e50b779df2b76246"
+      },
+      {
+        "path": "the-revenger.md",
+        "sha256": "0df8cf0d005813792f8f318f8b38ddc6bfc6662f9dd46822f6b373acf020b54e"
+      },
+      {
+        "path": "the-reviewer.md",
+        "sha256": "99fa0be480ce23d6bc17cf9bee61ad3a3e2bbee99f859b78c05a8a41ba16b153"
+      },
+      {
+        "path": "the-scout.md",
+        "sha256": "a500d3a5b647dc63f6637bb516d02731d97067fd38b0af7ea298a0799daf1b8c"
+      },
+      {
+        "path": "the-scribe.md",
+        "sha256": "3644876d9f67a1e318b22fd86c53c6990293b9bdb8e951aa0ca526fdb415e920"
+      },
+      {
+        "path": "the-sentinel.md",
+        "sha256": "16b7f771b6d00182c2bb2f2cb0c82f3471523cbe1286ed9b53e0d768b892f40f"
+      },
+      {
+        "path": "the-simplifier.md",
+        "sha256": "613cb55ace59aacf7dce0eb47e28d9b791be36d567c65625509af11816d71c6d"
+      }
+    ]
+  },
+  "standaloneAgents": [
+    {
+      "name": "the-architect",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-architect.agent.md",
+      "sha256": "533b0d249c39db773f751e10d46c4d01fb6e7053025f05a015d9d0e0707ab3d4",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-bootstrapper",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-bootstrapper.agent.md",
+      "sha256": "28026c249274da69b9dacdced5921accb0e8a099a51df0cdc39d48420a322e31",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-connector",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-connector.agent.md",
+      "sha256": "dd1e641fbd2a448bf07f5912e95d4983ebed07b90a729f7064e339e66df3c5fe",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-critic",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-critic.agent.md",
+      "sha256": "96327d5dce6e77d218149dc2eacce40046adfc4af49b6144f39beedab40310e9",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-distiller",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-distiller.agent.md",
+      "sha256": "4771ac2702e8ad507c8dc535e6159a2aa96dc47313beee9cb090ae17d2394e3a",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-executor",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-executor.agent.md",
+      "sha256": "1e8a657513c05ee4c1fbec43e41420f7dc9ac9b6b694ca88d17ddc7ae6ed819a",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-judge",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-judge.agent.md",
+      "sha256": "564eb594d3f10ebe922abc549fc302fdcc67d7fb21144ebd969c445856fc920d",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-labrat",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-labrat.agent.md",
+      "sha256": "ba88d1cf2fb62ec640fc068ac5321e98e5f1fcf5664a4e1b36f9971aa56957ac",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-mutation-tester",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-mutation-tester.agent.md",
+      "sha256": "21e34d1accc0c52ec5e14ea5817c557d9c9c57b3f89ce8b7a91e43cc0986f98e",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-planner",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-planner.agent.md",
+      "sha256": "5e7965c863b26a8de2e1f04eb48f778335f0566e13356239e50b779df2b76246",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-revenger",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-revenger.agent.md",
+      "sha256": "0df8cf0d005813792f8f318f8b38ddc6bfc6662f9dd46822f6b373acf020b54e",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-reviewer",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-reviewer.agent.md",
+      "sha256": "99fa0be480ce23d6bc17cf9bee61ad3a3e2bbee99f859b78c05a8a41ba16b153",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-scout",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-scout.agent.md",
+      "sha256": "a500d3a5b647dc63f6637bb516d02731d97067fd38b0af7ea298a0799daf1b8c",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-sentinel",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-sentinel.agent.md",
+      "sha256": "16b7f771b6d00182c2bb2f2cb0c82f3471523cbe1286ed9b53e0d768b892f40f",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-scribe",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-scribe.agent.md",
+      "sha256": "3644876d9f67a1e318b22fd86c53c6990293b9bdb8e951aa0ca526fdb415e920",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "the-simplifier",
+      "kind": "standalone-public-agent",
+      "source": "./agents/the-simplifier.agent.md",
+      "sha256": "613cb55ace59aacf7dce0eb47e28d9b791be36d567c65625509af11816d71c6d",
+      "installCommand": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    }
+  ]
+}

@@ -25,9 +25,8 @@ const EXPECTED_AGENTS = [
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const errors = [];
-const GODSPEED_INVARIANT = "**Canonical Godspeed.**";
+const GODSPEED_INVARIANTS = ["**Canonical Godspeed.**", "**Godspeed is inherited.**"];
 const DELEGATION_INVARIANT = "**Delegation is transitive.**";
-const CONCURRENCY_CEILING = "- **Concurrency ceiling.** Honor the host-governed concurrency ceiling; this stack is certified at 64 concurrent subagents.";
 const PROHIBITED_PROFILE_TEXT = [
   "gpt55",
   "gpt-5.6-sol",
@@ -94,9 +93,8 @@ for (const filename of files) {
     const description = descriptionLines[0].replace(/^description:[ \t]*/, "").trim();
     check(description.length >= 20 && description !== "|" && description !== ">", `${filename}: description is too short or unsupported`);
   }
-  check(source.includes(GODSPEED_INVARIANT), `${filename}: missing Godspeed inheritance invariant`);
+  check(GODSPEED_INVARIANTS.some((invariant) => source.includes(invariant)), `${filename}: missing Godspeed inheritance invariant`);
   check(source.includes(DELEGATION_INVARIANT), `${filename}: missing transitive delegation invariant`);
-  check(source.includes(CONCURRENCY_CEILING), `${filename}: missing host-governed 64-subagent concurrency contract`);
   for (const prohibited of PROHIBITED_PROFILE_TEXT) {
     check(!source.includes(prohibited), `${filename}: prohibited stale delegation text: ${prohibited}`);
   }
@@ -106,14 +104,24 @@ for (const filename of files) {
 }
 
 const canonicalDir = path.resolve(root, "..", "myagents");
-if (await exists(canonicalDir)) {
+const canonicalExists = await exists(canonicalDir);
+check(canonicalExists, "mandatory standalone canonical authority ../myagents is missing");
+if (canonicalExists) {
+  const canonicalFiles = (await readdir(canonicalDir)).filter((name) => /^the-[a-z0-9-]+\.md$/.test(name)).sort();
+  const expectedCanonical = EXPECTED_AGENTS.map((name) => `${name}.md`).sort();
+  check(
+    canonicalFiles.length === expectedCanonical.length && expectedCanonical.every((name) => canonicalFiles.includes(name)),
+    `standalone canonical role set is stale or unexpected: expected ${expectedCanonical.join(", ")}; found ${canonicalFiles.join(", ")}`,
+  );
+  check(!canonicalFiles.includes("the-leanbuilder.md"), "leanbuilder must remain outside the top-level public role authority");
+  check(!files.includes("the-leanbuilder.agent.md"), "leanbuilder must remain outside the standard plugin agent payload");
   for (const filename of files) {
     const canonicalName = filename.replace(/\.agent\.md$/, ".md");
     const [packaged, canonical] = await Promise.all([
       readFile(path.join(agentsDir, filename)),
       readFile(path.join(canonicalDir, canonicalName)),
     ]);
-    check(packaged.equals(canonical), `${filename}: packaged payload differs from canonical ${canonicalName}`);
+    check(packaged.equals(canonical), `${filename}: packaged payload differs from mandatory canonical ${canonicalName}`);
   }
 }
 

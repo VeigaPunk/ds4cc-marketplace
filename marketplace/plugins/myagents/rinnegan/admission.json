@@ -1,0 +1,16 @@
+{
+  "schema": "myagents.rinnegan-admission.v1",
+  "records": [
+    {
+      "name": "the-leanbuilder",
+      "admitted": true,
+      "rinnegan": true,
+      "shipped": true,
+      "launcherKind": "one-shot",
+      "roleCard": "rinnegan/the-leanbuilder.md",
+      "sha256": "7379541e4ccf7b5ae073fbe03683b1cce3fdffba5374b07da3155b1ada326f1c",
+      "source": "local-only",
+      "command": "myagents lean --run-id \"lean-$(date -u +%Y%m%d-%H%M%S)-$$\" --target \"$PWD\" --task \"remove needless weight and repair existing manifest registry installer and path wiring\""
+    }
+  ]
+}

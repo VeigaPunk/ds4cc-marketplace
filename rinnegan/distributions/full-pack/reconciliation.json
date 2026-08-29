@@ -1,0 +1,119 @@
+{
+  "schema": "myagents.public-role-reconciliation.v1",
+  "canonicalRoleCount": 16,
+  "policy": "standalone-authority-wins",
+  "records": [
+    {
+      "name": "the-architect",
+      "remoteSha256": null,
+      "packagedSha256": "533b0d249c39db773f751e10d46c4d01fb6e7053025f05a015d9d0e0707ab3d4",
+      "resolution": "packaged-seeded",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-bootstrapper",
+      "remoteSha256": null,
+      "packagedSha256": "28026c249274da69b9dacdced5921accb0e8a099a51df0cdc39d48420a322e31",
+      "resolution": "packaged-seeded",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-connector",
+      "remoteSha256": "dd1e641fbd2a448bf07f5912e95d4983ebed07b90a729f7064e339e66df3c5fe",
+      "packagedSha256": "1b290f85d1c2673a807a2a06fa194f7584f1e5b56c7ec92fbea3e76d246afcdd",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-critic",
+      "remoteSha256": "96327d5dce6e77d218149dc2eacce40046adfc4af49b6144f39beedab40310e9",
+      "packagedSha256": "ffd033065bdd13614b3a65711c2ac76025822d63df92a9e77832f92aa6e53469",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-distiller",
+      "remoteSha256": "4771ac2702e8ad507c8dc535e6159a2aa96dc47313beee9cb090ae17d2394e3a",
+      "packagedSha256": "d7f9b20584ceba40b4903721c754b0235be23d6c4836f946e511d49ded52c393",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-executor",
+      "remoteSha256": "1e8a657513c05ee4c1fbec43e41420f7dc9ac9b6b694ca88d17ddc7ae6ed819a",
+      "packagedSha256": "134ef96bdf484dde8177129a3ad3a795de590349bbab49170efc5f7e68ee3298",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-judge",
+      "remoteSha256": "564eb594d3f10ebe922abc549fc302fdcc67d7fb21144ebd969c445856fc920d",
+      "packagedSha256": "79fcf38ba13ad0a3e90e8206917d6cc6bad46918fffe7bef6f5204e79c01f356",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-labrat",
+      "remoteSha256": "ba88d1cf2fb62ec640fc068ac5321e98e5f1fcf5664a4e1b36f9971aa56957ac",
+      "packagedSha256": "78d58fb5011b1509540c0af722c0f4cd0c708b9046533241f343fcb1cd843b70",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-mutation-tester",
+      "remoteSha256": "21e34d1accc0c52ec5e14ea5817c557d9c9c57b3f89ce8b7a91e43cc0986f98e",
+      "packagedSha256": "0306fd0e0eee289c51fcf2f4f57716d14212587f4abd0ebee600966d83fffb1c",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-planner",
+      "remoteSha256": "5e7965c863b26a8de2e1f04eb48f778335f0566e13356239e50b779df2b76246",
+      "packagedSha256": "629ea8f965d4683010e5b8a4326a91b650f387653f31e65095998cce9b03e02e",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-revenger",
+      "remoteSha256": "0df8cf0d005813792f8f318f8b38ddc6bfc6662f9dd46822f6b373acf020b54e",
+      "packagedSha256": "fb0049b5bc5169fffadbfa6af21b0b2ac1142e2e63e8ef089fcc2b8ef7552b11",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-reviewer",
+      "remoteSha256": "99fa0be480ce23d6bc17cf9bee61ad3a3e2bbee99f859b78c05a8a41ba16b153",
+      "packagedSha256": "459b0c6ef151dca8fca29a9815ddca098664f4b3df6d66d4154c8fc66016cdfd",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-scout",
+      "remoteSha256": "a500d3a5b647dc63f6637bb516d02731d97067fd38b0af7ea298a0799daf1b8c",
+      "packagedSha256": "bd491eb2eb5d6bfd5176a552f88a3c6127c1fba5c6deb44e09f2be29695975e9",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-scribe",
+      "remoteSha256": "3644876d9f67a1e318b22fd86c53c6990293b9bdb8e951aa0ca526fdb415e920",
+      "packagedSha256": "96cbed08a75fb4b8487e838da585fbd61af27d91845409dfaeab99d220afb370",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-sentinel",
+      "remoteSha256": "16b7f771b6d00182c2bb2f2cb0c82f3471523cbe1286ed9b53e0d768b892f40f",
+      "packagedSha256": "5aece6972a60d79a7ed72643c1ae75ebcf428b44d582eef9d4e0b550a3576b21",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    },
+    {
+      "name": "the-simplifier",
+      "remoteSha256": "613cb55ace59aacf7dce0eb47e28d9b791be36d567c65625509af11816d71c6d",
+      "packagedSha256": "9a0c8abe88acc60bef21ffa916ffbe7491d4dc73ef5dbadc288b117a183d59f7",
+      "resolution": "canonical-kept",
+      "mirrorAction": "publish-canonical-to-ds4cc"
+    }
+  ]
+}

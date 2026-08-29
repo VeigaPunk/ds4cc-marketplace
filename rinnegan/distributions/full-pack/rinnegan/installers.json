@@ -1,0 +1,27 @@
+{
+  "schema": "myagents.rinnegan-installers.v1",
+  "records": [
+    {
+      "name": "b00mr-install",
+      "admitted": true,
+      "rinnegan": true,
+      "shipped": true,
+      "kind": "interactive-installer",
+      "source": "https://github.com/VeigaPunk/myagents",
+      "bootstrap": "git-clone-default-branch",
+      "localCommand": "b00mr-install",
+      "command": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/b00mr-install.mjs\"'"
+    },
+    {
+      "name": "z00mr-install",
+      "admitted": true,
+      "rinnegan": true,
+      "shipped": true,
+      "kind": "aio-installer",
+      "source": "https://github.com/VeigaPunk/myagents",
+      "bootstrap": "git-clone-default-branch",
+      "localCommand": "z00mr-install",
+      "command": "bash -c 'set -euo pipefail; d=\"$(mktemp -d)\"; trap \"rm -rf -- \\\"$d\\\"\" EXIT; git clone --depth 1 https://github.com/VeigaPunk/myagents.git \"$d/myagents\"; node \"$d/myagents/bin/z00mr-install.mjs\"'"
+    }
+  ]
+}
