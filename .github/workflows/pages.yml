@@ -23,6 +23,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          path: ds4cc-marketplace
+
+      - name: Checkout standalone authority
+        uses: actions/checkout@v5
+        with:
+          repository: VeigaPunk/myagents
+          path: myagents
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -30,13 +38,16 @@ jobs:
           node-version: 22
 
       - name: Validate agent payloads
+        working-directory: ds4cc-marketplace
         run: node scripts/validate-agent-payloads.mjs
 
       - name: Check isolated OpenCode install
+        working-directory: ds4cc-marketplace
         run: node scripts/check-opencode-install.mjs
 
       # Build Kimi plugin archives before Pages upload so the catalog is installable.
       - name: Test and build Kimi marketplace
+        working-directory: ds4cc-marketplace
         run: |
           python3 -m unittest -v tests.test_build_kimi_marketplace
           python3 scripts/build-kimi-marketplace.py
@@ -44,7 +55,7 @@ jobs:
       - name: Test marketplace validator
         env:
           CARGO_TARGET_DIR: ${{ runner.temp }}/ds4cc-cargo-target
-        run: cargo test --manifest-path marketplace/validator/Cargo.toml
+        run: cargo test --manifest-path ds4cc-marketplace/marketplace/validator/Cargo.toml
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
@@ -52,7 +63,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./
+          path: ./ds4cc-marketplace
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4

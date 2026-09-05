@@ -135,11 +135,11 @@ test("official package uses only supported interface manifest fields and valid p
   }
 });
 
-test("public marketplace remains exactly 18 source-bound plugins", () => {
+test("public marketplace remains exactly 19 source-bound plugins", () => {
   for (const file of ["marketplace/marketplace.json", ".agents/plugins/marketplace.json"]) {
     const manifest = JSON.parse(readFileSync(resolve(process.cwd(), "..", file), "utf8")) as { plugins: Array<{ name: string; source: { path: string } }> };
-    assert.equal(manifest.plugins.length, 18, file);
-    assert.equal(new Set(manifest.plugins.map((plugin) => plugin.name)).size, 18, file);
+    assert.equal(manifest.plugins.length, 19, file);
+    assert.equal(new Set(manifest.plugins.map((plugin) => plugin.name)).size, 19, file);
     for (const plugin of manifest.plugins) assert.ok(plugin.source.path.endsWith(`/plugins/${plugin.name}`), `${file}: ${plugin.name}`);
   }
   const pluginRoot = resolve(process.cwd(), "../marketplace/plugins/ds4cc");

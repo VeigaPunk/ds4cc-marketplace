@@ -10,6 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          path: ds4cc-marketplace
+
+      - name: Checkout standalone authority
+        uses: actions/checkout@v4
+        with:
+          repository: VeigaPunk/myagents
+          path: myagents
 
       - uses: actions/setup-node@v4
         with:
@@ -19,7 +27,8 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Validate marketplace manifest with Rust
-        run: cargo test --manifest-path marketplace/validator/Cargo.toml
+        run: cargo test --manifest-path ds4cc-marketplace/marketplace/validator/Cargo.toml
 
       - name: Validate agent payload metadata
+        working-directory: ds4cc-marketplace
         run: node scripts/validate-agent-payloads.mjs
