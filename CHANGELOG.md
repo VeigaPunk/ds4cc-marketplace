@@ -3,6 +3,8 @@
 ## Unreleased
 
 ### Changed
+- **Rinnegan wall is omp-only:** the standalone CLI cards (`the-leanbuilder`, `b00mr-install`, `z00mr-install`) are off the rinnegan catalog; the sole wall entry is now **omp** (Oh My Pi, `curl -fsSL https://omp.sh/install | sh`, authority `github.com/can1357/oh-my-pi`). `rinnegan/policy.js` admits exactly that record and fails closed on anything else. Rinnegan mode also hides `05 Optional ChatGPT companion` (`#app`) and `04 Install — Few Good CLIs™` (`#install`); normal mode is unchanged.
+
 
 - **PATH `xask` ChatGPT default** is sekhmet / `codex-titanium` / `service_tier=fast` (`gpt-5.3-codex-spark`). Bare `xask cdx` auto-sparks. Opt-in stock remains `--substrate stock` / `--gpt55` / `--model-id`. Daybreak and `gpt-5.4-mini` still reject `fast`.
 
