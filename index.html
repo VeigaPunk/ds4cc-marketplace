@@ -14,11 +14,8 @@
 <link rel="icon" type="image/svg+xml" href="burnerchrome/favicon.svg" />
 <script>
 document.documentElement.classList.add('js');
-try {
-  if (localStorage.getItem('ds4cc-rinnegan') === '1') {
-    document.documentElement.classList.add('rinnegan');
-  }
-} catch (_) {}
+// rinnegan reading mode is always off on load; it is never persisted.
+try { localStorage.removeItem('ds4cc-rinnegan'); } catch (_) {}
 </script>
 <style>
 @font-face {
@@ -1131,7 +1128,7 @@ distiller / simplifier / scribe native</pre>
   if (rinneganBtn) {
     rinneganBtn.addEventListener("click", () => {
       const on = document.documentElement.classList.toggle("rinnegan");
-      try { localStorage.setItem("ds4cc-rinnegan", on ? "1" : "0"); } catch (_) {}
+      // no persistence: enabling rinnegan is a per-visit click
       syncRinnegan();
       if (typeof render === "function" && typeof filtered === "function") render(filtered());
     });
