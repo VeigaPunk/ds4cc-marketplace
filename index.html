@@ -511,7 +511,7 @@ html.rinnegan ::selection {
       <a href="./xbgst.html">xbgst</a>
       <a href="#demo">demo</a>
       <a href="#plugins">plugins</a>
-      <a href="#agent-pip">agent-pip</a>
+      <a href="#ufo-sighting">ufo sighting</a>
       <a href="#os-tuning">os tuning</a>
       <a href="#install">install</a>
       <a href="#app">optional app</a>
@@ -666,36 +666,37 @@ html.rinnegan ::selection {
     <div class="plugins" id="plugGrid"></div>
   </section>
 
-  <section id="agent-pip" class="reveal">
-    <h2><span class="idx">03</span>Agent Pip — live tmux output in Waybar</h2>
-    <p class="sub">A compact Rust dashboard that renders every live tmux pane side by side, preserving terminal color while keeping each pane’s newest output line anchored at the bottom. <em>Not a marketplace plugin</em> — companion binary; install from source.</p>
+  <section id="ufo-sighting" class="reveal">
+    <h2><span class="idx">03</span>UFO Sighting — the live L1 wall</h2>
+    <p class="sub">A dedicated terminal wall attached to the tmux session <code>ufo_sighting:1</code>: every active UFO-FSD L1 mission owns one registered, titled pane with stable run/session provenance, laid out on a responsive grid that adapts to the attached client. <em>Work in progress</em> — releases with the <code>/ufo</code> skill under FSD, the full self-driving regime. Takes over the Agent Pip slot.</p>
     <div class="grid-2">
       <div class="panel" style="padding:14px 16px">
-        <h3 style="margin-top:0;font-size:0.95rem">Latest output stays visible</h3>
-<pre><span class="g">┌ attached · build ────────┐</span>
-│ compiling renderer       │
-│ running regression suite │
-│                          │
-│                          │
-│                          │
-│                          │
-│ <span class="g">68 passed; 0 failed</span>      │
-<span class="g">└──────────────────────────┘</span></pre>
-        <p>Blank interior rows remain blank above the content. The last retained output line sits directly above the lower border, so the current result is visible at a glance.</p>
+        <h3 style="margin-top:0;font-size:0.95rem">One pane per mission</h3>
+<pre><span class="g">┌ ufo_sighting:1 ───────────┐</span>
+│ <span class="g">┌ rinnegan-r1 ──────────┐</span> │
+│ │ L1 · 6 lanes settled  │ │
+│ │ <span class="g">verdict: 7 edits shipped</span> │ │
+│ <span class="g">└───────────────────────┘</span> │
+│ <span class="g">┌ hatch-twin ───────────┐</span> │
+│ │ L1 · wave live        │ │
+│ <span class="g">└───────────────────────┘</span> │
+<span class="g">└────────────────────────────┘</span></pre>
+        <p>The wall is display and registration state only — never another orchestrator, never a source of runtime authority. A twin is one explicit depth-1 sibling L1 with fresh identities and origin provenance; it never merges judges and never recursively forks.</p>
         <div class="kv">
-          <span class="ok-chip">ANSI color</span>
-          <span class="ok-chip">tmux panes</span>
-          <span class="ok-chip">Waybar Pango</span>
-          <span class="ok-chip">v0.2.0</span>
+          <span class="ok-chip">tmux grid</span>
+          <span class="ok-chip">pane registry</span>
+          <span class="ok-chip">twin cap: depth-1</span>
+          <span class="ok-chip">WIP</span>
         </div>
       </div>
       <div class="panel" style="padding:14px 16px">
-        <h3 style="margin-top:0;font-size:0.95rem">Build and run</h3>
+        <h3 style="margin-top:0;font-size:0.95rem">Open the hatch</h3>
         <div class="oneliner" style="margin:8px 0">
-          <code><span class="p">$</span> cargo build --release</code>
-          <button type="button" class="copy-btn" data-copy="cargo build --release">COPY</button>
+          <code><span class="p">$</span> scripts/ufo-sighting open</code>
+          <button type="button" class="copy-btn" data-copy="scripts/ufo-sighting open">COPY</button>
         </div>
-        <p>Use the standalone TUI or feed Pango JSON into Waybar. The renderer keeps the existing 130px bar height, JetBrains Mono metrics, and native polling setup. Source: companion crate (not catalogued under marketplace/plugins).</p>
+        <p><code>open</code> launches or focuses the configured terminal on <code>ufo_sighting:1</code>; <code>status</code> reports registered missions, attached clients, and live geometry as JSON. The grid fits up to 15 mission panes (3 rows × 5 columns), sized from the attached terminal.</p>
+        <p class="note">WIP — lands with <code>/ufo</code> FSD: one L1 orchestrator, a WWKD plan before every judged round, specialist lanes on the native substrate, one Pareto judge, and an honest stop.</p>
       </div>
     </div>
   </section>
