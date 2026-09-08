@@ -457,7 +457,16 @@ html.rinnegan .hero-chips,
 html.rinnegan #demo,
 html.rinnegan #install,
 html.rinnegan #app,
-html.rinnegan .term-wrap {
+html.rinnegan .term-wrap,
+html.rinnegan nav a[href="#demo"],
+html.rinnegan nav a[href="#install"],
+html.rinnegan nav a[href="#app"],
+html.rinnegan .badge-count,
+html.rinnegan .few-good-clis,
+html.rinnegan #plugins h2.catalog-h2 {
+  display: none !important;
+}
+html:not(.rinnegan) [data-rinnegan-only] {
   display: none !important;
 }
 html.rinnegan header.hero {
@@ -526,10 +535,11 @@ html.rinnegan ::selection {
   <header class="hero">
     <div>
       <span class="badge">ship-ready distribution</span>
-      <span class="badge">19 plugins</span>
-      <span class="badge dark">4 agent CLIs</span>
+      <span class="badge badge-count">19 plugins</span>
+      <span class="badge dark badge-count">4 agent CLIs</span>
       <span class="badge dark">rust-validated</span>
       <span class="badge cyan">MIT</span>
+      <span class="badge" data-rinnegan-only>SS+ CLI — omp</span>
     </div>
 <pre class="ascii" aria-hidden="true">
 ██████╗  ███████╗ ██╗ ██╗  ██████╗  ██████╗
@@ -542,9 +552,10 @@ html.rinnegan ::selection {
     <h1>Ship-ready artifacts. <em>One distribution home.</em></h1>
     <p class="tagline">
       When an agent tool is refined enough to ship, it lands on DS4CC to install, inspect, or read.
-      Raw local paths come first. The <strong>Few Good CLIs™</strong> — <strong>Grok Build</strong>, <strong>Codex</strong>,
+      Raw local paths come first. <span class="few-good-clis">The <strong>Few Good CLIs™</strong> — <strong>Grok Build</strong>, <strong>Codex</strong>,
       <strong>Kimi Code CLI</strong>, <strong>OpenCode</strong>, and <strong>cursor-agent</strong> —
-      without turning the stack into a bridge zoo.
+      without turning the stack into a bridge zoo.</span>
+      <span data-rinnegan-only>The <strong>omp</strong> CLI is the <strong>SS+ tier</strong> — and it keeps getting better, everyday.</span>
     </p>
     <div class="hero-row hero-chips">
       <span class="chip"><span class="dot"></span> all 19 plugins available</span>
@@ -603,8 +614,35 @@ html.rinnegan ::selection {
     </div>
   </section>
 
+  <section id="ss-plus" data-rinnegan-only>
+    <h2><span class="idx">01b</span>The SS+ CLI — omp</h2>
+    <p class="sub"><strong>SS+ CLI, and it keeps getting better, everyday.</strong> omp is not one of the <strong>Few Good CLIs™</strong> — it is the tier above the family, and the only CLI listed on this wall.</p>
+    <div class="panel" style="padding:16px 18px;border-color:#7b4dff">
+      <div class="kv" style="margin-top:0">
+        <span class="ok-chip">native substrate</span>
+        <span class="ok-chip">no bridge zoo</span>
+        <span class="ok-chip">local-first</span>
+      </div>
+      <div class="oneliner" style="margin:12px 0">
+        <code><span class="p">$</span> curl -fsSL https://omp.sh/install | sh</code>
+        <button type="button" class="copy-btn" data-copy="curl -fsSL https://omp.sh/install | sh">COPY</button>
+      </div>
+      <p style="margin:0 0 10px">Not a grade we hand out — a gate UFO enforces in Rust: omp is the only substrate whose native handoff (<code>omp-native-v1</code>) the Pareto judge validates; every other CLI is contract-shape-only until its receipts land.</p>
+      <h3 style="margin:0 0 8px;font-size:0.95rem">How UFO runs on omp — natively, not adapted</h3>
+      <ul style="margin:0 0 12px;padding-left:20px">
+        <li><strong>One authority, host transport</strong> — UFO's L1 is omp's own Main; lanes dispatch through OMP <code>task</code> + Agent Hub. No second orchestration runtime, no bridge zoo.</li>
+        <li><strong>Ten seats, fail-closed</strong> — Main, one planner, six proposal lanes (scout, reviewer, critic, connector, sentinel, executor), the executor's depth-2 labrat, and a distiller that runs even when an upstream seat failed. The Rust judge rejects any handoff missing a seat; a failed seat stays in the topology as typed evidence.</li>
+        <li><strong>Hash-bound handoff</strong> — every assignment byte-matches its SHA-256 and carries exactly one terminal <code>| godspeed</code> marker; contract drift mid-round fails the handoff. Only the Rust judge composes and admits proposals.</li>
+        <li><strong>Autonomous model routing</strong> — the <code>chinese_ufo</code> formation pins a route per task class (depth → qwen3.8-max, review/integration → deepseek-v4-pro, mechanical → deepseek-v4-flash) with typed fallback chains. The operator never picks a model per dispatch.</li>
+        <li><strong>Reroute, don't respawn</strong> — a failed lane keeps its identity, prompt, and cached context and takes another local route. Failure is telemetry, never a silent retry or a replacement agent.</li>
+      </ul>
+      <p class="note" style="margin:0">The wall is omp today because omp passed the gate first. <strong>Few Good CLIs™</strong> family members get listed here as they earn proper support — upstream authority, shipped record, copy-only action, and a policy that fails closed on anything else. Admission is a record, not a promise.</p>
+    </div>
+  </section>
+
   <section id="plugins" class="reveal">
-    <h2><span class="idx">02</span>The catalog — 19 curated plugins</h2>
+    <h2 data-rinnegan-only><span class="idx">02</span>The catalog — curated plugins + the SS+ CLI</h2>
+    <h2 class="catalog-h2"><span class="idx">02</span>The catalog — 19 curated plugins</h2>
     <p class="sub">Every plugin ships an actionable <code>SKILL.md</code> (fenced commands, no boilerplate) and passes the Rust validator. Filter by name, category chips, or capability. Companion OS tools appear under <strong>os tuning</strong>.</p>
     <div class="grid-tools">
       <input class="filter" id="plugFilter" type="search" placeholder="filter plugins… (try: agents, grok, papers, godspeed)" aria-label="filter plugins" />
@@ -947,7 +985,7 @@ done</pre>
         </p>
         <p class="note" style="margin-top:12px">Disclosure: <a href="https://www.alibabacloud.com/campaign/benefits?referral_code=A927SY" target="_blank" rel="sponsored nofollow noopener">the Alibaba Cloud benefits campaign link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
       </div>
-      <div class="panel" style="padding:14px 16px">
+      <div class="panel few-good-clis" style="padding:14px 16px">
         <h3 style="margin-top:0;font-size:0.95rem">Kimi</h3>
         <p style="color:var(--muted);font-size:0.88rem;line-height:1.5;margin:0 0 12px">
           Invite for Kimi — used in the DS4CC agent lane mix (connector / revenger paths).
@@ -957,7 +995,7 @@ done</pre>
         </p>
         <p class="note" style="margin-top:12px">Disclosure: <a href="https://www.kimi.com/activities/invite/share?scenario=invite&amp;from=share_poster&amp;invitation_code=W6NGNP" target="_blank" rel="sponsored nofollow noopener">the Kimi invite link</a> is a referral — DS4CC may receive a benefit if you sign up through it; eligibility and offer vary by region and time.</p>
       </div>
-      <div class="panel" style="padding:14px 16px">
+      <div class="panel few-good-clis" style="padding:14px 16px">
         <h3 style="margin-top:0;font-size:0.95rem">OpenCode</h3>
         <p style="color:var(--muted);font-size:0.88rem;line-height:1.5;margin:0 0 12px">
           Bootstrap path for the OpenCode host in the Few Good CLIs™ marketplace.
@@ -1018,11 +1056,12 @@ distiller / simplifier / scribe native</pre>
       </div>
       <div>
         <b>catalog endpoints</b>
-        grok · <code>.grok-plugin/marketplace.json</code><br/>
+        <span class="few-good-clis">grok · <code>.grok-plugin/marketplace.json</code><br/>
         codex · <code>.agents/plugins/marketplace.json</code><br/>
         kimi · <a href="https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json" target="_blank" rel="noopener">published catalog</a><br/>
         opencode · bootstrap installer<br/>
-        cursor-agent · Few Good CLIs™ · <code>cursor.com/install</code>
+        cursor-agent · Few Good CLIs™ · <code>cursor.com/install</code></span>
+        <span data-rinnegan-only>omp · SS+ CLI · <code>omp.sh/install</code></span>
       </div>
       <div>
         <b>related stack</b>
