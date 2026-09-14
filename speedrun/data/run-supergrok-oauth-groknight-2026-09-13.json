@@ -1,87 +1,87 @@
 {
   "id": "veigapunk-supergrok-oauth-groknight-2026-09-13",
-  "title": "SuperGrok Heavy OAuth \u2014 80% remaining \u00b7 groknight UFO bounty fleet",
+  "title": "SuperGrok Heavy OAuth — 80% remaining · groknight UFO bounty fleet",
   "runner": "VeigaPunk",
   "account_hint": "jpveigao10@gmail.com",
   "provider": "xAI / SuperGrok",
-  "product": "SuperGrok Heavy \u00b7 xAI OAuth weekly credits \u00b7 grok-4.6:low L1 \u00d78 \u00b7 grok-4.5:low L2 \u00b7 ufo-fsd bounty fleet",
+  "product": "SuperGrok Heavy · xAI OAuth weekly credits · grok-4.6:low L1 ×8 · grok-4.5:low L2 · ufo-fsd bounty fleet",
   "budget_usd": null,
-  "budget_note": "Paid SuperGrok OAuth \u2014 not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
+  "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "wrapping",
-  "duration": "live \u00b7 248.2 min",
-  "venue": "tmux ufo_sighting:groknight \u00b7 cwd open-bug-bounties",
-  "summary": "WRAP-UP groknight SuperGrok OAuth: 96% weekly (start 20%). Closing this entry. Fleet runs to 100% then xAI API $300 cutover. Claim-ready 15 \u00b7 expected $4850.",
+  "duration": "wrapping · 253.2 min · 96% weekly",
+  "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
+  "summary": "WRAP-UP groknight SuperGrok OAuth: 96% weekly (start 20%). Closing the speedrun entry. Fleet runs to 100%. Claim-ready 15 · expected $5000.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
       "label": "groknight launch",
-      "note": "8\u00d7 L1 grok-4.6:high \u00b7 xAI OAuth pin \u00b7 cwd open-bug-bounties"
+      "note": "8× L1 grok-4.6:high · xAI OAuth pin · cwd open-bug-bounties"
     },
     {
       "t": "2026-09-14T00:45:26Z",
       "label": "speedrun board live",
-      "note": "operator start 20% \u00b7 meter 22% \u00b7 L1=8 L2=2 \u00b7 wall L1=24 L2=10"
+      "note": "operator start 20% · meter 22% · L1=8 L2=2 · wall L1=24 L2=10"
     },
     {
       "t": "2026-09-14T00:46:31.496Z",
       "label": "meter",
-      "note": "22% SuperGrok weekly \u00b7 L1=8 L2=1"
+      "note": "22% SuperGrok weekly · L1=8 L2=1"
     },
     {
       "t": "2026-09-14T00:51:34.556Z",
       "label": "meter",
-      "note": "25% SuperGrok weekly \u00b7 L1=8 L2=11"
+      "note": "25% SuperGrok weekly · L1=8 L2=11"
     },
     {
       "t": "2026-09-14T00:56:34.556Z",
       "label": "meter",
-      "note": "29% SuperGrok weekly \u00b7 L1=8 L2=38"
+      "note": "29% SuperGrok weekly · L1=8 L2=38"
     },
     {
       "t": "2026-09-14T00:57:26.881Z",
       "label": "meter",
-      "note": "29% weekly \u00b7 L1=8 L2=26 \u00b7 claim-ready 0 / $0"
+      "note": "29% weekly · L1=8 L2=26 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:02:33.078Z",
       "label": "meter",
-      "note": "33% weekly \u00b7 L1=8 L2=28 \u00b7 claim-ready 0 / $0"
+      "note": "33% weekly · L1=8 L2=28 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:07:33.078Z",
       "label": "meter",
-      "note": "36% weekly \u00b7 L1=8 L2=16 \u00b7 claim-ready 0 / $0"
+      "note": "36% weekly · L1=8 L2=16 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:12:33.079Z",
       "label": "meter",
-      "note": "40% weekly \u00b7 L1=8 L2=27 \u00b7 claim-ready 0 / $0"
+      "note": "40% weekly · L1=8 L2=27 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:17:33.086Z",
       "label": "meter",
-      "note": "43% weekly \u00b7 L1=8 L2=7 \u00b7 claim-ready 0 / $0"
+      "note": "43% weekly · L1=8 L2=7 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:22:33.087Z",
       "label": "meter",
-      "note": "43% weekly \u00b7 L1=8 L2=13 \u00b7 claim-ready 0 / $0"
+      "note": "43% weekly · L1=8 L2=13 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:27:33.093Z",
       "label": "meter",
-      "note": "47% weekly \u00b7 L1=8 L2=9 \u00b7 claim-ready 0 / $0"
+      "note": "47% weekly · L1=8 L2=9 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:32:33.096Z",
       "label": "meter",
-      "note": "49% weekly \u00b7 L1=8 L2=15 \u00b7 claim-ready 0 / $0"
+      "note": "49% weekly · L1=8 L2=15 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:37:33.099Z",
       "label": "meter",
-      "note": "49% weekly \u00b7 L1=8 L2=12 \u00b7 claim-ready 2 / $150"
+      "note": "49% weekly · L1=8 L2=12 · claim-ready 2 / $150"
     },
     {
       "t": "2026-09-14T01:32:04Z",
@@ -91,137 +91,137 @@
     {
       "t": "2026-09-14T01:42:33.101Z",
       "label": "meter",
-      "note": "52% weekly \u00b7 L1=8 L2=14 \u00b7 claim-ready 2 / $150"
+      "note": "52% weekly · L1=8 L2=14 · claim-ready 2 / $150"
     },
     {
       "t": "2026-09-14T01:47:33.103Z",
       "label": "meter",
-      "note": "54% weekly \u00b7 L1=8 L2=11 \u00b7 claim-ready 2 / $150"
+      "note": "54% weekly · L1=8 L2=11 · claim-ready 2 / $150"
     },
     {
       "t": "2026-09-14T01:50:14.774Z",
       "label": "meter",
-      "note": "56% weekly \u00b7 L1=8 L2=6 \u00b7 claim-ready 3 / $350"
+      "note": "56% weekly · L1=8 L2=6 · claim-ready 3 / $350"
     },
     {
       "t": "2026-09-14T01:55:19.631Z",
       "label": "meter",
-      "note": "59% weekly \u00b7 L1=8 L2=32 \u00b7 claim-ready 4 / $600"
+      "note": "59% weekly · L1=8 L2=32 · claim-ready 4 / $600"
     },
     {
       "t": "2026-09-14T01:56:04.143Z",
       "label": "meter",
-      "note": "59% weekly \u00b7 L1=8 L2=30 \u00b7 claim-ready 4 / $600"
+      "note": "59% weekly · L1=8 L2=30 · claim-ready 4 / $600"
     },
     {
       "t": "2026-09-14T02:01:08.298Z",
       "label": "meter",
-      "note": "62% weekly \u00b7 L1=8 L2=8 \u00b7 claim-ready 5 / $1100"
+      "note": "62% weekly · L1=8 L2=8 · claim-ready 5 / $1100"
     },
     {
       "t": "2026-09-14T02:06:08.297Z",
       "label": "meter",
-      "note": "64% weekly \u00b7 L1=8 L2=10 \u00b7 claim-ready 5 / $1100"
+      "note": "64% weekly · L1=8 L2=10 · claim-ready 5 / $1100"
     },
     {
       "t": "2026-09-14T02:11:08.297Z",
       "label": "meter",
-      "note": "66% weekly \u00b7 L1=8 L2=7 \u00b7 claim-ready 6 / $1200"
+      "note": "66% weekly · L1=8 L2=7 · claim-ready 6 / $1200"
     },
     {
       "t": "2026-09-14T02:16:08.297Z",
       "label": "meter",
-      "note": "67% weekly \u00b7 L1=8 L2=16 \u00b7 claim-ready 6 / $1200"
+      "note": "67% weekly · L1=8 L2=16 · claim-ready 6 / $1200"
     },
     {
       "t": "2026-09-14T02:21:08.299Z",
       "label": "meter",
-      "note": "69% weekly \u00b7 L1=8 L2=7 \u00b7 claim-ready 7 / $3700"
+      "note": "69% weekly · L1=8 L2=7 · claim-ready 7 / $3700"
     },
     {
       "t": "2026-09-14T02:26:08.301Z",
       "label": "meter",
-      "note": "71% weekly \u00b7 L1=8 L2=14 \u00b7 claim-ready 8 / $3750"
+      "note": "71% weekly · L1=8 L2=14 · claim-ready 8 / $3750"
     },
     {
       "t": "2026-09-14T02:31:08.303Z",
       "label": "meter",
-      "note": "72% weekly \u00b7 L1=8 L2=0 \u00b7 claim-ready 8 / $3750"
+      "note": "72% weekly · L1=8 L2=0 · claim-ready 8 / $3750"
     },
     {
       "t": "2026-09-14T02:36:08.305Z",
       "label": "meter",
-      "note": "73% weekly \u00b7 L1=7 L2=30 \u00b7 claim-ready 8 / $3750"
+      "note": "73% weekly · L1=7 L2=30 · claim-ready 8 / $3750"
     },
     {
       "t": "2026-09-14T02:41:08.307Z",
       "label": "meter",
-      "note": "77% weekly \u00b7 L1=8 L2=18 \u00b7 claim-ready 9 / $3800"
+      "note": "77% weekly · L1=8 L2=18 · claim-ready 9 / $3800"
     },
     {
       "t": "2026-09-14T02:46:08.309Z",
       "label": "meter",
-      "note": "78% weekly \u00b7 L1=8 L2=20 \u00b7 claim-ready 9 / $3800"
+      "note": "78% weekly · L1=8 L2=20 · claim-ready 9 / $3800"
     },
     {
       "t": "2026-09-14T02:51:08.309Z",
       "label": "meter",
-      "note": "80% weekly \u00b7 L1=8 L2=4 \u00b7 claim-ready 10 / $4050"
+      "note": "80% weekly · L1=8 L2=4 · claim-ready 10 / $4050"
     },
     {
       "t": "2026-09-14T02:56:08.309Z",
       "label": "meter",
-      "note": "82% weekly \u00b7 L1=8 L2=3 \u00b7 claim-ready 10 / $4250"
+      "note": "82% weekly · L1=8 L2=3 · claim-ready 10 / $4250"
     },
     {
       "t": "2026-09-14T03:01:08.309Z",
       "label": "meter",
-      "note": "83% weekly \u00b7 L1=8 L2=6 \u00b7 claim-ready 11 / $4300"
+      "note": "83% weekly · L1=8 L2=6 · claim-ready 11 / $4300"
     },
     {
       "t": "2026-09-14T03:06:08.309Z",
       "label": "meter",
-      "note": "85% weekly \u00b7 L1=8 L2=5 \u00b7 claim-ready 11 / $4300"
+      "note": "85% weekly · L1=8 L2=5 · claim-ready 11 / $4300"
     },
     {
       "t": "2026-09-14T03:11:08.309Z",
       "label": "meter",
-      "note": "87% weekly \u00b7 L1=8 L2=7 \u00b7 claim-ready 13 / $4600"
+      "note": "87% weekly · L1=8 L2=7 · claim-ready 13 / $4600"
     },
     {
       "t": "2026-09-14T03:16:08.309Z",
       "label": "meter",
-      "note": "88% weekly \u00b7 L1=8 L2=6 \u00b7 claim-ready 15 / $4850"
+      "note": "88% weekly · L1=8 L2=6 · claim-ready 15 / $4850"
     },
     {
       "t": "2026-09-14T03:21:08.309Z",
       "label": "meter",
-      "note": "90% weekly \u00b7 L1=8 L2=2 \u00b7 claim-ready 15 / $4850"
+      "note": "90% weekly · L1=8 L2=2 · claim-ready 15 / $4850"
     },
     {
       "t": "2026-09-14T03:26:08.309Z",
       "label": "meter",
-      "note": "92% weekly \u00b7 L1=8 L2=4 \u00b7 claim-ready 15 / $4850"
+      "note": "92% weekly · L1=8 L2=4 · claim-ready 15 / $4850"
     },
     {
       "t": "2026-09-14T03:31:08.309Z",
       "label": "meter",
-      "note": "92% weekly \u00b7 L1=8 L2=6 \u00b7 claim-ready 15 / $4850"
+      "note": "92% weekly · L1=8 L2=6 · claim-ready 15 / $4850"
     },
     {
       "t": "2026-09-14T03:36:08.309Z",
       "label": "meter",
-      "note": "94% weekly \u00b7 L1=8 L2=2 \u00b7 claim-ready 15 / $4850"
+      "note": "94% weekly · L1=8 L2=2 · claim-ready 15 / $4850"
     },
     {
-      "t": "2026-09-14T03:39:13Z",
+      "t": "2026-09-14T03:41:08.310Z",
       "label": "wrap",
-      "note": "96% SuperGrok weekly. Speedrun entry wrapping. API $300 dispatch only at 100%."
+      "note": "96% weekly · L1=8 L2=2 · claim-ready 15 / $5000"
     }
   ],
   "metrics": {
-    "mode": "agent \u00b7 UFO-FSD L1 fleet",
-    "parallelization": "8 L1 \u00b7 up to 16 L2 per L1",
+    "mode": "agent · UFO-FSD L1 fleet",
+    "parallelization": "8 L1 · up to 16 L2 per L1",
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
@@ -235,10 +235,10 @@
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "wrapping",
-    "elapsed_min_from_session": 248.2,
-    "pct_per_min": 0.2982,
+    "elapsed_min_from_session": 253.19,
+    "pct_per_min": 0.3002,
     "claim_ready_count": 15,
-    "claim_ready_expected_usd": 4850,
+    "claim_ready_expected_usd": 5000,
     "claim_ready_companies": [
       "Elastic",
       "Stripe",
@@ -253,14 +253,14 @@
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T03:36:08.309Z",
-    "used_percent": 94,
+    "ts": "2026-09-14T03:41:08.310Z",
+    "used_percent": 96,
     "l1_count": 8,
     "l2_count": 2,
     "wall_l1_count": 24,
     "wall_l2_count": 8,
     "claim_ready_count": 15,
-    "claim_ready_expected_usd": 4850,
+    "claim_ready_expected_usd": 5000,
     "claim_ready_companies": [
       "Elastic",
       "Stripe",
@@ -281,9 +281,9 @@
         "platform": "hackerone",
         "url": "https://hackerone.com/elastic",
         "expected_usd": 100,
-        "expected_usd_basis": "H1 GraphQL bounty_table row asset Other: low_minimum=100 (lanes/h1-elastic-bounty-table.json). Package Registry is structured-scope OTHER. Product-row low_minimum=75 not used because this asset is Other, not Elasticsearch/Kibana DOWNLOADABLE_EXECUTABLES. Min of published range; not invented.",
-        "l1": "groknight-xai-oauth/grok-4.6",
-        "path": ".ufo-missions/groknight/elastic/pocs/epr-zip-path-traversal",
+        "expected_usd_basis": "H1 GraphQL bounty_table Other low_minimum=100",
+        "l1": null,
+        "path": "claim-packages/EPR-STOR-1",
         "claimable_at": "2026-09-14T01:35:00Z"
       },
       {
@@ -293,22 +293,22 @@
         "platform": "hackerone",
         "url": "https://hackerone.com/stripe",
         "expected_usd": 50,
-        "expected_usd_basis": "signed-out H1 table not observed; L0 $50 floor; CSV Stripe SDKs github.com/stripe/ai payload-parse/tenant lock",
-        "l1": "xai-oauth/grok-4.6:low",
-        "path": "claim-packages/ST-AI-001-customer-context-bypass",
-        "claimable_at": "2026-09-14T02:55:00Z"
+        "expected_usd_basis": "H1 acquisition Low min 50 USD (core Low 100 unused; not High)",
+        "l1": "groknight",
+        "path": "claim-packages/ST-AI-001-customer-context-bypass/",
+        "claimable_at": "2026-09-14T02:20:00Z"
       },
       {
         "id": "agentkit-x402-whitelist-ssrf",
         "company": "Coinbase",
-        "program": "coinbase",
+        "program": "Coinbase",
         "platform": "hackerone",
         "url": "https://hackerone.com/coinbase",
-        "expected_usd": 50,
-        "expected_usd_basis": "CSV github.com/coinbase/* SOURCE_CODE bounty-eligible; signed-out H1 table not observed; L0 $50 floor",
-        "l1": "xai-oauth/grok-4.6:low",
-        "path": "claim-packages/agentkit-x402-whitelist-ssrf",
-        "claimable_at": "2026-09-14T03:08:00Z"
+        "expected_usd": 200,
+        "expected_usd_basis": "H1 base_bounty 200 USD; High 6000 unused",
+        "l1": "groknight",
+        "path": "claim-packages/agentkit-x402-whitelist-ssrf/",
+        "claimable_at": "2026-09-14T03:10:00Z"
       },
       {
         "id": "airtable-js-m01",
@@ -317,9 +317,9 @@
         "platform": "hackerone",
         "url": "https://hackerone.com/airtable",
         "expected_usd": 200,
-        "expected_usd_basis": "H1 GraphQL bounty_table low=200 USD observed 2026-09-14T01:36:50Z; SDK path injection / untrusted baseId \u2014 Low not Medium",
-        "l1": "groknight",
-        "path": ".ufo-missions/groknight/airtable/poc/M01-baseid-path-injection.cjs",
+        "expected_usd_basis": "H1 GraphQL bounty_table low=200 USD observed 2026-09-14T01:36:50Z",
+        "l1": null,
+        "path": "claim-packages/airtable-js-m01",
         "claimable_at": "2026-09-14T01:42:00Z"
       },
       {
@@ -329,9 +329,9 @@
         "platform": "bugcrowd",
         "url": "https://bugcrowd.com/engagements/aiven-mbb-og",
         "expected_usd": 250,
-        "expected_usd_basis": "published OSS table P3 min $250\u2013$500; use min 250; PoC local (auth ON). Default auth-off not this claim.",
+        "expected_usd_basis": "published OSS table P3 min $250–$500; use min 250; PoC local (auth ON). Default auth-off not this claim.",
         "l1": "groknight",
-        "path": ".ufo-missions/groknight/aiven/poc/karapace_acl_regex_prefix.py",
+        "path": "claim-packages/aiven-karapace-acl-prefix",
         "claimable_at": "2026-09-14T01:55:00Z"
       },
       {
@@ -341,9 +341,9 @@
         "platform": "bugcrowd",
         "url": "https://bugcrowd.com/engagements/aiven-mbb-og",
         "expected_usd": 50,
-        "expected_usd_basis": "published Bugcrowd OSS repo table P4 min $50\u2013$250 (not invented); local loopback PoC only; SECURITY.md PoC bar now met locally; managed-product exposure still unverified",
-        "l1": "groknight",
-        "path": ".ufo-missions/groknight/aiven-mbb-og/poc-pglookout-local.md",
+        "expected_usd_basis": "published Bugcrowd OSS repo table P4 min $50–$250",
+        "l1": null,
+        "path": "claim-packages/aiven-pglookout-m02",
         "claimable_at": "2026-09-14T01:32:00Z"
       },
       {
@@ -353,9 +353,9 @@
         "platform": "hackerone",
         "url": "https://hackerone.com/brave",
         "expected_usd": 50,
-        "expected_usd_basis": "H1 bounty_table Low min 50 USD (base_bounty 50). Published 2026-05-07. Not invented.",
-        "l1": "groknight-xai-oauth/grok-4.6",
-        "path": "claim-packages/brave-bat-go-reputation-proxy",
+        "expected_usd_basis": "H1 bounty_table Low min 50 USD / base_bounty 50. Program paused.",
+        "l1": "groknight",
+        "path": "claim-packages/brave-bat-go-reputation-proxy/",
         "claimable_at": "2026-09-14T03:34:00Z"
       },
       {
@@ -365,9 +365,9 @@
         "platform": "hackerone",
         "url": "https://hackerone.com/coinbase",
         "expected_usd": 200,
-        "expected_usd_basis": "H1 base_bounty 200 USD; Low/Med null",
+        "expected_usd_basis": "H1 base_bounty 200 USD; Low/Med table cells null; High 6000 unused (SSRF/allowlist, not High-proven)",
         "l1": "groknight",
-        "path": ".ufo-missions/groknight/coinbase/pocs/agentkit/poc_x402_whitelist_bypass.mjs",
+        "path": "claim-packages/coinbase-agentkit-x402",
         "claimable_at": "2026-09-14T03:10:00Z"
       },
       {
@@ -377,9 +377,9 @@
         "platform": "bugcrowd",
         "url": "https://bugcrowd.com/engagements/launchdarkly-mbb-og",
         "expected_usd": 2500,
-        "expected_usd_basis": "Published brief changelog 884450ef 2026-08-13 in-scope rewardRangeData P2 min=max 2500 USD. Streaming TLS-off is MITM flag integrity, not P4. Not invented.",
-        "l1": "groknight-xai-oauth/grok-4.6",
-        "path": "claim-packages/ld-node-stream-tls-bypass",
+        "expected_usd_basis": "Published P2 min=max 2500 USD",
+        "l1": "groknight",
+        "path": "claim-packages/ld-node-stream-tls-bypass/",
         "claimable_at": "2026-09-14T02:20:00Z"
       },
       {
@@ -389,9 +389,9 @@
         "platform": "hackerone",
         "url": "https://hackerone.com/metamask",
         "expected_usd": 50,
-        "expected_usd_basis": "CSV MetaMask SDK bounty-eligible (Core tier); signed-out H1 table not observed; L0 $50 floor not invented Core Low",
-        "l1": "xai-oauth/grok-4.6:low",
-        "path": "claim-packages/metamask-sdk-channel-inject",
+        "expected_usd_basis": "CSV MetaMask SDK bounty-eligible; L0 $50 floor",
+        "l1": "groknight",
+        "path": "claim-packages/metamask-sdk-channel-inject/poc",
         "claimable_at": "2026-09-14T03:12:00Z"
       },
       {
@@ -401,9 +401,9 @@
         "platform": "hackerone",
         "url": "https://hackerone.com/metamask",
         "expected_usd": 250,
-        "expected_usd_basis": "H1 Core-tier Low=250 USD conservative",
+        "expected_usd_basis": "H1 Core-tier Low=250 USD (conservative). Candidate High=5000 if channelId treated as public. Prerequisite: channelId known.",
         "l1": "groknight",
-        "path": ".ufo-missions/groknight/metamask/poc/mm01-channel-inject/poc.mjs",
+        "path": "claim-packages/metamask-sdk-mm01",
         "claimable_at": "2026-09-14T02:48:00Z"
       },
       {
@@ -413,9 +413,9 @@
         "platform": "hackerone",
         "url": "https://hackerone.com/metamask",
         "expected_usd": 250,
-        "expected_usd_basis": "H1 bounty_table Core Tier Assets low=250 USD observed 2026-09-04 row. MetaMask SDK is OTHER bounty-eligible Core. Min published cell; not invented.",
-        "l1": "groknight-xai-oauth/grok-4.6",
-        "path": "claim-packages/mm-sdk-channel-inject",
+        "expected_usd_basis": "H1 Core Tier Low 250 USD published",
+        "l1": "groknight",
+        "path": "claim-packages/mm-sdk-channel-inject/",
         "claimable_at": "2026-09-14T03:08:00Z"
       },
       {
@@ -425,9 +425,9 @@
         "platform": "hackerone",
         "url": "https://hackerone.com/mongodb",
         "expected_usd": 500,
-        "expected_usd_basis": "H1 GraphQL bounty_table medium=500 USD observed 2026-09-14",
+        "expected_usd_basis": "H1 GraphQL bounty_table medium=500 USD observed 2026-09-14; shared ExportsManager cross-tenant read — Medium not High",
         "l1": "groknight",
-        "path": ".ufo-missions/groknight/mongodb/poc/m01-shared-exports-cross-tenant.mjs",
+        "path": "claim-packages/mongodb-mcp-m01",
         "claimable_at": "2026-09-14T01:56:00Z"
       },
       {
@@ -437,9 +437,9 @@
         "platform": "hackerone",
         "url": "https://hackerone.com/mongodb",
         "expected_usd": 100,
-        "expected_usd_basis": "public H1 Low band $100 (not invented); CSV asset MongoDB MCP Server github.com/mongodb-js/mongodb-mcp-server bounty-eligible; GitHub-class may be reduced %",
-        "l1": "xai-oauth/grok-4.6:low",
-        "path": "claim-packages/mongodb-mcp-m01-shared-exports",
+        "expected_usd_basis": "H1 Low band 100 USD",
+        "l1": "groknight",
+        "path": "claim-packages/mongodb-mcp-m01-shared-exports/",
         "claimable_at": "2026-09-14T02:10:00Z"
       },
       {
@@ -449,13 +449,13 @@
         "platform": "hackerone",
         "url": "https://hackerone.com/snapchat",
         "expected_usd": 250,
-        "expected_usd_basis": "H1 GraphQL 2026-09-14T02:52Z: minimum_bounty/base_bounty/policy_min_reward_usd=250. Tier B Non-Core (Bitmoji, Playcanvas) Low=null; Medium min=250. Use published min 250 not invented $50.",
+        "expected_usd_basis": "H1 GraphQL policy_min_reward_usd=250; Tier B Playcanvas Medium min 250",
         "l1": "groknight",
-        "path": "claim-packages/snapchat-playcanvas-loader-sinks",
+        "path": "claim-packages/snapchat-playcanvas-loader-sinks/",
         "claimable_at": "2026-09-14T02:39:30Z"
       }
     ],
-    "status": "live"
+    "status": "wrapping"
   },
   "session_start": "2026-09-13T23:28:00Z",
   "first_meter": "2026-09-14T00:45:26Z",
@@ -488,9 +488,9 @@
       "platform": "hackerone",
       "url": "https://hackerone.com/elastic",
       "expected_usd": 100,
-      "expected_usd_basis": "H1 GraphQL bounty_table row asset Other: low_minimum=100 (lanes/h1-elastic-bounty-table.json). Package Registry is structured-scope OTHER. Product-row low_minimum=75 not used because this asset is Other, not Elasticsearch/Kibana DOWNLOADABLE_EXECUTABLES. Min of published range; not invented.",
-      "l1": "groknight-xai-oauth/grok-4.6",
-      "path": ".ufo-missions/groknight/elastic/pocs/epr-zip-path-traversal",
+      "expected_usd_basis": "H1 GraphQL bounty_table Other low_minimum=100",
+      "l1": null,
+      "path": "claim-packages/EPR-STOR-1",
       "claimable_at": "2026-09-14T01:35:00Z"
     },
     {
@@ -500,22 +500,22 @@
       "platform": "hackerone",
       "url": "https://hackerone.com/stripe",
       "expected_usd": 50,
-      "expected_usd_basis": "signed-out H1 table not observed; L0 $50 floor; CSV Stripe SDKs github.com/stripe/ai payload-parse/tenant lock",
-      "l1": "xai-oauth/grok-4.6:low",
-      "path": "claim-packages/ST-AI-001-customer-context-bypass",
-      "claimable_at": "2026-09-14T02:55:00Z"
+      "expected_usd_basis": "H1 acquisition Low min 50 USD (core Low 100 unused; not High)",
+      "l1": "groknight",
+      "path": "claim-packages/ST-AI-001-customer-context-bypass/",
+      "claimable_at": "2026-09-14T02:20:00Z"
     },
     {
       "id": "agentkit-x402-whitelist-ssrf",
       "company": "Coinbase",
-      "program": "coinbase",
+      "program": "Coinbase",
       "platform": "hackerone",
       "url": "https://hackerone.com/coinbase",
-      "expected_usd": 50,
-      "expected_usd_basis": "CSV github.com/coinbase/* SOURCE_CODE bounty-eligible; signed-out H1 table not observed; L0 $50 floor",
-      "l1": "xai-oauth/grok-4.6:low",
-      "path": "claim-packages/agentkit-x402-whitelist-ssrf",
-      "claimable_at": "2026-09-14T03:08:00Z"
+      "expected_usd": 200,
+      "expected_usd_basis": "H1 base_bounty 200 USD; High 6000 unused",
+      "l1": "groknight",
+      "path": "claim-packages/agentkit-x402-whitelist-ssrf/",
+      "claimable_at": "2026-09-14T03:10:00Z"
     },
     {
       "id": "airtable-js-m01",
@@ -524,9 +524,9 @@
       "platform": "hackerone",
       "url": "https://hackerone.com/airtable",
       "expected_usd": 200,
-      "expected_usd_basis": "H1 GraphQL bounty_table low=200 USD observed 2026-09-14T01:36:50Z; SDK path injection / untrusted baseId \u2014 Low not Medium",
-      "l1": "groknight",
-      "path": ".ufo-missions/groknight/airtable/poc/M01-baseid-path-injection.cjs",
+      "expected_usd_basis": "H1 GraphQL bounty_table low=200 USD observed 2026-09-14T01:36:50Z",
+      "l1": null,
+      "path": "claim-packages/airtable-js-m01",
       "claimable_at": "2026-09-14T01:42:00Z"
     },
     {
@@ -536,9 +536,9 @@
       "platform": "bugcrowd",
       "url": "https://bugcrowd.com/engagements/aiven-mbb-og",
       "expected_usd": 250,
-      "expected_usd_basis": "published OSS table P3 min $250\u2013$500; use min 250; PoC local (auth ON). Default auth-off not this claim.",
+      "expected_usd_basis": "published OSS table P3 min $250–$500; use min 250; PoC local (auth ON). Default auth-off not this claim.",
       "l1": "groknight",
-      "path": ".ufo-missions/groknight/aiven/poc/karapace_acl_regex_prefix.py",
+      "path": "claim-packages/aiven-karapace-acl-prefix",
       "claimable_at": "2026-09-14T01:55:00Z"
     },
     {
@@ -548,9 +548,9 @@
       "platform": "bugcrowd",
       "url": "https://bugcrowd.com/engagements/aiven-mbb-og",
       "expected_usd": 50,
-      "expected_usd_basis": "published Bugcrowd OSS repo table P4 min $50\u2013$250 (not invented); local loopback PoC only; SECURITY.md PoC bar now met locally; managed-product exposure still unverified",
-      "l1": "groknight",
-      "path": ".ufo-missions/groknight/aiven-mbb-og/poc-pglookout-local.md",
+      "expected_usd_basis": "published Bugcrowd OSS repo table P4 min $50–$250",
+      "l1": null,
+      "path": "claim-packages/aiven-pglookout-m02",
       "claimable_at": "2026-09-14T01:32:00Z"
     },
     {
@@ -560,9 +560,9 @@
       "platform": "hackerone",
       "url": "https://hackerone.com/brave",
       "expected_usd": 50,
-      "expected_usd_basis": "H1 bounty_table Low min 50 USD (base_bounty 50). Published 2026-05-07. Not invented.",
-      "l1": "groknight-xai-oauth/grok-4.6",
-      "path": "claim-packages/brave-bat-go-reputation-proxy",
+      "expected_usd_basis": "H1 bounty_table Low min 50 USD / base_bounty 50. Program paused.",
+      "l1": "groknight",
+      "path": "claim-packages/brave-bat-go-reputation-proxy/",
       "claimable_at": "2026-09-14T03:34:00Z"
     },
     {
@@ -572,9 +572,9 @@
       "platform": "hackerone",
       "url": "https://hackerone.com/coinbase",
       "expected_usd": 200,
-      "expected_usd_basis": "H1 base_bounty 200 USD; Low/Med null",
+      "expected_usd_basis": "H1 base_bounty 200 USD; Low/Med table cells null; High 6000 unused (SSRF/allowlist, not High-proven)",
       "l1": "groknight",
-      "path": ".ufo-missions/groknight/coinbase/pocs/agentkit/poc_x402_whitelist_bypass.mjs",
+      "path": "claim-packages/coinbase-agentkit-x402",
       "claimable_at": "2026-09-14T03:10:00Z"
     },
     {
@@ -584,9 +584,9 @@
       "platform": "bugcrowd",
       "url": "https://bugcrowd.com/engagements/launchdarkly-mbb-og",
       "expected_usd": 2500,
-      "expected_usd_basis": "Published brief changelog 884450ef 2026-08-13 in-scope rewardRangeData P2 min=max 2500 USD. Streaming TLS-off is MITM flag integrity, not P4. Not invented.",
-      "l1": "groknight-xai-oauth/grok-4.6",
-      "path": "claim-packages/ld-node-stream-tls-bypass",
+      "expected_usd_basis": "Published P2 min=max 2500 USD",
+      "l1": "groknight",
+      "path": "claim-packages/ld-node-stream-tls-bypass/",
       "claimable_at": "2026-09-14T02:20:00Z"
     },
     {
@@ -596,9 +596,9 @@
       "platform": "hackerone",
       "url": "https://hackerone.com/metamask",
       "expected_usd": 50,
-      "expected_usd_basis": "CSV MetaMask SDK bounty-eligible (Core tier); signed-out H1 table not observed; L0 $50 floor not invented Core Low",
-      "l1": "xai-oauth/grok-4.6:low",
-      "path": "claim-packages/metamask-sdk-channel-inject",
+      "expected_usd_basis": "CSV MetaMask SDK bounty-eligible; L0 $50 floor",
+      "l1": "groknight",
+      "path": "claim-packages/metamask-sdk-channel-inject/poc",
       "claimable_at": "2026-09-14T03:12:00Z"
     },
     {
@@ -608,9 +608,9 @@
       "platform": "hackerone",
       "url": "https://hackerone.com/metamask",
       "expected_usd": 250,
-      "expected_usd_basis": "H1 Core-tier Low=250 USD conservative",
+      "expected_usd_basis": "H1 Core-tier Low=250 USD (conservative). Candidate High=5000 if channelId treated as public. Prerequisite: channelId known.",
       "l1": "groknight",
-      "path": ".ufo-missions/groknight/metamask/poc/mm01-channel-inject/poc.mjs",
+      "path": "claim-packages/metamask-sdk-mm01",
       "claimable_at": "2026-09-14T02:48:00Z"
     },
     {
@@ -620,9 +620,9 @@
       "platform": "hackerone",
       "url": "https://hackerone.com/metamask",
       "expected_usd": 250,
-      "expected_usd_basis": "H1 bounty_table Core Tier Assets low=250 USD observed 2026-09-04 row. MetaMask SDK is OTHER bounty-eligible Core. Min published cell; not invented.",
-      "l1": "groknight-xai-oauth/grok-4.6",
-      "path": "claim-packages/mm-sdk-channel-inject",
+      "expected_usd_basis": "H1 Core Tier Low 250 USD published",
+      "l1": "groknight",
+      "path": "claim-packages/mm-sdk-channel-inject/",
       "claimable_at": "2026-09-14T03:08:00Z"
     },
     {
@@ -632,9 +632,9 @@
       "platform": "hackerone",
       "url": "https://hackerone.com/mongodb",
       "expected_usd": 500,
-      "expected_usd_basis": "H1 GraphQL bounty_table medium=500 USD observed 2026-09-14",
+      "expected_usd_basis": "H1 GraphQL bounty_table medium=500 USD observed 2026-09-14; shared ExportsManager cross-tenant read — Medium not High",
       "l1": "groknight",
-      "path": ".ufo-missions/groknight/mongodb/poc/m01-shared-exports-cross-tenant.mjs",
+      "path": "claim-packages/mongodb-mcp-m01",
       "claimable_at": "2026-09-14T01:56:00Z"
     },
     {
@@ -644,9 +644,9 @@
       "platform": "hackerone",
       "url": "https://hackerone.com/mongodb",
       "expected_usd": 100,
-      "expected_usd_basis": "public H1 Low band $100 (not invented); CSV asset MongoDB MCP Server github.com/mongodb-js/mongodb-mcp-server bounty-eligible; GitHub-class may be reduced %",
-      "l1": "xai-oauth/grok-4.6:low",
-      "path": "claim-packages/mongodb-mcp-m01-shared-exports",
+      "expected_usd_basis": "H1 Low band 100 USD",
+      "l1": "groknight",
+      "path": "claim-packages/mongodb-mcp-m01-shared-exports/",
       "claimable_at": "2026-09-14T02:10:00Z"
     },
     {
@@ -656,9 +656,9 @@
       "platform": "hackerone",
       "url": "https://hackerone.com/snapchat",
       "expected_usd": 250,
-      "expected_usd_basis": "H1 GraphQL 2026-09-14T02:52Z: minimum_bounty/base_bounty/policy_min_reward_usd=250. Tier B Non-Core (Bitmoji, Playcanvas) Low=null; Medium min=250. Use published min 250 not invented $50.",
+      "expected_usd_basis": "H1 GraphQL policy_min_reward_usd=250; Tier B Playcanvas Medium min 250",
       "l1": "groknight",
-      "path": "claim-packages/snapchat-playcanvas-loader-sinks",
+      "path": "claim-packages/snapchat-playcanvas-loader-sinks/",
       "claimable_at": "2026-09-14T02:39:30Z"
     }
   ],
