@@ -292,6 +292,7 @@ function renderLiveStrip(run, curve) {
       <dt>L0 relay</dt><dd>${escapeHtml(m.l0_model || "devin/kimi-k3")} · orchestrating all SWE-2 UFOs</dd>
       <dt>L1</dt><dd>${escapeHtml(m.l1_model || "devin/swe-2:max")} · ${escapeHtml(m.l1_count ?? "—")} seats (${escapeHtml(m.worker_l1_count ?? "—")} workers + ${escapeHtml(m.ingestion_l1_count ?? "—")} ingestion)</dd>
       <dt>L2</dt><dd>${escapeHtml(m.l2_model || "devin/swe-2:max")} · ${escapeHtml(m.l2_count ?? "—")} workers · max 16/L1</dd>
+      <dt>windows</dt><dd>bounties ×${escapeHtml(m.worker_l1_count ?? "—")} workers · harvest ×${escapeHtml(m.ingestion_l1_count ?? "—")} (ingestion + claim tracker)</dd>
       <dt>claim-ready</dt><dd>${escapeHtml(m.claim_ready_count ?? 0)} packages · expected ${escapeHtml(fmtUsd(m.claim_ready_expected_usd ?? 0))}</dd>
       <dt>companies</dt><dd>${escapeHtml((m.claim_ready_companies || []).join(", ") || "none yet")}</dd>
       <dt>venue</dt><dd>${escapeHtml(humanVenue(run))}</dd>
