@@ -9,9 +9,9 @@
   "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 106.4 min",
+  "duration": "live · 111.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=22. Claim-ready 21 · expected $9933.",
+  "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=21. Claim-ready 23 · expected $11183.",
   "timeline": [
     {
       "t": "2026-09-14T03:45:00Z",
@@ -117,6 +117,11 @@
       "t": "2026-09-14T05:52:04.438Z",
       "label": "meter",
       "note": "Devin 25% weekly · L1=8 L2=22 · claim-ready 21 / $9933"
+    },
+    {
+      "t": "2026-09-14T05:57:04.438Z",
+      "label": "meter",
+      "note": "Devin 25% weekly · L1=8 L2=21 · claim-ready 23 / $11183"
     }
   ],
   "metrics": {
@@ -125,7 +130,7 @@
     "l1_model": "devin/swe-2:max",
     "l2_model": "devin/swe-2:max",
     "l1_count": 8,
-    "l2_count": 22,
+    "l2_count": 21,
     "plan_type": "SWE-2",
     "meter_label": "Devin weekly quota",
     "provider_route": "devin",
@@ -133,13 +138,12 @@
     "used_percent": 25,
     "start_percent": 22,
     "wall_l1_count": 15,
-    "wall_l2_count": 36,
-    "elapsed_min_from_session": 106.4,
-    "pct_per_min": 0.0282,
-    "claim_ready_count": 21,
-    "claim_ready_expected_usd": 9933,
+    "wall_l2_count": 35,
+    "elapsed_min_from_session": 111.4,
+    "pct_per_min": 0.0269,
+    "claim_ready_count": 23,
+    "claim_ready_expected_usd": 11183,
     "claim_ready_companies": [
-      "Elastic",
       "Stripe",
       "Coinbase",
       "Airtable",
@@ -148,6 +152,7 @@
       "Brave Software",
       "WordPress",
       "DigitalOcean",
+      "Elastic",
       "ExpressVPN",
       "LaunchDarkly",
       "MetaMask",
@@ -175,18 +180,6 @@
   "category": "fleet",
   "meter": "devin_weekly",
   "claim_ready": [
-    {
-      "id": "EPR-STOR-1",
-      "company": "Elastic",
-      "program": "elastic",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/elastic",
-      "expected_usd": 100,
-      "expected_usd_basis": "H1 GraphQL bounty_table Other low_minimum=100",
-      "l1": null,
-      "path": "claim-packages/EPR-STOR-1",
-      "claimable_at": "2026-09-14T01:35:00Z"
-    },
     {
       "id": "ST-AI-001-customer-context-bypass",
       "company": "Stripe",
@@ -320,6 +313,30 @@
       "claimable_at": "2026-09-14"
     },
     {
+      "id": "esapi-path-injection",
+      "company": "Elastic",
+      "program": "elastic",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/elastic",
+      "expected_usd": 900,
+      "expected_usd_basis": "Confused-deputy endpoint rewrite with credential carriage; mid-tier on H1 elastic table (Other low_min=100, higher severities scale up).",
+      "l1": "groknight-farm-r2",
+      "path": "claim-packages/esapi-path-injection",
+      "claimable_at": "2026-09-14T00:00:00Z"
+    },
+    {
+      "id": "esapi-userinfo-global-leak",
+      "company": "Elastic",
+      "program": "elastic",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/elastic",
+      "expected_usd": 350,
+      "expected_usd_basis": "Credential-scope defect; medium tier. Requires multi-address config with userinfo on one address.",
+      "l1": "groknight-farm-r2",
+      "path": "claim-packages/esapi-userinfo-global-leak",
+      "claimable_at": "2026-09-14T00:00:00Z"
+    },
+    {
       "id": "expressvpn-lightway-ipv6-leak",
       "company": "ExpressVPN",
       "program": "ExpressVPN - Bug Bounty Program",
@@ -426,20 +443,31 @@
       "l1": "groknight",
       "path": "claim-packages/snapchat-playcanvas-loader-sinks/",
       "claimable_at": "2026-09-14T02:39:30Z"
+    },
+    {
+      "id": "EPR-STOR-1",
+      "company": "Elastic",
+      "program": "elastic",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/elastic",
+      "expected_usd": 100,
+      "expected_usd_basis": "H1 GraphQL bounty_table Other low_minimum=100",
+      "l1": null,
+      "path": "claim-packages/EPR-STOR-1",
+      "claimable_at": "2026-09-14T01:35:00Z"
     }
   ],
   "follows": "veigapunk-xai-api-groknight-300usd",
   "snapshot": {
-    "ts": "2026-09-14T05:52:04.438Z",
+    "ts": "2026-09-14T05:57:04.438Z",
     "used_percent": 25,
     "l1_count": 8,
-    "l2_count": 22,
+    "l2_count": 21,
     "wall_l1_count": 15,
-    "wall_l2_count": 36,
-    "claim_ready_count": 21,
-    "claim_ready_expected_usd": 9933,
+    "wall_l2_count": 35,
+    "claim_ready_count": 23,
+    "claim_ready_expected_usd": 11183,
     "claim_ready_companies": [
-      "Elastic",
       "Stripe",
       "Coinbase",
       "Airtable",
@@ -448,6 +476,7 @@
       "Brave Software",
       "WordPress",
       "DigitalOcean",
+      "Elastic",
       "ExpressVPN",
       "LaunchDarkly",
       "MetaMask",
@@ -456,18 +485,6 @@
       "Snapchat"
     ],
     "claim_ready": [
-      {
-        "id": "EPR-STOR-1",
-        "company": "Elastic",
-        "program": "elastic",
-        "platform": "hackerone",
-        "url": "https://hackerone.com/elastic",
-        "expected_usd": 100,
-        "expected_usd_basis": "H1 GraphQL bounty_table Other low_minimum=100",
-        "l1": null,
-        "path": "claim-packages/EPR-STOR-1",
-        "claimable_at": "2026-09-14T01:35:00Z"
-      },
       {
         "id": "ST-AI-001-customer-context-bypass",
         "company": "Stripe",
@@ -601,6 +618,30 @@
         "claimable_at": "2026-09-14"
       },
       {
+        "id": "esapi-path-injection",
+        "company": "Elastic",
+        "program": "elastic",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/elastic",
+        "expected_usd": 900,
+        "expected_usd_basis": "Confused-deputy endpoint rewrite with credential carriage; mid-tier on H1 elastic table (Other low_min=100, higher severities scale up).",
+        "l1": "groknight-farm-r2",
+        "path": "claim-packages/esapi-path-injection",
+        "claimable_at": "2026-09-14T00:00:00Z"
+      },
+      {
+        "id": "esapi-userinfo-global-leak",
+        "company": "Elastic",
+        "program": "elastic",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/elastic",
+        "expected_usd": 350,
+        "expected_usd_basis": "Credential-scope defect; medium tier. Requires multi-address config with userinfo on one address.",
+        "l1": "groknight-farm-r2",
+        "path": "claim-packages/esapi-userinfo-global-leak",
+        "claimable_at": "2026-09-14T00:00:00Z"
+      },
+      {
         "id": "expressvpn-lightway-ipv6-leak",
         "company": "ExpressVPN",
         "program": "ExpressVPN - Bug Bounty Program",
@@ -707,6 +748,18 @@
         "l1": "groknight",
         "path": "claim-packages/snapchat-playcanvas-loader-sinks/",
         "claimable_at": "2026-09-14T02:39:30Z"
+      },
+      {
+        "id": "EPR-STOR-1",
+        "company": "Elastic",
+        "program": "elastic",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/elastic",
+        "expected_usd": 100,
+        "expected_usd_basis": "H1 GraphQL bounty_table Other low_minimum=100",
+        "l1": null,
+        "path": "claim-packages/EPR-STOR-1",
+        "claimable_at": "2026-09-14T01:35:00Z"
       }
     ],
     "status": "live"
