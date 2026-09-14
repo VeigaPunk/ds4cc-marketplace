@@ -1,8 +1,15 @@
 {
-  "t0": null,
-  "session_start": null,
+  "t0": "2026-09-14T03:50:27.037Z",
+  "session_start": "2026-09-14T03:50:27.037Z",
   "meter": "xai_api_usd",
   "budget_usd": 300,
   "plan_type": "xAI API",
-  "points": []
+  "points": [
+    {
+      "ts": "2026-09-14T03:50:27.037Z",
+      "pct": 0,
+      "spent_usd": 0,
+      "source": "cutover"
+    }
+  ]
 }
