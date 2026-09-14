@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 139.6 min",
+  "duration": "live · 142.3 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 54% weekly (start 20%). L1=8 L2=11. Claim-ready 2 · expected $150.",
+  "summary": "Live groknight SuperGrok OAuth: 56% weekly (start 20%). L1=8 L2=6. Claim-ready 3 · expected $350.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -97,6 +97,11 @@
       "t": "2026-09-14T01:47:33.103Z",
       "label": "meter",
       "note": "54% weekly · L1=8 L2=11 · claim-ready 2 / $150"
+    },
+    {
+      "t": "2026-09-14T01:50:14.774Z",
+      "label": "meter",
+      "note": "56% weekly · L1=8 L2=6 · claim-ready 3 / $350"
     }
   ],
   "metrics": {
@@ -105,36 +110,38 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 11,
+    "l2_count": 6,
     "wall_l1_count": 24,
-    "wall_l2_count": 17,
-    "used_percent": 54,
+    "wall_l2_count": 12,
+    "used_percent": 56,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 139.6,
-    "pct_per_min": 0.2436,
-    "claim_ready_count": 2,
-    "claim_ready_expected_usd": 150,
+    "elapsed_min_from_session": 142.3,
+    "pct_per_min": 0.253,
+    "claim_ready_count": 3,
+    "claim_ready_expected_usd": 350,
     "claim_ready_companies": [
       "Elastic",
+      "Airtable",
       "Aiven"
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T01:47:33.103Z",
-    "used_percent": 54,
+    "ts": "2026-09-14T01:50:14.774Z",
+    "used_percent": 56,
     "l1_count": 8,
-    "l2_count": 11,
+    "l2_count": 6,
     "wall_l1_count": 24,
-    "wall_l2_count": 17,
-    "claim_ready_count": 2,
-    "claim_ready_expected_usd": 150,
+    "wall_l2_count": 12,
+    "claim_ready_count": 3,
+    "claim_ready_expected_usd": 350,
     "claim_ready_companies": [
       "Elastic",
+      "Airtable",
       "Aiven"
     ],
     "claim_ready": [
@@ -149,6 +156,18 @@
         "l1": "groknight-xai-oauth/grok-4.6",
         "path": ".ufo-missions/groknight/elastic/pocs/epr-zip-path-traversal",
         "claimable_at": "2026-09-14T01:35:00Z"
+      },
+      {
+        "id": "airtable-js-m01",
+        "company": "Airtable",
+        "program": "Airtable",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/airtable",
+        "expected_usd": 200,
+        "expected_usd_basis": "H1 GraphQL bounty_table low=200 USD observed 2026-09-14T01:36:50Z; SDK path injection / untrusted baseId — Low not Medium",
+        "l1": "groknight",
+        "path": ".ufo-missions/groknight/airtable/poc/M01-baseid-path-injection.cjs",
+        "claimable_at": "2026-09-14T01:42:00Z"
       },
       {
         "id": "aiven-pglookout-m02",
@@ -200,6 +219,18 @@
       "l1": "groknight-xai-oauth/grok-4.6",
       "path": ".ufo-missions/groknight/elastic/pocs/epr-zip-path-traversal",
       "claimable_at": "2026-09-14T01:35:00Z"
+    },
+    {
+      "id": "airtable-js-m01",
+      "company": "Airtable",
+      "program": "Airtable",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/airtable",
+      "expected_usd": 200,
+      "expected_usd_basis": "H1 GraphQL bounty_table low=200 USD observed 2026-09-14T01:36:50Z; SDK path injection / untrusted baseId — Low not Medium",
+      "l1": "groknight",
+      "path": ".ufo-missions/groknight/airtable/poc/M01-baseid-path-injection.cjs",
+      "claimable_at": "2026-09-14T01:42:00Z"
     },
     {
       "id": "aiven-pglookout-m02",
