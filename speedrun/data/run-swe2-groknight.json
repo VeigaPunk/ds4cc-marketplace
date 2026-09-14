@@ -9,9 +9,9 @@
   "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 126.4 min",
+  "duration": "live · 131.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=18. Claim-ready 23 · expected $11183.",
+  "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=19. Claim-ready 23 · expected $11183.",
   "timeline": [
     {
       "t": "2026-09-14T03:45:00Z",
@@ -137,6 +137,11 @@
       "t": "2026-09-14T06:12:04.439Z",
       "label": "meter",
       "note": "Devin 25% weekly · L1=8 L2=18 · claim-ready 23 / $11183"
+    },
+    {
+      "t": "2026-09-14T06:17:04.439Z",
+      "label": "meter",
+      "note": "Devin 25% weekly · L1=8 L2=19 · claim-ready 23 / $11183"
     }
   ],
   "metrics": {
@@ -145,7 +150,7 @@
     "l1_model": "devin/swe-2:max",
     "l2_model": "devin/swe-2:max",
     "l1_count": 8,
-    "l2_count": 18,
+    "l2_count": 19,
     "plan_type": "SWE-2",
     "meter_label": "Devin weekly quota",
     "provider_route": "devin",
@@ -153,9 +158,9 @@
     "used_percent": 25,
     "start_percent": 22,
     "wall_l1_count": 15,
-    "wall_l2_count": 29,
-    "elapsed_min_from_session": 126.42,
-    "pct_per_min": 0.0237,
+    "wall_l2_count": 30,
+    "elapsed_min_from_session": 131.4,
+    "pct_per_min": 0.0228,
     "claim_ready_count": 23,
     "claim_ready_expected_usd": 11183,
     "claim_ready_companies": [
@@ -474,12 +479,12 @@
   ],
   "follows": "veigapunk-xai-api-groknight-300usd",
   "snapshot": {
-    "ts": "2026-09-14T06:12:04.439Z",
+    "ts": "2026-09-14T06:17:04.439Z",
     "used_percent": 25,
     "l1_count": 8,
-    "l2_count": 18,
+    "l2_count": 19,
     "wall_l1_count": 15,
-    "wall_l2_count": 29,
+    "wall_l2_count": 30,
     "claim_ready_count": 23,
     "claim_ready_expected_usd": 11183,
     "claim_ready_companies": [
