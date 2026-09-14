@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 208.2 min",
+  "duration": "live · 213.2 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 82% weekly (start 20%). L1=8 L2=3. Claim-ready 10 · expected $4250.",
+  "summary": "Live groknight SuperGrok OAuth: 83% weekly (start 20%). L1=8 L2=6. Claim-ready 11 · expected $4300.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -172,6 +172,11 @@
       "t": "2026-09-14T02:56:08.309Z",
       "label": "meter",
       "note": "82% weekly · L1=8 L2=3 · claim-ready 10 / $4250"
+    },
+    {
+      "t": "2026-09-14T03:01:08.309Z",
+      "label": "meter",
+      "note": "83% weekly · L1=8 L2=6 · claim-ready 11 / $4300"
     }
   ],
   "metrics": {
@@ -180,22 +185,23 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 3,
+    "l2_count": 6,
     "wall_l1_count": 24,
-    "wall_l2_count": 9,
-    "used_percent": 82,
+    "wall_l2_count": 12,
+    "used_percent": 83,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 208.21,
-    "pct_per_min": 0.2978,
-    "claim_ready_count": 10,
-    "claim_ready_expected_usd": 4250,
+    "elapsed_min_from_session": 213.2,
+    "pct_per_min": 0.2955,
+    "claim_ready_count": 11,
+    "claim_ready_expected_usd": 4300,
     "claim_ready_companies": [
       "Elastic",
+      "Stripe",
       "Airtable",
       "Aiven",
       "Brave",
@@ -206,16 +212,17 @@
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T02:56:08.309Z",
-    "used_percent": 82,
+    "ts": "2026-09-14T03:01:08.309Z",
+    "used_percent": 83,
     "l1_count": 8,
-    "l2_count": 3,
+    "l2_count": 6,
     "wall_l1_count": 24,
-    "wall_l2_count": 9,
-    "claim_ready_count": 10,
-    "claim_ready_expected_usd": 4250,
+    "wall_l2_count": 12,
+    "claim_ready_count": 11,
+    "claim_ready_expected_usd": 4300,
     "claim_ready_companies": [
       "Elastic",
+      "Stripe",
       "Airtable",
       "Aiven",
       "Brave",
@@ -236,6 +243,18 @@
         "l1": "groknight-xai-oauth/grok-4.6",
         "path": ".ufo-missions/groknight/elastic/pocs/epr-zip-path-traversal",
         "claimable_at": "2026-09-14T01:35:00Z"
+      },
+      {
+        "id": "ST-AI-001-customer-context-bypass",
+        "company": "Stripe",
+        "program": "stripe",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/stripe",
+        "expected_usd": 50,
+        "expected_usd_basis": "signed-out H1 table not observed; L0 $50 floor; CSV Stripe SDKs github.com/stripe/ai payload-parse/tenant lock",
+        "l1": "xai-oauth/grok-4.6:low",
+        "path": "claim-packages/ST-AI-001-customer-context-bypass",
+        "claimable_at": "2026-09-14T02:55:00Z"
       },
       {
         "id": "airtable-js-m01",
@@ -383,6 +402,18 @@
       "l1": "groknight-xai-oauth/grok-4.6",
       "path": ".ufo-missions/groknight/elastic/pocs/epr-zip-path-traversal",
       "claimable_at": "2026-09-14T01:35:00Z"
+    },
+    {
+      "id": "ST-AI-001-customer-context-bypass",
+      "company": "Stripe",
+      "program": "stripe",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/stripe",
+      "expected_usd": 50,
+      "expected_usd_basis": "signed-out H1 table not observed; L0 $50 floor; CSV Stripe SDKs github.com/stripe/ai payload-parse/tenant lock",
+      "l1": "xai-oauth/grok-4.6:low",
+      "path": "claim-packages/ST-AI-001-customer-context-bypass",
+      "claimable_at": "2026-09-14T02:55:00Z"
     },
     {
       "id": "airtable-js-m01",
