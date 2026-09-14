@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 114.7 min",
+  "duration": "live · 119.6 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 43% weekly (start 20%). L1=8 L2=13. Claim-ready 0 · expected $0.",
+  "summary": "Live groknight SuperGrok OAuth: 47% weekly (start 20%). L1=8 L2=9. Claim-ready 0 · expected $0.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -67,6 +67,11 @@
       "t": "2026-09-14T01:22:33.087Z",
       "label": "meter",
       "note": "43% weekly · L1=8 L2=13 · claim-ready 0 / $0"
+    },
+    {
+      "t": "2026-09-14T01:27:33.093Z",
+      "label": "meter",
+      "note": "47% weekly · L1=8 L2=9 · claim-ready 0 / $0"
     }
   ],
   "metrics": {
@@ -75,29 +80,29 @@
     "l1_model": "xai-oauth/grok-4.6:high",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 13,
+    "l2_count": 9,
     "wall_l1_count": 24,
-    "wall_l2_count": 21,
-    "used_percent": 43,
+    "wall_l2_count": 17,
+    "used_percent": 47,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 114.67,
-    "pct_per_min": 0.2006,
+    "elapsed_min_from_session": 119.61,
+    "pct_per_min": 0.2257,
     "claim_ready_count": 0,
     "claim_ready_expected_usd": 0,
     "claim_ready_companies": []
   },
   "snapshot": {
-    "ts": "2026-09-14T01:22:33.087Z",
-    "used_percent": 43,
+    "ts": "2026-09-14T01:27:33.093Z",
+    "used_percent": 47,
     "l1_count": 8,
-    "l2_count": 13,
+    "l2_count": 9,
     "wall_l1_count": 24,
-    "wall_l2_count": 21,
+    "wall_l2_count": 17,
     "claim_ready_count": 0,
     "claim_ready_expected_usd": 0,
     "claim_ready_companies": [],
