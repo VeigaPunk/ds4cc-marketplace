@@ -182,18 +182,22 @@ function renderLiveStrip(run, curve) {
   const isCursor = run.id?.includes("cursor-ultra") || run.meter === "cursor_ultra_included_usage";
   const isTp = run.meter === "token_plan_weekly";
   const isSuperGrok = run.meter === "supergrok_weekly" || /supergrok/.test(run.id || "");
+  const isSwe2 = run.meter === "devin_weekly" || /swe2-bounty-hunter/.test(run.id || "");
   el("live-title").textContent = `${run.runner} — ${run.title}`;
   el("live-summary").textContent = scrubIds(run.summary);
   el("live-pct").textContent = `${Number(pct).toFixed(1)}%`;
   el("hero-live-pct").textContent = `${Math.round(Number(pct))}%`;
   el("live-fill").style.width = `${Math.min(100, Number(pct) || 0)}%`;
   const mintBurnEl = el("live-mint-burn");
-  if (mintBurnEl && !isSuperGrok && mintBurnH != null) mintBurnEl.textContent = `${fmtHours(mintBurnH)} complete burn`;
-  if (mintBurnEl && isSuperGrok) {
+  if (mintBurnEl && !isSuperGrok && !isSwe2 && mintBurnH != null) mintBurnEl.textContent = `${fmtHours(mintBurnH)} complete burn`;
+  if (mintBurnEl && (isSuperGrok || isSwe2)) {
     mintBurnEl.textContent = `${m.l1_count ?? 8} L1 · ${m.l2_count ?? 0} L2`;
   }
+  const fleetModelsEl = el("live-fleet-models");
+  if (fleetModelsEl && isSwe2) fleetModelsEl.textContent = "up to 16 L2 per L1 · all seats devin/swe-2:max · L0 relay devin/kimi-k3";
+  if (fleetModelsEl && isSuperGrok) fleetModelsEl.textContent = "up to 16 L2 per L1 · grok-4.6:high / grok-4.5:low";
   const savedEl = el("live-total-saved");
-  if (savedEl && isSuperGrok) {
+  if (savedEl && (isSuperGrok || isSwe2)) {
     savedEl.textContent = `${m.claim_ready_count ?? 0} · ${fmtUsd(m.claim_ready_expected_usd ?? 0)}`;
   } else if (savedEl) {
     const savedComplete = totalSavedDisplay(run);
@@ -206,9 +210,11 @@ function renderLiveStrip(run, curve) {
   }
   const eyebrow = el("live-eyebrow");
   if (eyebrow) {
-    eyebrow.textContent = isSuperGrok
-      ? `${run.status} · SuperGrok weekly credits`
-      : isCursor
+    eyebrow.textContent = isSwe2
+      ? `${run.status} · SWE-2 seats via Devin OAuth · ufo-fsd protocol`
+      : isSuperGrok
+        ? `${run.status} · SuperGrok weekly credits`
+        : isCursor
         ? `${run.status} · cursor ultra included usage`
         : isTp
           ? `${run.status} · token plan weekly`
@@ -216,21 +222,25 @@ function renderLiveStrip(run, curve) {
   }
   const meterLabel = el("live-meter-label");
   if (meterLabel) {
-    meterLabel.textContent = isSuperGrok
-      ? "of SuperGrok weekly credits · xAI OAuth"
-      : isCursor
+    meterLabel.textContent = isSwe2
+      ? "of Devin weekly quota · SWE-2-only UFO seats · kimi k3 L0 relay"
+      : isSuperGrok
+        ? "of SuperGrok weekly credits · xAI OAuth"
+        : isCursor
         ? "of Ultra included total usage · monthly cycle"
         : isTp ? "of Token Plan weekly quota · waybar chip" : "of weekly 20x · window 10080 min";
   }
   const heroLiveLabel = el("hero-live-label");
   if (heroLiveLabel) {
-    heroLiveLabel.textContent = isSuperGrok
-      ? "SuperGrok weekly"
-      : isCursor ? "Cursor Ultra included" : isTp ? "Token Plan weekly" : "Codex 20x closed";
+    heroLiveLabel.textContent = isSwe2
+      ? "SWE-2 bounty hunter"
+      : isSuperGrok
+        ? "SuperGrok weekly"
+        : isCursor ? "Cursor Ultra included" : isTp ? "Token Plan weekly" : "Codex 20x closed";
   }
   const closed = run.status !== "live";
   const pacePct = pace.pct_per_min ?? m.pct_per_min;
-  const paceParts = isSuperGrok
+  const paceParts = (isSuperGrok || isSwe2)
     ? [
         `${m.l1_count ?? 8} L1 · ${m.l2_count ?? 0} L2`,
         pacePct != null ? `${pacePct}%/min SuperGrok weekly` : null,
@@ -246,8 +256,8 @@ function renderLiveStrip(run, curve) {
         isTp ? `${m.dispatches_disclosed ?? "—"} dispatches disclosed · ${m.seats ?? "—"} seats` : null,
       ].filter(Boolean);
   el("live-pace").textContent = paceParts.length ? paceParts.join(" · ") : "—";
-  el("live-eta").textContent = isSuperGrok
-    ? (pacePct > 0 ? `~${Math.max(0, Math.round((100 - Number(pct)) / pacePct))} min to 100% weekly` : "live · weekly SuperGrok credits")
+  el("live-eta").textContent = (isSuperGrok || isSwe2)
+    ? (pacePct > 0 ? `~${Math.max(0, Math.round((100 - Number(pct)) / pacePct))} min to 100% weekly` : "live · weekly quota")
     : closed
       ? completeH != null && bc.complete_burn_ts
         ? `complete burn ${fmtHours(completeH)} · projected ${bc.complete_burn_ts.replace("T", " ").replace("Z", " UTC")} · closed early @ ${bc.included_pct_at_close ?? pct}%`
@@ -275,7 +285,29 @@ function renderLiveStrip(run, curve) {
     const savedRow = el("live-total-saved")?.closest(".pace-row");
     if (savedRow) savedRow.innerHTML = `budget <strong><a href="https://www.alibabacloud.com/campaign/benefits?referral_code=A927SY" target="_blank" rel="noopener">Token Plan pro (paid)</a></strong> <span class="muted">fresh third key · no usage-limit 5h · L0 kimi dispatch tax only</span>`;
   }
-  if (isSuperGrok) {
+  if (isSwe2) {
+    el("live-metrics").innerHTML = `
+      <dt>status</dt><dd class="status-live">${escapeHtml(run.status)}</dd>
+      <dt>meter</dt><dd>Devin weekly ${escapeHtml(Number(pct).toFixed(1))}% · SWE-2-only UFO seats via Devin OAuth</dd>
+      <dt>L0 relay</dt><dd>${escapeHtml(m.l0_model || "devin/kimi-k3")} · orchestrating all SWE-2 UFOs</dd>
+      <dt>L1</dt><dd>${escapeHtml(m.l1_model || "devin/swe-2:max")} · ${escapeHtml(m.l1_count ?? "—")} seats (${escapeHtml(m.worker_l1_count ?? "—")} workers + ${escapeHtml(m.ingestion_l1_count ?? "—")} ingestion)</dd>
+      <dt>L2</dt><dd>${escapeHtml(m.l2_model || "devin/swe-2:max")} · ${escapeHtml(m.l2_count ?? "—")} workers · max 16/L1</dd>
+      <dt>claim-ready</dt><dd>${escapeHtml(m.claim_ready_count ?? 0)} packages · expected ${escapeHtml(fmtUsd(m.claim_ready_expected_usd ?? 0))}</dd>
+      <dt>companies</dt><dd>${escapeHtml((m.claim_ready_companies || []).join(", ") || "none yet")}</dd>
+      <dt>venue</dt><dd>${escapeHtml(humanVenue(run))}</dd>
+      <dt>paid</dt><dd>paid Devin/SWE-2 OAuth seats — not a grant · ufo-fsd protocol</dd>
+      <dt>snapshot</dt><dd>${escapeHtml(snap.ts || "—")}</dd>
+    `;
+    const repoOut = el("codex-repo-out");
+    if (repoOut) {
+      repoOut.href = run.links?.repo || "https://github.com/VeigaPunk/ufo-fsd-alpha";
+      repoOut.textContent = "ufo-fsd-alpha · live bounty hunter";
+    }
+    const repoNote = el("live-repo-note");
+    if (repoNote) repoNote.textContent = "Devin/SWE-2 seats · devin/kimi-k3 L0 relay · 5-min telemetry · new run 2026-09-14";
+    const authChip = el("live-chip-auth");
+    if (authChip) authChip.textContent = "Devin OAuth";
+  } else if (isSuperGrok) {
     el("live-metrics").innerHTML = `
       <dt>status</dt><dd class="status-live">${escapeHtml(run.status)}</dd>
       <dt>meter</dt><dd>SuperGrok weekly ${escapeHtml(Number(pct).toFixed(1))}% · xAI OAuth · not Cursor Ultra</dd>
