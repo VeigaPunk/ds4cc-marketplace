@@ -1,0 +1,47 @@
+{
+  "id": "veigapunk-swe2-groknight",
+  "title": "SWE-2 groknight — L1+L2 SWE-2 · same bounty hunt",
+  "runner": "VeigaPunk",
+  "account_hint": "jpveigao10@gmail.com",
+  "provider": "Devin / SWE-2",
+  "product": "devin/swe-2:max L1 ×8 · devin/swe-2:max L2 · same groknight hunt after xAI API $300",
+  "budget_usd": null,
+  "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
+  "currency": "USD",
+  "status": "queued",
+  "duration": "queued · after xAI API $300 close",
+  "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
+  "summary": "Queued. Starts when the xAI API $300 groknight run closes. Same hunt, SWE-2 L1 and SWE-2 L2.",
+  "timeline": [
+    {
+      "t": "2026-09-14T03:45:00Z",
+      "label": "queued",
+      "note": "After OAuth 100% → API $300 → then SWE-2 L1/L2."
+    }
+  ],
+  "metrics": {
+    "mode": "agent · UFO-FSD L1 fleet",
+    "parallelization": "8 L1 · up to 16 L2 per L1",
+    "l1_model": "devin/swe-2:max",
+    "l2_model": "devin/swe-2:max",
+    "l1_count": 8,
+    "l2_count": 0,
+    "plan_type": "SWE-2",
+    "meter_label": "Devin weekly quota",
+    "provider_route": "devin",
+    "outcome": "queued"
+  },
+  "session_start": null,
+  "curve": "data/swe2-groknight-curve.json",
+  "links": {
+    "board": "./",
+    "repo": "https://github.com/VeigaPunk/ufo-fsd-alpha"
+  },
+  "tags": ["swe-2", "devin", "queued", "ufo-fsd", "groknight"],
+  "paid": true,
+  "not_a_grant": true,
+  "category": "fleet",
+  "meter": "devin_weekly",
+  "claim_ready": [],
+  "follows": "veigapunk-xai-api-groknight-300usd"
+}
