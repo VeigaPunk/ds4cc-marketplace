@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 163.2 min",
+  "duration": "live · 168.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 66% weekly (start 20%). L1=8 L2=7. Claim-ready 6 · expected $1200.",
+  "summary": "Live groknight SuperGrok OAuth: 67% weekly (start 20%). L1=8 L2=16. Claim-ready 6 · expected $1200.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -127,6 +127,11 @@
       "t": "2026-09-14T02:11:08.297Z",
       "label": "meter",
       "note": "66% weekly · L1=8 L2=7 · claim-ready 6 / $1200"
+    },
+    {
+      "t": "2026-09-14T02:16:08.297Z",
+      "label": "meter",
+      "note": "67% weekly · L1=8 L2=16 · claim-ready 6 / $1200"
     }
   ],
   "metrics": {
@@ -135,18 +140,18 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 7,
+    "l2_count": 16,
     "wall_l1_count": 24,
-    "wall_l2_count": 13,
-    "used_percent": 66,
+    "wall_l2_count": 23,
+    "used_percent": 67,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 163.19,
-    "pct_per_min": 0.2819,
+    "elapsed_min_from_session": 168.35,
+    "pct_per_min": 0.2792,
     "claim_ready_count": 6,
     "claim_ready_expected_usd": 1200,
     "claim_ready_companies": [
@@ -157,12 +162,12 @@
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T02:11:08.297Z",
-    "used_percent": 66,
+    "ts": "2026-09-14T02:16:08.297Z",
+    "used_percent": 67,
     "l1_count": 8,
-    "l2_count": 7,
+    "l2_count": 16,
     "wall_l1_count": 24,
-    "wall_l2_count": 13,
+    "wall_l2_count": 23,
     "claim_ready_count": 6,
     "claim_ready_expected_usd": 1200,
     "claim_ready_companies": [
