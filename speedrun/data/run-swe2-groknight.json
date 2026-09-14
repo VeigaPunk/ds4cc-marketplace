@@ -9,9 +9,9 @@
   "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 46.5 min",
+  "duration": "live · 51.5 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live SWE-2 groknight: Devin weekly 23% (start 22%). L1=8 L2=35. Claim-ready 16 · expected $5100.",
+  "summary": "Live SWE-2 groknight: Devin weekly 23% (start 22%). L1=8 L2=37. Claim-ready 16 · expected $5100.",
   "timeline": [
     {
       "t": "2026-09-14T03:45:00Z",
@@ -57,6 +57,11 @@
       "t": "2026-09-14T04:52:04.436Z",
       "label": "meter",
       "note": "Devin 23% weekly · L1=8 L2=35 · claim-ready 16 / $5100"
+    },
+    {
+      "t": "2026-09-14T04:57:04.436Z",
+      "label": "meter",
+      "note": "Devin 23% weekly · L1=8 L2=37 · claim-ready 16 / $5100"
     }
   ],
   "metrics": {
@@ -65,7 +70,7 @@
     "l1_model": "devin/swe-2:max",
     "l2_model": "devin/swe-2:max",
     "l1_count": 8,
-    "l2_count": 35,
+    "l2_count": 37,
     "plan_type": "SWE-2",
     "meter_label": "Devin weekly quota",
     "provider_route": "devin",
@@ -73,9 +78,9 @@
     "used_percent": 23,
     "start_percent": 22,
     "wall_l1_count": 15,
-    "wall_l2_count": 54,
-    "elapsed_min_from_session": 46.46,
-    "pct_per_min": 0.0215,
+    "wall_l2_count": 55,
+    "elapsed_min_from_session": 51.45,
+    "pct_per_min": 0.0194,
     "claim_ready_count": 16,
     "claim_ready_expected_usd": 5100,
     "claim_ready_companies": [
@@ -306,12 +311,12 @@
   ],
   "follows": "veigapunk-xai-api-groknight-300usd",
   "snapshot": {
-    "ts": "2026-09-14T04:52:04.436Z",
+    "ts": "2026-09-14T04:57:04.436Z",
     "used_percent": 23,
     "l1_count": 8,
-    "l2_count": 35,
+    "l2_count": 37,
     "wall_l1_count": 15,
-    "wall_l2_count": 54,
+    "wall_l2_count": 55,
     "claim_ready_count": 16,
     "claim_ready_expected_usd": 5100,
     "claim_ready_companies": [
