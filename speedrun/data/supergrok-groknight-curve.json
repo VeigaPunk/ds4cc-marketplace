@@ -1,0 +1,25 @@
+{
+  "t0": "2026-09-14T00:45:26Z",
+  "session_start": "2026-09-13T23:28:00Z",
+  "meter": "supergrok_weekly",
+  "start_percent": 20.0,
+  "plan_type": "SuperGrok",
+  "points": [
+    {
+      "ts": "2026-09-14T00:45:26Z",
+      "pct": 20.0,
+      "source": "operator_start_ssot",
+      "l1_count": 8,
+      "l2_count": 2
+    },
+    {
+      "ts": "2026-09-14T00:45:26Z",
+      "pct": 22.0,
+      "source": "omp_usage_xai-oauth",
+      "l1_count": 8,
+      "l2_count": 2,
+      "wall_l1_count": 24,
+      "wall_l2_count": 10
+    }
+  ]
+}
