@@ -50,6 +50,18 @@
       "wall_l1_count": 24,
       "wall_l2_count": 46,
       "elapsed_min": 88.6
+    },
+    {
+      "ts": "2026-09-14T00:57:26.881Z",
+      "pct": 29,
+      "source": "omp_usage_xai-oauth",
+      "l1_count": 8,
+      "l2_count": 26,
+      "wall_l1_count": 24,
+      "wall_l2_count": 34,
+      "claim_ready_count": 0,
+      "claim_ready_expected_usd": 0,
+      "elapsed_min": 89.53
     }
   ]
 }

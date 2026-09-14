@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 88.6 min",
+  "duration": "live · 89.5 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 29% weekly (start 20%). L1=8 L2=38 (wall L1=24 L2=46).",
+  "summary": "Live groknight SuperGrok OAuth: 29% weekly (start 20%). L1=8 L2=26. Claim-ready 0 · expected $0.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -37,6 +37,11 @@
       "t": "2026-09-14T00:56:34.556Z",
       "label": "meter",
       "note": "29% SuperGrok weekly · L1=8 L2=38"
+    },
+    {
+      "t": "2026-09-14T00:57:26.881Z",
+      "label": "meter",
+      "note": "29% weekly · L1=8 L2=26 · claim-ready 0 / $0"
     }
   ],
   "metrics": {
@@ -45,9 +50,9 @@
     "l1_model": "xai-oauth/grok-4.6:high",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 38,
+    "l2_count": 26,
     "wall_l1_count": 24,
-    "wall_l2_count": 46,
+    "wall_l2_count": 34,
     "used_percent": 29,
     "start_percent": 20,
     "window_minutes": 10080,
@@ -55,16 +60,23 @@
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 88.6,
-    "pct_per_min": 0.1016
+    "elapsed_min_from_session": 89.53,
+    "pct_per_min": 0.1005,
+    "claim_ready_count": 0,
+    "claim_ready_expected_usd": 0,
+    "claim_ready_companies": []
   },
   "snapshot": {
-    "ts": "2026-09-14T00:56:34.556Z",
+    "ts": "2026-09-14T00:57:26.881Z",
     "used_percent": 29,
     "l1_count": 8,
-    "l2_count": 38,
+    "l2_count": 26,
     "wall_l1_count": 24,
-    "wall_l2_count": 46,
+    "wall_l2_count": 34,
+    "claim_ready_count": 0,
+    "claim_ready_expected_usd": 0,
+    "claim_ready_companies": [],
+    "claim_ready": [],
     "status": "live"
   },
   "session_start": "2026-09-13T23:28:00Z",
@@ -89,5 +101,6 @@
   "paid": true,
   "not_a_grant": true,
   "category": "fleet",
-  "meter": "supergrok_weekly"
+  "meter": "supergrok_weekly",
+  "claim_ready": []
 }
