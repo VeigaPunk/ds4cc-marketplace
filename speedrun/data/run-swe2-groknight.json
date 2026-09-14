@@ -9,9 +9,9 @@
   "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 151.4 min",
+  "duration": "live · 156.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=16. Claim-ready 24 · expected $13683.",
+  "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=13. Claim-ready 25 · expected $15683.",
   "timeline": [
     {
       "t": "2026-09-14T03:45:00Z",
@@ -162,6 +162,11 @@
       "t": "2026-09-14T06:37:04.439Z",
       "label": "meter",
       "note": "Devin 25% weekly · L1=8 L2=16 · claim-ready 24 / $13683"
+    },
+    {
+      "t": "2026-09-14T06:42:04.439Z",
+      "label": "meter",
+      "note": "Devin 25% weekly · L1=8 L2=13 · claim-ready 25 / $15683"
     }
   ],
   "metrics": {
@@ -170,7 +175,7 @@
     "l1_model": "devin/swe-2:max",
     "l2_model": "devin/swe-2:max",
     "l1_count": 8,
-    "l2_count": 16,
+    "l2_count": 13,
     "plan_type": "SWE-2",
     "meter_label": "Devin weekly quota",
     "provider_route": "devin",
@@ -178,11 +183,11 @@
     "used_percent": 25,
     "start_percent": 22,
     "wall_l1_count": 14,
-    "wall_l2_count": 25,
-    "elapsed_min_from_session": 151.41,
-    "pct_per_min": 0.0198,
-    "claim_ready_count": 24,
-    "claim_ready_expected_usd": 13683,
+    "wall_l2_count": 19,
+    "elapsed_min_from_session": 156.4,
+    "pct_per_min": 0.0192,
+    "claim_ready_count": 25,
+    "claim_ready_expected_usd": 15683,
     "claim_ready_companies": [
       "Stripe",
       "Coinbase",
@@ -194,6 +199,7 @@
       "DigitalOcean",
       "Elastic",
       "ExpressVPN",
+      "Kubernetes",
       "LaunchDarkly",
       "MetaMask",
       "MongoDB",
@@ -390,6 +396,18 @@
       "claimable_at": "2026-09-14"
     },
     {
+      "id": "k8s-nodebound-token-impersonation",
+      "company": "Kubernetes",
+      "program": "kubernetes",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/kubernetes",
+      "expected_usd": 2000,
+      "expected_usd_basis": "CNCF-funded H1 program; cross-node privesc to arbitrary kubelet identity (RCE + SA theft on victim node). Conservative floor; H1 table behind JS wall.",
+      "l1": "groknight-farm-r2",
+      "path": "claim-packages/k8s-nodebound-token-impersonation",
+      "claimable_at": "2026-09-14T00:00:00Z"
+    },
+    {
       "id": "ld-node-stream-tls-bypass",
       "company": "LaunchDarkly",
       "program": "LaunchDarkly Managed Bug Bounty",
@@ -512,14 +530,14 @@
   ],
   "follows": "veigapunk-xai-api-groknight-300usd",
   "snapshot": {
-    "ts": "2026-09-14T06:37:04.439Z",
+    "ts": "2026-09-14T06:42:04.439Z",
     "used_percent": 25,
     "l1_count": 8,
-    "l2_count": 16,
+    "l2_count": 13,
     "wall_l1_count": 14,
-    "wall_l2_count": 25,
-    "claim_ready_count": 24,
-    "claim_ready_expected_usd": 13683,
+    "wall_l2_count": 19,
+    "claim_ready_count": 25,
+    "claim_ready_expected_usd": 15683,
     "claim_ready_companies": [
       "Stripe",
       "Coinbase",
@@ -531,6 +549,7 @@
       "DigitalOcean",
       "Elastic",
       "ExpressVPN",
+      "Kubernetes",
       "LaunchDarkly",
       "MetaMask",
       "MongoDB",
@@ -706,6 +725,18 @@
         "l1": "groknight-xai-oauth/grok-4.6",
         "path": "claim-packages/expressvpn-lightway-ipv6-leak",
         "claimable_at": "2026-09-14"
+      },
+      {
+        "id": "k8s-nodebound-token-impersonation",
+        "company": "Kubernetes",
+        "program": "kubernetes",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/kubernetes",
+        "expected_usd": 2000,
+        "expected_usd_basis": "CNCF-funded H1 program; cross-node privesc to arbitrary kubelet identity (RCE + SA theft on victim node). Conservative floor; H1 table behind JS wall.",
+        "l1": "groknight-farm-r2",
+        "path": "claim-packages/k8s-nodebound-token-impersonation",
+        "claimable_at": "2026-09-14T00:00:00Z"
       },
       {
         "id": "ld-node-stream-tls-bypass",
