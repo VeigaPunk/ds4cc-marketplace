@@ -1,55 +1,60 @@
 {
   "id": "veigapunk-supergrok-oauth-groknight-2026-09-13",
-  "title": "SuperGrok Heavy OAuth \u2014 80% remaining \u00b7 groknight UFO bounty fleet",
+  "title": "SuperGrok Heavy OAuth — 80% remaining · groknight UFO bounty fleet",
   "runner": "VeigaPunk",
   "account_hint": "jpveigao10@gmail.com",
   "provider": "xAI / SuperGrok",
-  "product": "SuperGrok Heavy \u00b7 xAI OAuth weekly credits \u00b7 grok-4.6:high L1 \u00d78 \u00b7 grok-4.5:low L2 \u00b7 ufo-fsd bounty fleet",
+  "product": "SuperGrok Heavy · xAI OAuth weekly credits · grok-4.6:high L1 ×8 · grok-4.5:low L2 · ufo-fsd bounty fleet",
   "budget_usd": null,
-  "budget_note": "Paid SuperGrok OAuth \u2014 not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
+  "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live",
-  "venue": "tmux ufo_sighting:groknight \u00b7 cwd open-bug-bounties",
-  "summary": "LIVE. SuperGrok Heavy xAI OAuth (not API key). Operator start 20% used / 80% remaining. 8 UFO L1 grok-4.6:high + grok-4.5:low L2s hunting HackerOne/Bugcrowd/Intigriti via ufo-fsd. Telemetry every 5 min on this board (L1/L2 counts + weekly %).",
+  "duration": "live · 78.6 min",
+  "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
+  "summary": "Live groknight SuperGrok OAuth: 22% weekly (start 20%). L1=8 L2=1 (wall L1=24 L2=9).",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
       "label": "groknight launch",
-      "note": "8\u00d7 L1 grok-4.6:high \u00b7 xAI OAuth pin \u00b7 cwd open-bug-bounties"
+      "note": "8× L1 grok-4.6:high · xAI OAuth pin · cwd open-bug-bounties"
     },
     {
       "t": "2026-09-14T00:45:26Z",
       "label": "speedrun board live",
-      "note": "operator start 20% \u00b7 meter 22% \u00b7 L1=8 L2=2 \u00b7 wall L1=24 L2=10"
+      "note": "operator start 20% · meter 22% · L1=8 L2=2 · wall L1=24 L2=10"
+    },
+    {
+      "t": "2026-09-14T00:46:31.496Z",
+      "label": "meter",
+      "note": "22% SuperGrok weekly · L1=8 L2=1"
     }
   ],
   "metrics": {
-    "mode": "agent \u00b7 UFO-FSD L1 fleet",
-    "parallelization": "8 L1 \u00b7 up to 16 L2 per L1",
+    "mode": "agent · UFO-FSD L1 fleet",
+    "parallelization": "8 L1 · up to 16 L2 per L1",
     "l1_model": "xai-oauth/grok-4.6:high",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 2,
+    "l2_count": 1,
     "wall_l1_count": 24,
-    "wall_l2_count": 10,
-    "used_percent": 22.0,
-    "start_percent": 20.0,
+    "wall_l2_count": 9,
+    "used_percent": 22,
+    "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
-    "outcome": "live"
+    "outcome": "live",
+    "elapsed_min_from_session": 78.55,
+    "pct_per_min": 0.0255
   },
   "snapshot": {
-    "ts": "2026-09-14T00:45:26Z",
-    "used_percent": 22.0,
-    "start_percent": 20.0,
+    "ts": "2026-09-14T00:46:31.496Z",
+    "used_percent": 22,
     "l1_count": 8,
-    "l2_count": 2,
+    "l2_count": 1,
     "wall_l1_count": 24,
-    "wall_l2_count": 10,
-    "fleet": "groknight",
+    "wall_l2_count": 9,
     "status": "live"
   },
   "session_start": "2026-09-13T23:28:00Z",
