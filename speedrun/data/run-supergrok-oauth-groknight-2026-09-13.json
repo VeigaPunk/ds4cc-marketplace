@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 83.7 min",
+  "duration": "live · 88.6 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 25% weekly (start 20%). L1=8 L2=11 (wall L1=24 L2=19).",
+  "summary": "Live groknight SuperGrok OAuth: 29% weekly (start 20%). L1=8 L2=38 (wall L1=24 L2=46).",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -32,6 +32,11 @@
       "t": "2026-09-14T00:51:34.556Z",
       "label": "meter",
       "note": "25% SuperGrok weekly · L1=8 L2=11"
+    },
+    {
+      "t": "2026-09-14T00:56:34.556Z",
+      "label": "meter",
+      "note": "29% SuperGrok weekly · L1=8 L2=38"
     }
   ],
   "metrics": {
@@ -40,26 +45,26 @@
     "l1_model": "xai-oauth/grok-4.6:high",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 11,
+    "l2_count": 38,
     "wall_l1_count": 24,
-    "wall_l2_count": 19,
-    "used_percent": 25,
+    "wall_l2_count": 46,
+    "used_percent": 29,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 83.67,
-    "pct_per_min": 0.0598
+    "elapsed_min_from_session": 88.6,
+    "pct_per_min": 0.1016
   },
   "snapshot": {
-    "ts": "2026-09-14T00:51:34.556Z",
-    "used_percent": 25,
+    "ts": "2026-09-14T00:56:34.556Z",
+    "used_percent": 29,
     "l1_count": 8,
-    "l2_count": 11,
+    "l2_count": 38,
     "wall_l1_count": 24,
-    "wall_l2_count": 19,
+    "wall_l2_count": 46,
     "status": "live"
   },
   "session_start": "2026-09-13T23:28:00Z",
