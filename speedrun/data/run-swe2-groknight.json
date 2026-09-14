@@ -9,7 +9,7 @@
   "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 116.4 min",
+  "duration": "live · 121.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
   "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=20. Claim-ready 23 · expected $11183.",
   "timeline": [
@@ -127,6 +127,11 @@
       "t": "2026-09-14T06:02:04.438Z",
       "label": "meter",
       "note": "Devin 25% weekly · L1=8 L2=20 · claim-ready 23 / $11183"
+    },
+    {
+      "t": "2026-09-14T06:07:04.438Z",
+      "label": "meter",
+      "note": "Devin 25% weekly · L1=8 L2=20 · claim-ready 23 / $11183"
     }
   ],
   "metrics": {
@@ -143,9 +148,9 @@
     "used_percent": 25,
     "start_percent": 22,
     "wall_l1_count": 15,
-    "wall_l2_count": 31,
-    "elapsed_min_from_session": 116.4,
-    "pct_per_min": 0.0258,
+    "wall_l2_count": 32,
+    "elapsed_min_from_session": 121.4,
+    "pct_per_min": 0.0247,
     "claim_ready_count": 23,
     "claim_ready_expected_usd": 11183,
     "claim_ready_companies": [
@@ -158,12 +163,12 @@
       "WordPress",
       "DigitalOcean",
       "Elastic",
-      "ExpressVPN",
       "LaunchDarkly",
       "MetaMask",
       "MongoDB",
       "Automattic",
-      "Snapchat"
+      "Snapchat",
+      "ExpressVPN"
     ],
     "advisor_model": "devin/gpt-6-astra:max"
   },
@@ -342,18 +347,6 @@
       "claimable_at": "2026-09-14T00:00:00Z"
     },
     {
-      "id": "expressvpn-lightway-ipv6-leak",
-      "company": "ExpressVPN",
-      "program": "ExpressVPN - Bug Bounty Program",
-      "platform": "yeswehack",
-      "url": "https://yeswehack.com/programs/expressvpn-bug-bounty-program",
-      "expected_usd": 200,
-      "expected_usd_basis": "YesWeHack grid, HIGH asset, Low = $200 (page header also shows $50 Low — unresolved display conflict; conservative high-asset Low used). Real-ip-leak on reference client; Medium $600 plausible if triager accepts shipped-app impact. Not invented.",
-      "l1": "groknight-xai-oauth/grok-4.6",
-      "path": "claim-packages/expressvpn-lightway-ipv6-leak",
-      "claimable_at": "2026-09-14"
-    },
-    {
       "id": "ld-node-stream-tls-bypass",
       "company": "LaunchDarkly",
       "program": "LaunchDarkly Managed Bug Bounty",
@@ -460,16 +453,28 @@
       "l1": null,
       "path": "claim-packages/EPR-STOR-1",
       "claimable_at": "2026-09-14T01:35:00Z"
+    },
+    {
+      "id": "expressvpn-lightway-ipv6-leak",
+      "company": "ExpressVPN",
+      "program": "ExpressVPN - Bug Bounty Program",
+      "platform": "yeswehack",
+      "url": "https://yeswehack.com/programs/expressvpn-bug-bounty-program",
+      "expected_usd": 200,
+      "expected_usd_basis": "YesWeHack grid, HIGH asset, Low = $200 (page header also shows $50 Low — unresolved display conflict; conservative high-asset Low used). Real-ip-leak on reference client; Medium $600 plausible if triager accepts shipped-app impact. Not invented.",
+      "l1": "groknight-xai-oauth/grok-4.6",
+      "path": "claim-packages/expressvpn-lightway-ipv6-leak",
+      "claimable_at": "2026-09-14"
     }
   ],
   "follows": "veigapunk-xai-api-groknight-300usd",
   "snapshot": {
-    "ts": "2026-09-14T06:02:04.438Z",
+    "ts": "2026-09-14T06:07:04.438Z",
     "used_percent": 25,
     "l1_count": 8,
     "l2_count": 20,
     "wall_l1_count": 15,
-    "wall_l2_count": 31,
+    "wall_l2_count": 32,
     "claim_ready_count": 23,
     "claim_ready_expected_usd": 11183,
     "claim_ready_companies": [
@@ -482,12 +487,12 @@
       "WordPress",
       "DigitalOcean",
       "Elastic",
-      "ExpressVPN",
       "LaunchDarkly",
       "MetaMask",
       "MongoDB",
       "Automattic",
-      "Snapchat"
+      "Snapchat",
+      "ExpressVPN"
     ],
     "claim_ready": [
       {
@@ -647,18 +652,6 @@
         "claimable_at": "2026-09-14T00:00:00Z"
       },
       {
-        "id": "expressvpn-lightway-ipv6-leak",
-        "company": "ExpressVPN",
-        "program": "ExpressVPN - Bug Bounty Program",
-        "platform": "yeswehack",
-        "url": "https://yeswehack.com/programs/expressvpn-bug-bounty-program",
-        "expected_usd": 200,
-        "expected_usd_basis": "YesWeHack grid, HIGH asset, Low = $200 (page header also shows $50 Low — unresolved display conflict; conservative high-asset Low used). Real-ip-leak on reference client; Medium $600 plausible if triager accepts shipped-app impact. Not invented.",
-        "l1": "groknight-xai-oauth/grok-4.6",
-        "path": "claim-packages/expressvpn-lightway-ipv6-leak",
-        "claimable_at": "2026-09-14"
-      },
-      {
         "id": "ld-node-stream-tls-bypass",
         "company": "LaunchDarkly",
         "program": "LaunchDarkly Managed Bug Bounty",
@@ -765,6 +758,18 @@
         "l1": null,
         "path": "claim-packages/EPR-STOR-1",
         "claimable_at": "2026-09-14T01:35:00Z"
+      },
+      {
+        "id": "expressvpn-lightway-ipv6-leak",
+        "company": "ExpressVPN",
+        "program": "ExpressVPN - Bug Bounty Program",
+        "platform": "yeswehack",
+        "url": "https://yeswehack.com/programs/expressvpn-bug-bounty-program",
+        "expected_usd": 200,
+        "expected_usd_basis": "YesWeHack grid, HIGH asset, Low = $200 (page header also shows $50 Low — unresolved display conflict; conservative high-asset Low used). Real-ip-leak on reference client; Medium $600 plausible if triager accepts shipped-app impact. Not invented.",
+        "l1": "groknight-xai-oauth/grok-4.6",
+        "path": "claim-packages/expressvpn-lightway-ipv6-leak",
+        "claimable_at": "2026-09-14"
       }
     ],
     "status": "live"
