@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 124.6 min",
+  "duration": "live · 129.6 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 49% weekly (start 20%). L1=8 L2=15. Claim-ready 0 · expected $0.",
+  "summary": "Live groknight SuperGrok OAuth: 49% weekly (start 20%). L1=8 L2=12. Claim-ready 2 · expected $150.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -77,6 +77,11 @@
       "t": "2026-09-14T01:32:33.096Z",
       "label": "meter",
       "note": "49% weekly · L1=8 L2=15 · claim-ready 0 / $0"
+    },
+    {
+      "t": "2026-09-14T01:37:33.099Z",
+      "label": "meter",
+      "note": "49% weekly · L1=8 L2=12 · claim-ready 2 / $150"
     }
   ],
   "metrics": {
@@ -85,9 +90,9 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 15,
+    "l2_count": 12,
     "wall_l1_count": 24,
-    "wall_l2_count": 21,
+    "wall_l2_count": 19,
     "used_percent": 49,
     "start_percent": 20,
     "window_minutes": 10080,
@@ -95,23 +100,54 @@
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 124.61,
-    "pct_per_min": 0.2327,
-    "claim_ready_count": 0,
-    "claim_ready_expected_usd": 0,
-    "claim_ready_companies": []
+    "elapsed_min_from_session": 129.6,
+    "pct_per_min": 0.2238,
+    "claim_ready_count": 2,
+    "claim_ready_expected_usd": 150,
+    "claim_ready_companies": [
+      "Elastic",
+      "Aiven"
+    ]
   },
   "snapshot": {
-    "ts": "2026-09-14T01:32:33.096Z",
+    "ts": "2026-09-14T01:37:33.099Z",
     "used_percent": 49,
     "l1_count": 8,
-    "l2_count": 15,
+    "l2_count": 12,
     "wall_l1_count": 24,
-    "wall_l2_count": 21,
-    "claim_ready_count": 0,
-    "claim_ready_expected_usd": 0,
-    "claim_ready_companies": [],
-    "claim_ready": [],
+    "wall_l2_count": 19,
+    "claim_ready_count": 2,
+    "claim_ready_expected_usd": 150,
+    "claim_ready_companies": [
+      "Elastic",
+      "Aiven"
+    ],
+    "claim_ready": [
+      {
+        "id": "EPR-STOR-1",
+        "company": "Elastic",
+        "program": "elastic",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/elastic",
+        "expected_usd": 100,
+        "expected_usd_basis": "H1 GraphQL bounty_table row asset Other: low_minimum=100 (lanes/h1-elastic-bounty-table.json). Package Registry is structured-scope OTHER. Product-row low_minimum=75 not used because this asset is Other, not Elasticsearch/Kibana DOWNLOADABLE_EXECUTABLES. Min of published range; not invented.",
+        "l1": "groknight-xai-oauth/grok-4.6",
+        "path": ".ufo-missions/groknight/elastic/pocs/epr-zip-path-traversal",
+        "claimable_at": "2026-09-14T01:35:00Z"
+      },
+      {
+        "id": "aiven-pglookout-m02",
+        "company": "Aiven",
+        "program": "Aiven Managed Bug Bounty",
+        "platform": "bugcrowd",
+        "url": "https://bugcrowd.com/engagements/aiven-mbb-og",
+        "expected_usd": 50,
+        "expected_usd_basis": "published Bugcrowd OSS repo table P4 min $50–$250 (not invented); local loopback PoC only; SECURITY.md PoC bar now met locally; managed-product exposure still unverified",
+        "l1": "groknight",
+        "path": ".ufo-missions/groknight/aiven-mbb-og/poc-pglookout-local.md",
+        "claimable_at": "2026-09-14T01:32:00Z"
+      }
+    ],
     "status": "live"
   },
   "session_start": "2026-09-13T23:28:00Z",
@@ -137,5 +173,30 @@
   "not_a_grant": true,
   "category": "fleet",
   "meter": "supergrok_weekly",
-  "claim_ready": []
+  "claim_ready": [
+    {
+      "id": "EPR-STOR-1",
+      "company": "Elastic",
+      "program": "elastic",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/elastic",
+      "expected_usd": 100,
+      "expected_usd_basis": "H1 GraphQL bounty_table row asset Other: low_minimum=100 (lanes/h1-elastic-bounty-table.json). Package Registry is structured-scope OTHER. Product-row low_minimum=75 not used because this asset is Other, not Elasticsearch/Kibana DOWNLOADABLE_EXECUTABLES. Min of published range; not invented.",
+      "l1": "groknight-xai-oauth/grok-4.6",
+      "path": ".ufo-missions/groknight/elastic/pocs/epr-zip-path-traversal",
+      "claimable_at": "2026-09-14T01:35:00Z"
+    },
+    {
+      "id": "aiven-pglookout-m02",
+      "company": "Aiven",
+      "program": "Aiven Managed Bug Bounty",
+      "platform": "bugcrowd",
+      "url": "https://bugcrowd.com/engagements/aiven-mbb-og",
+      "expected_usd": 50,
+      "expected_usd_basis": "published Bugcrowd OSS repo table P4 min $50–$250 (not invented); local loopback PoC only; SECURITY.md PoC bar now met locally; managed-product exposure still unverified",
+      "l1": "groknight",
+      "path": ".ufo-missions/groknight/aiven-mbb-og/poc-pglookout-local.md",
+      "claimable_at": "2026-09-14T01:32:00Z"
+    }
+  ]
 }
