@@ -9,9 +9,9 @@
   "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 51.5 min",
+  "duration": "live · 56.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live SWE-2 groknight: Devin weekly 23% (start 22%). L1=8 L2=37. Claim-ready 16 · expected $5100.",
+  "summary": "Live SWE-2 groknight: Devin weekly 24% (start 22%). L1=8 L2=34. Claim-ready 17 · expected $5100.",
   "timeline": [
     {
       "t": "2026-09-14T03:45:00Z",
@@ -62,6 +62,11 @@
       "t": "2026-09-14T04:57:04.436Z",
       "label": "meter",
       "note": "Devin 23% weekly · L1=8 L2=37 · claim-ready 16 / $5100"
+    },
+    {
+      "t": "2026-09-14T05:02:04.437Z",
+      "label": "meter",
+      "note": "Devin 24% weekly · L1=8 L2=34 · claim-ready 17 / $5100"
     }
   ],
   "metrics": {
@@ -70,18 +75,18 @@
     "l1_model": "devin/swe-2:max",
     "l2_model": "devin/swe-2:max",
     "l1_count": 8,
-    "l2_count": 37,
+    "l2_count": 34,
     "plan_type": "SWE-2",
     "meter_label": "Devin weekly quota",
     "provider_route": "devin",
     "outcome": "live",
-    "used_percent": 23,
+    "used_percent": 24,
     "start_percent": 22,
     "wall_l1_count": 15,
-    "wall_l2_count": 55,
-    "elapsed_min_from_session": 51.45,
-    "pct_per_min": 0.0194,
-    "claim_ready_count": 16,
+    "wall_l2_count": 50,
+    "elapsed_min_from_session": 56.42,
+    "pct_per_min": 0.0355,
+    "claim_ready_count": 17,
     "claim_ready_expected_usd": 5100,
     "claim_ready_companies": [
       "Elastic",
@@ -90,6 +95,7 @@
       "Airtable",
       "Aiven",
       "Brave Software",
+      "WordPress",
       "LaunchDarkly",
       "MetaMask",
       "MongoDB",
@@ -199,6 +205,18 @@
       "l1": "groknight",
       "path": "claim-packages/brave-bat-go-reputation-proxy/",
       "claimable_at": "2026-09-14T03:34:00Z"
+    },
+    {
+      "id": "buddypress-unauth-signup-resend",
+      "company": "WordPress",
+      "program": "WordPress",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/wordpress",
+      "expected_usd": 0,
+      "expected_usd_basis": "WordPress H1 bounty_table null — no published severity→USD mapping; not invented",
+      "l1": "groknight-delta",
+      "path": "claim-packages/buddypress-unauth-signup-resend",
+      "claimable_at": null
     },
     {
       "id": "coinbase-agentkit-x402",
@@ -311,13 +329,13 @@
   ],
   "follows": "veigapunk-xai-api-groknight-300usd",
   "snapshot": {
-    "ts": "2026-09-14T04:57:04.436Z",
-    "used_percent": 23,
+    "ts": "2026-09-14T05:02:04.437Z",
+    "used_percent": 24,
     "l1_count": 8,
-    "l2_count": 37,
+    "l2_count": 34,
     "wall_l1_count": 15,
-    "wall_l2_count": 55,
-    "claim_ready_count": 16,
+    "wall_l2_count": 50,
+    "claim_ready_count": 17,
     "claim_ready_expected_usd": 5100,
     "claim_ready_companies": [
       "Elastic",
@@ -326,6 +344,7 @@
       "Airtable",
       "Aiven",
       "Brave Software",
+      "WordPress",
       "LaunchDarkly",
       "MetaMask",
       "MongoDB",
@@ -416,6 +435,18 @@
         "l1": "groknight",
         "path": "claim-packages/brave-bat-go-reputation-proxy/",
         "claimable_at": "2026-09-14T03:34:00Z"
+      },
+      {
+        "id": "buddypress-unauth-signup-resend",
+        "company": "WordPress",
+        "program": "WordPress",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/wordpress",
+        "expected_usd": 0,
+        "expected_usd_basis": "WordPress H1 bounty_table null — no published severity→USD mapping; not invented",
+        "l1": "groknight-delta",
+        "path": "claim-packages/buddypress-unauth-signup-resend",
+        "claimable_at": null
       },
       {
         "id": "coinbase-agentkit-x402",
