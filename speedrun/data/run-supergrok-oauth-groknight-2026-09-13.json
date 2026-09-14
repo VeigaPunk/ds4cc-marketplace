@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 223.2 min",
+  "duration": "live · 228.2 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 87% weekly (start 20%). L1=8 L2=7. Claim-ready 13 · expected $4600.",
+  "summary": "Live groknight SuperGrok OAuth: 88% weekly (start 20%). L1=8 L2=6. Claim-ready 15 · expected $4850.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -187,6 +187,11 @@
       "t": "2026-09-14T03:11:08.309Z",
       "label": "meter",
       "note": "87% weekly · L1=8 L2=7 · claim-ready 13 / $4600"
+    },
+    {
+      "t": "2026-09-14T03:16:08.309Z",
+      "label": "meter",
+      "note": "88% weekly · L1=8 L2=6 · claim-ready 15 / $4850"
     }
   ],
   "metrics": {
@@ -195,20 +200,20 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 7,
+    "l2_count": 6,
     "wall_l1_count": 24,
-    "wall_l2_count": 13,
-    "used_percent": 87,
+    "wall_l2_count": 12,
+    "used_percent": 88,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 223.25,
-    "pct_per_min": 0.3001,
-    "claim_ready_count": 13,
-    "claim_ready_expected_usd": 4600,
+    "elapsed_min_from_session": 228.24,
+    "pct_per_min": 0.2979,
+    "claim_ready_count": 15,
+    "claim_ready_expected_usd": 4850,
     "claim_ready_companies": [
       "Elastic",
       "Stripe",
@@ -223,14 +228,14 @@
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T03:11:08.309Z",
-    "used_percent": 87,
+    "ts": "2026-09-14T03:16:08.309Z",
+    "used_percent": 88,
     "l1_count": 8,
-    "l2_count": 7,
+    "l2_count": 6,
     "wall_l1_count": 24,
-    "wall_l2_count": 13,
-    "claim_ready_count": 13,
-    "claim_ready_expected_usd": 4600,
+    "wall_l2_count": 12,
+    "claim_ready_count": 15,
+    "claim_ready_expected_usd": 4850,
     "claim_ready_companies": [
       "Elastic",
       "Stripe",
@@ -329,6 +334,18 @@
         "claimable_at": "2026-09-14T02:25:00Z"
       },
       {
+        "id": "coinbase-agentkit-x402",
+        "company": "Coinbase",
+        "program": "Coinbase",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/coinbase",
+        "expected_usd": 200,
+        "expected_usd_basis": "H1 base_bounty 200 USD; Low/Med null",
+        "l1": "groknight",
+        "path": ".ufo-missions/groknight/coinbase/pocs/agentkit/poc_x402_whitelist_bypass.mjs",
+        "claimable_at": "2026-09-14T03:10:00Z"
+      },
+      {
         "id": "ld-node-stream-tls-bypass",
         "company": "LaunchDarkly",
         "program": "LaunchDarkly Managed Bug Bounty",
@@ -339,6 +356,18 @@
         "l1": "groknight-xai-oauth/grok-4.6",
         "path": "claim-packages/ld-node-stream-tls-bypass",
         "claimable_at": "2026-09-14T02:20:00Z"
+      },
+      {
+        "id": "metamask-sdk-channel-inject",
+        "company": "MetaMask",
+        "program": "metamask",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/metamask",
+        "expected_usd": 50,
+        "expected_usd_basis": "CSV MetaMask SDK bounty-eligible (Core tier); signed-out H1 table not observed; L0 $50 floor not invented Core Low",
+        "l1": "xai-oauth/grok-4.6:low",
+        "path": "claim-packages/metamask-sdk-channel-inject",
+        "claimable_at": "2026-09-14T03:12:00Z"
       },
       {
         "id": "metamask-sdk-mm01",
@@ -512,6 +541,18 @@
       "claimable_at": "2026-09-14T02:25:00Z"
     },
     {
+      "id": "coinbase-agentkit-x402",
+      "company": "Coinbase",
+      "program": "Coinbase",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/coinbase",
+      "expected_usd": 200,
+      "expected_usd_basis": "H1 base_bounty 200 USD; Low/Med null",
+      "l1": "groknight",
+      "path": ".ufo-missions/groknight/coinbase/pocs/agentkit/poc_x402_whitelist_bypass.mjs",
+      "claimable_at": "2026-09-14T03:10:00Z"
+    },
+    {
       "id": "ld-node-stream-tls-bypass",
       "company": "LaunchDarkly",
       "program": "LaunchDarkly Managed Bug Bounty",
@@ -522,6 +563,18 @@
       "l1": "groknight-xai-oauth/grok-4.6",
       "path": "claim-packages/ld-node-stream-tls-bypass",
       "claimable_at": "2026-09-14T02:20:00Z"
+    },
+    {
+      "id": "metamask-sdk-channel-inject",
+      "company": "MetaMask",
+      "program": "metamask",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/metamask",
+      "expected_usd": 50,
+      "expected_usd_basis": "CSV MetaMask SDK bounty-eligible (Core tier); signed-out H1 table not observed; L0 $50 floor not invented Core Low",
+      "l1": "xai-oauth/grok-4.6:low",
+      "path": "claim-packages/metamask-sdk-channel-inject",
+      "claimable_at": "2026-09-14T03:12:00Z"
     },
     {
       "id": "metamask-sdk-mm01",
