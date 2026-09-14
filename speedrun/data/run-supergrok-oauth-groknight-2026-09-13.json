@@ -1,108 +1,113 @@
 {
   "id": "veigapunk-supergrok-oauth-groknight-2026-09-13",
-  "title": "SuperGrok Heavy OAuth \u2014 80% remaining \u00b7 groknight UFO bounty fleet",
+  "title": "SuperGrok Heavy OAuth — 80% remaining · groknight UFO bounty fleet",
   "runner": "VeigaPunk",
   "account_hint": "jpveigao10@gmail.com",
   "provider": "xAI / SuperGrok",
-  "product": "SuperGrok Heavy \u00b7 xAI OAuth weekly credits \u00b7 grok-4.6:low L1 \u00d78 \u00b7 grok-4.5:low L2 \u00b7 ufo-fsd bounty fleet",
+  "product": "SuperGrok Heavy · xAI OAuth weekly credits · grok-4.6:low L1 ×8 · grok-4.5:low L2 · ufo-fsd bounty fleet",
   "budget_usd": null,
-  "budget_note": "Paid SuperGrok OAuth \u2014 not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
+  "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live \u00b7 119.6 min",
-  "venue": "tmux ufo_sighting:groknight \u00b7 cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 47% weekly (start 20%). L1=8 L2=9. Claim-ready 0 \u00b7 expected $0.",
+  "duration": "live · 124.6 min",
+  "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
+  "summary": "Live groknight SuperGrok OAuth: 49% weekly (start 20%). L1=8 L2=15. Claim-ready 0 · expected $0.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
       "label": "groknight launch",
-      "note": "8\u00d7 L1 grok-4.6:high \u00b7 xAI OAuth pin \u00b7 cwd open-bug-bounties"
+      "note": "8× L1 grok-4.6:high · xAI OAuth pin · cwd open-bug-bounties"
     },
     {
       "t": "2026-09-14T00:45:26Z",
       "label": "speedrun board live",
-      "note": "operator start 20% \u00b7 meter 22% \u00b7 L1=8 L2=2 \u00b7 wall L1=24 L2=10"
+      "note": "operator start 20% · meter 22% · L1=8 L2=2 · wall L1=24 L2=10"
     },
     {
       "t": "2026-09-14T00:46:31.496Z",
       "label": "meter",
-      "note": "22% SuperGrok weekly \u00b7 L1=8 L2=1"
+      "note": "22% SuperGrok weekly · L1=8 L2=1"
     },
     {
       "t": "2026-09-14T00:51:34.556Z",
       "label": "meter",
-      "note": "25% SuperGrok weekly \u00b7 L1=8 L2=11"
+      "note": "25% SuperGrok weekly · L1=8 L2=11"
     },
     {
       "t": "2026-09-14T00:56:34.556Z",
       "label": "meter",
-      "note": "29% SuperGrok weekly \u00b7 L1=8 L2=38"
+      "note": "29% SuperGrok weekly · L1=8 L2=38"
     },
     {
       "t": "2026-09-14T00:57:26.881Z",
       "label": "meter",
-      "note": "29% weekly \u00b7 L1=8 L2=26 \u00b7 claim-ready 0 / $0"
+      "note": "29% weekly · L1=8 L2=26 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:02:33.078Z",
       "label": "meter",
-      "note": "33% weekly \u00b7 L1=8 L2=28 \u00b7 claim-ready 0 / $0"
+      "note": "33% weekly · L1=8 L2=28 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:07:33.078Z",
       "label": "meter",
-      "note": "36% weekly \u00b7 L1=8 L2=16 \u00b7 claim-ready 0 / $0"
+      "note": "36% weekly · L1=8 L2=16 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:12:33.079Z",
       "label": "meter",
-      "note": "40% weekly \u00b7 L1=8 L2=27 \u00b7 claim-ready 0 / $0"
+      "note": "40% weekly · L1=8 L2=27 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:17:33.086Z",
       "label": "meter",
-      "note": "43% weekly \u00b7 L1=8 L2=7 \u00b7 claim-ready 0 / $0"
+      "note": "43% weekly · L1=8 L2=7 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:22:33.087Z",
       "label": "meter",
-      "note": "43% weekly \u00b7 L1=8 L2=13 \u00b7 claim-ready 0 / $0"
+      "note": "43% weekly · L1=8 L2=13 · claim-ready 0 / $0"
     },
     {
       "t": "2026-09-14T01:27:33.093Z",
       "label": "meter",
-      "note": "47% weekly \u00b7 L1=8 L2=9 \u00b7 claim-ready 0 / $0"
+      "note": "47% weekly · L1=8 L2=9 · claim-ready 0 / $0"
+    },
+    {
+      "t": "2026-09-14T01:32:33.096Z",
+      "label": "meter",
+      "note": "49% weekly · L1=8 L2=15 · claim-ready 0 / $0"
     }
   ],
   "metrics": {
-    "mode": "agent \u00b7 UFO-FSD L1 fleet",
-    "parallelization": "8 L1 \u00b7 up to 16 L2 per L1",
+    "mode": "agent · UFO-FSD L1 fleet",
+    "parallelization": "8 L1 · up to 16 L2 per L1",
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 9,
+    "l2_count": 15,
     "wall_l1_count": 24,
-    "wall_l2_count": 17,
-    "used_percent": 47,
+    "wall_l2_count": 21,
+    "used_percent": 49,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 119.61,
-    "pct_per_min": 0.2257,
+    "elapsed_min_from_session": 124.61,
+    "pct_per_min": 0.2327,
     "claim_ready_count": 0,
     "claim_ready_expected_usd": 0,
     "claim_ready_companies": []
   },
   "snapshot": {
-    "ts": "2026-09-14T01:27:33.093Z",
-    "used_percent": 47,
+    "ts": "2026-09-14T01:32:33.096Z",
+    "used_percent": 49,
     "l1_count": 8,
-    "l2_count": 9,
+    "l2_count": 15,
     "wall_l1_count": 24,
-    "wall_l2_count": 17,
+    "wall_l2_count": 21,
     "claim_ready_count": 0,
     "claim_ready_expected_usd": 0,
     "claim_ready_companies": [],
