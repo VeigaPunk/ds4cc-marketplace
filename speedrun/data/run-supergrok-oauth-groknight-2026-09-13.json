@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 188.2 min",
+  "duration": "live · 193.2 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 73% weekly (start 20%). L1=7 L2=30. Claim-ready 8 · expected $3750.",
+  "summary": "Live groknight SuperGrok OAuth: 77% weekly (start 20%). L1=8 L2=18. Claim-ready 9 · expected $3800.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -152,6 +152,11 @@
       "t": "2026-09-14T02:36:08.305Z",
       "label": "meter",
       "note": "73% weekly · L1=7 L2=30 · claim-ready 8 / $3750"
+    },
+    {
+      "t": "2026-09-14T02:41:08.307Z",
+      "label": "meter",
+      "note": "77% weekly · L1=8 L2=18 · claim-ready 9 / $3800"
     }
   ],
   "metrics": {
@@ -159,46 +164,48 @@
     "parallelization": "8 L1 · up to 16 L2 per L1",
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
-    "l1_count": 7,
-    "l2_count": 30,
-    "wall_l1_count": 23,
-    "wall_l2_count": 36,
-    "used_percent": 73,
+    "l1_count": 8,
+    "l2_count": 18,
+    "wall_l1_count": 24,
+    "wall_l2_count": 25,
+    "used_percent": 77,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 188.19,
-    "pct_per_min": 0.2816,
-    "claim_ready_count": 8,
-    "claim_ready_expected_usd": 3750,
+    "elapsed_min_from_session": 193.2,
+    "pct_per_min": 0.295,
+    "claim_ready_count": 9,
+    "claim_ready_expected_usd": 3800,
     "claim_ready_companies": [
       "Elastic",
       "Airtable",
       "Aiven",
       "Brave",
       "LaunchDarkly",
-      "MongoDB"
+      "MongoDB",
+      "Snapchat"
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T02:36:08.305Z",
-    "used_percent": 73,
-    "l1_count": 7,
-    "l2_count": 30,
-    "wall_l1_count": 23,
-    "wall_l2_count": 36,
-    "claim_ready_count": 8,
-    "claim_ready_expected_usd": 3750,
+    "ts": "2026-09-14T02:41:08.307Z",
+    "used_percent": 77,
+    "l1_count": 8,
+    "l2_count": 18,
+    "wall_l1_count": 24,
+    "wall_l2_count": 25,
+    "claim_ready_count": 9,
+    "claim_ready_expected_usd": 3800,
     "claim_ready_companies": [
       "Elastic",
       "Airtable",
       "Aiven",
       "Brave",
       "LaunchDarkly",
-      "MongoDB"
+      "MongoDB",
+      "Snapchat"
     ],
     "claim_ready": [
       {
@@ -296,6 +303,18 @@
         "l1": "xai-oauth/grok-4.6:low",
         "path": "claim-packages/mongodb-mcp-m01-shared-exports",
         "claimable_at": "2026-09-14T02:10:00Z"
+      },
+      {
+        "id": "snapchat-playcanvas-loader-sinks",
+        "company": "Snapchat",
+        "program": "Snapchat",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/snapchat",
+        "expected_usd": 50,
+        "expected_usd_basis": "H1 Snapchat Tier B PlayCanvas URLs bounty-eligible; published table unknown → $50 min packaging floor",
+        "l1": "groknight",
+        "path": "claim-packages/snapchat-playcanvas-loader-sinks",
+        "claimable_at": "2026-09-14T02:39:30Z"
       }
     ],
     "status": "live"
@@ -419,6 +438,18 @@
       "l1": "xai-oauth/grok-4.6:low",
       "path": "claim-packages/mongodb-mcp-m01-shared-exports",
       "claimable_at": "2026-09-14T02:10:00Z"
+    },
+    {
+      "id": "snapchat-playcanvas-loader-sinks",
+      "company": "Snapchat",
+      "program": "Snapchat",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/snapchat",
+      "expected_usd": 50,
+      "expected_usd_basis": "H1 Snapchat Tier B PlayCanvas URLs bounty-eligible; published table unknown → $50 min packaging floor",
+      "l1": "groknight",
+      "path": "claim-packages/snapchat-playcanvas-loader-sinks",
+      "claimable_at": "2026-09-14T02:39:30Z"
     }
   ]
 }
