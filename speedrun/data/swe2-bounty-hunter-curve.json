@@ -1,0 +1,22 @@
+{
+  "t0": null,
+  "session_start": "2026-09-14T16:14:21Z",
+  "meter": "devin_weekly",
+  "plan_type": "SWE-2",
+  "points": [
+    {
+      "ts": "2026-09-14T17:14:03.603Z",
+      "pct": 50,
+      "source": "omp_usage_devin",
+      "l1_count": 7,
+      "l2_count": 56,
+      "worker_l1_count": 6,
+      "ingestion_l1_count": 1,
+      "wall_l1_count": 7,
+      "wall_l2_count": 56,
+      "claim_ready_count": 25,
+      "claim_ready_expected_usd": 13833,
+      "elapsed_min": 60.02
+    }
+  ]
+}

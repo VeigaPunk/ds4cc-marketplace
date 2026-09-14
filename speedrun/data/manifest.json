@@ -8,8 +8,9 @@
     "infinite_mode": "local / self-host / open weights only"
   },
   "featured_run_id": "veigapunk-kimi-200-usd-48h",
-  "live_strip_run_id": "veigapunk-swe2-groknight",
+  "live_strip_run_id": "veigapunk-swe2-bounty-hunter-ufofsd",
   "runs": [
+    "data/run-swe2-bounty-hunter-ufofsd-2026-09-14.json",
     "data/run-supergrok-oauth-groknight-2026-09-13.json",
     "data/run-xai-api-groknight-300usd.json",
     "data/run-swe2-groknight.json",
