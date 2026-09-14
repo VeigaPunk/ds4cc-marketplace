@@ -8,10 +8,10 @@
   "budget_usd": null,
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
-  "status": "wrapping",
-  "duration": "wrapping · 258.2 min · 99% weekly",
+  "status": "closed",
+  "duration": "closed · 263.2 min · SuperGrok weekly 100%",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "WRAP-UP groknight SuperGrok OAuth: 99% weekly (start 20%). Closing the speedrun entry. Fleet runs to 100%. Claim-ready 15 · expected $5000.",
+  "summary": "CLOSED groknight SuperGrok OAuth at 100% weekly (start 20%). L1=8 L2=0. Claim-ready 15 · expected $5000.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -214,9 +214,9 @@
       "note": "94% weekly · L1=8 L2=2 · claim-ready 15 / $4850"
     },
     {
-      "t": "2026-09-14T03:46:08.310Z",
-      "label": "wrap",
-      "note": "99% weekly · L1=8 L2=0 · claim-ready 15 / $5000"
+      "t": "2026-09-14T03:51:08.310Z",
+      "label": "closed",
+      "note": "100% weekly · L1=8 L2=0 · claim-ready 15 / $5000"
     }
   ],
   "metrics": {
@@ -228,15 +228,15 @@
     "l2_count": 0,
     "wall_l1_count": 24,
     "wall_l2_count": 6,
-    "used_percent": 99,
+    "used_percent": 100,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
-    "outcome": "wrapping",
-    "elapsed_min_from_session": 258.19,
-    "pct_per_min": 0.306,
+    "outcome": "closed",
+    "elapsed_min_from_session": 263.2,
+    "pct_per_min": 0.304,
     "claim_ready_count": 15,
     "claim_ready_expected_usd": 5000,
     "claim_ready_companies": [
@@ -253,8 +253,8 @@
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T03:46:08.310Z",
-    "used_percent": 99,
+    "ts": "2026-09-14T03:51:08.310Z",
+    "used_percent": 100,
     "l1_count": 8,
     "l2_count": 0,
     "wall_l1_count": 24,
@@ -455,7 +455,7 @@
         "claimable_at": "2026-09-14T02:39:30Z"
       }
     ],
-    "status": "wrapping"
+    "status": "closed"
   },
   "session_start": "2026-09-13T23:28:00Z",
   "first_meter": "2026-09-14T00:45:26Z",
@@ -662,5 +662,8 @@
       "claimable_at": "2026-09-14T02:39:30Z"
     }
   ],
-  "wrap_started_at": "2026-09-14T03:39:13Z"
+  "wrap_started_at": "2026-09-14T03:39:13Z",
+  "closed_at": "2026-09-14T03:50:11Z",
+  "closed": true,
+  "closed_ts": "2026-09-14T03:51:08.310Z"
 }
