@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 243.2 min",
+  "duration": "live · 248.2 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 92% weekly (start 20%). L1=8 L2=6. Claim-ready 15 · expected $4850.",
+  "summary": "Live groknight SuperGrok OAuth: 94% weekly (start 20%). L1=8 L2=2. Claim-ready 15 · expected $4850.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -207,6 +207,11 @@
       "t": "2026-09-14T03:31:08.309Z",
       "label": "meter",
       "note": "92% weekly · L1=8 L2=6 · claim-ready 15 / $4850"
+    },
+    {
+      "t": "2026-09-14T03:36:08.309Z",
+      "label": "meter",
+      "note": "94% weekly · L1=8 L2=2 · claim-ready 15 / $4850"
     }
   ],
   "metrics": {
@@ -215,18 +220,18 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 6,
+    "l2_count": 2,
     "wall_l1_count": 24,
-    "wall_l2_count": 12,
-    "used_percent": 92,
+    "wall_l2_count": 8,
+    "used_percent": 94,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 243.2,
-    "pct_per_min": 0.2961,
+    "elapsed_min_from_session": 248.2,
+    "pct_per_min": 0.2982,
     "claim_ready_count": 15,
     "claim_ready_expected_usd": 4850,
     "claim_ready_companies": [
@@ -235,7 +240,7 @@
       "Coinbase",
       "Airtable",
       "Aiven",
-      "Brave",
+      "Brave Software",
       "LaunchDarkly",
       "MetaMask",
       "MongoDB",
@@ -243,12 +248,12 @@
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T03:31:08.309Z",
-    "used_percent": 92,
+    "ts": "2026-09-14T03:36:08.309Z",
+    "used_percent": 94,
     "l1_count": 8,
-    "l2_count": 6,
+    "l2_count": 2,
     "wall_l1_count": 24,
-    "wall_l2_count": 12,
+    "wall_l2_count": 8,
     "claim_ready_count": 15,
     "claim_ready_expected_usd": 4850,
     "claim_ready_companies": [
@@ -257,7 +262,7 @@
       "Coinbase",
       "Airtable",
       "Aiven",
-      "Brave",
+      "Brave Software",
       "LaunchDarkly",
       "MetaMask",
       "MongoDB",
@@ -338,15 +343,15 @@
       },
       {
         "id": "brave-bat-go-reputation-proxy",
-        "company": "Brave",
-        "program": "brave",
+        "company": "Brave Software",
+        "program": "Brave Software",
         "platform": "hackerone",
         "url": "https://hackerone.com/brave",
         "expected_usd": 50,
-        "expected_usd_basis": "H1 GraphQL 2026-09-14: base_bounty=50, Low 50-100. Published min 50. Program paused — operator claims later.",
-        "l1": "xai-oauth/grok-4.6:low",
+        "expected_usd_basis": "H1 bounty_table Low min 50 USD (base_bounty 50). Published 2026-05-07. Not invented.",
+        "l1": "groknight-xai-oauth/grok-4.6",
         "path": "claim-packages/brave-bat-go-reputation-proxy",
-        "claimable_at": "2026-09-14T02:25:00Z"
+        "claimable_at": "2026-09-14T03:34:00Z"
       },
       {
         "id": "coinbase-agentkit-x402",
@@ -545,15 +550,15 @@
     },
     {
       "id": "brave-bat-go-reputation-proxy",
-      "company": "Brave",
-      "program": "brave",
+      "company": "Brave Software",
+      "program": "Brave Software",
       "platform": "hackerone",
       "url": "https://hackerone.com/brave",
       "expected_usd": 50,
-      "expected_usd_basis": "H1 GraphQL 2026-09-14: base_bounty=50, Low 50-100. Published min 50. Program paused — operator claims later.",
-      "l1": "xai-oauth/grok-4.6:low",
+      "expected_usd_basis": "H1 bounty_table Low min 50 USD (base_bounty 50). Published 2026-05-07. Not invented.",
+      "l1": "groknight-xai-oauth/grok-4.6",
       "path": "claim-packages/brave-bat-go-reputation-proxy",
-      "claimable_at": "2026-09-14T02:25:00Z"
+      "claimable_at": "2026-09-14T03:34:00Z"
     },
     {
       "id": "coinbase-agentkit-x402",
