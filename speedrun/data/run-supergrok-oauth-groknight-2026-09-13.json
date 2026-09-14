@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "wrapping",
-  "duration": "wrapping · 253.2 min · 96% weekly",
+  "duration": "wrapping · 258.2 min · 99% weekly",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "WRAP-UP groknight SuperGrok OAuth: 96% weekly (start 20%). Closing the speedrun entry. Fleet runs to 100%. Claim-ready 15 · expected $5000.",
+  "summary": "WRAP-UP groknight SuperGrok OAuth: 99% weekly (start 20%). Closing the speedrun entry. Fleet runs to 100%. Claim-ready 15 · expected $5000.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -214,9 +214,9 @@
       "note": "94% weekly · L1=8 L2=2 · claim-ready 15 / $4850"
     },
     {
-      "t": "2026-09-14T03:41:08.310Z",
+      "t": "2026-09-14T03:46:08.310Z",
       "label": "wrap",
-      "note": "96% weekly · L1=8 L2=2 · claim-ready 15 / $5000"
+      "note": "99% weekly · L1=8 L2=0 · claim-ready 15 / $5000"
     }
   ],
   "metrics": {
@@ -225,18 +225,18 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 2,
+    "l2_count": 0,
     "wall_l1_count": 24,
-    "wall_l2_count": 8,
-    "used_percent": 96,
+    "wall_l2_count": 6,
+    "used_percent": 99,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "wrapping",
-    "elapsed_min_from_session": 253.19,
-    "pct_per_min": 0.3002,
+    "elapsed_min_from_session": 258.19,
+    "pct_per_min": 0.306,
     "claim_ready_count": 15,
     "claim_ready_expected_usd": 5000,
     "claim_ready_companies": [
@@ -253,12 +253,12 @@
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T03:41:08.310Z",
-    "used_percent": 96,
+    "ts": "2026-09-14T03:46:08.310Z",
+    "used_percent": 99,
     "l1_count": 8,
-    "l2_count": 2,
+    "l2_count": 0,
     "wall_l1_count": 24,
-    "wall_l2_count": 8,
+    "wall_l2_count": 6,
     "claim_ready_count": 15,
     "claim_ready_expected_usd": 5000,
     "claim_ready_companies": [
