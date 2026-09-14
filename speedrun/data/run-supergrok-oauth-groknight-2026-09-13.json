@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 142.3 min",
+  "duration": "live · 147.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 56% weekly (start 20%). L1=8 L2=6. Claim-ready 3 · expected $350.",
+  "summary": "Live groknight SuperGrok OAuth: 59% weekly (start 20%). L1=8 L2=32. Claim-ready 4 · expected $600.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -102,6 +102,11 @@
       "t": "2026-09-14T01:50:14.774Z",
       "label": "meter",
       "note": "56% weekly · L1=8 L2=6 · claim-ready 3 / $350"
+    },
+    {
+      "t": "2026-09-14T01:55:19.631Z",
+      "label": "meter",
+      "note": "59% weekly · L1=8 L2=32 · claim-ready 4 / $600"
     }
   ],
   "metrics": {
@@ -110,20 +115,20 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 6,
+    "l2_count": 32,
     "wall_l1_count": 24,
-    "wall_l2_count": 12,
-    "used_percent": 56,
+    "wall_l2_count": 38,
+    "used_percent": 59,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 142.3,
-    "pct_per_min": 0.253,
-    "claim_ready_count": 3,
-    "claim_ready_expected_usd": 350,
+    "elapsed_min_from_session": 147.42,
+    "pct_per_min": 0.2645,
+    "claim_ready_count": 4,
+    "claim_ready_expected_usd": 600,
     "claim_ready_companies": [
       "Elastic",
       "Airtable",
@@ -131,14 +136,14 @@
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T01:50:14.774Z",
-    "used_percent": 56,
+    "ts": "2026-09-14T01:55:19.631Z",
+    "used_percent": 59,
     "l1_count": 8,
-    "l2_count": 6,
+    "l2_count": 32,
     "wall_l1_count": 24,
-    "wall_l2_count": 12,
-    "claim_ready_count": 3,
-    "claim_ready_expected_usd": 350,
+    "wall_l2_count": 38,
+    "claim_ready_count": 4,
+    "claim_ready_expected_usd": 600,
     "claim_ready_companies": [
       "Elastic",
       "Airtable",
@@ -168,6 +173,18 @@
         "l1": "groknight",
         "path": ".ufo-missions/groknight/airtable/poc/M01-baseid-path-injection.cjs",
         "claimable_at": "2026-09-14T01:42:00Z"
+      },
+      {
+        "id": "aiven-karapace-acl-prefix",
+        "company": "Aiven",
+        "program": "Aiven Managed Bug Bounty",
+        "platform": "bugcrowd",
+        "url": "https://bugcrowd.com/engagements/aiven-mbb-og",
+        "expected_usd": 250,
+        "expected_usd_basis": "published OSS table P3 min $250–$500; use min 250; PoC local (auth ON). Default auth-off not this claim.",
+        "l1": "groknight",
+        "path": ".ufo-missions/groknight/aiven/poc/karapace_acl_regex_prefix.py",
+        "claimable_at": "2026-09-14T01:55:00Z"
       },
       {
         "id": "aiven-pglookout-m02",
@@ -231,6 +248,18 @@
       "l1": "groknight",
       "path": ".ufo-missions/groknight/airtable/poc/M01-baseid-path-injection.cjs",
       "claimable_at": "2026-09-14T01:42:00Z"
+    },
+    {
+      "id": "aiven-karapace-acl-prefix",
+      "company": "Aiven",
+      "program": "Aiven Managed Bug Bounty",
+      "platform": "bugcrowd",
+      "url": "https://bugcrowd.com/engagements/aiven-mbb-og",
+      "expected_usd": 250,
+      "expected_usd_basis": "published OSS table P3 min $250–$500; use min 250; PoC local (auth ON). Default auth-off not this claim.",
+      "l1": "groknight",
+      "path": ".ufo-missions/groknight/aiven/poc/karapace_acl_regex_prefix.py",
+      "claimable_at": "2026-09-14T01:55:00Z"
     },
     {
       "id": "aiven-pglookout-m02",

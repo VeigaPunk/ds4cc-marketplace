@@ -194,6 +194,18 @@
       "claim_ready_count": 3,
       "claim_ready_expected_usd": 350,
       "elapsed_min": 142.3
+    },
+    {
+      "ts": "2026-09-14T01:55:19.631Z",
+      "pct": 59,
+      "source": "omp_usage_xai-oauth",
+      "l1_count": 8,
+      "l2_count": 32,
+      "wall_l1_count": 24,
+      "wall_l2_count": 38,
+      "claim_ready_count": 4,
+      "claim_ready_expected_usd": 600,
+      "elapsed_min": 147.42
     }
   ]
 }
