@@ -1,13 +1,15 @@
 #!/usr/bin/env node
 // 5-min live poller for SuperGrok OAuth groknight speedrun on ds4cc.com/speedrun
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
+import { readFileSync, writeFileSync, appendFileSync, readdirSync, mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = join(HERE, "..", "..");
 const UFO = "/home/vgpnk/Projects/origin-work/ufo-fsd-alpha";
+const CLAIM_DIR = "/home/vgpnk/Projects/origin-work/open-bug-bounties/.ufo-missions/groknight/claim-ready";
+const CLAIM_LEDGER = "/home/vgpnk/Projects/origin-work/open-bug-bounties/.ufo-missions/groknight/claim-ready-ledger.json";
 const RUN_REL = "speedrun/data/run-supergrok-oauth-groknight-2026-09-13.json";
 const CURVE_REL = "speedrun/data/supergrok-groknight-curve.json";
 const LOG = join(UFO, ".ufo/nightrun/speedrun-poller.log");
@@ -52,10 +54,54 @@ function fleetCounts() {
   };
 }
 
+function claimReady() {
+  try { mkdirSync(CLAIM_DIR, { recursive: true }); } catch { /* */ }
+  let names = [];
+  try { names = readdirSync(CLAIM_DIR).filter((n) => n.endsWith(".json") && !n.startsWith("_")); } catch { names = []; }
+  const packages = [];
+  for (const name of names) {
+    const f = join(CLAIM_DIR, name);
+    try {
+      const row = JSON.parse(readFileSync(f, "utf8"));
+      if (row?.status !== "claim-ready") continue;
+      const usd = Number(row.expected_usd);
+      packages.push({
+        id: row.id || name.replace(/\.json$/, ""),
+        company: row.company,
+        program: row.program,
+        platform: row.platform || null,
+        url: row.url || null,
+        expected_usd: Number.isFinite(usd) ? usd : null,
+        expected_usd_basis: row.expected_usd_basis || null,
+        l1: row.l1 || null,
+        path: row.path || f,
+        claimable_at: row.claimable_at || null,
+      });
+    } catch { /* skip bad drop */ }
+  }
+  const expected = packages.reduce((n, p) => n + (p.expected_usd || 0), 0);
+  const ledger = {
+    schema: "groknight-claim-ready-v1",
+    note: "Append-only drop files under claim-ready/. expected_usd is published-program guidance, not a payout. No submit until L0.",
+    updatedAt: new Date().toISOString(),
+    count: packages.length,
+    expected_usd_sum: expected,
+    packages,
+  };
+  try { writeFileSync(CLAIM_LEDGER, `${JSON.stringify(ledger, null, 2)}\n`); } catch { /* */ }
+  return {
+    claim_ready_count: packages.length,
+    claim_ready_expected_usd: expected,
+    claim_ready_companies: [...new Set(packages.map((p) => p.company).filter(Boolean))],
+    claim_ready: packages,
+  };
+}
+
 function tick() {
   const ts = new Date().toISOString();
   const pct = grokWeeklyPct();
   const counts = fleetCounts();
+  const claims = claimReady();
   const runPath = join(REPO, RUN_REL);
   const curvePath = join(REPO, CURVE_REL);
   const run = JSON.parse(readFileSync(runPath, "utf8"));
@@ -78,19 +124,25 @@ function tick() {
     wall_l2_count: counts.wall_l2_count,
     elapsed_min_from_session: elapsedMin != null ? Math.round(elapsedMin * 100) / 100 : null,
     pct_per_min: pctPerMin != null ? Math.round(pctPerMin * 10000) / 10000 : null,
+    claim_ready_count: claims.claim_ready_count,
+    claim_ready_expected_usd: claims.claim_ready_expected_usd,
+    claim_ready_companies: claims.claim_ready_companies,
     outcome: "live",
   };
-  run.snapshot = { ts, used_percent: used, ...counts, status: "live" };
-  run.summary = `Live groknight SuperGrok OAuth: ${used}% weekly (start 20%). L1=${counts.l1_count} L2=${counts.l2_count} (wall L1=${counts.wall_l1_count} L2=${counts.wall_l2_count}).`;
+  run.claim_ready = claims.claim_ready;
+  run.snapshot = { ts, used_percent: used, ...counts, ...claims, status: "live" };
+  run.summary = `Live groknight SuperGrok OAuth: ${used}% weekly (start 20%). L1=${counts.l1_count} L2=${counts.l2_count}. Claim-ready ${claims.claim_ready_count} · expected $${claims.claim_ready_expected_usd}.`;
   run.timeline = [
     ...(run.timeline || []).slice(0, 40),
-    { t: ts, label: "meter", note: `${used}% SuperGrok weekly · L1=${counts.l1_count} L2=${counts.l2_count}` },
+    { t: ts, label: "meter", note: `${used}% weekly · L1=${counts.l1_count} L2=${counts.l2_count} · claim-ready ${claims.claim_ready_count} / $${claims.claim_ready_expected_usd}` },
   ];
   curve.points.push({
     ts,
     pct: used,
     source: "omp_usage_xai-oauth",
     ...counts,
+    claim_ready_count: claims.claim_ready_count,
+    claim_ready_expected_usd: claims.claim_ready_expected_usd,
     elapsed_min: elapsedMin != null ? Math.round(elapsedMin * 100) / 100 : null,
   });
   writeFileSync(runPath, `${JSON.stringify(run, null, 2)}\n`);
@@ -100,11 +152,11 @@ function tick() {
     sh("git", ["add", RUN_REL, CURVE_REL, "speedrun/data/manifest.json"], REPO);
     const dirty = sh("git", ["status", "--porcelain"], REPO).trim();
     if (dirty) {
-      sh("git", ["-c", "commit.gpgsign=false", "commit", "-m", `speedrun: groknight meter ${used}% L1=${counts.l1_count} L2=${counts.l2_count}`], REPO);
+      sh("git", ["-c", "commit.gpgsign=false", "commit", "-m", `speedrun: groknight ${used}% L1=${counts.l1_count} L2=${counts.l2_count} claims=${claims.claim_ready_count} $${claims.claim_ready_expected_usd}`], REPO);
       sh("git", ["push", "origin", "HEAD"], REPO);
-      log("pushed", { used, ...counts });
+      log("pushed", { used, ...counts, ...claims });
     } else {
-      log("unchanged", { used, ...counts });
+      log("unchanged", { used, ...counts, claim_ready_count: claims.claim_ready_count });
     }
   } catch (error) {
     log("git_error", { error: String(error?.message ?? error).slice(0, 400) });
