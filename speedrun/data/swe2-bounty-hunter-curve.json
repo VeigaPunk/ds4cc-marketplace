@@ -73,6 +73,20 @@
       "claim_ready_count": 0,
       "claim_ready_expected_usd": 0,
       "elapsed_min": 74.95
+    },
+    {
+      "ts": "2026-09-14T17:31:20.553Z",
+      "pct": 52,
+      "source": "omp_usage_devin",
+      "l1_count": 9,
+      "l2_count": 72,
+      "worker_l1_count": 8,
+      "ingestion_l1_count": 1,
+      "wall_l1_count": 9,
+      "wall_l2_count": 72,
+      "claim_ready_count": 0,
+      "claim_ready_expected_usd": 0,
+      "elapsed_min": 77.36
     }
   ]
 }
