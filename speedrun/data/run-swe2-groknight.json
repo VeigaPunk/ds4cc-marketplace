@@ -9,9 +9,9 @@
   "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 71.4 min",
+  "duration": "live · 76.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live SWE-2 groknight: Devin weekly 24% (start 22%). L1=8 L2=29. Claim-ready 19 · expected $5800.",
+  "summary": "Live SWE-2 groknight: Devin weekly 24% (start 22%). L1=8 L2=30. Claim-ready 19 · expected $5800.",
   "timeline": [
     {
       "t": "2026-09-14T03:45:00Z",
@@ -82,6 +82,11 @@
       "t": "2026-09-14T05:17:04.437Z",
       "label": "meter",
       "note": "Devin 24% weekly · L1=8 L2=29 · claim-ready 19 / $5800"
+    },
+    {
+      "t": "2026-09-14T05:22:04.437Z",
+      "label": "meter",
+      "note": "Devin 24% weekly · L1=8 L2=30 · claim-ready 19 / $5800"
     }
   ],
   "metrics": {
@@ -90,7 +95,7 @@
     "l1_model": "devin/swe-2:max",
     "l2_model": "devin/swe-2:max",
     "l1_count": 8,
-    "l2_count": 29,
+    "l2_count": 30,
     "plan_type": "SWE-2",
     "meter_label": "Devin weekly quota",
     "provider_route": "devin",
@@ -98,9 +103,9 @@
     "used_percent": 24,
     "start_percent": 22,
     "wall_l1_count": 15,
-    "wall_l2_count": 48,
-    "elapsed_min_from_session": 71.41,
-    "pct_per_min": 0.028,
+    "wall_l2_count": 49,
+    "elapsed_min_from_session": 76.41,
+    "pct_per_min": 0.0262,
     "claim_ready_count": 19,
     "claim_ready_expected_usd": 5800,
     "claim_ready_companies": [
@@ -233,7 +238,7 @@
       "expected_usd_basis": "WordPress H1 bounty_table null — no published severity→USD mapping; not invented",
       "l1": "groknight-delta",
       "path": "claim-packages/buddypress-unauth-signup-resend",
-      "claimable_at": null
+      "claimable_at": "2026-09-14"
     },
     {
       "id": "coinbase-agentkit-x402",
@@ -257,7 +262,7 @@
       "expected_usd_basis": "Intigriti DO program avg payout ~$1,110; DoS/credential-exposure class in in-scope OSS, low-mid tier. Conservative floor 500.",
       "l1": "groknight-farm-r2",
       "path": "claim-packages/do-agent-sonar-limit-injection",
-      "claimable_at": "2026-09-14T00:00:00Z"
+      "claimable_at": "2026-09-14"
     },
     {
       "id": "expressvpn-lightway-ipv6-leak",
@@ -269,7 +274,7 @@
       "expected_usd_basis": "YesWeHack grid, HIGH asset, Low = $200 (page header also shows $50 Low — unresolved display conflict; conservative high-asset Low used). Real-ip-leak on reference client; Medium $600 plausible if triager accepts shipped-app impact. Not invented.",
       "l1": "groknight-xai-oauth/grok-4.6",
       "path": "claim-packages/expressvpn-lightway-ipv6-leak",
-      "claimable_at": "2026-09-14T00:00:00Z"
+      "claimable_at": "2026-09-14"
     },
     {
       "id": "ld-node-stream-tls-bypass",
@@ -370,12 +375,12 @@
   ],
   "follows": "veigapunk-xai-api-groknight-300usd",
   "snapshot": {
-    "ts": "2026-09-14T05:17:04.437Z",
+    "ts": "2026-09-14T05:22:04.437Z",
     "used_percent": 24,
     "l1_count": 8,
-    "l2_count": 29,
+    "l2_count": 30,
     "wall_l1_count": 15,
-    "wall_l2_count": 48,
+    "wall_l2_count": 49,
     "claim_ready_count": 19,
     "claim_ready_expected_usd": 5800,
     "claim_ready_companies": [
@@ -489,7 +494,7 @@
         "expected_usd_basis": "WordPress H1 bounty_table null — no published severity→USD mapping; not invented",
         "l1": "groknight-delta",
         "path": "claim-packages/buddypress-unauth-signup-resend",
-        "claimable_at": null
+        "claimable_at": "2026-09-14"
       },
       {
         "id": "coinbase-agentkit-x402",
@@ -513,7 +518,7 @@
         "expected_usd_basis": "Intigriti DO program avg payout ~$1,110; DoS/credential-exposure class in in-scope OSS, low-mid tier. Conservative floor 500.",
         "l1": "groknight-farm-r2",
         "path": "claim-packages/do-agent-sonar-limit-injection",
-        "claimable_at": "2026-09-14T00:00:00Z"
+        "claimable_at": "2026-09-14"
       },
       {
         "id": "expressvpn-lightway-ipv6-leak",
@@ -525,7 +530,7 @@
         "expected_usd_basis": "YesWeHack grid, HIGH asset, Low = $200 (page header also shows $50 Low — unresolved display conflict; conservative high-asset Low used). Real-ip-leak on reference client; Medium $600 plausible if triager accepts shipped-app impact. Not invented.",
         "l1": "groknight-xai-oauth/grok-4.6",
         "path": "claim-packages/expressvpn-lightway-ipv6-leak",
-        "claimable_at": "2026-09-14T00:00:00Z"
+        "claimable_at": "2026-09-14"
       },
       {
         "id": "ld-node-stream-tls-bypass",
