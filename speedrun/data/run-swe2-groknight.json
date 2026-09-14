@@ -9,7 +9,7 @@
   "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 136.4 min",
+  "duration": "live · 141.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
   "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=18. Claim-ready 23 · expected $11183.",
   "timeline": [
@@ -147,6 +147,11 @@
       "t": "2026-09-14T06:22:04.439Z",
       "label": "meter",
       "note": "Devin 25% weekly · L1=8 L2=18 · claim-ready 23 / $11183"
+    },
+    {
+      "t": "2026-09-14T06:27:04.439Z",
+      "label": "meter",
+      "note": "Devin 25% weekly · L1=8 L2=18 · claim-ready 23 / $11183"
     }
   ],
   "metrics": {
@@ -164,8 +169,8 @@
     "start_percent": 22,
     "wall_l1_count": 15,
     "wall_l2_count": 28,
-    "elapsed_min_from_session": 136.41,
-    "pct_per_min": 0.022,
+    "elapsed_min_from_session": 141.45,
+    "pct_per_min": 0.0212,
     "claim_ready_count": 23,
     "claim_ready_expected_usd": 11183,
     "claim_ready_companies": [
@@ -484,7 +489,7 @@
   ],
   "follows": "veigapunk-xai-api-groknight-300usd",
   "snapshot": {
-    "ts": "2026-09-14T06:22:04.439Z",
+    "ts": "2026-09-14T06:27:04.439Z",
     "used_percent": 25,
     "l1_count": 8,
     "l2_count": 18,
