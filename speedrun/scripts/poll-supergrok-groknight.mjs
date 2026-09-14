@@ -9,6 +9,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = join(HERE, "..", "..");
 const UFO = "/home/vgpnk/Projects/origin-work/ufo-fsd-alpha";
 const CLAIM_DIR = "/home/vgpnk/Projects/origin-work/open-bug-bounties/.ufo-missions/groknight/claim-ready";
+const CLAIM_PACKAGES = "/home/vgpnk/Projects/origin-work/open-bug-bounties/claim-packages";
 const CLAIM_LEDGER = "/home/vgpnk/Projects/origin-work/open-bug-bounties/.ufo-missions/groknight/claim-ready-ledger.json";
 const RUN_REL = "speedrun/data/run-supergrok-oauth-groknight-2026-09-13.json";
 const CURVE_REL = "speedrun/data/supergrok-groknight-curve.json";
@@ -56,33 +57,43 @@ function fleetCounts() {
 
 function claimReady() {
   try { mkdirSync(CLAIM_DIR, { recursive: true }); } catch { /* */ }
-  let names = [];
-  try { names = readdirSync(CLAIM_DIR).filter((n) => n.endsWith(".json") && !n.startsWith("_")); } catch { names = []; }
-  const packages = [];
-  for (const name of names) {
-    const f = join(CLAIM_DIR, name);
-    try {
-      const row = JSON.parse(readFileSync(f, "utf8"));
-      if (row?.status !== "claim-ready") continue;
-      const usd = Number(row.expected_usd);
-      packages.push({
-        id: row.id || name.replace(/\.json$/, ""),
-        company: row.company,
-        program: row.program,
-        platform: row.platform || null,
-        url: row.url || null,
-        expected_usd: Number.isFinite(usd) ? usd : null,
-        expected_usd_basis: row.expected_usd_basis || null,
-        l1: row.l1 || null,
-        path: row.path || f,
-        claimable_at: row.claimable_at || null,
-      });
-    } catch { /* skip bad drop */ }
-  }
+  try { mkdirSync(CLAIM_PACKAGES, { recursive: true }); } catch { /* */ }
+  const byId = new Map();
+  const ingest = (row, fallbackPath) => {
+    if (row?.status !== "claim-ready") return;
+    const usd = Number(row.expected_usd);
+    const id = row.id || fallbackPath;
+    byId.set(id, {
+      id,
+      company: row.company,
+      program: row.program,
+      platform: row.platform || null,
+      url: row.url || null,
+      expected_usd: Number.isFinite(usd) ? usd : null,
+      expected_usd_basis: row.expected_usd_basis || null,
+      l1: row.l1 || null,
+      path: row.package_dir || row.path || fallbackPath,
+      claimable_at: row.claimable_at || null,
+    });
+  };
+  try {
+    for (const name of readdirSync(CLAIM_PACKAGES)) {
+      if (name.startsWith("_") || name === "README.md") continue;
+      const man = join(CLAIM_PACKAGES, name, "manifest.json");
+      try { ingest(JSON.parse(readFileSync(man, "utf8")), man); } catch { /* */ }
+    }
+  } catch { /* */ }
+  try {
+    for (const name of readdirSync(CLAIM_DIR).filter((n) => n.endsWith(".json") && !n.startsWith("_"))) {
+      const f = join(CLAIM_DIR, name);
+      try { ingest(JSON.parse(readFileSync(f, "utf8")), f); } catch { /* */ }
+    }
+  } catch { /* */ }
+  const packages = [...byId.values()];
   const expected = packages.reduce((n, p) => n + (p.expected_usd || 0), 0);
   const ledger = {
     schema: "groknight-claim-ready-v1",
-    note: "Append-only drop files under claim-ready/. expected_usd is published-program guidance, not a payout. No submit until L0.",
+    note: "Canonical packages live in open-bug-bounties/claim-packages/<id>/. expected_usd is published-program min. Operator claims later. No submit from this fleet.",
     updatedAt: new Date().toISOString(),
     count: packages.length,
     expected_usd_sum: expected,
