@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 233.2 min",
+  "duration": "live · 238.2 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 90% weekly (start 20%). L1=8 L2=2. Claim-ready 15 · expected $4850.",
+  "summary": "Live groknight SuperGrok OAuth: 92% weekly (start 20%). L1=8 L2=4. Claim-ready 15 · expected $4850.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -197,6 +197,11 @@
       "t": "2026-09-14T03:21:08.309Z",
       "label": "meter",
       "note": "90% weekly · L1=8 L2=2 · claim-ready 15 / $4850"
+    },
+    {
+      "t": "2026-09-14T03:26:08.309Z",
+      "label": "meter",
+      "note": "92% weekly · L1=8 L2=4 · claim-ready 15 / $4850"
     }
   ],
   "metrics": {
@@ -205,18 +210,18 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 2,
+    "l2_count": 4,
     "wall_l1_count": 24,
-    "wall_l2_count": 8,
-    "used_percent": 90,
+    "wall_l2_count": 10,
+    "used_percent": 92,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 233.19,
-    "pct_per_min": 0.3002,
+    "elapsed_min_from_session": 238.2,
+    "pct_per_min": 0.3023,
     "claim_ready_count": 15,
     "claim_ready_expected_usd": 4850,
     "claim_ready_companies": [
@@ -233,12 +238,12 @@
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T03:21:08.309Z",
-    "used_percent": 90,
+    "ts": "2026-09-14T03:26:08.309Z",
+    "used_percent": 92,
     "l1_count": 8,
-    "l2_count": 2,
+    "l2_count": 4,
     "wall_l1_count": 24,
-    "wall_l2_count": 8,
+    "wall_l2_count": 10,
     "claim_ready_count": 15,
     "claim_ready_expected_usd": 4850,
     "claim_ready_companies": [
@@ -333,7 +338,7 @@
         "platform": "hackerone",
         "url": "https://hackerone.com/brave",
         "expected_usd": 50,
-        "expected_usd_basis": "no signed-out bounty_table; L0 floor $50 published-min beats $0; CSV github.com/brave-intl/* SOURCE_CODE eligible_for_bounty=true",
+        "expected_usd_basis": "H1 GraphQL 2026-09-14: base_bounty=50, Low 50-100. Published min 50. Program paused — operator claims later.",
         "l1": "xai-oauth/grok-4.6:low",
         "path": "claim-packages/brave-bat-go-reputation-proxy",
         "claimable_at": "2026-09-14T02:25:00Z"
@@ -540,7 +545,7 @@
       "platform": "hackerone",
       "url": "https://hackerone.com/brave",
       "expected_usd": 50,
-      "expected_usd_basis": "no signed-out bounty_table; L0 floor $50 published-min beats $0; CSV github.com/brave-intl/* SOURCE_CODE eligible_for_bounty=true",
+      "expected_usd_basis": "H1 GraphQL 2026-09-14: base_bounty=50, Low 50-100. Published min 50. Program paused — operator claims later.",
       "l1": "xai-oauth/grok-4.6:low",
       "path": "claim-packages/brave-bat-go-reputation-proxy",
       "claimable_at": "2026-09-14T02:25:00Z"
