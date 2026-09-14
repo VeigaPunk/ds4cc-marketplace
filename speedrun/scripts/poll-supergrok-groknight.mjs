@@ -113,8 +113,20 @@ function tick() {
   const burned = used - startPct;
   const pctPerMin = elapsedMin > 0 ? burned / elapsedMin : null;
 
-  run.status = "live";
-  run.duration = elapsedMin != null ? `live · ${elapsedMin.toFixed(1)} min` : "live";
+  const wrapping = used >= 96 && used < 100;
+  const closed = used >= 100;
+  const status = closed ? "closed" : wrapping ? "wrapping" : "live";
+  run.status = status;
+  run.duration = closed
+    ? `closed · ${elapsedMin != null ? elapsedMin.toFixed(1) : "?"} min · SuperGrok weekly 100%`
+    : wrapping
+      ? `wrapping · ${elapsedMin != null ? elapsedMin.toFixed(1) : "?"} min · ${used}% weekly`
+      : elapsedMin != null ? `live · ${elapsedMin.toFixed(1)} min` : "live";
+  if (wrapping && !run.wrap_started_at) run.wrap_started_at = ts;
+  if (closed) {
+    run.closed = true;
+    run.closed_ts = run.closed_ts || ts;
+  }
   run.metrics = {
     ...run.metrics,
     used_percent: used,
@@ -127,14 +139,21 @@ function tick() {
     claim_ready_count: claims.claim_ready_count,
     claim_ready_expected_usd: claims.claim_ready_expected_usd,
     claim_ready_companies: claims.claim_ready_companies,
-    outcome: "live",
+    l1_model: run.metrics?.l1_model || "xai-oauth/grok-4.6:low",
+    l2_model: run.metrics?.l2_model || "xai-oauth/grok-4.5:low",
+    outcome: status,
   };
   run.claim_ready = claims.claim_ready;
-  run.snapshot = { ts, used_percent: used, ...counts, ...claims, status: "live" };
-  run.summary = `Live groknight SuperGrok OAuth: ${used}% weekly (start 20%). L1=${counts.l1_count} L2=${counts.l2_count}. Claim-ready ${claims.claim_ready_count} · expected $${claims.claim_ready_expected_usd}.`;
+  run.snapshot = { ts, used_percent: used, ...counts, ...claims, status };
+  run.summary = closed
+    ? `CLOSED groknight SuperGrok OAuth at 100% weekly (start 20%). L1=${counts.l1_count} L2=${counts.l2_count}. Claim-ready ${claims.claim_ready_count} · expected $${claims.claim_ready_expected_usd}.`
+    : wrapping
+      ? `WRAP-UP groknight SuperGrok OAuth: ${used}% weekly (start 20%). Closing the speedrun entry. Fleet runs to 100%. Claim-ready ${claims.claim_ready_count} · expected $${claims.claim_ready_expected_usd}.`
+      : `Live groknight SuperGrok OAuth: ${used}% weekly (start 20%). L1=${counts.l1_count} L2=${counts.l2_count}. Claim-ready ${claims.claim_ready_count} · expected $${claims.claim_ready_expected_usd}.`;
+  const label = closed ? "closed" : wrapping ? "wrap" : "meter";
   run.timeline = [
     ...(run.timeline || []).slice(0, 40),
-    { t: ts, label: "meter", note: `${used}% weekly · L1=${counts.l1_count} L2=${counts.l2_count} · claim-ready ${claims.claim_ready_count} / $${claims.claim_ready_expected_usd}` },
+    { t: ts, label, note: `${used}% weekly · L1=${counts.l1_count} L2=${counts.l2_count} · claim-ready ${claims.claim_ready_count} / $${claims.claim_ready_expected_usd}` },
   ];
   curve.points.push({
     ts,
@@ -160,6 +179,13 @@ function tick() {
     }
   } catch (error) {
     log("git_error", { error: String(error?.message ?? error).slice(0, 400) });
+  }
+  if (closed) {
+    try {
+      writeFileSync("/home/vgpnk/Projects/origin-work/ufo-fsd-alpha/.ufo/nightrun/groknight-halt.json", `${JSON.stringify({ ts, used, reason: "supergrok_weekly_100" }, null, 2)}\n`);
+    } catch { /* */ }
+    log("closed_exit", { used });
+    process.exit(0);
   }
 }
 
