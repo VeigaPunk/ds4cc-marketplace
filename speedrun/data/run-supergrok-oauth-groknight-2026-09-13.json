@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 218.2 min",
+  "duration": "live · 223.2 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 85% weekly (start 20%). L1=8 L2=5. Claim-ready 11 · expected $4300.",
+  "summary": "Live groknight SuperGrok OAuth: 87% weekly (start 20%). L1=8 L2=7. Claim-ready 13 · expected $4600.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -182,6 +182,11 @@
       "t": "2026-09-14T03:06:08.309Z",
       "label": "meter",
       "note": "85% weekly · L1=8 L2=5 · claim-ready 11 / $4300"
+    },
+    {
+      "t": "2026-09-14T03:11:08.309Z",
+      "label": "meter",
+      "note": "87% weekly · L1=8 L2=7 · claim-ready 13 / $4600"
     }
   ],
   "metrics": {
@@ -190,23 +195,24 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 5,
+    "l2_count": 7,
     "wall_l1_count": 24,
-    "wall_l2_count": 11,
-    "used_percent": 85,
+    "wall_l2_count": 13,
+    "used_percent": 87,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 218.2,
-    "pct_per_min": 0.2979,
-    "claim_ready_count": 11,
-    "claim_ready_expected_usd": 4300,
+    "elapsed_min_from_session": 223.25,
+    "pct_per_min": 0.3001,
+    "claim_ready_count": 13,
+    "claim_ready_expected_usd": 4600,
     "claim_ready_companies": [
       "Elastic",
       "Stripe",
+      "Coinbase",
       "Airtable",
       "Aiven",
       "Brave",
@@ -217,17 +223,18 @@
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T03:06:08.309Z",
-    "used_percent": 85,
+    "ts": "2026-09-14T03:11:08.309Z",
+    "used_percent": 87,
     "l1_count": 8,
-    "l2_count": 5,
+    "l2_count": 7,
     "wall_l1_count": 24,
-    "wall_l2_count": 11,
-    "claim_ready_count": 11,
-    "claim_ready_expected_usd": 4300,
+    "wall_l2_count": 13,
+    "claim_ready_count": 13,
+    "claim_ready_expected_usd": 4600,
     "claim_ready_companies": [
       "Elastic",
       "Stripe",
+      "Coinbase",
       "Airtable",
       "Aiven",
       "Brave",
@@ -260,6 +267,18 @@
         "l1": "xai-oauth/grok-4.6:low",
         "path": "claim-packages/ST-AI-001-customer-context-bypass",
         "claimable_at": "2026-09-14T02:55:00Z"
+      },
+      {
+        "id": "agentkit-x402-whitelist-ssrf",
+        "company": "Coinbase",
+        "program": "coinbase",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/coinbase",
+        "expected_usd": 50,
+        "expected_usd_basis": "CSV github.com/coinbase/* SOURCE_CODE bounty-eligible; signed-out H1 table not observed; L0 $50 floor",
+        "l1": "xai-oauth/grok-4.6:low",
+        "path": "claim-packages/agentkit-x402-whitelist-ssrf",
+        "claimable_at": "2026-09-14T03:08:00Z"
       },
       {
         "id": "airtable-js-m01",
@@ -332,6 +351,18 @@
         "l1": "groknight",
         "path": ".ufo-missions/groknight/metamask/poc/mm01-channel-inject/poc.mjs",
         "claimable_at": "2026-09-14T02:48:00Z"
+      },
+      {
+        "id": "mm-sdk-channel-inject",
+        "company": "MetaMask",
+        "program": "MetaMask",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/metamask",
+        "expected_usd": 250,
+        "expected_usd_basis": "H1 bounty_table Core Tier Assets low=250 USD observed 2026-09-04 row. MetaMask SDK is OTHER bounty-eligible Core. Min published cell; not invented.",
+        "l1": "groknight-xai-oauth/grok-4.6",
+        "path": "claim-packages/mm-sdk-channel-inject",
+        "claimable_at": "2026-09-14T03:08:00Z"
       },
       {
         "id": "mongodb-mcp-m01",
@@ -421,6 +452,18 @@
       "claimable_at": "2026-09-14T02:55:00Z"
     },
     {
+      "id": "agentkit-x402-whitelist-ssrf",
+      "company": "Coinbase",
+      "program": "coinbase",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/coinbase",
+      "expected_usd": 50,
+      "expected_usd_basis": "CSV github.com/coinbase/* SOURCE_CODE bounty-eligible; signed-out H1 table not observed; L0 $50 floor",
+      "l1": "xai-oauth/grok-4.6:low",
+      "path": "claim-packages/agentkit-x402-whitelist-ssrf",
+      "claimable_at": "2026-09-14T03:08:00Z"
+    },
+    {
       "id": "airtable-js-m01",
       "company": "Airtable",
       "program": "Airtable",
@@ -491,6 +534,18 @@
       "l1": "groknight",
       "path": ".ufo-missions/groknight/metamask/poc/mm01-channel-inject/poc.mjs",
       "claimable_at": "2026-09-14T02:48:00Z"
+    },
+    {
+      "id": "mm-sdk-channel-inject",
+      "company": "MetaMask",
+      "program": "MetaMask",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/metamask",
+      "expected_usd": 250,
+      "expected_usd_basis": "H1 bounty_table Core Tier Assets low=250 USD observed 2026-09-04 row. MetaMask SDK is OTHER bounty-eligible Core. Min published cell; not invented.",
+      "l1": "groknight-xai-oauth/grok-4.6",
+      "path": "claim-packages/mm-sdk-channel-inject",
+      "claimable_at": "2026-09-14T03:08:00Z"
     },
     {
       "id": "mongodb-mcp-m01",
