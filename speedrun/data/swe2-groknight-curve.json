@@ -363,6 +363,18 @@
       "claim_ready_count": 26,
       "claim_ready_expected_usd": 16183,
       "elapsed_min": 161.4
+    },
+    {
+      "ts": "2026-09-14T06:52:04.439Z",
+      "pct": 25,
+      "source": "omp_usage_devin",
+      "l1_count": 8,
+      "l2_count": 16,
+      "wall_l1_count": 14,
+      "wall_l2_count": 28,
+      "claim_ready_count": 26,
+      "claim_ready_expected_usd": 16183,
+      "elapsed_min": 166.4
     }
   ]
 }
