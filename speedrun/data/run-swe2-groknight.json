@@ -9,9 +9,9 @@
   "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 141.4 min",
+  "duration": "live · 146.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=18. Claim-ready 23 · expected $11183.",
+  "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=16. Claim-ready 24 · expected $13683.",
   "timeline": [
     {
       "t": "2026-09-14T03:45:00Z",
@@ -152,6 +152,11 @@
       "t": "2026-09-14T06:27:04.439Z",
       "label": "meter",
       "note": "Devin 25% weekly · L1=8 L2=18 · claim-ready 23 / $11183"
+    },
+    {
+      "t": "2026-09-14T06:32:04.439Z",
+      "label": "meter",
+      "note": "Devin 25% weekly · L1=8 L2=16 · claim-ready 24 / $13683"
     }
   ],
   "metrics": {
@@ -160,7 +165,7 @@
     "l1_model": "devin/swe-2:max",
     "l2_model": "devin/swe-2:max",
     "l1_count": 8,
-    "l2_count": 18,
+    "l2_count": 16,
     "plan_type": "SWE-2",
     "meter_label": "Devin weekly quota",
     "provider_route": "devin",
@@ -168,11 +173,11 @@
     "used_percent": 25,
     "start_percent": 22,
     "wall_l1_count": 15,
-    "wall_l2_count": 28,
-    "elapsed_min_from_session": 141.45,
-    "pct_per_min": 0.0212,
-    "claim_ready_count": 23,
-    "claim_ready_expected_usd": 11183,
+    "wall_l2_count": 25,
+    "elapsed_min_from_session": 146.4,
+    "pct_per_min": 0.0205,
+    "claim_ready_count": 24,
+    "claim_ready_expected_usd": 13683,
     "claim_ready_companies": [
       "Stripe",
       "Coinbase",
@@ -188,7 +193,8 @@
       "MetaMask",
       "MongoDB",
       "Automattic",
-      "Snapchat"
+      "Snapchat",
+      "Microsoft"
     ],
     "advisor_model": "devin/gpt-6-astra:max"
   },
@@ -485,18 +491,30 @@
       "l1": null,
       "path": "claim-packages/EPR-STOR-1",
       "claimable_at": "2026-09-14T01:35:00Z"
+    },
+    {
+      "id": "azsdk-engsync-m01",
+      "company": "Microsoft",
+      "program": "Microsoft Open Source Bounty Program",
+      "platform": "msrc",
+      "url": "https://www.microsoft.com/en-us/msrc/opensourcebountyprogram",
+      "expected_usd": 2500,
+      "expected_usd_basis": "MSRC OSS GitHub Actions Critical band $750-$5,000; conservative mid",
+      "l1": "gkmicrosoft-swe2",
+      "path": ".ufo-missions/groknight/claim-packages/azsdk-engsync-m01/manifest.json",
+      "claimable_at": "2026-09-14T06:28:58Z"
     }
   ],
   "follows": "veigapunk-xai-api-groknight-300usd",
   "snapshot": {
-    "ts": "2026-09-14T06:27:04.439Z",
+    "ts": "2026-09-14T06:32:04.439Z",
     "used_percent": 25,
     "l1_count": 8,
-    "l2_count": 18,
+    "l2_count": 16,
     "wall_l1_count": 15,
-    "wall_l2_count": 28,
-    "claim_ready_count": 23,
-    "claim_ready_expected_usd": 11183,
+    "wall_l2_count": 25,
+    "claim_ready_count": 24,
+    "claim_ready_expected_usd": 13683,
     "claim_ready_companies": [
       "Stripe",
       "Coinbase",
@@ -512,7 +530,8 @@
       "MetaMask",
       "MongoDB",
       "Automattic",
-      "Snapchat"
+      "Snapchat",
+      "Microsoft"
     ],
     "claim_ready": [
       {
@@ -790,6 +809,18 @@
         "l1": null,
         "path": "claim-packages/EPR-STOR-1",
         "claimable_at": "2026-09-14T01:35:00Z"
+      },
+      {
+        "id": "azsdk-engsync-m01",
+        "company": "Microsoft",
+        "program": "Microsoft Open Source Bounty Program",
+        "platform": "msrc",
+        "url": "https://www.microsoft.com/en-us/msrc/opensourcebountyprogram",
+        "expected_usd": 2500,
+        "expected_usd_basis": "MSRC OSS GitHub Actions Critical band $750-$5,000; conservative mid",
+        "l1": "gkmicrosoft-swe2",
+        "path": ".ufo-missions/groknight/claim-packages/azsdk-engsync-m01/manifest.json",
+        "claimable_at": "2026-09-14T06:28:58Z"
       }
     ],
     "status": "live"
