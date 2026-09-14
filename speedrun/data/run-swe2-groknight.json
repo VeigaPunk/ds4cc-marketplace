@@ -9,9 +9,9 @@
   "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 101.4 min",
+  "duration": "live · 106.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=23. Claim-ready 21 · expected $9933.",
+  "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=22. Claim-ready 21 · expected $9933.",
   "timeline": [
     {
       "t": "2026-09-14T03:45:00Z",
@@ -112,6 +112,11 @@
       "t": "2026-09-14T05:47:04.438Z",
       "label": "meter",
       "note": "Devin 25% weekly · L1=8 L2=23 · claim-ready 21 / $9933"
+    },
+    {
+      "t": "2026-09-14T05:52:04.438Z",
+      "label": "meter",
+      "note": "Devin 25% weekly · L1=8 L2=22 · claim-ready 21 / $9933"
     }
   ],
   "metrics": {
@@ -120,7 +125,7 @@
     "l1_model": "devin/swe-2:max",
     "l2_model": "devin/swe-2:max",
     "l1_count": 8,
-    "l2_count": 23,
+    "l2_count": 22,
     "plan_type": "SWE-2",
     "meter_label": "Devin weekly quota",
     "provider_route": "devin",
@@ -128,9 +133,9 @@
     "used_percent": 25,
     "start_percent": 22,
     "wall_l1_count": 15,
-    "wall_l2_count": 40,
-    "elapsed_min_from_session": 101.4,
-    "pct_per_min": 0.0296,
+    "wall_l2_count": 36,
+    "elapsed_min_from_session": 106.4,
+    "pct_per_min": 0.0282,
     "claim_ready_count": 21,
     "claim_ready_expected_usd": 9933,
     "claim_ready_companies": [
@@ -425,12 +430,12 @@
   ],
   "follows": "veigapunk-xai-api-groknight-300usd",
   "snapshot": {
-    "ts": "2026-09-14T05:47:04.438Z",
+    "ts": "2026-09-14T05:52:04.438Z",
     "used_percent": 25,
     "l1_count": 8,
-    "l2_count": 23,
+    "l2_count": 22,
     "wall_l1_count": 15,
-    "wall_l2_count": 40,
+    "wall_l2_count": 36,
     "claim_ready_count": 21,
     "claim_ready_expected_usd": 9933,
     "claim_ready_companies": [
