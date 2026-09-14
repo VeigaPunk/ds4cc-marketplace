@@ -9,9 +9,9 @@
   "budget_note": "Same honest-metering convention as the groknight runs. Route set: SWE-2 only for every UFO seat — L1, L2, planner, distiller all devin/swe-2:max via Devin OAuth under the ufo-fsd protocol; L0 relay/orchestration surface is devin/kimi-k3 (this session); Astra advisor (devin/gpt-6-astra:max) advisory only, no seat. Claim packages live in bounties/claims + open-bug-bounties/claim-packages. Operator claims later; no fleet submission.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 66.1 min",
+  "duration": "live · 69.5 min",
   "venue": "tmux ufo_sighting:bounties+harvest · cwd bounties + open-bug-bounties",
-  "summary": "Live: kimi k3 L0 relay orchestrating SWE-2-only UFO fleet. Devin weekly 50% (start 50%). L1=10 (9 workers + 1 ingestion) L2=80. Claim-ready 25 · expected $13833.",
+  "summary": "Live: kimi k3 L0 relay orchestrating SWE-2-only UFO fleet. Devin weekly 51% (start 50%). L1=10 (8 workers + 2 ingestion) L2=80. Claim-ready 0 · expected $0.",
   "timeline": [
     {
       "t": "2026-09-14T17:12:21.864759Z",
@@ -37,6 +37,11 @@
       "t": "2026-09-14T17:20:03.497Z",
       "label": "meter",
       "note": "Devin 50% weekly · L1=10 L2=80 · claim-ready 25 / $13833"
+    },
+    {
+      "t": "2026-09-14T17:23:37.248Z",
+      "label": "meter",
+      "note": "Devin 51% weekly · L1=10 L2=80 · claim-ready 0 / $0"
     }
   ],
   "metrics": {
@@ -51,279 +56,37 @@
     "protocol": "ufo-fsd",
     "l0_model": "devin/kimi-k3",
     "l0_role": "relay surface orchestrating all SWE-2 UFOs",
-    "used_percent": 50,
+    "used_percent": 51,
     "start_percent": 50,
     "l1_count": 10,
     "l2_count": 80,
-    "worker_l1_count": 9,
-    "ingestion_l1_count": 1,
+    "worker_l1_count": 8,
+    "ingestion_l1_count": 2,
     "wall_l1_count": 10,
     "wall_l2_count": 80,
-    "elapsed_min_from_session": 66.09,
-    "pct_per_min": 0,
-    "claim_ready_count": 25,
-    "claim_ready_expected_usd": 13833,
+    "elapsed_min_from_session": 69.54,
+    "pct_per_min": 0.0144,
+    "claim_ready_count": 0,
+    "claim_ready_expected_usd": 0,
     "advisor_model": "devin/gpt-6-astra:max",
-    "claim_ready_companies": [
-      "Airtable",
-      "Aiven",
-      "Automattic",
-      "Brave Software",
-      "Coinbase",
-      "DigitalOcean",
-      "Elastic",
-      "ExpressVPN",
-      "Google",
-      "Kubernetes",
-      "LaunchDarkly",
-      "Mattermost",
-      "MetaMask",
-      "MongoDB",
-      "Snapchat",
-      "Stripe",
-      "WordPress"
-    ]
+    "claim_ready_companies": [],
+    "claim_ready_inherited_count": 25,
+    "claim_ready_inherited_expected_usd": 13833
   },
   "session_start": "2026-09-14T16:14:21Z",
   "curve": "swe2-bounty-hunter-curve.json",
-  "claim_ready": [
-    {
-      "id": "bcr-stale-approval-race",
-      "source": "open-bug-bounties",
-      "expected_usd": 3133,
-      "program": "Google Open Source Software Vulnerability Reward Program",
-      "platform": "bughunters",
-      "url": "https://bughunters.google.com/about/rules/open-source/google-open-source-software-vulnerability-reward-program-rules",
-      "company": "Google"
-    },
-    {
-      "id": "ld-node-stream-tls-bypass",
-      "source": "open-bug-bounties",
-      "expected_usd": 2500,
-      "program": "LaunchDarkly Managed Bug Bounty",
-      "platform": "bugcrowd",
-      "url": "https://bugcrowd.com/engagements/launchdarkly-mbb-og",
-      "company": "LaunchDarkly"
-    },
-    {
-      "id": "k8s-nodebound-token-impersonation",
-      "source": "open-bug-bounties",
-      "expected_usd": 2000,
-      "program": "kubernetes",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/kubernetes",
-      "company": "Kubernetes"
-    },
-    {
-      "id": "angular-dev-infra-rbe-credential",
-      "source": "open-bug-bounties",
-      "expected_usd": 1000,
-      "program": "Google Open Source Software Vulnerability Reward Program",
-      "platform": "bughunters",
-      "url": "https://bughunters.google.com/about/rules/open-source/google-open-source-software-vulnerability-reward-program-rules",
-      "company": "Google"
-    },
-    {
-      "id": "esapi-path-injection",
-      "source": "open-bug-bounties",
-      "expected_usd": 900,
-      "program": "elastic",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/elastic",
-      "company": "Elastic"
-    },
-    {
-      "id": "do-agent-sonar-limit-injection",
-      "source": "open-bug-bounties",
-      "expected_usd": 500,
-      "program": "DigitalOcean Paid Bug Bounty",
-      "platform": "intigriti",
-      "url": "https://app.intigriti.com/programs/digitalocean/digitalocean/detail",
-      "company": "DigitalOcean"
-    },
-    {
-      "id": "mattermost-jira-oauth2-state-csrf",
-      "source": "open-bug-bounties",
-      "expected_usd": 500,
-      "program": "Mattermost Public Bug Bounty Engagement",
-      "platform": "bugcrowd",
-      "url": "https://bugcrowd.com/engagements/mattermost-mbb-public",
-      "company": "Mattermost"
-    },
-    {
-      "id": "mongodb-mcp-m01",
-      "source": "open-bug-bounties",
-      "expected_usd": 500,
-      "program": "MongoDB",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/mongodb",
-      "company": "MongoDB"
-    },
-    {
-      "id": "esapi-userinfo-global-leak",
-      "source": "open-bug-bounties",
-      "expected_usd": 350,
-      "program": "elastic",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/elastic",
-      "company": "Elastic"
-    },
-    {
-      "id": "aiven-karapace-acl-prefix",
-      "source": "open-bug-bounties",
-      "expected_usd": 250,
-      "program": "Aiven Managed Bug Bounty",
-      "platform": "bugcrowd",
-      "url": "https://bugcrowd.com/engagements/aiven-mbb-og",
-      "company": "Aiven"
-    },
-    {
-      "id": "metamask-sdk-channel-inject",
-      "source": "open-bug-bounties",
-      "expected_usd": 250,
-      "program": "metamask",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/metamask",
-      "company": "MetaMask"
-    },
-    {
-      "id": "metamask-sdk-mm01",
-      "source": "open-bug-bounties",
-      "expected_usd": 250,
-      "program": "MetaMask",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/metamask",
-      "company": "MetaMask"
-    },
-    {
-      "id": "mm-sdk-channel-inject",
-      "source": "open-bug-bounties",
-      "expected_usd": 250,
-      "program": "MetaMask",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/metamask",
-      "company": "MetaMask"
-    },
-    {
-      "id": "snapchat-playcanvas-loader-sinks",
-      "source": "open-bug-bounties",
-      "expected_usd": 250,
-      "program": "Snapchat",
-      "platform": null,
-      "url": "https://hackerone.com/snapchat",
-      "company": "Snapchat"
-    },
-    {
-      "id": "agentkit-x402-whitelist-ssrf",
-      "source": "open-bug-bounties",
-      "expected_usd": 200,
-      "program": "Coinbase",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/coinbase",
-      "company": "Coinbase"
-    },
-    {
-      "id": "airtable-js-m01",
-      "source": "open-bug-bounties",
-      "expected_usd": 200,
-      "program": "Airtable",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/airtable",
-      "company": "Airtable"
-    },
-    {
-      "id": "coinbase-agentkit-x402",
-      "source": "open-bug-bounties",
-      "expected_usd": 200,
-      "program": "Coinbase",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/coinbase",
-      "company": "Coinbase"
-    },
-    {
-      "id": "expressvpn-lightway-ipv6-leak",
-      "source": "open-bug-bounties",
-      "expected_usd": 200,
-      "program": "ExpressVPN - Bug Bounty Program",
-      "platform": "yeswehack",
-      "url": "https://yeswehack.com/programs/expressvpn-bug-bounty-program",
-      "company": "ExpressVPN"
-    },
-    {
-      "id": "EPR-STOR-1",
-      "source": "open-bug-bounties",
-      "expected_usd": 100,
-      "program": "elastic",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/elastic",
-      "company": "Elastic"
-    },
-    {
-      "id": "mongodb-mcp-m01-shared-exports",
-      "source": "open-bug-bounties",
-      "expected_usd": 100,
-      "program": "MongoDB",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/mongodb",
-      "company": "MongoDB"
-    },
-    {
-      "id": "sensei-form-idor-nonce-only",
-      "source": "open-bug-bounties",
-      "expected_usd": 100,
-      "program": "Automattic",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/automattic",
-      "company": "Automattic"
-    },
-    {
-      "id": "ST-AI-001-customer-context-bypass",
-      "source": "open-bug-bounties",
-      "expected_usd": 50,
-      "program": "stripe",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/stripe",
-      "company": "Stripe"
-    },
-    {
-      "id": "brave-bat-go-reputation-proxy",
-      "source": "open-bug-bounties",
-      "expected_usd": 50,
-      "program": "Brave Software",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/brave",
-      "company": "Brave Software"
-    },
-    {
-      "id": "aiven-pglookout-m02",
-      "source": "open-bug-bounties",
-      "expected_usd": 0,
-      "program": "Aiven Managed Bug Bounty",
-      "platform": "bugcrowd",
-      "url": "https://bugcrowd.com/engagements/aiven-mbb-og",
-      "company": "Aiven"
-    },
-    {
-      "id": "buddypress-unauth-signup-resend",
-      "source": "open-bug-bounties",
-      "expected_usd": 0,
-      "program": "WordPress",
-      "platform": "hackerone",
-      "url": "https://hackerone.com/wordpress",
-      "company": "WordPress"
-    }
-  ],
+  "claim_ready": [],
   "snapshot": {
-    "ts": "2026-09-14T17:20:03.497Z",
-    "used_percent": 50,
+    "ts": "2026-09-14T17:23:37.248Z",
+    "used_percent": 51,
     "l1_count": 10,
     "l2_count": 80,
-    "worker_l1_count": 9,
-    "ingestion_l1_count": 1,
+    "worker_l1_count": 8,
+    "ingestion_l1_count": 2,
     "wall_l1_count": 10,
     "wall_l2_count": 80,
-    "claim_ready_count": 25,
-    "claim_ready_expected_usd": 13833,
+    "claim_ready_count": 0,
+    "claim_ready_expected_usd": 0,
     "status": "live"
   },
   "meter": "devin_weekly",
