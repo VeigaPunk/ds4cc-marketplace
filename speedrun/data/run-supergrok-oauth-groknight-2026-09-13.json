@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 147.4 min",
+  "duration": "live · 148.1 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 59% weekly (start 20%). L1=8 L2=32. Claim-ready 4 · expected $600.",
+  "summary": "Live groknight SuperGrok OAuth: 59% weekly (start 20%). L1=8 L2=30. Claim-ready 4 · expected $600.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -107,6 +107,11 @@
       "t": "2026-09-14T01:55:19.631Z",
       "label": "meter",
       "note": "59% weekly · L1=8 L2=32 · claim-ready 4 / $600"
+    },
+    {
+      "t": "2026-09-14T01:56:04.143Z",
+      "label": "meter",
+      "note": "59% weekly · L1=8 L2=30 · claim-ready 4 / $600"
     }
   ],
   "metrics": {
@@ -115,9 +120,9 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 32,
+    "l2_count": 30,
     "wall_l1_count": 24,
-    "wall_l2_count": 38,
+    "wall_l2_count": 36,
     "used_percent": 59,
     "start_percent": 20,
     "window_minutes": 10080,
@@ -125,8 +130,8 @@
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 147.42,
-    "pct_per_min": 0.2645,
+    "elapsed_min_from_session": 148.11,
+    "pct_per_min": 0.2633,
     "claim_ready_count": 4,
     "claim_ready_expected_usd": 600,
     "claim_ready_companies": [
@@ -136,12 +141,12 @@
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T01:55:19.631Z",
+    "ts": "2026-09-14T01:56:04.143Z",
     "used_percent": 59,
     "l1_count": 8,
-    "l2_count": 32,
+    "l2_count": 30,
     "wall_l1_count": 24,
-    "wall_l2_count": 38,
+    "wall_l2_count": 36,
     "claim_ready_count": 4,
     "claim_ready_expected_usd": 600,
     "claim_ready_companies": [
