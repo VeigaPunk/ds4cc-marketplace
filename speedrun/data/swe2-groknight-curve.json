@@ -3,5 +3,18 @@
   "session_start": null,
   "meter": "devin_weekly",
   "plan_type": "SWE-2",
-  "points": []
+  "points": [
+    {
+      "ts": "2026-09-14T04:21:58.597Z",
+      "pct": 22,
+      "source": "omp_usage_devin",
+      "l1_count": 8,
+      "l2_count": 36,
+      "wall_l1_count": 15,
+      "wall_l2_count": 61,
+      "claim_ready_count": 15,
+      "claim_ready_expected_usd": 5000,
+      "elapsed_min": 16.35
+    }
+  ]
 }
