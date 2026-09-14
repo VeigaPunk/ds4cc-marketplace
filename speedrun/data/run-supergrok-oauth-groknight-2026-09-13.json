@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 173.2 min",
+  "duration": "live · 178.2 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 69% weekly (start 20%). L1=8 L2=7. Claim-ready 7 · expected $3700.",
+  "summary": "Live groknight SuperGrok OAuth: 71% weekly (start 20%). L1=8 L2=14. Claim-ready 8 · expected $3750.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -137,6 +137,11 @@
       "t": "2026-09-14T02:21:08.299Z",
       "label": "meter",
       "note": "69% weekly · L1=8 L2=7 · claim-ready 7 / $3700"
+    },
+    {
+      "t": "2026-09-14T02:26:08.301Z",
+      "label": "meter",
+      "note": "71% weekly · L1=8 L2=14 · claim-ready 8 / $3750"
     }
   ],
   "metrics": {
@@ -145,41 +150,43 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 7,
+    "l2_count": 14,
     "wall_l1_count": 24,
-    "wall_l2_count": 13,
-    "used_percent": 69,
+    "wall_l2_count": 20,
+    "used_percent": 71,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 173.2,
-    "pct_per_min": 0.2829,
-    "claim_ready_count": 7,
-    "claim_ready_expected_usd": 3700,
+    "elapsed_min_from_session": 178.2,
+    "pct_per_min": 0.2862,
+    "claim_ready_count": 8,
+    "claim_ready_expected_usd": 3750,
     "claim_ready_companies": [
       "Elastic",
       "Airtable",
       "Aiven",
+      "Brave",
       "LaunchDarkly",
       "MongoDB"
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T02:21:08.299Z",
-    "used_percent": 69,
+    "ts": "2026-09-14T02:26:08.301Z",
+    "used_percent": 71,
     "l1_count": 8,
-    "l2_count": 7,
+    "l2_count": 14,
     "wall_l1_count": 24,
-    "wall_l2_count": 13,
-    "claim_ready_count": 7,
-    "claim_ready_expected_usd": 3700,
+    "wall_l2_count": 20,
+    "claim_ready_count": 8,
+    "claim_ready_expected_usd": 3750,
     "claim_ready_companies": [
       "Elastic",
       "Airtable",
       "Aiven",
+      "Brave",
       "LaunchDarkly",
       "MongoDB"
     ],
@@ -231,6 +238,18 @@
         "l1": "groknight",
         "path": ".ufo-missions/groknight/aiven-mbb-og/poc-pglookout-local.md",
         "claimable_at": "2026-09-14T01:32:00Z"
+      },
+      {
+        "id": "brave-bat-go-reputation-proxy",
+        "company": "Brave",
+        "program": "brave",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/brave",
+        "expected_usd": 50,
+        "expected_usd_basis": "no signed-out bounty_table; L0 floor $50 published-min beats $0; CSV github.com/brave-intl/* SOURCE_CODE eligible_for_bounty=true",
+        "l1": "xai-oauth/grok-4.6:low",
+        "path": "claim-packages/brave-bat-go-reputation-proxy",
+        "claimable_at": "2026-09-14T02:25:00Z"
       },
       {
         "id": "ld-node-stream-tls-bypass",
@@ -342,6 +361,18 @@
       "l1": "groknight",
       "path": ".ufo-missions/groknight/aiven-mbb-og/poc-pglookout-local.md",
       "claimable_at": "2026-09-14T01:32:00Z"
+    },
+    {
+      "id": "brave-bat-go-reputation-proxy",
+      "company": "Brave",
+      "program": "brave",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/brave",
+      "expected_usd": 50,
+      "expected_usd_basis": "no signed-out bounty_table; L0 floor $50 published-min beats $0; CSV github.com/brave-intl/* SOURCE_CODE eligible_for_bounty=true",
+      "l1": "xai-oauth/grok-4.6:low",
+      "path": "claim-packages/brave-bat-go-reputation-proxy",
+      "claimable_at": "2026-09-14T02:25:00Z"
     },
     {
       "id": "ld-node-stream-tls-bypass",

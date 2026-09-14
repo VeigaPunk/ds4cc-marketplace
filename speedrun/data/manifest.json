@@ -11,6 +11,7 @@
   "live_strip_run_id": "veigapunk-supergrok-oauth-groknight-2026-09-13",
   "runs": [
     "data/run-supergrok-oauth-groknight-2026-09-13.json",
+    "data/run-xai-api-groknight-300usd.json",
     "data/run-200usd.json",
     "data/run-codex-ultra-oauth-20x-2026-08-24.json",
     "data/run-cursor-ultra-ufo-core-2026-08-25.json",
