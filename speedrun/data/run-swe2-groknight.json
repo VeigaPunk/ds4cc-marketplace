@@ -9,9 +9,9 @@
   "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 156.4 min",
+  "duration": "live · 161.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=13. Claim-ready 25 · expected $15683.",
+  "summary": "Live SWE-2 groknight: Devin weekly 25% (start 22%). L1=8 L2=13. Claim-ready 26 · expected $16183.",
   "timeline": [
     {
       "t": "2026-09-14T03:45:00Z",
@@ -167,6 +167,11 @@
       "t": "2026-09-14T06:42:04.439Z",
       "label": "meter",
       "note": "Devin 25% weekly · L1=8 L2=13 · claim-ready 25 / $15683"
+    },
+    {
+      "t": "2026-09-14T06:47:04.439Z",
+      "label": "meter",
+      "note": "Devin 25% weekly · L1=8 L2=13 · claim-ready 26 / $16183"
     }
   ],
   "metrics": {
@@ -184,10 +189,10 @@
     "start_percent": 22,
     "wall_l1_count": 14,
     "wall_l2_count": 19,
-    "elapsed_min_from_session": 156.4,
-    "pct_per_min": 0.0192,
-    "claim_ready_count": 25,
-    "claim_ready_expected_usd": 15683,
+    "elapsed_min_from_session": 161.4,
+    "pct_per_min": 0.0186,
+    "claim_ready_count": 26,
+    "claim_ready_expected_usd": 16183,
     "claim_ready_companies": [
       "Stripe",
       "Coinbase",
@@ -201,6 +206,7 @@
       "ExpressVPN",
       "Kubernetes",
       "LaunchDarkly",
+      "Mattermost",
       "MetaMask",
       "MongoDB",
       "Automattic",
@@ -420,6 +426,18 @@
       "claimable_at": "2026-09-14T02:20:00Z"
     },
     {
+      "id": "mattermost-jira-oauth2-state-csrf",
+      "company": "Mattermost",
+      "program": "Mattermost Public Bug Bounty Engagement",
+      "platform": "bugcrowd",
+      "url": "https://bugcrowd.com/engagements/mattermost",
+      "expected_usd": 500,
+      "expected_usd_basis": "P2-P3 per published table ($300-$750); account-linking CSRF stealing victim Jira OAuth token + identity. Mid estimate.",
+      "l1": "groknight-farm-r2",
+      "path": "claim-packages/mattermost-jira-oauth2-state-csrf",
+      "claimable_at": "2026-09-14T00:00:00Z"
+    },
+    {
       "id": "metamask-sdk-channel-inject",
       "company": "MetaMask",
       "program": "metamask",
@@ -530,14 +548,14 @@
   ],
   "follows": "veigapunk-xai-api-groknight-300usd",
   "snapshot": {
-    "ts": "2026-09-14T06:42:04.439Z",
+    "ts": "2026-09-14T06:47:04.439Z",
     "used_percent": 25,
     "l1_count": 8,
     "l2_count": 13,
     "wall_l1_count": 14,
     "wall_l2_count": 19,
-    "claim_ready_count": 25,
-    "claim_ready_expected_usd": 15683,
+    "claim_ready_count": 26,
+    "claim_ready_expected_usd": 16183,
     "claim_ready_companies": [
       "Stripe",
       "Coinbase",
@@ -551,6 +569,7 @@
       "ExpressVPN",
       "Kubernetes",
       "LaunchDarkly",
+      "Mattermost",
       "MetaMask",
       "MongoDB",
       "Automattic",
@@ -749,6 +768,18 @@
         "l1": "groknight",
         "path": "claim-packages/ld-node-stream-tls-bypass/",
         "claimable_at": "2026-09-14T02:20:00Z"
+      },
+      {
+        "id": "mattermost-jira-oauth2-state-csrf",
+        "company": "Mattermost",
+        "program": "Mattermost Public Bug Bounty Engagement",
+        "platform": "bugcrowd",
+        "url": "https://bugcrowd.com/engagements/mattermost",
+        "expected_usd": 500,
+        "expected_usd_basis": "P2-P3 per published table ($300-$750); account-linking CSRF stealing victim Jira OAuth token + identity. Mid estimate.",
+        "l1": "groknight-farm-r2",
+        "path": "claim-packages/mattermost-jira-oauth2-state-csrf",
+        "claimable_at": "2026-09-14T00:00:00Z"
       },
       {
         "id": "metamask-sdk-channel-inject",
