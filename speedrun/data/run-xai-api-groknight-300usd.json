@@ -1,0 +1,52 @@
+{
+  "id": "veigapunk-xai-api-groknight-300usd",
+  "title": "xAI API groknight — $300 budget · same bounty hunt, OAuth swap",
+  "runner": "VeigaPunk",
+  "account_hint": "jpveigao10@gmail.com",
+  "provider": "xAI API",
+  "product": "xAI API key · $300 hard budget · grok-4.6:low L1 ×8 · grok-4.5:low L2 · same groknight bounty hunt",
+  "budget_usd": 300,
+  "budget_note": "Paid xAI API — not SuperGrok OAuth, not a grant. Hard stop at $300. Same hunt cwd open-bug-bounties/claim-packages. Operator claims later.",
+  "currency": "USD",
+  "status": "queued",
+  "duration": "queued · waits SuperGrok OAuth weekly 100%",
+  "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
+  "summary": "Queued. Starts when SuperGrok OAuth weekly hits 100%. Same L1 fleet, route swap xai-oauth → xai API, $300 budget.",
+  "timeline": [
+    {
+      "t": "2026-09-14T02:23:00Z",
+      "label": "queued",
+      "note": "Cutover armed: close OAuth speedrun at 100% weekly, then xai/grok-4.6:low + $300 API."
+    }
+  ],
+  "metrics": {
+    "mode": "agent · UFO-FSD L1 fleet",
+    "parallelization": "8 L1 · up to 16 L2 per L1",
+    "l1_model": "xai/grok-4.6:low",
+    "l2_model": "xai/grok-4.5:low",
+    "l1_count": 8,
+    "l2_count": 0,
+    "spent_usd": 0,
+    "budget_usd": 300,
+    "start_percent": 0,
+    "used_percent": 0,
+    "plan_type": "xAI API",
+    "meter_label": "xAI API USD toward $300",
+    "provider_route": "xai",
+    "outcome": "queued"
+  },
+  "session_start": null,
+  "curve": "data/xai-api-groknight-curve.json",
+  "links": {
+    "board": "./",
+    "xai": "https://api.x.ai/",
+    "repo": "https://github.com/VeigaPunk/ufo-fsd-alpha"
+  },
+  "tags": ["grok", "xai-api", "queued", "ufo-fsd", "groknight", "hackerone", "bugcrowd", "intigriti"],
+  "paid": true,
+  "not_a_grant": true,
+  "category": "fleet",
+  "meter": "xai_api_usd",
+  "claim_ready": [],
+  "follows": "veigapunk-supergrok-oauth-groknight-2026-09-13"
+}
