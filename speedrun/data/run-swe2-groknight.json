@@ -9,9 +9,9 @@
   "budget_note": "Same protocols as SuperGrok OAuth + xAI API hunts. Only the model swaps: L1 and L2 are SWE-2. Claim packages still open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 31.4 min",
+  "duration": "live · 36.4 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live SWE-2 groknight: Devin weekly 22% (start 22%). L1=8 L2=32. Claim-ready 16 · expected $5100.",
+  "summary": "Live SWE-2 groknight: Devin weekly 23% (start 22%). L1=8 L2=24. Claim-ready 16 · expected $5100.",
   "timeline": [
     {
       "t": "2026-09-14T03:45:00Z",
@@ -42,6 +42,11 @@
       "t": "2026-09-14T04:37:04.436Z",
       "label": "meter",
       "note": "Devin 22% weekly · L1=8 L2=32 · claim-ready 16 / $5100"
+    },
+    {
+      "t": "2026-09-14T04:42:04.436Z",
+      "label": "meter",
+      "note": "Devin 23% weekly · L1=8 L2=24 · claim-ready 16 / $5100"
     }
   ],
   "metrics": {
@@ -50,17 +55,17 @@
     "l1_model": "devin/swe-2:max",
     "l2_model": "devin/swe-2:max",
     "l1_count": 8,
-    "l2_count": 32,
+    "l2_count": 24,
     "plan_type": "SWE-2",
     "meter_label": "Devin weekly quota",
     "provider_route": "devin",
     "outcome": "live",
-    "used_percent": 22,
+    "used_percent": 23,
     "start_percent": 22,
     "wall_l1_count": 15,
-    "wall_l2_count": 58,
-    "elapsed_min_from_session": 31.41,
-    "pct_per_min": 0,
+    "wall_l2_count": 47,
+    "elapsed_min_from_session": 36.4,
+    "pct_per_min": 0.0275,
     "claim_ready_count": 16,
     "claim_ready_expected_usd": 5100,
     "claim_ready_companies": [
@@ -291,12 +296,12 @@
   ],
   "follows": "veigapunk-xai-api-groknight-300usd",
   "snapshot": {
-    "ts": "2026-09-14T04:37:04.436Z",
-    "used_percent": 22,
+    "ts": "2026-09-14T04:42:04.436Z",
+    "used_percent": 23,
     "l1_count": 8,
-    "l2_count": 32,
+    "l2_count": 24,
     "wall_l1_count": 15,
-    "wall_l2_count": 58,
+    "wall_l2_count": 47,
     "claim_ready_count": 16,
     "claim_ready_expected_usd": 5100,
     "claim_ready_companies": [
