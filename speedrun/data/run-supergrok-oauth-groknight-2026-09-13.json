@@ -9,9 +9,9 @@
   "budget_note": "Paid SuperGrok OAuth — not a grant, not XAI_API_KEY. Meter is weekly SuperGrok credits used_percent. Operator start SSOT 20%. First meter 22%. Live poll every 5 min.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 158.2 min",
+  "duration": "live · 163.2 min",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live groknight SuperGrok OAuth: 64% weekly (start 20%). L1=8 L2=10. Claim-ready 5 · expected $1100.",
+  "summary": "Live groknight SuperGrok OAuth: 66% weekly (start 20%). L1=8 L2=7. Claim-ready 6 · expected $1200.",
   "timeline": [
     {
       "t": "2026-09-13T23:28:00Z",
@@ -122,6 +122,11 @@
       "t": "2026-09-14T02:06:08.297Z",
       "label": "meter",
       "note": "64% weekly · L1=8 L2=10 · claim-ready 5 / $1100"
+    },
+    {
+      "t": "2026-09-14T02:11:08.297Z",
+      "label": "meter",
+      "note": "66% weekly · L1=8 L2=7 · claim-ready 6 / $1200"
     }
   ],
   "metrics": {
@@ -130,20 +135,20 @@
     "l1_model": "xai-oauth/grok-4.6:low",
     "l2_model": "xai-oauth/grok-4.5:low",
     "l1_count": 8,
-    "l2_count": 10,
+    "l2_count": 7,
     "wall_l1_count": 24,
-    "wall_l2_count": 16,
-    "used_percent": 64,
+    "wall_l2_count": 13,
+    "used_percent": 66,
     "start_percent": 20,
     "window_minutes": 10080,
     "plan_type": "SuperGrok",
     "meter_label": "SuperGrok Weekly Credits",
     "provider_route": "xai-oauth",
     "outcome": "live",
-    "elapsed_min_from_session": 158.19,
-    "pct_per_min": 0.2781,
-    "claim_ready_count": 5,
-    "claim_ready_expected_usd": 1100,
+    "elapsed_min_from_session": 163.19,
+    "pct_per_min": 0.2819,
+    "claim_ready_count": 6,
+    "claim_ready_expected_usd": 1200,
     "claim_ready_companies": [
       "Elastic",
       "Airtable",
@@ -152,14 +157,14 @@
     ]
   },
   "snapshot": {
-    "ts": "2026-09-14T02:06:08.297Z",
-    "used_percent": 64,
+    "ts": "2026-09-14T02:11:08.297Z",
+    "used_percent": 66,
     "l1_count": 8,
-    "l2_count": 10,
+    "l2_count": 7,
     "wall_l1_count": 24,
-    "wall_l2_count": 16,
-    "claim_ready_count": 5,
-    "claim_ready_expected_usd": 1100,
+    "wall_l2_count": 13,
+    "claim_ready_count": 6,
+    "claim_ready_expected_usd": 1200,
     "claim_ready_companies": [
       "Elastic",
       "Airtable",
@@ -226,6 +231,18 @@
         "l1": "groknight",
         "path": ".ufo-missions/groknight/mongodb/poc/m01-shared-exports-cross-tenant.mjs",
         "claimable_at": "2026-09-14T01:56:00Z"
+      },
+      {
+        "id": "mongodb-mcp-m01-shared-exports",
+        "company": "MongoDB",
+        "program": "mongodb",
+        "platform": "hackerone",
+        "url": "https://hackerone.com/mongodb",
+        "expected_usd": 100,
+        "expected_usd_basis": "public H1 Low band $100 (not invented); CSV asset MongoDB MCP Server github.com/mongodb-js/mongodb-mcp-server bounty-eligible; GitHub-class may be reduced %",
+        "l1": "xai-oauth/grok-4.6:low",
+        "path": "claim-packages/mongodb-mcp-m01-shared-exports",
+        "claimable_at": "2026-09-14T02:10:00Z"
       }
     ],
     "status": "live"
@@ -313,6 +330,18 @@
       "l1": "groknight",
       "path": ".ufo-missions/groknight/mongodb/poc/m01-shared-exports-cross-tenant.mjs",
       "claimable_at": "2026-09-14T01:56:00Z"
+    },
+    {
+      "id": "mongodb-mcp-m01-shared-exports",
+      "company": "MongoDB",
+      "program": "mongodb",
+      "platform": "hackerone",
+      "url": "https://hackerone.com/mongodb",
+      "expected_usd": 100,
+      "expected_usd_basis": "public H1 Low band $100 (not invented); CSV asset MongoDB MCP Server github.com/mongodb-js/mongodb-mcp-server bounty-eligible; GitHub-class may be reduced %",
+      "l1": "xai-oauth/grok-4.6:low",
+      "path": "claim-packages/mongodb-mcp-m01-shared-exports",
+      "claimable_at": "2026-09-14T02:10:00Z"
     }
   ]
 }
