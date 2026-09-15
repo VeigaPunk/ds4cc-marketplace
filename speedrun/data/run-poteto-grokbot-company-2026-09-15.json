@@ -11,7 +11,7 @@
   "status": "live",
   "duration": "live · started 2026-09-15",
   "venue": "Grok Bot · company build",
-  "summary": "LIVE. @poteto — the baller handle running today's Grok Bot speedrun project — is building a company on Grok Bot free tier: minted bots staff the company and ship until the free usage is depleted.",
+  "summary": "LIVE. @poteto — the baller handle running today's Grok Bot speedrun project — is building a company on Grok Bot free tier: minted bots staff the company and ship until the free usage is depleted. Streaming live on X.",
   "timeline": [
     {
       "t": "2026-09-15",
@@ -22,6 +22,11 @@
       "t": "2026-09-15",
       "label": "live",
       "note": "Run went live today — @poteto handling the Grok Bot company-build speedrun."
+    },
+    {
+      "t": "2026-09-15",
+      "label": "stream",
+      "note": "Live on X broadcast — watch the company build in real time."
     }
   ],
   "metrics": {
@@ -34,7 +39,8 @@
   },
   "links": {
     "board": "./",
-    "operator": "https://x.com/poteto"
+    "operator": "https://x.com/poteto",
+    "live_stream": "https://x.com/i/broadcasts/1AxRnZbVpjaxl"
   },
   "tags": [
     "grok-bot",
