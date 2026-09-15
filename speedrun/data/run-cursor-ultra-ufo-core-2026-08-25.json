@@ -12,7 +12,7 @@
   "duration": "complete burn · 48h mint→monthly included · closed @ 79% / 26h wall",
   "duration_hours_complete_burn": 48,
   "venue": "cursor.com/agents · ufo-fsd-alpha (Cursor Origin)",
-  "summary": "CLOSED. Cursor Ultra OAuth UFO-FSD oneshot /goal swarm (28 peers). Complete burn clock: 48h mint→100% included monthly (operator; linear extrap 33h). Total saved: $4519 API projected @ complete burn (45.7× $99); $3570 latest Kimi probe (36.1×). Run harvested on 24h wall at 79% / ~26h elapsed. Swarm terminal: 21 finished / 7 error / 0 running. API pool 100% @ ~1.8h from mint. Harvest: NEXT.md + handoff.json. Parent /goal OPEN.",
+  "summary": "CLOSED. Cursor Ultra OAuth UFO-FSD oneshot /goal swarm (28 peers). Complete burn clock: 48h mint→100% included monthly (operator; linear extrap 33h). Total saved: $4519 API projected @ complete burn (45.7× $99); $3570 latest Kimi probe (36.1×). Run harvested on 24h wall at 79% / ~26h elapsed. Swarm terminal: 21 finished / 7 error / 0 running. API pool 100% @ ~1.8h from mint. Harvest: NEXT.md + handoff.json. Parent /goal OPEN. Token count: 5.6B tokens counted.",
   "timeline": [
     {
       "t": "2026-08-25T18:05:18Z",
@@ -93,6 +93,11 @@
       "t": "2026-08-27T03:10:00Z",
       "label": "live kimi-k3-max probe $3570",
       "note": "cursor-agent --model kimi-k3-max · ActionRequiredError usage limit · ~36.1× $99 · speedrun full-burn board update"
+    },
+    {
+      "t": "2026-09-15",
+      "label": "receipt update",
+      "note": "Token tally: 5.6B tokens counted across the UFO core /goal swarm."
     }
   ],
   "metrics": {
@@ -191,7 +196,9 @@
     "swarm_sum_lines_added": 37289961,
     "swarm_sum_files_changed": 417992,
     "closed_ts": "2026-08-26T20:10:39Z",
-    "final_telemetry": "data/artifacts/final-telemetry-2026-08-26.json"
+    "final_telemetry": "data/artifacts/final-telemetry-2026-08-26.json",
+    "tokens_counted": 5600000000,
+    "tokens_counted_note": "5.6B tokens counted across the swarm"
   },
   "snapshot": {
     "ts": "2026-08-26T20:10:39Z",
