@@ -2,7 +2,7 @@
 
 Public **fixed-budget** agent runs with receipts. Providers can claim value and efficiency **empirically** — and have incentive to subsidize fair lanes.
 
-**Seven runs + two announced** on the board (`data/manifest.json`): closed $200 Kimi seed, closed Codex OAuth 20x, **closed** Cursor Ultra UFO-core, **closed** Token Plan avalanche, **closed** SuperGrok OAuth groknight, **closed** xAI API groknight ($0 spent — superseded), **closed** SWE-2 groknight bounty run (featured strip: 26 claim-ready · $16,183 expected), plus **announced** Grok Bot QA-debate and **announced** @poteto company-build runs. The short-lived "SWE-2 bounty hunter" card was removed: it counted live but produced no claims — not a run.
+**Eight runs + one announced** on the board (`data/manifest.json`): closed $200 Kimi seed, closed Codex OAuth 20x, **closed** Cursor Ultra UFO-core, **closed** Token Plan avalanche, **closed** SuperGrok OAuth groknight, **closed** xAI API groknight ($0 spent — superseded), **closed** SWE-2 groknight bounty run (featured strip: 26 claim-ready · $16,183 expected), **live** @poteto Grok Bot company-build, plus **announced** Grok Bot QA-debate. The short-lived "SWE-2 bounty hunter" card was removed: it counted live but produced no claims — not a run.
 
 ## Seed run (featured, closed)
 
@@ -47,9 +47,9 @@ Data: [`data/run-supergrok-oauth-groknight-2026-09-13.json`](data/run-supergrok-
 
 Free-tier Grok Bot round table (punk-records-brain shared brain: six satellites, Stella compiles) debates the 5235-question bank — the same bank behind the [512QA boards](https://veigapunk.github.io/plazir-15-site/512qa/) — until the free quota is depleted. Data: [`data/run-grokbot-qa-debate-2026-09-15.json`](data/run-grokbot-qa-debate-2026-09-15.json).
 
-## Announced — @poteto company build on Grok Bot (2026-09-15)
+## Live — @poteto company build on Grok Bot (2026-09-15)
 
-@poteto runs a company-building speedrun on Grok Bot free tier — minted bots staff the company and ship until the free quota is depleted. Data: [`data/run-poteto-grokbot-company-2026-09-15.json`](data/run-poteto-grokbot-company-2026-09-15.json).
+@poteto — the baller handle running today's Grok Bot speedrun project — is building a company on Grok Bot free tier: minted bots staff the company and ship until the free quota is depleted. Data: [`data/run-poteto-grokbot-company-2026-09-15.json`](data/run-poteto-grokbot-company-2026-09-15.json).
 
 ## Closed — Token Plan crossbreed avalanche (2026-08-27)
 
