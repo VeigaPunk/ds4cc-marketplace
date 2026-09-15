@@ -9,7 +9,7 @@
   "budget_note": "Same honest-metering convention as the groknight runs. Route set: SWE-2 only for every UFO seat — L1, L2, planner, distiller all devin/swe-2:max via Devin OAuth under the ufo-fsd protocol; L0 relay/orchestration surface is devin/kimi-k3 (this session); Astra advisor (devin/gpt-6-astra:max) advisory only, no seat. Claim packages live in bounties/claims + open-bug-bounties/claim-packages. Operator claims later; no fleet submission.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 1543.5 min",
+  "duration": "live · 1548.5 min",
   "venue": "tmux ufo_sighting:bounties+harvest · cwd bounties + open-bug-bounties",
   "summary": "Live: kimi k3 L0 relay orchestrating SWE-2 UFO fleet — bountyhunt (8 self-iterating L1s hunting new claims) + claimrefine/claimrefine2 (claim refinement). Astra planner seat (devin/gpt-6-astra:max); SWE-2 every other lane. Devin weekly 96% (start 50%). L1=0 (0 hunt/refine + 0 refine2) L2=0. Claim-ready 0 · expected $0.",
   "timeline": [
@@ -214,7 +214,7 @@
       "note": "Devin 55% weekly · L1=9 L2=72 · claim-ready 0 / $0"
     },
     {
-      "t": "2026-09-15T17:57:44.100Z",
+      "t": "2026-09-15T18:02:44.101Z",
       "label": "meter",
       "note": "Devin 96% weekly · L1=0 L2=0 · claim-ready 0 / $0"
     }
@@ -238,9 +238,9 @@
     "worker_l1_count": 0,
     "ingestion_l1_count": 0,
     "wall_l1_count": 8,
-    "wall_l2_count": 0,
-    "elapsed_min_from_session": 1543.46,
-    "pct_per_min": 0.0298,
+    "wall_l2_count": 8,
+    "elapsed_min_from_session": 1548.46,
+    "pct_per_min": 0.0297,
     "claim_ready_count": 0,
     "claim_ready_expected_usd": 0,
     "advisor_model": "disabled (operator order 2026-09-14)",
@@ -253,14 +253,14 @@
   "curve": "swe2-bounty-hunter-curve.json",
   "claim_ready": [],
   "snapshot": {
-    "ts": "2026-09-15T17:57:44.100Z",
+    "ts": "2026-09-15T18:02:44.101Z",
     "used_percent": 96,
     "l1_count": 0,
     "l2_count": 0,
     "worker_l1_count": 0,
     "ingestion_l1_count": 0,
     "wall_l1_count": 8,
-    "wall_l2_count": 0,
+    "wall_l2_count": 8,
     "claim_ready_count": 0,
     "claim_ready_expected_usd": 0,
     "status": "live"
