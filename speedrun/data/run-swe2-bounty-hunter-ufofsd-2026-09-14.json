@@ -9,9 +9,9 @@
   "budget_note": "Same honest-metering convention as the groknight runs. Route set: SWE-2 only for every UFO seat — L1, L2, planner, distiller all devin/swe-2:max via Devin OAuth under the ufo-fsd protocol; L0 relay/orchestration surface is devin/kimi-k3 (this session); Astra advisor (devin/gpt-6-astra:max) advisory only, no seat. Claim packages live in bounties/claims + open-bug-bounties/claim-packages. Operator claims later; no fleet submission.",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 1423.5 min",
+  "duration": "live · 1428.5 min",
   "venue": "tmux ufo_sighting:bounties+harvest · cwd bounties + open-bug-bounties",
-  "summary": "Live: kimi k3 L0 relay orchestrating SWE-2 UFO fleet — bountyhunt (8 self-iterating L1s hunting new claims) + claimrefine/claimrefine2 (claim refinement). Astra planner seat (devin/gpt-6-astra:max); SWE-2 every other lane. Devin weekly 90% (start 50%). L1=0 (0 hunt/refine + 0 refine2) L2=0. Claim-ready 0 · expected $0.",
+  "summary": "Live: kimi k3 L0 relay orchestrating SWE-2 UFO fleet — bountyhunt (8 self-iterating L1s hunting new claims) + claimrefine/claimrefine2 (claim refinement). Astra planner seat (devin/gpt-6-astra:max); SWE-2 every other lane. Devin weekly 92% (start 50%). L1=0 (0 hunt/refine + 0 refine2) L2=0. Claim-ready 0 · expected $0.",
   "timeline": [
     {
       "t": "2026-09-14T17:12:21.864759Z",
@@ -214,9 +214,9 @@
       "note": "Devin 55% weekly · L1=9 L2=72 · claim-ready 0 / $0"
     },
     {
-      "t": "2026-09-15T15:57:44.074Z",
+      "t": "2026-09-15T16:02:44.074Z",
       "label": "meter",
-      "note": "Devin 90% weekly · L1=0 L2=0 · claim-ready 0 / $0"
+      "note": "Devin 92% weekly · L1=0 L2=0 · claim-ready 0 / $0"
     }
   ],
   "metrics": {
@@ -231,7 +231,7 @@
     "protocol": "ufo-fsd",
     "l0_model": "devin/kimi-k3",
     "l0_role": "relay surface orchestrating all SWE-2 UFOs",
-    "used_percent": 90,
+    "used_percent": 92,
     "start_percent": 50,
     "l1_count": 0,
     "l2_count": 0,
@@ -239,8 +239,8 @@
     "ingestion_l1_count": 0,
     "wall_l1_count": 0,
     "wall_l2_count": 0,
-    "elapsed_min_from_session": 1423.48,
-    "pct_per_min": 0.0281,
+    "elapsed_min_from_session": 1428.47,
+    "pct_per_min": 0.0294,
     "claim_ready_count": 0,
     "claim_ready_expected_usd": 0,
     "advisor_model": "disabled (operator order 2026-09-14)",
@@ -253,8 +253,8 @@
   "curve": "swe2-bounty-hunter-curve.json",
   "claim_ready": [],
   "snapshot": {
-    "ts": "2026-09-15T15:57:44.074Z",
-    "used_percent": 90,
+    "ts": "2026-09-15T16:02:44.074Z",
+    "used_percent": 92,
     "l1_count": 0,
     "l2_count": 0,
     "worker_l1_count": 0,
