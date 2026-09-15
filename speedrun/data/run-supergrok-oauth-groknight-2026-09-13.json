@@ -463,7 +463,8 @@
   "links": {
     "board": "./",
     "xai": "https://grok.com/",
-    "repo": "https://github.com/VeigaPunk/ufo-fsd-alpha"
+    "repo": "https://github.com/VeigaPunk/ufo-fsd-alpha",
+    "operator": "https://x.com/VeigaPunk"
   },
   "tags": [
     "grok",

@@ -33,9 +33,18 @@
     "board": "./",
     "qa_bank": "https://github.com/VeigaPunk/xbrd-spark/blob/main/benchmarks/dry-hump/telemetry-l2-l3-j64/QA-512-LATEST.md",
     "shared_brain": "https://github.com/VeigaPunk/punk-records-brain",
-    "512qa_board": "https://veigapunk.github.io/plazir-15-site/512qa/"
+    "512qa_board": "https://veigapunk.github.io/plazir-15-site/512qa/",
+    "operator": "https://x.com/VeigaPunk"
   },
-  "tags": ["grok-bot", "free-tier", "debate", "round-table", "qa-bank", "shared-brain", "announced"],
+  "tags": [
+    "grok-bot",
+    "free-tier",
+    "debate",
+    "round-table",
+    "qa-bank",
+    "shared-brain",
+    "announced"
+  ],
   "paid": false,
   "not_a_grant": true,
   "category": "debate"

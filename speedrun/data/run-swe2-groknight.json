@@ -269,7 +269,8 @@
   "curve": "data/swe2-groknight-curve.json",
   "links": {
     "board": "./",
-    "repo": "https://github.com/VeigaPunk/ufo-fsd-alpha"
+    "repo": "https://github.com/VeigaPunk/ufo-fsd-alpha",
+    "operator": "https://x.com/VeigaPunk"
   },
   "tags": [
     "swe-2",
