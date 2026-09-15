@@ -467,7 +467,7 @@ function renderBoard(runs) {
       const st = run.status === "live" ? "status-live" : run.status === "announced" ? "status-announced" : "status-closed";
       return `<tr>
         <td>${i + 1}</td>
-        <td>${escapeHtml(run.runner)}</td>
+        <td>${run.links?.live_stream ? `<a href="${escapeHtml(run.links.live_stream)}" rel="noopener">${escapeHtml(run.runner)} 🔴</a>` : escapeHtml(run.runner)}</td>
         <td>${escapeHtml(run.provider || "—")}</td>
         <td>${escapeHtml(run.category || "—")}</td>
         <td>${escapeHtml(budgetCell(run))}</td>
