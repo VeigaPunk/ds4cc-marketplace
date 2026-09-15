@@ -1,16 +1,16 @@
 {
   "id": "veigapunk-kimi-200-usd-48h",
-  "title": "$200 Kimi / Moonshot sub \u2014 48h burn",
+  "title": "$200 Kimi / Moonshot sub — 48h burn",
   "runner": "VeigaPunk",
   "account_hint": "jpveigao10@gmail.com",
   "provider": "Moonshot / Kimi",
-  "product": "Kimi $200 USD subscription (paid by the operator \u2014 not a grant)",
+  "product": "Kimi $200 USD subscription (paid by the operator — not a grant)",
   "budget_usd": 200,
   "currency": "USD",
   "status": "closed",
   "duration": "48 hours",
   "duration_hours": 48,
-  "venue": "Kimi agent mode \u00b7 heavy parallelization across agent CLIs",
+  "venue": "Kimi agent mode · heavy parallelization across agent CLIs",
   "summary": "Burned a $200 USD Kimi (Moonshot) subscription the operator paid for, in about 48 hours. Not a grant. Mode: agent mode, used extensively, with heavy parallelization.",
   "timeline": [
     {
@@ -19,9 +19,9 @@
       "note": "$200 USD Kimi / Moonshot subscription under jpveigao10@gmail.com"
     },
     {
-      "t": "t0\u201348h",
+      "t": "t0–48h",
       "label": "Agent mode + parallel fan-out",
-      "note": "Extensive agent-mode use; heavy parallelization across agents/CLIs \u2014 max extract from the grant window"
+      "note": "Extensive agent-mode use; heavy parallelization across agents/CLIs — max extract from the grant window"
     },
     {
       "t": "t+48h",
@@ -37,10 +37,10 @@
     "tokens_note": "Provider UI metering may not export a single public token total; primary score is $200 / 48h under agent mode + parallel load.",
     "mode": "agent mode",
     "parallelization": "heavy",
-    "outcome": "full burn \u00b7 closed \u00b7 board seed run"
+    "outcome": "full burn · closed · board seed run"
   },
   "axes": {
-    "value_per_dollar": "empirical \u2014 how much real agent work landed per $",
+    "value_per_dollar": "empirical — how much real agent work landed per $",
     "efficiency": "time-to-exhaust + parallel throughput under agent mode",
     "boundary_push": "multi-CLI / multi-model agent stacks against a fixed sub ceiling"
   },
@@ -61,5 +61,6 @@
   ],
   "paid": true,
   "not_a_grant": true,
-  "display_venue": "Kimi agent mode \u00b7 heavy parallelization across agent CLIs"
+  "display_venue": "Kimi agent mode · heavy parallelization across agent CLIs",
+  "category": "seed"
 }

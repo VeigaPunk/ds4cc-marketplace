@@ -186,6 +186,7 @@ main { padding: 2rem clamp(1rem, 4vw, 3rem) 4rem; max-width: 960px; }
 .board th { font-size: 0.7rem; color: var(--faint); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; }
 .board .status-closed { color: var(--warn); }
 .board .status-live { color: var(--leaf); }
+.board .status-announced { color: var(--teal); }
 
 .rules { margin: 0.5rem 0 1rem 1.15rem; color: var(--muted); }
 .rules li { margin: 0.4rem 0; }

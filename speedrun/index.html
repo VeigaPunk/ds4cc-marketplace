@@ -4,10 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Token Speedrun — public burns</title>
-  <meta name="description" content="Public receipts: $200 Kimi seed, closed Codex ultra, closed Cursor Ultra UFO-core, closed Token Plan avalanche, live SuperGrok Heavy groknight." />
+  <meta name="description" content="Public receipts: $200 Kimi seed, closed Codex ultra, closed Cursor Ultra UFO-core, closed Token Plan avalanche, closed groknight bounty chain, announced Grok Bot QA debate." />
   <meta name="theme-color" content="#070d10" />
   <meta property="og:title" content="Token Speedrun" />
-  <meta property="og:description" content="Five runs. Live SuperGrok Heavy groknight. Closed Codex + Cursor Ultra + Token Plan. Receipts only." />
+  <meta property="og:description" content="Seven runs + one announced. Closed Cursor Ultra + groknight bounty chain + Codex + Token Plan. Grok Bot QA debate announced. Receipts only." />
   <meta property="og:type" content="website" />
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -22,7 +22,7 @@
       </div>
     </div>
     <nav class="nav">
-      <a href="#live-codex">Live SuperGrok</a>
+      <a href="#live-codex">Bounty run</a>
       <a href="#codex-wrap">Repo</a>
       <a href="#limits">5h ≈ 20%</a>
       <a href="#crown">Crown</a>
@@ -36,48 +36,47 @@
 
   <main id="main">
     <section class="hero">
-      <p class="kicker">five runs · paid oauth · not a grant · plazir charter</p>
+      <p class="kicker">seven runs + one announced · paid oauth · not a grant · plazir charter</p>
       <p class="lede">
         A public scoreboard for <strong>fixed-budget agent work</strong>.
         Featured seed stays the closed <strong>$200 Kimi / Moonshot</strong> 48h burn
         <strong>the operator paid for</strong> — same as these rows:
         <strong>not a grant</strong>.
-        <strong>Live now:</strong> SuperGrok Heavy OAuth groknight UFO bounty fleet
-        (weekly credits, xAI OAuth — a new run, not Cursor Ultra).
+        <strong>Featured:</strong> the closed SWE-2 groknight bounty run —
+        8 L1s, claim-ready 26 packages, expected $16,183 (Devin weekly 45%).
         Cursor Ultra UFO-core is <strong>closed</strong> (48h complete-burn clock, $4,519 API @ close).
-        Codex ultra oneshot is <strong>closed / done</strong>.
-        Token Plan avalanche is <strong>closed</strong>.
+        Codex ultra oneshot, SuperGrok OAuth groknight, xAI API groknight and Token Plan avalanche are <strong>closed</strong>.
+        <strong>Announced:</strong> Grok Bot round table debates the 5235-question bank until the free quota is gone.
       </p>
       <div class="hero-stats">
-        <div class="stat"><span class="n" id="hero-n-runs">5</span><span class="l">runs on the board</span></div>
+        <div class="stat"><span class="n" id="hero-n-runs">8</span><span class="l">runs on the board</span></div>
         <div class="stat"><span class="n">48h</span><span class="l">closed seed clock</span></div>
-        <div class="stat"><span class="n" id="hero-mint-burn">8</span><span class="l" id="hero-complete-burn-label">groknight L1s</span></div>
-        <div class="stat"><span class="n" id="hero-total-saved">0</span><span class="l" id="hero-total-saved-label">claim-ready expected $</span></div>
-        <div class="stat"><span class="n" id="hero-live-pct">—</span><span class="l" id="hero-live-label">SuperGrok weekly</span></div>
+        <div class="stat"><span class="n" id="hero-mint-burn">8</span><span class="l" id="hero-complete-burn-label">bounty run L1s</span></div>
+        <div class="stat"><span class="n" id="hero-total-saved">16183</span><span class="l" id="hero-total-saved-label">claim-ready expected $</span></div>
+        <div class="stat"><span class="n" id="hero-live-pct">45%</span><span class="l" id="hero-live-label">Devin weekly @ close</span></div>
       </div>
     </section>
 
     <section class="panel live" id="live-codex" aria-labelledby="live-title">
-      <p class="eyebrow" id="live-eyebrow">live · SuperGrok weekly credits</p>
-      <h2 id="live-title">SuperGrok Heavy — loading…</h2>
+      <p class="eyebrow" id="live-eyebrow">closed · SWE-2 bounty run via Devin OAuth</p>
+      <h2 id="live-title">SWE-2 groknight — loading…</h2>
       <p class="summary" id="live-summary"></p>
       <div class="chips" aria-label="run tags">
         <span class="chip chip-paid">paid</span>
-        <span class="chip">not a grant</span>
-        <span class="chip" id="live-chip-auth">xAI OAuth</span>
+        <span class="chip" id="live-chip-auth">Devin OAuth</span>
         <span class="chip">receipts only</span>
       </div>
       <div class="live-grid">
         <div class="meter">
-          <div class="pace-row"><strong id="live-pct">—</strong> <span id="live-meter-label">of SuperGrok weekly credits · xAI OAuth</span></div>
+          <div class="pace-row"><strong id="live-pct">—</strong> <span id="live-meter-label">of Devin weekly quota · SWE-2 UFO seats</span></div>
           <div class="meter-bar" aria-hidden="true"><div class="meter-fill" id="live-fill"></div></div>
         </div>
         <p class="pace-row">pace <strong id="live-pace">—</strong></p>
         <p class="pace-row">ETA to 100% <strong id="live-eta">—</strong></p>
-        <p class="pace-row">fleet <strong id="live-mint-burn">8 L1</strong> <span class="muted" id="live-fleet-models">up to 16 L2 per L1 · grok-4.6:high / grok-4.5:low</span></p>
+        <p class="pace-row">fleet <strong id="live-mint-burn">8 L1</strong> <span class="muted" id="live-fleet-models">up to 16 L2 per L1 · all seats devin/swe-2:max</span></p>
         <p class="pace-row">claim-ready <strong id="live-total-saved">0 · $0</strong> <span class="muted">expected $ only after a package is claim-ready · no submit until L0</span></p>
         <div class="curve-wrap">
-          <svg id="curve" viewBox="0 0 640 220" role="img" aria-label="SuperGrok weekly credits versus minutes from first meter">
+          <svg id="curve" viewBox="0 0 640 220" role="img" aria-label="Devin weekly quota versus minutes from first meter">
             <text class="curve-axis" x="8" y="16">% used</text>
             <text class="curve-axis" x="520" y="212">minutes from first meter</text>
             <path class="curve-fill" id="curve-fill" d=""></path>
@@ -88,9 +87,53 @@
       </div>
       <dl class="metrics" id="live-metrics"></dl>
       <p class="repo-out" id="codex-wrap">
-        <a class="repo-btn" id="codex-repo-out" href="https://github.com/VeigaPunk/ufo-fsd-alpha" rel="noopener">ufo-fsd-alpha · live groknight</a>
-        <span class="muted" id="live-repo-note">xAI OAuth SuperGrok Heavy · 5-min telemetry · new run 2026-09-13</span>
+        <a class="repo-btn" id="codex-repo-out" href="https://github.com/VeigaPunk/ufo-fsd-alpha" rel="noopener">ufo-fsd-alpha · closed bounty run</a>
+        <span class="muted" id="live-repo-note">Devin/SWE-2 seats · 5-min telemetry · closed 2026-09-14</span>
       </p>
+    </section>
+
+    <section class="panel" id="cursor-run" aria-labelledby="cursor-title">
+      <p class="eyebrow">closed · cursor ultra included usage</p>
+      <h2 id="cursor-title">Cursor Ultra — UFO-core /goal swarm</h2>
+      <p class="summary" id="cursor-summary"></p>
+      <div class="chips" aria-label="run tags">
+        <span class="chip chip-paid">paid</span>
+        <span class="chip">not a grant</span>
+        <span class="chip">receipts only</span>
+      </div>
+      <div class="live-grid">
+        <div class="meter">
+          <div class="pace-row"><strong id="cursor-pct">—</strong> <span>of Ultra included total usage · monthly cycle</span></div>
+          <div class="meter-bar" aria-hidden="true"><div class="meter-fill" id="cursor-fill"></div></div>
+        </div>
+        <p class="pace-row">pace <strong id="cursor-pace">—</strong></p>
+        <p class="pace-row">complete burn <strong id="cursor-mint-burn">48h</strong> <span class="muted">mint→100% included monthly · projected 2026-08-27 18:05 UTC · closed @ 79%</span></p>
+        <p class="pace-row">total saved <strong id="cursor-total-saved">$4,519 @ complete burn · $3,570 latest probe</strong> <span class="muted">Ultra UI API savings · 45.7× / 36.1× $99 mint</span></p>
+        <p class="pace-row">vs 48h Kimi seed <strong>comparable monthly clock</strong></p>
+        <div class="curve-wrap">
+          <svg id="cursor-curve" viewBox="0 0 640 220" role="img" aria-label="Cursor Ultra burn curve, included percent versus minutes from first meter">
+            <text class="curve-axis" x="8" y="16">% used</text>
+            <text class="curve-axis" x="520" y="212">minutes from first meter</text>
+            <path class="curve-fill" id="cursor-curve-fill" d=""></path>
+            <path class="curve-line" id="cursor-curve-line" d=""></path>
+            <circle class="curve-dot" id="cursor-curve-dot" r="4" cx="-10" cy="-10"></circle>
+          </svg>
+        </div>
+      </div>
+      <dl class="metrics" id="cursor-metrics"></dl>
+      <p class="repo-out">
+        <a class="repo-btn" id="cursor-repo-out" href="https://cursor.com/codebase/jo-o-veiga/ufo-fsd-alpha" rel="noopener">ufo-fsd-alpha · closed run</a>
+        <a class="repo-btn" id="cursor-prompt-btn" href="data/artifacts/oneshot-prompt-cursor-ultra-ufo-core-2026-08-25.html">oneshot prompt + steer</a>
+        <a class="repo-btn" id="cursor-artifacts-btn" href="data/artifacts/final-telemetry-2026-08-26.json">final telemetry</a>
+        <span class="muted">Cursor Origin · final telemetry sealed · no live poll</span>
+      </p>
+      <figure class="receipt">
+        <figcaption class="receipt-caption">
+          <strong><a href="https://www.youtube.com/watch?v=QYh6mYIJG2Y" rel="noopener">[Ain't no budget, when I'm on the set™]</a></strong><br>
+          <em>Aug 24 → Aug 25 | Aug 27 → Aug 28: two days is all it took. 0 to 5.6B included tokens, zero on-demand.</em>
+        </figcaption>
+        <img src="assets/cursor-ultra-usage-2days.png" alt="Cursor Ultra 7-day usage dashboard: 5.6B total tokens, 5.6B included, 0 on-demand, cumulative curve flat until Aug 24 then spiking to 5.6B by Aug 28" loading="lazy">
+      </figure>
     </section>
 
 
@@ -138,7 +181,7 @@
         <table class="board">
           <thead>
             <tr>
-              <th>#</th><th>Runner</th><th>Provider</th><th>Budget</th><th>Clock</th><th>Mode</th><th>Status</th>
+              <th>#</th><th>Runner</th><th>Provider</th><th>Category</th><th>Budget</th><th>Clock</th><th>Mode</th><th>Status</th>
             </tr>
           </thead>
           <tbody id="board-body"></tbody>

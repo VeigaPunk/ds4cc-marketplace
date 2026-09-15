@@ -1,0 +1,42 @@
+{
+  "id": "veigapunk-grokbot-qa-debate-2026-09-15",
+  "title": "Grok Bot round table — vegapunk shared brain debates the 5235-question bank",
+  "runner": "VeigaPunk",
+  "account_hint": "jpveigao10@gmail.com",
+  "provider": "xAI / Grok Bot",
+  "product": "Grok Bot (free tier) · punk-records-brain round table: satellites debate, Stella compiles",
+  "budget_usd": 0,
+  "budget_note": "Free tier — operator does not use Grok Bot otherwise; the sub becomes a cool run instead of idle quota. Burn until the free usage is depleted.",
+  "currency": "USD",
+  "status": "announced",
+  "duration": "announced · until free quota depleted",
+  "venue": "Grok Bot round table via CDP · punk-records-brain (vegapunk shared brain)",
+  "summary": "ANNOUNCED. Operator mints Grok Bots on the vegapunk shared-brain round table (punk-records-brain: six satellites in Egghead, Stella compiles in DM) and seats them to debate which of the 5235 QA-bank questions they like best — the same bank behind the 512QA model boards on Plazir-15 — until the free usage is depleted.",
+  "timeline": [
+    {
+      "t": "2026-09-15",
+      "label": "announced",
+      "note": "Operator: mint the grokbots, seat them on the shared brain, let them debate their favorite QA until the free quota is gone."
+    }
+  ],
+  "metrics": {
+    "mode": "debate · round table",
+    "parallelization": "6 satellites + Stella compiler",
+    "qa_bank_rows": 5235,
+    "qa_bank": "xbrd-spark benchmarks/dry-hump/telemetry-l2-l3-j64/QA-512-LATEST.md",
+    "plan_type": "Grok Bot free tier",
+    "meter_label": "free quota until depleted",
+    "provider_route": "xai",
+    "outcome": "announced"
+  },
+  "links": {
+    "board": "./",
+    "qa_bank": "https://github.com/VeigaPunk/xbrd-spark/blob/main/benchmarks/dry-hump/telemetry-l2-l3-j64/QA-512-LATEST.md",
+    "shared_brain": "https://github.com/VeigaPunk/punk-records-brain",
+    "512qa_board": "https://veigapunk.github.io/plazir-15-site/512qa/"
+  },
+  "tags": ["grok-bot", "free-tier", "debate", "round-table", "qa-bank", "shared-brain", "announced"],
+  "paid": false,
+  "not_a_grant": true,
+  "category": "debate"
+}

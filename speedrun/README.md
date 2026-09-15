@@ -2,7 +2,7 @@
 
 Public **fixed-budget** agent runs with receipts. Providers can claim value and efficiency **empirically** — and have incentive to subsidize fair lanes.
 
-**Five runs** on the board (`data/manifest.json`): closed $200 Kimi seed, closed Codex OAuth 20x, **closed** Cursor Ultra UFO-core, **closed** Token Plan avalanche, and the **live** SuperGrok Heavy groknight OAuth run (2026-09-13) — a new run, not Cursor Ultra.
+**Seven runs + one announced** on the board (`data/manifest.json`): closed $200 Kimi seed, closed Codex OAuth 20x, **closed** Cursor Ultra UFO-core, **closed** Token Plan avalanche, **closed** SuperGrok OAuth groknight, **closed** xAI API groknight ($0 spent — superseded), **closed** SWE-2 groknight bounty run (featured strip: 26 claim-ready · $16,183 expected), and the **announced** Grok Bot QA-debate run. The short-lived "SWE-2 bounty hunter" card was removed: it counted live but produced no claims — not a run.
 
 ## Seed run (featured, closed)
 
@@ -37,11 +37,15 @@ Meter clocks: session start `2026-08-24T04:36:27Z` and first meter `04:46:06Z`. 
 
 Data: [`data/run-cursor-ultra-ufo-core-2026-08-25.json`](data/run-cursor-ultra-ufo-core-2026-08-25.json) · prompt [`data/artifacts/prompt-cursor-ultra-ufo-core-2026-08-25.md`](data/artifacts/prompt-cursor-ultra-ufo-core-2026-08-25.md) · meter [`data/artifacts/meter-cursor-ultra-kimi-k3-max-1497-saved-2026-08-25.json`](data/artifacts/meter-cursor-ultra-kimi-k3-max-1497-saved-2026-08-25.json) · probe [`data/artifacts/meter-cursor-ultra-kimi-k3-max-3570-probe-2026-08-27.json`](data/artifacts/meter-cursor-ultra-kimi-k3-max-3570-probe-2026-08-27.json) · audit [`data/artifacts/audit-swarm-effective-changes-2026-08-25.md`](data/artifacts/audit-swarm-effective-changes-2026-08-25.md)
 
-## Live — SuperGrok Heavy groknight (2026-09-13)
+## Closed — groknight bounty chain (2026-09-13 → 2026-09-14)
 
-New run. Paid SuperGrok OAuth weekly credits (start 20%). 8 L1 `xai-oauth/grok-4.6:low` · L2 `xai-oauth/grok-4.5:low` (max 16/L1). White-hat EV overlay: claim-ready count + expected $ only after an in-scope PoC exists. No submit until L0.
+Three-leg chain, all closed. SuperGrok Heavy OAuth weekly (start 20% → 100%): 8 L1 `xai-oauth/grok-4.6:low` · L2 `xai-oauth/grok-4.5:low`. xAI API $300 leg: cutover armed, superseded before first meter ($0 spent). SWE-2 leg (featured strip): 8 `devin/swe-2:max` L1s, Astra advisor — Devin weekly 45% (start 22%), **claim-ready 26 packages · expected $16,183** across 18 companies.
 
-Data: [`data/run-supergrok-oauth-groknight-2026-09-13.json`](data/run-supergrok-oauth-groknight-2026-09-13.json) · curve [`data/supergrok-groknight-curve.json`](data/supergrok-groknight-curve.json)
+Data: [`data/run-supergrok-oauth-groknight-2026-09-13.json`](data/run-supergrok-oauth-groknight-2026-09-13.json) · [`data/run-xai-api-groknight-300usd.json`](data/run-xai-api-groknight-300usd.json) · [`data/run-swe2-groknight.json`](data/run-swe2-groknight.json) · curves [`data/supergrok-groknight-curve.json`](data/supergrok-groknight-curve.json) [`data/swe2-groknight-curve.json`](data/swe2-groknight-curve.json)
+
+## Announced — Grok Bot QA debate (2026-09-15)
+
+Free-tier Grok Bot round table (punk-records-brain shared brain: six satellites, Stella compiles) debates the 5235-question bank — the same bank behind the [512QA boards](https://veigapunk.github.io/plazir-15-site/512qa/) — until the free quota is depleted. Data: [`data/run-grokbot-qa-debate-2026-09-15.json`](data/run-grokbot-qa-debate-2026-09-15.json).
 
 ## Closed — Token Plan crossbreed avalanche (2026-08-27)
 

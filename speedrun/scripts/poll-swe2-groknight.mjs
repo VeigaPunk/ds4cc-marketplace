@@ -1,0 +1,187 @@
+#!/usr/bin/env node
+// 5-min live poller for SWE-2 groknight speedrun on ds4cc.com/speedrun
+import { execFileSync } from "node:child_process";
+import { readFileSync, writeFileSync, appendFileSync, readdirSync, mkdirSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const HERE = dirname(fileURLToPath(import.meta.url));
+const REPO = join(HERE, "..", "..");
+const UFO = "/home/vgpnk/Projects/origin-work/ufo-fsd-alpha";
+const CLAIM_DIR = "/home/vgpnk/Projects/origin-work/open-bug-bounties/.ufo-missions/groknight/claim-ready";
+const CLAIM_PACKAGES = "/home/vgpnk/Projects/origin-work/open-bug-bounties/claim-packages";
+const CLAIM_LEDGER = "/home/vgpnk/Projects/origin-work/open-bug-bounties/.ufo-missions/groknight/claim-ready-ledger.json";
+const RUN_REL = "speedrun/data/run-swe2-groknight.json";
+const CURVE_REL = "speedrun/data/swe2-groknight-curve.json";
+const LOG = join(UFO, ".ufo/nightrun/speedrun-poller-swe2.log");
+const INTERVAL_MS = 5 * 60 * 1000;
+
+function log(event, extra = {}) {
+  const line = JSON.stringify({ ts: new Date().toISOString(), event, ...extra });
+  try { appendFileSync(LOG, line + "\n"); } catch { /* best effort */ }
+  process.stdout.write(line + "\n");
+}
+
+function sh(cmd, args, cwd) {
+  return execFileSync(cmd, args, { cwd, encoding: "utf8", timeout: 60_000, maxBuffer: 8 * 1024 * 1024 });
+}
+
+function devinWeeklyPct() {
+  const raw = sh("omp", ["usage", "--json"], UFO);
+  const d = JSON.parse(raw);
+  for (const r of d.reports || []) {
+    if (r.provider !== "devin") continue;
+    for (const lim of r.limits || []) {
+      if (/Weekly/i.test(lim.label || "")) {
+        const a = lim.amount || {};
+        if (typeof a.used === "number") return a.used;
+        const frac = a.usedFraction;
+        if (typeof frac === "number") return Math.round(frac * 1000) / 10;
+      }
+    }
+  }
+  return null;
+}
+
+function fleetCounts() {
+  const raw = sh("bash", ["scripts/ufo-sighting", "status"], UFO);
+  const d = JSON.parse(raw);
+  const gk = (d.missions || []).filter((m) => m.fleet === "groknight");
+  const l1 = gk.filter((m) => m.phase === "working").length;
+  const l2 = gk.reduce((n, m) => n + (m.levels?.l2 || 0), 0);
+  return {
+    l1_count: l1,
+    l2_count: l2,
+    wall_l1_count: d.levels?.l1 ?? null,
+    wall_l2_count: d.levels?.l2 ?? null,
+  };
+}
+
+function claimReady() {
+  try { mkdirSync(CLAIM_DIR, { recursive: true }); } catch { /* */ }
+  try { mkdirSync(CLAIM_PACKAGES, { recursive: true }); } catch { /* */ }
+  const byId = new Map();
+  const ingest = (row, fallbackPath) => {
+    if (row?.status !== "claim-ready") return;
+    const usd = Number(row.expected_usd);
+    const id = row.id || fallbackPath;
+    byId.set(id, {
+      id,
+      company: row.company,
+      program: row.program,
+      platform: row.platform || null,
+      url: row.url || null,
+      expected_usd: Number.isFinite(usd) ? usd : null,
+      expected_usd_basis: row.expected_usd_basis || null,
+      l1: row.l1 || null,
+      path: row.package_dir || row.path || fallbackPath,
+      claimable_at: row.claimable_at || null,
+    });
+  };
+  try {
+    for (const name of readdirSync(CLAIM_PACKAGES)) {
+      if (name.startsWith("_") || name === "README.md") continue;
+      const man = join(CLAIM_PACKAGES, name, "manifest.json");
+      try { ingest(JSON.parse(readFileSync(man, "utf8")), man); } catch { /* */ }
+    }
+  } catch { /* */ }
+  try {
+    for (const name of readdirSync(CLAIM_DIR).filter((n) => n.endsWith(".json") && !n.startsWith("_"))) {
+      const f = join(CLAIM_DIR, name);
+      try { ingest(JSON.parse(readFileSync(f, "utf8")), f); } catch { /* */ }
+    }
+  } catch { /* */ }
+  const packages = [...byId.values()];
+  const expected = packages.reduce((n, p) => n + (p.expected_usd || 0), 0);
+  const ledger = {
+    schema: "groknight-claim-ready-v1",
+    note: "Canonical packages live in open-bug-bounties/claim-packages/<id>/. expected_usd is published-program min. Operator claims later. No submit from this fleet.",
+    updatedAt: new Date().toISOString(),
+    count: packages.length,
+    expected_usd_sum: expected,
+    packages,
+  };
+  try { writeFileSync(CLAIM_LEDGER, `${JSON.stringify(ledger, null, 2)}\n`); } catch { /* */ }
+  return {
+    claim_ready_count: packages.length,
+    claim_ready_expected_usd: expected,
+    claim_ready_companies: [...new Set(packages.map((p) => p.company).filter(Boolean))],
+    claim_ready: packages,
+  };
+}
+
+function tick() {
+  const ts = new Date().toISOString();
+  const pct = devinWeeklyPct();
+  const counts = fleetCounts();
+  const claims = claimReady();
+  const runPath = join(REPO, RUN_REL);
+  const curvePath = join(REPO, CURVE_REL);
+  const run = JSON.parse(readFileSync(runPath, "utf8"));
+  const curve = JSON.parse(readFileSync(curvePath, "utf8"));
+  const start = Date.parse(run.session_start);
+  const elapsedMin = Number.isFinite(start) ? (Date.now() - start) / 60000 : null;
+  const used = pct ?? run.metrics.used_percent ?? null;
+  const startPct = run.metrics.start_percent ?? used ?? 0;
+  const burned = used != null ? used - startPct : null;
+  const pctPerMin = elapsedMin > 0 && burned != null ? burned / elapsedMin : null;
+
+  run.status = "live";
+  run.duration = elapsedMin != null ? `live · ${elapsedMin.toFixed(1)} min` : "live";
+  run.metrics = {
+    ...run.metrics,
+    used_percent: used,
+    start_percent: startPct,
+    l1_count: counts.l1_count,
+    l2_count: counts.l2_count,
+    wall_l1_count: counts.wall_l1_count,
+    wall_l2_count: counts.wall_l2_count,
+    elapsed_min_from_session: elapsedMin != null ? Math.round(elapsedMin * 100) / 100 : null,
+    pct_per_min: pctPerMin != null ? Math.round(pctPerMin * 10000) / 10000 : null,
+    claim_ready_count: claims.claim_ready_count,
+    claim_ready_expected_usd: claims.claim_ready_expected_usd,
+    claim_ready_companies: claims.claim_ready_companies,
+    l1_model: "devin/swe-2:max",
+    l2_model: "devin/swe-2:max",
+    advisor_model: "devin/gpt-6-astra:max",
+    outcome: "live",
+  };
+  run.claim_ready = claims.claim_ready;
+  run.snapshot = { ts, used_percent: used, ...counts, ...claims, status: "live" };
+  run.summary = `Live SWE-2 groknight: Devin weekly ${used ?? "?"}% (start ${startPct}%). L1=${counts.l1_count} L2=${counts.l2_count}. Claim-ready ${claims.claim_ready_count} · expected $${claims.claim_ready_expected_usd}.`;
+  run.timeline = [
+    ...(run.timeline || []).slice(0, 40),
+    { t: ts, label: "meter", note: `Devin ${used ?? "?"}% weekly · L1=${counts.l1_count} L2=${counts.l2_count} · claim-ready ${claims.claim_ready_count} / $${claims.claim_ready_expected_usd}` },
+  ];
+  curve.points.push({
+    ts,
+    pct: used,
+    source: "omp_usage_devin",
+    ...counts,
+    claim_ready_count: claims.claim_ready_count,
+    claim_ready_expected_usd: claims.claim_ready_expected_usd,
+    elapsed_min: elapsedMin != null ? Math.round(elapsedMin * 100) / 100 : null,
+  });
+  writeFileSync(runPath, `${JSON.stringify(run, null, 2)}\n`);
+  writeFileSync(curvePath, `${JSON.stringify(curve, null, 2)}\n`);
+
+  try {
+    sh("git", ["add", RUN_REL, CURVE_REL, "speedrun/data/manifest.json"], REPO);
+    const dirty = sh("git", ["status", "--porcelain"], REPO).trim();
+    if (dirty) {
+      sh("git", ["-c", "commit.gpgsign=false", "commit", "-m", `speedrun: swe2 groknight devin=${used}% L1=${counts.l1_count} L2=${counts.l2_count} claims=${claims.claim_ready_count} $${claims.claim_ready_expected_usd}`], REPO);
+      sh("git", ["push", "origin", "HEAD"], REPO);
+      log("pushed", { used, ...counts, claim_ready_count: claims.claim_ready_count, claim_ready_expected_usd: claims.claim_ready_expected_usd });
+    } else {
+      log("unchanged", { used, ...counts, claim_ready_count: claims.claim_ready_count });
+    }
+  } catch (error) {
+    log("git_error", { error: String(error?.message ?? error).slice(0, 400) });
+  }
+}
+
+log("poller_start", { intervalMs: INTERVAL_MS, repo: REPO });
+tick();
+setInterval(() => {
+  try { tick(); } catch (error) { log("tick_error", { error: String(error?.message ?? error).slice(0, 400) }); }
+}, INTERVAL_MS);

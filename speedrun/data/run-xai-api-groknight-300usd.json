@@ -8,10 +8,10 @@
   "budget_usd": 300,
   "budget_note": "Paid xAI API — not SuperGrok OAuth, not a grant. Hard stop at $300. Same hunt cwd open-bug-bounties/claim-packages. Operator claims later.",
   "currency": "USD",
-  "status": "live",
-  "duration": "live · 0 min",
+  "status": "closed",
+  "duration": "closed · cutover armed, superseded before first meter",
   "venue": "tmux ufo_sighting:groknight · cwd open-bug-bounties",
-  "summary": "Live xAI API groknight $300. Same hunt cwd. OAuth weekly closed.",
+  "summary": "CLOSED. xAI API groknight $300: cutover armed after SuperGrok OAuth weekly hit 100%, then superseded by the SWE-2 seat run before first meter. $0 of $300 spent.",
   "timeline": [
     {
       "t": "2026-09-14T02:23:00Z",
@@ -27,6 +27,11 @@
       "t": "2026-09-14T03:50:27.037Z",
       "label": "cutover",
       "note": "xai-oauth weekly 100% → xai API $300"
+    },
+    {
+      "t": "2026-09-14T04:05:42Z",
+      "label": "closed",
+      "note": "Superseded by SWE-2 groknight seats before first meter · $0 spent of $300"
     }
   ],
   "metrics": {
@@ -43,7 +48,7 @@
     "plan_type": "xAI API",
     "meter_label": "xAI API USD toward $300",
     "provider_route": "xai",
-    "outcome": "live"
+    "outcome": "closed"
   },
   "session_start": "2026-09-14T03:50:27.037Z",
   "curve": "data/xai-api-groknight-curve.json",

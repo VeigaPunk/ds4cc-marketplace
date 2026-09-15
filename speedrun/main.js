@@ -146,7 +146,7 @@ function fmtTokens(n) {
 }
 
 
-function renderCurve(curve) {
+function renderCurve(curve, prefix = "curve") {
   const pts = curve.points || [];
   if (!pts.length) return;
   const t0 = new Date(curve.t0).getTime();
@@ -162,13 +162,81 @@ function renderCurve(curve) {
     .join(" ");
   const lastX = X(xs[xs.length - 1]);
   const lastY = Y(ys[ys.length - 1]);
-  el("curve-line").setAttribute("d", line);
-  el("curve-fill").setAttribute(
+  el(`${prefix}-line`).setAttribute("d", line);
+  el(`${prefix}-fill`).setAttribute(
     "d",
     `${line} L${lastX.toFixed(1)},${y1} L${X(xs[0]).toFixed(1)},${y1} Z`
   );
-  el("curve-dot").setAttribute("cx", lastX.toFixed(1));
-  el("curve-dot").setAttribute("cy", lastY.toFixed(1));
+  el(`${prefix}-dot`).setAttribute("cx", lastX.toFixed(1));
+  el(`${prefix}-dot`).setAttribute("cy", lastY.toFixed(1));
+}
+
+function renderCursorPanel(run, curve) {
+  const m = run.metrics || {};
+  const bc = run.burn_clock || {};
+  const pace = run.pace || {};
+  const pct = m.used_percent ?? curve?.points?.at(-1)?.pct ?? 0;
+  const completeH = completeBurnHours(run);
+  el("cursor-title").textContent = `${run.runner} — ${run.title}`;
+  el("cursor-summary").textContent = scrubIds(run.summary);
+  el("cursor-pct").textContent = `${Number(pct).toFixed(1)}%`;
+  el("cursor-fill").style.width = `${Math.min(100, Number(pct) || 0)}%`;
+  const paceParts = [
+    completeH != null ? `${fmtHours(completeH)} complete burn (mint→100% included monthly)` : null,
+    bc.elapsed_hours_at_close != null
+      ? `${fmtHours(bc.elapsed_hours_at_close)} measured at close (${bc.included_pct_at_close ?? pct}% included · 24h wall harvest)`
+      : null,
+    bc.complete_burn_hours_linear != null ? `${fmtHours(bc.complete_burn_hours_linear)} linear extrap` : null,
+    pace.pct_per_min != null ? `${pace.pct_per_min}%/min` : null,
+  ].filter(Boolean);
+  el("cursor-pace").textContent = paceParts.length ? paceParts.join(" · ") : "—";
+  const mintBurnEl = el("cursor-mint-burn");
+  if (mintBurnEl && completeH != null) mintBurnEl.textContent = `${fmtHours(completeH)} complete burn`;
+  const savedEl = el("cursor-total-saved");
+  if (savedEl) {
+    const savedComplete = totalSavedDisplay(run);
+    const savedLatest = totalSavedLatest(run);
+    const mult = run.total_saved?.multiple_vs_99_mint_complete_burn;
+    const multLatest = totalSavedLatestMult(run);
+    savedEl.textContent = savedComplete
+      ? `${fmtUsd(savedComplete)} @ complete burn${mult ? ` (${mult}× $99)` : ""} · ${fmtUsd(savedLatest)} latest probe${multLatest ? ` (${multLatest}× $99)` : ""}`
+      : fmtUsd(savedLatest);
+  }
+  el("cursor-metrics").innerHTML = `
+    <dt>status</dt><dd class="status-closed">${escapeHtml(run.status)}</dd>
+    <dt>plan</dt><dd>Ultra ${escapeHtml(m.plan_price || "$200/mo")} · included $${((m.included_limit_cents || 40000) / 100).toFixed(0)}</dd>
+    <dt>meter</dt><dd>included total ${escapeHtml(Number(pct).toFixed(1))}% · auto ${escapeHtml(m.auto_percent_used ?? "—")}% · API ${escapeHtml(m.api_percent_used ?? "—")}%</dd>
+    <dt>spend</dt><dd>total $${((m.total_spend_cents || 0) / 100).toFixed(2)} · included $${((m.included_spend_cents || 0) / 100).toFixed(2)} · bonus $${((m.bonus_spend_cents || 0) / 100).toFixed(2)}</dd>
+    <dt>total saved</dt><dd>${escapeHtml(fmtUsd(totalSavedDisplay(run)))} projected @ complete burn (${escapeHtml(run.total_saved?.multiple_vs_99_mint_complete_burn ?? "—")}× $99) · ${escapeHtml(fmtUsd(totalSavedLatest(run)))} latest probe (${escapeHtml(totalSavedLatestMult(run) ?? "—")}× $99 · ${escapeHtml(run.total_saved?.probe_ts ?? "—")})</dd>
+    <dt>swarm</dt><dd>${escapeHtml(m.swarm_running)} run · ${escapeHtml(m.swarm_finished)} fin · ${escapeHtml(m.swarm_error)} err · n=${escapeHtml(m.swarm_n)}</dd>
+    <dt>churn</dt><dd>${escapeHtml(m.swarm_sum_lines_added ?? "—")} lines · ${escapeHtml(m.swarm_sum_files_changed ?? "—")} files (sum peers)</dd>
+    <dt>mint</dt><dd>${escapeHtml(bc.mint_ts ?? run.session_start ?? "—")}</dd>
+    <dt>complete burn</dt><dd>${escapeHtml(fmtHours(completeH))} mint→100% included monthly · projected ${escapeHtml(bc.complete_burn_ts ?? "—")} · linear ${escapeHtml(fmtHours(bc.complete_burn_hours_linear))}</dd>
+    <dt>measured close</dt><dd>${escapeHtml(fmtHours(bc.elapsed_hours_at_close))} @ ${escapeHtml(bc.included_pct_at_close ?? "—")}% included (24h wall harvest)</dd>
+    <dt>API pool</dt><dd>100% @ ${escapeHtml(fmtHours(bc.mint_to_api_100_hours))} from mint (${escapeHtml(bc.api_100_ts ?? "—")})</dd>
+    <dt>wall</dt><dd>freeze ≥1440 min · close ${escapeHtml(m.elapsed_min_from_session ?? "—")} min</dd>
+    <dt>model</dt><dd>${escapeHtml(m.model || m.linked_bc_model)}</dd>
+    <dt>category</dt><dd>oneshot · /goal + mid-run steer · self-clone forking</dd>
+    <dt>repo</dt><dd>${escapeHtml(m.repo || run.repository?.full_name || "—")}</dd>
+    <dt>venue</dt><dd>${escapeHtml(humanVenue(run))}</dd>
+    <dt>paid</dt><dd>$99 Ultra mint (gravy train) · $199 Cursor Ultra · SuperGrok Heavy ~$300 grant · Grok bot free · X Premium+</dd>
+    <dt>snapshot</dt><dd>${escapeHtml(run.snapshot?.ts || "—")}</dd>
+  `;
+  const repoOut = el("cursor-repo-out");
+  if (repoOut) {
+    repoOut.href = run.links?.origin_repo || run.links?.agent || "#";
+    repoOut.textContent = "ufo-fsd-alpha · closed run";
+  }
+  const promptBtn = el("cursor-prompt-btn");
+  if (promptBtn) {
+    promptBtn.href =
+      run.links?.oneshot_prompt ||
+      run.artifacts?.oneshot_prompt_html ||
+      "data/artifacts/oneshot-prompt-cursor-ultra-ufo-core-2026-08-25.html";
+  }
+  const artBtn = el("cursor-artifacts-btn");
+  if (artBtn && run.artifacts?.final_telemetry) artBtn.href = run.artifacts.final_telemetry;
+  if (curve) renderCurve(curve, "cursor-curve");
 }
 
 function renderLiveStrip(run, curve) {
@@ -182,7 +250,7 @@ function renderLiveStrip(run, curve) {
   const isCursor = run.id?.includes("cursor-ultra") || run.meter === "cursor_ultra_included_usage";
   const isTp = run.meter === "token_plan_weekly";
   const isSuperGrok = run.meter === "supergrok_weekly" || /supergrok/.test(run.id || "");
-  const isSwe2 = run.meter === "devin_weekly" || /swe2-bounty-hunter/.test(run.id || "");
+  const isSwe2 = run.meter === "devin_weekly";
   el("live-title").textContent = `${run.runner} — ${run.title}`;
   el("live-summary").textContent = scrubIds(run.summary);
   el("live-pct").textContent = `${Number(pct).toFixed(1)}%`;
@@ -194,7 +262,7 @@ function renderLiveStrip(run, curve) {
     mintBurnEl.textContent = `${m.l1_count ?? 8} L1 · ${m.l2_count ?? 0} L2`;
   }
   const fleetModelsEl = el("live-fleet-models");
-  if (fleetModelsEl && isSwe2) fleetModelsEl.textContent = "up to 16 L2 per L1 · all seats devin/swe-2:max · L0 relay devin/kimi-k3";
+  if (fleetModelsEl && isSwe2) fleetModelsEl.textContent = "up to 16 L2 per L1 · all seats devin/swe-2:max · Astra advisor";
   if (fleetModelsEl && isSuperGrok) fleetModelsEl.textContent = "up to 16 L2 per L1 · grok-4.6:high / grok-4.5:low";
   const savedEl = el("live-total-saved");
   if (savedEl && (isSuperGrok || isSwe2)) {
@@ -223,7 +291,7 @@ function renderLiveStrip(run, curve) {
   const meterLabel = el("live-meter-label");
   if (meterLabel) {
     meterLabel.textContent = isSwe2
-      ? "of Devin weekly quota · SWE-2-only UFO seats · kimi k3 L0 relay"
+      ? "of Devin weekly quota · SWE-2 UFO seats"
       : isSuperGrok
         ? "of SuperGrok weekly credits · xAI OAuth"
         : isCursor
@@ -233,7 +301,7 @@ function renderLiveStrip(run, curve) {
   const heroLiveLabel = el("hero-live-label");
   if (heroLiveLabel) {
     heroLiveLabel.textContent = isSwe2
-      ? "SWE-2 bounty hunter"
+      ? "Devin weekly @ close"
       : isSuperGrok
         ? "SuperGrok weekly"
         : isCursor ? "Cursor Ultra included" : isTp ? "Token Plan weekly" : "Codex 20x closed";
@@ -243,7 +311,7 @@ function renderLiveStrip(run, curve) {
   const paceParts = (isSuperGrok || isSwe2)
     ? [
         `${m.l1_count ?? 8} L1 · ${m.l2_count ?? 0} L2`,
-        pacePct != null ? `${pacePct}%/min SuperGrok weekly` : null,
+        pacePct != null ? `${pacePct}%/min weekly` : null,
         `${m.claim_ready_count ?? 0} claim-ready · ${fmtUsd(m.claim_ready_expected_usd ?? 0)}`,
       ].filter(Boolean)
     : [
@@ -257,7 +325,9 @@ function renderLiveStrip(run, curve) {
       ].filter(Boolean);
   el("live-pace").textContent = paceParts.length ? paceParts.join(" · ") : "—";
   el("live-eta").textContent = (isSuperGrok || isSwe2)
-    ? (pacePct > 0 ? `~${Math.max(0, Math.round((100 - Number(pct)) / pacePct))} min to 100% weekly` : "live · weekly quota")
+    ? (closed
+        ? `closed @ ${Number(pct).toFixed(1)}% weekly · final tally`
+        : pacePct > 0 ? `~${Math.max(0, Math.round((100 - Number(pct)) / pacePct))} min to 100% weekly` : "live · weekly quota")
     : closed
       ? completeH != null && bc.complete_burn_ts
         ? `complete burn ${fmtHours(completeH)} · projected ${bc.complete_burn_ts.replace("T", " ").replace("Z", " UTC")} · closed early @ ${bc.included_pct_at_close ?? pct}%`
@@ -275,7 +345,7 @@ function renderLiveStrip(run, curve) {
   };
   setRec("live-record", pace.subhour_meter_ok ?? pace.subhour_ok ?? m.subhour_ok);
   setRec("live-record-session", pace.subhour_session_ok ?? m.subhour_session_ok);
-  if (isTp) {
+  if (isTp || isSuperGrok || isSwe2) {
     for (const recId of ["live-record", "live-record-session"]) {
       const recEl = el(recId);
       if (recEl) { recEl.textContent = "n/a"; recEl.className = ""; }
@@ -287,12 +357,11 @@ function renderLiveStrip(run, curve) {
   }
   if (isSwe2) {
     el("live-metrics").innerHTML = `
-      <dt>status</dt><dd class="status-live">${escapeHtml(run.status)}</dd>
+      <dt>status</dt><dd class="${closed ? "status-closed" : "status-live"}">${escapeHtml(run.status)}</dd>
       <dt>meter</dt><dd>Devin weekly ${escapeHtml(Number(pct).toFixed(1))}% · SWE-2-only UFO seats via Devin OAuth</dd>
-      <dt>L0 relay</dt><dd>${escapeHtml(m.l0_model || "devin/kimi-k3")} · orchestrating all SWE-2 UFOs</dd>
-      <dt>L1</dt><dd>${escapeHtml(m.l1_model || "devin/swe-2:max")} · ${escapeHtml(m.l1_count ?? "—")} seats (${escapeHtml(m.worker_l1_count ?? "—")} workers + ${escapeHtml(m.ingestion_l1_count ?? "—")} ingestion)</dd>
+      <dt>L1</dt><dd>${escapeHtml(m.l1_model || "devin/swe-2:max")} · ${escapeHtml(m.l1_count ?? "—")} seats</dd>
       <dt>L2</dt><dd>${escapeHtml(m.l2_model || "devin/swe-2:max")} · ${escapeHtml(m.l2_count ?? "—")} workers · max 16/L1</dd>
-      <dt>windows</dt><dd>bounties ×${escapeHtml(m.worker_l1_count ?? "—")} workers · harvest ×${escapeHtml(m.ingestion_l1_count ?? "—")} (ingestion + claim tracker)</dd>
+      <dt>advisor</dt><dd>${escapeHtml(m.advisor_model || "—")}</dd>
       <dt>claim-ready</dt><dd>${escapeHtml(m.claim_ready_count ?? 0)} packages · expected ${escapeHtml(fmtUsd(m.claim_ready_expected_usd ?? 0))}</dd>
       <dt>companies</dt><dd>${escapeHtml((m.claim_ready_companies || []).join(", ") || "none yet")}</dd>
       <dt>venue</dt><dd>${escapeHtml(humanVenue(run))}</dd>
@@ -302,10 +371,10 @@ function renderLiveStrip(run, curve) {
     const repoOut = el("codex-repo-out");
     if (repoOut) {
       repoOut.href = run.links?.repo || "https://github.com/VeigaPunk/ufo-fsd-alpha";
-      repoOut.textContent = "ufo-fsd-alpha · live bounty hunter";
+      repoOut.textContent = closed ? "ufo-fsd-alpha · closed bounty run" : "ufo-fsd-alpha · live bounty run";
     }
     const repoNote = el("live-repo-note");
-    if (repoNote) repoNote.textContent = "Devin/SWE-2 seats · devin/kimi-k3 L0 relay · 5-min telemetry · new run 2026-09-14";
+    if (repoNote) repoNote.textContent = "Devin/SWE-2 seats · Astra advisor · 5-min telemetry · closed 2026-09-14";
     const authChip = el("live-chip-auth");
     if (authChip) authChip.textContent = "Devin OAuth";
   } else if (isSuperGrok) {
@@ -395,11 +464,12 @@ function renderBoard(runs) {
   el("board-body").innerHTML = runs
     .map((run, i) => {
       const m = run.metrics || {};
-      const st = run.status === "live" ? "status-live" : "status-closed";
+      const st = run.status === "live" ? "status-live" : run.status === "announced" ? "status-announced" : "status-closed";
       return `<tr>
         <td>${i + 1}</td>
         <td>${escapeHtml(run.runner)}</td>
         <td>${escapeHtml(run.provider || "—")}</td>
+        <td>${escapeHtml(run.category || "—")}</td>
         <td>${escapeHtml(budgetCell(run))}</td>
         <td>${escapeHtml(clockCell(run))}</td>
         <td>${escapeHtml(m.mode || "—")} / ${escapeHtml(m.parallelization || "—")}</td>
@@ -436,14 +506,14 @@ async function main() {
   const curve = curvePath ? await loadJsonSoft(curvePath) : null;
   if (liveRun) {
     renderLiveStrip(liveRun, curve);
-    const isLiveSuperGrok = liveRun.meter === "supergrok_weekly" || /supergrok/.test(liveRun.id || "");
+    const isLiveFleet = liveRun.meter === "supergrok_weekly" || liveRun.meter === "devin_weekly" || /supergrok|swe2/.test(liveRun.id || "");
     const heroMintBurn = el("hero-mint-burn");
     const heroCompleteLabel = el("hero-complete-burn-label");
     const heroSaved = el("hero-total-saved");
     const heroSavedLabel = el("hero-total-saved-label");
-    if (isLiveSuperGrok) {
+    if (isLiveFleet) {
       if (heroMintBurn) heroMintBurn.textContent = String(liveRun.metrics?.l1_count ?? 8);
-      if (heroCompleteLabel) heroCompleteLabel.textContent = "groknight L1s";
+      if (heroCompleteLabel) heroCompleteLabel.textContent = "bounty run L1s";
       if (heroSaved) heroSaved.textContent = String(liveRun.metrics?.claim_ready_expected_usd ?? 0);
       if (heroSavedLabel) heroSavedLabel.textContent = "claim-ready expected $";
     } else {
@@ -459,6 +529,12 @@ async function main() {
         heroSavedLabel.textContent = mult ? `total saved @ complete burn (${mult}× $99)` : "total saved @ complete burn";
       }
     }
+  }
+
+  const cursorRun = byId["veigapunk-cursor-ultra-ufo-core-2026-08-25"];
+  if (cursorRun && el("cursor-run")) {
+    const cursorCurve = await loadJsonSoft(cursorRun.curve || "data/cursor-ultra-curve.json");
+    renderCursorPanel(cursorRun, cursorCurve);
   }
 }
 
