@@ -1,0 +1,49 @@
+{
+  "id": "poteto-grokbot-company-2026-09-15",
+  "title": "@poteto — building a company on Grok Bot",
+  "runner": "poteto",
+  "account_hint": "@poteto",
+  "provider": "xAI / Grok Bot",
+  "product": "Grok Bot (free tier) · company-building run — minted bots operate as the company",
+  "budget_usd": 0,
+  "budget_note": "Free tier Grok Bot. Burn until the free usage is depleted; the run is the company being built in public.",
+  "currency": "USD",
+  "status": "live",
+  "duration": "live · started 2026-09-15",
+  "venue": "Grok Bot · company build",
+  "summary": "LIVE. @poteto — the baller handle running today's Grok Bot speedrun project — is building a company on Grok Bot free tier: minted bots staff the company and ship until the free usage is depleted.",
+  "timeline": [
+    {
+      "t": "2026-09-15",
+      "label": "announced",
+      "note": "@poteto company-building run on Grok Bot free tier — queued for the wall."
+    },
+    {
+      "t": "2026-09-15",
+      "label": "live",
+      "note": "Run went live today — @poteto handling the Grok Bot company-build speedrun."
+    }
+  ],
+  "metrics": {
+    "mode": "company build",
+    "parallelization": "grok-bot fleet",
+    "plan_type": "Grok Bot free tier",
+    "meter_label": "free quota until depleted",
+    "provider_route": "xai",
+    "outcome": "live"
+  },
+  "links": {
+    "board": "./",
+    "operator": "https://x.com/poteto"
+  },
+  "tags": [
+    "grok-bot",
+    "free-tier",
+    "company-build",
+    "poteto",
+    "announced"
+  ],
+  "paid": false,
+  "not_a_grant": true,
+  "category": "company"
+}
