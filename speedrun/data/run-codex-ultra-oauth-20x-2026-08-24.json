@@ -1,16 +1,16 @@
 {
   "id": "veigapunk-codex-ultra-oauth-20x-2026-08-24",
-  "title": "Codex ultra OAuth 20x oneshot",
+  "title": "Codex 20x oneshot — Sol Ultras on Sekhmet",
   "runner": "VeigaPunk",
   "provider": "OpenAI / Codex",
-  "product": "ChatGPT Pro · gpt-5.6-sol ultra fast · OAuth 20x weekly window",
+  "product": "ChatGPT Pro · Codex 20x plan · weekly window",
   "budget_usd": null,
   "budget_note": "Paid ChatGPT Pro OAuth — not a grant. Meter is weekly used_percent (10080 min), not 100% of the month. Oneshot category.",
   "currency": "USD",
   "status": "closed",
   "duration": "1h 1m 18s",
-  "venue": "tmux session 26 · gpt-5.6-sol ultra fast",
-  "summary": "Oneshot done (not live). gpt-5.6-sol ultra. ~60% of weekly 20x in 1h 1m 18s. 1,018,795 goal tokens. Receipt: xbgst-codex.",
+  "venue": "Sekhmet swarm · 64 concurrent agents · Sol Ultras",
+  "summary": "Oneshot done (not live). Sol Ultras on Sekhmet — 64 concurrent agents. ~60% of the Codex 20x weekly window burned in 1h 1m. Receipt: xbgst-codex.",
   "timeline": [
     {
       "t": "2026-08-24T04:36:27Z",
@@ -26,11 +26,16 @@
       "t": "2026-08-24T13:19:53.318Z",
       "label": "live snapshot",
       "note": "60.0% · 0.117%/min · ETA +342.53 min · sub-hour record: no"
+    },
+    {
+      "t": "2026-09-15",
+      "label": "receipt update",
+      "note": "Run identified: Sol Ultras on Sekhmet — 64 concurrent agents, 1h 1m for ~60% of the Codex 20x weekly window."
     }
   ],
   "metrics": {
     "mode": "oneshot agent · ultra fast",
-    "parallelization": "459 child rollouts",
+    "parallelization": "64 concurrent agents · 459 child rollouts",
     "used_percent": 60.0,
     "window_minutes": 10080,
     "plan_type": "pro",
@@ -53,7 +58,10 @@
     "subhour_meter_ok": false,
     "elapsed_min_from_session": 523.44,
     "goal_clock": "1h 1m 18s",
-    "goal_tokens": 1018795
+    "goal_tokens": 1018795,
+    "project": "Sol Ultras",
+    "substrate": "sekhmet",
+    "concurrent_agents": 64
   },
   "pace": {
     "elapsed_min_from_session": 523.44,
@@ -94,5 +102,5 @@
   "category": "oneshot",
   "meter": "weekly_10080",
   "last_message": "data/codex-last-message.json",
-  "display_venue": "tmux session 26 · gpt-5.6-sol ultra fast"
+  "display_venue": "Sekhmet swarm · 64 concurrent agents · Sol Ultras"
 }
