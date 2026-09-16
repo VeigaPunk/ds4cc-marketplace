@@ -1,0 +1,308 @@
+{
+  "id": "veigapunk-1337-squad-2026-09-16",
+  "title": "1337-squad — bug bounty specialist squad speedrun",
+  "runner": "VeigaPunk",
+  "account_hint": "jpveigao10@gmail.com",
+  "provider": "xAI / Grok Bot + Alibaba Token Plan + Devin SWE-2",
+  "product": "Grok Bot squad (GROKNIGHT-ATLAS · FORGE · GAUNTLET · MENTOR · CLAIMER) + Alibaba Token Plan 40k credits + SWE-2 L1/L2 fleet on ufo-fsd",
+  "budget_usd": 30,
+  "budget_note": "40,000 Alibaba Token Plan credits bought for this run (Credit Pack at $15 / 20k credits = $30). The observed Token Plan pool is larger than the purchased pack because it also carries the subscription snapshots of three accounts — pool totals are reported for context, the run's declared budget is the purchased 40k. Grok Bot usage is the operator's one weekly free-tier allowance; SWE-2 is unmetered (operator-attested, see metrics.swe2_mode).",
+  "currency": "USD",
+  "status": "live",
+  "duration": "live · 214.9 min",
+  "session_start": "2026-09-16T12:19:03Z",
+  "venue": "tmux ufo_sighting:{groknight,groktrain,selfheal} · cwd ufo-fsd-alpha · Grok Bot desktop via CDP 127.0.0.1:9333",
+  "summary": "LIVE 1337-squad: Grok Bot weekly ?% · Token Plan 38633.78 credits left ($28.98 of $135 observed pool) · SWE-2 unmetered. L1=14 L2=16. Squad: ? bots · 6/12 queue rows ready.",
+  "timeline": [
+    {
+      "t": "2026-09-16T12:19:03Z",
+      "label": "live",
+      "note": "First 1337-squad L1 (groknight-forge round 2) launched on tmux ufo_sighting:groknight — SWE-2 fleet begins."
+    },
+    {
+      "t": "2026-09-16T12:35:00Z",
+      "label": "mint",
+      "note": "GROKNIGHT-ATLAS / FORGE / GAUNTLET / MENTOR minted in the Grok Bot desktop app (goose-speed directive prefixed to each purpose)."
+    },
+    {
+      "t": "2026-09-16T15:29:43Z",
+      "label": "live",
+      "note": "groknight + groktrain + selfheal fleets live together: bot-training missions and self-heal missions share the wall."
+    },
+    {
+      "t": "2026-09-16T15:41:18Z",
+      "label": "live",
+      "note": "GROKNIGHT-CLAIMER mission launched — fifth squad bot, the operator-authorized claimer seat (mint + access checklist)."
+    },
+    {
+      "t": "2026-09-16T15:50:25Z",
+      "label": "note",
+      "note": "Operator pause: all 14 L1 missions SIGSTOPped for 20 min, then resumed sequentially 30 s apart. The Grok Bot app is not a mission child (it lives under the omp worker-daemon broker) so the usage meter kept answering."
+    },
+    {
+      "t": "2026-09-16T15:53:00Z",
+      "label": "announced",
+      "note": "1337-squad run entered on the board with 5-min live telemetry (Grok Bot meter + Token Plan credits + L1/L2 counts)."
+    },
+    {
+      "t": "2026-09-16T15:53:59.796Z",
+      "label": "meter",
+      "note": "GrokBot ?% weekly · TP 38633.78/180000 credits · L1=14 L2=16 · ready 6/12"
+    }
+  ],
+  "metrics": {
+    "mode": "squad build + bounty corpus work (agent fleet)",
+    "parallelization": "14 L1 · 16 concurrent L2 per L1 target",
+    "l1_model": "devin/swe-2:max",
+    "l2_model": "alibaba-token-plan/deepseek-v4.1-flash:max (mechanical seats) · devin/swe-2:max (thinking seats)",
+    "swe2_mode": "unmetered (operator-attested)",
+    "budget_basis_usd_per_credit": 0.00075,
+    "budget_basis_note": "40,000 credits = $30 → $0.00075/credit, the Credit Pack rate",
+    "grokbot_start_percent": 4,
+    "grokbot_start_percent_basis": "first observed reading 2026-09-16T15:52Z (Grok Bot weekly usage); mint-time reading was not captured",
+    "meter_label": "Grok Bot weekly usage · Alibaba Token Plan credits · SWE-2 unmetered",
+    "outcome": "live",
+    "grokbot_burned": null,
+    "grokbot_bots_seen": null,
+    "grokbot_bots_working": null,
+    "token_plan_credits_used_start": 141366.22,
+    "token_plan_credits_total": 180000,
+    "token_plan_credits_used": 141366.22,
+    "token_plan_credits_remaining": 38633.78,
+    "token_plan_used_percent": 78.54,
+    "token_plan_remaining_usd": 28.98,
+    "token_plan_burned_credits": 0,
+    "token_plan_credit_pack_percent": 35.61036258885334,
+    "swe2_devin_weekly_percent": 100,
+    "supergrok_weekly_percent": 100,
+    "l1_count": 14,
+    "l2_count": 16,
+    "l3_count": 0,
+    "wall_l1_count": 14,
+    "wall_l2_count": 16,
+    "elapsed_min_from_session": 214.95,
+    "draft_packages": 22,
+    "verdict_files": 71,
+    "queue_total": 12,
+    "queue_ready": 6,
+    "queue_blocked": 6
+  },
+  "links": {
+    "board": "./",
+    "operator": "https://x.com/VeigaPunk",
+    "protocol": "https://github.com/VeigaPunk/xbrd-spark"
+  },
+  "tags": [
+    "grok-bot",
+    "bug-bounty",
+    "squad",
+    "ufo-fsd",
+    "swe-2",
+    "alibaba-token-plan",
+    "1337-squad",
+    "live"
+  ],
+  "paid": true,
+  "not_a_grant": true,
+  "category": "bounty-squad",
+  "squad": {
+    "bots": null,
+    "bots_working": null,
+    "queue": {
+      "total": 12,
+      "by_verdict": {
+        "READY": 1,
+        "READY_WITH_NITS": 5,
+        "HARD_STOP": 3,
+        "BLOCKED": 3
+      },
+      "ready_total": 6,
+      "blocked_total": 6
+    },
+    "queue_rows": [
+      {
+        "id": "Q1",
+        "package": "intel pqos-pci-ids",
+        "platform": "Intigriti",
+        "value": "$500–$10k",
+        "verdict": "READY"
+      },
+      {
+        "id": "Q2",
+        "package": "8x8 jibri",
+        "platform": "H1",
+        "value": "$0 record",
+        "verdict": "READY_WITH_NITS"
+      },
+      {
+        "id": "Q3",
+        "package": "superhuman",
+        "platform": "H1",
+        "value": "$500–$13k",
+        "verdict": "HARD_STOP"
+      },
+      {
+        "id": "Q4",
+        "package": "amazonvrp",
+        "platform": "H1",
+        "value": "$100–$30k",
+        "verdict": "READY_WITH_NITS"
+      },
+      {
+        "id": "Q5",
+        "package": "crypto",
+        "platform": "H1",
+        "value": "Low $10–$500",
+        "verdict": "HARD_STOP"
+      },
+      {
+        "id": "Q6",
+        "package": "x / grok-build",
+        "platform": "H1",
+        "value": "see package",
+        "verdict": "READY_WITH_NITS"
+      },
+      {
+        "id": "Q7",
+        "package": "spacex-starlink",
+        "platform": "Bugcrowd",
+        "value": "web lane",
+        "verdict": "BLOCKED"
+      },
+      {
+        "id": "Q8",
+        "package": "yahoo / vespa",
+        "platform": "Intigriti",
+        "value": "$100–$15k",
+        "verdict": "HARD_STOP"
+      },
+      {
+        "id": "Q9",
+        "package": "personio",
+        "platform": "Intigriti",
+        "value": "€50–€5k",
+        "verdict": "BLOCKED"
+      },
+      {
+        "id": "Q10",
+        "package": "beanstalk",
+        "platform": "Immunefi",
+        "value": "$10k–$100k",
+        "verdict": "READY_WITH_NITS"
+      },
+      {
+        "id": "Q11",
+        "package": "anthropic hook",
+        "platform": "H1",
+        "value": "$1k–$2.5k",
+        "verdict": "READY_WITH_NITS"
+      },
+      {
+        "id": "Q12",
+        "package": "wordpress AAAA",
+        "platform": "H1",
+        "value": "—",
+        "verdict": "BLOCKED"
+      }
+    ]
+  },
+  "meters": {
+    "grokbot": {},
+    "token_plan": {
+      "credits_total": 180000,
+      "credits_used": 141366.22,
+      "credits_remaining": 38633.78,
+      "used_percent": 78.54,
+      "remaining_usd": 28.98,
+      "used_usd": 106.02,
+      "total_usd": 135,
+      "snapshots": [
+        {
+          "credits_total": 40000,
+          "credits_used": 40000,
+          "credits_remaining": 0,
+          "used_pct": 100,
+          "resets_at": "2026-09-18T16:26:00Z"
+        },
+        {
+          "credits_total": 40000,
+          "credits_used": 40000,
+          "credits_remaining": 0,
+          "used_pct": 100,
+          "resets_at": "2026-09-18T14:18:00Z"
+        },
+        {
+          "credits_total": 100000,
+          "credits_used": 61366.22,
+          "credits_remaining": 38633.78,
+          "used_pct": 61.3662,
+          "resets_at": "2026-09-18T16:26:00Z"
+        }
+      ],
+      "measured_at": "2026-09-16T15:48:36Z",
+      "id": "gmail",
+      "source": "ai_usage_token_plan_cache"
+    },
+    "swe2": {
+      "mode": "unmetered (operator-attested)",
+      "devin_weekly_percent": 100
+    },
+    "supergrok_weekly_percent": 100
+  },
+  "fleet": {
+    "by_fleet": {
+      "groknight": {
+        "l1": 5,
+        "l2": 2
+      },
+      "selfheal": {
+        "l1": 4,
+        "l2": 12
+      },
+      "groktrain": {
+        "l1": 5,
+        "l2": 2
+      }
+    },
+    "wall_l1": 14,
+    "wall_l2": 16
+  },
+  "snapshot": {
+    "ts": "2026-09-16T15:53:59.796Z",
+    "mode": "squad build + bounty corpus work (agent fleet)",
+    "parallelization": "14 L1 · 16 concurrent L2 per L1 target",
+    "l1_model": "devin/swe-2:max",
+    "l2_model": "alibaba-token-plan/deepseek-v4.1-flash:max (mechanical seats) · devin/swe-2:max (thinking seats)",
+    "swe2_mode": "unmetered (operator-attested)",
+    "budget_basis_usd_per_credit": 0.00075,
+    "budget_basis_note": "40,000 credits = $30 → $0.00075/credit, the Credit Pack rate",
+    "grokbot_start_percent": 4,
+    "grokbot_start_percent_basis": "first observed reading 2026-09-16T15:52Z (Grok Bot weekly usage); mint-time reading was not captured",
+    "meter_label": "Grok Bot weekly usage · Alibaba Token Plan credits · SWE-2 unmetered",
+    "outcome": "live",
+    "grokbot_burned": null,
+    "grokbot_bots_seen": null,
+    "grokbot_bots_working": null,
+    "token_plan_credits_used_start": 141366.22,
+    "token_plan_credits_total": 180000,
+    "token_plan_credits_used": 141366.22,
+    "token_plan_credits_remaining": 38633.78,
+    "token_plan_used_percent": 78.54,
+    "token_plan_remaining_usd": 28.98,
+    "token_plan_burned_credits": 0,
+    "token_plan_credit_pack_percent": 35.61036258885334,
+    "swe2_devin_weekly_percent": 100,
+    "supergrok_weekly_percent": 100,
+    "l1_count": 14,
+    "l2_count": 16,
+    "l3_count": 0,
+    "wall_l1_count": 14,
+    "wall_l2_count": 16,
+    "elapsed_min_from_session": 214.95,
+    "draft_packages": 22,
+    "verdict_files": 71,
+    "queue_total": 12,
+    "queue_ready": 6,
+    "queue_blocked": 6
+  }
+}

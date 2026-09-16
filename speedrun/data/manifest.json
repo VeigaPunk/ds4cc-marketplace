@@ -8,9 +8,10 @@
     "infinite_mode": "local / self-host / open weights only"
   },
   "featured_run_id": "veigapunk-kimi-200-usd-48h",
-  "live_strip_run_id": "veigapunk-swe2-groknight",
-  "runs": [
-    "data/run-poteto-grokbot-company-2026-09-15.json",
+"live_strip_run_id": "veigapunk-1337-squad-2026-09-16",
+    "runs": [
+        "data/run-1337-squad-2026-09-16.json",
+        "data/run-poteto-grokbot-company-2026-09-15.json",
     "data/run-grokbot-qa-debate-2026-09-15.json",
     "data/run-swe2-groknight.json",
     "data/run-xai-api-groknight-300usd.json",

@@ -1,0 +1,23 @@
+{
+  "t0": "2026-09-16T12:19:03Z",
+  "session_start": "2026-09-16T12:19:03Z",
+  "meter": "grokbot_weekly + token_plan_credits + swe2_unmetered",
+  "plan_type": "1337-squad",
+  "points": [
+    {
+      "ts": "2026-09-16T15:53:59.796Z",
+      "source": "grokbot_app_cdp",
+      "token_plan_credits_remaining": 38633.78,
+      "token_plan_credits_used": 141366.22,
+      "swe2_mode": "unmetered",
+      "devin_weekly_percent": 100,
+      "l1_count": 14,
+      "l2_count": 16,
+      "wall_l1_count": 14,
+      "wall_l2_count": 16,
+      "queue_ready": 6,
+      "queue_total": 12,
+      "elapsed_min": 214.95
+    }
+  ]
+}
