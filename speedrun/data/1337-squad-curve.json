@@ -18,6 +18,22 @@
       "queue_ready": 6,
       "queue_total": 12,
       "elapsed_min": 214.95
+    },
+    {
+      "ts": "2026-09-16T15:54:43.256Z",
+      "pct": 4,
+      "source": "grokbot_app_cdp",
+      "token_plan_credits_remaining": 38341.88,
+      "token_plan_credits_used": 141658.12,
+      "swe2_mode": "unmetered",
+      "devin_weekly_percent": 100,
+      "l1_count": 14,
+      "l2_count": 16,
+      "wall_l1_count": 14,
+      "wall_l2_count": 16,
+      "queue_ready": 6,
+      "queue_total": 12,
+      "elapsed_min": 215.67
     }
   ]
 }
