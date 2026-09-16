@@ -9,10 +9,10 @@
   "budget_note": "40,000 Alibaba Token Plan credits bought for this run (Credit Pack at $15 / 20k credits = $30). The observed Token Plan pool is larger than the purchased pack because it also carries the subscription snapshots of three accounts — pool totals are reported for context, the run's declared budget is the purchased 40k. Grok Bot usage is the operator's one weekly free-tier allowance; SWE-2 is unmetered (operator-attested, see metrics.swe2_mode).",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 239.1 min",
+  "duration": "live · 244.1 min",
   "session_start": "2026-09-16T12:19:03Z",
   "venue": "tmux ufo_sighting:{groknight,groktrain,selfheal} · cwd ufo-fsd-alpha · Grok Bot desktop via CDP 127.0.0.1:9333",
-  "summary": "LIVE — the foundlings training (1337 squad of bug bounty hunters): Grok Bot weekly 4% · Token Plan 38158.76 credits left ($28.62 of $135 observed pool) · SWE-2 unmetered. L1=14 L2=13. Squad: 4 bots · 6/12 queue rows ready. Goal: teach them to fetch, solve, claim and submit bounties posted anywhere.",
+  "summary": "LIVE — the foundlings training (1337 squad of bug bounty hunters): Grok Bot weekly 5% · Token Plan 38142.25 credits left ($28.61 of $135 observed pool) · SWE-2 unmetered. L1=14 L2=54. Squad: 4 bots · 6/12 queue rows ready. Goal: teach them to fetch, solve, claim and submit bounties posted anywhere.",
   "timeline": [
     {
       "t": "2026-09-16T12:19:03Z",
@@ -93,6 +93,11 @@
       "t": "2026-09-16T16:18:10.210Z",
       "label": "meter",
       "note": "GrokBot 4% weekly · TP 38158.76/180000 credits · L1=14 L2=13 · ready 6/12"
+    },
+    {
+      "t": "2026-09-16T16:23:10.212Z",
+      "label": "meter",
+      "note": "GrokBot 5% weekly · TP 38142.25/180000 credits · L1=14 L2=54 · ready 6/12"
     }
   ],
   "metrics": {
@@ -107,33 +112,33 @@
     "grokbot_start_percent_basis": "first observed reading 2026-09-16T15:52Z (Grok Bot weekly usage); mint-time reading was not captured",
     "meter_label": "Grok Bot weekly usage · Alibaba Token Plan credits · SWE-2 unmetered",
     "outcome": "live",
-    "grokbot_burned": 0,
+    "grokbot_burned": 1,
     "grokbot_bots_seen": 4,
-    "grokbot_bots_working": 1,
+    "grokbot_bots_working": 2,
     "token_plan_credits_used_start": 141366.22,
     "token_plan_credits_total": 180000,
-    "token_plan_credits_used": 141841.24,
-    "token_plan_credits_remaining": 38158.76,
-    "token_plan_used_percent": 78.8,
-    "token_plan_remaining_usd": 28.62,
-    "token_plan_burned_credits": 475.02,
-    "token_plan_credit_pack_percent": 36.40207371550166,
+    "token_plan_credits_used": 141857.75,
+    "token_plan_credits_remaining": 38142.25,
+    "token_plan_used_percent": 78.81,
+    "token_plan_remaining_usd": 28.61,
+    "token_plan_burned_credits": 491.53,
+    "token_plan_credit_pack_percent": 36.42958392621166,
     "swe2_devin_weekly_percent": 100,
     "supergrok_weekly_percent": 100,
     "l1_count": 14,
-    "l2_count": 13,
+    "l2_count": 54,
     "l3_count": 0,
     "wall_l1_count": 14,
-    "wall_l2_count": 13,
-    "elapsed_min_from_session": 239.12,
+    "wall_l2_count": 54,
+    "elapsed_min_from_session": 244.12,
     "draft_packages": 22,
     "verdict_files": 71,
     "queue_total": 12,
     "queue_ready": 6,
     "queue_blocked": 6,
-    "grokbot_weekly_percent": 4,
-    "used_percent": 4,
-    "tp_weekly_pct": 78.8,
+    "grokbot_weekly_percent": 5,
+    "used_percent": 5,
+    "tp_weekly_pct": 78.81,
     "tp_meter": "token_plan_credits"
   },
   "links": {
@@ -159,12 +164,12 @@
   "category": "bounty-squad",
   "squad": {
     "bots": [
+      "GROKNIGHT-ATLAS",
       "GROKNIGHT-FORGE",
       "GROKNIGHT-GAUNTLET",
-      "GROKNIGHT-MENTOR",
-      "GROKNIGHT-ATLAS"
+      "GROKNIGHT-MENTOR"
     ],
-    "bots_working": 1,
+    "bots_working": 2,
     "queue": {
       "total": 12,
       "by_verdict": {
@@ -266,25 +271,25 @@
   "meters": {
     "grokbot": {
       "available": true,
-      "weekly_percent": 4,
-      "raw": "Weekly usage4%",
+      "weekly_percent": 5,
+      "raw": "Weekly usage5%",
       "bots_seen": 4,
-      "bots_working": 1,
+      "bots_working": 2,
       "bots": [
+        "GROKNIGHT-ATLAS",
         "GROKNIGHT-FORGE",
         "GROKNIGHT-GAUNTLET",
-        "GROKNIGHT-MENTOR",
-        "GROKNIGHT-ATLAS"
+        "GROKNIGHT-MENTOR"
       ],
       "source": "grokbot_app_cdp_account_menu"
     },
     "token_plan": {
       "credits_total": 180000,
-      "credits_used": 141841.24,
-      "credits_remaining": 38158.76,
-      "used_percent": 78.8,
-      "remaining_usd": 28.62,
-      "used_usd": 106.38,
+      "credits_used": 141857.75,
+      "credits_remaining": 38142.25,
+      "used_percent": 78.81,
+      "remaining_usd": 28.61,
+      "used_usd": 106.39,
       "total_usd": 135,
       "snapshots": [
         {
@@ -303,13 +308,13 @@
         },
         {
           "credits_total": 100000,
-          "credits_used": 61841.24,
-          "credits_remaining": 38158.76,
-          "used_pct": 61.8412,
+          "credits_used": 61857.75,
+          "credits_remaining": 38142.25,
+          "used_pct": 61.8578,
           "resets_at": "2026-09-18T16:26:00Z"
         }
       ],
-      "measured_at": "2026-09-16T16:17:30Z",
+      "measured_at": "2026-09-16T16:23:07Z",
       "id": "gmail",
       "source": "ai_usage_token_plan_cache"
     },
@@ -323,7 +328,7 @@
     "by_fleet": {
       "groknight": {
         "l1": 5,
-        "l2": 1
+        "l2": 22
       },
       "selfheal": {
         "l1": 4,
@@ -331,14 +336,14 @@
       },
       "groktrain": {
         "l1": 5,
-        "l2": 0
+        "l2": 20
       }
     },
     "wall_l1": 14,
-    "wall_l2": 13
+    "wall_l2": 54
   },
   "snapshot": {
-    "ts": "2026-09-16T16:18:10.210Z",
+    "ts": "2026-09-16T16:23:10.212Z",
     "mode": "squad build + bounty corpus work (agent fleet)",
     "parallelization": "14 L1 · 16 concurrent L2 per L1 target",
     "l1_model": "devin/swe-2:max",
@@ -350,33 +355,33 @@
     "grokbot_start_percent_basis": "first observed reading 2026-09-16T15:52Z (Grok Bot weekly usage); mint-time reading was not captured",
     "meter_label": "Grok Bot weekly usage · Alibaba Token Plan credits · SWE-2 unmetered",
     "outcome": "live",
-    "grokbot_burned": 0,
+    "grokbot_burned": 1,
     "grokbot_bots_seen": 4,
-    "grokbot_bots_working": 1,
+    "grokbot_bots_working": 2,
     "token_plan_credits_used_start": 141366.22,
     "token_plan_credits_total": 180000,
-    "token_plan_credits_used": 141841.24,
-    "token_plan_credits_remaining": 38158.76,
-    "token_plan_used_percent": 78.8,
-    "token_plan_remaining_usd": 28.62,
-    "token_plan_burned_credits": 475.02,
-    "token_plan_credit_pack_percent": 36.40207371550166,
+    "token_plan_credits_used": 141857.75,
+    "token_plan_credits_remaining": 38142.25,
+    "token_plan_used_percent": 78.81,
+    "token_plan_remaining_usd": 28.61,
+    "token_plan_burned_credits": 491.53,
+    "token_plan_credit_pack_percent": 36.42958392621166,
     "swe2_devin_weekly_percent": 100,
     "supergrok_weekly_percent": 100,
     "l1_count": 14,
-    "l2_count": 13,
+    "l2_count": 54,
     "l3_count": 0,
     "wall_l1_count": 14,
-    "wall_l2_count": 13,
-    "elapsed_min_from_session": 239.12,
+    "wall_l2_count": 54,
+    "elapsed_min_from_session": 244.12,
     "draft_packages": 22,
     "verdict_files": 71,
     "queue_total": 12,
     "queue_ready": 6,
     "queue_blocked": 6,
-    "grokbot_weekly_percent": 4,
-    "used_percent": 4,
-    "tp_weekly_pct": 78.8,
+    "grokbot_weekly_percent": 5,
+    "used_percent": 5,
+    "tp_weekly_pct": 78.81,
     "tp_meter": "token_plan_credits"
   },
   "meter": "1337_squad"
