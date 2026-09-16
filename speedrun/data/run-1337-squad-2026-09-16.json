@@ -9,10 +9,10 @@
   "budget_note": "40,000 Alibaba Token Plan credits bought for this run (Credit Pack at $15 / 20k credits = $30). The observed Token Plan pool is larger than the purchased pack because it also carries the subscription snapshots of three accounts — pool totals are reported for context, the run's declared budget is the purchased 40k. Grok Bot usage is the operator's one weekly free-tier allowance; SWE-2 is unmetered (operator-attested, see metrics.swe2_mode).",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 234.1 min",
+  "duration": "live · 239.1 min",
   "session_start": "2026-09-16T12:19:03Z",
   "venue": "tmux ufo_sighting:{groknight,groktrain,selfheal} · cwd ufo-fsd-alpha · Grok Bot desktop via CDP 127.0.0.1:9333",
-  "summary": "LIVE — the foundlings training (1337 squad of bug bounty hunters): Grok Bot weekly 4% · Token Plan 38220.45 credits left ($28.67 of $135 observed pool) · SWE-2 unmetered. L1=14 L2=15. Squad: 4 bots · 6/12 queue rows ready. Goal: teach them to fetch, solve, claim and submit bounties posted anywhere.",
+  "summary": "LIVE — the foundlings training (1337 squad of bug bounty hunters): Grok Bot weekly 4% · Token Plan 38158.76 credits left ($28.62 of $135 observed pool) · SWE-2 unmetered. L1=14 L2=13. Squad: 4 bots · 6/12 queue rows ready. Goal: teach them to fetch, solve, claim and submit bounties posted anywhere.",
   "timeline": [
     {
       "t": "2026-09-16T12:19:03Z",
@@ -88,6 +88,11 @@
       "t": "2026-09-16T16:13:10.209Z",
       "label": "meter",
       "note": "GrokBot 4% weekly · TP 38220.45/180000 credits · L1=14 L2=15 · ready 6/12"
+    },
+    {
+      "t": "2026-09-16T16:18:10.210Z",
+      "label": "meter",
+      "note": "GrokBot 4% weekly · TP 38158.76/180000 credits · L1=14 L2=13 · ready 6/12"
     }
   ],
   "metrics": {
@@ -104,23 +109,23 @@
     "outcome": "live",
     "grokbot_burned": 0,
     "grokbot_bots_seen": 4,
-    "grokbot_bots_working": 0,
+    "grokbot_bots_working": 1,
     "token_plan_credits_used_start": 141366.22,
     "token_plan_credits_total": 180000,
-    "token_plan_credits_used": 141779.55,
-    "token_plan_credits_remaining": 38220.45,
-    "token_plan_used_percent": 78.77,
-    "token_plan_remaining_usd": 28.67,
-    "token_plan_burned_credits": 413.33,
-    "token_plan_credit_pack_percent": 36.299255738828336,
+    "token_plan_credits_used": 141841.24,
+    "token_plan_credits_remaining": 38158.76,
+    "token_plan_used_percent": 78.8,
+    "token_plan_remaining_usd": 28.62,
+    "token_plan_burned_credits": 475.02,
+    "token_plan_credit_pack_percent": 36.40207371550166,
     "swe2_devin_weekly_percent": 100,
     "supergrok_weekly_percent": 100,
     "l1_count": 14,
-    "l2_count": 15,
+    "l2_count": 13,
     "l3_count": 0,
     "wall_l1_count": 14,
-    "wall_l2_count": 15,
-    "elapsed_min_from_session": 234.12,
+    "wall_l2_count": 13,
+    "elapsed_min_from_session": 239.12,
     "draft_packages": 22,
     "verdict_files": 71,
     "queue_total": 12,
@@ -128,7 +133,7 @@
     "queue_blocked": 6,
     "grokbot_weekly_percent": 4,
     "used_percent": 4,
-    "tp_weekly_pct": 78.77,
+    "tp_weekly_pct": 78.8,
     "tp_meter": "token_plan_credits"
   },
   "links": {
@@ -154,12 +159,12 @@
   "category": "bounty-squad",
   "squad": {
     "bots": [
-      "GROKNIGHT-GAUNTLET",
       "GROKNIGHT-FORGE",
+      "GROKNIGHT-GAUNTLET",
       "GROKNIGHT-MENTOR",
       "GROKNIGHT-ATLAS"
     ],
-    "bots_working": 0,
+    "bots_working": 1,
     "queue": {
       "total": 12,
       "by_verdict": {
@@ -264,10 +269,10 @@
       "weekly_percent": 4,
       "raw": "Weekly usage4%",
       "bots_seen": 4,
-      "bots_working": 0,
+      "bots_working": 1,
       "bots": [
-        "GROKNIGHT-GAUNTLET",
         "GROKNIGHT-FORGE",
+        "GROKNIGHT-GAUNTLET",
         "GROKNIGHT-MENTOR",
         "GROKNIGHT-ATLAS"
       ],
@@ -275,11 +280,11 @@
     },
     "token_plan": {
       "credits_total": 180000,
-      "credits_used": 141779.55,
-      "credits_remaining": 38220.45,
-      "used_percent": 78.77,
-      "remaining_usd": 28.67,
-      "used_usd": 106.33,
+      "credits_used": 141841.24,
+      "credits_remaining": 38158.76,
+      "used_percent": 78.8,
+      "remaining_usd": 28.62,
+      "used_usd": 106.38,
       "total_usd": 135,
       "snapshots": [
         {
@@ -298,13 +303,13 @@
         },
         {
           "credits_total": 100000,
-          "credits_used": 61779.55,
-          "credits_remaining": 38220.45,
-          "used_pct": 61.7796,
+          "credits_used": 61841.24,
+          "credits_remaining": 38158.76,
+          "used_pct": 61.8412,
           "resets_at": "2026-09-18T16:26:00Z"
         }
       ],
-      "measured_at": "2026-09-16T16:11:43Z",
+      "measured_at": "2026-09-16T16:17:30Z",
       "id": "gmail",
       "source": "ai_usage_token_plan_cache"
     },
@@ -326,14 +331,14 @@
       },
       "groktrain": {
         "l1": 5,
-        "l2": 2
+        "l2": 0
       }
     },
     "wall_l1": 14,
-    "wall_l2": 15
+    "wall_l2": 13
   },
   "snapshot": {
-    "ts": "2026-09-16T16:13:10.209Z",
+    "ts": "2026-09-16T16:18:10.210Z",
     "mode": "squad build + bounty corpus work (agent fleet)",
     "parallelization": "14 L1 · 16 concurrent L2 per L1 target",
     "l1_model": "devin/swe-2:max",
@@ -347,23 +352,23 @@
     "outcome": "live",
     "grokbot_burned": 0,
     "grokbot_bots_seen": 4,
-    "grokbot_bots_working": 0,
+    "grokbot_bots_working": 1,
     "token_plan_credits_used_start": 141366.22,
     "token_plan_credits_total": 180000,
-    "token_plan_credits_used": 141779.55,
-    "token_plan_credits_remaining": 38220.45,
-    "token_plan_used_percent": 78.77,
-    "token_plan_remaining_usd": 28.67,
-    "token_plan_burned_credits": 413.33,
-    "token_plan_credit_pack_percent": 36.299255738828336,
+    "token_plan_credits_used": 141841.24,
+    "token_plan_credits_remaining": 38158.76,
+    "token_plan_used_percent": 78.8,
+    "token_plan_remaining_usd": 28.62,
+    "token_plan_burned_credits": 475.02,
+    "token_plan_credit_pack_percent": 36.40207371550166,
     "swe2_devin_weekly_percent": 100,
     "supergrok_weekly_percent": 100,
     "l1_count": 14,
-    "l2_count": 15,
+    "l2_count": 13,
     "l3_count": 0,
     "wall_l1_count": 14,
-    "wall_l2_count": 15,
-    "elapsed_min_from_session": 234.12,
+    "wall_l2_count": 13,
+    "elapsed_min_from_session": 239.12,
     "draft_packages": 22,
     "verdict_files": 71,
     "queue_total": 12,
@@ -371,7 +376,7 @@
     "queue_blocked": 6,
     "grokbot_weekly_percent": 4,
     "used_percent": 4,
-    "tp_weekly_pct": 78.77,
+    "tp_weekly_pct": 78.8,
     "tp_meter": "token_plan_credits"
   },
   "meter": "1337_squad"
