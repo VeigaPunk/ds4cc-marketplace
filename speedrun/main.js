@@ -96,6 +96,15 @@ function clockCell(run) {
     const savedLbl = saved ? `${fmtUsd(saved)} saved` : null;
     return [burn, savedLbl, pct].filter(Boolean).join(" · ");
   }
+  if (run.meter === "1337_squad") {
+    const m = run.metrics || {};
+    return [
+      m.grokbot_weekly_percent != null ? `Grok Bot ${m.grokbot_weekly_percent}% weekly` : null,
+      m.token_plan_credits_remaining != null ? `TP ${Math.round(m.token_plan_credits_remaining).toLocaleString("en-US")} credits left` : null,
+      `L1 ${m.l1_count ?? "—"} · L2 ${m.l2_count ?? "—"}`,
+      m.queue_ready != null ? `${m.queue_ready}/${m.queue_total ?? "—"} ready` : null,
+    ].filter(Boolean).join(" · ");
+  }
   if (run.status === "live" && run.metrics?.used_percent != null) {
     return `${run.metrics.used_percent}% weekly · ${run.duration || "live"}`;
   }
