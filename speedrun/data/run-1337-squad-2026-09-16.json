@@ -1,18 +1,18 @@
 {
   "id": "veigapunk-1337-squad-2026-09-16",
-  "title": "1337-squad — bug bounty specialist squad speedrun",
+  "title": "the foundlings training — 1337 squad of bug bounty hunters",
   "runner": "VeigaPunk",
   "account_hint": "jpveigao10@gmail.com",
   "provider": "xAI / Grok Bot + Alibaba Token Plan + Devin SWE-2",
-  "product": "Grok Bot squad (GROKNIGHT-ATLAS · FORGE · GAUNTLET · MENTOR · CLAIMER) + Alibaba Token Plan 40k credits + SWE-2 L1/L2 fleet on ufo-fsd",
+  "product": "Grok Bot squad — the 5 foundlings (GROKNIGHT-ATLAS · FORGE · GAUNTLET · MENTOR · CLAIMER) + Alibaba Token Plan 40k credits + SWE-2 L1/L2 fleet on ufo-fsd",
   "budget_usd": 30,
   "budget_note": "40,000 Alibaba Token Plan credits bought for this run (Credit Pack at $15 / 20k credits = $30). The observed Token Plan pool is larger than the purchased pack because it also carries the subscription snapshots of three accounts — pool totals are reported for context, the run's declared budget is the purchased 40k. Grok Bot usage is the operator's one weekly free-tier allowance; SWE-2 is unmetered (operator-attested, see metrics.swe2_mode).",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 227.7 min",
+  "duration": "live · 229.1 min",
   "session_start": "2026-09-16T12:19:03Z",
   "venue": "tmux ufo_sighting:{groknight,groktrain,selfheal} · cwd ufo-fsd-alpha · Grok Bot desktop via CDP 127.0.0.1:9333",
-  "summary": "LIVE 1337-squad: Grok Bot weekly 4% · Token Plan 38260.91 credits left ($28.7 of $135 observed pool) · SWE-2 unmetered. L1=14 L2=16. Squad: 4 bots · 6/12 queue rows ready.",
+  "summary": "LIVE — the foundlings training (1337 squad of bug bounty hunters): Grok Bot weekly 4% · Token Plan 38260.91 credits left ($28.7 of $135 observed pool) · SWE-2 unmetered. L1=14 L2=16. Squad: 4 bots · 6/12 queue rows ready. Goal: teach them to fetch, solve, claim and submit bounties posted anywhere.",
   "timeline": [
     {
       "t": "2026-09-16T12:19:03Z",
@@ -38,11 +38,6 @@
       "t": "2026-09-16T15:50:25Z",
       "label": "note",
       "note": "Operator pause: all 14 L1 missions SIGSTOPped for 20 min, then resumed sequentially 30 s apart. The Grok Bot app is not a mission child (it lives under the omp worker-daemon broker) so the usage meter kept answering."
-    },
-    {
-      "t": "2026-09-16T15:53:00Z",
-      "label": "announced",
-      "note": "1337-squad run entered on the board with 5-min live telemetry (Grok Bot meter + Token Plan credits + L1/L2 counts)."
     },
     {
       "t": "2026-09-16T15:53:59.796Z",
@@ -71,6 +66,21 @@
     },
     {
       "t": "2026-09-16T16:06:45.794Z",
+      "label": "meter",
+      "note": "GrokBot 4% weekly · TP 38260.91/180000 credits · L1=14 L2=16 · ready 6/12"
+    },
+    {
+      "t": "2026-09-16T16:10:25Z",
+      "label": "resume",
+      "note": "Operator: only groknight + groktrain come back; selfheal stays frozen for later. Squad resumes sequentially 30 s apart."
+    },
+    {
+      "t": "2026-09-16T16:11:00Z",
+      "label": "announced",
+      "note": "X thread posted from @VeigaPunk: 'the foundlings training — 1337 squad of bug bounty hunters' with the live run link and @poteto tagged, then a reply describing all five foundlings (ATLAS/FORGE/GAUNTLET/MENTOR/CLAIMER) and the goal — fetch, solve, claim and submit bounties anywhere."
+    },
+    {
+      "t": "2026-09-16T16:08:07.422Z",
       "label": "meter",
       "note": "GrokBot 4% weekly · TP 38260.91/180000 credits · L1=14 L2=16 · ready 6/12"
     }
@@ -105,7 +115,7 @@
     "l3_count": 0,
     "wall_l1_count": 14,
     "wall_l2_count": 16,
-    "elapsed_min_from_session": 227.71,
+    "elapsed_min_from_session": 229.07,
     "draft_packages": 22,
     "verdict_files": 71,
     "queue_total": 12,
@@ -122,14 +132,17 @@
     "protocol": "https://github.com/VeigaPunk/xbrd-spark"
   },
   "tags": [
-    "grok-bot",
-    "bug-bounty",
-    "squad",
-    "ufo-fsd",
-    "swe-2",
-    "alibaba-token-plan",
     "1337-squad",
-    "live"
+    "alibaba-token-plan",
+    "bug-bounty",
+    "bug-bounty-hunters",
+    "foundlings-training",
+    "grok-bot",
+    "groknight",
+    "live",
+    "squad",
+    "swe-2",
+    "ufo-fsd"
   ],
   "paid": true,
   "not_a_grant": true,
@@ -286,7 +299,7 @@
           "resets_at": "2026-09-18T16:26:00Z"
         }
       ],
-      "measured_at": "2026-09-16T16:01:43Z",
+      "measured_at": "2026-09-16T16:05:13Z",
       "id": "gmail",
       "source": "ai_usage_token_plan_cache"
     },
@@ -315,7 +328,7 @@
     "wall_l2": 16
   },
   "snapshot": {
-    "ts": "2026-09-16T16:06:45.794Z",
+    "ts": "2026-09-16T16:08:07.422Z",
     "mode": "squad build + bounty corpus work (agent fleet)",
     "parallelization": "14 L1 · 16 concurrent L2 per L1 target",
     "l1_model": "devin/swe-2:max",
@@ -345,7 +358,7 @@
     "l3_count": 0,
     "wall_l1_count": 14,
     "wall_l2_count": 16,
-    "elapsed_min_from_session": 227.71,
+    "elapsed_min_from_session": 229.07,
     "draft_packages": 22,
     "verdict_files": 71,
     "queue_total": 12,
