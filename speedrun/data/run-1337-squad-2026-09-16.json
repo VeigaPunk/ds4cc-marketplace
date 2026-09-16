@@ -9,7 +9,7 @@
   "budget_note": "40,000 Alibaba Token Plan credits bought for this run (Credit Pack at $15 / 20k credits = $30). The observed Token Plan pool is larger than the purchased pack because it also carries the subscription snapshots of three accounts — pool totals are reported for context, the run's declared budget is the purchased 40k. Grok Bot usage is the operator's one weekly free-tier allowance; SWE-2 is unmetered (operator-attested, see metrics.swe2_mode).",
   "currency": "USD",
   "status": "live",
-  "duration": "live · 215.7 min",
+  "duration": "live · 215.9 min",
   "session_start": "2026-09-16T12:19:03Z",
   "venue": "tmux ufo_sighting:{groknight,groktrain,selfheal} · cwd ufo-fsd-alpha · Grok Bot desktop via CDP 127.0.0.1:9333",
   "summary": "LIVE 1337-squad: Grok Bot weekly 4% · Token Plan 38341.88 credits left ($28.76 of $135 observed pool) · SWE-2 unmetered. L1=14 L2=16. Squad: 4 bots · 6/12 queue rows ready.",
@@ -53,6 +53,11 @@
       "t": "2026-09-16T15:54:43.256Z",
       "label": "meter",
       "note": "GrokBot 4% weekly · TP 38341.88/180000 credits · L1=14 L2=16 · ready 6/12"
+    },
+    {
+      "t": "2026-09-16T15:54:58.571Z",
+      "label": "meter",
+      "note": "GrokBot 4% weekly · TP 38341.88/180000 credits · L1=14 L2=16 · ready 6/12"
     }
   ],
   "metrics": {
@@ -85,7 +90,7 @@
     "l3_count": 0,
     "wall_l1_count": 14,
     "wall_l2_count": 16,
-    "elapsed_min_from_session": 215.67,
+    "elapsed_min_from_session": 215.93,
     "draft_packages": 22,
     "verdict_files": 71,
     "queue_total": 12,
@@ -292,7 +297,7 @@
     "wall_l2": 16
   },
   "snapshot": {
-    "ts": "2026-09-16T15:54:43.256Z",
+    "ts": "2026-09-16T15:54:58.571Z",
     "mode": "squad build + bounty corpus work (agent fleet)",
     "parallelization": "14 L1 · 16 concurrent L2 per L1 target",
     "l1_model": "devin/swe-2:max",
@@ -322,7 +327,7 @@
     "l3_count": 0,
     "wall_l1_count": 14,
     "wall_l2_count": 16,
-    "elapsed_min_from_session": 215.67,
+    "elapsed_min_from_session": 215.93,
     "draft_packages": 22,
     "verdict_files": 71,
     "queue_total": 12,
