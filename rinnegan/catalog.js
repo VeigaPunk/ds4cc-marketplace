@@ -14,4 +14,19 @@ globalThis.DS4CC_RINNEGAN_CATALOG = Object.freeze([
     "provenance": "https://github.com/can1357/oh-my-pi",
     "bootstrap": "upstream-installer"
   }
+  ,{
+    "n": "pubstomper",
+    "v": "latest",
+    "cat": "game",
+    "d": "Thursday Arena solver — bit-exact combat sim (mulberry32), full-match draft solver, live CDP pilot. The pubstomper is up for grabs.",
+    "c": "git clone https://github.com/VeigaPunk/pubstomper.git",
+    "localCommand": "bun check.mjs",
+    "kind": "repo",
+    "action": "COPY CLONE",
+    "admitted": true,
+    "rinnegan": true,
+    "shipped": true,
+    "provenance": "https://github.com/VeigaPunk/pubstomper",
+    "bootstrap": "git-clone"
+  }
 ]);
