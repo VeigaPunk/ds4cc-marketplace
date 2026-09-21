@@ -627,7 +627,7 @@ fn test_fnm_node_isolation() {
 // ─── Test 13: Canonical .agents/plugins/marketplace.json validates ────────────
 // Validates the Codex-native layout at <repo-root>/.agents/plugins/marketplace.json
 // using validate_marketplace_dir(), which resolves plugin paths relative to the
-// repo root (not the json file's parent). All 18 plugins must pass with no errors.
+// repo root (not the json file's parent). All 19 plugins must pass with no errors.
 
 #[test]
 fn test_canonical_agents_layout_validates() {
@@ -649,8 +649,8 @@ fn test_canonical_agents_layout_validates() {
     );
 }
 
-// ─── Test 13: Real codex plugin list shows all 17 ds4cc plugins ──────────────
-// Evidence gate: when ds4cc is registered, runs `codex plugin list` and asserts all 17 plugin names appear
+// ─── Test 13: Real codex plugin list shows all 19 ds4cc plugins ──────────────
+// Evidence gate: when ds4cc is registered, runs `codex plugin list` and asserts all 19 plugin names appear
 // in the output under the `ds4cc` marketplace section.
 
 #[test]
@@ -702,6 +702,7 @@ fn test_codex_plugin_list_ds4cc_complete() {
         "the-kimiraikoner@ds4cc",
         "the-musketeer@ds4cc",
         "the-netsshark@ds4cc",
+        "punk-records-brain@ds4cc",
     ];
 
     let missing: Vec<&str> = expected

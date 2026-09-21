@@ -370,7 +370,7 @@ function renderLiveStrip(run, curve) {
     `;
     const repoOut = el("codex-repo-out");
     if (repoOut) {
-      repoOut.href = run.links?.repo || "https://github.com/VeigaPunk/ufo-fsd-alpha";
+      repoOut.href = run.links?.repo || "https://cursor.com/codebase/jo-o-veiga/ufo-fsd-alpha";
       repoOut.textContent = closed ? "ufo-fsd-alpha · closed bounty run" : "ufo-fsd-alpha · live bounty run";
     }
     const repoNote = el("live-repo-note");
@@ -391,7 +391,7 @@ function renderLiveStrip(run, curve) {
     `;
     const repoOut = el("codex-repo-out");
     if (repoOut) {
-      repoOut.href = run.links?.repo || "https://github.com/VeigaPunk/ufo-fsd-alpha";
+      repoOut.href = run.links?.repo || "https://cursor.com/codebase/jo-o-veiga/ufo-fsd-alpha";
       repoOut.textContent = "ufo-fsd-alpha · live groknight";
     }
   } else if (isCursor) {
