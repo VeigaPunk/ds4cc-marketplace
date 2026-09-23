@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <!-- Mother Thorn — verdant matriarch. Deep green, thorn crown, living vines. -->
+  <defs>
+    <radialGradient id="bg2" cx="50%" cy="35%" r="75%">
+      <stop offset="0%" stop-color="#1e4a2a"/>
+      <stop offset="60%" stop-color="#0f2a16"/>
+      <stop offset="100%" stop-color="#061208"/>
+    </radialGradient>
+    <linearGradient id="bark" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5a7a4a"/>
+      <stop offset="100%" stop-color="#2a3a22"/>
+    </linearGradient>
+  </defs>
+  <rect width="120" height="120" fill="url(#bg2)"/>
+  <!-- fireflies -->
+  <circle cx="20" cy="34" r="2" fill="#cfe87a" opacity="0.9"/>
+  <circle cx="98" cy="26" r="1.6" fill="#cfe87a" opacity="0.8"/>
+  <circle cx="86" cy="52" r="1.4" fill="#cfe87a" opacity="0.7"/>
+  <circle cx="30" cy="60" r="1.4" fill="#cfe87a" opacity="0.7"/>
+  <!-- vine frame -->
+  <path d="M8 118 Q4 70 22 40" fill="none" stroke="#2f5a34" stroke-width="3"/>
+  <path d="M112 118 Q116 70 98 40" fill="none" stroke="#2f5a34" stroke-width="3"/>
+  <path d="M14 84 q8 -2 10 -10 M106 84 q-8 -2 -10 -10" stroke="#3f7a44" stroke-width="2" fill="none"/>
+  <!-- shoulders: bark-like mantle -->
+  <path d="M26 118 Q30 80 60 78 Q90 80 94 118 Z" fill="url(#bark)" stroke="#16240f" stroke-width="2"/>
+  <path d="M32 100 q10 -4 14 4 M88 100 q-10 -4 -14 4" stroke="#6a9a54" stroke-width="2" fill="none"/>
+  <!-- neck + head -->
+  <rect x="52" y="64" width="16" height="16" rx="4" fill="#a8c48a"/>
+  <ellipse cx="60" cy="50" rx="19" ry="23" fill="#b8d49a"/>
+  <!-- thorn crown -->
+  <g stroke="#3f6a34" stroke-width="3" stroke-linecap="round" fill="none">
+    <path d="M42 34 L38 20"/>
+    <path d="M52 30 L50 14"/>
+    <path d="M60 29 L60 12"/>
+    <path d="M68 30 L70 14"/>
+    <path d="M78 34 L82 20"/>
+  </g>
+  <g fill="#7ab85a">
+    <circle cx="38" cy="20" r="2.4"/>
+    <circle cx="50" cy="14" r="2.4"/>
+    <circle cx="60" cy="12" r="2.6"/>
+    <circle cx="70" cy="14" r="2.4"/>
+    <circle cx="82" cy="20" r="2.4"/>
+  </g>
+  <!-- hair of leaves -->
+  <path d="M41 46 Q40 30 60 28 Q80 30 79 46 Q76 36 68 34 Q72 42 66 40 Q60 32 52 40 Q46 36 41 46 Z" fill="#2f5a34"/>
+  <!-- calm eyes -->
+  <path d="M47 50 q5 -2 9 1" stroke="#1a2a14" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M64 51 q5 -3 9 -1" stroke="#1a2a14" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- serene mouth -->
+  <path d="M52 64 q8 4 16 0" stroke="#4a6a3a" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <!-- thorn vine across chest -->
+  <path d="M30 108 q15 -10 30 -4 q15 6 30 -8" fill="none" stroke="#3f6a34" stroke-width="2.5"/>
+  <path d="M48 106 l-3 -6 M72 104 l3 -6" stroke="#3f6a34" stroke-width="2"/>
+  <!-- rim light -->
+  <path d="M41 46 Q40 30 60 28" fill="none" stroke="#cfe87a" stroke-width="1.5" opacity="0.8"/>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 160">
+  <!-- Clashbound card back — crossed chains over an arena pit, ember ring. -->
+  <defs>
+    <radialGradient id="cbbg" cx="50%" cy="45%" r="70%">
+      <stop offset="0%" stop-color="#3a2014"/>
+      <stop offset="70%" stop-color="#1c0f08"/>
+      <stop offset="100%" stop-color="#0c0604"/>
+    </radialGradient>
+  </defs>
+  <rect width="120" height="160" rx="10" fill="url(#cbbg)" stroke="#c98a4a" stroke-width="3"/>
+  <rect x="6" y="6" width="108" height="148" rx="7" fill="none" stroke="#6a4a2a" stroke-width="1"/>
+  <!-- arena pit ellipse -->
+  <ellipse cx="60" cy="80" rx="38" ry="26" fill="none" stroke="#8a5a3a" stroke-width="2"/>
+  <ellipse cx="60" cy="80" rx="28" ry="18" fill="#241208" stroke="#5a3a22" stroke-width="1.5"/>
+  <!-- crossed chains -->
+  <g stroke="#9a9a9a" stroke-width="4" stroke-linecap="round" fill="none">
+    <path d="M30 50 L90 110"/>
+    <path d="M90 50 L30 110"/>
+  </g>
+  <g stroke="#5a5a5a" stroke-width="1.5" fill="none">
+    <path d="M30 50 L90 110" stroke-dasharray="4 6"/>
+    <path d="M90 50 L30 110" stroke-dasharray="4 6"/>
+  </g>
+  <!-- center emblem: clash spark -->
+  <circle cx="60" cy="80" r="12" fill="#ff9a3c" opacity="0.9"/>
+  <circle cx="60" cy="80" r="7" fill="#ffd27a"/>
+  <path d="M60 62 L60 70 M60 90 L60 98 M42 80 L50 80 M70 80 L78 80 M48 68 L53 73 M72 68 L67 73 M48 92 L53 87 M72 92 L67 87" stroke="#ff9a3c" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- corner pips -->
+  <circle cx="18" cy="18" r="3" fill="#c98a4a"/>
+  <circle cx="102" cy="18" r="3" fill="#c98a4a"/>
+  <circle cx="18" cy="142" r="3" fill="#c98a4a"/>
+  <circle cx="102" cy="142" r="3" fill="#c98a4a"/>
+</svg>

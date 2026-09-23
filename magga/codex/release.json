@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "distribution": "static",
+  "edition": "codex",
+  "games": [
+    "boxhead",
+    "impossible",
+    "burger-tycoon",
+    "chicken-invaders",
+    "chicken-invaders-original",
+    "swords-and-sandals",
+    "hardest",
+    "clashbound"
+  ]
+}
