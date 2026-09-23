@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- zai-glm5.3-max-omp edition mark — furoshiki package: square cloth turned 45°,
+       crossed bands, musubi knot. Same tradition as the collection; this run's amber. -->
+  <rect width="64" height="64" rx="14" fill="#0b0b12"/>
+  <rect x="15" y="15" width="34" height="34" rx="3" transform="rotate(45 32 32)" fill="#26263a" stroke="#ffcf5c" stroke-width="2.5"/>
+  <path d="M20 27 Q32 20 44 27" stroke="#ffcf5c" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M20 37 Q32 44 44 37" stroke="#ffcf5c" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="32" cy="32" r="5.5" fill="#ffcf5c" stroke="#b8860b" stroke-width="1.5"/>
+  <path d="M27 32 Q24 26 20 22 M37 32 Q40 26 44 22" stroke="#b8860b" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>

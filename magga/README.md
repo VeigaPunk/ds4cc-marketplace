@@ -1,6 +1,6 @@
 # MAGGA collection landing page
 
-A responsive, static collection page for `https://ds4cc.com/magga/`. It shares the arcade's charcoal, cream and gold visual identity. The earlier editions remain available: **Codex** (`./codex/`, eight games) and **Zai 5.3max-zcode-vanilla** (`./zai-5.3max-zcode-vanilla/`, seven games — the six roster remakes plus Cluck Horizon). There are no placeholder editions or performance claims.
+A responsive, static collection page for `https://ds4cc.com/magga/`. It shares the arcade's charcoal, cream and gold visual identity. The editions: **Codex** (`./codex/`, eight games), **Zai 5.3max-zcode-vanilla** (`./zai-5.3max-zcode-vanilla/`, seven games), **astra-codex-vanilla-v2** (`./astra-codex-vanilla-v2/`, six games) and **zai-glm5.3-max-omp** (`./zai-glm5.3-max-omp/`, seven games). There are no placeholder editions or performance claims.
 
 Deploy this directory's `index.html` and `style.css` directly at `/magga/`, with each edition's arcade build beneath its own folder (`/magga/codex/`, `/magga/zai-5.3max-zcode-vanilla/`). The page uses the edition's existing `favicon.svg` and three gameplay images through relative `./codex/` paths. It needs no JavaScript, framework, font service or build step.
 
@@ -29,5 +29,25 @@ The three catalog previews under `assets/astra-codex-vanilla-v2/` are screenshot
 of this edition's own build. No checkpoint repository is modified or pushed.
 No operator tooling, dependencies, old renditions or private verification traces
 are included in this edition's public payload.
+The `[oneshotprompt(magga)]` label links directly to the raw source prompt at
+`https://raw.githubusercontent.com/VeigaPunk/1shot/main/magga/one-shot-prompt.md`.
+
+## zai-glm5.3-max-omp [oneshotprompt(magga)]
+
+The fourth edition lives at `/magga/zai-glm5.3-max-omp/`. It contains the six
+roster remakes plus Cluck Horizon (seven games) from a single one-shot run of
+glm-5.3 (max thinking) on the omp (Oh My Pi) CLI — source repository
+[MAKEARMORGAMESGREATAGAIN-zai](https://github.com/VeigaPunk/MAKEARMORGAMESGREATAGAIN-zai),
+final commit `d629e2e`, shared baseline `322a5e4`. Unlike earlier editions,
+every game page is fully self-contained and the whole arcade opens directly
+via `file://` (verified in-run, zero console errors on all seven pages).
+`zai-glm5.3-max-omp/release.json` records the edition inventory.
+
+The catalog previews under `zai-glm5.3-max-omp/covers/` are actual game
+footage — screenshots captured from the shipped pages during live
+verification (wave-1 arena combat, chapter-one formations, maze play). The
+edition's presentation follows the furoshiki tradition: the games are the
+contents, the arcade page is the wrapping cloth, one musubi knot per
+package; the knot mark is the edition favicon.
 The `[oneshotprompt(magga)]` label links directly to the raw source prompt at
 `https://raw.githubusercontent.com/VeigaPunk/1shot/main/magga/one-shot-prompt.md`.
