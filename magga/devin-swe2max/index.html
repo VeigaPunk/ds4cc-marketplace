@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>MAKE ARMOR GAMES GREAT AGAIN — the fleet</title>
+<style>
+  html,body{margin:0;height:100%;background:#0d0a08;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif}
+  canvas{max-width:100vw;max-height:100vh;touch-action:none;box-shadow:0 0 60px #000}
+</style>
+</head>
+<body>
+<canvas id="c" width="960" height="600"></canvas>
+<link rel="icon" href="./favicon.svg"><script defer src="./return.js"></script>
+<script>
+/* Root portal — fleet marquee. Zero-dep canvas, file:// safe.
+ * Click / tap / Enter a card → navigate to that game's index.html.
+ * Keys 1-6 select; arrows move focus. window.__portal = read-only probe. */
+'use strict';
+const W = 960, H = 600;
+const cv = document.getElementById('c'), ctx = cv.getContext('2d');
+
+const GAMES = [
+  { id: 'hardest',  url: 'hardest/index.html',              title: "THE WORLD'S\nTOUGHEST GAME", sub: '114 gauntlets · one red square', accent: '#e8452a', blurb: 'Maze gauntlet. Coins, patrols, zero forgiveness.' },
+  { id: 'impossible', url: 'games/impossible/index.html',   title: 'IMPOSSIBLE\nRUN', sub: '5 levels · rhythm spikes', accent: '#f08c00', blurb: 'Auto-run platforming on a beat grid. Feels unfair, isn\'t.' },
+  { id: 'chicken', url: 'games/chicken-invaders/index.html', title: 'FOWL ASSAULT\n+ CLUCK HORIZON', sub: '2 packs · 4 chapters · 2 bosses', accent: '#ffd23a', blurb: 'Poultry shmup. Eggs fall. So do they.' },
+  { id: 'burger', url: 'games/burger-tycoon/index.html',    title: 'BURGER\nBARON', sub: '4-pane supply chain', accent: '#7ab648', blurb: 'Pasture to counter. Every link is yours to break.' },
+  { id: 'boxhead', url: 'games/boxhead/index.html',         title: 'BOX RIOT\n2PLAY ROOMS', sub: 'solo · co-op · deathmatch', accent: '#e05a5a', blurb: 'Endless rooms of the boxy dead. Two keyboards welcome.' },
+  { id: 'sas', url: 'games/swords-and-sandals/index.html',  title: 'DUST & STEEL\nARENA OF CHAMPIONS', sub: '13 duels · 4 shops · 8 stats', accent: '#c9a86a', blurb: 'Gladiator RPG. Forge a nobody into an emperor-slayer.' },
+];
+
+let focus = -1, mx = -1, my = -1;
+function cardRect(i) { const c = i % 3, r = (i / 3) | 0; return { x: 40 + c * 300, y: 168 + r * 205, w: 280, h: 180 }; }
+function toStage(e) {
+  const b = cv.getBoundingClientRect();
+  return { x: (e.clientX - b.left) / b.width * W, y: (e.clientY - b.top) / b.height * H };
+}
+function cardAt(p) { return GAMES.findIndex((g, i) => { const r = cardRect(i); return p.x >= r.x && p.x <= r.x + r.w && p.y >= r.y && p.y <= r.y + r.h; }); }
+function go(i) { if (i >= 0) location.href = GAMES[i].url; }
+
+cv.addEventListener('pointermove', e => { const p = toStage(e); mx = p.x; my = p.y; });
+cv.addEventListener('pointerdown', e => { const i = cardAt(toStage(e)); go(i); });
+cv.addEventListener('pointerleave', () => { mx = my = -1; });
+addEventListener('keydown', e => {
+  if (e.code.startsWith('Digit')) { const n = +e.code.slice(5); if (n >= 1 && n <= 6) go(n - 1); }
+  if (e.code === 'ArrowRight') focus = Math.min(5, focus + 1);
+  if (e.code === 'ArrowLeft') focus = Math.max(0, focus - 1);
+  if (e.code === 'ArrowDown') focus = Math.min(5, focus < 0 ? 3 : focus + 3);
+  if (e.code === 'ArrowUp') focus = Math.max(0, focus < 0 ? 0 : focus - 3);
+  if (e.code === 'Enter' || e.code === 'Space') go(focus);
+  e.preventDefault();
+});
+
+function icon(id, x, y, s, acc, t) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(s / 40, s / 40);
+  ctx.strokeStyle = acc; ctx.fillStyle = acc; ctx.lineWidth = 3; ctx.lineCap = 'round';
+  if (id === 'hardest') {
+    ctx.fillRect(-12, -12, 24, 24);
+    ctx.strokeRect(-22, -22, 44, 44);
+    for (let i = 0; i < 4; i++) { const a = t / 900 + i * Math.PI / 2; ctx.beginPath(); ctx.arc(Math.cos(a) * 17, Math.sin(a) * 17, 3, 0, 7); ctx.fillStyle = '#3a8ad8'; ctx.fill(); }
+  } else if (id === 'impossible') {
+    ctx.save(); ctx.rotate(.785); ctx.fillRect(-11, -11, 22, 22); ctx.restore();
+    ctx.beginPath(); ctx.moveTo(-16, 18); ctx.lineTo(-4, 18); ctx.lineTo(-10, 6); ctx.closePath(); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(0, 18); ctx.lineTo(12, 18); ctx.lineTo(6, 6); ctx.closePath(); ctx.fill();
+  } else if (id === 'chicken') {
+    ctx.beginPath(); ctx.arc(0, -2, 13, 0, 7); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(-12, -6); ctx.quadraticCurveTo(-26, -18, -30, -10); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(12, -6); ctx.quadraticCurveTo(26, -18, 30, -10); ctx.stroke();
+    ctx.fillStyle = '#e8452a'; ctx.beginPath(); ctx.arc(-5, -5, 2.5, 0, 7); ctx.arc(5, -5, 2.5, 0, 7); ctx.fill();
+    ctx.fillStyle = '#f08c00'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(6, 4); ctx.lineTo(-6, 4); ctx.closePath(); ctx.fill();
+  } else if (id === 'burger') {
+    ctx.fillStyle = '#d8a04a'; ctx.beginPath(); ctx.arc(0, -8, 16, Math.PI, 0); ctx.fill();
+    ctx.fillStyle = '#7ab648'; ctx.fillRect(-17, -8, 34, 4);
+    ctx.fillStyle = '#a8523a'; ctx.fillRect(-16, -4, 32, 6);
+    ctx.fillStyle = '#d8a04a'; ctx.beginPath(); ctx.arc(0, 8, 15, 0, Math.PI); ctx.fill();
+  } else if (id === 'boxhead') {
+    ctx.fillStyle = '#5a7a4a'; ctx.fillRect(-14, -16, 28, 26);
+    ctx.fillStyle = '#3a4a30'; ctx.fillRect(-14, -16, 28, 8);
+    ctx.fillStyle = '#e05a5a'; ctx.fillRect(-8, -6, 5, 4); ctx.fillRect(3, -6, 5, 4);
+    ctx.fillStyle = '#5a7a4a'; ctx.fillRect(-10, 10, 8, 12); ctx.fillRect(2, 10, 8, 12);
+  } else {
+    ctx.beginPath(); ctx.moveTo(-14, 16); ctx.lineTo(14, -16); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(-14, -16); ctx.lineTo(14, 16); ctx.stroke();
+    ctx.fillStyle = acc; ctx.beginPath(); ctx.arc(0, 0, 5, 0, 7); ctx.fill();
+  }
+  ctx.restore();
+}
+
+function rrect(x, y, w, h, r) {
+  ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r); ctx.closePath();
+}
+
+let dots = [];
+for (let i = 0; i < 60; i++) dots.push({ x: Math.random() * W, y: Math.random() * H, s: .3 + Math.random(), ph: Math.random() * 7 });
+
+function frame(t) {
+  // ember-dark hall
+  let g = ctx.createLinearGradient(0, 0, 0, H);
+  g.addColorStop(0, '#171210'); g.addColorStop(.6, '#0d0a08'); g.addColorStop(1, '#060404');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  g = ctx.createRadialGradient(480, 90, 20, 480, 90, 400);
+  g.addColorStop(0, 'rgba(232,197,122,.14)'); g.addColorStop(1, 'rgba(232,197,122,0)');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, 400);
+  for (const d of dots) {
+    ctx.globalAlpha = .1 + .1 * Math.sin(t / 1300 + d.ph);
+    ctx.fillStyle = '#e8c57a'; ctx.beginPath(); ctx.arc(d.x, d.y, d.s, 0, 7); ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  // marquee
+  ctx.textAlign = 'center';
+  ctx.font = 'bold 44px Georgia';
+  ctx.fillStyle = 'rgba(232,197,122,.9)';
+  ctx.fillText('MAKE ARMOR GAMES', W / 2, 72);
+  ctx.fillStyle = '#e8c57a'; ctx.fillText('GREAT AGAIN', W / 2, 118);
+  ctx.strokeStyle = 'rgba(232,197,122,.4)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(180, 136); ctx.lineTo(780, 136); ctx.stroke();
+  ctx.font = 'italic 15px Georgia'; ctx.fillStyle = '#8a7a5a';
+  ctx.fillText('six flash-era legends, rebuilt for the browser — no plugins, no installs', W / 2, 155);
+
+  // cards
+  const hov = cardAt({ x: mx, y: my });
+  GAMES.forEach((gm, i) => {
+    const r = cardRect(i);
+    const hot = i === hov || i === focus;
+    if (hot) { ctx.save(); ctx.shadowColor = gm.accent; ctx.shadowBlur = 24; }
+    const cg = ctx.createLinearGradient(r.x, r.y, r.x, r.y + r.h);
+    cg.addColorStop(0, hot ? '#2a221a' : '#1e1812'); cg.addColorStop(1, hot ? '#1a1410' : '#14100c');
+    ctx.fillStyle = cg; rrect(r.x, r.y, r.w, r.h, 10); ctx.fill();
+    if (hot) ctx.restore();
+    ctx.strokeStyle = hot ? gm.accent : 'rgba(232,197,122,.25)'; ctx.lineWidth = hot ? 2.5 : 1.5;
+    rrect(r.x, r.y, r.w, r.h, 10); ctx.stroke();
+    // accent top rail
+    ctx.fillStyle = gm.accent; ctx.globalAlpha = hot ? 1 : .45;
+    ctx.fillRect(r.x + 10, r.y, r.w - 20, 3); ctx.globalAlpha = 1;
+    icon(gm.id, r.x + 34, r.y + 40, 40, gm.accent, t);
+    ctx.textAlign = 'left';
+    ctx.font = 'bold 17px Georgia'; ctx.fillStyle = hot ? '#ffe9b8' : '#d8c8a8';
+    gm.title.split('\n').forEach((ln, li) => ctx.fillText(ln, r.x + 62, r.y + 30 + li * 20));
+    ctx.font = '11px Georgia'; ctx.fillStyle = gm.accent;
+    ctx.fillText(gm.sub, r.x + 62, r.y + 30 + gm.title.split('\n').length * 20 + 6);
+    ctx.font = 'italic 12px Georgia'; ctx.fillStyle = '#8a7a5a';
+    wrap(gm.blurb, r.x + 16, r.y + r.h - 44, r.w - 32, 15);
+    // "play" chip
+    const px = r.x + r.w - 66, py = r.y + r.h - 40;
+    ctx.fillStyle = hot ? gm.accent : 'rgba(232,197,122,.12)';
+    rrect(px, py, 50, 26, 6); ctx.fill();
+    ctx.fillStyle = hot ? '#1a1208' : '#c8b088'; ctx.font = 'bold 12px Georgia'; ctx.textAlign = 'center';
+    ctx.fillText('PLAY', px + 25, py + 17);
+    ctx.fillStyle = '#5a4a30'; ctx.font = '10px Georgia';
+    ctx.fillText('' + (i + 1), r.x + 16, r.y + 18);
+  });
+  ctx.textAlign = 'center'; ctx.font = '12px Georgia'; ctx.fillStyle = '#5a4a30';
+  ctx.fillText('keys 1–6 or click · everything runs from file:// — source is the artifact', W / 2, 586);
+  ctx.font = '11px Georgia'; ctx.fillStyle = '#4a3c24';
+  ctx.fillText('edition: devin-swe2max · built by Devin CLI (SWE-2 Max) · ds4cc.com/magga', W / 2, 24);
+  requestAnimationFrame(frame);
+}
+function wrap(s, x, y, w, lh) {
+  const words = s.split(' '); let line = '', yy = y;
+  for (const wd of words) {
+    if (ctx.measureText(line + wd).width > w) { ctx.fillText(line.trim(), x, yy); line = wd + ' '; yy += lh; }
+    else line += wd + ' ';
+  }
+  ctx.fillText(line.trim(), x, yy);
+}
+function fit() {
+  const b = cv.getBoundingClientRect ? null : null;
+  const s = Math.min(innerWidth / W, innerHeight / H);
+  cv.style.width = W * s + 'px'; cv.style.height = H * s + 'px';
+}
+addEventListener('resize', fit); fit();
+requestAnimationFrame(frame);
+window.__portal = { get focus() { return focus; }, get hover() { return cardAt({ x: mx, y: my }); }, cards: () => GAMES.map((g, i) => ({ id: g.id, ...cardRect(i), url: g.url })) };
+</script>
+</body>
+</html>

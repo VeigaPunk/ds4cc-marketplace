@@ -1,0 +1,21 @@
+{
+  "edition": "devin-swe2max",
+  "maker": "Devin CLI",
+  "model": "SWE-2 Max",
+  "substrate": "devin-cli-vanilla",
+  "vendor": "Cognition",
+  "games": [
+    "The World's Toughest Game",
+    "Impossible Run",
+    "Fowl Assault + Cluck Horizon",
+    "Burger Baron",
+    "Box Riot: 2Play Rooms",
+    "Dust & Steel: Arena of Champions"
+  ],
+  "entry": "index.html",
+  "fileReady": true,
+  "noAccount": true,
+  "localSaves": true,
+  "verification": "node verification/run-all.mjs — 13/13 suites (6 engine validators + 6 real-input browser proofs + portal)",
+  "repo": "https://github.com/VeigaPunk/MAKEARMORGAMESGREATAGAIN"
+}

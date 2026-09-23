@@ -1,0 +1,10 @@
+{
+  "edition": "devin-swe2max",
+  "maker": "Devin CLI",
+  "model": "SWE-2 Max",
+  "substrate": "devin-cli-vanilla",
+  "source_repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
+  "source_path": "magga/devin-swe2max/",
+  "checkpoint": "b062fa9",
+  "base_path": "/magga/devin-swe2max/"
+}
