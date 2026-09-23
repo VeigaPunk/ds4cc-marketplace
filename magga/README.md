@@ -29,3 +29,5 @@ The three catalog previews under `assets/astra-codex-vanilla-v2/` are screenshot
 of this edition's own build. No checkpoint repository is modified or pushed.
 No operator tooling, dependencies, old renditions or private verification traces
 are included in this edition's public payload.
+The `[oneshotprompt(magga)]` label links directly to the raw source prompt at
+`https://raw.githubusercontent.com/VeigaPunk/1shot/main/magga/one-shot-prompt.md`.

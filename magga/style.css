@@ -6,8 +6,9 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
 
 /* This edition keeps its full release identity readable at every width. */
-#astra-codex-vanilla-v2{margin-top:28px}
+#astra-edition{margin-top:28px}
 #astra-title{font-size:clamp(24px,3.2vw,40px);line-height:1.12;overflow-wrap:anywhere}
 #astra-label{font:11px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--gold);overflow-wrap:anywhere;margin:12px 0 0}
 #astra-description{font-size:14px;color:var(--muted);line-height:1.75;margin:18px 0}
-#astra-codex-vanilla-v2 .play-link{overflow-wrap:anywhere}
+#astra-edition .play-link{overflow-wrap:anywhere}
+#astra-prompt{text-decoration:underline;text-underline-offset:3px}
