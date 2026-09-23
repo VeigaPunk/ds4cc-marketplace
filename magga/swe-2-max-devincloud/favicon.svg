@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- swe-2-max-devincloud edition mark — furoshiki package: square cloth turned 45°,
+       crossed bands, musubi knot. Same tradition as the collection; this run's violet. -->
+  <rect width="64" height="64" rx="14" fill="#070d10"/>
+  <rect x="15" y="15" width="34" height="34" rx="3" transform="rotate(45 32 32)" fill="#152228" stroke="#9a7bd8" stroke-width="2.5"/>
+  <path d="M20 27 Q32 20 44 27" stroke="#9a7bd8" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M20 37 Q32 44 44 37" stroke="#9a7bd8" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <circle cx="32" cy="32" r="5.5" fill="#9a7bd8" stroke="#7d5fb0" stroke-width="1.5"/>
+  <path d="M27 32 Q24 26 20 22 M37 32 Q40 26 44 22" stroke="#7d5fb0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+</svg>

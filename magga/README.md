@@ -1,6 +1,6 @@
 # MAGGA collection landing page
 
-A responsive, static collection page for `https://ds4cc.com/magga/`. Its visual identity is the operator's Plazir-15 Fan Codex signature — domed-utopia dark palette, leaf/teal accents, JetBrains Mono NL Nerd Font Mono throughout (self-hosted woff2 under `assets/fonts/`). The editions: **Codex** (`./codex/`, eight games), **Zai 5.3max-zcode-vanilla** (`./zai-5.3max-zcode-vanilla/`, seven games), **astra-codex-vanilla-v2** (`./astra-codex-vanilla-v2/`, six games) and **zai-glm5.3-max-omp** (`./zai-glm5.3-max-omp/`, seven games). There are no placeholder editions or performance claims.
+A responsive, static collection page for `https://ds4cc.com/magga/`. Its visual identity is the operator's Plazir-15 Fan Codex signature — domed-utopia dark palette, leaf/teal accents, JetBrains Mono NL Nerd Font Mono throughout (self-hosted woff2 under `assets/fonts/`). The editions: **Codex** (`./codex/`, eight games), **Zai 5.3max-zcode-vanilla** (`./zai-5.3max-zcode-vanilla/`, seven games), **astra-codex-vanilla-v2** (`./astra-codex-vanilla-v2/`, six games), **zai-glm5.3-max-omp** (`./zai-glm5.3-max-omp/`, seven games) and **swe-2-max-devincloud** (`./swe-2-max-devincloud/`, seven games). There are no placeholder editions or performance claims.
 
 Deploy this directory's `index.html` and `style.css` directly at `/magga/`, with each edition's arcade build beneath its own folder (`/magga/codex/`, `/magga/zai-5.3max-zcode-vanilla/`). The page uses the edition's existing `favicon.svg` and three gameplay images through relative `./codex/` paths. It needs no JavaScript, framework, font service or build step.
 
@@ -19,7 +19,7 @@ The card and navigation work without JavaScript. Keyboard users have a skip link
 
 Verified in Chromium at widths 1440, 1024, 768, 390 and 320 pixels: no horizontal overflow, all preview images load, one edition card lists exactly eight games, the keyboard skip link receives focus, and the card resolves to `/magga/codex/`. A local request-routing harness served the existing arcade at that nested path and confirmed its eight game links render after navigation. Desktop and phone screenshots were visually reviewed. No deployment was performed by this task.
 
-All four edition arcades (`codex/`, `zai-5.3max-zcode-vanilla/`, `astra-codex-vanilla-v2/`, `zai-glm5.3-max-omp/`) render in this same signature styling — shared JetBrains Mono NL set via `assets/fonts/`, ebony-teal palette, matching card and header chrome.
+All five edition arcades (`codex/`, `zai-5.3max-zcode-vanilla/`, `astra-codex-vanilla-v2/`, `zai-glm5.3-max-omp/`, `swe-2-max-devincloud/`) render in this same signature styling — shared JetBrains Mono NL set via `assets/fonts/`, ebony-teal palette, matching card and header chrome.
 
 ## astra-codex-vanilla-v2 [oneshotprompt(magga)]
 
@@ -53,3 +53,25 @@ contents, the arcade page is the wrapping cloth, one musubi knot per
 package; the knot mark is the edition favicon.
 The `[oneshotprompt(magga)]` label links directly to the raw source prompt at
 `https://raw.githubusercontent.com/VeigaPunk/1shot/main/magga/one-shot-prompt.md`.
+
+## swe-2-max-devincloud [devincloud fork · continuity run]
+
+The fifth edition lives at `/magga/swe-2-max-devincloud/`. It contains the
+six roster remakes plus Cluck Horizon (seven games) from a
+continuity/re-verification run of **SWE-2 MAX** on **Devin Cloud** — source
+repository
+[MAKEARMORGAMESGREATAGAIN-devincloud](https://github.com/VeigaPunk/MAKEARMORGAMESGREATAGAIN-devincloud),
+final commit `f221b11`, checkpoint baseline `1ca27f2` on the untouched
+original repository. The run re-ran every recorded gate (node suites 32/32,
+hardest validator 114/114, ship rebuild, burger economy sims, static audit,
+a zero-dependency CDP browser gate) and shipped only repairs: a malformed
+shmup save clamp, two modernized test suites, and a fix for a live-render
+regression that had silently left the impossible game rendering a dead
+canvas above the real stage. Every game page is fully self-contained and
+the whole arcade opens directly via `file://`.
+`swe-2-max-devincloud/release.json` records the edition inventory.
+
+The catalog previews under `swe-2-max-devincloud/covers/` are actual game
+footage captured from the shipped pages during live verification (arena
+combat, chapter-one formations, a mid-run impossible cube). Same furoshiki
+presentation; this edition's knot is violet.
