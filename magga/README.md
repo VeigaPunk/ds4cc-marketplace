@@ -19,6 +19,8 @@ The card and navigation work without JavaScript. Keyboard users have a skip link
 
 Verified in Chromium at widths 1440, 1024, 768, 390 and 320 pixels: no horizontal overflow, all preview images load, one edition card lists exactly eight games, the keyboard skip link receives focus, and the card resolves to `/magga/codex/`. A local request-routing harness served the existing arcade at that nested path and confirmed its eight game links render after navigation. Desktop and phone screenshots were visually reviewed. No deployment was performed by this task.
 
+All four edition arcades (`codex/`, `zai-5.3max-zcode-vanilla/`, `astra-codex-vanilla-v2/`, `zai-glm5.3-max-omp/`) render in this same signature styling — shared JetBrains Mono NL set via `assets/fonts/`, ebony-teal palette, matching card and header chrome.
+
 ## astra-codex-vanilla-v2 [oneshotprompt(magga)]
 
 The third edition lives at `/magga/astra-codex-vanilla-v2/`. It contains six

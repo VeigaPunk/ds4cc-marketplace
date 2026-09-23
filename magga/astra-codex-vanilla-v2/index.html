@@ -1,6 +1,75 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#141d27"><meta name="description" content="Six handcrafted browser games. No accounts, no downloads, just one more try."><title>After Hours — The Browser Arcade</title><style>
-:root{color-scheme:dark;--ink:#141d27;--paper:#f0eadb;--muted:#a6afb7;--line:#ffffff20;--red:#ec765d}*{box-sizing:border-box}body{margin:0;background:var(--ink);color:var(--paper);font:15px/1.5 system-ui,sans-serif}a{color:inherit;text-decoration:none}button{font:inherit;color:inherit}header,main,footer{max-width:1256px;margin:auto;padding-left:36px;padding-right:36px}header{height:88px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}.wordmark{font-size:17px;font-weight:850;letter-spacing:-.06em}.wordmark b{color:var(--red)}.wordmark small{display:block;font-size:8px;letter-spacing:.25em;font-weight:500;color:var(--muted)}.header-note{font-size:10px;letter-spacing:.12em;color:var(--muted);display:flex;gap:24px;align-items:center}.live{display:inline-flex;gap:8px;align-items:center}.live:before{content:'';width:6px;height:6px;background:#9bc79d;border-radius:50%;box-shadow:0 0 0 4px #9bc79d10}.hero{padding:58px 0 42px;display:flex;justify-content:space-between;align-items:flex-end;gap:36px}.eyebrow{font-size:10px;letter-spacing:.2em;font-weight:700;color:var(--red);margin:0 0 22px}h1{font-size:clamp(60px,8.1vw,104px);line-height:.94;letter-spacing:-.07em;margin:0;font-weight:780}h1 em{font-style:normal;color:var(--red)}.hero-copy{max-width:340px;padding-bottom:8px;color:var(--muted);line-height:1.8}.hero-copy strong{color:var(--paper);font-weight:500}.hero-copy p{margin:0 0 17px}.keycap{display:inline-flex;justify-content:center;align-items:center;border:1px solid #68727e;border-bottom-width:3px;border-radius:4px;width:23px;height:24px;font-size:11px;line-height:1;margin-right:4px;color:var(--paper)}.shelf{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:22px 0;font-size:10px;letter-spacing:.15em}.shelf span:last-child{color:var(--muted)}.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 24px;padding-bottom:52px}.game{display:block;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:#1a2631;transition:transform .2s,border-color .2s}.game:hover{transform:translateY(-5px);border-color:var(--accent)}a:focus-visible{outline:3px solid #f8cf72;outline-offset:5px}.scene{width:100%;height:auto;display:block;aspect-ratio:1.65;background:var(--artbg)}.game-body{padding:20px 22px 22px}.tagline{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.13em;color:var(--accent);text-transform:uppercase}.tagline span:last-child{color:#b3bbc2}h2{font-size:25px;letter-spacing:-.045em;line-height:1.2;margin:11px 0 9px}.game p{font-size:12px;line-height:1.7;color:var(--muted);min-height:41px;margin:0 0 20px}.card-end{display:flex;align-items:center;justify-content:space-between;font-size:10px;color:#bac1c6;border-top:1px solid var(--line);padding-top:14px}.play{font-weight:750;font-size:11px;color:var(--paper);display:flex;align-items:center;gap:10px}.play i{font-size:17px;font-style:normal;color:var(--accent)}.notes{border-top:1px solid var(--line);padding:30px 0 40px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px}.notes h3{font-size:12px;margin:0 0 8px;font-weight:650}.notes p{font-size:11px;color:var(--muted);line-height:1.8;margin:0}footer{border-top:1px solid var(--line);display:flex;justify-content:space-between;padding-top:22px;padding-bottom:30px;font-size:9px;color:var(--muted);letter-spacing:.1em}footer strong{color:var(--paper)}.decor{transform-origin:center;transition:transform .3s}.game:hover .decor{transform:translateY(-3px)}@media(max-width:900px){.games{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{gap:24px}.hero-copy{max-width:280px;font-size:13px}header,main,footer{padding-left:24px;padding-right:24px}}@media(max-width:600px){header{height:72px}.header-note{font-size:8px}.header-note>span:first-child{display:none}.hero{padding:34px 0;display:block}h1{font-size:72px}.hero-copy{max-width:none;margin-top:26px;padding:0;font-size:13px}.hero-copy p{margin-bottom:9px}.games{grid-template-columns:1fr;gap:20px;padding-bottom:32px}.game-body{padding:20px}.scene{aspect-ratio:1.8}.notes{grid-template-columns:1fr;gap:20px}.shelf{font-size:9px}footer{gap:16px;line-height:1.8}.game p{min-height:0}.wordmark{font-size:16px}}@media(prefers-reduced-motion:reduce){.game,.decor{transition:none}.game:hover,.game:hover .decor{transform:none}}
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#070d10"><meta name="description" content="Six handcrafted browser games. No accounts, no downloads, just one more try."><title>After Hours — The Browser Arcade</title><style>
+@font-face{font-family:"JetBrainsMonoNL Nerd Font Mono";src:url("../assets/fonts/JetBrainsMonoNLNerdFontMono-Regular.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"JetBrainsMonoNL Nerd Font Mono";src:url("../assets/fonts/JetBrainsMonoNLNerdFontMono-Medium.woff2") format("woff2");font-weight:500;font-display:swap}
+@font-face{font-family:"JetBrainsMonoNL Nerd Font Mono";src:url("../assets/fonts/JetBrainsMonoNLNerdFontMono-Bold.woff2") format("woff2");font-weight:600 700;font-display:swap}
+:root{color-scheme:dark;--bg:#070d10;--bg-deep:#05090b;--surface:#0f191e;--surface-2:#152228;--ink:#e8f0f2;--muted:#9aafb6;--faint:#6d838c;--chrome-bright:#eaf3f6;--leaf:#6baa88;--teal:#5aa8a0;--line:color-mix(in oklab, #e8f0f2 12%, transparent);--line-strong:color-mix(in oklab, #e8f0f2 22%, transparent);--focus:#9ee0d4;--font:"JetBrainsMonoNL Nerd Font Mono","JetBrains Mono",ui-monospace,monospace;--ease:cubic-bezier(0.22,1,0.36,1)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;font-family:var(--font);color:var(--ink);background-color:var(--bg);background-image:radial-gradient(ellipse 110% 70% at 50% -15%, color-mix(in oklab, var(--teal) 14%, transparent), transparent 55%),radial-gradient(ellipse 50% 40% at 100% 30%, color-mix(in oklab, #3f6f58 12%, transparent), transparent 50%),linear-gradient(180deg, var(--bg-deep) 0%, var(--bg) 45%, #0a1418 100%);background-attachment:fixed;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+header,main,footer{max-width:1360px;margin:auto;padding-left:42px;padding-right:42px}
+header{position:sticky;top:0;z-index:40;height:88px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);background:color-mix(in oklab, var(--bg) 85%, transparent);backdrop-filter:blur(12px)}
+.wordmark{font-size:16px;font-weight:700;letter-spacing:-.05em}
+.wordmark b{color:var(--leaf)}
+.wordmark small{display:block;font-size:8px;letter-spacing:.25em;font-weight:500;color:var(--faint)}
+.header-note{font-size:10px;letter-spacing:.12em;color:var(--faint);display:flex;gap:24px;align-items:center}
+.live{display:inline-flex;gap:8px;align-items:center}
+.live:before{content:'';width:6px;height:6px;background:#9bc79d;border-radius:50%;box-shadow:0 0 0 4px #9bc79d10}
+.hero{padding:64px 0 48px;display:flex;justify-content:space-between;align-items:flex-end;gap:36px}
+.eyebrow{font-size:10px;letter-spacing:.2em;font-weight:700;color:var(--leaf);text-transform:uppercase;margin:0 0 22px}
+h1{font-size:clamp(58px,8.4vw,104px);line-height:.95;letter-spacing:-.07em;margin:0;font-weight:700}
+h1 em{font-style:normal;color:var(--leaf)}
+.hero-copy{max-width:360px;padding-bottom:8px;color:var(--muted);line-height:1.8;font-size:13px}
+.hero-copy strong{color:var(--ink);font-weight:600}
+.hero-copy p{margin:0 0 17px}
+.keycap{display:inline-flex;justify-content:center;align-items:center;border:1px solid var(--line-strong);border-bottom-width:3px;border-radius:6px;width:23px;height:24px;font-size:11px;line-height:1;margin-right:4px;color:var(--ink);background:var(--surface)}
+.shelf{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--line);padding:22px 0;font-size:10px;letter-spacing:.15em}
+.shelf span:last-child{color:var(--faint)}
+.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:26px 22px;padding-bottom:52px}
+.game{display:block;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:var(--surface);box-shadow:0 1px 0 color-mix(in oklab, var(--ink) 6%, transparent) inset;transition:transform .2s var(--ease),border-color .2s,box-shadow .2s}
+.game:hover{transform:translateY(-4px);border-color:var(--line-strong);box-shadow:0 20px 50px color-mix(in oklab, #000 40%, transparent)}
+a:focus-visible{outline:2px solid var(--focus);outline-offset:4px}
+.scene{width:100%;height:auto;display:block;aspect-ratio:1.65;background:var(--artbg);border-bottom:1px solid var(--line)}
+.game-body{padding:20px 22px 22px}
+.tagline{display:flex;justify-content:space-between;font-size:9px;letter-spacing:.13em;color:var(--accent);text-transform:uppercase}
+.tagline span:last-child{color:var(--faint)}
+h2{font-size:23px;letter-spacing:-.045em;line-height:1.2;margin:11px 0 9px;font-weight:600}
+.game p{font-size:12px;line-height:1.7;color:var(--muted);min-height:41px;margin:0 0 20px}
+.card-end{display:flex;align-items:center;justify-content:space-between;font-family:var(--font);font-size:10px;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+.play{font-weight:700;font-size:11px;color:var(--ink);display:flex;align-items:center;gap:10px}
+.play i{font-size:17px;font-style:normal;color:var(--accent)}
+.notes{border-top:1px solid var(--line);padding:34px 0 44px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.notes h3{font-size:12px;margin:0 0 8px;font-weight:600;letter-spacing:.04em;color:var(--chrome-bright)}
+.notes p{font-size:11px;color:var(--faint);line-height:1.85;margin:0}
+footer{border-top:1px solid var(--line);display:flex;justify-content:space-between;padding-top:24px;padding-bottom:34px;font-family:var(--font);font-size:9px;color:var(--faint);letter-spacing:.1em}
+footer strong{color:var(--chrome-bright)}
+.decor{transform-origin:center;transition:transform .3s var(--ease)}
+.game:hover .decor{transform:translateY(-3px)}
+@media(max-width:900px){.games{grid-template-columns:repeat(2,minmax(0,1fr))}
+.hero{gap:24px}
+.hero-copy{max-width:300px}
+header,main,footer{padding-left:24px;padding-right:24px}
+}
+@media(max-width:600px){header{height:72px}
+.header-note{font-size:8px}
+.header-note>span:first-child{display:none}
+.hero{padding:38px 0;display:block}
+h1{font-size:clamp(50px,13vw,72px)}
+.hero-copy{max-width:none;margin-top:26px;padding:0}
+.hero-copy p{margin-bottom:9px}
+.games{grid-template-columns:1fr;gap:20px;padding-bottom:32px}
+.game-body{padding:20px}
+.scene{aspect-ratio:1.8}
+.notes{grid-template-columns:1fr;gap:22px}
+.shelf{font-size:9px}
+footer{gap:16px;line-height:1.8}
+.game p{min-height:0}
+.wordmark{font-size:15px}
+}
+@media(prefers-reduced-motion:reduce){.game,.decor{transition:none}
+.game:hover,.game:hover .decor{transform:none}
+}
 </style></head><body>
 <header><a class="wordmark" href="index.html">AFTER<b>HOURS</b><small>THE BROWSER ARCADE</small></a><div class="header-note"><span>EST. IN THE AGE OF ONE MORE TRY</span><span class="live">ALWAYS OPEN</span></div></header>
 <main><section class="hero"><div><p class="eyebrow">SIX WORLDS. ZERO QUARTERS.</p><h1>Stay for<br><em>one more.</em></h1></div><div class="hero-copy"><p>For the afternoon that became an evening.<br>The impossible jump. The last wave.<br><strong>The game you couldn't quite leave.</strong></p><p>Six lovingly rebuilt arcade worlds.<br>Open a game. Make yourself at home.</p><span class="keycap">↵</span> Keyboard, mouse & touch welcome.</div></section>
