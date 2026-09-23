@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Chicken Storm — MAGA native replica</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #0b0018; height: 100%; overflow: hidden; }
+  canvas { position: fixed; left: 0; top: 0; touch-action: none; image-rendering: pixelated; }
+  .badge {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+    background: repeating-linear-gradient(45deg, #3a1414, #3a1414 12px, #2a0f0f 12px, #2a0f0f 24px);
+    color: #ffb3b3; font: 11px/1.4 monospace; text-align: center; padding: 4px;
+    border-bottom: 1px solid #e33e3e; letter-spacing: 0.06em;
+  }
+  .mute {
+    position: fixed; top: 26px; right: 8px; z-index: 10;
+    background: #1a1a24; color: #f5c542; border: 1px solid #44445c;
+    font: 11px/1 monospace; padding: 4px 8px; cursor: pointer;
+  }
+  .gear {
+    position: fixed; top: 26px; right: 92px; z-index: 10;
+    background: #1a1a24; color: #f5c542; border: 1px solid #44445c;
+    font: 11px/1 monospace; padding: 4px 8px; cursor: pointer;
+  }
+  .settings {
+    position: fixed; top: 52px; right: 8px; z-index: 11;
+    background: #14141e; color: #e8e8f2; border: 1px solid #44445c;
+    font: 12px/1.6 monospace; padding: 10px 12px; border-radius: 4px;
+    display: flex; flex-direction: column; gap: 6px; min-width: 190px;
+  }
+  .settings.hidden { display: none; }
+  .settings label { display: flex; justify-content: space-between; gap: 10px; align-items: center; }
+  .settings input[type="range"] { width: 90px; accent-color: #ff6b6b; }
+  .settings button {
+    background: #1a1a24; color: #f5c542; border: 1px solid #44445c;
+    font: 11px/1 monospace; padding: 4px 8px; cursor: pointer; align-self: flex-end;
+  }
+</style>
+<script type="importmap">
+  { "imports": { "pixi.js": "./vendor/pixi.min.mjs" } }
+</script>
+  <script type="module" crossorigin src="./assets/index-CqJ5lxuz.js"></script>
+</head>
+<body>
+
+<button id="mute" class="mute" type="button">SOUND ON</button>
+<button id="settings-btn" class="gear" type="button">SETTINGS</button>
+<div id="settings" class="settings hidden">
+  <label>MUSIC <input id="vol-music" type="range" min="0" max="100" value="70"></label>
+  <label>SFX <input id="vol-sfx" type="range" min="0" max="100" value="85"></label>
+  <label>MUTE <input id="mute-box" type="checkbox"></label>
+  <button id="settings-close" type="button">CLOSE</button>
+</div>
+
+</body>
+</html>

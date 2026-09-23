@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<link rel="icon" href="data:,">
+<title>Crateheads</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #000; height: 100%; overflow: hidden; }
+  canvas { position: fixed; left: 0; top: 0; touch-action: none; image-rendering: pixelated; }
+  .badge {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+    background: repeating-linear-gradient(45deg, #3a1414, #3a1414 12px, #2a0f0f 12px, #2a0f0f 24px);
+    color: #ffb3b3; font: 11px/1.4 monospace; text-align: center; padding: 4px;
+    border-bottom: 1px solid #e33e3e; letter-spacing: 0.06em;
+  }
+  .chrome-btns { position: fixed; top: 26px; right: 8px; z-index: 11; display: flex; gap: 6px; }
+  .mute, .settings-btn {
+    background: #1a1a24; color: #f5c542; border: 1px solid #44445c;
+    font: 11px/1 monospace; padding: 4px 8px; cursor: pointer;
+  }
+  .settings {
+    position: fixed; top: 52px; right: 8px; z-index: 11;
+    background: #161618; border: 1px solid #2a2a2e; padding: 12px 14px;
+    color: #e8e4dc; font: 12px/1.8 monospace; min-width: 210px;
+  }
+  .settings.hidden { display: none; }
+  .settings h2 { margin: 0 0 8px; font-size: 12px; letter-spacing: 0.1em; color: #c4f04d; }
+  .settings label { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .settings input[type="range"] { width: 110px; accent-color: #c4f04d; }
+  .settings .close-row { text-align: right; margin-top: 8px; }
+  .settings button {
+    background: #1a1a24; color: #f5c542; border: 1px solid #44445c;
+    font: 11px/1 monospace; padding: 4px 10px; cursor: pointer;
+  }
+</style>
+<script type="importmap">
+  { "imports": { "pixi.js": "./vendor/pixi.min.mjs" } }
+</script>
+  <script type="module" crossorigin src="./assets/index-D161VSSE.js"></script>
+</head>
+<body>
+
+<div class="chrome-btns">
+  <button id="settings-btn" class="settings-btn" type="button">SETTINGS</button>
+  <button id="mute" class="mute" type="button">SOUND ON</button>
+</div>
+<div id="settings" class="settings hidden">
+  <h2>AUDIO</h2>
+  <label>MUSIC <input id="vol-music" type="range" min="0" max="100" value="70"></label>
+  <label>SFX <input id="vol-sfx" type="range" min="0" max="100" value="85"></label>
+  <label>MUTE <input id="mute-box" type="checkbox"></label>
+  <div class="close-row"><button id="settings-close" type="button">CLOSE</button></div>
+</div>
+
+</body>
+</html>

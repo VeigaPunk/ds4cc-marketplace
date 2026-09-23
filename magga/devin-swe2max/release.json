@@ -6,8 +6,8 @@
   "site": {
     "path": ".",
     "fileCount": 155,
-    "totalBytes": 1490065,
-    "inventorySha256": "f4adf513df392027d0e51b55e8514554041f011d1416fd1c328d52a9c10b6d2a"
+    "totalBytes": 1491696,
+    "inventorySha256": "b457b98d9ec49e2133138674eb97b4529a808984c7eddb728def8cbf95be080b"
   },
   "verification": {
     "command": "node verification/run-all.mjs",
@@ -782,13 +782,13 @@
     },
     {
       "path": "index.html",
-      "bytes": 10211,
-      "sha256": "dd3e1c64ef6b141a0eaa18e10dc73dd519a3eef70e90e13d333bf42bf058d48d"
+      "bytes": 11403,
+      "sha256": "8fceb3576922735869c4c79dd445138222d52ad96439327499a405d4cdb2b0f4"
     },
     {
       "path": "return.js",
-      "bytes": 820,
-      "sha256": "3215911928ad965bcbab5687da25f33c4d99bbb1f620808d11de0430ef090084"
+      "bytes": 1259,
+      "sha256": "14c3a3c35b2d79fc7d28c0f6edb2e9fe1cf1ae2f84d7232a300b12424c6d97e0"
     }
   ]
 }

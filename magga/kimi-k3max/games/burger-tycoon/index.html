@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<title>Burger Tycoon — MAGA native replica</title>
+<link rel="icon" href="data:,">
+<style>
+  html, body { margin: 0; padding: 0; background: #14161a; height: 100%; overflow: hidden; }
+  #wrap { position: fixed; left: 0; top: 0; }
+  #wrap > * { width: 100%; box-sizing: border-box; }
+  #hud { background: linear-gradient(#24282f,#16191e); color: #98a2ad; border-bottom: 2px solid #b8860b; font: 13px/1.5 monospace; padding: 6px 12px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+  #hud b { color: #ffb224; text-shadow: 0 0 6px rgba(255,178,36,.35); }
+  #stats { display: flex; gap: 14px; flex-wrap: wrap; flex: 1; }
+  #hud-btns { display: flex; gap: 6px; }
+  #hud-btns button {
+    background: #1d2026; color: #ffd27a; border: 1px solid #2a2e35; border-radius: 4px;
+    font: bold 11px monospace; padding: 5px 10px; cursor: pointer; letter-spacing: 1px;
+  }
+  #hud-btns button:disabled { color: #5a5a5a; cursor: default; }
+  #hud-btns button:not(:disabled):hover { border-color: #b8860b; }
+  #tabs { display: flex; background: #14161a; padding: 4px; gap: 4px; }
+  #tabs button { flex: 1; padding: 10px 4px; font: 14px monospace; border: 1px solid #2a2e35; border-radius: 4px; background: #1d2026; color: #8a929c; cursor: pointer; letter-spacing: 1px; }
+  #tabs button.on { background: #2c3e57; color: #ffd27a; border-color: #b8860b; font-weight: bold; box-shadow: 0 0 9px rgba(255,178,36,.35), inset 0 0 8px rgba(255,178,36,.12); }
+  canvas { display: block; background: #e8e0d0; touch-action: none; }
+  #log { height: 64px; overflow: hidden; background: repeating-linear-gradient(0deg,#0a0c0a 0 2px,#0e120e 2px 4px); border-top: 1px solid #232323; color: #8ce99a; text-shadow: 0 0 4px rgba(140,233,154,.35); font: 12px/1.4 monospace; padding: 4px 12px; }
+  .badge {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 30;
+    background: repeating-linear-gradient(45deg, #3a1414, #3a1414 12px, #2a0f0f 12px, #2a0f0f 24px);
+    color: #ffb3b3; font: 11px/1.4 monospace; text-align: center; padding: 4px;
+    border-bottom: 1px solid #e33e3e; letter-spacing: 0.06em;
+  }
+  #settings {
+    position: fixed; inset: 0; z-index: 20; background: rgba(10,10,14,.6);
+    display: flex; align-items: center; justify-content: center;
+  }
+  #settings.hidden { display: none; }
+  #settings .panel {
+    background: #1a1d24; border: 2px solid #b8860b; border-radius: 8px;
+    color: #e8e0cc; font: 14px monospace; padding: 20px 24px; min-width: 300px;
+    box-shadow: 0 8px 30px #000;
+  }
+  #settings h2 { margin: 0 0 14px; font-size: 16px; color: #ffb224; letter-spacing: 2px; }
+  #settings label { display: block; margin: 12px 0; color: #98a2ad; }
+  #settings label.row { display: flex; gap: 8px; align-items: center; }
+  #settings input[type=range] { width: 100%; accent-color: #ffb224; }
+  #settings input[type=checkbox] { accent-color: #ffb224; width: 16px; height: 16px; }
+  #settings-close {
+    margin-top: 10px; width: 100%; padding: 10px; background: #2c3e57; color: #ffd27a;
+    border: 1px solid #b8860b; border-radius: 4px; font: bold 13px monospace; cursor: pointer;
+  }
+</style>
+  <script type="module" crossorigin src="./assets/index-lrv7UBGq.js"></script>
+</head>
+<body>
+
+<div id="wrap">
+  <div id="hud">
+    <div id="stats"></div>
+    <div id="hud-btns">
+      <button id="pause-btn" type="button" disabled>PAUSE</button>
+      <button id="settings-btn" type="button">SETTINGS</button>
+    </div>
+  </div>
+  <div id="tabs"></div>
+  <!-- canvas inserted by main.ts -->
+  <div id="log"></div>
+</div>
+<div id="settings" class="hidden">
+  <div class="panel">
+    <h2>SETTINGS</h2>
+    <label>MUSIC VOLUME <input id="vol-music" type="range" min="0" max="100" value="70"></label>
+    <label>SFX VOLUME <input id="vol-sfx" type="range" min="0" max="100" value="85"></label>
+    <label class="row"><input id="mute-box" type="checkbox"> MUTE ALL</label>
+    <button id="settings-close" type="button">CLOSE</button>
+  </div>
+</div>
+</body>
+</html>

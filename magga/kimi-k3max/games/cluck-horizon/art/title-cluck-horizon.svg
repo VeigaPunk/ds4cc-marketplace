@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" width="900" height="240">
+  <!-- CLUCK HORIZON — original hand-lettered wordmark (ArtCluck, wave 2).
+       Teal #20c997 / orange #ffa94d on deep space teal. Slab-arcade caps,
+       italic slant, beak-wedge terminals. Not derived from any existing mark. -->
+  <defs>
+    <linearGradient id="tealFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#63e6be"/>
+      <stop offset="0.55" stop-color="#20c997"/>
+      <stop offset="1" stop-color="#0ca678"/>
+    </linearGradient>
+    <linearGradient id="orgFill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd8a8"/>
+      <stop offset="0.55" stop-color="#ffa94d"/>
+      <stop offset="1" stop-color="#e8590c"/>
+    </linearGradient>
+  </defs>
+  <!-- backing glow -->
+  <g opacity="0.25">
+    <rect x="18" y="42" width="864" height="120" rx="18" fill="#20c997"/>
+  </g>
+  <g font-family="'Arial Black',sans-serif" font-weight="900" font-style="italic" text-anchor="middle">
+    <!-- CLUCK -->
+    <text x="238" y="132" font-size="104" letter-spacing="2"
+          fill="url(#tealFill)" stroke="#04241c" stroke-width="6"
+          paint-order="stroke" transform="skewX(-6)">CLUCK</text>
+    <!-- HORIZON -->
+    <text x="486" y="132" font-size="104" letter-spacing="0"
+          fill="url(#orgFill)" stroke="#3a1c05" stroke-width="6"
+          paint-order="stroke" transform="skewX(-6)">HORIZON</text>
+  </g>
+  <!-- beak divider between words -->
+  <g transform="translate(455 78)">
+    <polygon points="0,0 26,14 0,28 8,14" fill="#ffe066" stroke="#3a1c05" stroke-width="3"/>
+  </g>
+  <!-- wing underline swoosh -->
+  <path d="M150 172 Q 450 210 750 172 L 742 188 Q 450 224 158 188 Z"
+        fill="#20c997" opacity="0.85"/>
+  <path d="M230 176 Q 450 198 670 176" fill="none" stroke="#ffe066" stroke-width="4" opacity="0.7"/>
+  <!-- three egg dots, arcade ellipsis -->
+  <g fill="#ffe8cc">
+    <circle cx="392" cy="206" r="6"/>
+    <circle cx="450" cy="210" r="6"/>
+    <circle cx="508" cy="206" r="6"/>
+  </g>
+</svg>
