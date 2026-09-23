@@ -1,0 +1,29 @@
+{
+  "version": "1.0.0",
+  "distribution": "static",
+  "edition": "grok47-high-on-cursor-cloud",
+  "model": "grok-4.7",
+  "substrate": "Cursor cloud agent",
+  "identity": "grok47-high-on-cursor-cloud",
+  "source_commit": "577f7df",
+  "public_entry": "https://ds4cc.com/magga/grok47-high-on-cursor-cloud/",
+  "prompt": "https://raw.githubusercontent.com/VeigaPunk/1shot/main/magga/one-shot-prompt.md",
+  "games": [
+    "boxhead",
+    "impossible",
+    "burger-tycoon",
+    "chicken-invaders",
+    "cluck-horizon",
+    "swords-and-sandals",
+    "hardest"
+  ],
+  "sha256": {
+    "games/boxhead/index.html": "b37079313181f91f9d0197cb3f906af003f6d6505237aefe9b6c4cd54e292688",
+    "games/impossible/index.html": "5feb6a697860682796649c79bccc1f7b8ec3b31d297caf131c10b8fa067486c4",
+    "games/burger-tycoon/index.html": "ecd9ded4073b20f7de01cf8621019271c24b5f7198291dae17dc61435344abaf",
+    "games/chicken-invaders/index.html": "f58ca3f00bd237eabb39af7b5f09101f4f14ed84db875b187b55abc563dfd031",
+    "games/cluck-horizon/index.html": "5cadbfaba3d964a0afb8a411261e1b3001630ef28d872f0f3b3534883ee31ac8",
+    "games/swords-and-sandals/index.html": "0f437c25893e1b50dc1d2e516e5f9302c9ef782636f0c5b3f74739d5059b0310",
+    "games/hardest/index.html": "d8c935a6e2e707f8a7526b225c75b56377ae0967b87cf9c60f71d7c3ad4446bb"
+  }
+}

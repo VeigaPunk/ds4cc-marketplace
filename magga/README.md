@@ -1,6 +1,6 @@
 # MAGGA collection landing page
 
-A responsive, static collection page for `https://ds4cc.com/magga/`. Its visual identity is the operator's Plazir-15 Fan Codex signature — domed-utopia dark palette, leaf/teal accents, JetBrains Mono NL Nerd Font Mono throughout (self-hosted woff2 under `assets/fonts/`). The editions: **Codex** (`./codex/`, eight games), **Zai 5.3max-zcode-vanilla** (`./zai-5.3max-zcode-vanilla/`, seven games), **astra-codex-vanilla-v2** (`./astra-codex-vanilla-v2/`, six games) and **zai-glm5.3-max-omp** (`./zai-glm5.3-max-omp/`, seven games). There are no placeholder editions or performance claims.
+A responsive, static collection page for `https://ds4cc.com/magga/`. Its visual identity is the operator's Plazir-15 Fan Codex signature — domed-utopia dark palette, leaf/teal accents, JetBrains Mono NL Nerd Font Mono throughout (self-hosted woff2 under `assets/fonts/`). The editions: **Codex** (`./codex/`, eight games), **Zai 5.3max-zcode-vanilla** (`./zai-5.3max-zcode-vanilla/`, seven games), **astra-codex-vanilla-v2** (`./astra-codex-vanilla-v2/`, six games), **zai-glm5.3-max-omp** (`./zai-glm5.3-max-omp/`, seven games) and **grok47-high-on-cursor-cloud** (`./grok47-high-on-cursor-cloud/`, seven games). There are no placeholder editions or performance claims.
 
 Deploy this directory's `index.html` and `style.css` directly at `/magga/`, with each edition's arcade build beneath its own folder (`/magga/codex/`, `/magga/zai-5.3max-zcode-vanilla/`). The page uses the edition's existing `favicon.svg` and three gameplay images through relative `./codex/` paths. It needs no JavaScript, framework, font service or build step.
 
@@ -19,7 +19,7 @@ The card and navigation work without JavaScript. Keyboard users have a skip link
 
 Verified in Chromium at widths 1440, 1024, 768, 390 and 320 pixels: no horizontal overflow, all preview images load, one edition card lists exactly eight games, the keyboard skip link receives focus, and the card resolves to `/magga/codex/`. A local request-routing harness served the existing arcade at that nested path and confirmed its eight game links render after navigation. Desktop and phone screenshots were visually reviewed. No deployment was performed by this task.
 
-All four edition arcades (`codex/`, `zai-5.3max-zcode-vanilla/`, `astra-codex-vanilla-v2/`, `zai-glm5.3-max-omp/`) render in this same signature styling — shared JetBrains Mono NL set via `assets/fonts/`, ebony-teal palette, matching card and header chrome.
+All five edition arcades (`codex/`, `zai-5.3max-zcode-vanilla/`, `astra-codex-vanilla-v2/`, `zai-glm5.3-max-omp/`, `grok47-high-on-cursor-cloud/`) render in this same signature styling — shared JetBrains Mono NL set via `assets/fonts/`, ebony-teal palette, matching card and header chrome.
 
 ## astra-codex-vanilla-v2 [oneshotprompt(magga)]
 
@@ -51,5 +51,21 @@ verification (wave-1 arena combat, chapter-one formations, maze play). The
 edition's presentation follows the furoshiki tradition: the games are the
 contents, the arcade page is the wrapping cloth, one musubi knot per
 package; the knot mark is the edition favicon.
+The `[oneshotprompt(magga)]` label links directly to the raw source prompt at
+`https://raw.githubusercontent.com/VeigaPunk/1shot/main/magga/one-shot-prompt.md`.
+
+## grok47-high-on-cursor-cloud [oneshotprompt(magga)]
+
+The fifth edition lives at `/magga/grok47-high-on-cursor-cloud/`. It contains the
+six roster remakes plus Cluck Horizon (seven games) from a single run of
+grok-4.7 on a Cursor cloud agent, identified as grok47-high-on-cursor-cloud.
+Every game page is self-contained and the arcade opens from this folder,
+including via `file://`. `grok47-high-on-cursor-cloud/release.json` records the
+edition inventory and SHA-256 of each game page. The working-copy commit that
+produced the pages is `577f7df`. The checkpoint repository was not pushed.
+
+The catalog previews under `grok47-high-on-cursor-cloud/covers/` are footage
+captured from this edition's shipped pages. The amber horizon mark is this
+edition's favicon.
 The `[oneshotprompt(magga)]` label links directly to the raw source prompt at
 `https://raw.githubusercontent.com/VeigaPunk/1shot/main/magga/one-shot-prompt.md`.
