@@ -1,8 +1,8 @@
 # MAGGA collection landing page
 
-A responsive, static collection page for `https://ds4cc.com/magga/`. It shares the arcade's charcoal, cream and gold visual identity. The sole available edition is **Codex**, linking to `./codex/` and listing its eight shipped games. There are no placeholder editions or performance claims.
+A responsive, static collection page for `https://ds4cc.com/magga/`. It shares the arcade's charcoal, cream and gold visual identity. Two editions are available: **Codex** (`./codex/`, eight games) and **Zai 5.3max-zcode-vanilla** (`./zai-5.3max-zcode-vanilla/`, seven games — the six roster remakes plus Cluck Horizon). There are no placeholder editions or performance claims.
 
-Deploy this directory's `index.html` and `style.css` directly at `/magga/`, with the Codex arcade build beneath `/magga/codex/`. The page uses the edition's existing `favicon.svg` and three gameplay images through relative `./codex/` paths. It needs no JavaScript, framework, font service or build step.
+Deploy this directory's `index.html` and `style.css` directly at `/magga/`, with each edition's arcade build beneath its own folder (`/magga/codex/`, `/magga/zai-5.3max-zcode-vanilla/`). The page uses the edition's existing `favicon.svg` and three gameplay images through relative `./codex/` paths. It needs no JavaScript, framework, font service or build step.
 
 The project link points to the dedicated [Codex repository](https://github.com/VeigaPunk/MAKEARMORGAMESGREATAGAIN-codex). Its shared baseline is `322a5e4`; this provenance stays in documentation rather than gameplay navigation.
 
