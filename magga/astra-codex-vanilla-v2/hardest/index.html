@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#121e2a"><title>Redline Labyrinth</title>
+<link rel="stylesheet" href="shell.css">
+</head><body>
+<header><a href="../index.html" class="back" aria-label="Back to arcade">← ARCADE</a><a href="#" id="brand">REDLINE <b>LABYRINTH</b></a><div class="sound"><button id="mute" aria-label="Mute sound">Sound on</button><label>Volume <input id="volume" type="range" min="0" max="100" value="60"></label><button id="music">Music on</button></div></header>
+<main>
+<div class="edition"><span>PRECISION SERIES / 06</span><span>ONE SQUARE. NO SHORTCUTS.</span></div>
+<section id="stage" aria-label="Maze game">
+<canvas id="c" width="960" height="576" aria-label="Dodge the blue patrols, collect gold coins and reach the green goal. Use arrow keys or WASD."></canvas>
+<section id="menu" class="panel">
+<div class="intro"><p class="eyebrow">THE ART OF TRYING AGAIN</p><h1>Small square.<br>Long way home.</h1><p>Read the pattern. Take the opening.<br>Every failure gets you a little closer.</p><div class="maze-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><b></b><em></em></div><button id="continue" class="primary">Start your run →</button><p class="small" id="journey"></p></div>
+<div class="selection"><div class="chapter-bar"><div><p class="eyebrow" id="chapter-number">CHAPTER 01</p><h2 id="chapter-name">First principles</h2></div><div class="arrows"><button id="prev" aria-label="Previous chapter">←</button><button id="next" aria-label="Next chapter">→</button></div></div><div id="levels" class="levels"></div><p class="small">Gold: no deaths · Silver: at most two · Bronze: finish<br>Collect every coin to open the exit. Progress saves locally.</p></div>
+</section>
+<section id="dialog" class="dialog" hidden aria-live="polite"><div><p class="eyebrow" id="dialog-kicker">TAKE A BREATH</p><h2 id="dialog-title">Paused</h2><p id="dialog-detail"></p><button id="resume" class="primary">Resume →</button><button id="retry">Restart level</button><button id="select">Level select</button></div></section>
+</section>
+<div class="playbar"><p id="guide">Move with <b>WASD / arrows</b> · Collect gold · Avoid blue · Reach green</p><div><button id="pause">Pause</button><button id="restart">Retry</button><button id="menu-button">Levels</button></div></div>
+<div class="touchpad" aria-label="Touch movement"><button data-dir="ArrowLeft" aria-label="Move left">←</button><div><button data-dir="ArrowUp" aria-label="Move up">↑</button><button data-dir="ArrowDown" aria-label="Move down">↓</button></div><button data-dir="ArrowRight" aria-label="Move right">→</button><p>Or drag on the board<br>for precise movement.</p></div>
+<footer><span>114 rooms • instant retries • endless resolve</span><span>R retry / Esc pause / M sound</span></footer>
+</main>
+<script src="engine.js"></script><script src="manifest.js"></script>
+<script>for(const f of globalThis.HARDEST_MANIFEST||[]){const s=document.createElement('script');s.src='levels/'+f;s.async=false;document.body.appendChild(s);}</script>
+<script src="pars.js"></script><script src="save.js"></script><script src="game.js"></script>
+</body></html>

@@ -1,0 +1,688 @@
+{
+  "schemaVersion": 1,
+  "releaseId": "astra-codex-vanilla-v2",
+  "label": "[oneshotprompt(magga)]",
+  "created": "2026-09-23T03:33:20.060Z",
+  "sourceManifest": {
+    "path": "verification/evidence/ship-build.json",
+    "bytes": 21657,
+    "sha256": "8db2031774d880091dbfea65a11142e6a551106b46e85b9b0ac3c576324c3211"
+  },
+  "site": {
+    "path": ".",
+    "fileCount": 131,
+    "totalBytes": 423929,
+    "inventorySha256": "392d96bc6029bc369c2907e74b0f9e3ba53e0d96e3bf3f00cf08ccb67281b358"
+  },
+  "verification": {
+    "sourceHashesMatch": true,
+    "stagedHashesMatch": true,
+    "inventoryExact": true,
+    "sourceFilesUnchanged": true,
+    "sourceManifestUnchanged": true
+  },
+  "files": [
+    {
+      "path": "hardest/engine.js",
+      "bytes": 13449,
+      "sha256": "c6a1d74b9dee0cb3656bfafcec9a6bf77d301c214bfe6bcd2954a179c8fc878b"
+    },
+    {
+      "path": "hardest/game.js",
+      "bytes": 20115,
+      "sha256": "c2b7c04a3547c5f538d363630a53e38a6a39cc35a536822b95e197b03a50b9f3"
+    },
+    {
+      "path": "hardest/index.html",
+      "bytes": 3278,
+      "sha256": "85370e5fd76335db7aac2dca0ba05eea4691d820c5717eb397fa5d0ea1178242"
+    },
+    {
+      "path": "hardest/levels/01-first-steps.js",
+      "bytes": 684,
+      "sha256": "94ae55679ca2e5b6b3e67789915dbc8582bf47e714b6e6c8907333711d8e7a70"
+    },
+    {
+      "path": "hardest/levels/02-loot-run.js",
+      "bytes": 888,
+      "sha256": "fa6ea7788ed39db0f528f5fb9ead0637049c782744cf1392bf26567c8dda9d1f"
+    },
+    {
+      "path": "hardest/levels/03-snake-corridor.js",
+      "bytes": 757,
+      "sha256": "b5bc7cc4efce168cf7389d18334a2b774691a0e73a738b92d687567d3af4114f"
+    },
+    {
+      "path": "hardest/levels/04-coin-detour.js",
+      "bytes": 979,
+      "sha256": "c1d6856d7fe9db717480781abca716dfe8a93f21faa1f83d940454af14da59ee"
+    },
+    {
+      "path": "hardest/levels/05-checkpoint-gauntlet.js",
+      "bytes": 925,
+      "sha256": "8b6a6da45d4ad7820f289472062d5842052ae4d7f9aa65e98e63f9204f657092"
+    },
+    {
+      "path": "hardest/levels/06-crossfire.js",
+      "bytes": 865,
+      "sha256": "2016945e7977eb4cfc8632670e2f9282aface4a8dbaf2a2baa16e0b6bfd1fe77"
+    },
+    {
+      "path": "hardest/levels/07-narrow-doors.js",
+      "bytes": 1200,
+      "sha256": "34d70925892825639f1ae00f0c0d11b351398f4e7c15288984d4c249d18c859f"
+    },
+    {
+      "path": "hardest/levels/08-ring-patrol.js",
+      "bytes": 932,
+      "sha256": "03bccbb1428fd336c1ba12f37268f529c21b2eed58de5334293cd7c3f41ee9e8"
+    },
+    {
+      "path": "hardest/levels/09-two-rooms.js",
+      "bytes": 1006,
+      "sha256": "b1a792a5d9979180cd46f057f7a86ae2a09868ae6816682782ca6bd2a76b0357"
+    },
+    {
+      "path": "hardest/levels/10-the-weave.js",
+      "bytes": 1034,
+      "sha256": "c04baa2f97e37a64c44b58d52b3e2f240e0c555fd685ec4966d0754dfa5399ca"
+    },
+    {
+      "path": "hardest/levels/100-century.js",
+      "bytes": 1572,
+      "sha256": "78b67da29b35c21bdea3bbbbc119c70c8a1f2796e32e3a342c53972e961ee654"
+    },
+    {
+      "path": "hardest/levels/101-piston.js",
+      "bytes": 1408,
+      "sha256": "abc1df886d63b00b2ce266b61c5d9bfd5b89dd0992c9f9f84111432c4a8c6f17"
+    },
+    {
+      "path": "hardest/levels/102-gatekeeper.js",
+      "bytes": 1374,
+      "sha256": "14702eed4ebc93aba6c1fd9a7c94508d766854c75c590d240db09825b6695685"
+    },
+    {
+      "path": "hardest/levels/103-shifting-maze.js",
+      "bytes": 1725,
+      "sha256": "63e5e7cddb84995f736bc792d16822df3390cce2d8b42c66db241a6f0aa781cc"
+    },
+    {
+      "path": "hardest/levels/104-crush-course.js",
+      "bytes": 1522,
+      "sha256": "801422fa745dbf445dd9ebcd73449f61f43b12ecd9f4885be9149d4b961964f1"
+    },
+    {
+      "path": "hardest/levels/105-key-press.js",
+      "bytes": 1753,
+      "sha256": "5e278be458be427eb0d4c903c560a4f4ac386e03dc29bfbd780e619319a1e334"
+    },
+    {
+      "path": "hardest/levels/106-conveyor.js",
+      "bytes": 1474,
+      "sha256": "f8ed3383a3af2360844963ee65349c29c2f2b862e066d52764076ac0ebff4ef0"
+    },
+    {
+      "path": "hardest/levels/107-airlock.js",
+      "bytes": 1401,
+      "sha256": "0188c2c991078e04f976cd833f7afeec79139bc48a355505731b13d29002a6b5"
+    },
+    {
+      "path": "hardest/levels/108-piston-ii.js",
+      "bytes": 1701,
+      "sha256": "c8a49d9c2c614aad7f4e8de2e273c412ef82a53933bf86978d3f391995145aff"
+    },
+    {
+      "path": "hardest/levels/109-vault-door.js",
+      "bytes": 1521,
+      "sha256": "7e2eca047da54448fb7481eb8d446deecce9a5a6e24468224798e714cfbbd689"
+    },
+    {
+      "path": "hardest/levels/11-switchback.js",
+      "bytes": 1160,
+      "sha256": "6a5d603480eed55dcc2a32b722999a0274b79eb910226b0383eb61490b8fb1b7"
+    },
+    {
+      "path": "hardest/levels/110-switchback-iii.js",
+      "bytes": 1568,
+      "sha256": "4f31213aec37b506dcf99b1e7e273858f5ca7dac10f1393a073cd66e3b0828e7"
+    },
+    {
+      "path": "hardest/levels/111-portal-press.js",
+      "bytes": 1467,
+      "sha256": "16ee3e4e3bd50011cd58548b0847455228bbe6ab1b9cd295e21855e7ae431066"
+    },
+    {
+      "path": "hardest/levels/112-crush-vault.js",
+      "bytes": 1763,
+      "sha256": "725d52345a2d293b408e9ca89d6aa86d5d7260635212de4db0a15648bb202d1c"
+    },
+    {
+      "path": "hardest/levels/113-tempo-walls.js",
+      "bytes": 1715,
+      "sha256": "0981aba3ec320e020089bb01256a9ca2f2a15f0431ba1248441b5026311c27b5"
+    },
+    {
+      "path": "hardest/levels/114-gauntlet-iii.js",
+      "bytes": 1737,
+      "sha256": "9702e10c16905fcdc5cc4b48d124ee80745ae069298fbbe75b8bd36880899c9b"
+    },
+    {
+      "path": "hardest/levels/12-pincer.js",
+      "bytes": 1318,
+      "sha256": "aa3bbdc4d65aaab7e850dbe8c3826cf87b2967d04e778ca74d322f532feb605e"
+    },
+    {
+      "path": "hardest/levels/13-coin-vault.js",
+      "bytes": 1260,
+      "sha256": "8bd67ef4adb2388a23acf598ce62a11cc093c9f8559bf462371b73b999595ce4"
+    },
+    {
+      "path": "hardest/levels/14-fast-lanes.js",
+      "bytes": 1155,
+      "sha256": "58b7c266b79682181d521e3e149ff6928f29a36b648890ead2908207dc885d82"
+    },
+    {
+      "path": "hardest/levels/15-maze-lite.js",
+      "bytes": 1319,
+      "sha256": "458a316330ae0799273714c6ee8932e8476eb0d89e1382b9393981130691f8f6"
+    },
+    {
+      "path": "hardest/levels/16-phase-shift.js",
+      "bytes": 1361,
+      "sha256": "eae68368ccfb39ec93f62e0ad35d509b8fdc54a19d7d2d65d706f9ad252b65a1"
+    },
+    {
+      "path": "hardest/levels/17-gauntlet-ii.js",
+      "bytes": 1192,
+      "sha256": "2ff83ee8c51d684496f6cb5f75ba864f751e01afbe3352e609b54c576553239c"
+    },
+    {
+      "path": "hardest/levels/18-diagonal.js",
+      "bytes": 1229,
+      "sha256": "d78d29a1273197cb3c395c818b742a8f42541d38789272c26d11644f2e820689"
+    },
+    {
+      "path": "hardest/levels/19-the-squeeze.js",
+      "bytes": 1319,
+      "sha256": "6c70937d9846e7e09bfd75590eef0d5f7ced25e6370f68639b0b08a3c9f05a11"
+    },
+    {
+      "path": "hardest/levels/20-halfway.js",
+      "bytes": 1315,
+      "sha256": "989176825a352cd442df58ca255231c422c336d6fa3a8adb311ebeb75c2e09b3"
+    },
+    {
+      "path": "hardest/levels/21-dot-storm.js",
+      "bytes": 1762,
+      "sha256": "877a2485ff5eb17ec8757056d6dbe14ec7a2be4f9c976df8fc808fecb22668a6"
+    },
+    {
+      "path": "hardest/levels/22-labyrinth.js",
+      "bytes": 1363,
+      "sha256": "6976b91ecde95d6d565040014e4e2d583ffc6111065f03052927303615791a57"
+    },
+    {
+      "path": "hardest/levels/23-tempo.js",
+      "bytes": 1488,
+      "sha256": "1050cfc781ac1dd82d6e3eb56b11f851b4a3ba0b5b6fa93f3b87cd8f8c86a3f5"
+    },
+    {
+      "path": "hardest/levels/24-no-room.js",
+      "bytes": 1431,
+      "sha256": "0a314e6ab1a809140ffb43800380f0cdbbc7cdd58635fc08046a126062d25755"
+    },
+    {
+      "path": "hardest/levels/25-long-haul.js",
+      "bytes": 1508,
+      "sha256": "36274f177be9f5fec17f232966df967a44b4bfb670f16359bd01e7c584be6199"
+    },
+    {
+      "path": "hardest/levels/26-crossfire-ii.js",
+      "bytes": 1411,
+      "sha256": "9d8d531ef99e7b70ea303960ec07eb4d9aa3037c2eafa6790bf8bfc6a3a2cf65"
+    },
+    {
+      "path": "hardest/levels/27-the-vault.js",
+      "bytes": 1700,
+      "sha256": "2d526fd5e838e3cbf52d8ce494af92830ff330587c62c2e4e1401f74e77f8b1c"
+    },
+    {
+      "path": "hardest/levels/28-marathon.js",
+      "bytes": 2093,
+      "sha256": "fe6f3bc4250f78f073629388cc66de15af3d2d0d7880a3b535f8967fe64862c3"
+    },
+    {
+      "path": "hardest/levels/29-panic.js",
+      "bytes": 1497,
+      "sha256": "477a8b873542f5167c634a672c5c7ea026fd9a684d900d2726b5760137f12a5c"
+    },
+    {
+      "path": "hardest/levels/30-hardest.js",
+      "bytes": 1705,
+      "sha256": "8b09c32090d8882dab4c8d83d92d50c72986187c7e1bde0e60fd474b5aa40641"
+    },
+    {
+      "path": "hardest/levels/31-keymaster.js",
+      "bytes": 967,
+      "sha256": "c8740fa18eac681ef71bf1ee6db20fc22af136a3784647903f9cdd9f3f2a8e87"
+    },
+    {
+      "path": "hardest/levels/32-shortcut.js",
+      "bytes": 1057,
+      "sha256": "543290c45855bcb017eceb37953376f0408918f131c31e54a9b16478988d22a3"
+    },
+    {
+      "path": "hardest/levels/33-phase-portal.js",
+      "bytes": 1156,
+      "sha256": "f78513634145a46efc6684d4658025d7e0e933932d69db0e475fbd750ca3b6a8"
+    },
+    {
+      "path": "hardest/levels/34-key-run.js",
+      "bytes": 1000,
+      "sha256": "42663ab949d4f46285282f9ebb1c3e4d97df38f06b0f2f771efa1584ca2b4368"
+    },
+    {
+      "path": "hardest/levels/35-double-door.js",
+      "bytes": 1176,
+      "sha256": "c9f6989728300d57affa6d44f528faf251bd3d278455c29aaf58122499514c24"
+    },
+    {
+      "path": "hardest/levels/36-portal-maze.js",
+      "bytes": 1336,
+      "sha256": "f7962629d570a931c19ca57337933d39f62876a986441180704a14c1c6177bdc"
+    },
+    {
+      "path": "hardest/levels/37-locked-vault.js",
+      "bytes": 1108,
+      "sha256": "8fa82e66d96ac53b8ae7e5a04988566503d6a088d76bdcc739fb3bba3a119b7a"
+    },
+    {
+      "path": "hardest/levels/38-warp-lanes.js",
+      "bytes": 1249,
+      "sha256": "ddf0377fc14fb5842e230b771d4148aea3c8ecb8fb27ce5fe79828e366a85e57"
+    },
+    {
+      "path": "hardest/levels/39-key-gambit.js",
+      "bytes": 1077,
+      "sha256": "3085e431af6e1820217c82c8ba453cede1c0aa1f9fcb79c28b96f4b3b842afd2"
+    },
+    {
+      "path": "hardest/levels/40-halfway-ii.js",
+      "bytes": 1220,
+      "sha256": "7981520b023a8b1ce98583607c477c2c358fa269dab9e4c420636e0b2b09afdd"
+    },
+    {
+      "path": "hardest/levels/41-switchback-ii.js",
+      "bytes": 1298,
+      "sha256": "8f608975c1433a132f6b35ee225b2fda09772d0d083ac1efaf7fe437f4e088cc"
+    },
+    {
+      "path": "hardest/levels/42-door-cycle.js",
+      "bytes": 1559,
+      "sha256": "cffa24f596d8922296ad39ee5e4680d94eb1c55b6bac0753558e7c01740449c1"
+    },
+    {
+      "path": "hardest/levels/43-portal-cross.js",
+      "bytes": 1269,
+      "sha256": "e610e07aa8478d929ae750c1f8bfb29b8e0a01a1bf5d891741fd27e4dfd0f3b3"
+    },
+    {
+      "path": "hardest/levels/44-key-hunt.js",
+      "bytes": 1545,
+      "sha256": "d34dba3b951d3a57517f3bba0422fec981342c83f3390d69b25d373a21929d1f"
+    },
+    {
+      "path": "hardest/levels/45-twin-vaults.js",
+      "bytes": 1448,
+      "sha256": "3f76cef1046750dcbacc7f0ab50c4120ac1ee3125ad2168a7985937a240e99c7"
+    },
+    {
+      "path": "hardest/levels/46-fast-lanes-ii.js",
+      "bytes": 1160,
+      "sha256": "9ba958ae3218a1ea4be911fe1238e1b343e931e78b5b605ed45af576aa21954d"
+    },
+    {
+      "path": "hardest/levels/47-pad-chain.js",
+      "bytes": 1293,
+      "sha256": "048b494c3c391402f03476a34a72772c8d530d57c30974407970a1e405aed30d"
+    },
+    {
+      "path": "hardest/levels/48-lockstep.js",
+      "bytes": 1264,
+      "sha256": "846790947ac7b5763af81084d49d8fb9bdd6a05f42c46c7b6a67f5eb418f4cee"
+    },
+    {
+      "path": "hardest/levels/49-squeeze-ii.js",
+      "bytes": 1554,
+      "sha256": "1a9681e831680e2d029ea8ba10cc3c3e74bd7de223c9221b05d55a63fbcc5886"
+    },
+    {
+      "path": "hardest/levels/50-exam-day.js",
+      "bytes": 1460,
+      "sha256": "56b349cf5b059153dd1ae43eac69898b74b9e406254ec77ba7821fe56d8dfafa"
+    },
+    {
+      "path": "hardest/levels/51-dot-storm-ii.js",
+      "bytes": 1566,
+      "sha256": "9c0b27563692581d16391f589adc5ebf7a8274997e130f3b6709ab6310eecada"
+    },
+    {
+      "path": "hardest/levels/52-portal-hell.js",
+      "bytes": 1490,
+      "sha256": "29ce8aa35a2bd4973859ba6a0c8889dbe511a2984b224c5c23514ef3f8101cce"
+    },
+    {
+      "path": "hardest/levels/53-keymaster-ii.js",
+      "bytes": 1853,
+      "sha256": "17122652a30f833cbe284a92b34213b5728bb2fc324d030f31cb5438ff3cea45"
+    },
+    {
+      "path": "hardest/levels/54-warp-weave.js",
+      "bytes": 1375,
+      "sha256": "b2cd97d22186160c294185599d1017a5a5c0fffb9c58910affbd6e91e55ca2c9"
+    },
+    {
+      "path": "hardest/levels/55-vault-iii.js",
+      "bytes": 2203,
+      "sha256": "adcf8bbbd57603f5837c0cd30199450e754574516d9e7fcbe3b5f86a93e33310"
+    },
+    {
+      "path": "hardest/levels/56-no-room-ii.js",
+      "bytes": 1475,
+      "sha256": "ff0feb06ad54ad19f8cf54fae115b222cebb1dcd602c9942e14589f499894b89"
+    },
+    {
+      "path": "hardest/levels/57-tempo-ii.js",
+      "bytes": 1465,
+      "sha256": "1fda80820f3a69afb825c4f91c0eee3565ac411015a0d305bc87b1e9c908202e"
+    },
+    {
+      "path": "hardest/levels/58-panic-ii.js",
+      "bytes": 1673,
+      "sha256": "a28222cd7c73b976f6d8a26d2327165dcc488c25c71b2628fdc29e4ac552c1da"
+    },
+    {
+      "path": "hardest/levels/59-labyrinth-ii.js",
+      "bytes": 1641,
+      "sha256": "a2592dbf91c5c53addf2fbb405e7840adf4ef56b82e8a0decabec9a7e0bf79ff"
+    },
+    {
+      "path": "hardest/levels/60-hardest-ii.js",
+      "bytes": 1926,
+      "sha256": "4dc1e2ce23bfde02d67dfdc8d529532494c3767ca856e98fa25cde64947cf9e4"
+    },
+    {
+      "path": "hardest/levels/61-inhuman.js",
+      "bytes": 1462,
+      "sha256": "6aec1065a302602eda688d03aff3c1198bf896c42e3b1be0b72abe28f16113d7"
+    },
+    {
+      "path": "hardest/levels/62-pad-roulette.js",
+      "bytes": 1373,
+      "sha256": "e6cde9c66c8c169c383487ede09a9d9f9861626ebff612ec5507f96628573921"
+    },
+    {
+      "path": "hardest/levels/63-key-largo.js",
+      "bytes": 1722,
+      "sha256": "750421d63a370de875b58929583f131736463b97b147ab3be5f995159416eaf4"
+    },
+    {
+      "path": "hardest/levels/64-gauntlet-iii.js",
+      "bytes": 1613,
+      "sha256": "8aa2f358748bd69fca7184f4a8cf006546e45ddb21ae9d959b56980c3a547d36"
+    },
+    {
+      "path": "hardest/levels/65-portal-prison.js",
+      "bytes": 1517,
+      "sha256": "4c529dcb97bd91fe98da0cc5bbce099ce3193dcd33984bc0fb1c6c07500fa038"
+    },
+    {
+      "path": "hardest/levels/66-lockdown.js",
+      "bytes": 1723,
+      "sha256": "a8ab4565514fb4ac88f114c3f14dcfe622ca3eeb94ee35dade3223a4fa3e56b8"
+    },
+    {
+      "path": "hardest/levels/67-warp-storm.js",
+      "bytes": 2015,
+      "sha256": "7ba37891e4fd089bd5ab0f185fa7e48b56dadfe649f678160732ea4b5e8bbf6b"
+    },
+    {
+      "path": "hardest/levels/68-skeleton-key.js",
+      "bytes": 1381,
+      "sha256": "0ae396163e226262a3255170e7a1effcc491a9a0de7214d9a22bf20b05ccbf33"
+    },
+    {
+      "path": "hardest/levels/69-crossfire-iii.js",
+      "bytes": 1670,
+      "sha256": "49b32db1fd2854dbf99c71d8178f02c2dc8ce3eee7d413bc248ab1047a3ad37d"
+    },
+    {
+      "path": "hardest/levels/70-seventy.js",
+      "bytes": 1711,
+      "sha256": "cff6b93ca19dbbb216220967c9f07883186e1ed381bc1b9396641072b0159674"
+    },
+    {
+      "path": "hardest/levels/71-dot-rain.js",
+      "bytes": 1936,
+      "sha256": "84580cb0c1fb2f63191221c26c183888f1fc4aca8f3bd7d5ea61cfcfc5315b3e"
+    },
+    {
+      "path": "hardest/levels/72-teleport-trap.js",
+      "bytes": 1473,
+      "sha256": "6394d2c225a6d2a068d9fe0f20f893b8b2cf18a3413a7dda35e737525bbf3b60"
+    },
+    {
+      "path": "hardest/levels/73-keyhole.js",
+      "bytes": 1641,
+      "sha256": "783e3f4d67b5da259b8ef80b72ad405b4cd27f2789948f0f6491282378fdd862"
+    },
+    {
+      "path": "hardest/levels/74-phase-prison.js",
+      "bytes": 1523,
+      "sha256": "b9a4a2f613edf9e37fdb74ea1d0f2f063924c21890688fc5a85b9e82f9e2ef27"
+    },
+    {
+      "path": "hardest/levels/75-portal-vault.js",
+      "bytes": 1969,
+      "sha256": "567997bacbef9617bd1cc32518ae7fb47509d6c56313dcb66350d7b708e974f9"
+    },
+    {
+      "path": "hardest/levels/76-marathon-ii.js",
+      "bytes": 2036,
+      "sha256": "a2ac7fe281efe926e9b8d15c3ea7be46407e2d3f4ce801792b91e39c730ddef0"
+    },
+    {
+      "path": "hardest/levels/77-switchback-iii.js",
+      "bytes": 1943,
+      "sha256": "7efec1d896df7d66c2da31835436ca6c3a29eeafe08d498be7ea12f408cb7f3e"
+    },
+    {
+      "path": "hardest/levels/78-door-slam.js",
+      "bytes": 1546,
+      "sha256": "d16f64e3ec325f896be89caf171b55acbd48c9192755db93fccfc07320f55a94"
+    },
+    {
+      "path": "hardest/levels/79-portal-panic.js",
+      "bytes": 1422,
+      "sha256": "e8eabb8c4d6d5fe7cdf4a1afd79e85c99226cafdadd87361d81120f53fb00348"
+    },
+    {
+      "path": "hardest/levels/80-eighty.js",
+      "bytes": 1903,
+      "sha256": "7e6d7eb8a55c587a7c292065db5248badee1354f9d1ccca2dd1138bf018c7ab5"
+    },
+    {
+      "path": "hardest/levels/81-inhuman-ii.js",
+      "bytes": 1521,
+      "sha256": "e36bbfa2b7d6ce2a628ea5c4142b3b00d3d0db772ee4133f69b92a10a8f3dd66"
+    },
+    {
+      "path": "hardest/levels/82-pad-maze.js",
+      "bytes": 1438,
+      "sha256": "5b9e0d1bc28caacddfb3968400e3bbc64f8060111fdd6560ecd4d79b171b0822"
+    },
+    {
+      "path": "hardest/levels/83-key-storm.js",
+      "bytes": 2022,
+      "sha256": "fcf29369d6a019f62590a40f83f8448520839493063b8f2dc4fff72b8ba02f36"
+    },
+    {
+      "path": "hardest/levels/84-warp-labyrinth.js",
+      "bytes": 1578,
+      "sha256": "7e5feb6952eb0538711a491a0a66abb618a9cbd9680602b093694e4e335c12ea"
+    },
+    {
+      "path": "hardest/levels/85-lockpick.js",
+      "bytes": 1811,
+      "sha256": "6a266d7ca3ee62ebd21a8df21b4cef312d51fd3118b19ef0619e05508ee19669"
+    },
+    {
+      "path": "hardest/levels/86-crossfire-iv.js",
+      "bytes": 1866,
+      "sha256": "13b7a9fbbd7bab0c992f67ab1593ed0cb044244987d272ac52c056c466f98761"
+    },
+    {
+      "path": "hardest/levels/87-portal-vault.js",
+      "bytes": 1803,
+      "sha256": "69642fd6906a28b1c6c63d5ba16fea2dbcd3bd09a74203d1fedc9244cc271fc8"
+    },
+    {
+      "path": "hardest/levels/88-squeeze-iii.js",
+      "bytes": 1587,
+      "sha256": "9037d0c06bc770d7b0e509515a805112edd19c71206ff6aa87feb304ffaa5dc2"
+    },
+    {
+      "path": "hardest/levels/89-dot-hell.js",
+      "bytes": 1709,
+      "sha256": "32742b53ed3126a7a313c5b922db61385f0032183960abd63aba0992e3605fb9"
+    },
+    {
+      "path": "hardest/levels/90-ninety.js",
+      "bytes": 1685,
+      "sha256": "54716d3c67be972337c0e61901cab83756cde224e4123d35786b3ccfd9dacc13"
+    },
+    {
+      "path": "hardest/levels/91-tempo-iii.js",
+      "bytes": 1802,
+      "sha256": "513791dafa4296e42fead9dbcf4a600cc054d81ccc615645f7e02417df4cf0da"
+    },
+    {
+      "path": "hardest/levels/92-keymaster-iii.js",
+      "bytes": 1594,
+      "sha256": "2199e129b26a4e0225772488a50d26a19d521dc614bb2e45179461833a2cfbc3"
+    },
+    {
+      "path": "hardest/levels/93-panic-iii.js",
+      "bytes": 1404,
+      "sha256": "c0ff0d99050a56fef89129ca21faba170932e77e0eff1d91d6da1b9823198de8"
+    },
+    {
+      "path": "hardest/levels/94-warp-hell.js",
+      "bytes": 2186,
+      "sha256": "a9d7bf856d1e379598a205eaeff6bf4031d6badd90cbe9b48961618a71db4fa7"
+    },
+    {
+      "path": "hardest/levels/95-penultimate.js",
+      "bytes": 1788,
+      "sha256": "3d0a33c963d0cb5ad4b2948b72f89ff1cd9e60e0a81ab4cf2e87149221620c27"
+    },
+    {
+      "path": "hardest/levels/96-worlds-hardest.js",
+      "bytes": 1796,
+      "sha256": "73f382986c67e8179343727a6269c633363109a72d2ebb2b0589a87767580edc"
+    },
+    {
+      "path": "hardest/levels/97-moving-walls.js",
+      "bytes": 1046,
+      "sha256": "0fc34e75b0a965f0a390bc21c4ea961819d11e4b40babbae48118a0ea22979e4"
+    },
+    {
+      "path": "hardest/levels/98-crush-alley.js",
+      "bytes": 995,
+      "sha256": "80423f6479960b5c143f6d9cc315671526bc2a4087eaabfc029e87e8cee6cd56"
+    },
+    {
+      "path": "hardest/levels/99-wall-street.js",
+      "bytes": 1465,
+      "sha256": "ea5515238836eb67ebaf1c01eb3f96938a81bf414a353dfb066f36dbc4cac09c"
+    },
+    {
+      "path": "hardest/manifest.js",
+      "bytes": 2280,
+      "sha256": "8981f8478dd1cf34dd580a3de5c559d40ff31c7f1c769d852f0ee558e3547b3c"
+    },
+    {
+      "path": "hardest/pars.js",
+      "bytes": 990,
+      "sha256": "5e6c32ef4f7cf7144e21353e226fa9397ea1037640252bf13d20a9bedeb99702"
+    },
+    {
+      "path": "hardest/save.js",
+      "bytes": 996,
+      "sha256": "4c0d6796e5828dab463015830cc133ceed3ed0affeb92693b11ad24b68142672"
+    },
+    {
+      "path": "hardest/shell.css",
+      "bytes": 6185,
+      "sha256": "99666ed13e9cf4de3ecfb593b1d530db912ea86f21b65cded6c3ffadb4478a9c"
+    },
+    {
+      "path": "index.html",
+      "bytes": 15645,
+      "sha256": "68842de60f745aa5c02e748dbca9b3f02ebcf9f56e361496b2d8648065c58656"
+    },
+    {
+      "path": "ship/arena/game.js",
+      "bytes": 39058,
+      "sha256": "a379465dc392b40bff5a58aa50f2048c3155bbc8328a165261bfc0ca9a715926"
+    },
+    {
+      "path": "ship/arena/index.html",
+      "bytes": 1764,
+      "sha256": "eed1b8238db4a2994f93de242a2349d4d3dc3605e044cbf5356e667ca4d60ac1"
+    },
+    {
+      "path": "ship/arena/style.css",
+      "bytes": 7985,
+      "sha256": "58db9dac7682524f9a65c0921d209c6871fa3feb15f0a96ff4e9dd03725d80e7"
+    },
+    {
+      "path": "ship/burger/game.js",
+      "bytes": 19182,
+      "sha256": "749c5150c13bee34c879f11db2956fba3ea8aaabacab04562e63e7f65ff0a0e6"
+    },
+    {
+      "path": "ship/burger/index.html",
+      "bytes": 11366,
+      "sha256": "536ac1519bc0556e21f3f779fb240484e8f80f49140725c03c993e2a8a4ff788"
+    },
+    {
+      "path": "ship/coliseum/game.js",
+      "bytes": 30620,
+      "sha256": "e0b3fabd838275181f8e63388b91a773a6d580685b2158b12e7ecb2ae97a7b10"
+    },
+    {
+      "path": "ship/coliseum/index.html",
+      "bytes": 7206,
+      "sha256": "bd65330cc73bedcb69ea3ba691f3ac91f24c1b9958a67215f724d96f9c375859"
+    },
+    {
+      "path": "ship/flock/index.html",
+      "bytes": 59141,
+      "sha256": "8ba4fea25629195cb406515ea0fb1d896b59fb0184dfdf2ebebae408564f2f7f"
+    },
+    {
+      "path": "ship/pulse/index.html",
+      "bytes": 16574,
+      "sha256": "642884d71b1c11fc417df94f6cf9ce2c8894d0be0e84205ab817b33e1055f877"
+    }
+  ],
+  "deployment": {
+    "url": "https://ds4cc.com/magga/astra-codex-vanilla-v2/",
+    "collection": "https://ds4cc.com/magga/",
+    "repository": "VeigaPunk/ds4cc-marketplace",
+    "repositoryPath": "magga/astra-codex-vanilla-v2",
+    "checkpointRepositoryModified": false
+  }
+}

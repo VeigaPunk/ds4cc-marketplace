@@ -4,3 +4,10 @@
 @media(max-width:800px){.site-header{padding:0 24px;height:76px}.header-note{display:none}main{padding:0 24px}.intro{display:block;padding:46px 0 38px}h1{font-size:clamp(58px,10.5vw,86px)}.asterisk{display:inline-block}.intro-copy{max-width:490px;margin-top:30px}.intro-copy>p{font-size:22px}.intro-copy>span{font-size:13px}.edition-card{grid-template-columns:1fr}.preview{min-height:0;height:380px;grid-template-rows:1.2fr 1fr}.edition-body{padding:28px}.edition-heading h3{font-size:56px}.game-list ul{font-size:12px}.game-list{margin-bottom:24px}.collection-line{font-size:10px}.collection-note{max-width:450px}footer{margin-top:32px}}
 @media(max-width:420px){.site-header{padding:0 18px;height:68px}.brand{font-size:14px}.brand svg{width:28px;height:28px}.header-link{font-size:11px}main{padding:0 18px}.intro{padding:36px 0 30px}.eyebrow{font-size:9px;margin-bottom:20px}h1{font-size:clamp(52px,13.2vw,60px)}.asterisk{margin-left:8px;font-size:.4em}.intro-copy{margin-top:25px}.intro-copy>p{font-size:21px}.collection-line{font-size:8px;gap:10px;letter-spacing:.07em;padding:18px 0}.preview{height:292px;padding:8px;gap:3px}.preview-number{left:18px;top:18px;font-size:9px}.preview figcaption{font-size:8px;padding-left:8px}.edition-body{padding:22px 20px}.edition-heading h3{font-size:52px}.game-list ul{font-size:11px;gap:8px 10px}.features{font-size:8px;gap:6px}.features li{padding:6px}.play-link{font-size:10px;padding:14px 12px}.collection-note{font-size:11px}footer{flex-direction:column;gap:10px;padding-bottom:28px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+
+/* This edition keeps its full release identity readable at every width. */
+#astra-codex-vanilla-v2{margin-top:28px}
+#astra-title{font-size:clamp(24px,3.2vw,40px);line-height:1.12;overflow-wrap:anywhere}
+#astra-label{font:11px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;color:var(--gold);overflow-wrap:anywhere;margin:12px 0 0}
+#astra-description{font-size:14px;color:var(--muted);line-height:1.75;margin:18px 0}
+#astra-codex-vanilla-v2 .play-link{overflow-wrap:anywhere}
