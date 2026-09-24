@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#101c29">
+<meta name="description" content="Vector Vault. Read the rhythm, find your route, and breach 114 handcrafted precision chambers.">
+<title>Vector Vault</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="../favicon.svg"><script defer src="../return.js"></script></head>
+<body>
+<main>
+<header class="masthead"><a class="wordmark" href="../">VECTOR<span>VAULT</span><small>PRECISION / PATIENCE / PROGRESS</small></a><div class="edition">114 CHAMBERS <span>ONE WAY THROUGH.</span></div></header>
+<nav class="toolbar" aria-label="Game controls"><span class="brand"><i></i> VAULT ACCESS</span><button id="levels" type="button">Chambers</button><button id="pause" type="button">Pause</button><button id="restart" type="button">Retry</button><button id="sound" type="button" aria-label="Mute sound" aria-pressed="false">Sound on</button><button id="settings" type="button">Settings</button></nav>
+<div class="picker" id="picker"><label for="level-choice">Chamber</label><select id="level-choice" aria-label="Choose an unlocked chamber"></select><button id="play-level" class="primary" type="button">Enter vault <span aria-hidden="true">↗</span></button></div>
+<div id="run-status" class="run-status" hidden aria-label="Chamber status"><span id="run-chamber"></span><span id="run-objective"></span><span id="run-deaths"></span></div>
+<div class="stage"><canvas id="c" width="960" height="576" tabindex="0" aria-label="Vector Vault. Use arrow keys to choose a chamber and Enter to start. Move with arrow keys or WASD; collect all gold shards and reach the green exit." aria-describedby="help">This game needs a browser with Canvas support.</canvas><div id="overlay-actions" hidden><button id="continue" class="primary" type="button">Continue</button><button id="retry-clear" type="button">Try for gold</button><button id="return-menu" type="button">Chambers</button></div></div>
+<div class="understage"><p id="help">Move with arrows / WASD, or drag on the board. Collect every gold shard. Reach the green exit.</p><span>R retry <b>·</b> Esc pause <b>·</b> M sound</span></div>
+<details class="guide"><summary>FIELD GUIDE <span>Read the room before you move.</span></summary><div class="guide-grid"><p><i class="symbol player"></i><strong>Your signal</strong> Coral square. Eight directions. No momentum.</p><p><i class="symbol shard"></i><strong>Gold shards</strong> Collect every shard to arm the exit.</p><p><i class="symbol patrol"></i><strong>Patrols</strong> Blue circles are lethal. Watch their rhythm.</p><p><i class="symbol safe"></i><strong>Green zones</strong> Safe start and exit. Flags save your checkpoint.</p><p><i class="symbol key">⚿</i><strong>Keys & gates</strong> Gather every key to release the amber gates.</p><p><i class="symbol portal"></i><strong>Portals & pistons</strong> Cyan rings warp you. Striped blocks can crush.</p></div><p class="medals">GOLD · no deaths <span>SILVER · up to two deaths</span> BRONZE · every clear counts. Your fastest time is recorded separately.</p></details>
+<footer><span>VECTOR VAULT</span><span id="save-status">Progress saves on this device.</span></footer>
+<p class="sr-only" id="status" role="status" aria-live="polite">Loading chambers.</p>
+<dialog id="settings-dialog" aria-labelledby="settings-title"><form method="dialog"><p class="eyebrow">MAKE ROOM TO FOCUS</p><h2 id="settings-title">Your settings</h2><label class="setting" for="volume">Effects volume <output id="volume-value">65%</output><input id="volume" type="range" min="0" max="100" step="5" value="65"></label><label class="setting check"><input id="motion" type="checkbox"> Reduce flashes and motion</label><p class="dialog-note">Your progress and preferences stay on this device. Opening settings pauses your run.</p><button class="primary" type="submit">Back to the vault</button></form></dialog>
+</main>
+<script src="engine.js"></script>
+<script src="save.js"></script>
+<script src="manifest.js"></script>
+<script>
+  for (const f of globalThis.HARDEST_MANIFEST || []) {
+    const s = document.createElement('script'); s.src = 'levels/' + f; s.async = false;
+    s.onerror = () => { document.getElementById('status').textContent = 'A chamber could not load. Reload to retry.'; document.getElementById('help').textContent = 'A chamber could not load. Reload the page to retry.'; };
+    document.body.appendChild(s);
+  }
+</script>
+<script src="pars.js"></script>
+<script src="game.js"></script>
+</body>
+</html>

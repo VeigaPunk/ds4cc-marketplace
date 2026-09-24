@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#070d10">
-  <meta name="description" content="MAGGA V2 — a second circuit is warming up. A locked seven-game checkpoint is on the grid; when the first runs land, this page becomes their catalog.">
+  <meta name="description" content="MAGGA V2 is open. Play Second Wind Arcade: seven browser games, one collection, and one more try.">
   <link rel="icon" href="../codex/favicon.svg">
-  <title>MAGGA V2 — A second circuit is warming up.</title>
+  <title>MAGGA V2 — The next circuit is open.</title>
   <style>
-    /* MAGGA V2 — teaser. Visual identity: Plazir-15 Fan Codex (domed utopia / directed abundance). */
+    /* MAGGA V2 — catalog. Visual identity: Plazir-15 Fan Codex (domed utopia / directed abundance). */
     /* Signature typeface: JetBrains Mono NL Nerd Font Mono (self-hosted, shared with the catalog) */
     @font-face {
       font-family: "JetBrainsMonoNL Nerd Font Mono";
@@ -539,42 +539,90 @@
       html { scroll-behavior: auto; }
       *, *::before, *::after { transition: none !important; }
     }
+
+    /* Playable catalog entries use the shared MAGGA card vocabulary. */
+    .available-edition .preview img { display:block; width:100%; height:100%; object-fit:cover; }
+    .available-edition .preview-main img { object-position:50% 37%; }
+    .available-edition .availability { color:var(--leaf); }
+    .available-edition .availability > span { background:var(--leaf); }
+    .available-edition .label, .available-edition .edition-credit { font-size:11px; color:var(--muted); line-height:1.7; }
+    .available-edition .label { margin:18px 0 0; }
+    .available-edition .label a { text-decoration:underline; text-underline-offset:4px; }
+    .available-edition .edition-credit { margin:0 0 18px; }
+    .available-edition .card-actions { display:flex; width:100%; gap:10px; flex-wrap:wrap; margin-top:auto; }
+    .available-edition .card-actions .play-link { flex:1 1 230px; margin-top:0; }
+    .available-edition .btn-ghost { display:flex; align-items:center; justify-content:center; gap:10px; padding:14px 16px; border:1px solid var(--border-strong); border-radius:10px; font-size:11px; color:var(--chrome); }
+    .available-edition .btn-ghost:hover { border-color:var(--leaf); color:var(--ink); }
+    .dlc-heading { margin-top:38px; }
   </style>
 </head>
 <body>
-  <a class="skip-link" href="#next-circuit">Skip to the next circuit</a>
+  <a class="skip-link" href="#next-circuit">Skip to the editions</a>
   <header class="site-header">
     <a class="brand" href="../" aria-label="MAGGA collection home">
       <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#6baa88"/><path d="M16 45V28l8-10h16l8 10v17H37v-9H27v9z" fill="#070d10"/><path d="M27 26h10v5H27z" fill="#6baa88"/></svg>
       <span>MAGGA</span>
     </a>
     <span class="header-note">MAKE ARMOR GAMES GREAT AGAIN</span>
-    <a class="header-link" href="#next-circuit">The next circuit <span aria-hidden="true">↘</span></a>
+    <a class="header-link" href="#next-circuit">The editions <span aria-hidden="true">↘</span></a>
   </header>
 
   <main>
     <section class="intro" aria-labelledby="v2-title">
       <div>
-        <p class="eyebrow">MAGGA V2 — A SECOND CIRCUIT IS WARMING UP.</p>
+        <p class="eyebrow">MAGGA V2 — THE NEXT CIRCUIT IS OPEN.</p>
         <h1 id="v2-title">MAGGA<br><em>V2.</em><span class="asterisk" aria-hidden="true">✳</span></h1>
       </div>
       <div class="intro-copy">
-        <p>A new locked seven-game checkpoint.<br>One prompt. One command.</p>
-        <span>Three ways to run it — vanilla, godspeed, ufo. First real runs are on the grid. When they land, this page becomes their catalog — a new shelf of editions, same arcade.</span>
+        <p>Seven games. One more try.<br>The first V2 edition is here.</p>
+        <span>New takes on the browser arcade, starting with Second Wind. Pick an edition, chase a record, and find your next obsession.</span>
       </div>
     </section>
 
     <ul class="status-row" aria-label="Circuit status">
-      <li class="status-chip">CHECKPOINT LOCKED</li>
-      <li class="status-chip armed">LAUNCHER ARMED</li>
-      <li class="status-chip">CATALOG EMPTY — FOR NOW</li>
+      <li class="status-chip armed">V2 IS LIVE</li>
+      <li class="status-chip armed">07 GAMES</li>
+      <li class="status-chip armed">01 EDITION AVAILABLE</li>
     </ul>
 
     <section id="next-circuit" aria-labelledby="next-circuit-title">
       <div class="collection-line">
-        <h2 id="next-circuit-title">THE NEXT CIRCUIT</h2>
-        <span>01 UPCOMING / UNDER WRAPS</span>
+        <h2 id="next-circuit-title">THE V2 EDITIONS</h2>
+        <span>01 AVAILABLE / READY TO PLAY</span>
       </div>
+
+      <article id="codex-work-vanilla-adapted" class="edition-card available-edition" aria-labelledby="second-wind-title" aria-describedby="second-wind-description">
+        <div class="preview" aria-hidden="true">
+          <figure class="preview-main">
+            <img src="./codex-work-vanilla-adapted/covers/arena.png" alt="" width="1440" height="1156" loading="lazy">
+            <figcaption>CROWN &amp; SAND</figcaption>
+          </figure>
+          <figure class="preview-small">
+            <img src="./codex-work-vanilla-adapted/covers/flock.png" alt="" width="1280" height="800" loading="lazy">
+            <figcaption>STARFALL FLOCK</figcaption>
+          </figure>
+          <figure class="preview-small">
+            <img src="./codex-work-vanilla-adapted/covers/vault.png" alt="" width="1200" height="980" loading="lazy">
+            <figcaption>VECTOR VAULT</figcaption>
+          </figure>
+          <span class="preview-number">V2 / EDITION 01</span>
+        </div>
+        <div class="edition-body">
+          <p class="availability"><span aria-hidden="true"></span>AVAILABLE NOW</p>
+          <div class="edition-heading"><h3 id="second-wind-title"><a href="./codex-work-vanilla-adapted/">Second Wind Arcade</a></h3><span class="edition-arrow" aria-hidden="true">↗</span></div>
+          <p class="label"><a href="https://raw.githubusercontent.com/VeigaPunk/1shot/2309d8dfb6be965579beb34232095ffe4af6a695/magga/v2/one-shot-prompt.md">[oneshotprompt(magga-v2)]</a></p>
+          <p id="second-wind-description" class="edition-description">Eighty arena bouts. Two chicken-shooter campaigns. 114 maze rooms, five rhythm courses, undead survival and a burger empire. Seven original-branded games behind one door, with local saves and a two-player LAN host for Deadlock Rooms.</p>
+          <p class="edition-credit">Codex · ChatGPT Work · vanilla</p>
+          <ul class="features" aria-label="Edition features"><li>07 GAMES</li><li>LOCAL SAVES</li><li>DESKTOP + TOUCH</li></ul>
+          <div class="game-list">
+            <p>IN THIS EDITION</p>
+            <ul><li>Crown &amp; Sand</li><li>Deadlock Rooms</li><li>Starfall Flock</li><li>Cluck Horizon</li><li>Vector Vault</li><li>Pulsebound</li><li>Burger Tycoon</li></ul>
+          </div>
+          <div class="card-actions"><a class="play-link btn btn-primary" href="./codex-work-vanilla-adapted/">PLAY SECOND WIND ARCADE <span aria-hidden="true">↗</span></a><a class="btn btn-ghost" href="https://github.com/VeigaPunk/MAKEARMORGAMESGREATAGAIN-submissions/tree/main/v2/codex-work-vanilla-adapted">SOURCE <span aria-hidden="true">↗</span></a></div>
+        </div>
+      </article>
+
+      <div class="collection-line dlc-heading"><h2>THE DLC SHELF</h2><span>EXPANSIONS TO COME</span></div>
 
       <article class="edition-card" aria-labelledby="dlc-title" aria-describedby="dlc-description">
         <div class="preview" aria-hidden="true">
@@ -609,14 +657,14 @@
           <span class="play-link locked-cta" role="img" aria-label="Status: locked until the first runs land">STATUS: SOON(TM) <span aria-hidden="true">✳</span></span>
         </div>
       </article>
-      <p class="collection-note">DLCs will be launched and catalogued under the same pages — no new doors, no side shelves. When the grid lights up, this page fills in.</p>
+      <p class="collection-note">The collection stays open. New editions and expansions join the same arcade as they arrive.</p>
 
-      <p class="back-row"><a class="back-link" href="../"><span class="back-arrow" aria-hidden="true">←</span> Return to the current editions</a></p>
+      <p class="back-row"><a class="back-link" href="../"><span class="back-arrow" aria-hidden="true">←</span> Explore the original editions</a></p>
     </section>
 
     <footer>
       <span>Same nostalgia. Different makers.</span>
-      <span>V2 — a second circuit is warming up.</span>
+      <span>V2 — the next circuit is open.</span>
     </footer>
   </main>
 </body>

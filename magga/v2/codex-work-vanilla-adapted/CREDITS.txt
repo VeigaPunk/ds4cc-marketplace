@@ -1,0 +1,21 @@
+SECOND WIND ARCADE — CREDITS
+
+Original art, characters, layouts, procedural animation, sound design and music
+were authored for this collection. The illustrated scenes, authored level data
+and tested rule engines preserve work from the supplied checkpoint.
+
+Crown & Sand — procedural illustrated arena and lute/drum score
+Deadlock Rooms — original block silhouettes, industrial rooms and tension score
+Starfall Flock — authored SVG star-creatures and eleven space sectors
+Cluck Horizon — authored courier, flock, bosses and original campaign
+Vector Vault — original chamber atlas, geometry language and electronic cues
+Pulsebound — five original charts and synchronized musical arrangements
+Burger Tycoon — flat operational scenes and original corporate-music sequence
+
+PixiJS renders Deadlock Rooms and the two shared-engine shooter campaigns.
+PixiJS is licensed under the MIT License, included at licenses/pixi-js.txt.
+All fonts use the browser's local system fonts. No assets are fetched from
+outside this release at runtime.
+
+Verification tools and their separate notices are outside the playable site,
+in the submission records. They are not required to play.

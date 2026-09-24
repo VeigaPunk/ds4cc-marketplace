@@ -121,3 +121,18 @@ ufo). It announces that first runs are coming and that DLCs — starting with
 "EVERYTHING IS PC x Make Love Not Warcraft" (SOON(TM)) — will be launched and
 catalogued under the same pages. It exposes no launcher, repository or
 operational detail, and follows the same Plazir-15 signature as the catalog.
+
+
+## MAGGA v2 — Second Wind Arcade
+
+The first accepted v2 edition lives at `/magga/v2/codex-work-vanilla-adapted/`
+and is listed on both MAGGA catalogs. Its seven games are Crown & Sand,
+Deadlock Rooms, Starfall Flock, Cluck Horizon, Vector Vault, Pulsebound and
+Burger Tycoon. The locked payload is preserved in the submissions repository;
+only the allowed root launcher overlay adopts the catalog signature.
+
+The shipped `release.json` is part of the immutable game distribution and is
+preserved. The separate `catalog-release.json` records publication hashes,
+the original lock digest, the permitted launcher overlay and the catalog
+previews. Verification evidence and browser/tooling dependencies remain out
+of the website payload. The prompt label points to the pinned v2 prompt.

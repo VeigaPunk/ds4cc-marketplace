@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "distribution": "static",
+  "edition": "second-wind",
+  "games": [
+    "boxhead",
+    "impossible",
+    "burger-tycoon",
+    "chicken-invaders",
+    "chicken-invaders-original",
+    "swords-and-sandals",
+    "hardest"
+  ]
+}
