@@ -3,7 +3,7 @@
 Multi-model meta-launcher for Claude Code, Codex, and Gemini CLI with a
 shared deny-list safety policy and judge-orchestrated agent teams.
 
-See `docs/superpowers/specs/2026-04-10-xbreeder-design.md` for full design.
+See `docs/superpowers/specs/2026-04-12-inter-model-protocol-v0.2.md` for the protocol spec.
 See [`AGENTS.md`](AGENTS.md) for the full agent roster and dispatch table.
 See [`docs/command-flows.md`](docs/command-flows.md) for visual flow diagrams of every command.
 See [`docs/xask-protocol.md`](docs/xask-protocol.md) for the xask flag surface.

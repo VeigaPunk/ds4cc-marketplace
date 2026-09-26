@@ -60,5 +60,4 @@ You are invoked via `"$CODEX_BIN" exec -p xbreed` (autonomous, workspace-write) 
 ## References
 
 - [AGENTS.md](AGENTS.md) — xbreed agent roster and dispatch table (for xbreed internal use, not Codex self-instructions)
-- [CLAUDE.md](CLAUDE.md) — equivalent for Claude Code
 - [docs/cli-contamination.md](docs/cli-contamination.md) — CLI context injection reference

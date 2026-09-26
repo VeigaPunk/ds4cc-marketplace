@@ -27,5 +27,5 @@ Each template is under 500 tokens. Keep fills lean — pass only facts the recip
 
 ## References
 
-- Protocol spec: `docs/superpowers/specs/2026-04-12-inter-model-protocol-v0.1.md`
+- Protocol spec: `docs/superpowers/specs/2026-04-12-inter-model-protocol-v0.2.md`
 - Debate findings: `~/claudevault/Projects/the-crossbreeder/2026-04-12-model-language-debate.md`
