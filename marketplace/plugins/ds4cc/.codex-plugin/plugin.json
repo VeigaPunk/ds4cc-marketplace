@@ -17,7 +17,7 @@
       "Codex installation guidance",
       "Source review guidance"
     ],
-    "websiteURL": "https://veigapunk.github.io/ds4cc-marketplace/",
+    "websiteURL": "https://ds4cc.com/",
     "privacyPolicyURL": "https://app.ds4cc.com/privacy",
     "termsOfServiceURL": "https://app.ds4cc.com/terms",
     "defaultPrompt": [
@@ -29,7 +29,7 @@
     "composerIcon": "./assets/logo.svg",
     "logo": "./assets/logo-512.png"
   },
-  "homepage": "https://veigapunk.github.io/ds4cc-marketplace/",
+  "homepage": "https://ds4cc.com/",
   "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
   "license": "MIT",
   "keywords": [
