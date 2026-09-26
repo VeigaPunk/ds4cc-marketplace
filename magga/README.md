@@ -113,10 +113,10 @@ original mark.
 The `[oneshotprompt(magga)]` label links directly to the raw source prompt at
 `https://raw.githubusercontent.com/VeigaPunk/1shot/main/magga/one-shot-prompt.md`.
 
-## v2 teaser catalog
+## v2 catalog
 
 `/magga/v2/` is the MAGGA v2 catalog. The first seven-game checkpoint —
-"Armor Arcade" (edition 01, `codex-work-vanilla-adapted/`) — shipped from a
+"Second Wind Arcade" (edition 01, `codex-work-vanilla-adapted/`) — shipped from a
 locked payload of one prompt and one command. A second edition (edition 02,
 `swe2max-devin/`, seven games) is live on the catalog. DLCs — starting with
 "EVERYTHING IS PC x Make Love Not Warcraft" (SOON(TM)) — will be launched and
