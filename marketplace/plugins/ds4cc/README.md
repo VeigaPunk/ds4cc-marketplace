@@ -35,7 +35,7 @@ Adding a plugin installs it enabled. Start a new Codex session to load bundled s
 Enter these commands in the Kimi TUI:
 
 ```
-/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json
+/plugins marketplace https://ds4cc.com/.kimi-plugin/marketplace.json
 /plugins install <artifact-url-or-local-path>
 /reload
 ```

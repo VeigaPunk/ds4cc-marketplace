@@ -97,7 +97,7 @@ The root `kimi.plugin.json` exists for this direct-install path. To browse and
 install every packaged plugin, register the published catalog in the Kimi TUI:
 
 ```
-/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json
+/plugins marketplace https://ds4cc.com/.kimi-plugin/marketplace.json
 ```
 
 Install a catalog artifact URL (or a built local ZIP path), then reload:
@@ -134,7 +134,7 @@ cursor-agent --version
 cursor-agent -p --trust --output-format text --model composer-2.5 -- "hello from ds4cc"
 ```
 
-No native marketplace protocol yet. Clone this repo or paste skills; cross-model dispatch can go through `xask` / xbrd templates (`templates/dispatch/cursor.md`).
+No native marketplace protocol yet. Clone this repo or paste skills; cross-model dispatch can go through `xask` / xbrd templates (`marketplace/plugins/xbrd-gdsp-fknpft/templates/dispatch/cursor.md`).
 
 ## Exclusive xbrd substrates (per CLI)
 
@@ -311,7 +311,7 @@ Each plugin lives at `marketplace/plugins/<name>/` and must contain:
       SKILL.md                # required: must be actionable (has runnable commands)
 ```
 
-The Kimi builder includes only `kimi.plugin.json` and regular files under the manifest's declared `./skills/` and `./commands/` roots. It rejects links, traversal, unsupported fields (including `agents`), invalid skill frontmatter, and absent roots. Generated root-flat ZIPs live under the ignored `.kimi-plugin/artifacts/` directory; `.kimi-plugin/marketplace.json` is retained as the published catalog.
+The Kimi builder includes only `kimi.plugin.json` and regular files under the manifest's declared `./skills/` and `./commands/` roots. It rejects links, traversal, unsupported fields (including `agents`), invalid skill frontmatter, and absent roots. Generated root-flat ZIPs live under `.kimi-plugin/artifacts/` (tracked so GitHub Pages can serve them); `.kimi-plugin/marketplace.json` is retained as the published catalog.
 
 ## Schema requirements
 

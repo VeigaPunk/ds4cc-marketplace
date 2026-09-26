@@ -103,7 +103,7 @@ Kimi Code CLI 0.28.1 can register the published catalog and install its minimal 
 Browse the full catalog:
 
 ```
-/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json
+/plugins marketplace https://ds4cc.com/.kimi-plugin/marketplace.json
 ```
 
 Or install a plugin directly:
@@ -134,7 +134,7 @@ node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
 node ds4cc-marketplace/scripts/install-opencode-agents.mjs --project /path/to/project
 ```
 
-The installer writes 15 `the-*` subagents plus `the-netsshark` (16 subagents total), and a separate `orch` primary mode aligned to `the-judge`.
+The installer writes 16 `the-*` subagents plus `the-netsshark` (17 subagents total), and a separate `orch` primary mode aligned to `the-judge`.
 
 ## Plugin catalog (developer marketplace — 19 on disk)
 
