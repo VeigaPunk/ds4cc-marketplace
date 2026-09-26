@@ -390,7 +390,7 @@
       "expected_usd_basis": "WordPress H1 bounty_table null — no published severity→USD mapping; not invented",
       "l1": "groknight-delta",
       "path": "claim-packages/buddypress-unauth-signup-resend",
-      "claimable_at": "2026-09-14"
+      "claimable_at": "2026-09-14T00:00:00Z"
     },
     {
       "id": "coinbase-agentkit-x402",
@@ -414,7 +414,7 @@
       "expected_usd_basis": "Intigriti DO program avg payout ~$1,110; DoS/credential-exposure class in in-scope OSS, low-mid tier. Conservative floor 500.",
       "l1": "groknight-farm-r2",
       "path": "claim-packages/do-agent-sonar-limit-injection",
-      "claimable_at": "2026-09-14"
+      "claimable_at": "2026-09-14T00:00:00Z"
     },
     {
       "id": "esapi-path-injection",
@@ -450,7 +450,7 @@
       "expected_usd_basis": "YesWeHack grid, HIGH asset, Low = $200 (page header also shows $50 Low — unresolved display conflict; conservative high-asset Low used). Real-ip-leak on reference client; Medium $600 plausible if triager accepts shipped-app impact. Not invented.",
       "l1": "groknight-xai-oauth/grok-4.6",
       "path": "claim-packages/expressvpn-lightway-ipv6-leak",
-      "claimable_at": "2026-09-14"
+      "claimable_at": "2026-09-14T00:00:00Z"
     },
     {
       "id": "k8s-nodebound-token-impersonation",
@@ -734,7 +734,7 @@
         "expected_usd_basis": "WordPress H1 bounty_table null — no published severity→USD mapping; not invented",
         "l1": "groknight-delta",
         "path": "claim-packages/buddypress-unauth-signup-resend",
-        "claimable_at": "2026-09-14"
+        "claimable_at": "2026-09-14T00:00:00Z"
       },
       {
         "id": "coinbase-agentkit-x402",
@@ -758,7 +758,7 @@
         "expected_usd_basis": "Intigriti DO program avg payout ~$1,110; DoS/credential-exposure class in in-scope OSS, low-mid tier. Conservative floor 500.",
         "l1": "groknight-farm-r2",
         "path": "claim-packages/do-agent-sonar-limit-injection",
-        "claimable_at": "2026-09-14"
+        "claimable_at": "2026-09-14T00:00:00Z"
       },
       {
         "id": "esapi-path-injection",
@@ -794,7 +794,7 @@
         "expected_usd_basis": "YesWeHack grid, HIGH asset, Low = $200 (page header also shows $50 Low — unresolved display conflict; conservative high-asset Low used). Real-ip-leak on reference client; Medium $600 plausible if triager accepts shipped-app impact. Not invented.",
         "l1": "groknight-xai-oauth/grok-4.6",
         "path": "claim-packages/expressvpn-lightway-ipv6-leak",
-        "claimable_at": "2026-09-14"
+        "claimable_at": "2026-09-14T00:00:00Z"
       },
       {
         "id": "k8s-nodebound-token-impersonation",
