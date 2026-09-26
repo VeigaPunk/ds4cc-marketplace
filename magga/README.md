@@ -1,6 +1,6 @@
 # MAGGA collection landing page
 
-A responsive, static collection page for `https://ds4cc.com/magga/`. Its visual identity is the operator's Plazir-15 Fan Codex signature — domed-utopia dark palette, leaf/teal accents, JetBrains Mono NL Nerd Font Mono throughout (self-hosted woff2 under `assets/fonts/`). The editions: **K3-max(K2.8s-max) | kimi-code** (`./kimi-k3max/`, seven games), **Codex** (`./codex/`, eight games), **Zai 5.3max-zcode-vanilla** (`./zai-5.3max-zcode-vanilla/`, seven games), **astra-codex-vanilla-v2** (`./astra-codex-vanilla-v2/`, six games), **zai-glm5.3-max-omp** (`./zai-glm5.3-max-omp/`, seven games), **grok47-high-on-cursor-cloud** (`./grok47-high-on-cursor-cloud/`, seven games) and **devin-swe2max** (`./devin-swe2max/`, seven games). There are no placeholder editions or performance claims.
+A responsive, static collection page for `https://ds4cc.com/magga/`. Its visual identity is the operator's Plazir-15 Fan Codex signature — domed-utopia dark palette, leaf/teal accents, JetBrains Mono NL Nerd Font Mono throughout (self-hosted woff2 under `assets/fonts/`). The editions: **K3-max(K2.8s-max) | kimi-code** (`./kimi-k3max/`, seven games), **Codex** (`./codex/`, eight games), **Zai 5.3max-zcode-vanilla** (`./zai-5.3max-zcode-vanilla/`, seven games), **astra-codex-vanilla-v2** (`./astra-codex-vanilla-v2/`, six games), **zai-glm5.3-max-omp** (`./zai-glm5.3-max-omp/`, seven games), **grok47-high-on-cursor-cloud** (`./grok47-high-on-cursor-cloud/`, seven games) and **devin-swe2max** (`./devin-swe2max/`, six games). There are no placeholder editions or performance claims.
 
 Deploy this directory's `index.html` and `style.css` directly at `/magga/`, with each edition's arcade build beneath its own folder (`/magga/codex/`, `/magga/zai-5.3max-zcode-vanilla/`). The page uses the edition's existing `favicon.svg` and three gameplay images through relative `./codex/` paths. It needs no JavaScript, framework, font service or build step.
 
@@ -19,7 +19,7 @@ The card and navigation work without JavaScript. Keyboard users have a skip link
 
 Verified in Chromium at widths 1440, 1024, 768, 390 and 320 pixels: no horizontal overflow, all preview images load, one edition card lists exactly eight games, the keyboard skip link receives focus, and the card resolves to `/magga/codex/`. A local request-routing harness served the existing arcade at that nested path and confirmed its eight game links render after navigation. Desktop and phone screenshots were visually reviewed. No deployment was performed by this task.
 
-All seven edition portals (`kimi-k3max/`, `codex/`, `zai-5.3max-zcode-vanilla/`, `astra-codex-vanilla-v2/`, `zai-glm5.3-max-omp/`, `grok47-high-on-cursor-cloud/`, `devin-swe2max/`) render in this same signature styling — shared JetBrains Mono NL set via `assets/fonts/`, ebony-teal palette, matching card and header chrome. So does the v2 teaser catalog at `./v2/`. Inside the portals, each game keeps its own authored art direction; the unification covers every front-end page (catalog, portals, teaser pages), not the games' canvases.
+All seven edition portals (`kimi-k3max/`, `codex/`, `zai-5.3max-zcode-vanilla/`, `astra-codex-vanilla-v2/`, `zai-glm5.3-max-omp/`, `grok47-high-on-cursor-cloud/`, `devin-swe2max/`) render in this same signature styling — shared JetBrains Mono NL set via `assets/fonts/`, ebony-teal palette, matching card and header chrome. So does the v2 catalog at `./v2/`. Inside the portals, each game keeps its own authored art direction; the unification covers every front-end page (catalog, portals, teaser pages), not the games' canvases.
 
 ## Adding a new entry — standing rule
 
@@ -82,8 +82,8 @@ The `[oneshotprompt(magga)]` label links directly to the raw source prompt at
 
 ## devin-swe2max [oneshotprompt(magga)]
 
-The sixth edition lives at `/magga/devin-swe2max/`. It contains the six roster
-remakes plus Cluck Horizon (seven games) from a Devin CLI run on SWE-2 Max —
+The sixth edition lives at `/magga/devin-swe2max/`. It contains the five roster
+remakes plus the fused Fowl Assault + Cluck Horizon shmup packs (six games) from a Devin CLI run on SWE-2 Max —
 zero-dependency canvas builds that open straight from `file://`, each carrying
 a deterministic validator plus a real-input browser proof.
 `devin-swe2max/release.json` records the edition inventory. Its portal was
@@ -115,12 +115,13 @@ The `[oneshotprompt(magga)]` label links directly to the raw source prompt at
 
 ## v2 teaser catalog
 
-`/magga/v2/` holds a hint-only landing page for MAGGA v2: a locked seven-game
-checkpoint, one prompt, one command, three run variants (vanilla, godspeed,
-ufo). It announces that first runs are coming and that DLCs — starting with
+`/magga/v2/` is the MAGGA v2 catalog. The first seven-game checkpoint —
+"Armor Arcade" (edition 01, `codex-work-vanilla-adapted/`) — shipped from a
+locked payload of one prompt and one command. A second edition (edition 02,
+`swe2max-devin/`, seven games) is live on the catalog. DLCs — starting with
 "EVERYTHING IS PC x Make Love Not Warcraft" (SOON(TM)) — will be launched and
-catalogued under the same pages. It exposes no launcher, repository or
-operational detail, and follows the same Plazir-15 signature as the catalog.
+catalogued under the same pages. The catalog follows the same Plazir-15
+signature as the rest of the shelf.
 
 
 ## MAGGA v2 — Second Wind Arcade
