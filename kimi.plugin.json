@@ -5,7 +5,7 @@
   "author": {
     "name": "VeigaPunk"
   },
-  "homepage": "https://veigapunk.github.io/ds4cc-marketplace/",
+  "homepage": "https://ds4cc.com/",
   "repository": "https://github.com/VeigaPunk/ds4cc-marketplace",
   "license": "MIT",
   "keywords": [
@@ -21,6 +21,6 @@
     "shortDescription": "Bootstrap and browse the DS4CC plugin marketplace",
     "longDescription": "Provides marketplace registration and reviewed plugin installation guidance for Kimi Code, Grok Build, Codex CLI, and OpenCode bootstrap.",
     "developerName": "VeigaPunk",
-    "websiteURL": "https://veigapunk.github.io/ds4cc-marketplace/"
+    "websiteURL": "https://ds4cc.com/"
   }
 }

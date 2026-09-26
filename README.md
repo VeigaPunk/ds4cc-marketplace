@@ -171,13 +171,13 @@ Runtime resolve: `CODEX_BIN` → `codex-titanium` → skip omarchy npx `codex` s
 
 Recommended host config (same file served on the Titanium / ds4cc Pages site):
 
-- **Pages:** https://veigapunk.github.io/ds4cc-marketplace/grok-cli-config.toml  
+- **Pages:** https://ds4cc.com/grok-cli-config.toml  
 - **Repo:** [grok-cli-config.toml](./grok-cli-config.toml)
 
 ```bash
 # 1) host config
 mkdir -p ~/.grok
-curl -fsSL https://veigapunk.github.io/ds4cc-marketplace/grok-cli-config.toml -o ~/.grok/config.toml
+curl -fsSL https://ds4cc.com/grok-cli-config.toml -o ~/.grok/config.toml
 
 # 2) hard-ban general-purpose/explore in the CLI binary
 git clone git@github.com:VeigaPunk/grok-build-livepatch.git
