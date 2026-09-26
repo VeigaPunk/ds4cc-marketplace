@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ds4cc.com/sitemap.xml

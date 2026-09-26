@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "distribution": "static",
-  "edition": "codex",
+  "edition": "armor-arcade",
   "games": [
     "boxhead",
     "impossible",
