@@ -350,6 +350,8 @@ function renderLiveStrip(run, curve) {
       const recEl = el(recId);
       if (recEl) { recEl.textContent = "n/a"; recEl.className = ""; }
     }
+  }
+  if (isTp) {
     const mintRow = el("live-mint-burn")?.closest(".pace-row");
     if (mintRow) mintRow.innerHTML = `offpeak window <strong>~2h</strong> <span class="muted">2026-08-27 22:56Z → ~00:56Z · Token Plan low-TPS lanes</span>`;
     const savedRow = el("live-total-saved")?.closest(".pace-row");

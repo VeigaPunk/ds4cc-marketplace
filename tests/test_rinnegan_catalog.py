@@ -56,7 +56,8 @@ class RinneganCatalogTests(unittest.TestCase):
 
     def test_generated_wall_is_exactly_the_omp_cli(self):
         records = generated_catalog()
-        self.assertEqual([record["n"] for record in records], ["omp"])
+        # Policy admits exactly the omp CLI wall plus pubstomper (admitted in 542c57c).
+        self.assertEqual([record["n"] for record in records], ["omp", "pubstomper"])
         record = records[0]
         self.assertIs(record["admitted"], True)
         self.assertIs(record["rinnegan"], True)
