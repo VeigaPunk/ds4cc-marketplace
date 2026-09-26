@@ -6,7 +6,7 @@
       "components": {
         "skills": [
           {
-            "name": "aaronplug-docs",
+            "name": "aaron",
             "description": "Search and download academic papers via aaronplug CLI."
           }
         ]
@@ -88,6 +88,10 @@
           {
             "name": "the-architect",
             "description": "the-architect.agent"
+          },
+          {
+            "name": "the-bootstrapper",
+            "description": "the-bootstrapper.agent"
           },
           {
             "name": "the-connector",
@@ -309,8 +313,54 @@
       "components": {
         "skills": [
           {
+            "name": "agent-model-selector",
+            "description": "Routes fleet task to the right model/agent by capability class."
+          },
+          {
+            "name": "godspeed",
+            "description": "Mandatory Pareto-walking posture for xbreed delegations."
+          },
+          {
             "name": "xbrd-gdsp-fknpft-docs",
             "description": "Dispatch xask cross-model queries and run xbreed orchestration workflows."
+          }
+        ],
+        "commands": [
+          {
+            "name": "goal"
+          },
+          {
+            "name": "godspeed"
+          },
+          {
+            "name": "orch"
+          },
+          {
+            "name": "references"
+          },
+          {
+            "name": "wwkd"
+          },
+          {
+            "name": "xb"
+          },
+          {
+            "name": "xbgst"
+          },
+          {
+            "name": "xbgst-grok"
+          },
+          {
+            "name": "xbreed"
+          },
+          {
+            "name": "xbreed-team"
+          },
+          {
+            "name": "xbt"
+          },
+          {
+            "name": "xgs"
           }
         ]
       }
