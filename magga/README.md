@@ -49,7 +49,7 @@ The `[oneshotprompt(magga)]` label links directly to the raw source prompt at
 The fourth edition lives at `/magga/zai-glm5.3-max-omp/`. It contains the six
 roster remakes plus Cluck Horizon (seven games) from a single one-shot run of
 glm-5.3 (max thinking) on the omp (Oh My Pi) CLI — source repository
-[MAKEARMORGAMESGREATAGAIN-zai](https://github.com/VeigaPunk/MAKEARMORGAMESGREATAGAIN-zai),
+`MAKEARMORGAMESGREATAGAIN-zai` (private),
 final commit `d629e2e`, shared baseline `322a5e4`. Unlike earlier editions,
 every game page is fully self-contained and the whole arcade opens directly
 via `file://` (verified in-run, zero console errors on all seven pages).

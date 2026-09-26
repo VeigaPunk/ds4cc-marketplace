@@ -26,5 +26,5 @@ Original commercial assets and exact frame-for-frame historical parity
 are not claimed.
 
 Source, ship records and verification evidence:
-https://github.com/VeigaPunk/MAKEARMORGAMESGREATAGAIN-zai
+https://github.com/VeigaPunk/MAKEARMORGAMESGREATAGAIN-zai (private repository — source commit d629e2e, baseline 322a5e4)
 One-shot prompt: https://raw.githubusercontent.com/VeigaPunk/1shot/main/magga/one-shot-prompt.md
