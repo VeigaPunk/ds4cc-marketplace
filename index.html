@@ -534,7 +534,7 @@ html.rinnegan ::selection {
     <div>
       <span class="badge">ship-ready distribution</span>
       <span class="badge badge-count">19 plugins</span>
-      <span class="badge dark badge-count">4 agent CLIs</span>
+      <span class="badge dark badge-count">5 agent CLIs</span>
       <span class="badge dark">rust-validated</span>
       <span class="badge cyan">MIT</span>
       <span class="badge" data-rinnegan-only>SS+ CLI — omp</span>
@@ -766,7 +766,7 @@ done</pre>
 <span class="g">/plugins install https://github.com/VeigaPunk/ds4cc-marketplace</span>
 <span class="g">/reload</span></pre>
 <pre><span class="c"># or register the full packaged catalog in the Kimi TUI</span>
-<span class="g">/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json</span>
+<span class="g">/plugins marketplace https://ds4cc.com/.kimi-plugin/marketplace.json</span>
 <span class="g">/plugins install <artifact-url-or-local-path></span>
 <span class="g">/reload</span></pre>
         <p class="note">Invoke as <code>/skill:<skill-name></code> and <code>/<plugin>:<command></code>. Third-party installs ask for trust first — review before approving.</p>
@@ -777,7 +777,7 @@ done</pre>
 <pre><span class="p">$</span> git clone https://github.com/VeigaPunk/ds4cc-marketplace.git
 <span class="p">$</span> node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global
 <span class="c"># or: --project /path/to/project</span></pre>
-        <p class="note">Writes 15 <code>the-*</code> agents plus <code>the-netsshark</code> (16 subagents total), and a separate <code>orch</code> primary mode. Structurally verified.</p>
+        <p class="note">Writes 16 <code>the-*</code> agents plus <code>the-netsshark</code> (17 subagents total), and a separate <code>orch</code> primary mode. Structurally verified.</p>
       </div>
 
       <div class="host">
@@ -1013,7 +1013,7 @@ done</pre>
         <b>catalog endpoints</b>
         <span class="few-good-clis">grok · <code>.grok-plugin/marketplace.json</code><br/>
         codex · <code>.agents/plugins/marketplace.json</code><br/>
-        kimi · <a href="https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json" target="_blank" rel="noopener">published catalog</a><br/>
+        kimi · <a href="https://ds4cc.com/.kimi-plugin/marketplace.json" target="_blank" rel="noopener">published catalog</a><br/>
         opencode · bootstrap installer<br/>
         cursor-agent · Few Good CLIs™ · <code>cursor.com/install</code></span>
         <span data-rinnegan-only>omp · SS+ CLI · <code>omp.sh/install</code></span>
@@ -1250,7 +1250,7 @@ done</pre>
         ["tui", "/plugins install https://github.com/VeigaPunk/ds4cc-marketplace"],
         ["warn", "third-party plugin — trust confirmation shown"],
         ["ok",  "DS4CC bootstrap plugin installed"],
-        ["tui", "/plugins marketplace https://veigapunk.github.io/ds4cc-marketplace/.kimi-plugin/marketplace.json"],
+        ["tui", "/plugins marketplace https://ds4cc.com/.kimi-plugin/marketplace.json"],
         ["ok",  "catalog registered — 19 packaged plugins"],
         ["tui", "/reload"],
         ["out", "skills live as /skill:<name> · commands as /<plugin>:<command>"],
@@ -1262,7 +1262,7 @@ done</pre>
         ["cmd", "git clone https://github.com/VeigaPunk/ds4cc-marketplace.git"],
         ["out", "cloning into 'ds4cc-marketplace'... done"],
         ["cmd", "node ds4cc-marketplace/scripts/install-opencode-agents.mjs --global"],
-        ["ok",  "wrote 15 the-* agents plus the-netsshark — 16 subagents total"],
+        ["ok",  "wrote 16 the-* agents plus the-netsshark — 17 subagents total"],
         ["ok",  "separate primary mode `orch` ready — XBGST default, judge-level godspeed"],
         ["out", "destination: ${XDG_CONFIG_HOME:-$HOME/.config}/opencode/agents"],
         ["warn", "note: xask on PATH required for cross-model delegation (not bundled)"],

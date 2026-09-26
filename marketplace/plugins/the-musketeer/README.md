@@ -70,7 +70,7 @@ Verify:
 
 ```bash
 curl -s http://127.0.0.1:9222/json/version
-grok-web "hello"   # when the official Grok CLI owns the `grok` command
+grok "hello"   # installed at ~/.local/bin/grok by install.sh
 ```
 
 ## Official Grok Build + DS4CC
@@ -82,20 +82,20 @@ curl -fsSL https://x.ai/cli/install.sh | bash
 ./scripts/setup-grok-build
 ```
 
-This installs the marketplace `myagents` plugin and 14 provider-neutral agent definitions under `~/.grok/agents/`. Each definition contains the canonical Godspeed Core followed by one generic specialist role. They contain no external-model routing instructions.
+This installs the marketplace `myagents` plugin and 16 provider-neutral agent definitions under `~/.grok/agents/`. Each definition contains the canonical Godspeed Core followed by one generic specialist role. They contain no external-model routing instructions.
 
 ## Files
 
 - `grok` — the CLI executable.
 - `the-musketeer.md` — Claude Code agent spec.
 - `install.sh` — idempotent installer.
-- `scripts/install-automation-chrome` — installs isolated Canary on native Linux.
+- `scripts/install-automation-chrome` — installs an isolated Chrome for Testing channel (Stable by default) on native Linux.
 - `scripts/musketeer-chrome` — launches the persistent CDP profile.
 - `scripts/repair-chrome-profile` — safely rotates a crash-looping profile while preserving a rollback backup.
 - `scripts/install-chrome-aliases` — safely installs both launcher aliases with reversible backups.
 - `tests/test-musketeer-chrome.sh` — hermetic launcher and installer-alias checks.
 - `scripts/setup-grok-build` — registers DS4CC with official Grok Build.
-- `agents/*.md` — 14 Grok-native Godspeed agent definitions.
+- `agents/*.md` — 16 Grok-native Godspeed agent definitions.
 
 ## Known limits
 

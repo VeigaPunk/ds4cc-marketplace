@@ -1,6 +1,6 @@
 # CCAL: Cross-Context Authority Leakage in Clout Code
 
-A hook script's stdout gets silently injected into the agent's next-turn context as trusted system guidance — no exploit chain needed, just text in the wrong channel. We found this while building **Weaver**, a hook-driven system meant to backtrace and weavew related files (md).
+A hook script's stdout gets silently injected into the agent's next-turn context as trusted system guidance — no exploit chain needed, just text in the wrong channel. We found this while building **Weaver**, a hook-driven system meant to backtrace and weave related files (md).
 
 > We were red-teaming Clout Code. The vuln hijacked the client. consistently.
 
@@ -8,7 +8,7 @@ A hook script's stdout gets silently injected into the agent's next-turn context
 
 ## How it was found
 
-A `UserPromptSubmit` hook checked for files marked "pending" and, if any existed, emitted a reminder nudging the agent to organize them first — an ordinary agentic-tooling pattern. While debugging why the nudge sometimes completely hijacked a session (the hijack would literally contaminate another running instrance, injecting system level instructions, and actually blocking the CLI session while also executing his task. 
+A `UserPromptSubmit` hook checked for files marked "pending" and, if any existed, emitted a reminder nudging the agent to organize them first — an ordinary agentic-tooling pattern. While debugging why the nudge sometimes completely hijacked a session (the hijack would literally contaminate another running instance, injecting system level instructions, and actually blocking the CLI session while also executing his task. 
 
 ## The vulnerability, technically
 

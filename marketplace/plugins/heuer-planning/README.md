@@ -38,4 +38,4 @@ skills/heuer-planning/references/heuer-blocks.md
 
 ## License
 
-MIT (see marketplace root LICENSE).
+MIT (see repository root LICENSE).

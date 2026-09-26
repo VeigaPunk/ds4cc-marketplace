@@ -68,7 +68,7 @@ Every plugin under `marketplace/plugins/` ships a `SKILL.md` with real, copy-pas
 **What it validates** (per plugin):
 
 1. `source.source` must be `"local"`
-2. `source.path` must be `"./plugins/<name>"` (path integrity)
+2. `source.path` must be `"./plugins/<name>"` or `"./marketplace/plugins/<name>"` (path integrity)
 3. `.codex-plugin/plugin.json` must exist and parse as valid JSON
 4. `plugin.name` must match the marketplace entry name
 5. `version` must be valid semver (`X.Y.Z`)
@@ -107,6 +107,7 @@ cargo clippy -- -D warnings
 running 23 tests
 test test_is_skill_actionable_with_code_block ... ok
 test test_is_skill_not_actionable_boilerplate ... ok
+test test_is_skill_not_actionable_copilot_prefix ... ok
 test test_expected_plugins_present ... ok
 test test_actionable_skill_passes ... ok
 test test_docs_only_skill_fails ... ok
@@ -116,8 +117,19 @@ test test_semver_validation ... ok
 test test_real_marketplace_validates ... ok
 test test_fnm_node_isolation ... ok
 test test_codex_cli_isolated_process ... ok
+test test_canonical_agents_layout_validates ... ok
+test test_codex_plugin_list_ds4cc_complete ... ok
+test test_malicious_name_traversal ... ok
+test test_malicious_source_path_traversal ... ok
+test test_no_claude_marketplace_support ... ok
+test test_no_copilot_marketplace_support ... ok
+test test_plugin_dir_symlink_escape ... ok
+test test_plugin_json_symlink_escape ... ok
+test test_public_codex_guidance_matches_verified_lifecycle ... ok
+test test_recursive_skills_symlink_escape ... ok
+test test_website_supported_hosts_and_guidance ... ok
 
-test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured
+test result: ok. 23 passed; 0 failed; 0 ignored; 0 measured
 ```
 
 ### Validator binary against real marketplace
@@ -140,7 +152,7 @@ Commands:
 ```
 codex plugin list
 Marketplace `personal`
-/home/vhpnk/.agents/plugins/marketplace.json
+~/.agents/plugins/marketplace.json
 ...
 spoderman@personal     installed, enabled  0.1.0
 xbrd-gdsp-fknpft@personal  installed, enabled  0.1.0
@@ -150,11 +162,11 @@ xbrd-gdsp-fknpft@personal  installed, enabled  0.1.0
 ### FNM multishell Node isolation (test 11)
 ```
 fnm exec --using lts-latest -- node --version
-v24.18.0
+v24.19.0
 ```
 FNM v1.39.0 is installed. `test_fnm_node_isolation` proves:
 - FNM is available and self-reports correctly
-- `fnm exec --using lts-latest` spawns a clean subprocess with Node v24.18.0 in PATH
+- `fnm exec --using lts-latest` spawns a clean subprocess with Node v24.19.0 in PATH
 - `aaronplug/package.json` is valid JSON (structural check without installing deps)
 
 ---
