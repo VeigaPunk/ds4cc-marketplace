@@ -102,7 +102,7 @@ systemctl --user daemon-reload
    You should see JSON with `"Browser": "Chrome/..."`. If not, check `netstat -ano | findstr :9222` on Windows — if nothing is listening, Chrome refused to enable CDP (usually because `--user-data-dir` was omitted).
 5. Once signed in, test with a non-sensitive prompt. `--help` and `--version` never connect or post.
 
-This Chrome Dev install is dedicated to automation — sign into any other web services you want programmatic access to (grok.com for the-musketeer, notebooklm.google.com, etc.) in the same profile.
+This Chrome Dev install is dedicated to automation — sign into any other web services you want programmatic access to (grok.com for the-musketeer, notebook.google.com for the-almanacker, etc.) in the same profile.
 
 ## Files
 

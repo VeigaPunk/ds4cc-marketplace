@@ -4,7 +4,7 @@
 
 ## What it is (and why)
 
-[NotebookLM](https://notebook.google.com (and legacy notebooklm.google.com))'s best features — **Audio Overviews**, **Reports** (Briefing Docs), **Infographics**, and notebook-scoped **chat** — live *only* in a web GUI. There's no public API, and the UI is painfully multi-layered: menus inside dialogs inside panels, every action a fresh click-path. Doing anything in bulk, or from a script, is miserable.
+[NotebookLM](https://notebook.google.com) (legacy `notebooklm.google.com` also works)'s best features — **Audio Overviews**, **Reports** (Briefing Docs), **Infographics**, and notebook-scoped **chat** — live *only* in a web GUI. There's no public API, and the UI is painfully multi-layered: menus inside dialogs inside panels, every action a fresh click-path. Doing anything in bulk, or from a script, is miserable.
 
 The Almanacker is the escape hatch. It drives that GUI for you, so a whole click-path collapses into one command:
 
@@ -25,7 +25,7 @@ So you get terminal-speed *operation* (create notebooks, batch-upload sources, f
 
 ```bash
 $ almanack create "chess-orchestration"
-✓ Notebook created: https://notebook.google.com (and legacy notebooklm.google.com)/notebook/abcd-1234
+✓ Notebook created: https://notebook.google.com/notebook/abcd-1234
 
 $ almanack add ~/papers/ufo.pdf https://en.wikipedia.org/wiki/M%C4%93tis
   ✓ ufo.pdf
@@ -73,7 +73,7 @@ The Almanacker drives a real Chrome window over CDP. You need one running with r
    "C:\Program Files\Google\Chrome Dev\Application\chrome.exe" --user-data-dir=C:\ChromeAutomation --remote-debugging-port=9222 --no-first-run --no-default-browser-check
    ```
    The `--user-data-dir` flag is **mandatory** — Chrome silently disables CDP on the default profile.
-3. **Sign in** to `notebook.google.com (and legacy notebooklm.google.com)` with the account that owns your notebooks, and open a notebook in a tab.
+3. **Sign in** to `notebook.google.com` (legacy `notebooklm.google.com` also works) with the account that owns your notebooks, and open a notebook in a tab.
 4. **Verify** the port is reachable: `curl -s http://localhost:9222/json/version`
 
 > Already set up Chrome Dev CDP for the-puppeteer or the-musketeer? You're done — `almanack` reuses the same Chrome and the same `C:\ChromeAutomation` profile. Just make sure you're signed into NotebookLM. If port `9222` isn't reachable, `almanack` will try to auto-launch Chrome Dev for you.

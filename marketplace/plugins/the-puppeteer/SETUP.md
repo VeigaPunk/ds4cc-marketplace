@@ -63,7 +63,7 @@ The isolated profile starts empty. In the CDP Chrome Dev window:
 
 1. Go to `https://chatgpt.com` → sign in with your **Plus/Pro** account.
 2. (Optional) Pick a default model in the web-UI settings — `chitchat` can override per-call via `--model`.
-3. While you're there, sign into any other services you'll automate (`grok.com` for the-musketeer, `notebooklm.google.com` for the-almanacker). The dedicated profile stores cookies persistently in `C:\ChromeAutomation`; you only do this once.
+3. While you're there, sign into any other services you'll automate (`grok.com` for the-musketeer, `notebook.google.com` for the-almanacker). The dedicated profile stores cookies persistently in `C:\ChromeAutomation`; you only do this once.
 
 **Leave the window open.** Every subsequent `chitchat` call attaches to this running Chrome over CDP.
 
