@@ -102,9 +102,9 @@ cargo clippy -- -D warnings
 # Finished `dev` profile — 0 warnings, 0 errors
 ```
 
-### cargo test (11/11)
+### cargo test (23/23)
 ```
-running 11 tests
+running 23 tests
 test test_is_skill_actionable_with_code_block ... ok
 test test_is_skill_not_actionable_boilerplate ... ok
 test test_expected_plugins_present ... ok
