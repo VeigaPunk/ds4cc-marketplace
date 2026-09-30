@@ -16,8 +16,6 @@ An entry must have:
 
 1. A clear, useful capability with a reproducible demonstration.
 
-Entries can be removed or demoted when they become unmaintained, unsafe,
-misleading, legally unclear, or dominated by a demonstrably stronger option.
 
 Demotion or kill should preferably land a short entry in
 [`docs/ANTI-PATTERNS.md`](docs/ANTI-PATTERNS.md) with **status**, **why**,

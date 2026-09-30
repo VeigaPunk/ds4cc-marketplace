@@ -639,7 +639,7 @@ html.rinnegan ::selection {
 
   <section id="plugins" class="reveal">
     <h2 data-rinnegan-only><span class="idx">02</span>The catalog — curated plugins + the SS+ CLI</h2>
-    <h2 class="catalog-h2"><span class="idx">02</span>The catalog — 19 curated plugins</h2>
+    <h2 class="catalog-h2"><span class="idx">02</span>The catalog — 20 curated plugins</h2>
     <p class="sub">Every plugin ships an actionable <code>SKILL.md</code> (fenced commands, no boilerplate) and passes the Rust validator. Filter by name, category chips, or capability. Companion OS tools appear under <strong>os tuning</strong>.</p>
     <div class="grid-tools">
       <input class="filter" id="plugFilter" type="search" placeholder="filter plugins… (try: agents, grok, papers, godspeed)" aria-label="filter plugins" />
@@ -867,12 +867,6 @@ done</pre>
         <h3 style="font-size:0.95rem;margin-top:0">Admission gate</h3>
         <ol class="gate">
           <li><b>Useful capability</b> with a reproducible demonstration</li>
-          <li><b>Provenance</b> — identifiable maintainer or publisher</li>
-          <li><b>Current docs</b> — install steps + supported-platform scope</li>
-          <li><b>Compatible licensing</b> and required notices</li>
-          <li><b>Reviewed security/privacy posture</b> for its permissions</li>
-          <li><b>Automated structural checks</b> + manual end-to-end capability check</li>
-          <li><b>Claims limited</b> to demonstrated evidence</li>
         </ol>
       </div>
       <div>
@@ -880,9 +874,6 @@ done</pre>
         <p>Comparative, compatibility, price, and “full functionality” claims require a dated evidence packet: tested hardware/software, comparison baseline, known limitations, repeatable demo.</p>
         <div class="callout amber">
           <strong>Proposed, not advertised:</strong> <em>DS4CC microG</em> stays off the public listing until its parity matrix, demos, latency numbers, and price source land in the repo.
-        </div>
-        <div class="callout red">
-          <strong>Removal:</strong> entries are demoted or dropped when unmaintained, unsafe, misleading, legally unclear, or dominated by a demonstrably stronger option.
         </div>
       </div>
     </div>
@@ -1007,41 +998,6 @@ done</pre>
     <p class="note" style="margin-top:14px">Footer mirrors the same three disclosures. No Grok/x.ai invite links by policy.</p>
   </section>
 
-  <section id="lanes" class="reveal">
-    <h2><span class="idx">11</span>Orchestration lanes — live routing</h2>
-    <p class="note">Mirrored from the packaged SSoT (<code>marketplace/plugins/xbrd-gdsp-fknpft/commands/references/xbreed-shared.md</code> § Axis → Profile Mapping + xask Gate). If this section and the SSoT disagree, the SSoT wins and this section is drift.</p>
-    <h3>Role declarations</h3>
-<pre>the-judge            fable 5 · xhigh
-the-planner          sonnet · medium
-the-scout            sonnet · medium
-the-reviewer         sonnet · medium
-the-labrat           sonnet · medium
-the-executor         sonnet · medium
-the-connector        sonnet · medium
-the-distiller        sonnet · medium
-the-simplifier       sonnet · medium
-the-revenger         sonnet · medium
-the-sentinel         sonnet · medium
-the-critic           sonnet · medium
-the-mutation-tester  sonnet · medium
-the-scribe           sonnet · medium
-the-netsshark        host extension</pre>
-    <h3>Execution gates</h3>
-<pre>planner              wwkd · native
-scout / labrat / executor xask --spark --gs codex → gpt-5.3-codex-spark
-reviewer             xask --gpt55 --gs -e low codex → gpt-5.6-sol (default tier)
-critic               Layer-0: heuer-planning → xask --gpt55 --gs -e low codex → gpt-5.6-sol
-revenger RECON       xask --gpt55 --gs -e high codex → gpt-5.6-sol
-sentinel             xask --gpt55 --gs -e low codex → gpt-5.6-sol
-connector            xask --spark --gs codex → gpt-5.3-codex-spark
-mutation: single / <=4 xask --spark --gs codex
-mutation: >=5 / breadth xask --effort high --gs codex
-distiller / simplifier / scribe native</pre>
-    <p class="note">Codex Sol lanes use explicit reasoning and the neutral default service tier; fast is opt-in. Spark lanes resolve through Sekhmet to <code>gpt-5.3-codex-spark</code> (fallback <code>gpt-5.6-luna</code>). Teammate prefixes: <code>ccs-</code> sonnet, <code>cco-</code> fable 5 (judge), <code>cdx-</code> codex, <code>g-</code> local Gemma/HVM.</p>
-    <h3>Local lane — Gemma 4 over HVM4</h3>
-    <p><code>xask --gs gemma</code> (aliases <code>g</code>, legacy <code>gemini</code>) dispatches through <code>xbreed ask gemma</code> → <code>gemma-hvm</code> → <code>run.sh/run-hvm4.sh</code> → Bend 0.2.38 gen-hvm → HVM4 4.0 control gate → Ollama. Default model <code>gemma4:26b</code> via <code>HVM_GEMMA_MODEL</code>. Cloud Gemini CLI is retired — do not call the <code>gemini</code> binary. Any <code>g-*</code> teammate (and connector when routing local breadth) MUST use this lane — not the retired cloud Gemini path.</p>
-    <p class="note">Ollama/Gemma 4 is the serving substrate. HVM4 controls routing only; tensor inference is not claimed to run in HVM4.</p>
-  </section>
 
   <footer>
     <div class="cols">
