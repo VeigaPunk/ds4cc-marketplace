@@ -1,0 +1,19 @@
+{
+  "name": "shokunin",
+  "version": "0.1.0",
+  "description": "Shokunin — the craft posture: one axis-move per round, per-axis judge verdicts (never scalar scores), strict Pareto admission, honest stops.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/shokunin",
+  "repository": "https://github.com/VeigaPunk/shokunin",
+  "license": "MIT",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Shokunin (craft posture)",
+    "shortDescription": "Craft discipline for improvement rounds — verdicts, not scores",
+    "longDescription": "A working stance for any agent improving a codebase, corpus, or skill: map the optimization space into objective and subjective axes, move ONE axis per round, and let the judge rule per axis — improved / harmed / unchanged / unprovable-but-better. Admission is strict Pareto: at least one axis improved, none harmed. Improvement is empirical proof where measurable, judged-better-vs-previous where not. No 1-10 scores, ever.",
+    "developerName": "VeigaPunk",
+    "websiteURL": "https://github.com/VeigaPunk/shokunin"
+  }
+}

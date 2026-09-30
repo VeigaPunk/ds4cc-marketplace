@@ -1,0 +1,22 @@
+{
+  "name": "shokunin",
+  "version": "0.1.0",
+  "description": "Shokunin — the craft posture for agents: one axis-move per round, judge verdicts instead of scores, strict Pareto admission. A working discipline, not a framework.",
+  "author": {
+    "name": "VeigaPunk"
+  },
+  "homepage": "https://github.com/VeigaPunk/shokunin",
+  "repository": "https://github.com/VeigaPunk/shokunin",
+  "license": "MIT",
+  "keywords": [
+    "shokunin",
+    "craft",
+    "posture",
+    "axes",
+    "pareto",
+    "verdicts",
+    "self-improvement",
+    "ds4cc"
+  ],
+  "skills": "./skills/"
+}

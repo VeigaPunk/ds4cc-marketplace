@@ -263,7 +263,7 @@
     {
       "name": "sekhmet",
       "version": "0.1.1",
-      "description": "Sekhmet \u2014 always-available swarm on Codex Titanium (xbreed L3). Up to 64 concurrent runners. Rust only.",
+      "description": "Sekhmet — always-available swarm on Codex Titanium (xbreed L3). Up to 64 concurrent runners. Rust only.",
       "category": "development",
       "source": {
         "type": "local",
@@ -482,6 +482,36 @@
       "keywords": [
         "xbrd-selector",
         "xbrd",
+        "ds4cc",
+        "veigapunk"
+      ],
+      "domains": [
+        "github.com/VeigaPunk/ds4cc-marketplace",
+        "veigapunk.github.io",
+        "ds4cc.com",
+        "app.ds4cc.com"
+      ],
+      "author": {
+        "name": "VeigaPunk"
+      }
+    },
+    {
+      "name": "shokunin",
+      "version": "0.1.0",
+      "description": "Shokunin — the craft posture: one axis-move per round, judge verdicts instead of scores, strict Pareto admission, honest stops.",
+      "category": "development",
+      "source": {
+        "type": "local",
+        "path": "./marketplace/plugins/shokunin"
+      },
+      "homepage": "https://github.com/VeigaPunk/shokunin",
+      "keywords": [
+        "shokunin",
+        "craft",
+        "posture",
+        "axes",
+        "pareto",
+        "verdicts",
         "ds4cc",
         "veigapunk"
       ],

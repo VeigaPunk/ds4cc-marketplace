@@ -325,6 +325,17 @@
           }
         ]
       }
+    },
+    "shokunin": {
+      "version": "0.1.0",
+      "components": {
+        "skills": [
+          {
+            "name": "shokunin",
+            "description": "The craft posture for improvement rounds: one axis-move per round, per-axis judge verdicts (never scalar scores), strict Pareto admission, honest stops. Say 'shokunin round on <target>' to activate."
+          }
+        ]
+      }
     }
   }
 }
