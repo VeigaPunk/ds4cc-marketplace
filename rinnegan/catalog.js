@@ -13,8 +13,8 @@ globalThis.DS4CC_RINNEGAN_CATALOG = Object.freeze([
     "shipped": true,
     "provenance": "https://github.com/can1357/oh-my-pi",
     "bootstrap": "upstream-installer"
-  }
-  ,{
+  },
+  {
     "n": "pubstomper",
     "v": "latest",
     "cat": "game",
@@ -28,5 +28,20 @@ globalThis.DS4CC_RINNEGAN_CATALOG = Object.freeze([
     "shipped": true,
     "provenance": "https://github.com/VeigaPunk/pubstomper",
     "bootstrap": "git-clone"
+  },
+  {
+    "n": "rea",
+    "v": "latest",
+    "cat": "security",
+    "d": "Reverse Engineer Anything — MCP server + CLI connecting agents to Ghidra/Hopper/IDA/browser/JADX for evidence-backed analysis of binaries, apps, websites. External; MCP — not Titanium default. Local execution.",
+    "c": "npx rea-agents setup",
+    "localCommand": "rea",
+    "kind": "repo",
+    "action": "COPY SETUP",
+    "admitted": true,
+    "rinnegan": true,
+    "shipped": true,
+    "provenance": "https://github.com/morluto/rea",
+    "bootstrap": "npx-setup"
   }
 ]);
