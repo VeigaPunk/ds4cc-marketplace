@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070d10">
+<meta name="description" content="Enduro, twice: the 1983 endurance race exactly as the cartridge drew it, and a remastered edition with modern graphics. Pass the cars, survive the night, earn the trophy. Arrow keys to drive.">
+<title>Enduro — Classic &amp; Remastered</title>
+<link rel="canonical" href="https://ds4cc.com/magga/enduro/">
+<meta property="og:title" content="Enduro — Classic &amp; Remastered">
+<meta property="og:description" content="The 1983 endurance race, twice: cartridge-exact and remastered. Arrow keys to drive.">
+<meta property="og:url" content="https://ds4cc.com/magga/enduro/">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236baa88'/%3E%3Cpath d='M28 18h8l14 34H14z' fill='%23070d10'/%3E%3Cpath d='M31 24h2v6h-2zm0 10h2v7h-2zm0 11h2v7h-2z' fill='%236baa88'/%3E%3C/svg%3E">
+<script>
+  // The MAGGA signature face lives one level up on ds4cc.com; only reach for it there.
+  if (location.pathname.indexOf('/magga/') !== -1) document.documentElement.classList.add('magga-fonts');
+  else addEventListener('DOMContentLoaded', function () {
+    // Outside the arcade (the source repo), "home" is the repository hub.
+    document.querySelectorAll('[data-home]').forEach(function (a) { a.href = '../../'; });
+  });
+</script>
+<style>
+@font-face {
+  font-family: "JetBrainsMonoNL Nerd Font Mono";
+  src: url("../assets/fonts/JetBrainsMonoNLNerdFontMono-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "JetBrainsMonoNL Nerd Font Mono";
+  src: url("../assets/fonts/JetBrainsMonoNLNerdFontMono-Bold.woff2") format("woff2");
+  font-weight: 600 700; font-style: normal; font-display: swap;
+}
+:root {
+  color-scheme: dark;
+  --bg: #070d10;
+  --bg-deep: #05090b;
+  --surface: #0f191e;
+  --surface-2: #152228;
+  --ink: #e8f0f2;
+  --muted: #9aafb6;
+  --faint: #6d838c;
+  --chrome: #c5d5dc;
+  --chrome-bright: #eaf3f6;
+  --leaf: #6baa88;
+  --leaf-glow: color-mix(in oklab, #6baa88 28%, transparent);
+  --teal: #5aa8a0;
+  --border: color-mix(in oklab, #e8f0f2 12%, transparent);
+  --border-strong: color-mix(in oklab, #e8f0f2 22%, transparent);
+  --focus: #9ee0d4;
+  --radius-sm: 8px;
+  --radius-xl: 24px;
+  --shadow: 0 20px 50px color-mix(in oklab, #000 40%, transparent);
+  --font: "JetBrains Mono", ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.magga-fonts { --font: "JetBrainsMonoNL Nerd Font Mono", "JetBrains Mono", ui-monospace, monospace; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font);
+  line-height: 1.65;
+  color: var(--ink);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 110% 70% at 50% -15%, color-mix(in oklab, var(--teal) 14%, transparent), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 30%, color-mix(in oklab, #3f6f58 12%, transparent), transparent 50%),
+    linear-gradient(180deg, var(--bg-deep) 0%, var(--bg) 45%, #0a1418 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+.site-header, main { max-width: 1360px; margin: auto; }
+.site-header {
+  height: 88px; padding: 0 42px;
+  display: flex; align-items: center; gap: 32px;
+  border-bottom: 1px solid var(--border);
+}
+.brand { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600; letter-spacing: .06em; }
+.brand svg { flex: none; border-radius: 8px; }
+.eyebrow, .header-note, .availability, .features, .collection-line, .preview-tag {
+  font-size: 11px; line-height: 1.4; letter-spacing: .12em;
+}
+.header-note { color: var(--faint); }
+.header-link { margin-left: auto; font-size: 12px; white-space: nowrap; color: var(--muted); }
+.header-link:hover { color: var(--ink); }
+.header-link span { margin-right: 10px; color: var(--leaf); }
+main { padding: 0 42px 40px; }
+.intro { padding: 64px 0 46px; display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 48px; align-items: end; }
+.eyebrow { color: var(--leaf); text-transform: uppercase; letter-spacing: .16em; margin: 0 0 22px; }
+h1 { margin: 0; font-weight: 600; font-size: clamp(3.25rem, 9vw, 6.2rem); line-height: .92; letter-spacing: -.04em; }
+h1 em { color: var(--leaf); font-style: normal; }
+.intro-copy p { margin: 0 0 14px; font-size: 13px; line-height: 1.85; color: var(--muted); }
+.intro-copy p:first-child { color: var(--ink); font-size: 1.1rem; line-height: 1.5; letter-spacing: -.02em; }
+.collection-line {
+  display: flex; justify-content: space-between; gap: 20px;
+  border-top: 1px solid var(--border); padding: 22px 0;
+  color: var(--faint); text-transform: uppercase;
+}
+.collection-line h2 { font: inherit; margin: 0; color: var(--leaf); }
+.versions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.version {
+  display: flex; flex-direction: column;
+  border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden;
+  background: color-mix(in oklab, var(--surface) 78%, transparent);
+  transition: border-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+.version:hover, .version:focus-within {
+  border-color: color-mix(in oklab, var(--leaf) 45%, transparent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow), 0 0 2rem var(--leaf-glow);
+}
+.preview { position: relative; padding: 12px; background: var(--bg-deep); }
+.preview img {
+  display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover;
+  border-radius: var(--radius-sm); background: var(--surface);
+}
+.preview img.pixel { image-rendering: pixelated; }
+.preview-tag {
+  position: absolute; left: 24px; top: 24px;
+  background: color-mix(in oklab, var(--bg) 85%, transparent);
+  border: 1px solid var(--border-strong); border-radius: 999px;
+  padding: 6px 10px; font-size: 10px;
+}
+.body { padding: 28px 30px 30px; display: flex; flex-direction: column; flex: 1; }
+.availability { margin: 0 0 12px; color: var(--leaf); font-size: 10px; display: flex; align-items: center; gap: 8px; }
+.availability > span { width: 6px; height: 6px; background: var(--leaf); border-radius: 50%; box-shadow: 0 0 .8rem var(--leaf); }
+h3 { margin: 0; font-weight: 600; font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1; letter-spacing: -.04em; }
+.desc { margin: 16px 0 18px; font-size: 13px; color: var(--muted); line-height: 1.8; }
+.features { list-style: none; margin: 0 0 24px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; font-size: 9px; letter-spacing: .08em; }
+.features li { padding: 6px 8px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; color: var(--leaf); }
+.btn {
+  margin-top: auto;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 15px 18px; border-radius: 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: .055em; line-height: 1; text-transform: uppercase;
+  background: linear-gradient(180deg, var(--chrome-bright), #cfe0e7); color: var(--bg);
+  transition: transform .15s var(--ease), box-shadow .15s var(--ease), background .15s var(--ease);
+}
+.btn > span { font-size: 16px; transition: transform .15s var(--ease); }
+.btn:hover { background: linear-gradient(180deg, #fff, var(--chrome-bright)); box-shadow: 0 8px 22px color-mix(in oklab, #000 45%, transparent), 0 0 1.2rem var(--leaf-glow); transform: translateY(-1px); }
+.btn:hover > span { transform: translate(2px, -2px); }
+.rules { margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.rule { border: 1px solid var(--border); border-radius: 16px; padding: 22px 24px; background: color-mix(in oklab, var(--surface) 55%, transparent); }
+.rule h4 { margin: 0 0 10px; font-size: 11px; letter-spacing: .12em; color: var(--leaf); font-weight: 600; }
+.rule p, .rule li { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.8; }
+.rule ul { margin: 0; padding: 0; list-style: none; }
+.rule kbd { font-family: inherit; color: var(--ink); border: 1px solid var(--border-strong); border-radius: 4px; padding: 0 5px; font-size: 11px; }
+footer {
+  max-width: 1360px; margin: 40px auto 0; padding: 22px 42px 34px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; gap: 20px;
+  font-size: 11px; color: var(--faint);
+}
+footer a { color: var(--muted); }
+footer a:hover { color: var(--ink); }
+@media (max-width: 900px) {
+  .intro { grid-template-columns: 1fr; gap: 24px; padding: 46px 0 34px; }
+  .versions, .rules { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .site-header { padding: 0 18px; height: 68px; gap: 16px; }
+  .header-note { display: none; }
+  main { padding: 0 18px 30px; }
+  .body { padding: 22px 20px 24px; }
+  .preview-tag { left: 18px; top: 18px; font-size: 9px; }
+  .collection-line { font-size: 9px; }
+  footer { flex-direction: column; padding: 20px 18px 28px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .version, .btn, .btn > span { transition: none; }
+  .version:hover, .version:focus-within, .btn:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="../" data-home aria-label="MAGGA collection home">
+    <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#6baa88"/><path d="M16 45V28l8-10h16l8 10v17H37v-9H27v9z" fill="#070d10"/><path d="M27 26h10v5H27z" fill="#6baa88"/></svg>
+    <span>MAGGA</span>
+  </a>
+  <span class="header-note">MAKE ARMOR GAMES GREAT AGAIN</span>
+  <a class="header-link" href="../" data-home><span aria-hidden="true">←</span>The arcade</a>
+</header>
+
+<main>
+  <section class="intro" aria-labelledby="title">
+    <div>
+      <p class="eyebrow">1983 · THE NATIONAL ENDURANCE RACE</p>
+      <h1 id="title">Enduro.<br><em>Two ways.</em></h1>
+    </div>
+    <div class="intro-copy">
+      <p>Pass the cars. Beat daybreak. Do it again tomorrow.</p>
+      <p>One race engine, two cabinets: the cartridge exactly as it looked on a 2600, and a remastered build with modern light, weather and sound. Same rules, same traffic — arrow keys on a keyboard, thumb pads on iPhone and Android.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="versions-title">
+    <div class="collection-line">
+      <h2 id="versions-title">Choose your cabinet</h2>
+      <span>2 versions / keys or touch</span>
+    </div>
+    <div class="versions">
+      <article class="version" aria-labelledby="classic-title">
+        <a class="preview" href="./classic/" tabindex="-1" aria-hidden="true">
+          <img class="pixel" src="./covers/classic.png" alt="" width="1280" height="800">
+          <span class="preview-tag">CLASSIC · 160×192</span>
+        </a>
+        <div class="body">
+          <p class="availability"><span aria-hidden="true"></span>CARTRIDGE-EXACT</p>
+          <h3 id="classic-title">Enduro Classic</h3>
+          <p class="desc">The original screen, pixel for pixel in spirit: 2600 palette, banded sunsets, one-pixel road edges, stepped car sprites, tail lights in the dark, the red dashboard with its rolling odometer, and a TIA-style engine drone.</p>
+          <ul class="features" aria-label="Classic features"><li>NTSC 2600 PALETTE</li><li>ROLLING ODOMETER</li><li>TIA SOUND</li><li>IPHONE + ANDROID</li></ul>
+          <a class="btn" href="./classic/">PLAY CLASSIC <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="version" aria-labelledby="remastered-title">
+        <a class="preview" href="./remastered/" tabindex="-1" aria-hidden="true">
+          <img src="./covers/remastered.jpg" alt="" width="1280" height="800">
+          <span class="preview-tag">REMASTERED · HD</span>
+        </a>
+        <div class="body">
+          <p class="availability"><span aria-hidden="true"></span>UPDATED GRAPHICS</p>
+          <h3 id="remastered-title">Enduro Remastered</h3>
+          <p class="desc">The same race rebuilt for today's screens: a full day-to-night sky, parallax mountains, falling snow, rolling fog, headlight beams, detailed cars, a modern instrument panel and a synthesized engine.</p>
+          <ul class="features" aria-label="Remastered features"><li>DYNAMIC SKY</li><li>SNOW · FOG · NIGHT</li><li>HEADLIGHTS</li><li>IPHONE + ANDROID</li></ul>
+          <a class="btn" href="./remastered/">PLAY REMASTERED <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="rules" aria-label="How to race">
+    <div class="rule">
+      <h4>CONTROLS</h4>
+      <ul>
+        <li><kbd>←</kbd> <kbd>→</kbd> steer</li>
+        <li><kbd>↑</kbd> or <kbd>SPACE</kbd> accelerate — let go to hold your speed</li>
+        <li><kbd>↓</kbd> brake</li>
+        <li><kbd>P</kbd> pause · <kbd>M</kbd> sound · <kbd>ENTER</kbd> start</li>
+        <li>Phone: hold ▲ for gas, slide a thumb across ◀ ▶ to steer, ▼ brakes</li>
+      </ul>
+    </div>
+    <div class="rule">
+      <h4>THE RACE</h4>
+      <p>Pass 200 cars on day one and 300 on every day after. Each car you pass counts down; each car that passes you counts back up. Meet the quota and green flags fly — keep driving until daybreak to start the next day.</p>
+    </div>
+    <div class="rule">
+      <h4>THE ROAD</h4>
+      <p>Snow turns the steering to soap, dusk dims the world, at night you see only tail lights, and fog hides everything until it's close. Rivals get faster and spread wider every day. Last five days and the trophy is yours.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>Same nostalgia. Different makers.</span>
+  <a href="../" data-home>Back to the MAGGA arcade <span aria-hidden="true">↗</span></a>
+</footer>
+</body>
+</html>

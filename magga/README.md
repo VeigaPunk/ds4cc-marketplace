@@ -137,3 +137,15 @@ preserved. The separate `catalog-release.json` records publication hashes,
 the original lock digest, the permitted launcher overlay and the catalog
 previews. Verification evidence and browser/tooling dependencies remain out
 of the website payload. The prompt label points to the pinned v2 prompt.
+
+## Enduro — bonus cartridge (DLC shelf)
+
+`/magga/enduro/` holds the 1983 endurance race in two versions that share one
+race engine: `classic/` (cartridge-exact 160×192 frame, 2600 palette, TIA-style
+sound) and `remastered/` (modern graphics, weather, lighting and audio). The
+chooser at `/magga/enduro/index.html` follows the catalog signature and loads
+the shared fonts from `../assets/fonts/`; the game pages are self-contained
+(no fonts, CDNs or other external requests). It is catalogued as the first
+live card on THE DLC SHELF. Source of truth:
+`VeigaPunk/MAKEARMORGAMESGREATAGAIN` → `games/enduro/`; this folder is a
+byte-for-byte copy of it.

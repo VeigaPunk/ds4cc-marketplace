@@ -456,6 +456,10 @@ h1 em { color: var(--leaf); font-style: normal; }
   line-height: 1.8;
 }
 .dlc-card .features li { color: #e0a050; }
+.dlc-card.dlc-live { border-style: solid; border-color: var(--border); margin-bottom: 18px; }
+.dlc-card.dlc-live:hover { border-color: color-mix(in oklab, var(--leaf) 45%, transparent); box-shadow: var(--shadow), 0 0 2rem var(--leaf-glow); }
+.dlc-card.dlc-live .features li { color: var(--leaf); }
+.dlc-actions { margin-top: 22px; flex-wrap: wrap; }
 
 .collection-note {
   font-size: 12px;
