@@ -706,13 +706,13 @@ html.rinnegan ::selection {
     <div class="panel" style="padding:14px 16px">
       <h3 style="margin-top:0;font-size:0.95rem">omarchy-usage-tray</h3>
       <p style="color:var(--muted);font-size:0.9rem;line-height:1.5;margin:0 0 12px">
-        Cycles Codex, Grok, Kimi, Cursor, and Alibaba Token Plan meters on the bar.
+        14 AI usage meters on one chip — Codex, Anthropic, Cursor, Grok, Kimi, Devin, Google, Token Plan, Z.ai, OpenCode Go, Command Code, Charm Hyper, and Inception — all read from <code>omp usage</code>.
         Left-click / scroll = next provider; right-click = identity swap when supported.
-        Installs into <code>~/.config/waybar/</code> only.
+        Quattro plugin or Waybar.
       </p>
       <div class="oneliner" style="margin:8px 0 12px">
-        <code><span class="p">$</span> curl -fsSL https://raw.githubusercontent.com/VeigaPunk/omarchy-usage-tray/main/install.sh | bash</code>
-        <button type="button" class="copy-btn" data-copy="curl -fsSL https://raw.githubusercontent.com/VeigaPunk/omarchy-usage-tray/main/install.sh | bash">COPY</button>
+        <code><span class="p">$</span> omarchy plugin add https://github.com/VeigaPunk/omarchy-usage-tray.git --enable</code>
+        <button type="button" class="copy-btn" data-copy="omarchy plugin add https://github.com/VeigaPunk/omarchy-usage-tray.git --enable">COPY</button>
       </div>
       <a class="btn solid" href="./omarchy-usage/">OPEN PAGE →</a>
       <a class="btn" href="https://github.com/VeigaPunk/omarchy-usage-tray" target="_blank" rel="noopener">github ↗</a>
@@ -1128,7 +1128,7 @@ done</pre>
       { n: "sekhmet", v: "0.1.1", cat: "swarm", rinnegan: true, d: "Always-available Codex Titanium swarm (xbreed L3). Up to 64 concurrent runners.", c: "sekhmet swarm --direct -j 64 --tasks-file tasks.txt" },
     { n: "xbrd-gdsp-fknpft", v: "8.16.137", cat: "orchestration", rinnegan: true, d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
     { n: "xbrd-selector", v: "0.1.1", cat: "orchestration", d: "Model/agent selector helpers for xbreed stacks.", c: 'codex \"Use xbrd-selector\"' },
-    { n: "omarchy-usage-tray", v: "main", cat: "os-tuning", kind: "page", d: "Omarchy Waybar chip for Codex, Grok, Kimi, Cursor, and Token Plan usage limits.", c: "curl -fsSL https://raw.githubusercontent.com/VeigaPunk/omarchy-usage-tray/main/install.sh | bash", href: "./omarchy-usage/", src: "https://github.com/VeigaPunk/omarchy-usage-tray" },
+    { n: "omarchy-usage-tray", v: "1.10.0", cat: "os-tuning", kind: "page", d: "Omarchy bar chip for 14 AI usage meters — Codex, Anthropic, Cursor, Grok, Kimi, Devin, Google, and more — read from omp usage.", c: "omarchy plugin add https://github.com/VeigaPunk/omarchy-usage-tray.git --enable", href: "./omarchy-usage/", src: "https://github.com/VeigaPunk/omarchy-usage-tray" },
     { n: "gkeep", v: "1.0.0", cat: "os-tuning", kind: "page", d: "Local post-it notes on the Omarchy bar. Click, paste, save — nothing leaves the machine.", c: "omarchy plugin add https://github.com/VeigaPunk/gkeep.git --enable", href: "./gkeep/", src: "https://github.com/VeigaPunk/gkeep" },
   ];
 

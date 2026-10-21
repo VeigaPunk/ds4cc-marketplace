@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Omarchy Usage Tray — Waybar AI limits</title>
-  <meta name="description" content="OS tuning for Omarchy: Waybar chip that cycles Codex, Grok, Kimi, Cursor, and Alibaba Token Plan usage limits. Left-click providers, right-click identities." />
+  <title>Omarchy Usage Tray — AI usage meters on the bar</title>
+  <meta name="description" content="OS tuning for Omarchy: one bar chip for 14 AI usage meters — Codex, Anthropic, Cursor, Grok, Kimi, Devin, Google, Token Plan, Z.ai, OpenCode Go, Command Code, Charm Hyper, and Inception — all read from omp usage." />
   <meta name="theme-color" content="#050605" />
   <meta property="og:title" content="Omarchy Usage Tray" />
-  <meta property="og:description" content="Waybar AI usage limits for Omarchy — Codex, Grok, Kimi, Cursor, Token Plan." />
+  <meta property="og:description" content="14 AI usage meters on the Omarchy bar, metered from omp usage. Quattro plugin or Waybar." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://ds4cc.com/omarchy-usage/" />
   <link rel="canonical" href="https://ds4cc.com/omarchy-usage/" />
@@ -20,8 +20,10 @@
     <a class="brand" href="https://ds4cc.com/"><b>DS4CC</b> <span>// os tuning</span></a>
     <nav class="nav">
       <a href="#install">install</a>
-      <a href="#clicks">clicks</a>
+      <a href="#how">how it works</a>
       <a href="#providers">providers</a>
+      <a href="#clicks">clicks</a>
+      <a href="#roster">roster</a>
       <a href="https://github.com/VeigaPunk/omarchy-usage-tray" rel="noopener">github ↗</a>
       <a href="https://ds4cc.com/">marketplace</a>
     </nav>
@@ -29,22 +31,21 @@
 
   <main id="main">
     <section class="hero">
-      <p class="eyebrow">os tuning · omarchy · waybar</p>
+      <p class="eyebrow">os tuning · omarchy · quattro / waybar · v1.10.0</p>
       <h1>Omarchy Usage Tray</h1>
       <p class="lede">
-        One Waybar chip for live AI usage windows —
-        <strong>Codex</strong>, <strong>Grok</strong>, <strong>Kimi</strong>,
-        <strong>Cursor</strong>, and <strong>Alibaba Token Plan</strong>.
-        Cycle providers on the bar; swap identities when a provider has more than one live store.
-        Touches <code>~/.config/waybar/</code> only — never <code>~/.local/share/omarchy/</code>.
+        One bar chip for <strong>14 AI usage meters</strong> — Codex, Anthropic, Cursor, Grok, Kimi,
+        Devin (two accounts), Google, Token Plan, Z.ai, OpenCode Go, Command Code, Charm Hyper, and Inception.
+        Every meter comes from <code>omp usage --json</code>, so the native CLIs are not required.
+        A provider that cannot show a real number drops out of the cycle instead of rendering an invented zero.
       </p>
-      <div class="chip-demo" aria-label="example waybar chip">
-        <span class="chip-logo">C</span>
-        <span class="chip-name">codex</span>
-        <span class="chip-bar" aria-hidden="true"><i style="width:62%"></i></span>
-        <span class="chip-pct">62%</span>
-        <span class="chip-meta">5h · weekly</span>
+      <div class="chip-row" aria-label="example chips">
+        <span class="chip-demo"><span class="chip-logo">R</span><span class="chip-bar"><i style="width:16%"></i></span><span class="chip-bar"><i style="width:100%"></i></span></span>
+        <span class="chip-demo"><span class="chip-logo">⌘</span><span class="chip-bar"><i style="width:34%"></i></span><span class="chip-bar"><i style="width:58%"></i></span><span class="chip-count">140cr</span></span>
+        <span class="chip-demo"><span class="chip-logo">I</span><span class="chip-bar"><i style="width:22%"></i></span><span class="chip-bar"><i style="width:41%"></i></span><span class="chip-count">312M left</span></span>
+        <span class="chip-demo"><span class="chip-logo">H</span><span class="chip-count">238cr</span></span>
       </div>
+      <p class="chip-caption">Logo · average across accounts · hottest account · balance counter where the provider has one. Hover for the full tooltip.</p>
       <div class="cta-row">
         <a class="btn solid" href="#install">Install</a>
         <a class="btn" href="https://github.com/VeigaPunk/omarchy-usage-tray" rel="noopener">Source ↗</a>
@@ -53,14 +54,69 @@
     </section>
 
     <section class="panel" id="install">
-      <p class="eyebrow">one-liner</p>
+      <p class="eyebrow">install</p>
       <h2>Install on Omarchy</h2>
-      <p class="summary">Writes Waybar config (backup first), symlinks <code>~/.local/bin/ai-usage</code>, enables a 5-minute user timer, floats the TUI on Hyprland like other Omarchy TUIs.</p>
+      <p class="summary">Needs Python 3 and <code>omp</code> on <code>PATH</code>, signed in to the providers you want metered. No sudo.</p>
+
+      <h3>Quattro bar (Omarchy plugin)</h3>
       <div class="oneliner">
-        <code id="installCmd">curl -fsSL https://raw.githubusercontent.com/VeigaPunk/omarchy-usage-tray/main/install.sh | bash</code>
-        <button type="button" class="copy" data-copy="curl -fsSL https://raw.githubusercontent.com/VeigaPunk/omarchy-usage-tray/main/install.sh | bash">COPY</button>
+        <code>omarchy plugin add https://github.com/VeigaPunk/omarchy-usage-tray.git --enable</code>
+        <button type="button" class="copy" data-copy="omarchy plugin add https://github.com/VeigaPunk/omarchy-usage-tray.git --enable">COPY</button>
       </div>
-      <p class="note">Re-run the same line to update. Local clone: <code>git clone https://github.com/VeigaPunk/omarchy-usage-tray.git && cd omarchy-usage-tray && ./install.sh</code></p>
+      <p class="note">The plugin ships its own refresh service, so there is no installer and no systemd timer.</p>
+
+      <h3>Waybar</h3>
+      <div class="oneliner">
+        <code>git clone https://github.com/VeigaPunk/omarchy-usage-tray.git && cd omarchy-usage-tray && ./install.sh</code>
+        <button type="button" class="copy" data-copy="git clone https://github.com/VeigaPunk/omarchy-usage-tray.git && cd omarchy-usage-tray && ./install.sh">COPY</button>
+      </div>
+      <p class="note">
+        Backs up and edits <code>~/.config/waybar/</code>, links <code>~/.local/bin/ai-usage</code>,
+        enables the <code>ai-usage.timer</code> user unit, and floats the TUI on Hyprland.
+        Never writes under <code>~/.local/share/omarchy/</code>. Re-run <code>./install.sh</code> to update.
+        Remove with <code>./uninstall.sh</code> or <code>omarchy plugin remove io.github.veigapunk.usage-tray</code>.
+      </p>
+    </section>
+
+    <section class="panel" id="how">
+      <p class="eyebrow">implementation</p>
+      <h2>How it works</h2>
+      <ol class="flow">
+        <li><strong>Probe.</strong> <code>ai-usage refresh</code> runs <code>omp usage --provider &lt;id&gt; --json</code> for each provider on the roster, serially.
+          Inception has no usage API, so its meter is a ledger of the tokens OMP spent, summed from OMP's session transcripts.</li>
+        <li><strong>Schedule.</strong> Every 5 minutes: on Quattro, the plugin's <code>Service.qml</code> runs the refresh once for all monitors and skips a tick rather than overlapping a slow run;
+          on Waybar, the <code>ai-usage.timer</code> systemd user unit runs it.</li>
+        <li><strong>Cache.</strong> Results land in <code>~/.cache/ai-usage/status.json</code>. A provider that fails keeps its last good meters and shows the reason; data older than 20 minutes is marked stale.</li>
+        <li><strong>Render.</strong> The chip only reads the cache (<code>ai-usage waybar</code>) — it never probes. It re-renders after each refresh and every 60 seconds; on Waybar, clicks and scrolls signal it to re-render immediately.</li>
+      </ol>
+      <p class="summary">Missing data is never invented: a window the provider did not answer shows <code>—</code>, and a total is withheld rather than understated when one account answers nothing. <code>ai-usage tui</code> opens the full dashboard.</p>
+    </section>
+
+    <section class="panel" id="providers">
+      <p class="eyebrow">meters</p>
+      <h2>Providers</h2>
+      <div class="table-wrap">
+        <table class="gestures meters">
+          <thead><tr><th>Logo</th><th>Provider</th><th>What the chip shows</th><th>omp provider</th></tr></thead>
+          <tbody>
+            <tr><td>C</td><td>Codex</td><td>Weekly 7-day, hottest account</td><td><code>openai-codex</code></td></tr>
+            <tr><td>A</td><td>Anthropic</td><td>Weekly and 5-hour, plus per-model weekly caps (e.g. Fable)</td><td><code>anthropic</code></td></tr>
+            <tr><td>R</td><td>Cursor</td><td>Monthly Included, Auto, and API meters</td><td><code>cursor</code></td></tr>
+            <tr><td>G</td><td>Grok</td><td>Weekly credits, hottest account</td><td><code>xai-oauth</code></td></tr>
+            <tr><td>K</td><td>Kimi</td><td>Monthly total, 5-hour, and monthly code, per OAuth account</td><td><code>kimi-code</code></td></tr>
+            <tr><td>D</td><td>Devin</td><td>Weekly quota, hottest account</td><td><code>devin</code></td></tr>
+            <tr><td>d</td><td>Devin 2</td><td>Weekly quota, second account</td><td><code>devin</code></td></tr>
+            <tr><td>g</td><td>Google</td><td>Gemini weekly and 5-hour, plus the shared Claude &amp; GPT pools</td><td><code>google-antigravity</code></td></tr>
+            <tr><td>T</td><td>Token Plan</td><td>Per-account monthly credits, add-on packs, credits left</td><td><code>alibaba-token-plan</code></td></tr>
+            <tr><td>Z</td><td>Z.ai</td><td>5-hour and weekly, hottest account</td><td><code>zai</code></td></tr>
+            <tr><td>O</td><td>OpenCode Go</td><td>Rolling 5-hour, weekly, and monthly, per key</td><td><code>opencode-go</code></td></tr>
+            <tr><td>⌘</td><td>Command Code</td><td>Weekly and 5-hour credit windows, plus summed credit balance</td><td><code>commandcode</code></td></tr>
+            <tr><td>H</td><td>Charm Hyper</td><td>Prepaid credit balance, summed over every credential</td><td><code>charm-hyper</code></td></tr>
+            <tr><td>I</td><td>Inception</td><td>Tokens used of the 100M-per-key grant, tokens left</td><td>OMP transcripts (no usage API)</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="summary">Provider-specific details — Token Plan console cookies and pool sizes, Anthropic model caps, Google pool dedupe, Inception ledger limits — are in the <a href="https://github.com/VeigaPunk/omarchy-usage-tray#providers" rel="noopener">README</a>.</p>
     </section>
 
     <section class="panel" id="clicks">
@@ -71,28 +127,26 @@
         <tbody>
           <tr><td>Left-click</td><td>Next provider</td></tr>
           <tr><td>Scroll</td><td>Cycle providers</td></tr>
-          <tr><td>Right-click</td><td>Next identity (Token Plan: <code>team</code> / <code>gmail</code>)</td></tr>
+          <tr><td>Right-click</td><td>Next identity, where a provider has one to switch</td></tr>
         </tbody>
       </table>
       <p class="summary">
-        Token Plan right-click runs <code>token-plan-swap toggle</code> — flips
-        <code>~/.config/alibaba-token-plan/active</code> and rewrites
-        <code>~/.bailian/config.json</code> from the matching local key file.
-        OAuth multi-account is a no-op until a provider has two live stores.
+        Right-click does real work for two providers. <strong>Token Plan</strong> runs <code>token-plan-swap toggle</code>, which switches the active key slot and rewrites
+        <code>~/.bailian/config.json</code>, so Codex and xask follow the new route.
+        <strong>Kimi</strong> runs both OAuth accounts through <code>omp auth-gateway</code>, which balances sessions on its own, so right-click just reports that state.
+        Everywhere else it is a no-op, because those credentials live in OMP's auth store with no local file to flip.
       </p>
     </section>
 
-    <section class="panel" id="providers">
-      <p class="eyebrow">meters</p>
-      <h2>Providers</h2>
-      <ul class="providers">
-        <li><strong>Codex</strong> — ChatGPT OAuth usage windows</li>
-        <li><strong>Grok</strong> — xAI OIDC usage</li>
-        <li><strong>Kimi</strong> — Moonshot / Kimi Code quotas</li>
-        <li><strong>Cursor</strong> — Ultra / included usage (OAuth)</li>
-        <li><strong>Token Plan</strong> — Alibaba Bailian slot + identity swap</li>
-      </ul>
-      <p class="summary">Cache-only Waybar render path: the bar reads a local cache; probes refresh on a systemd timer. Identity docs: <a href="https://github.com/VeigaPunk/omarchy-usage-tray/blob/main/docs/identity-swap.md" rel="noopener">docs/identity-swap.md</a>.</p>
+    <section class="panel" id="roster">
+      <p class="eyebrow">configuration</p>
+      <h2>Provider roster</h2>
+      <p class="summary">
+        By default all 14 providers are probed and cycled. To meter only what is authed on this machine, list provider ids one per line in
+        <code>~/.config/ai-usage/providers</code>, or set <code>AI_USAGE_PROVIDERS="codex kimi"</code>.
+        An unknown id prints one warning and is skipped. Knobs such as the Token Plan pool size or the Charm Hyper low-credit alarm live in
+        <code>~/.config/ai-usage/env</code>, which the installer never overwrites.
+      </p>
     </section>
 
     <section class="panel muted-panel">
