@@ -16,6 +16,8 @@
 
 ### Added
 
+- **gkeep (OS tuning):** local post-it notes for the Omarchy bar now have a page at [ds4cc.com/gkeep](https://ds4cc.com/gkeep/), a card in `#os-tuning` (section retitled "OS tuning — Omarchy bar"), a nav and footer link, a sitemap entry, and an `os-tuning` catalog record (`kind: "page"`, so plugin counts and catalog drift tests are unchanged). Source of truth stays [`VeigaPunk/gkeep`](https://github.com/VeigaPunk/gkeep).
+
 - **mise killed** as Node manager (`docs/ANTI-PATTERNS.md` + `bloat.html`): polyglot PATH occupancy / shim religion. Substitute: **fnm** (praise **multishell**: `fnm env` / `fnm exec`).
 
 - **omegaG standalone path** on the domain: [`ds4cc.com/omegag/`](https://ds4cc.com/omegag/) — full product site (controller mapper, formerly DS4CC), nav + footer + research-note card. Mirrors `vgpnk-holdings-llc/omegaG` `website/`. Also live on [Vercel](https://omegag.vercel.app/) and [GitHub Pages](https://veigapunk.github.io/omegag-site/).

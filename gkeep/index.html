@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>gkeep — local post-it notes for the Omarchy bar</title>
+  <meta name="description" content="OS tuning for Omarchy: gkeep puts local post-it notes on the bar. Click, paste, save. Notes stay in a local JSON file; no sign-in, no network." />
+  <meta name="theme-color" content="#050605" />
+  <meta property="og:title" content="gkeep" />
+  <meta property="og:description" content="Local post-it notes for the Omarchy bar. Nothing is sent off the machine." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://ds4cc.com/gkeep/" />
+  <link rel="canonical" href="https://ds4cc.com/gkeep/" />
+  <link rel="icon" type="image/svg+xml" href="../burnerchrome/favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <a class="brand" href="https://ds4cc.com/"><b>DS4CC</b> <span>// os tuning</span></a>
+    <nav class="nav">
+      <a href="#install">install</a>
+      <a href="#clicks">clicks</a>
+      <a href="#local">local only</a>
+      <a href="https://github.com/VeigaPunk/gkeep" rel="noopener">github ↗</a>
+      <a href="https://ds4cc.com/">marketplace</a>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero">
+      <p class="eyebrow">os tuning · omarchy · waybar</p>
+      <h1>gkeep</h1>
+      <p class="lede">
+        Local post-it notes on the Omarchy bar. Click the chip, paste a note, save it.
+        <strong>All notes</strong> lists every note as <code>dd:mm [hh:mm]</code> with a short summary.
+        No sign-in and no network: notes live in a JSON file on your machine.
+      </p>
+      <div class="postit" aria-label="example gkeep note">
+        <div class="postit-top">
+          <span class="postit-copy">Copy</span>
+          <span class="postit-stamp">21:10 [05:18]</span>
+        </div>
+        <p>ship gkeep page on ds4cc.com</p>
+      </div>
+      <div class="cta-row">
+        <a class="btn solid" href="#install">Install</a>
+        <a class="btn" href="https://github.com/VeigaPunk/gkeep" rel="noopener">Source ↗</a>
+        <a class="btn" href="https://ds4cc.com/#plugins">Marketplace catalog</a>
+      </div>
+    </section>
+
+    <section class="panel" id="install">
+      <p class="eyebrow">install</p>
+      <h2>Install on Omarchy</h2>
+      <p class="summary">Needs Python 3, <code>python-gobject</code>, and <code>gtk4</code>. The note window is a local GTK process.</p>
+
+      <h3>Quattro bar (Omarchy plugin)</h3>
+      <div class="oneliner">
+        <code>omarchy plugin add https://github.com/VeigaPunk/gkeep.git --enable</code>
+        <button type="button" class="copy" data-copy="omarchy plugin add https://github.com/VeigaPunk/gkeep.git --enable">COPY</button>
+      </div>
+
+      <h3>Waybar</h3>
+      <div class="oneliner">
+        <code>git clone https://github.com/VeigaPunk/gkeep.git && cd gkeep && ./install.sh</code>
+        <button type="button" class="copy" data-copy="git clone https://github.com/VeigaPunk/gkeep.git && cd gkeep && ./install.sh">COPY</button>
+      </div>
+      <p class="note">
+        <code>install.sh</code> backs up your Waybar and Hyprland config, links <code>~/.local/bin/gkeep</code>,
+        and adds <code>custom/gkeep</code> on signal <code>12</code> when that id is free.
+        It never writes under <code>~/.local/share/omarchy/</code>.
+        Remove with <code>./uninstall.sh</code> or <code>omarchy plugin remove io.github.veigapunk.gkeep</code>; your notes stay.
+      </p>
+    </section>
+
+    <section class="panel" id="clicks">
+      <p class="eyebrow">gestures</p>
+      <h2>Bar clicks</h2>
+      <table class="gestures">
+        <thead><tr><th>Gesture</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>Left-click</td><td>Paste a new note — <strong>Paste</strong>, <strong>Save</strong>, or Ctrl+Enter</td></tr>
+          <tr><td>Right-click</td><td>All notes; click a row to open it</td></tr>
+          <tr><td>Copy</td><td>Puts the whole note on the clipboard via <code>wl-copy</code>, so it survives closing the post-it</td></tr>
+          <tr><td>Delete</td><td>Asks you to click <strong>Confirm</strong></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel" id="local">
+      <p class="eyebrow">privacy</p>
+      <h2>Local only</h2>
+      <ul class="facts">
+        <li>Notes are stored in <code>$XDG_DATA_HOME/gkeep/notes.json</code> (usually <code>~/.local/share/gkeep/</code>).</li>
+        <li>No account, no sign-in, no calls to Google or any other network service.</li>
+        <li>The yellow card is gkeep's own post-it, set in <strong>JetBrainsMonoNL Nerd Font Mono</strong>.</li>
+      </ul>
+    </section>
+
+    <section class="panel muted-panel">
+      <p class="eyebrow">catalog</p>
+      <h2>On DS4CC</h2>
+      <p class="summary">
+        Listed under the marketplace <strong>OS tuning</strong> category.
+        Companion product — not a Codex/Grok plugin package. Source of truth stays
+        <a href="https://github.com/VeigaPunk/gkeep" rel="noopener">VeigaPunk/gkeep</a>;
+        this page is the ds4cc.com path mirror.
+      </p>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="https://ds4cc.com/">ds4cc.com</a>
+    ·
+    <a href="https://github.com/VeigaPunk/gkeep" rel="noopener">gkeep</a>
+    · MIT
+  </footer>
+
+  <script>
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-copy]");
+      if (!btn) return;
+      const text = btn.getAttribute("data-copy") || "";
+      const done = () => {
+        const old = btn.textContent;
+        btn.textContent = "COPIED";
+        setTimeout(() => { btn.textContent = old; }, 1200);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(done).catch(() => {
+          const ta = document.createElement("textarea");
+          ta.value = text; document.body.appendChild(ta); ta.select();
+          try { document.execCommand("copy"); } catch (_) {}
+          ta.remove(); done();
+        });
+      }
+    });
+  </script>
+</body>
+</html>

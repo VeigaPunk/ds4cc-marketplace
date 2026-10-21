@@ -522,6 +522,7 @@ html.rinnegan ::selection {
       <a href="./speedrun/">speedrun</a>
       <a href="./omegag/">omegaG</a>
       <a href="./omarchy-usage/">omarchy usage</a>
+      <a href="./gkeep/">gkeep</a>
       <a href="#lanes">lanes</a>
       <a class="nav-cta" href="https://github.com/VeigaPunk/ds4cc-marketplace" target="_blank" rel="noopener">GITHUB ↗</a>
     </div>
@@ -700,8 +701,8 @@ html.rinnegan ::selection {
   </section>
 
   <section id="os-tuning" class="reveal">
-    <h2><span class="idx">03b</span>OS tuning — Omarchy usage limits</h2>
-    <p class="sub">Waybar chip for live AI usage windows on Omarchy. Companion product under the <strong>os tuning</strong> catalog filter — not a marketplace plugin package.</p>
+    <h2><span class="idx">03b</span>OS tuning — Omarchy bar</h2>
+    <p class="sub">Bar add-ons for Omarchy: live AI usage windows and local post-it notes. Companion products under the <strong>os tuning</strong> catalog filter — not marketplace plugin packages.</p>
     <div class="panel" style="padding:14px 16px">
       <h3 style="margin-top:0;font-size:0.95rem">omarchy-usage-tray</h3>
       <p style="color:var(--muted);font-size:0.9rem;line-height:1.5;margin:0 0 12px">
@@ -715,6 +716,19 @@ html.rinnegan ::selection {
       </div>
       <a class="btn solid" href="./omarchy-usage/">OPEN PAGE →</a>
       <a class="btn" href="https://github.com/VeigaPunk/omarchy-usage-tray" target="_blank" rel="noopener">github ↗</a>
+    </div>
+    <div class="panel" style="padding:14px 16px;margin-top:12px">
+      <h3 style="margin-top:0;font-size:0.95rem">gkeep</h3>
+      <p style="color:var(--muted);font-size:0.9rem;line-height:1.5;margin:0 0 12px">
+        Local post-it notes on the bar. Left-click pastes a note; right-click lists every note with <code>dd:mm [hh:mm]</code> stamps.
+        Notes stay in <code>~/.local/share/gkeep/</code> — no sign-in, no network.
+      </p>
+      <div class="oneliner" style="margin:8px 0 12px">
+        <code><span class="p">$</span> omarchy plugin add https://github.com/VeigaPunk/gkeep.git --enable</code>
+        <button type="button" class="copy-btn" data-copy="omarchy plugin add https://github.com/VeigaPunk/gkeep.git --enable">COPY</button>
+      </div>
+      <a class="btn solid" href="./gkeep/">OPEN PAGE →</a>
+      <a class="btn" href="https://github.com/VeigaPunk/gkeep" target="_blank" rel="noopener">github ↗</a>
     </div>
   </section>
 
@@ -1026,6 +1040,7 @@ done</pre>
         <a href="https://veigapunk.github.io/xbgst-site/" target="_blank" rel="noopener">xbgst-site</a> · public hub<br/>
         <a href="./omegag/">omegaG</a> · controller product<br/>
         <a href="./omarchy-usage/">omarchy usage</a> · OS tuning / Waybar limits<br/>
+        <a href="./gkeep/">gkeep</a> · OS tuning / bar post-it notes<br/>
         <a href="https://github.com/VeigaPunk/xbrd-selector" target="_blank" rel="noopener">xbrd-selector</a>
       </div>
       <div>
@@ -1114,6 +1129,7 @@ done</pre>
     { n: "xbrd-gdsp-fknpft", v: "8.16.137", cat: "orchestration", rinnegan: true, d: "Multimodel dispatch (xask/xbreed) & benchmark workflows.", c: "cargo build --release && ./target/release/xbreed --help" },
     { n: "xbrd-selector", v: "0.1.1", cat: "orchestration", d: "Model/agent selector helpers for xbreed stacks.", c: 'codex \"Use xbrd-selector\"' },
     { n: "omarchy-usage-tray", v: "main", cat: "os-tuning", kind: "page", d: "Omarchy Waybar chip for Codex, Grok, Kimi, Cursor, and Token Plan usage limits.", c: "curl -fsSL https://raw.githubusercontent.com/VeigaPunk/omarchy-usage-tray/main/install.sh | bash", href: "./omarchy-usage/", src: "https://github.com/VeigaPunk/omarchy-usage-tray" },
+    { n: "gkeep", v: "1.0.0", cat: "os-tuning", kind: "page", d: "Local post-it notes on the Omarchy bar. Click, paste, save — nothing leaves the machine.", c: "omarchy plugin add https://github.com/VeigaPunk/gkeep.git --enable", href: "./gkeep/", src: "https://github.com/VeigaPunk/gkeep" },
   ];
 
   const grid = document.getElementById("plugGrid");
