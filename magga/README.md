@@ -138,6 +138,21 @@ the original lock digest, the permitted launcher overlay and the catalog
 previews. Verification evidence and browser/tooling dependencies remain out
 of the website payload. The prompt label points to the pinned v2 prompt.
 
+## Frostbite — bonus cartridge (DLC shelf)
+
+`/magga/frostbite/` holds the 1983 arctic igloo builder in two versions that
+share one simulation (`core.js`) and input shell (`shell.js`): `classic/`
+(cartridge-exact 160×192 frame, NTSC 2600 palette, line-coloured sprites, HMOVE
+comb, TIA-style sound, games 1–4) and `remastered/` (aurora nights, living ice,
+animated builder and critters, flying igloo blocks, frost and snow, synthesized
+audio). Rules follow the 1983 handbook. Arrow keys on desktop; multi-touch pads
+and swipes on iPhone and Android. The chooser at `/magga/frostbite/index.html`
+follows the catalog signature and loads the shared fonts from
+`../assets/fonts/`; the game pages are self-contained (no fonts, CDNs or other
+external requests). It is the newest live card on THE DLC SHELF. Source of
+truth: `VeigaPunk/MAKEARMORGAMESGREATAGAIN` → `games/frostbite/`; this folder
+is a byte-for-byte copy of it (README and verification tools aside).
+
 ## Enduro — bonus cartridge (DLC shelf)
 
 `/magga/enduro/` holds the 1983 endurance race in two versions that share one

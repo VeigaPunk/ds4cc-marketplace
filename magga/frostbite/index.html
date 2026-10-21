@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#070d10">
+<meta name="description" content="Frostbite, twice: the 1983 arctic igloo builder exactly as the cartridge drew it, and a remastered edition with modern graphics. Hop the floes, build the igloo, beat the cold. Arrow keys or touch on iPhone and Android.">
+<title>Frostbite — Classic &amp; Remastered</title>
+<link rel="canonical" href="https://ds4cc.com/magga/frostbite/">
+<meta property="og:title" content="Frostbite — Classic &amp; Remastered">
+<meta property="og:description" content="The 1983 arctic igloo builder, twice: cartridge-exact and remastered. Arrow keys or touch.">
+<meta property="og:url" content="https://ds4cc.com/magga/frostbite/">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236baa88'/%3E%3Cpath d='M14 46a18 18 0 0 1 36 0z' fill='%23070d10'/%3E%3Cpath d='M28 46v-7a4 4 0 0 1 8 0v7z' fill='%236baa88'/%3E%3C/svg%3E">
+<script>
+  // The MAGGA signature face lives one level up on ds4cc.com; only reach for it there.
+  if (location.pathname.indexOf('/magga/') !== -1) document.documentElement.classList.add('magga-fonts');
+  else addEventListener('DOMContentLoaded', function () {
+    // Outside the arcade (the source repo), "home" is the repository hub.
+    document.querySelectorAll('[data-home]').forEach(function (a) { a.href = '../../'; });
+  });
+</script>
+<style>
+@font-face {
+  font-family: "JetBrainsMonoNL Nerd Font Mono";
+  src: url("../assets/fonts/JetBrainsMonoNLNerdFontMono-Regular.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "JetBrainsMonoNL Nerd Font Mono";
+  src: url("../assets/fonts/JetBrainsMonoNLNerdFontMono-Bold.woff2") format("woff2");
+  font-weight: 600 700; font-style: normal; font-display: swap;
+}
+:root {
+  color-scheme: dark;
+  --bg: #070d10;
+  --bg-deep: #05090b;
+  --surface: #0f191e;
+  --surface-2: #152228;
+  --ink: #e8f0f2;
+  --muted: #9aafb6;
+  --faint: #6d838c;
+  --chrome: #c5d5dc;
+  --chrome-bright: #eaf3f6;
+  --leaf: #6baa88;
+  --leaf-glow: color-mix(in oklab, #6baa88 28%, transparent);
+  --teal: #5aa8a0;
+  --border: color-mix(in oklab, #e8f0f2 12%, transparent);
+  --border-strong: color-mix(in oklab, #e8f0f2 22%, transparent);
+  --focus: #9ee0d4;
+  --radius-sm: 8px;
+  --radius-xl: 24px;
+  --shadow: 0 20px 50px color-mix(in oklab, #000 40%, transparent);
+  --font: "JetBrains Mono", ui-monospace, "Cascadia Mono", Menlo, Consolas, monospace;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+.magga-fonts { --font: "JetBrainsMonoNL Nerd Font Mono", "JetBrains Mono", ui-monospace, monospace; }
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100dvh;
+  font-family: var(--font);
+  line-height: 1.65;
+  color: var(--ink);
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 110% 70% at 50% -15%, color-mix(in oklab, var(--teal) 14%, transparent), transparent 55%),
+    radial-gradient(ellipse 50% 40% at 100% 30%, color-mix(in oklab, #3f6f58 12%, transparent), transparent 50%),
+    linear-gradient(180deg, var(--bg-deep) 0%, var(--bg) 45%, #0a1418 100%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: inherit; text-decoration: none; }
+a:focus-visible { outline: 2px solid var(--focus); outline-offset: 4px; }
+.site-header, main { max-width: 1360px; margin: auto; }
+.site-header {
+  height: 88px; padding: 0 42px;
+  display: flex; align-items: center; gap: 32px;
+  border-bottom: 1px solid var(--border);
+}
+.brand { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 600; letter-spacing: .06em; }
+.brand svg { flex: none; border-radius: 8px; }
+.eyebrow, .header-note, .availability, .features, .collection-line, .preview-tag {
+  font-size: 11px; line-height: 1.4; letter-spacing: .12em;
+}
+.header-note { color: var(--faint); }
+.header-link { margin-left: auto; font-size: 12px; white-space: nowrap; color: var(--muted); }
+.header-link:hover { color: var(--ink); }
+.header-link span { margin-right: 10px; color: var(--leaf); }
+main { padding: 0 42px 40px; }
+.intro { padding: 64px 0 46px; display: grid; grid-template-columns: minmax(0, 1fr) 340px; gap: 48px; align-items: end; }
+.eyebrow { color: var(--leaf); text-transform: uppercase; letter-spacing: .16em; margin: 0 0 22px; }
+h1 { margin: 0; font-weight: 600; font-size: clamp(3.25rem, 9vw, 6.2rem); line-height: .92; letter-spacing: -.04em; }
+h1 em { color: var(--leaf); font-style: normal; }
+.intro-copy p { margin: 0 0 14px; font-size: 13px; line-height: 1.85; color: var(--muted); }
+.intro-copy p:first-child { color: var(--ink); font-size: 1.1rem; line-height: 1.5; letter-spacing: -.02em; }
+.collection-line {
+  display: flex; justify-content: space-between; gap: 20px;
+  border-top: 1px solid var(--border); padding: 22px 0;
+  color: var(--faint); text-transform: uppercase;
+}
+.collection-line h2 { font: inherit; margin: 0; color: var(--leaf); }
+.versions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.version {
+  display: flex; flex-direction: column;
+  border: 1px solid var(--border); border-radius: var(--radius-xl); overflow: hidden;
+  background: color-mix(in oklab, var(--surface) 78%, transparent);
+  transition: border-color .2s var(--ease), transform .2s var(--ease), box-shadow .2s var(--ease);
+}
+.version:hover, .version:focus-within {
+  border-color: color-mix(in oklab, var(--leaf) 45%, transparent);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow), 0 0 2rem var(--leaf-glow);
+}
+.preview { position: relative; padding: 12px; background: var(--bg-deep); }
+.preview img {
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover;
+  border-radius: var(--radius-sm); background: var(--surface);
+}
+.preview img.pixel { image-rendering: pixelated; object-position: 50% 0; }
+.preview-tag {
+  position: absolute; left: 24px; top: 24px;
+  background: color-mix(in oklab, var(--bg) 85%, transparent);
+  border: 1px solid var(--border-strong); border-radius: 999px;
+  padding: 6px 10px; font-size: 10px;
+}
+.body { padding: 28px 30px 30px; display: flex; flex-direction: column; flex: 1; }
+.availability { margin: 0 0 12px; color: var(--leaf); font-size: 10px; display: flex; align-items: center; gap: 8px; }
+.availability > span { width: 6px; height: 6px; background: var(--leaf); border-radius: 50%; box-shadow: 0 0 .8rem var(--leaf); }
+h3 { margin: 0; font-weight: 600; font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1; letter-spacing: -.04em; }
+.desc { margin: 16px 0 18px; font-size: 13px; color: var(--muted); line-height: 1.8; }
+.features { list-style: none; margin: 0 0 24px; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; font-size: 9px; letter-spacing: .08em; }
+.features li { padding: 6px 8px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; color: var(--leaf); }
+.btn {
+  margin-top: auto;
+  display: flex; align-items: center; justify-content: center; gap: 12px;
+  padding: 15px 18px; border-radius: 10px;
+  font-size: 11px; font-weight: 700; letter-spacing: .055em; line-height: 1; text-transform: uppercase;
+  background: linear-gradient(180deg, var(--chrome-bright), #cfe0e7); color: var(--bg);
+  transition: transform .15s var(--ease), box-shadow .15s var(--ease), background .15s var(--ease);
+}
+.btn > span { font-size: 16px; transition: transform .15s var(--ease); }
+.btn:hover { background: linear-gradient(180deg, #fff, var(--chrome-bright)); box-shadow: 0 8px 22px color-mix(in oklab, #000 45%, transparent), 0 0 1.2rem var(--leaf-glow); transform: translateY(-1px); }
+.btn:hover > span { transform: translate(2px, -2px); }
+.rules { margin-top: 48px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.rule { border: 1px solid var(--border); border-radius: 16px; padding: 22px 24px; background: color-mix(in oklab, var(--surface) 55%, transparent); }
+.rule h4 { margin: 0 0 10px; font-size: 11px; letter-spacing: .12em; color: var(--leaf); font-weight: 600; }
+.rule p, .rule li { margin: 0; font-size: 12px; color: var(--muted); line-height: 1.8; }
+.rule ul { margin: 0; padding: 0; list-style: none; }
+.rule kbd { font-family: inherit; color: var(--ink); border: 1px solid var(--border-strong); border-radius: 4px; padding: 0 5px; font-size: 11px; }
+footer {
+  max-width: 1360px; margin: 40px auto 0; padding: 22px 42px 34px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between; gap: 20px;
+  font-size: 11px; color: var(--faint);
+}
+footer a { color: var(--muted); }
+footer a:hover { color: var(--ink); }
+@media (max-width: 900px) {
+  .intro { grid-template-columns: 1fr; gap: 24px; padding: 46px 0 34px; }
+  .versions, .rules { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .site-header { padding: 0 18px; height: 68px; gap: 16px; }
+  .header-note { display: none; }
+  main { padding: 0 18px 30px; }
+  .body { padding: 22px 20px 24px; }
+  .preview-tag { left: 18px; top: 18px; font-size: 9px; }
+  .collection-line { font-size: 9px; }
+  footer { flex-direction: column; padding: 20px 18px 28px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .version, .btn, .btn > span { transition: none; }
+  .version:hover, .version:focus-within, .btn:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="../" data-home aria-label="MAGGA collection home">
+    <svg width="32" height="32" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#6baa88"/><path d="M16 45V28l8-10h16l8 10v17H37v-9H27v9z" fill="#070d10"/><path d="M27 26h10v5H27z" fill="#6baa88"/></svg>
+    <span>MAGGA</span>
+  </a>
+  <span class="header-note">MAKE ARMOR GAMES GREAT AGAIN</span>
+  <a class="header-link" href="../" data-home><span aria-hidden="true">←</span>The arcade</a>
+</header>
+
+<main>
+  <section class="intro" aria-labelledby="title">
+    <div>
+      <p class="eyebrow">1983 · THE ARCTIC ARCHITECT</p>
+      <h1 id="title">Frostbite.<br><em>Two ways.</em></h1>
+    </div>
+    <div class="intro-copy">
+      <p>Hop the floes. Raise the igloo. Beat the cold.</p>
+      <p>One simulation, two cabinets: the cartridge exactly as it looked on a 2600, and a remastered build with an aurora sky, living ice and a synthesized soundscape. Same rules, same floes — arrow keys on a keyboard, thumb pads and swipes on iPhone and Android.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="versions-title">
+    <div class="collection-line">
+      <h2 id="versions-title">Choose your cabinet</h2>
+      <span>2 versions / keys or touch</span>
+    </div>
+    <div class="versions">
+      <article class="version" aria-labelledby="classic-title">
+        <a class="preview" href="./classic/" tabindex="-1" aria-hidden="true">
+          <img class="pixel" src="./covers/classic.png" alt="" width="1280" height="960">
+          <span class="preview-tag">CLASSIC · 160×192</span>
+        </a>
+        <div class="body">
+          <p class="availability"><span aria-hidden="true"></span>CARTRIDGE-EXACT</p>
+          <h3 id="classic-title">Frostbite Classic</h3>
+          <p class="desc">The original screen in its own pixels: the 2600 NTSC palette, slanted white floes that turn blue underfoot, the stepped igloo, line-coloured sprites, the 45° countdown with the reserve count beside it, the HMOVE comb and TIA-style blips and noise. Games 1–4, one or two players.</p>
+          <ul class="features" aria-label="Classic features"><li>NTSC 2600 PALETTE</li><li>GAMES 1–4</li><li>TIA SOUND</li><li>IPHONE + ANDROID</li></ul>
+          <a class="btn" href="./classic/">PLAY CLASSIC <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+      <article class="version" aria-labelledby="remastered-title">
+        <a class="preview" href="./remastered/" tabindex="-1" aria-hidden="true">
+          <img src="./covers/remastered.jpg" alt="" width="1280" height="800">
+          <span class="preview-tag">REMASTERED · HD</span>
+        </a>
+        <div class="body">
+          <p class="availability"><span aria-hidden="true"></span>UPDATED GRAPHICS</p>
+          <h3 id="remastered-title">Frostbite Remastered</h3>
+          <p class="desc">The same igloo rebuilt for today's screens: a low sun by day and the aurora at night, glaciers on the horizon, bobbing two-faced ice with wakes and reflections, an animated builder and critters, blocks that fly home to the igloo, frost creeping in as the cold bites, and a synthesized score.</p>
+          <ul class="features" aria-label="Remastered features"><li>AURORA NIGHTS</li><li>LIVING ICE</li><li>FROST + SNOW</li><li>IPHONE + ANDROID</li></ul>
+          <a class="btn" href="./remastered/">PLAY REMASTERED <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="rules" aria-label="How to build">
+    <div class="rule">
+      <h4>CONTROLS</h4>
+      <ul>
+        <li><kbd>←</kbd> <kbd>→</kbd> walk — steer in mid-air too</li>
+        <li><kbd>↑</kbd> <kbd>↓</kbd> jump between the shore and the four rows of ice</li>
+        <li><kbd>SPACE</kbd> reverse the floe you stand on (costs a block)</li>
+        <li><kbd>G</kbd> game 1–4 · <kbd>P</kbd> pause · <kbd>M</kbd> sound</li>
+        <li>Phone: ◀ ▶ walk, ▲ ▼ jump (or swipe the picture), ⟲ reverses</li>
+      </ul>
+    </div>
+    <div class="rule">
+      <h4>THE IGLOO</h4>
+      <p>Every white floe you land on turns blue and adds a block; when all four rows are blue they turn white again. Sixteen jumps raise the igloo and its door — then get back to shore, stand under it and jump in before the temperature falls from 45° to zero.</p>
+    </div>
+    <div class="rule">
+      <h4>THE HAZARDS</h4>
+      <p>Snow geese, king crabs and killer clams shove you into the sea; fish are 200 points. From level 4 a polar grizzly prowls the shore — lure him off, he cannot reach the far-left corner. Four igloos a shift: day, then night. A bonus builder every 5,000 points.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <span>Same nostalgia. Different makers.</span>
+  <a href="../" data-home>Back to the MAGGA arcade <span aria-hidden="true">↗</span></a>
+</footer>
+</body>
+</html>
